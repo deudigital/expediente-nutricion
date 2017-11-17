@@ -1,0 +1,134 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<!--<app-nuevo-nav></app-nuevo-nav>-->
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<section>
+				<app-hcp-nav></app-hcp-nav>
+				
+						<div class="row wrap-patologias">
+							<div class="checkbox">
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="estreñimiento">
+										<span>Estreñimiento</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="colitis">
+										<span>Colitis</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="reflujo">
+										<span>Reflujo</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Gastritis</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Celiaquia</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Hernia hiatal</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Obesidad</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Hipertension</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Hipertiroidismo</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Diabetes</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Dislipidemias</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Hipotiroidismo</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Cancer</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Migraña</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Otras</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Ovario Poliquistico</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>Enfermedades del Corazón</span>
+									</label>
+								</div>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" name="hcp" value="gastritis">
+										<span>¿Cuáles?</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Notas</label>
+							<textarea name="notas_patologias" class="form-control" placeholder="Notas"
+							[(ngModel)]="paciente.notas_patologias"
+							></textarea>
+						</div>
+					
+			</section>
+		</div>
+	</div>
+</div>

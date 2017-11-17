@@ -1,0 +1,20 @@
+<app-control-nav-center></app-control-nav-center>
+<div class="container main page-busqueda content-form">
+	<figure class="text-center">
+		<i class="searching"></i>
+		<h2>Digite el nombre o la c&eacute;dula del paciente</h2>
+	</figure>
+	<section class="listado pacientes">
+		<div class="row">
+			<div class="form-group with-icon search">
+				<input type="text" class="form-control" value="Andres F" />
+				<i></i>
+			</div>
+			<ul>
+				<li *ngFor="let paciente of pacientes | async" (click)="onSelect(paciente)">
+					<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.telefono}}</span>
+				</li>
+			</ul>
+		</div>
+	</section>
+</div>

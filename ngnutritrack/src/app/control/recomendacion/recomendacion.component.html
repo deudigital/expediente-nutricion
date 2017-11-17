@@ -1,0 +1,321 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">
+				<section>
+		<div class="row">
+			<div class="form-group">
+				<label for="cedula" class="col-form-label">Como desea calcular gasto calórico?</label>
+				<div class="radio row">
+					<div class="col-sm-4">
+						<label>
+							<input name="metodo-calculo-calorico" value="benedict" 
+							 type="radio"
+							 [(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>Harris Benedict</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+									name="metodo-calculo-calorico" 
+									value="mifflin" 
+									type="radio"	
+									[(ngModel)]="recomendacion.metodo_calculo_gc"							
+							>
+							<span>Milflin-St Jear</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+									name="metodo-calculo-calorico" 
+									value="promedio" 
+									type="radio" 
+									[(ngModel)]="recomendacion.metodo_calculo_gc"
+									>
+							<span>Promedio de Ambas</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="cedula" class="col-form-label">Con cual peso desea hacer el cálculo?</label>
+				<div class="radio row">
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="peso-calculo-calorico" 
+								value="actual" 
+								checked 
+								type="radio"
+								[(ngModel)]="recomendacion.peso_calculo"															
+								>
+							<span>Peso Actual</span>
+						</label><!--[(ngModel)]="model.rdd_metodo_peso"-->
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="peso-calculo-calorico" 
+								value="ideal" 
+								type="radio"	
+								[(ngModel)]="recomendacion.peso_calculo"							
+								>
+							<span>Peso Ideal</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="peso-calculo-calorico" 
+								value="ideal-ajustado" 
+								type="radio"
+								[(ngModel)]="recomendacion.peso_calculo"								
+								>
+							<span>Peso Ideal Ajustado</span>
+						</label><!--[(ngModel)]="model.rdd_metodo_peso"-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row factores">
+			<div class="form-group col-md-6 with-icon factor-actividad">
+				<label for="cedula" class="col-form-label">Factor de actividad sedentaria y térmico de los alimentos</label>
+				<input 
+					type="number" 
+					class="form-control" 
+					id="factor-actividad" 
+					name="factor-actividad" 
+					placeholder=""
+					[(ngModel)]="recomendacion.factor_actividad_sedentaria"
+					>
+				<i></i>
+			</div>
+			<div class="form-group col-md-6 with-icon promedio-gc">
+				<label for="cedula" class="col-form-label">Promedio de gasto calórico diario por actividad Física</label>
+				<input 
+					type="number" 
+					class="form-control" 
+					id="promedio-gc" 
+					name="promedio-gc" 
+					placeholder=""					
+					[(ngModel)]="recomendacion.promedio_gc_diario"
+					>
+				<i></i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<small>
+					Por defecto se utiliza un factor de 1.4 para actividades diarios sedentarios,
+					tales como dormir, trabajo de oficina, ver televisión, etc. Si asi lo desea,
+					puede cambiar este factor para este paciente.
+				</small>
+			</div>
+			<div class="form-group col-md-6">
+				<small>
+					Este gasto calórico es calculado según la información de los hábitos de 
+					actividad física del paciente ingresados anteriormente, si desea puede 
+					cambiar este gasto calórico manualmente, para saber como fue calculado,
+					puede <a href="#">consultarlo aqui</a>
+				</small>
+			</div>
+		</div>
+		<div class="row text-center">
+			<a class="btn btn-default red"  (click)="toggleModalRdds()">Ver Historial RDDs</a>
+		</div>
+	</section>
+	<section>
+		<div class="calculo-calorico">		
+			<header>
+				<h3 class="title">Cálculo Calórico Actual</h3>
+			</header>
+		  <div class="row">
+			<div class="form-group col-md-6">						
+			<div class="tasa-metabolica col-md-6">
+					<i></i>
+				Tasa Metabólica Basal
+				</div>
+				<div class="tasa-metabolica-value with-cicle col-md-6">
+					<i>
+						<strong>
+							1901
+							<span>Kcal</span>							
+						</strong>
+					</i>
+				</div>
+			</div>
+			<div class="form-group col-md-6 ">						
+									
+				<div class="gasto-calorico-real col-md-6">
+					<i></i>
+					Gasto Calorico Real
+				</div>
+				<div class="gasto-calorico-real-value with-cicle col-md-6">
+					<i>
+						<strong>
+							2548
+							<span>Kcal</span>							
+						</strong>
+					</i>
+				</div>
+			</div>
+		  </div>
+		</div>
+	</section>
+	<section>
+		<div class="calculo-calorico-recomendadas">
+			<header>
+				<h3 class="title">Calorías Recomendadas según metas del paciente</h3>
+			</header>
+		  <div class="row">
+			<div class="form-group col-md-5 with-icon variacion-calorica">
+				<label for="cedula" class="col-form-label">Variación Calórica</label>
+				<input type="number" class="form-control" id="variacion-calorica" name="variacion-calorica" placeholder="En centímetros"
+				[(ngModel)]="recomendacion.variacion_calorica"
+				>
+				<i></i>				
+			</div>
+			<div class="form-group col-md-offset-1 col-md-6">
+				<div class="ingesta-calorica col-md-6">
+					<i></i>
+					Ingesta Cal&oacute;rica Recomendada
+				</div>
+				<div class="ingesta-calorica-recomendada with-cicle col-md-6">
+					<i>
+						<strong>
+							2048
+							<span>Kcal</span>							
+						</strong>						
+					</i>
+				</div>
+			</div>
+		  </div>
+		</div>
+	</section>
+		</div>
+	</div>
+</div>
+
+
+<div class="overlay" (click)="toggleModalRdds()"></div>
+<div class="esc-modal wide" *ngIf="showModalRdds">
+	
+	<div class="box">
+		<a class="modal-close" (click)="toggleModalRdds()">X</a>
+		<div class="body content-form">			
+
+					
+			<div class="row navigation-dieta">
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
+						<i class="datos"></i>
+						Datos Generales
+					</a>
+				</div>
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
+						<i class="grafico"></i>
+						Graficos
+					</a>
+				</div>
+			</div>
+			<div *ngIf="showModalTabDatos">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Gasto Calorico Actividad Fisica</th>
+							<th>TMB</th>
+							<th>Gasto Calorico Real</th>
+							<th>Variación Calorica</th>
+							<th>Gasto Calorico Recomendado</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>18/05/2017</td>
+							<td>450Kcal</td>
+							<td>1901Kcal</td>
+							<td>2548</td>
+							<td>-500 Kcal</td>
+							<td>2048</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>450Kcal</td>
+							<td>1901Kcal</td>
+							<td>2548</td>
+							<td>-500 Kcal</td>
+							<td>2048</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>450Kcal</td>
+							<td>1901Kcal</td>
+							<td>2548</td>
+							<td>-500 Kcal</td>
+							<td>2048</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>450Kcal</td>
+							<td>1901Kcal</td>
+							<td>2548</td>
+							<td>-500 Kcal</td>
+							<td>2048</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>450Kcal</td>
+							<td>1901Kcal</td>
+							<td>2548</td>
+							<td>-500 Kcal</td>
+							<td>2048</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>450Kcal</td>
+							<td>1901Kcal</td>
+							<td>2548</td>
+							<td>-500 Kcal</td>
+							<td>2048</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div *ngIf="showModalTabGrafico">
+			
+			<nav>
+				<ul class="nav nav-pills">
+					<li>
+						<a href="javascript:void(0);">Gasto Calorico Actividad Fisica</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);">TMB</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Gasto Calorico Real</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Variación Calorica</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Gasto Calorico Recomendado</a>
+					</li>
+				</ul>
+			</nav>
+				<div class="well">
+					grafico AQUI
+				</div>
+			</div>
+	  
+		</div>
+	</div>
+</div>

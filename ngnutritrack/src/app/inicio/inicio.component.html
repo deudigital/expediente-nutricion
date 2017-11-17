@@ -1,0 +1,46 @@
+<div class="container main page-inicio content-form">
+	<figure class="container-logo">
+		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
+	</figure>
+	<div class="row links">
+		<div class="col-sm-4 box">
+			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
+				<figure class="img-circle transition main-nuevo">
+					<i></i>
+				</figure>
+				<strong>Paciente Nuevo</strong>
+			</a>
+		</div>
+		<div class="col-sm-4 box">
+			<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Control">
+				<figure class="img-circle transition main-control">
+					<i></i>
+				</figure>
+				<strong>Control</strong>
+			</a>
+		</div>
+		<div class="col-sm-4 box">
+			<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
+				<figure class="img-circle transition main-agenda">
+					<i></i>
+				</figure>
+				<strong>Agenda</strong>
+			</a>
+		</div>
+	</div>
+	
+	<section class="listado consultas">
+		<div class="row">
+			<header>
+				<h2 class="title"><i></i>Consulta(s) Sin Finalizar</h2>
+			</header>
+			
+			<ul>
+			
+				<li *ngFor="let consulta of consultas | async" (click)="onSelect(consulta)">
+					<i class="calendar"></i> {{consulta.fecha}} <i class="fullname"></i> {{consulta.id}} - {{consulta.paciente_nombre}} <a href="javascript:void(0);" class="btn btn-default" (click)="onSelect(consulta)">CONTINUAR</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+</div>

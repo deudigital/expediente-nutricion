@@ -1,0 +1,84 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<!--<app-nuevo-nav></app-nuevo-nav>-->
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<section>
+				<div class="row">
+					<div class="col-md-6">
+					  <label for="cedula" class="col-form-label">Teléfonos</label>
+					  <div class="form-group with-icon telefono">
+						  <input type="text" class="form-control" id="phone" name="phone" placeholder=""
+						  [(ngModel)]="model.telefono"
+						  >
+						  <i></i>
+					  </div>
+					  <div class="form-group with-icon celular">
+						  <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder=""
+						   [(ngModel)]="model.contacto_celular"
+						  >
+						  <i></i>
+					  </div>
+					</div>
+					<div class="col-md-6 with-icon correo">
+					  <label for="nombre" class="col-form-label">Correo Electronico</label>
+					  <input type="text" class="form-control" id="email" name="email" placeholder=""
+					  [(ngModel)]="model.email"
+					  >
+					  <i></i>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="genero" class="col-form-label">Dirección</label>
+						<div class="row">
+							<div class="col-md-4">
+								<input type="text" class="form-control" id="provincia" name="provincia" placeholder="Provincia"
+								[(ngModel)]="model.provincia"
+								>
+							</div>
+							<div class="col-md-4">
+								<input type="text" class="form-control" id="canton" name="canton" placeholder="Cantón"
+								[(ngModel)]="model.canton"
+								>
+							</div>
+							<div class="col-md-4">
+								<input type="text" class="form-control" id="distrito" name="distrito" placeholder="Distrito"
+								[(ngModel)]="model.distrito"
+								>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-md-6 with-icon detalles">
+					  <label for="nombre" class="col-form-label">&nbsp;</label>
+					  <input type="text" class="form-control" id="detalles" name="detalles" placeholder="Detalles"
+					  [(ngModel)]="model.direccion_etalles"
+					  >
+					  <i></i>
+					</div>
+				</div>
+				  <hr />
+				  <div class="row">
+					<div class="form-group col-md-6 with-icon contacto_telefono">
+					  <label for="cedula" class="col-form-label">Teléfono del responsable</label>
+					  <input type="text" class="form-control" id="phone" name="phone_responsable" placeholder=""
+					  [(ngModel)]="model.contacto_responsable_telefono"
+					  >
+					  <i></i>
+					</div>
+					<div class="form-group col-md-6 with-icon correo">
+					  <label for="nombre" class="col-form-label">Correo Electronico del responsable</label>
+					  <input type="text" class="form-control" id="email" name="email" placeholder=""
+					  [(ngModel)]="model.contacto_responsable_email"
+					  >
+					  <i></i>
+					</div>
+				  </div>
+			</section>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,443 @@
+<app-topnav></app-topnav>
+<router-outlet name="historialPopup"></router-outlet>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">
+
+			<section>
+				<app-dieta-nav></app-dieta-nav>
+
+				<div class="clearfix">
+					<div class="col-sm-6">
+						<div class="form-group with-icon dieta_desayuno">
+							<label for="dieta_desayuno">Desayuno</label>
+							<input type="text" 
+								id="dieta_desayuno"
+								name="dieta_desayuno"
+								class="form-control" 
+								[(ngModel)]="model.dieta_desayuno"
+							>
+							<i></i>
+							<a class="link-modal" (click)="showModalPorciones('Desayuno')"></a>
+						</div>
+						<div class="form-group dieta_desayuno_ejemplo">
+							<textarea 
+							id="dieta_desayuno_ejemplo"
+							name="dieta_desayuno_ejemplo"
+							class="form-control" 
+							[(ngModel)]="model.dieta_desayuno_ejemplo"
+						></textarea>
+							
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon dieta_media_manana">
+							<label for="dieta_media_manana">Media Mañana</label>
+							<input type="text" 
+								id="dieta_media_manana"
+								name="dieta_media_manana"
+								class="form-control" 
+								[(ngModel)]="model.dieta_media_manana"
+							>
+							<i></i>
+							<a class="link-modal" (click)="showModalPorciones('Media Mañana')"></a>
+						</div>
+						<div class="form-group">
+							<textarea 
+								id="dieta_media_manana_ejemplo"
+								name="dieta_media_manana_ejemplo"
+								class="form-control" 
+								[(ngModel)]="model.dieta_media_manana_ejemplo"
+							></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-sm-6">
+						<div class="form-group with-icon dieta_almuerzo">
+							<label for="dieta_almuerzo">Almuerzo</label>
+							<input type="text" 
+								id="dieta_almuerzo"
+								name="dieta_almuerzo"
+								class="form-control" 
+								[(ngModel)]="model.dieta_almuerzo"
+							>
+							<i></i>
+							<a class="link-modal" (click)="showModalPorciones('Almuerzo')"></a>
+						</div>
+						<div class="form-group">
+							<textarea 
+								id="dieta_almuerzo_ejemplo"
+								name="dieta_almuerzo_ejemplo"
+								class="form-control" 
+								[(ngModel)]="model.dieta_almuerzo_ejemplo"
+							></textarea>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon dieta_media_tarde">
+							<label for="dieta_media_tarde">Media Tarde</label>
+							<input type="text" 
+								id="dieta_media_tarde"
+								name="dieta_media_tarde"
+								class="form-control" 
+								[(ngModel)]="model.dieta_media_tarde"
+							>
+							<i></i>
+							<a class="link-modal" (click)="showModalPorciones('Media Tarde')"></a>
+						</div>
+						<div class="form-group">
+							<textarea 
+								id="dieta_media_tarde_ejemplo"
+								name="dieta_media_tarde_ejemplo"
+								class="form-control" 
+								[(ngModel)]="model.dieta_media_tarde_ejemplo"
+							></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-sm-6">
+						<div class="form-group with-icon dieta_cena">
+							<label for="dieta_cena">Cena</label>
+							<input type="text" 
+								id="dieta_cena"
+								name="dieta_cena"
+								class="form-control" 
+								[(ngModel)]="model.dieta_cena"
+							>
+							<i></i>
+							<a class="link-modal" (click)="showModalPorciones('Cena')"></a>
+						</div>
+						
+						<div class="form-group">
+							<textarea 
+								id="dieta_cena_ejemplo"
+								name="dieta_cena_ejemplo"
+								class="form-control" 
+								[(ngModel)]="model.dieta_cena_ejemplo"
+							></textarea>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						
+						<div class="form-group with-icon dieta_coicion_nocturna">
+							<label for="dieta_coicion_nocturna">Coici&oacute;n Nocturna</label>
+							<input type="text" 
+								id="dieta_coicion_nocturna"
+								name="dieta_coicion_nocturna"
+								class="form-control" 
+								[(ngModel)]="model.dieta_coicion_nocturna"
+							>
+							<i></i>
+							<a class="link-modal" (click)="showModalPorciones('Coici&oacute;n Nocturna')"></a>
+						</div>
+						<div class="form-group">
+							<textarea 
+								id="dieta_coicion_nocturna_ejemplo"
+								name="dieta_coicion_nocturna_ejemplo"
+								class="form-control" 
+								[(ngModel)]="model.dieta_coicion_nocturna_ejemplo"
+							></textarea>
+						</div>
+					</div>
+				</div>
+<!--
+				<div class="col-sm-6" *ngFor="let menu of menus">
+					<div class="form-group">
+						<label for="dieta_desayuno">Desayuno</label>
+						<input type="text" 
+							id="dieta_desayuno"
+							name="dieta_desayuno"
+							class="form-control" 
+							[(ngModel)]="model.dieta_desayuno"
+							value="{{menu.grupo_alimento_nutricionista_id}} - >{{menu.tiempo_comida_id}} - >{{menu.porciones}}"
+						>
+					</div>
+					<textarea 
+						id="dieta_desayuno_ejemplo"
+						name="dieta_desayuno_ejemplo"
+						class="form-control" 
+						[(ngModel)]="model.dieta_desayuno_ejemplo"
+					>{{menu.ejemplo}}</textarea>
+				</div>-->
+
+
+<button class="btn btn-primary" (click)="fxshowmodal()">abrir modal</button>
+<button class="btn btn-primary" (click)="fxshowmodalgraficos()">abrir modal graficos</button>
+				
+				<div class="esc-modal tabs" *ngIf="showmodalgraficos">
+						<div class="overlay" (click)="fxshowmodalgraficos()"></div>
+						<div class="body">
+							<a class="modal-close" (click)="fxshowmodalgraficos()">X</a>					
+							<div class="row">
+									<div class="row navigation-dieta">
+								<div class="col-sm-6">
+									<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}"><i></i>Datos Generales</a>
+								</div>
+								<div class="col-sm-6">
+									<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}"><i></i>Graficoss</a>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<div *ngIf="showTabDatos">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>IMC</th>
+										<th>Peso</th>
+										<th>Estatura</th>
+										<th>Grasa</th>
+										<th>Grasa Viceral</th>
+										<th>Musculo</th>
+										<th>Agua</th>
+										<th>Hueso</th>
+										<th>Edad Metabolica</th>
+										<th>Cintura</th>
+										<th>Cadera</th>
+										<th>Muñeca</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div *ngIf="showTabGrafico">
+							Graficos AQUI
+						</div>
+					</div>
+				  </div>
+				
+
+
+			</section>
+		</div>
+	</div>
+</div>
+
+<div class="overlay" (click)="showModalPorciones()"></div>
+<div [ngClass]="{'open': displayModalPorciones }" class="esc-modal" *ngIf="displayModalPorciones">
+	
+	<div class="box">
+		<a class="modal-close" (click)="showModalPorciones()">X</a>
+		<h3>Cantidad de Porciones</h3>
+		<div class="body content-form">			
+
+			<div class="form-group">
+			  <label>{{label_modal_porciones}}</label>
+			  <input type="text" class="form-control">
+			</div>
+	  
+			<div class="alimentos">
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="leche-descremada"></i>
+				  <label>Leche Descremada</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="leche-2"></i>
+				  <label>Leche 2%</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="leche-entera"></i>
+				  <label>Leche Entera</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="vegetales"></i>
+				  <label>vegetales</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="frutas"></i>
+				  <label>frutas</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="harinas"></i>
+				  <label>harinas</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="carne-magra"></i>
+				  <label>carne-magra</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="carne-intermedia "></i>
+				  <label>carne-intermedia </label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="carne-grasa"></i>
+				  <label>carne-grasa</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="azucares"></i>
+				  <label>azucares</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="grasas"></i>
+				  <label>grasas</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4">
+				<figure>
+				  <i class="vaso-agua"></i>
+				  <label>vaso-agua</label>
+				  <input type="number" class="form-control" value="1"
+				  
+				  >
+				</figure>
+			  </div>
+			</div>
+	
+		</div>
+	</div>
+</div>

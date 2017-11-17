@@ -1,0 +1,486 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">
+	<section>
+		<app-dieta-nav></app-dieta-nav>		
+	
+		<header>
+			<h3 class="title">Division Nutricional </h3>
+		</header>
+		<div class="row division-nutricional">
+		
+				<div class="col-sm-5">
+					<div class="ingesta-calorica-recomendada col-md-6">
+						<i></i>
+						Ingesta Cal&oacute;rica Recomendada
+					</div>
+					<div class="ingesta-calorica-recomendada-value with-cicle col-md-6">
+						<i>
+							<strong>
+								2048
+								<span>Kcal</span>							
+							</strong>
+						</i>
+					</div>
+				</div>
+				<div class="col-sm-7 distribucion">
+					<div class="col-sm-4">						
+						<div class="carbohidratos with-cicle">						
+							<div class="inner">
+								<i>
+									<span>Gramos</span>
+									<strong>336.5</strong>
+									<span>Kcal</span>
+									<strong>1346</strong>	
+								</i>
+							</div>
+							<h5>Carbohidratos</h5>
+							<input type="text" class="form-control" id="carbohidratos" name="carbohidratos" placeholder="Porcentaje" 
+							[(ngModel)]="prescripcion.carbohidratos"
+							/>
+						</div>
+					</div>
+					<div class="col-sm-4">						
+						<div class="proteinas with-cicle">						
+							<div class="inner">
+								<i>
+									<span>Gramos</span>
+									<strong>336.5</strong>
+									<span>Kcal</span>
+									<strong>1346</strong>								
+								</i>
+							</div>
+							<h5>Proteínas</h5>
+							<input type="text" class="form-control" id="proteinas" name="proteinas" placeholder="Porcentaje" 
+							[(ngModel)]="prescripcion.proteinas"
+							/>
+						</div>
+					</div>
+					<div class="col-sm-4">						
+						<div class="grasas with-cicle">						
+							<div class="inner">
+								<i>
+									<span>Gramos</span>
+									<strong>336.5</strong>
+									<span>Kcal</span>
+									<strong>1346</strong>	
+								</i>
+							</div>
+							<h5>Grasas</h5>
+							<input type="text" class="form-control" id="grasas" name="grasas" placeholder="Porcentaje" 
+							[(ngModel)]="prescripcion.grasas"
+							/>
+						</div>
+					</div>
+				</div>
+			
+		</div>	
+		<div class="buttons">
+			<a class="btn btn-default" href="javascript:void(0);" (click)="openModalDatos()">Ver Historial Prescripciones</a>
+		</div>
+	</section>
+	<section>
+		<header>
+			<h3 class="title">Asignacion de Porciones</h3>
+		</header>
+		
+			<table class="table asignacion-porciones">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>Porciones</th>
+						<th>Carbohidratos</th>
+						<th>Proteínas</th>
+						<th>Grasas</th>
+						<th>Kcal</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td scope="row">
+							<label for="leche-descremada">
+								<i class="leche-descremada"></i>
+								Leche Descremada
+							</label>
+						</td>
+						<td>
+							<input type="number" class="form-control" id="leche-descremada" name="leche-descremada" />
+						</td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="leche-2">
+								<i class="leche-2"></i>
+								Leche 2%
+							</label>
+						</td>
+						<td><input type="number" class="form-control" id="leche-2" name="leche-2" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="leche-entera">
+								<i class="leche-entera"></i>
+								Leche entera
+							</label>							
+						</td>
+						<td><input type="number" class="form-control" id="leche-entera" name="leche-entera" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="vegetales">
+								<i class="vegetales"></i>
+								Vegetales
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="vegetales" name="vegetales" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="frutas">
+								<i class="frutas"></i>
+								Frutas
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="frutas" name="frutas" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="harinas">
+								<i class="harinas"></i>
+								Harinas
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="harinas" name="harinas" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="carne-magra">
+								<i class="carne-magra"></i>
+								Carne Magra
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="carne-magra" name="carne-magra" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="carne-intermedia">
+								<i class="carne-intermedia"></i>
+								Carne Intermedia
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="carne-intermedia" name="carne-intermedia" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="carne-grasa">
+								<i class="carne-grasa"></i>
+								Carne Grasa
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="carne-grasa" name="carne-grasa" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="azucares">
+								<i class="azucares"></i>
+								Azúcares
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="azucares" name="azucares" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="grasas">
+								<i class="grasas"></i>
+								Grasas
+							</label>
+							
+						</td>
+						<td><input type="number" class="form-control" id="grasas" name="grasas" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+					<tr>
+						<td scope="row">
+							<label for="vaso-agua">
+								<i class="vaso-agua"></i>
+								Vasos de Agua
+							</label>							
+						</td>
+						<td><input type="number" class="form-control" id="vaso-agua" name="vaso-agua" /></td>
+						<td>24</td>
+						<td>16</td>
+						<td>2</td>
+						<td>180</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td scope="row">
+							<div class="form-group">
+								<label for="nombre" class="col-form-label">Nombre</label>
+								<input type="text" class="form-control" id="email" name="email" placeholder="">
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+								<label for="nombre" class="col-form-label">Porciones</label>
+								<input type="text" class="form-control" id="email" name="email" placeholder="">
+							</div>							
+						</td>
+						<td>
+							<div class="form-group">
+								<label for="nombre" class="col-form-label">Carbohidratos</label>
+								<input type="text" class="form-control" id="email" name="email" placeholder="gramos" readonly>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+								<label for="nombre" class="col-form-label">Proteínas</label>
+								<input type="text" class="form-control" id="email" name="email" placeholder="gramos" readonly>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+								<label for="nombre" class="col-form-label">Grasas</label>
+								<input type="text" class="form-control" id="email" name="email" placeholder="gramos" readonly>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+								<label for="nombre" class="col-form-label">Kcal</label>
+								<input type="text" class="form-control" id="email" name="email" placeholder="" readonly>
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			
+			<a href="#">Añadir otro</a>
+	</section>	
+	<section>
+		<header>
+			<h3 class="title">Resumen</h3>
+		</header>
+		<table class="table resumen">
+			<tbody>
+				<tr>
+					<td>Totales</td>
+					<td>24</td>
+					<td>16</td>
+					<td>2</td>
+					<td>180</td>
+				</tr>
+				<tr>
+					<td>Faltante</td>
+					<td>24</td>
+					<td>16</td>
+					<td>2</td>
+					<td>180</td>
+				</tr>
+				<tr>
+					<td>Ideal</td>
+					<td>24</td>
+					<td>16</td>
+					<td>2</td>
+					<td>180</td>
+				</tr>
+				<tr>
+					<td>% de</td>
+					<td>24</td>
+					<td>16</td>
+					<td>2</td>
+					<td>180</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="overlay" (click)="openModalDatos()"></div>
+<div class="esc-modal wide" *ngIf="showModalDatos">
+	
+	<div class="box">
+		<a class="modal-close" (click)="openModalDatos()">X</a>
+		<header>
+			<h3>Historial de Prescripciones Dieteticas</h3>
+		</header>
+		<div class="body content-form">
+			<div *ngIf="showModalTabDatos">
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Carbohidratos</th>
+								<th>Proteínas</th>
+								<th>Grasas</th>
+								<th>Leche Desc.</th>
+								<th>Leche 2%</th>
+								<th>Leche Entera</th>
+								<th>Vegetales</th>
+								<th>Frutas</th>
+								<th>Harinas</th>
+								<th>Carne Magra</th>
+								<th>Carne Int</th>
+								<th>Carne grasa</th>
+								<th>Azúcares</th>
+								<th>Grasas</th>
+								<th>Agua</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>18/05/2017</td>
+								<td>336.5 g</td>
+								<td>201.91 g</td>
+								<td>60 g</td>
+								<td>2</td>
+								<td>0</td>
+								<td>0</td>
+								<td>4</td>
+								<td>4</td>
+								<td>10</td>
+								<td>10</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>2</td>
+								<td>8</td>
+							</tr>
+							<tr>
+								<td>18/05/2017</td>
+								<td>336.5 g</td>
+								<td>201.91 g</td>
+								<td>60 g</td>
+								<td>2</td>
+								<td>0</td>
+								<td>0</td>
+								<td>4</td>
+								<td>4</td>
+								<td>10</td>
+								<td>10</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>2</td>
+								<td>8</td>
+							</tr>
+							<tr>
+								<td>18/05/2017</td>
+								<td>336.5 g</td>
+								<td>201.91 g</td>
+								<td>60 g</td>
+								<td>2</td>
+								<td>0</td>
+								<td>0</td>
+								<td>4</td>
+								<td>4</td>
+								<td>10</td>
+								<td>10</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>2</td>
+								<td>8</td>
+							</tr>
+							<tr>
+								<td>18/05/2017</td>
+								<td>336.5 g</td>
+								<td>201.91 g</td>
+								<td>60 g</td>
+								<td>2</td>
+								<td>0</td>
+								<td>0</td>
+								<td>4</td>
+								<td>4</td>
+								<td>10</td>
+								<td>10</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>2</td>
+								<td>8</td>
+							</tr>
+							<tr>
+								<td>18/05/2017</td>
+								<td>336.5 g</td>
+								<td>201.91 g</td>
+								<td>60 g</td>
+								<td>2</td>
+								<td>0</td>
+								<td>0</td>
+								<td>4</td>
+								<td>4</td>
+								<td>10</td>
+								<td>10</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>2</td>
+								<td>8</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

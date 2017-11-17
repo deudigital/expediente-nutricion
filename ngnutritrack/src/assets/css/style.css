@@ -1,0 +1,323 @@
+body{font-family: 'Montserrat', sans-serif;}
+body.main{padding-top:50px}
+/*	1140x1400	-	570x700	*/
+/*	1140x1660	-	570x830	*/
+i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 830px;font-style:normal}
+/*******************/
+.transition{-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;}
+/*********/
+.btn{background-color:#7fb831;color:#fff;border-radius:15px;padding-left:20px;padding-right:20px;}
+.btn.red {background-color: #cc2026;padding-left: 45px;padding-right: 45px;}
+/*******************/
+.container-logo{text-align:center;}
+.main .navbar-brand {position: absolute;float: none;left: 50%;margin-left: -150px !important;margin-top:-50px}
+.main .navbar {margin-bottom: 120px;}
+.navbar-default {background-color: transparent;border-color: transparent;}
+/********************/
+.main{font-size:14px;}
+/********************/
+.buttons{margin:15px 0;text-align:center;}
+/********************/
+/********************/
+.main .navbar-default .navbar-nav > li:not(:first-child):before {border-left: 1px solid #000;content: "";position: absolute;height: 20px;width: 1px;top: 30%;}
+.navbar.top {margin-top: 25px;margin-bottom: 0;}
+.navbar.top .navbar-brand {margin-top:-25px}
+.navbar.top .navbar-nav > li{}
+.navbar.top .navbar-nav > li:not(:first-child):before {border-left: 1px solid #000;content: "";position: absolute;height: 20px;width: 1px;top: 30%;}
+.navbar.top .navbar-nav > li > a {font-size:12px}
+.navbar.top .navbar-nav > li > a > i {display: block;text-align: center;height: 22px;width: 20px;margin:0 auto}
+.navbar.top .navbar-nav > li.nuevo > a > i{background-position: -49px 0;width: 18px;	height: 22px;}
+.navbar.top .navbar-nav > li.control > a > i{background-position: -76px 0;width: 27px;height: 22px;}
+.navbar.top .navbar-nav > li.agenda > a > i{background-position: -111px 0;width: 22px;height: 22px;}
+/***************************/
+.genero .checkbox > label{width:48%;}
+/********************/
+
+/********************/
+.content-nav{}
+.content-nav h3 {font-weight: 700;font-size: 16px;text-align: right;margin-right: 35px;margin-top: 35px;	margin-bottom: 30px;}
+.content-nav .list-group {text-align: right;font-weight:500}
+.content-nav .list-group > li {background-color: transparent;border: none;position:relative;}
+.content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
+.content-nav .list-group > li > a {padding-right: 50px;position: relative;display: block;outline:0;text-decoration:none;color:#000;}
+.content-nav .list-group > li > a.active {color:#8bc23f}
+.content-nav .list-group > li > span{text-align:center}
+.content-nav .list-group > li > a > i{content: "";	display: inline-block;	z-index: 100;	position: absolute;	right: -15px;	top: 50%;	margin-top: -23px;background-color:#fff;}
+
+.content-nav .list-group > li.valoracion > a > i {background-position: -366px -183px;width: 46px;	height: 46px;}
+.content-nav .list-group > li.recomendacion > a > i {background-position: -425px -183px;	width: 46px;height: 46px;}
+.content-nav .list-group > li.dieta > a > i {background-position: -482px -183px;	width: 46px;height: 46px;}
+
+.content-nav .list-group > li.valoracion > a.active > i {background-position: -366px -238px;	width: 45px;height: 46px;}
+.content-nav .list-group > li.recomendacion > a.active > i {background-position: -425px -238px;	width: 45px;height: 46px;}
+.content-nav .list-group > li.dieta > a.active > i {background-position: -482px -238px;	width: 45px;height: 46px;}
+.content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;}
+.content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;right: -5px;}
+
+
+/*.content-nav .paciente .list-group > li:not(:first-child){margin-top:30px}*/
+.content-nav .list-group > li:not(:first-child){margin-top:30px}
+
+.content-nav .list-group > li.personales > a > i {background-position: 0 -183px;width: 44px;height: 46px;}
+.content-nav .list-group > li.contacto > a > i {background-position: -56px -183px;width: 44px;height: 46px;}
+.content-nav .list-group > li.hcp > a > i {background-position: -112px -183px;width: 59px;right: -28px;height: 53px;}
+.content-nav .list-group > li.hcf > a > i {background-position: -183px -183px;width: 58px;right: -28px;height: 49px;}
+.content-nav .list-group > li.objetivo > a > i {background-position: -254px -183px;width: 45px;height: 46px;}
+.content-nav .list-group > li.habito > a > i {background-position: -310px -183px;width: 45px;height: 47px;}
+
+
+.content-nav .list-group > li.personales > a.active > i {background-position: 0 -241px;width: 44px;height: 46px;}
+.content-nav .list-group > li.contacto > a.active > i {background-position: -56px -241px;width: 44px;height: 46px;}
+.content-nav .list-group > li.hcp > a.active > i {background-position: -112px -241px;width: 59px;right: -28px;height: 53px;}
+.content-nav .list-group > li.hcf > a.active > i {background-position: -183px -241px;width: 58px;right: -28px;height: 49px;}
+.content-nav .list-group > li.objetivo > a.active > i {background-position: -254px -241px;width: 45px;height: 46px;}
+.content-nav .list-group > li.habito > a.active > i {background-position: -310px -241px;width: 45px;height: 47px;}
+
+
+.content-nav .board-inner.control .current-menu{}
+/********************/
+.page-title {position: relative;padding-left: 30px;margin-left: -30px;font-size:18px;font-weight:normal;}
+.page-title:before {background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 830px;content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}
+/*********************/
+.content-form > section{background: #f3f3f3;border-radius: 15px;padding: 15px;}
+.content-form > section:not(:first-child){margin-top:20px;}
+.content-form > section header{text-align:center;}
+.content-form > section header > .title {margin-top: 0;font-weight: 500;font-size: 17px;}
+.content-form tbody .form-group > label{margin-left:15px;}
+.content-form .form-control{background: #e0e0e0;border-radius: 15px;}
+.content-form textarea.form-control{border-radius: 15px;}
+.content-form label{font-weight:400}
+.content-form .radio label,
+.content-form .checkbox label{display:block;padding:0}
+.content-form .checkbox label span,
+.content-form .radio label span{}
+.content-form .telefonos .form-control:not(:first-of-type) {margin-top:20px}
+.content-form .radio,
+.content-form .checkbox {margin:0}
+.content-form .checkbox label {position: relative;padding-left:0;width:100%;cursor:pointer;}
+.content-form .radio label input,
+.content-form .checkbox label input {position: absolute;margin-left:0;visibility:hidden;}
+.content-form .radio label input:checked + span,
+.content-form .checkbox label input:checked + span{background-color: #8bc23f;color:#fff}
+.content-form .radio label span,
+.content-form .checkbox label span {background-color: #e0e0e0;padding: 5px;width:100%;display:block;cursor:pointer;border-radius: 15px;text-align:center;line-height:2em;font-weight:500;}
+.content-form h3{font-weight:500}
+.content-form .wrap-patologias {margin-bottom:15px}
+.content-form .wrap-patologias .radio label,
+.content-form .wrap-patologias .checkbox label {margin:5px}
+/********************/
+.content-form .input-group-addon{background-color:transparent;}
+.content-form  .analisis{text-align:center;font-size:9px;margin:20px 0}
+.content-form  .analisis > .box{float:left;padding:15px 10px;}
+.content-form  .analisis > .box .glyphicon{width:20%;border:1px solid #000;font-size:2em}
+.content-form  .analisis > .box strong{display:block;font-size:1.5em}
+.content-form  .asignaciones li{float:left;width:16.67%}
+.content-form  small{font-size:9px;color:#999;}
+.content-form  .link{color:#030303;}
+.content-form  .factores{font-size:11px;}
+/********************/
+.table{border-spacing: 0 15px;border-collapse: separate;}
+.table tr th,
+.table tr td{border-color: transparent;}
+.table tbody tr > td:first-child{border-radius:15px 0 0 15px}
+.table tbody tr > td:last-child{border-radius: 0 15px 15px 0;}
+/*.content-form .table{border-spacing: 0 15px;border-collapse: separate;}
+.content-form .table tr th,
+.content-form .table tr td{border-color: transparent;}
+.content-form .table tbody tr > td:first-child{border-radius:15px 0 0 15px}
+.content-form .table tbody tr > td:last-child{border-radius: 0 15px 15px 0;}*/
+/********************/
+.content-form .asignacion-porciones{font-size:10px;font-weight:normal;text-align:center;}
+.content-form .asignacion-porciones thead tr th{font-weight:normal;text-align:center;}
+.content-form .asignacion-porciones tbody tr:nth-child(odd) > td{background-color:#cfcfcf;}
+.content-form .asignacion-porciones tbody tr:nth-child(even) > td{background-color:#e7e7e7;}
+.content-form .asignacion-porciones tr td {padding: 10px 0 5px;}
+.content-form .asignacion-porciones tbody tr td:first-child {padding-left: 22px;}
+.content-form .asignacion-porciones tr td .form-control {max-width: 80px;margin: -7px auto 0;height:28px}
+.content-form .asignacion-porciones tbody label {padding-left: 45px;position: relative;display: block;text-align: left;padding-top: 0;margin-top: 0;}
+/********************/
+.content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-6px;}
+.alimentos {text-align: center}
+.alimentos i {display: inline-block;left: 0;top:-6px;}
+.alimentos label {display: block;}
+.alimentos .form-control {width: 75px;margin: 0 auto;}
+
+.content-form .asignacion-porciones i.leche-descremada {background-position: 0 -142px;width: 15px;height: 27px;}
+.content-form .asignacion-porciones i.leche-2 {background-position: -24px -142px;width: 15px;height: 27px;}
+.content-form .asignacion-porciones i.leche-entera {background-position: -46px -142px;width: 16px;height: 27px;}
+.content-form .asignacion-porciones i.vegetales {background-position: -71px -142px;width: 22px;height: 22px;}
+.content-form .asignacion-porciones i.frutas {background-position: -99px -142px;width: 22px;height: 23px;}
+.content-form .asignacion-porciones i.harinas {background-position: -129px -145px;width: 25px;height: 29px;}
+.content-form .asignacion-porciones i.carne-magra {background-position: -162px -142px;width: 40px;height: 24px;}
+.content-form .asignacion-porciones i.carne-intermedia {background-position: -206px -142px;width: 40px;height: 21px;}
+.content-form .asignacion-porciones i.carne-grasa {background-position: -253px -142px;width: 32px;height: 26px;}
+.content-form .asignacion-porciones i.azucares {background-position: -291px -142px;width: 37px;height: 20px;}
+.content-form .asignacion-porciones i.grasas {background-position: -333px -142px;width: 19px;height: 27px;}
+.content-form .asignacion-porciones i.vaso-agua{background-position: -360px -142px;width: 19px;height: 23px;}
+
+.esc-modal .alimentos i.leche-descremada {background-position: 0 -688px;width: 30px;height: 53px;}
+.esc-modal .alimentos i.leche-2 {background-position: -42px -688px;width: 30px;height: 53px;}
+.esc-modal .alimentos i.leche-entera {background-position: -84px -688px;width: 30px;height: 53px;}
+.esc-modal .alimentos i.vegetales {background-position: -127px -688px;width: 50px;height: 53px;}
+.esc-modal .alimentos i.frutas {background-position: -185px -688px;width: 46px;height: 53px;}
+.esc-modal .alimentos i.harinas {background-position: -245px -688px;width: 50px;height: 55px;}
+.esc-modal .alimentos i.carne-magra {background-position: -311px -688px;width: 65px;height: 40px;margin-top: 10px;}
+.esc-modal .alimentos i.carne-intermedia {background-position: -388px -685px;width: 66px;height: 50px;}
+.esc-modal .alimentos i.carne-grasa {background-position: -467px -686px;width: 63px;height: 54px;}
+.esc-modal .alimentos i.azucares {background-position: 1px -756px;width: 60px;height: 65px;}
+.esc-modal .alimentos i.grasas {background-position: -64px -760px;width: 40px;height: 56px;}
+.esc-modal .alimentos i.vaso-agua {background-position: -119px -759px;width: 41px;height: 52px;}
+
+
+/********************/
+.content-form .resumen{border-spacing: 0 5px;text-align:right;}
+.content-form .resumen tbody tr > td{color:#fff;}
+.content-form .resumen tbody tr:nth-child(odd) > td{background-color:#969696;}
+.content-form .resumen tbody tr:nth-child(even) > td{background-color:#c0c0c0;}
+.content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
+.content-form .resumen tbody tr td:last-child {padding-right: 30px;}
+/********************/
+.main .links{margin:5% 0}
+.main .links .box{text-align:center;}
+.main .links .box a{color:#000;text-decoration:none;display:inline-block;text-align:center;}
+.main .links .box a:hover{color:#7fb831}
+.main .links .box a figure {border-radius: 50%;max-width: 100%;width: 163px;height: 163px;display: table-cell;position: relative;border: 5px solid #e8e8e8;vertical-align: middle;}
+.main .links .box a figure:before {background-color: transparent;content: "";display: block;width: 90%;height: 90%;position: absolute;border-radius: 50%;top: 5%;left: 5%;}
+.main .links .box a:hover figure {border: 5px dotted #7fb831;}
+.main .links .box a > strong {margin-top: 30px;display: block;font-size: 17px;font-weight: 500;}
+.main .links .box a figure i {position: relative;display: inline-block;}
+.main .links .box a:hover figure:before {background-color: #7fb831;}
+.main .links .box a figure.main-nuevo{}
+.main .links .box a figure.main-nuevo i {background-position: 0 -552px;width: 48px;height: 55px;}
+.main .links .box a:hover figure.main-nuevo i{background-position:0 -623px;}
+.main .links .box a figure.main-control i {background-position: -56px -551px;width: 58px;height: 59px;}
+.main .links .box a:hover figure.main-control i{background-position:-56px -623px;}
+.main .links .box a figure.main-agenda i {background-position: -129px -552px;width: 69px;height: 55px;}
+.main .links .box a:hover figure.main-agenda i{background-position:-129px -623px;}
+/***************************/
+.searching {background-position: -212px -545px;display: inline-block;width: 353px;height: 80px;margin-bottom:15px}
+/***************************/
+.main .listado {position:relative;}
+.main .listado ul{margin:0;text-align:left;margin-left:0;list-style-type:none;padding:0}
+.main .listado ul {text-align: left;list-style-type: none;padding: 0;}
+.main .listado  ul li {padding: 8px 15px;;position: relative;;}
+.main .listado ul li i.calendar {background-position: -389px -34px;display: inline-block;width: 17px;height: 15px;margin-right: 10px;position: relative;top: 2px;}
+.main .listado ul li i.fullname {background-position: -469px -71px;width: 14px;height: 14px;display: inline-block;}
+.main .listado ul li i.card {background-position: -488px -71px;width: 22px;height: 14px;display: inline-block;margin-right:10px;}
+
+
+.main .listado.pacientes ul li:hover i.fullname {background-position: -469px -92px;}
+.main .listado.pacientes ul li:hover i.card {background-position: -488px -92px;}
+
+/***************************/
+.main .listado.consultas{background-color:#f3f3f3;text-align:center}
+.main .listado.consultas {margin:50px auto;border-radius:25px;padding:25px 15px;font-size:12px}
+.listado.consultas header {margin-bottom: 35px;}
+.main .listado.consultas .title > i {background-position: -443px -33px;height: 28px;width: 25px;top: 8px;left: 0;display: inline-block;position: relative;margin-right: 10px;}
+.main .listado.consultas ul li {background-color: #e0e0e0;border-radius: 25px;margin:10px 0 }
+.main .listado.consultas ul li i.fullname{margin: 0 5px 0 30px;}
+.main .listado.consultas ul li .btn {float: right;margin-top: -15px;margin-right: 0;border-radius: 25px;margin-right: -15px;padding: 15px 25px;}
+.main .listado.consultas ul li .btn {float: right;margin-top: -8px;margin-right: 0;margin-right: -15px;padding: 8px 15px;font-size: inherit;}
+/*******************/
+.main .listado.pacientes ul li i.fullname {margin-right: 10px;}
+.main .listado.pacientes {width: 560px;max-width:100%;background-color:#e6e6e6;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
+.main .listado.pacientes .form-group{margin-bottom:0;position:relative;margin-top:-15px}
+
+.main .listado.pacientes .form-control {background: #e0e0e0;border: none;box-shadow: none;border-radius: 18px 18px 0 0;padding-left: 53px;line-height:2.5em;height:auto;}
+.main .listado.pacientes ul{padding:0 10px;height:300px;overflow:auto;}
+.main .listado.pacientes ul li {-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
+.main .listado.pacientes ul li:hover {background-color:#7fb831;color:#fff;border-radius:25px;}
+
+
+body.open-modal .overlay {display:block}
+.overlay {
+    background-color:rgba(0, 0, 0, 0.33);
+    position: fixed;left: 0;top: 0;z-index: 1000;width: 100%;height: 100%;display:none;
+/*-webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease;*/
+}
+.esc-modal a.modal-close {
+	position: absolute;
+	right: 25px;
+	top: 10px;
+	font-weight: 300;
+	font-size: 25px;
+	cursor: pointer;
+	text-decoration: none;
+	text-indent: 0;
+	z-index:500;
+}
+.esc-modal {
+	position: absolute;
+	z-index: 10001;
+	width: 665px;
+	max-width: 100%;
+	background-color: #fff;
+	/* height: 700px; */
+	top: -150%;
+	left: 50%;
+	padding: 15px 55px 30px;
+	margin-left: -333px;
+	border-radius: 15px;
+	-webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease;	
+	overflow: hidden;
+}
+.esc-modal header {text-align: center;margin-bottom: 15px;}
+.esc-modal header h3 {margin: 0;font-size: 20px;}
+.esc-modal .alimentos > div {min-height: 150px;/* border: 1px solid; */}
+body.open-modal .esc-modal  {top:5%}
+
+/*.esc-modal .body table thead tr th{background-color: #ccc;}*/
+a.active{color:red}
+
+.esc-modal .table th {background-color: #646464;color: #fff;font-weight:normal;}
+.esc-modal .table thead tr > th:first-child{border-radius:15px 0 0 0}
+.esc-modal .table thead tr > th:last-child{border-radius: 0 15px 0 0;}
+.esc-modal .table tbody tr > td{text-align:center;}
+.esc-modal .table tbody tr:nth-child(even) > td{background-color:#cfcfcf;border-left: 1px solid #e7e7e7;}
+.esc-modal .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
+.esc-modal .table tbody tr > td:first-child){border-left: none;}
+
+.esc-modal .navigation-dieta {border-bottom: 1px solid #dcdcdc;margin-bottom: 0;}
+.esc-modal .navigation-dieta a{display:block;padding-bottom:10px;}
+.esc-modal .navigation-dieta a.active{border-bottom-width:5px;}
+.esc-modal .navigation-dieta a i.datos {background-position: -499px -114px;width: 32px;height: 25px;}
+.esc-modal .navigation-dieta a i.grafico {background-position: -465px -114px;width: 31px;height: 26px;}
+.esc-modal .navigation-dieta a.active i.datos {background-position: -499px -144px;}
+.esc-modal .navigation-dieta a.active i.grafico {background-position: -465px -144px;}
+
+.table.habitos {border-spacing: 0;border-collapse: collapse;}
+.table.habitos thead tr th {background-color: #e0e0e0;}
+.table.habitos tbody tr td {background-color: #ccc;}
+.table.habitos thead tr:first-child th:first-child {border-radius: 10px 0 0 0;}
+.table.habitos thead tr:first-child th:last-child {border-radius: 0 10px 0 0;}
+.table.habitos tbody tr:last-child td:first-child {border-radius: 0 0 0 10px;}
+.table.habitos tbody tr:last-child td:last-child {border-radius: 0 0 10px 0;}
+
+@media(min-width:660px){
+	.page-inicio{width:660px}
+	.main .listado.consultas {padding:25px 123px;}
+	.main .listado.pacientes {padding:15px;}
+
+}
+@media(min-width:768px){
+	body{font-size:12px;}
+	.content-form .analisis > .box{width:25%;min-height: 110px}
+	
+	.navbar.top.logo-center .navbar-brand {margin-top: -25px;position: absolute;left: 50%;margin-left: -120px;}
+	.main.page-busqueda {margin-top: 90px;}
+}
+@media(min-width:992px){
+	
+	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 105px;margin-top:10px}
+	.content-form .analisis > .box .glyphicon{font-size:3em}
+}
+@media (min-width:1060px){
+	.content-nav .list-group {margin-right: 31px;}
+	.content-form > section{padding: 25px 50px;}
+	.container-fluid{width:90%;}
+}
+@media (min-width:1200px){
+	.content-nav .list-group {margin-right: 31px;}
+	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}
+	.container-fluid{width:90%;}
+}

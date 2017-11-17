@@ -1,0 +1,36 @@
+<div class="board-inner control" id="status-buttons">
+	<ul class="list-group">
+		<li class="list-group-item datos-paciente{{class_toggle}}">			
+			<!--<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">-->
+			<a href="javascript:void(0)" (click)="toggleDatosPaciente()">
+				<span>Datos del Paciente</span>
+				<i></i>
+			</a>
+		</li>
+	</ul>
+	<div *ngIf="showDatosPaciente">
+			<app-nuevo-nav></app-nuevo-nav>
+	</div>
+	
+	<h3 class="current-menu">Consulta en Curso</h3>
+	<ul class="list-group">
+		<li class="list-group-item valoracion">
+			<a routerLink="/valoracion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
+				<span>Valoración Antropométrico</span>
+				<i></i>
+			</a>
+		</li>
+		<li class="list-group-item recomendacion">
+			<a routerLink="/recomendacion" routerLinkActive="active">
+				<span>Recomendaciones dietética diario</span>
+				<i class="icon"></i>
+			</a>
+		</li>
+		<li class="list-group-item dieta">
+			<a routerLink="/dieta" routerLinkActive="active">
+				<span>Dieta</span>
+				<i class="icon"></i>
+			</a>
+		</li>
+	</ul>
+</div>

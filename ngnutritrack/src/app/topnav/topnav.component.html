@@ -1,0 +1,44 @@
+<nav class="navbar navbar-default top">
+  <div class="container">
+	  <div class="row">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+
+		  <a class="navbar-brand" routerLink="/inicio" title="Inicio">
+			<img src="assets/images/logo.png" alt="nutritrack" width="125"/>
+		</a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+		  <ul class="nav navbar-nav navbar-right">
+			<li class="nuevo">			
+				<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
+					<i class="menu-icon nuevo"></i>Paciente Nuevo
+				</a>
+			</li>
+			<li class="control">
+				<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Control">
+					<i class="menu-icon"></i>Control
+				</a>
+			</li>
+			<li class="agenda">
+				<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
+					<i class="menu-icon"></i>Agenda
+				</a>
+			</li>
+		  </ul>
+		</div><!--/.nav-collapse -->
+	  </div>
+  </div>
+</nav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>

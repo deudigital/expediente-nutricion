@@ -1,0 +1,42 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<!--<app-nuevo-nav></app-nuevo-nav>-->
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<section>
+				<app-hcp-nav></app-hcp-nav>
+				
+					<ul class="lista-examen">
+						<li *ngFor="let bioquimica of bioquimicas">
+							<a href="{{bioquimica.filename}}">
+								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+								{{bioquimica.fecha}} {{bioquimica.filename}}
+							</a>
+						</li>
+						<!--<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+								Examen 18/5/2017
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+								Examen 18/6/2017
+							</a>								
+						</li>-->
+					</ul>
+					<a class="add-nuevo" >Nuevo examen</a>
+					<!--<input type="file" class="form-control">-->
+					<div class="well text-center">
+						Importar archivo de examen - arrastre el archivo a este cuadro
+					</div>
+					<a class="add-nuevo" >Añadir examen</a>
+				
+			</section>
+		</div>
+	</div>
+</div>

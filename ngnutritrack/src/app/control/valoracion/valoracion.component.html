@@ -1,0 +1,321 @@
+<app-topnav></app-topnav>
+<router-outlet name="historialPopup"></router-outlet>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<!--<app-control-nav></app-control-nav>-->
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+
+			<section>
+				<div class="row">
+					<div class="well">
+						Importar datos - arrastre archivo en formato csv a este cuadro
+					</div>
+					<div class="buttons">
+						<a class="btn btn-default" (click)="openModalDatos()">Ver Historial Antropom&eacute;trico</a>
+						<!--<a [routerLink]="[{ outlets: { historialPopup: ['get-historial'] } }]" routerLinkActive="active">Add Book</a>-->
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 with-icon estatura">
+						<label class="col-form-label" for="estatura">Estatura</label>
+						<div class="input-group">
+							<input 
+							class="form-control" 
+							id="estatura" 
+							name="estatura" 
+							placeholder="En metros" 
+							type="text" 
+							[(ngModel)]="valoracion.estatura">
+						<i></i>
+							<div class="input-group-addon"><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-th"></span></a></div>
+						</div>
+					</div>
+					<div class="form-group col-sm-6 with-icon muneca">
+						<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
+						<input class="form-control" id="muneca" name="muneca" placeholder="En centímetros" type="text"
+						[(ngModel)]="valoracion.circunferencia_muneca">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon peso">
+						<label class="col-form-label" for="peso">Peso</label>
+						<input class="form-control" id="peso" name="peso" placeholder="Kilogramos" type="text"
+						[(ngModel)]="valoracion.peso">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon grasa">
+						<label class="col-form-label" for="grasa">Grasa</label>
+						<div class="input-group">
+							<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
+							[(ngModel)]="valoracion.grasa">
+							<i></i>
+							<div class="input-group-addon"><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-th"></span></a></div>
+						</div>
+					</div>
+					<div class="form-group col-sm-6 with-icon musculo">
+						<label class="col-form-label" for="musculo">Músculo</label>
+						<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
+						[(ngModel)]="valoracion.musculo">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon agua">
+						<label class="col-form-label" for="agua">Agua</label>
+						<input class="form-control" id="agua" name="agua" placeholder="Porcentaje" type="text"
+						[(ngModel)]="valoracion.agua">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon viceral">
+						<label class="col-form-label" for="viceral">Grasa Viceral</label>
+						<input class="form-control" id="viceral" name="viceral" placeholder="Porcentaje" type="text"
+						[(ngModel)]="valoracion.grasa_viceral">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon hueso">
+						<label class="col-form-label" for="hueso">Hueso</label>
+						<input class="form-control" id="hueso" name="hueso" placeholder="Kilogramos" type="text"
+						[(ngModel)]="valoracion.hueso">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon edad_metabolica">
+						<label class="col-form-label" for="edad_metabolica">Edad Metabólica</label>
+						<input class="form-control" id="edad_metabolica" name="edad_metabolica" placeholder="Años" type="text"
+						[(ngModel)]="valoracion.edad_metabolica">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon cintura">
+						<label class="col-form-label" for="cintura">Circunferencia Cintura</label>
+						<input class="form-control" id="cintura" name="cintura" placeholder="En centímetros" type="text"
+						[(ngModel)]="valoracion.circunferencia_cintura">
+						<i></i>
+					</div>
+					<div class="form-group col-sm-6 with-icon cadera">
+						<label class="col-form-label" for="cadera">Circunferencia Cadera</label>
+						<input class="form-control" id="cadera" name="cadera" placeholder="En centímetros" type="text"
+						[(ngModel)]="valoracion.circunferencia_cadera">
+						<i></i>
+					</div>
+				</div>
+			</section>
+<!--
+<div class="pre">
+    <h2>Model: </h2>
+    {{ currentModel }}
+  </div>
+  -->
+			<section>
+				<div class="row analisis">
+					<h3 class="title">An&aacute;lisis</h3>
+					<div class="box imc">
+						<i></i>
+						<br>
+						IMG
+						<strong>{{ imc | number : '1.2-2'}}</strong>
+					</div>
+					<div class="box peso-ideal">
+						<i></i>
+						<br>
+						Peso Ideal
+						<strong>{{ pesoIdeal | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box peso-ideal-ajustado">
+						<i></i>
+						<br>
+						Peso Ideal Ajustado
+						<strong>{{ pesoIdealAjustado | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box diferencia-peso">
+						<i></i>
+						<br>
+						Diferencia Peso
+						<strong>{{ diferenciaPeso | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box adecuacion">
+						<i></i>
+						<br>
+						Adecuación
+						<strong>% {{ adecuacion | number : '1.2-2'}}</strong>
+					</div>
+					<div class="box cintura-cadera">
+						<i></i>
+						<br>
+						Relación Cintura-Cadera
+						<strong>{{ relacionCinturaCadera | number : '1.2-2'}}</strong>
+					</div>
+					<div class="box porcentaje-sobrepeso">
+						<i></i>
+						<br>
+						Porcentaje Peso
+						<strong>{{ porcentajePeso | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box grado-sobrepeso">
+						<i></i>
+						<br>
+						Grado de Sobrepeso
+						<strong>{{ gradoSobrepeso | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box peso-meta-maximo">
+						<i></i>
+						<br>
+						Pêso Meta Máximo
+						<strong>{{ pesoMetaMaximo | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box peso-meta-minimo">
+						<i></i>
+						<br>
+						Peso Meta Mínimo
+						<strong>{{ pesoMetaMinimo | number : '1.2-2'}} kg</strong>
+					</div>
+				</div>
+			</section>
+
+
+		</div>
+	</div>
+</div>
+
+<div class="overlay" (click)="openModalDatos()"></div>
+<div class="esc-modal wide" *ngIf="showModalDatos">
+	
+	<div class="box">
+		<a class="modal-close" (click)="openModalDatos()">X</a>
+		<div class="body content-form">			
+			<div class="row navigation-dieta">
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
+						<i class="datos"></i>
+						Datos Generales
+					</a>
+				</div>
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
+						<i class="grafico"></i>
+						Graficos
+					</a>
+				</div>
+			</div>
+			
+			<div *ngIf="showModalTabDatos">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>IMC</th>
+							<th>Peso</th>
+							<th>Estatura</th>
+							<th>Grasa</th>
+							<th>Grasa Viceral</th>
+							<th>Musculo</th>
+							<th>Agua</th>
+							<th>Hueso</th>
+							<th>Edad Metabolica</th>
+							<th>Cintura</th>
+							<th>Cadera</th>
+							<th>Muñeca</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>18/05/2017</td>
+							<td>33.1</td>
+							<td>90Kg</td>
+							<td>1.79m</td>
+							<td>22%</td>
+							<td>6</td>
+							<td>64.2</td>
+							<td>%60</td>
+							<td>5kg</td>
+							<td>45 años</td>
+							<td>97cm</td>
+							<td>90cm</td>
+							<td>18cm</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>33.1</td>
+							<td>90Kg</td>
+							<td>1.79m</td>
+							<td>22%</td>
+							<td>6</td>
+							<td>64.2</td>
+							<td>%60</td>
+							<td>5kg</td>
+							<td>45 años</td>
+							<td>97cm</td>
+							<td>90cm</td>
+							<td>18cm</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>33.1</td>
+							<td>90Kg</td>
+							<td>1.79m</td>
+							<td>22%</td>
+							<td>6</td>
+							<td>64.2</td>
+							<td>%60</td>
+							<td>5kg</td>
+							<td>45 años</td>
+							<td>97cm</td>
+							<td>90cm</td>
+							<td>18cm</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>33.1</td>
+							<td>90Kg</td>
+							<td>1.79m</td>
+							<td>22%</td>
+							<td>6</td>
+							<td>64.2</td>
+							<td>%60</td>
+							<td>5kg</td>
+							<td>45 años</td>
+							<td>97cm</td>
+							<td>90cm</td>
+							<td>18cm</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>33.1</td>
+							<td>90Kg</td>
+							<td>1.79m</td>
+							<td>22%</td>
+							<td>6</td>
+							<td>64.2</td>
+							<td>%60</td>
+							<td>5kg</td>
+							<td>45 años</td>
+							<td>97cm</td>
+							<td>90cm</td>
+							<td>18cm</td>
+						</tr>
+						<tr>
+							<td>18/05/2017</td>
+							<td>33.1</td>
+							<td>90Kg</td>
+							<td>1.79m</td>
+							<td>22%</td>
+							<td>6</td>
+							<td>64.2</td>
+							<td>%60</td>
+							<td>5kg</td>
+							<td>45 años</td>
+							<td>97cm</td>
+							<td>90cm</td>
+							<td>18cm</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div *ngIf="showModalTabGrafico">
+				<div class="well">
+					grafico AQUI
+				</div>
+			</div>
+	  
+		</div>
+	</div>
+</div>

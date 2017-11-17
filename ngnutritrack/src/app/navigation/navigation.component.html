@@ -1,0 +1,75 @@
+<div class="board-inner control" id="status-buttons">
+<div *ngIf="isConsulta">
+	<ul class="list-group">
+		<li class="list-group-item datos-paciente{{class_toggle}}">			
+			<a href="javascript:void(0)" (click)="toggleDatosPaciente()">
+				<span>Datos del Paciente</span>
+				<i></i>
+			</a>
+		</li>
+	</ul>
+</div>
+	<div *ngIf="showMenuPaciente">
+			<ul class="list-group">
+				<li class="list-group-item personales">
+					<a routerLink="/personales" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
+						<span>Datos Personales</span>
+						<i></i>
+					</a>
+				</li>
+				<li class="list-group-item contacto">
+					<a routerLink="/contacto" routerLinkActive="active">
+						<span>contacto</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item hcp">
+					<a routerLink="/hcp" routerLinkActive="active">
+						<span>Historia Clinica Personal</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item hcf">
+					<a routerLink="/hcf" routerLinkActive="active">
+						<span>Historia Clinica Familiar</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item objetivo">
+					<a routerLink="/objetivo" routerLinkActive="active">
+						<span>Objetivos del Paciente</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item habito">
+					<a routerLink="/habito" routerLinkActive="active">
+						<span>H&aacute;bitos</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+			</ul>
+	</div>
+	<div *ngIf="isConsulta">
+		<h3 class="current-menu">Consulta en Curso</h3>
+		<ul class="list-group">
+			<li class="list-group-item valoracion">
+				<a routerLink="/valoracion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
+					<span>Valoración Antropométrico</span>
+					<i></i>
+				</a>
+			</li>
+			<li class="list-group-item recomendacion">
+				<a routerLink="/recomendacion" routerLinkActive="active">
+					<span>Recomendaciones dietética diario</span>
+					<i class="icon"></i>
+				</a>
+			</li>
+			<li class="list-group-item dieta">
+				<a routerLink="/dieta" routerLinkActive="active">
+					<span>Dieta</span>
+					<i class="icon"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

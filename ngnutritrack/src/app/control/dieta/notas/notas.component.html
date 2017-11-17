@@ -1,0 +1,23 @@
+<app-topnav></app-topnav>
+<router-outlet name="historialPopup"></router-outlet>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">			
+			<section>
+				<app-dieta-nav></app-dieta-nav>
+				<div class="form-group">
+					<label for="dieta_notas">Notas finales de la consulta</label>
+					<textarea 
+						id="dieta_notas"
+						name="dieta_notas"
+						class="form-control" 
+						[(ngModel)]="model.notas"
+					></textarea>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
