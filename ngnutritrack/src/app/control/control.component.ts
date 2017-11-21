@@ -13,30 +13,25 @@ export class ControlComponent implements OnInit {
 	pacientes: Observable<Paciente[]>;
 	nueva_consulta: Observable<Consulta[]>;
 	selectedConsulta: Consulta;
-	/*consulta: Consulta;*/
 	selectedPaciente: Paciente;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.pacientes = formControlDataService.getPacientesDeNutricionista();
 	}
 	ngOnInit() {}
-	onSelect(paciente: Paciente) {/*console.log(paciente);*/
+	onSelect(paciente: Paciente) {
 		this.selectedPaciente = paciente;
 		this.formControlDataService.setPaciente(paciente);
 		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		mng.setOperacion('nueva-consulta');
 		mng.setMenuPacienteStatus(false);
 		this.createConsulta(paciente);
-		
 	}
 	createConsulta(paciente) {
-		/*console.log('enviando Crear Consulta');
-		console.log(paciente);*/
 		this.formControlDataService.addConsulta(paciente)
 		.subscribe(
 			 response  => {
-						/*console.log('cargando datos recibidos...');
-						console.log( response['data'] );*/
+					console.log(response);
 						this.formControlDataService.setSelectedConsuta(response['data']);
 						this.router.navigate(['/valoracion']);
 						},
@@ -50,9 +45,4 @@ export class ControlComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	/*onSelectControl(paciente: Paciente) {
-		this.selectedPaciente = paciente;		
-		this.createConsulta(paciente);
-		this.router.navigate(['/valoracion']);
-	}*/
 }

@@ -81,7 +81,7 @@ export class FormControlData {
 		this.consulta.set(data);
 		var paciente	=	data.paciente[0];
 		this.paciente.set(paciente);
-		console.log(data.paciente['hcp']['bioquimicas']);
+
 		if(data.paciente['hcp']){
 			if(data.paciente['hcp']['bioquimicas'])
 				this.bioquimicas	=	data.paciente['hcp']['bioquimicas']
@@ -90,16 +90,19 @@ export class FormControlData {
 		
 		
 		/*	VA	*/
+		this.valoracionAntropometrica.consulta_id	=	this.consulta.id;
 		if(data.va){
 			var va			=	data.va[0];
 			this.valoracionAntropometrica.set(va);
 		}
+		this.rdd.consulta_id	=	this.consulta.id;
 		if(data.rdd){
 /*	RDDS	*/
 			var rdd 							=	data.rdd[0];
 			this.rdd.set(rdd);
 		}
 /*	Dieta	*/
+		this.prescripcion.consulta_id	=	this.consulta.id;
 		if(data.dieta){
 			if(data.dieta.prescripcion){
 /*		Prescripcion */
@@ -196,6 +199,11 @@ export class Paciente extends Persona{
 	notas_otros:string='';
 	nutricionista_id:number=0;
 	responsable_id:string='';
+	responsable_cedula:string='';
+	responsable_nombre:string='';
+	responsable_parentezco:string='';
+	responsable_telefono:string='';
+	responsable_email:string='';
 	usuario:string='';
 	contrasena:string='';
 	/*	helpers	*/
@@ -210,6 +218,11 @@ export class Paciente extends Persona{
 		this.notas_otros		=	data.notas_otros;
 		this.nutricionista_id	=	data.nutricionista_id;
 		this.responsable_id		=	data.responsable_id;
+		this.responsable_cedula	=	data.responsable_cedula;
+		this.responsable_nombre	=	data.responsable_nombre;
+		this.responsable_parentezco		=	data.responsable_parentezco;
+		this.responsable_telefono		=	data.responsable_telefono;
+		this.responsable_email		=	data.responsable_email;
 		this.usuario			=	data.usuario;
 		this.contrasena			=	data.contrasena;
 
@@ -267,6 +280,10 @@ export class Rdd{
 	promedio_gc_diario:number;
 	variacion_calorica:number;
 	consulta_id:number;
+	
+	tmb:number;
+	gcr:number;
+	icr:number;
 
 	set(rdd:Rdd){
 		this.id							=	rdd.id;
@@ -276,6 +293,9 @@ export class Rdd{
 		this.promedio_gc_diario			=	rdd.promedio_gc_diario;
 		this.variacion_calorica			=	rdd.variacion_calorica;
 		this.consulta_id				=	rdd.consulta_id;
+		this.tmb				=	rdd.tmb;
+		this.gcr				=	rdd.gcr;
+		this.icr				=	rdd.icr;
 	}
 }
 export class Analisis {
@@ -330,6 +350,7 @@ export class Prescripcion{
 	proteinas:number;
 	grasas:number;
 	consulta_id:number;
+	items:PrescripcionItem[];
 
 	set(prescripcion:Prescripcion){
 		this.id				=	prescripcion.id;
@@ -337,6 +358,25 @@ export class Prescripcion{
 		this.proteinas		=	prescripcion.proteinas;
 		this.grasas			=	prescripcion.grasas;
 		this.consulta_id	=	prescripcion.consulta_id;
+		if(prescripcion.items){
+			this.items	=	prescripcion.items;
+		}else{
+			this.items	=[				//		id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
+							new PrescripcionItem(1, 'Leche Descremada x', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
+							new PrescripcionItem(2, 'Leche 2%', 'leche-2', 'leche_2', 0, 0, 0, 0, 0),
+							new PrescripcionItem(3, 'Leche entera', 'leche-entera', 'leche_entera', 0, 0, 0, 0, 0),
+							new PrescripcionItem(4, 'Vegetales', 'vegetales', 'vegetales', 0, 0, 0, 0, 0),
+							new PrescripcionItem(5, 'Frutas', 'frutas', 'frutas', 0, 0, 0, 0, 0),
+							new PrescripcionItem(6, 'Harinas', 'harinas', 'harinas', 0, 0, 0, 0, 0),
+							new PrescripcionItem(7, 'Carne Magra', 'carne-magra', 'carne_magra', 0, 0, 0, 0, 0),
+							new PrescripcionItem(8, 'Carne Intermedia', 'carne-intermedia', 'carne_intermedia', 0, 0, 0, 0, 0),
+							new PrescripcionItem(9, 'Carne Grasa', 'carne-grasa', 'carne_grasa', 0, 0, 0, 0, 0),
+							new PrescripcionItem(10, 'Azúcares', 'azucares', 'azucares', 0, 0, 0, 0, 0),
+							new PrescripcionItem(11, 'Grasas', 'grasas', 'grasas', 0, 0, 0, 0, 0),
+							new PrescripcionItem(12, 'Vasos de Agua', 'vaso-agua', 'vaso_agua', 0, 0, 0, 0, 0)
+						];
+		}
+		
 	}
 }
 export class ManejadorDatos{
@@ -359,4 +399,22 @@ export class Ejercicio{
 	id:number;
 	nombre:string;
 	mets:string;
+}
+export class PrescripcionItem{
+	
+	constructor(public id:number, public nombre:string, public slug:string, public ngmodel:string, public cantidad:number, public carbohidratos:number, public proteinas:number, public grasas:number, public kcal:number=0) {
+  }
+/*	id:number;
+	nombre:string;
+	/*slug:string;
+	ngmodel:string;
+	cantidad:number=0;
+	carbohidratos:number=0;
+	proteinas:number=0;
+	grasas:number=0;
+	kcal:number=0;*/
+}
+export class PatronMenu{
+/*, public consulta_id:number*/	
+	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public porciones:number, public ejemplo:string ){}
 }

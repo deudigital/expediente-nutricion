@@ -12,9 +12,7 @@ export class TopnavComponent implements OnInit {
 	title_control:string='TOP NAV COMPONENT';
 	model:any;
 	constructor( private formControlDataService: FormControlDataService ) {
-		this.model	=	formControlDataService.getFormControlData();
-		/*console.log(this.model.getFormPaciente());*/
-		//this.title_control	=	formControlDataService.getFormControlData().getFormPaciente().nombre + ' ****';
+		this.model	=	formControlDataService.getFormControlData();	
 	}
 		
 	ngOnInit() {

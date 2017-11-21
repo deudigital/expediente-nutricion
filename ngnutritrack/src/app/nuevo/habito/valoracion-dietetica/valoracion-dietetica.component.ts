@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class ValoracionDieteticaComponent implements OnInit {
-
+	body:any;
   constructor() { }
 
-  ngOnInit() {
-  }
+	ngOnInit() {
+		this.body = document.getElementsByTagName('body')[0];
+		this.body.classList.add('menu-parent-habito');	
+	}
+	ngOnDestroy(){
+		this.body.classList.remove('menu-parent-habito');	
+	}
 
 }

@@ -186,4 +186,96 @@ from `hcf_patologias_pacientes`
 		$response	=	Response::json($message, 201);
 		return $response;
 	}
+	
+	
+    public function storeDatosPersonales(Request $request)
+    {
+		/*$response	=	Response::json($request->all(), 201);
+		return $response;*/
+		$persona	=	false;
+		if($request->input('id')){
+			$persona	=	Persona::find($request->id);
+			$persona->cedula	=	$request->cedula;
+			$persona->nombre	=	$request->nombre;
+			$persona->genero	=	$request->genero;
+			$persona->fecha_nac	=	$request->fecha_nac;
+			$persona->save();
+			$paciente	=	Paciente::find($request->id);
+			$paciente->responsable_cedula		=	$request->responsable_cedula;
+			$paciente->responsable_nombre		=	$request->responsable_nombre;
+			$paciente->responsable_parentezco	=	$request->responsable_parentezco;
+			$paciente->save();
+		}else{
+			/*	persona	*/
+			$persona	=	Persona::create([
+							/*	datos personales	*/
+								'cedula'			=>	$request->input('cedula'),
+								'nombre'			=>	$request->input('nombre'),
+								'genero'			=>	$request->input('genero'),
+								'fecha_nac'			=>	$request->input('fecha_nac'),						
+							]);
+			$persona->save();
+			$paciente	=	Paciente::create([
+							/*	datos personales	*/
+								'responsable_cedula'	=>	$request->input('responsable_cedula'),
+								'responsable_nombre'	=>	$request->input('responsable_nombre'),
+								'responsable_parentezco'=>	$request->input('responsable_parentezco'),						
+							]);
+			$paciente->save();
+		}
+				
+		$message	=	array(
+							'code'		=> '201',
+							'id'		=> $persona->id,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
+    public function storeDatosContacto(Request $request)
+    {
+		/*$response	=	Response::json($request->all(), 201);
+		return $response;*/
+		$persona	=	false;
+		if($request->input('id')){
+			$persona			=	Persona::find($request->id);
+			$persona->telefono	=	$request->telefono;
+			$persona->celular	=	$request->celular;
+			$persona->email		=	$request->email;
+			$persona->provincia	=	$request->provincia;
+			$persona->canton	=	$request->canton;
+			$persona->distrito	=	$request->distrito;
+			$persona->detalles_direccion	=	$request->detalles_direccion;
+			$persona->save();
+			$paciente	=	Paciente::find($request->id);
+			$paciente->responsable_telefono		=	$request->responsable_telefono;
+			$paciente->responsable_email		=	$request->responsable_email;
+			$paciente->save();
+		}else{
+			$persona	=	Persona::create([
+							'telefono'			=>	$request->input('telefono'),
+							'celular'			=>	$request->input('celular'),
+							'email'				=>	$request->input('email'),
+							'provincia'			=>	$request->input('provincia'),
+							'canton'			=>	$request->input('canton'),
+							'distrito'			=>	$request->input('distrito'),
+							'detalles_direccion'=>	$request->input('detalles_direccion')					
+							]);
+			$persona->save();
+			$paciente	=	Paciente::create([
+
+								'responsable_telefono'	=>	$request->input('responsable_cedula'),
+								'responsable_email'=>	$request->input('responsable_parentezco'),						
+							]);
+			$paciente->save();
+		}
+				
+		$message	=	array(
+							'code'		=> '201',
+							'id'		=> $persona->id,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
 }

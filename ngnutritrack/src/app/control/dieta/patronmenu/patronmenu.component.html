@@ -5,9 +5,8 @@
 		<div class="col-sm-3 content-nav">
 			<app-control-nav></app-control-nav>
 		</div>
-		<div class="col-sm-9 content-form">
-
-			<section>
+		<div class="col-sm-9 content-form form-fix-icon">
+			<section class="form-patron-menu">
 				<app-dieta-nav></app-dieta-nav>
 
 				<div class="clearfix">
@@ -18,10 +17,11 @@
 								id="dieta_desayuno"
 								name="dieta_desayuno"
 								class="form-control" 
-								[(ngModel)]="model.dieta_desayuno"
+								readonly="readonly" 
+								value="{{summary_desayuno}}"								
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Desayuno')"></a>
+							<a class="link-modal" (click)="showModalPorciones(1, 'desayuno')"><i></i></a>
 						</div>
 						<div class="form-group dieta_desayuno_ejemplo">
 							<textarea 
@@ -40,10 +40,11 @@
 								id="dieta_media_manana"
 								name="dieta_media_manana"
 								class="form-control" 
-								[(ngModel)]="model.dieta_media_manana"
+								readonly="readonly" 
+								value="{{summary_media_manana}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Media Mañana')"></a>
+							<a class="link-modal" (click)="showModalPorciones(2, 'Media Mañana')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -63,10 +64,11 @@
 								id="dieta_almuerzo"
 								name="dieta_almuerzo"
 								class="form-control" 
-								[(ngModel)]="model.dieta_almuerzo"
+								readonly="readonly" 
+								value="{{summary_almuerzo}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Almuerzo')"></a>
+							<a class="link-modal" (click)="showModalPorciones(3,'Almuerzo')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -84,10 +86,11 @@
 								id="dieta_media_tarde"
 								name="dieta_media_tarde"
 								class="form-control" 
-								[(ngModel)]="model.dieta_media_tarde"
+								readonly="readonly" 
+								value="{{summary_media_tarde}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Media Tarde')"></a>
+							<a class="link-modal" (click)="showModalPorciones('Media Tarde')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -107,10 +110,11 @@
 								id="dieta_cena"
 								name="dieta_cena"
 								class="form-control" 
-								[(ngModel)]="model.dieta_cena"
+								readonly="readonly" 
+								value="{{summary_cena}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Cena')"></a>
+							<a class="link-modal" (click)="showModalPorciones('Cena')"><i></i></a>
 						</div>
 						
 						<div class="form-group">
@@ -130,10 +134,11 @@
 								id="dieta_coicion_nocturna"
 								name="dieta_coicion_nocturna"
 								class="form-control" 
-								[(ngModel)]="model.dieta_coicion_nocturna"
+								readonly="readonly" 
+								value="{{summary_coicion_nocturna}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Coici&oacute;n Nocturna')"></a>
+							<a class="link-modal" (click)="showModalPorciones('Coici&oacute;n Nocturna')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -145,30 +150,7 @@
 						</div>
 					</div>
 				</div>
-<!--
-				<div class="col-sm-6" *ngFor="let menu of menus">
-					<div class="form-group">
-						<label for="dieta_desayuno">Desayuno</label>
-						<input type="text" 
-							id="dieta_desayuno"
-							name="dieta_desayuno"
-							class="form-control" 
-							[(ngModel)]="model.dieta_desayuno"
-							value="{{menu.grupo_alimento_nutricionista_id}} - >{{menu.tiempo_comida_id}} - >{{menu.porciones}}"
-						>
-					</div>
-					<textarea 
-						id="dieta_desayuno_ejemplo"
-						name="dieta_desayuno_ejemplo"
-						class="form-control" 
-						[(ngModel)]="model.dieta_desayuno_ejemplo"
-					>{{menu.ejemplo}}</textarea>
-				</div>-->
 
-
-<button class="btn btn-primary" (click)="fxshowmodal()">abrir modal</button>
-<button class="btn btn-primary" (click)="fxshowmodalgraficos()">abrir modal graficos</button>
-				
 				<div class="esc-modal tabs" *ngIf="showmodalgraficos">
 						<div class="overlay" (click)="fxshowmodalgraficos()"></div>
 						<div class="body">
@@ -310,21 +292,116 @@
 
 
 			</section>
+			<section class="">
+				<header>
+					<h3>Asignaciones</h3>
+				</header>
+				
+			<div class="alimentos">
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="leche-descremada"></i>
+				  <label>Leche Descremada</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="leche-2"></i>
+				  <label>Leche 2%</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="leche-entera"></i>
+				  <label>Leche Entera</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="vegetales"></i>
+				  <label>vegetales</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="frutas"></i>
+				  <label>frutas</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="harinas"></i>
+				  <label>harinas</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="carne-magra"></i>
+				  <label>carne-magra</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="carne-intermedia "></i>
+				  <label>carne-intermedia </label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="carne-grasa"></i>
+				  <label>carne-grasa</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="azucares"></i>
+				  <label>azucares</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="grasas"></i>
+				  <label>grasas</label>
+				  
+				</figure>
+			  </div>
+			  <div class="col-sm-2">
+				<figure>
+				  <i class="vaso-agua"></i>
+				  <label>vaso-agua</label>
+				  
+				</figure>
+			  </div>
+			</div>
+	
+			</section>
 		</div>
 	</div>
 </div>
 
-<div class="overlay" (click)="showModalPorciones()"></div>
+<div class="overlay" (click)="closeModalPorciones()"></div>
 <div [ngClass]="{'open': displayModalPorciones }" class="esc-modal" *ngIf="displayModalPorciones">
 	
 	<div class="box">
-		<a class="modal-close" (click)="showModalPorciones()">X</a>
+		<a class="modal-close" (click)="closeModalPorciones()">X</a>
 		<h3>Cantidad de Porciones</h3>
 		<div class="body content-form">			
 
 			<div class="form-group">
 			  <label>{{label_modal_porciones}}</label>
-			  <input type="text" class="form-control">
+			  <input type="text" class="form-control" name="leche_descremada" value="0" min="0" 
+			  value="{{summary}}"
+			  >			  
 			</div>
 	  
 			<div class="alimentos">
@@ -332,8 +409,9 @@
 				<figure>
 				  <i class="leche-descremada"></i>
 				  <label>Leche Descremada</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				  [(ngModel)]="porciones_leche_descremada"
+					(change)="porciones('leche_descremada', 1)"
 				  >
 				</figure>
 			  </div>
@@ -341,8 +419,9 @@
 				<figure>
 				  <i class="leche-2"></i>
 				  <label>Leche 2%</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				  [(ngModel)]="porciones_leche_2"
+				  (change)="porciones('leche_2', 2)"
 				  >
 				</figure>
 			  </div>
@@ -350,8 +429,9 @@
 				<figure>
 				  <i class="leche-entera"></i>
 				  <label>Leche Entera</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				  [(ngModel)]="porciones_leche_entera"
+				  (change)="porciones('leche_entera', 3)"
 				  >
 				</figure>
 			  </div>
@@ -359,8 +439,9 @@
 				<figure>
 				  <i class="vegetales"></i>
 				  <label>vegetales</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				  [(ngModel)]="porciones_vegetales"
+				  (change)="porciones('vegetales', 4)"
 				  >
 				</figure>
 			  </div>
@@ -368,8 +449,9 @@
 				<figure>
 				  <i class="frutas"></i>
 				  <label>frutas</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				   [(ngModel)]="porciones_frutas"
+				  (change)="porciones('frutas', 5)"
 				  >
 				</figure>
 			  </div>
@@ -377,8 +459,9 @@
 				<figure>
 				  <i class="harinas"></i>
 				  <label>harinas</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				   [(ngModel)]="porciones_harinas"
+				  (change)="porciones('harinas', 6)"
 				  >
 				</figure>
 			  </div>
@@ -386,8 +469,9 @@
 				<figure>
 				  <i class="carne-magra"></i>
 				  <label>carne-magra</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				   [(ngModel)]="porciones_carne_magra"
+				  (change)="porciones('carne_magra', 7)"
 				  >
 				</figure>
 			  </div>
@@ -395,8 +479,9 @@
 				<figure>
 				  <i class="carne-intermedia "></i>
 				  <label>carne-intermedia </label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				   [(ngModel)]="porciones_carne_intermedia"
+				  (change)="porciones('carne_intermedia', 8)"
 				  >
 				</figure>
 			  </div>
@@ -404,8 +489,9 @@
 				<figure>
 				  <i class="carne-grasa"></i>
 				  <label>carne-grasa</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				   [(ngModel)]="porciones_carne_grasa"
+				  (change)="porciones('carne_grasa', 9)"
 				  >
 				</figure>
 			  </div>
@@ -413,8 +499,9 @@
 				<figure>
 				  <i class="azucares"></i>
 				  <label>azucares</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				   [(ngModel)]="porciones_azucares"
+				  (change)="porciones('azucares', 10)"
 				  >
 				</figure>
 			  </div>
@@ -422,8 +509,9 @@
 				<figure>
 				  <i class="grasas"></i>
 				  <label>grasas</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				  [(ngModel)]="porciones_grasas"
+				  (change)="porciones('grasas', 11)"
 				  >
 				</figure>
 			  </div>
@@ -431,8 +519,9 @@
 				<figure>
 				  <i class="vaso-agua"></i>
 				  <label>vaso-agua</label>
-				  <input type="number" class="form-control" value="1"
-				  
+				  <input type="number" class="form-control" value="0" min="0" 
+				  [(ngModel)]="porciones_vaso_agua"
+				  (change)="porciones('vaso_agua', 12)"
 				  >
 				</figure>
 			  </div>

@@ -38,6 +38,13 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('pacientes/nutricionista/{id}', 'PacienteController@belongsToNutricionista');
 	
 	
+	Route::post('pacientes/datos', 'PacienteController@storeDatosPersonales');
+	Route::post('pacientes/contacto', 'PacienteController@storeDatosContacto');
+	Route::post('consultas/notas', 'ConsultaController@storeNotas');
+	Route::post('consultas/valoracion', 'ValoracionAntropometricaController@store');
+	Route::post('consultas/rdd', 'RddController@store');
+	Route::post('consultas/prescripcion', 'PrescripcionController@store');
+	
 	Route::get('pacientes/{id}/patologiashcp', 'PacienteController@patologiashcp');
 	Route::resource('patologiashcp', 'HcpPatologiaPacienteController');	
 	Route::post('pacientes/medicamentos', 'PacienteController@medicamentos');

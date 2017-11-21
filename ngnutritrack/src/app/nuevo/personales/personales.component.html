@@ -11,14 +11,14 @@
 					<div class="form-group col-md-6 with-icon paciente_cedula">
 					  <label for="cedula" class="col-form-label">C&eacute;dula</label>
 					  <input type="text" class="form-control" id="cedula" name="cedula" placeholder="required" required
-					  [(ngModel)]="model.cedula"
+					  [(ngModel)]="paciente.cedula"
 					  >
 					  <i></i>
 					</div>
 					<div class="form-group col-md-6 with-icon paciente_nombre">
 					  <label for="nombre" class="col-form-label">Nombre Completo</label>
 					  <input type="text" class="form-control" id="nombre" name="nombre" placeholder=""
-					  [(ngModel)]="model.nombre"
+					  [(ngModel)]="paciente.nombre"
 					  >
 					  <i></i>
 					</div>
@@ -28,7 +28,7 @@
 							<div class="col-xs-6">
 								<label class="femenino">
 									<input type="radio" name="genero" value="F"
-									[(ngModel)]="model.genero"
+									[(ngModel)]="paciente.genero"
 									>
 									<span>Femenino</span>
 								</label>
@@ -36,7 +36,7 @@
 							<div class="col-xs-6">
 								<label class="masculino">
 									<input type="radio" name="genero" value="M"
-									[(ngModel)]="model.genero">
+									[(ngModel)]="paciente.genero">
 									<span>Masculino</span>
 								</label>
 							</div>
@@ -45,7 +45,7 @@
 					<div class="form-group col-md-6 with-icon nacimiento">
 					  <label for="nombre" class="col-form-label">Fecha de Nacimiento</label>
 					  <input type="text" class="form-control" id="fecha_nac" name="fecha_nac" placeholder=""
-					  [(ngModel)]="model.fecha_nac"
+					  [(ngModel)]="paciente.fecha_nac"
 					  >
 					  <i></i>
 					</div>
@@ -59,21 +59,21 @@
 					<div class="form-group col-md-6 with-icon responsable_cedula">
 					  <label for="inputCity" class="col-form-label">Cédula del responsable</label>
 					  <input type="text" class="form-control" id="responsable_cedula" id="responsable_cedula"
-					  [(ngModel)]="model.responsable_cedula"
+					  [(ngModel)]="paciente.responsable_cedula"
 					  >
 					  <i></i>
 					</div>
 					<div class="form-group col-md-6 with-icon responsable">
 					  <label for="inputState" class="col-form-label">Nombre Completo</label>
   					  <input type="text" class="form-control" id="responsable_nombre" name="responsable_nombre" placeholder=""
-					  [(ngModel)]="model.responsable_nombre"
+					  [(ngModel)]="paciente.responsable_nombre"
 					  >
 					  <i></i>
 					</div>
 					<div class="form-group col-md-6 with-icon parentezco">
 					  <label for="inputZip" class="col-form-label">Parentezco</label>
 					  <input type="text" class="form-control" id="parentezco"
-					  [(ngModel)]="model.responsable_parentezco"
+					  [(ngModel)]="paciente.responsable_parentezco"
 					  >
 					  <i></i>
 					</div>

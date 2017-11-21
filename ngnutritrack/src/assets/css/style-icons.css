@@ -2,7 +2,7 @@
 .with-icon{position:relative;}
 .with-icon i{content: "";position: absolute;display: block;z-index: 100;left: 30px;bottom: 6px;}
 .with-icon .input-group i{left: 15px;}
-.with-icon .form-control {padding-left: 50px;}
+.with-icon .form-control {padding-left: 60px;}
 
 .with-icon.userlogin i {background-position: -446px 0;width: 18px;height: 21px;}
 .with-icon.passlogin i {background-position: -422px 0;width: 18px;height: 23px;}
@@ -63,6 +63,35 @@
 .gasto-calorico-real i {background-position: -489px -425px;width: 32px;height: 55px;display: block;margin: 0 auto;}
 .gasto-calorico-real-value i {background-position: -371px -429px;width: 110px;height: 110px;color:#b21414;}
 
+
+.with-icon.dieta_desayuno i {background-position: -416px -36px;height: 19px;width: 30px;display: block;}
+.with-icon.dieta_media_manana i {	background-position: -445px -36px;height: 19px;width: 27px;display: block;}
+.with-icon.dieta_almuerzo i {
+	background-position: -474px -36px;
+	height: 19px;
+	width: 32px;
+	display: block;
+}
+.with-icon.dieta_media_tarde i {
+	background-position: -506px -36px;
+	height: 25px;
+	width: 33px;
+	display: block;
+}
+.with-icon.dieta_cena i {
+	background-position: -542px -36px;
+	height: 19px;
+	width: 30px;
+	display: block;
+}
+.with-icon.dieta_coicion_nocturna i {
+	background-position: -517px 0;
+	height: 21px;
+	width: 30px;
+	display: block;
+}
+.form-fix-icon .with-icon i {left: 15px;}
+
 .division-nutricional .distribucion .with-cicle .inner{display:inline-block;}
 .division-nutricional .distribucion .with-cicle i strong {top:0;}
 .division-nutricional .distribucion .with-cicle i span {font-size: 0.7em;position: inherit;text-align: inherit;}
@@ -76,8 +105,9 @@
 .division-nutricional .proteinas i {background-position: -185px -453px;width: 82px;height: 80px;color: #d8b80a;}
 .division-nutricional .grasas i {background-position: -275px -453px;width: 82px;height: 80px;color: #f34026;}
 
-
-.link-modal {background-color: #ccc;width: 13px;height: 13px;display: block;position: absolute;right: 15px;bottom: 10px;}
+.link-modal {}
+.with-icon a.link-modal > i {background-position: -495px 0;width: 16px;height: 16px;position: absolute;left: inherit;right: 15px;bottom: 9px;-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;cursor:pointer;}
+.with-icon a.link-modal:hover > i {transform:scale(1.3)}
 
 .navigation-habito,
 .navigation-hcp,
@@ -85,7 +115,8 @@
 .navigation-habito a,
 .navigation-hcp a,
 .navigation-dieta a{color:#000;position:relative;padding-bottom:10px;border-bottom:2px solid transparent;text-decoration:none;font-size:12px;}
-.navigation-habito, a.active,
+.navigation-habito a.active,
+.navigation-habito a:hover,
 .navigation-hcp  a.active,
 .navigation-hcp  a:hover.active,
 .navigation-dieta a.active,
@@ -101,14 +132,16 @@
 .navigation-dieta .prescripcion a > i{background-position: -155px -70px;width: 20px;height: 25px;}
 .navigation-dieta .patron-menu a > i {background-position: -183px -70px;width: 24px;	height: 22px;}
 
+.navigation-habito .hcp-otros,
 .navigation-hcp .hcp-otros {position: relative;top: 14px;}
+
 .navigation-hcp .hcp-menu a > i {background-position: 0 -71px;width: 25px;height: 26px;}
 .navigation-hcp .alergias a > i {background-position: -35px -71px;width: 25px;height: 26px;}
 .navigation-hcp .medicamentos a > i {background-position: -70px -71px;width: 25px;height: 26px;}
 .navigation-hcp .bioquimica a > i {background-position: -100px -71px;width: 25px;height: 26px;}
+
+.navigation-habito .hcp-otros a > i,
 .navigation-hcp .hcp-otros a > i {background-position: -127px -71px;width: 16px;height: 4px;top: -9px;position: relative;}
-
-
 
 .navigation-hcp .hcp-menu a.active > i ,
 .navigation-hcp .hcp-menu a:hover > i {background-position: 0 -105px;width: 25px;height: 26px;}
@@ -118,6 +151,9 @@
 .navigation-hcp .medicamentos a:hover > i {background-position: -70px -105px;width: 25px;height: 26px;}
 .navigation-hcp .bioquimica a.active > i,
 .navigation-hcp .bioquimica a:hover> i {background-position: -100px -105px;width: 25px;height: 26px;}
+
+.navigation-habito .hcp-otros a:hover > i ,
+.navigation-habito .hcp-otros a.active > i ,
 .navigation-hcp .hcp-otros a.active > i ,
 .navigation-hcp .hcp-otros a:hover > i {background-position: -127px -77px;}
 
@@ -127,6 +163,16 @@
 .navigation-dieta .prescripcion a:hover > i{background-position: -155px -105px;width: 20px;height: 25px;}
 .navigation-dieta .patron-menu a.active > i ,
 .navigation-dieta .patron-menu a:hover > i {background-position: -183px -105px;width: 24px;	height: 22px;}
+
+.navigation-habito .actividad a > i {background-position: -333px -70px;width: 25px;height: 25px;}
+.navigation-habito .valoracion-dietetica a > i {background-position: -368px -70px;width: 25px;height: 25px;}
+.navigation-habito .gustos a > i {background-position: -396px -70px;width: 25px;height: 25px;}
+/*.navigation-habito .hcp-otros a > i {background-position: -333px -70px;width: 25px;height: 25px;}*/
+
+.navigation-habito .actividad a:hover > i  {background-position: -333px -105px;	}
+.navigation-habito .valoracion-dietetica a:hover > i  {background-position: -368px -105px;	}
+.navigation-habito .gustos a:hover > i  {background-position: -396px -105px;	}
+/*.navigation-habito .hcp-otros a:hover > i  {background-position: -333px -105px;	}*/
 
 
 /*.navigation-dieta a:hover:before{border-bottom:1px solid #8bc23f;bottom:10px;}*/
@@ -146,8 +192,11 @@
 .analisis .box.peso-meta-minimo i {background-position: -268px -374px;width: 64px;height: 70px;}
 
 .add-item {color: #000;font-weight: 500;}
-.remove-item > i {height: 20px;width: 20px;background-position: -532px -425px;display: inline-block;position: relative;top: 8px;margin-right: 5px;}
 .add-item > i {height: 20px;width: 20px;background-position: -532px -481px;display: inline-block;position: relative;top: 7px;	margin-right: 10px;}
+.remove-item > i {height: 20px;width: 20px;background-position: -532px -425px;display: inline-block;position: relative;top: 8px;margin-right: 5px;}
+.remove-item.big > i {height: 20px;width: 20px;background-position: -531px -446px;display: inline-block;position: relative;top: 5px;margin-right: 5px;}
+
+.navigation-hcp  a > i {margin-right:0}
 @media(min-width:768px){
 	.navigation-hcp > div {padding: 0;width: 20%;margin: 0;}
 }

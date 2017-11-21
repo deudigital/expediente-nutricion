@@ -100,6 +100,26 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr *ngFor="let item of items">
+						<td scope="row">
+							<label for="{{item.slug}}">
+								<i class="{{item.slug}}"></i>
+								{{item.nombre}}
+							</label>
+						</td>
+						<td>
+							<input type="number" class="form-control" name="cantidad"
+							[(ngModel)]="item.cantidad" 
+							(ngModelChange)="calculate(item)" 
+							
+							/>
+						</td>
+						<td>{{item.carbohidratos}}</td>
+						<td>{{item.proteinas}}</td>
+						<td>{{item.grasas}}</td>
+						<td>{{item.kcal}}</td>
+					</tr>
+<!--
 					<tr>
 						<td scope="row">
 							<label for="leche-descremada">
@@ -108,12 +128,14 @@
 							</label>
 						</td>
 						<td>
-							<input type="number" class="form-control" id="leche-descremada" name="leche-descremada" />
+							<input type="number" class="form-control" id="leche-descremada" name="leche-descremada" 
+							[(ngModel)]="leche_descremada"
+							/>
 						</td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td>{{_cho_leche_descremada}}</td>
+						<td>{{_prot_leche_descremada}}</td>
+						<td>{{_grasa_leche_descremada}}</td>
+						<td>{{_kcal_leche_descremada}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -122,11 +144,14 @@
 								Leche 2%
 							</label>
 						</td>
-						<td><input type="number" class="form-control" id="leche-2" name="leche-2" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="leche-2" name="leche-2" 
+						[(ngModel)]="leche_2"
+						/></td>
+						
+						<td>{{_cho_leche_2}} {{_cho_leche_2}}</td>
+						<td>{{_prot_leche_2}}</td>
+						<td>{{_grasa_leche_2}}</td>
+						<td>{{_kcal_leche_2}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -135,11 +160,14 @@
 								Leche entera
 							</label>							
 						</td>
-						<td><input type="number" class="form-control" id="leche-entera" name="leche-entera" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="leche-entera" name="leche-entera" 
+						[(ngModel)]="leche_entera"
+						/></td>
+						
+						<td>{{_cho_leche_entera}}</td>
+						<td>{{_prot_leche_entera}}</td>
+						<td>{{_grasa_leche_entera}}</td>
+						<td>{{_kcal_leche_entera}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -149,11 +177,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="vegetales" name="vegetales" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="vegetales" name="vegetales" 
+						[(ngModel)]="vegetales"
+						/></td>
+						
+						<td>{{_cho_vegetales}}</td>
+						<td>{{_prot_vegetales}}</td>
+						<td>{{_grasa_vegetales}}</td>
+						<td>{{_kcal_vegetales}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -163,11 +194,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="frutas" name="frutas" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="frutas" name="frutas" 
+						[(ngModel)]="frutas"
+						/></td>
+						
+						<td>{{_cho_frutas}}</td>
+						<td>{{_prot_frutas}}</td>
+						<td>{{_grasa_frutas}}</td>
+						<td>{{_kcal_frutas}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -177,11 +211,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="harinas" name="harinas" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="harinas" name="harinas" 
+						[(ngModel)]="harinas"
+						/></td>
+						
+						<td>{{_cho_harinas}}</td>
+						<td>{{_prot_harinas}}</td>
+						<td>{{_grasa_harinas}}</td>
+						<td>{{_kcal_harinas}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -191,11 +228,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="carne-magra" name="carne-magra" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="carne-magra" name="carne-magra" 
+						[(ngModel)]="carne_magra"
+						/></td>
+						
+						<td>{{_cho_carne_magra}}</td>
+						<td>{{_prot_carne_magra}}</td>
+						<td>{{_grasa_carne_magra}}</td>
+						<td>{{_kcal_carne_magra}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -205,11 +245,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="carne-intermedia" name="carne-intermedia" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="carne-intermedia" name="carne-intermedia" 
+						[(ngModel)]="carne_intermedia"
+						/></td>
+						
+						<td>{{_cho_carne_intermedia}}</td>
+						<td>{{_prot_carne_intermedia}}</td>
+						<td>{{_grasa_carne_intermedia}}</td>
+						<td>{{_kcal_carne_intermedia}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -219,11 +262,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="carne-grasa" name="carne-grasa" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="carne-grasa" name="carne-grasa" 
+						[(ngModel)]="carne_grasa"
+						/></td>
+						
+						<td>{{_cho_carne_grasa}}</td>
+						<td>{{_prot_carne_grasa}}</td>
+						<td>{{_grasa_carne_grasa}}</td>
+						<td>{{_kcal_carne_grasa}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -233,11 +279,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="azucares" name="azucares" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="azucares" name="azucares" 
+						[(ngModel)]="azucares"
+						/></td>
+						
+						<td>{{_cho_azucares}}</td>
+						<td>{{_prot_azucares}}</td>
+						<td>{{_grasa_azucares}}</td>
+						<td>{{_kcal_azucares}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -247,11 +296,14 @@
 							</label>
 							
 						</td>
-						<td><input type="number" class="form-control" id="grasas" name="grasas" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="grasas" name="grasas" 
+						[(ngModel)]="grasas"
+						/></td>
+						
+						<td>{{_cho_grasas}}</td>
+						<td>{{_prot_grasas}}</td>
+						<td>{{_grasa_grasas}}</td>
+						<td>{{_kcal_grasas}}</td>
 					</tr>
 					<tr>
 						<td scope="row">
@@ -260,12 +312,16 @@
 								Vasos de Agua
 							</label>							
 						</td>
-						<td><input type="number" class="form-control" id="vaso-agua" name="vaso-agua" /></td>
-						<td>24</td>
-						<td>16</td>
-						<td>2</td>
-						<td>180</td>
+						<td><input type="number" class="form-control" id="vaso-agua" name="vaso-agua" 
+						[(ngModel)]="vaso_agua"
+						/></td>
+						
+						<td>{{_cho_vaso_agua}}</td>
+						<td>{{_prot_vaso_agua}}</td>
+						<td>{{_grasa_vaso_agua}}</td>
+						<td>{{_kcal_vaso_agua}}</td>
 					</tr>
+-->
 				</tbody>
 				<tfoot>
 					<tr>
@@ -319,10 +375,10 @@
 			<tbody>
 				<tr>
 					<td>Totales</td>
-					<td>24</td>
-					<td>16</td>
-					<td>2</td>
-					<td>180</td>
+					<td>{{total_carbohidratos}}</td>
+					<td>{{total_proteinas}}</td>
+					<td>{{total_grasas}}</td>
+					<td>{{total_kcal}}</td>
 				</tr>
 				<tr>
 					<td>Faltante</td>
@@ -331,20 +387,20 @@
 					<td>2</td>
 					<td>180</td>
 				</tr>
-				<tr>
+				<!--<tr>
 					<td>Ideal</td>
-					<td>24</td>
-					<td>16</td>
-					<td>2</td>
-					<td>180</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
 				</tr>
 				<tr>
 					<td>% de</td>
-					<td>24</td>
-					<td>16</td>
-					<td>2</td>
-					<td>180</td>
-				</tr>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+					<td>{{}}</td>
+				</tr>-->
 			</tbody>
 		</table>
 	</section>

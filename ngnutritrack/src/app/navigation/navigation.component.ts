@@ -19,7 +19,6 @@ export class NavigationComponent implements OnInit {
 
 	ngOnInit() {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
-		console.log(this.mng);
 		if(this.mng.operacion!='nuevo-paciente'){
 			this.isConsulta			=	true;
 			this.showMenuPaciente	=	this.mng.getMenuPacienteLastStatus();

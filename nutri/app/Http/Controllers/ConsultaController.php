@@ -333,5 +333,21 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 		return Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 	}
+	function storeNotas(Request $request){
+		if(!$request->input('id'))
+			return Response::json(['message' => 'Record not found'], 204);
+		
+		
+		$consulta	=	Consulta::find($request->input('id'));
+		if($consulta){
+			$consulta->notas	=	$request->notas;
+			$consulta->save();
+		}
+		$response	=	Response::json($consulta, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+		
+	}
+
+	
 	
 }

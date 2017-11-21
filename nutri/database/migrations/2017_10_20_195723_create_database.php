@@ -28,7 +28,7 @@ class CreateDatabase extends Migration
         Schema::create('ejercicios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->decimal('mets',4,2);
+            $table->decimal('mets',5,2);
         });
         Schema::create('servicios', function (Blueprint $table) {
             $table->increments('id');
@@ -91,7 +91,7 @@ class CreateDatabase extends Migration
 		Schema::create('alimento_grupos', function (Blueprint $table) {
 			$table->integer('alimento_id')->unsigned();
 			$table->integer('grupo_alimento_id')->unsigned();
-			$table->decimal('porcion', 4,2);
+			$table->decimal('porcion', 5,2);
         });
         Schema::table('alimento_grupos', function ($table) {
             $table->foreign('alimento_id')->references('id')->on('alimentos');
@@ -156,14 +156,14 @@ class CreateDatabase extends Migration
             $table->increments('id');
 			/*$table->date('fecha');*/
 			$table->bigInteger('fecha');
-            $table->decimal('harinas', 4,2)->nullable();
-            $table->decimal('carnes', 4,2)->nullable();
-            $table->decimal('vegetales', 4,2)->nullable();
-            $table->decimal('frutas', 4,2)->nullable();
-            $table->decimal('lacteos', 4,2)->nullable();
-            $table->decimal('grasas', 4,2)->nullable();
-            $table->decimal('azucares', 4,2)->nullable();
-            $table->decimal('agua', 4,2)->nullable();
+            $table->decimal('harinas', 5,2)->nullable();
+            $table->decimal('carnes', 5,2)->nullable();
+            $table->decimal('vegetales', 5,2)->nullable();
+            $table->decimal('frutas', 5,2)->nullable();
+            $table->decimal('lacteos', 5,2)->nullable();
+            $table->decimal('grasas', 5,2)->nullable();
+            $table->decimal('azucares', 5,2)->nullable();
+            $table->decimal('agua', 5,2)->nullable();
             $table->string('ejercicio', 100)->nullable();
 			$table->integer('paciente_id')->unsigned();
         });
@@ -206,7 +206,7 @@ class CreateDatabase extends Migration
         Schema::create('ejercicios_pacientes', function (Blueprint $table) {
 			$table->integer('paciente_id')->unsigned();
 			$table->integer('ejercicio_id')->unsigned();
-            $table->decimal('horas_semanales',4,2)->nullable();
+            $table->decimal('horas_semanales',5,2)->nullable();
         });		
         Schema::table('ejercicios_pacientes', function ($table) {
             $table->foreign('paciente_id')->references('persona_id')->on('pacientes');
@@ -266,17 +266,17 @@ class CreateDatabase extends Migration
         });
         Schema::create('valor_antropometricas', function (Blueprint $table) {
             $table->increments('id');
-			$table->decimal('estatura', 4,2);
-			$table->decimal('circunferencia_muneca', 4,2);
-			$table->decimal('peso', 4,2);
-			$table->decimal('grasa', 4,2)->nullable();
-			$table->decimal('musculo', 4,2)->nullable();
-			$table->decimal('agua', 4,2)->nullable();
-			$table->decimal('grasa_viceral', 4,2)->nullable();
-			$table->decimal('hueso', 4,2)->nullable();
+			$table->decimal('estatura', 5,2);
+			$table->decimal('circunferencia_muneca', 5,2);
+			$table->decimal('peso', 5,2);
+			$table->decimal('grasa', 5,2)->nullable();
+			$table->decimal('musculo', 5,2)->nullable();
+			$table->decimal('agua', 5,2)->nullable();
+			$table->decimal('grasa_viceral', 5,2)->nullable();
+			$table->decimal('hueso', 5,2)->nullable();
 			$table->tinyInteger('edad_metabolica')->nullable();
-			$table->decimal('circunferencia_cintura', 4,2)->nullable();
-			$table->decimal('circunferencia_cadera', 4,2)->nullable();
+			$table->decimal('circunferencia_cintura', 5,2)->nullable();
+			$table->decimal('circunferencia_cadera', 5,2)->nullable();
 			$table->integer('consulta_id')->unsigned();
         });
         Schema::table('valor_antropometricas', function ($table) {
@@ -284,18 +284,18 @@ class CreateDatabase extends Migration
         });	
         Schema::create('detalle_grasas', function (Blueprint $table) {
             $table->increments('id');
-			$table->decimal('segmentado_abdominal', 4,2)->nullable();
-			$table->decimal('segmentado_brazo_izquierdo', 4,2)->nullable();
-			$table->decimal('segmentado_brazo_derecho', 4,2)->nullable();
-			$table->decimal('segmentado_pierna_izquierda', 4,2)->nullable();
-			$table->decimal('segmentado_pierna_derecha', 4,2)->nullable();
-			$table->decimal('pliegue_subescapular', 4,2)->nullable();
-			$table->decimal('pliegue_supraliaco', 4,2)->nullable();
-			$table->decimal('pliegue_bicipital', 4,2)->nullable();
-			$table->decimal('pliegue_tricipital', 4,2)->nullable();
-			$table->decimal('pliegue_abdominal', 4,2)->nullable();
-			$table->decimal('pliegue_cuadricipital', 4,2)->nullable();
-			$table->decimal('pliegue_peroneal', 4,2)->nullable();
+			$table->decimal('segmentado_abdominal', 5,2)->nullable();
+			$table->decimal('segmentado_brazo_izquierdo', 5,2)->nullable();
+			$table->decimal('segmentado_brazo_derecho', 5,2)->nullable();
+			$table->decimal('segmentado_pierna_izquierda', 5,2)->nullable();
+			$table->decimal('segmentado_pierna_derecha', 5,2)->nullable();
+			$table->decimal('pliegue_subescapular', 5,2)->nullable();
+			$table->decimal('pliegue_supraliaco', 5,2)->nullable();
+			$table->decimal('pliegue_bicipital', 5,2)->nullable();
+			$table->decimal('pliegue_tricipital', 5,2)->nullable();
+			$table->decimal('pliegue_abdominal', 5,2)->nullable();
+			$table->decimal('pliegue_cuadricipital', 5,2)->nullable();
+			$table->decimal('pliegue_peroneal', 5,2)->nullable();
 			$table->integer('valor_antropometrica_id')->unsigned();
         });
         Schema::table('detalle_grasas', function ($table) {
@@ -305,7 +305,7 @@ class CreateDatabase extends Migration
             $table->increments('id');
             $table->string('metodo_calculo_gc', 20)->nullable();
 			$table->string('peso_calculo', 20)->nullable();
-			$table->decimal('factor_actividad_sedentaria', 4,2)->nullable();
+			$table->decimal('factor_actividad_sedentaria', 5,2)->nullable();
 			$table->integer('promedio_gc_diario')->nullable();
 			$table->integer('variacion_calorica')->nullable();
 			$table->integer('consulta_id')->unsigned();
@@ -327,9 +327,9 @@ class CreateDatabase extends Migration
         });
         Schema::create('prescripcions', function (Blueprint $table) {
             $table->increments('id');			
-            $table->decimal('carbohidratos', 4,2);
-			$table->decimal('proteinas', 4,2);
-			$table->decimal('grasas', 4,2);
+            $table->decimal('carbohidratos', 5,2);
+			$table->decimal('proteinas', 5,2);
+			$table->decimal('grasas', 5,2);
 			$table->integer('consulta_id')->unsigned();
         });		
         Schema::table('prescripcions', function ($table) {
@@ -339,10 +339,10 @@ class CreateDatabase extends Migration
              $table->increments('id');		
             $table->string('nombre');
             $table->tinyInteger('porciones');
-            $table->decimal('carbohidratos', 4,2)->nullable();
-			$table->decimal('proteinas', 4,2)->nullable();
-			$table->decimal('grasas', 4,2)->nullable();
-			$table->decimal('calorias', 4,2)->nullable();
+            $table->decimal('carbohidratos', 5,2)->nullable();
+			$table->decimal('proteinas', 5,2)->nullable();
+			$table->decimal('grasas', 5,2)->nullable();
+			$table->decimal('calorias', 5,2)->nullable();
 			$table->integer('prescripcion_id')->unsigned();
         });		
         Schema::table('otros_alimentos', function ($table) {

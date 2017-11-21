@@ -9,32 +9,82 @@
 			<section>
 				<app-hcp-nav></app-hcp-nav>
 				
-					<ul class="lista-examen">
+					<ul class="lista-examen navbar">
 						<li *ngFor="let bioquimica of bioquimicas">
 							<a href="{{bioquimica.filename}}">
-								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-								{{bioquimica.fecha}} {{bioquimica.filename}}
-							</a>
-						</li>
-						<!--<li>
-							<a href="#">
-								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-								Examen 18/5/2017
+								<i></i>
+								<span>{{bioquimica.fecha}} {{bioquimica.filename}}</span>
 							</a>
 						</li>
 						<li>
 							<a href="#">
-								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-								Examen 18/6/2017
+								<i></i>
+								<span>Examen 18/5/2017</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/6/2017</span>
 							</a>								
-						</li>-->
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/5/2017</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/6/2017</span>
+							</a>								
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/5/2017</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/6/2017</span>
+							</a>								
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/5/2017</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/6/2017</span>
+							</a>								
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/5/2017</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i></i>
+								<span>Examen 18/6/2017</span>
+							</a>								
+						</li>
 					</ul>
-					<a class="add-nuevo" >Nuevo examen</a>
-					<!--<input type="file" class="form-control">-->
+					<div class="actions-ejercicio">
+						<!--<input type="file" class="form-control">-->
+						<a class="remove-item big"><i></i> Nuevo examen</a>
 					<div class="well text-center">
 						Importar archivo de examen - arrastre el archivo a este cuadro
 					</div>
-					<a class="add-nuevo" >Añadir examen</a>
+						<a class="add-item"><i></i> Añadir examen</a>
+					</div>
 				
 			</section>
 		</div>

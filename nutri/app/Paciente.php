@@ -17,6 +17,9 @@ class Paciente extends Model
 		'notas_otros', 
 		'nutricionista_id', 
 		'responsable_id', 
+		'responsable_cedula', 
+		'responsable_nombre', 
+		'responsable_parentezco', 
 		'usuario',
 		'contrasena'
     ];

@@ -23,6 +23,7 @@ export class InicioComponent implements OnInit {
 	ngOnInit() {}
 	onSelect(consulta: Consulta) {
 		this.selectedConsulta = consulta;
+		this.formControlDataService.resetFormControlData();
 		this.formControlDataService.setSelectedConsuta(consulta);
 		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		mng.setOperacion('continuar-consulta');

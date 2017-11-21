@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use App\ValoracionAntropometrica;
 
 class ValoracionAntropometricaController extends Controller
 {
@@ -35,7 +37,29 @@ class ValoracionAntropometricaController extends Controller
     public function store(Request $request)
     {
         //
-		$obj	=	new ValoracionAntropometrica(
+		/**/
+		
+		$va	=	ValoracionAntropometrica::where('consulta_id', $request->consulta_id)
+						->get()
+						->first();
+		
+		if($va){
+			/*$va->id	=	 1,*/
+			$va->estatura				=	$request->estatura;
+			$va->circunferencia_muneca	=	$request->circunferencia_muneca;
+			$va->peso					=	$request->peso;
+			$va->grasa					=	$request->grasa;
+			$va->musculo				=	$request->musculo;
+			$va->agua					=	$request->agua;
+			$va->grasa_viceral			=	$request->grasa_viceral;
+			$va->hueso					=	$request->hueso;
+			$va->edad_metabolica		=	$request->edad_metabolica;
+			$va->circunferencia_cintura	=	$request->circunferencia_cintura;
+			$va->circunferencia_cadera	=	$request->circunferencia_cadera;
+			/*"consulta_id": 1*/
+			
+		}else{
+			$va	=	new ValoracionAntropometrica(
 						array(
 							'estatura'	=>	$request->estatura, 
 							'circunferencia_muneca'	=>	$request->circunferencia_muneca, 
@@ -50,14 +74,17 @@ class ValoracionAntropometricaController extends Controller
 							'circunferencia_cadera'	=>	$request->circunferencia_cadera, 
 							'consulta_id'	=>	$request->consulta_id
 						)
-					)
-		$obj->save();
+					);
+		}
+		$va->save();
 		$message	=	'Su Consulta ha sido añadida de modo correcto';
 		$response	=	Response::json([
 			'message'	=>	$message,
-			'data'		=>	$obj
+			'data'		=>	$va
 		], 201);
 		return $response;
+		
+		/**/
     }
 
     /**

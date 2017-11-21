@@ -7,76 +7,74 @@
 		</div>
 		<div class="col-sm-9 content-form">
 			<section>
-				<app-habito-nav></app-habito-nav>
+				<app-habito-nav></app-habito-nav>			
+			<div class="row">
+				<div class="col-md-6">
+					<label for="cedula" class="col-form-label">Trabajo / Ocupación</label>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<input type="text" class="form-control" id="trabajo_descripcion" name="trabajo_descripcion" placeholder="Descripcion">
+						</div>
+						<div class="form-group col-sm-3">
+							<input type="text" class="form-control" id="trabajo_horas" name="trabajo_horas" placeholder="Horas">
+						</div>
+						<div class="form-group col-sm-3 nplr">
+							<input type="text" class="form-control" id="trabajo_frecuencia" name="trabajo_frecuencia" placeholder="Frecuencia">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="nombre" class="col-form-label">Sueño</label>
+						<input type="text" class="form-control" id="suenho" name="suenho" placeholder="Horas del día">
+					</div>
+				</div>
+
+						
+				<div class="col-md-6">
+					<label for="cedula" class="col-form-label">&nbsp;</label>
+					<div class="row">
+						<div class="col-sm-6">						
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" id="fuma_check" name="fuma_check" value="fuma">
+									<span>Fumado</span>
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="fuma_cantidad" name="fuma_cantidad" placeholder="Cantidad">
+						</div>
+						<div class="col-sm-3 nplr">
+							<input type="text" class="form-control" id="fuma_frecuencia" name="fuma_frecuencia" placeholder="Frecuencia">
+						</div>						
+					</div>
+				</div>
 				
-						<div class="row">
-							<div class="col-md-6">
-								<label for="cedula" class="col-form-label">Trabajo / Ocupación</label>
-
-									<div class="form-group col-md-6">
-										<input type="text" class="form-control" id="trabajo_descripcion" name="trabajo_descripcion" placeholder="Descripcion">
-									</div>
-									<div class="form-group col-sm-3">
-										<input type="text" class="form-control" id="trabajo_horas" name="trabajo_horas" placeholder="Horas">
-									</div>
-									<div class="form-group col-sm-3">
-										<input type="text" class="form-control" id="trabajo_frecuencia" name="trabajo_frecuencia" placeholder="Frecuencia">
-									</div>
-
-							</div>
-							<div class="form-group col-md-6">
-								<label for="nombre" class="col-form-label">Sueño</label>
-								<input type="text" class="form-control" id="suenho" name="suenho" placeholder="Horas del día">
+				<div class="col-md-6">
+					<label for="cedula" class="col-form-label">&nbsp;</label>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" id="alcohol_check" name="alcohol_check" value="Ingesta de Alcohol">
+									<span>Ingesta de Alcohol</span>
+								</label>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<label for="cedula" class="col-form-label">&nbsp;</label>
-								<div class="form-group">
-									<div class="col-sm-6">								
-								
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" id="fuma_check" name="fuma_check" value="fuma">
-												<span>Fumado</span>
-											</label>
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" id="fuma_cantidad" name="fuma_cantidad" placeholder="Cantidad">
-									</div>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" id="fuma_frecuencia" name="fuma_frecuencia" placeholder="Frecuencia">
-									</div>
-									
-									
-									
-								</div>
-							</div>
-							<div class="col-md-6">
-								<label for="cedula" class="col-form-label">&nbsp;</label>
-								<div class="form-group">
-									<div class="col-sm-6">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" id="alcohol_check" name="alcohol_check" value="Ingesta de Alcohol">
-												<span>Ingesta de Alcohol</span>
-											</label>
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" id="alcohol_cantidad" name="alcohol_cantidad" placeholder="Cantidad">
-									</div>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" id="alcohol_frecuencia" name="alcohol_frecuencia" placeholder="Frecuencia">
-									</div>
-								</div>
-							</div>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="alcohol_cantidad" name="alcohol_cantidad" placeholder="Cantidad">
 						</div>
-						<div class="form-group">
-							<label for="nombre" class="col-form-label">Notas</label>
-							<textarea class="form-control" rows="5" placeholder=""></textarea>
-						</div>	
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="alcohol_frecuencia" name="alcohol_frecuencia" placeholder="Frecuencia">
+						</div>
+					</div>
+				</div>
+			</div>
+				<div class="form-group">
+					<label for="nombre" class="col-form-label">Notas</label>
+					<textarea class="form-control" rows="5"></textarea>
+				</div>
 			</section>
 		</div>
 	</div>

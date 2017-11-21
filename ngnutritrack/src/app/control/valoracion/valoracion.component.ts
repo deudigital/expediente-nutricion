@@ -13,6 +13,7 @@ export class ValoracionComponent implements OnInit {
 	model:any;
 	analisis=new Analisis();
 	valoracion=new ValoracionAntropometrica();
+	oValoracion=new ValoracionAntropometrica();
 	sexo:string='M';
 	titulo_pagina:string='Expediente: Jorge Lpez';
 	
@@ -20,72 +21,78 @@ export class ValoracionComponent implements OnInit {
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
 	
+	tagBody:any;
 	
 	tab_class_datos:string='active';
 	tab_class_graficos:string='';
 
 	constructor(private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
-		this.valoracion	=	this.model.valoracionAntropometrica;
-		
 		var mng	=	this.model.getManejadorDatos();
-		console.log('---this.model---');
-		console.log('this.model.consulta.id-> ' + this.model.consulta.id );
-		/*console.log(this.model);*/
-		/*if(mng.operacion=='continuar-consulta'){*/
-			this.formControlDataService.getConsultaSelected(this.model.consulta.id).subscribe(
-				data => {
-					console.log(data);
+
+		this.formControlDataService.getConsultaSelected(this.model.consulta.id).subscribe(
+			data => {
+				/*console.log(data);*/
 				this.model.fill(data);
-				},
-				error => console.log(<any>error));
-		/*}else{
-			this.model.clear('nueva-consulta');
-		}*/
+				this.valoracion	=	this.model.getFormValoracionAntropometrica();
+				/*console.log(this.valoracion);*/
+				this.setInfoInit();
+			},
+			error => console.log(<any>error));
     }
-	ngOnInit() { 
-		/*console.log('ValoracionComponent: ngOnInit');*/
+	ngOnInit() {
+		this.tagBody = document.getElementsByTagName('body')[0];
 	}
 	ngOnDestroy() {
-		/*console.log('ngOnDestroy');*/
-/*
-		this.formControlDataService.setFormControlData(this.model);		
-		console.log(this.model);
-*/
-		this.model.getFormValoracionAntropometrica().set(this.valoracion)
-		console.log(this.model);
-		
-		/*
-		this.valoracion.estatura	=	this.model.estatura;
-		this.valoracion.circunferencia_muneca		=	this.model.muneca;
-		this.valoracion.peso		=	this.model.peso;
-		this.valoracion.grasa		=	this.model.grasa;
-		this.valoracion.musculo		=	this.model.musculo;
-		this.valoracion.agua		=	this.model.agua;
-		this.valoracion.grasa_viceral		=	this.model.viceral;
-		this.valoracion.hueso		=	this.model.hueso;
-		this.valoracion.edad_metabolica	=	this.model.edad_metabolica;
-		this.valoracion.circunferencia_cintura		=	this.model.cintura;
-		this.valoracion.circunferencia_cadera		=	this.model.cadera;
-		
-		
-		
-		
-		this.createValoracionAntropometrica(this.valoracion);
-		*/
-		
+		this.formControlDataService.setFormControlData(this.model);
+		this.model.getFormValoracionAntropometrica().set(this.valoracion);
+		if(this.infoEdited())
+			this.createValoracionAntropometrica(this.valoracion);
+	}
+	setInfoInit(){
+		this.oValoracion.estatura				=	this.valoracion.estatura;
+		this.oValoracion.circunferencia_muneca	=	this.valoracion.circunferencia_muneca;
+		this.oValoracion.peso					=	this.valoracion.peso;
+		this.oValoracion.grasa					=	this.valoracion.grasa;
+		this.oValoracion.musculo				=	this.valoracion.musculo;
+		this.oValoracion.agua					=	this.valoracion.agua;
+		this.oValoracion.grasa_viceral			=	this.valoracion.grasa_viceral;
+		this.oValoracion.hueso					=	this.valoracion.hueso;
+		this.oValoracion.edad_metabolica		=	this.valoracion.edad_metabolica;
+		this.oValoracion.circunferencia_cintura	=	this.valoracion.circunferencia_cintura;
+		this.oValoracion.circunferencia_cadera	=	this.valoracion.circunferencia_cadera;
 	}
 	
+	infoEdited(){
+		return 	(
+			this.oValoracion.estatura				!==	Number(this.valoracion.estatura) || 
+			this.oValoracion.circunferencia_muneca	!==	Number(this.valoracion.circunferencia_muneca) || 
+			this.oValoracion.peso					!==	Number(this.valoracion.peso) || 
+			this.oValoracion.grasa					!==	Number(this.valoracion.grasa) || 
+			this.oValoracion.musculo				!==	Number(this.valoracion.musculo) || 
+			this.oValoracion.agua					!==	Number(this.valoracion.agua) || 
+			this.oValoracion.grasa_viceral			!==	Number(this.valoracion.grasa_viceral) || 
+			this.oValoracion.hueso					!==	Number(this.valoracion.hueso) || 
+			this.oValoracion.edad_metabolica		!==	Number(this.valoracion.edad_metabolica) || 
+			this.oValoracion.circunferencia_cintura	!==	Number(this.valoracion.circunferencia_cintura) || 
+			this.oValoracion.circunferencia_cadera	!==	Number(this.valoracion.circunferencia_cadera)
+		);
+
+	}
+		
 	createValoracionAntropometrica(valoracionAntropometrica) {
+		console.log(valoracionAntropometrica);
+		this.tagBody.classList.add('sending');
 		this.formControlDataService.addValoracionAntropometrica(valoracionAntropometrica)
-			.subscribe(
-				valoracionAntropometrica => {
-					console.log(valoracionAntropometrica);
-				},
-				error => console.log(<any>error)
-			);
+		.subscribe(
+			 response  => {
+						console.log('va receiving...');
+						console.log(response);
+						this.tagBody.classList.remove('sending');
+						},
+			error =>  console.log(<any>error)
+		);
 	}
-	
 	openModalDatos() {
 		this.showModalDatos	=	!this.showModalDatos;
 		let body = document.getElementsByTagName('body')[0];
@@ -93,10 +100,8 @@ export class ValoracionComponent implements OnInit {
 			body.classList.add('open-modal');
 		else
 			body.classList.remove('open-modal');
-	}
-	
+	}	
    tabSelected(tab:string){
-     console.log(tab);
       if(tab=='graficos'){
         this.showModalTabDatos = false;
         this.showModalTabGrafico=true;

@@ -144,7 +144,7 @@
 				<div class="tasa-metabolica-value with-cicle col-md-6">
 					<i>
 						<strong>
-							1901
+							{{ tasa_basal | number : '1.0-0'}}
 							<span>Kcal</span>							
 						</strong>
 					</i>
@@ -159,7 +159,7 @@
 				<div class="gasto-calorico-real-value with-cicle col-md-6">
 					<i>
 						<strong>
-							2548
+							{{ gasto_calorico_real | number : '1.0-0'}}
 							<span>Kcal</span>							
 						</strong>
 					</i>
@@ -189,7 +189,7 @@
 				<div class="ingesta-calorica-recomendada with-cicle col-md-6">
 					<i>
 						<strong>
-							2048
+							{{ ingesta_calorica_recomendada | number : '1.0-0'}}
 							<span>Kcal</span>							
 						</strong>						
 					</i>

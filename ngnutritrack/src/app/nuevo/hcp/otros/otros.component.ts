@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OtrosComponent implements OnInit {
 
+	body:any;
   constructor() { }
 
-  ngOnInit() {
-  }
-
+	ngOnInit() {
+		this.body = document.getElementsByTagName('body')[0];
+		this.body.classList.add('menu-parent-hcp');	
+	}
+	ngOnDestroy(){
+		this.body.classList.remove('menu-parent-hcp');	
+	}
 }
