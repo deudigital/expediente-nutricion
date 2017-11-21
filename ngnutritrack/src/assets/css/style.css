@@ -96,7 +96,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form tbody .form-group > label{margin-left:15px;}
 .content-form .form-control{background: #e0e0e0;border-radius: 15px;}
 .content-form textarea.form-control{border-radius: 15px;}
-.content-form label{font-weight:600;padding-left:10px}
+.content-form label{font-weight:600;}
+.content-form .form-group label{padding-left:10px}
 .content-form .radio label,
 .content-form .checkbox label{display:block;padding:0}
 .content-form .checkbox label span,
@@ -143,7 +144,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .asignacion-porciones tbody tr:nth-child(even) > td{background-color:#e7e7e7;}
 .content-form .asignacion-porciones tr td {padding: 10px 0 5px;}
 .content-form .asignacion-porciones tbody tr td:first-child {padding-left: 22px;}
-.content-form .asignacion-porciones tr td .form-control {max-width: 80px;margin: -7px auto 0;height:28px}
+.content-form .asignacion-porciones tr td .form-control {max-width: 80px;margin: 0 auto;height:28px}
+.content-form .asignacion-porciones tbody tr td .form-control {margin-top: -7px}
 .content-form .asignacion-porciones tbody label {padding-left: 45px;position: relative;display: block;text-align: left;padding-top: 0;margin-top: 0;}
 /********************/
 .content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-6px;}
@@ -225,7 +227,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .listado.consultas{background-color:#f3f3f3;text-align:center}
 .main .listado.consultas {margin:50px auto;border-radius:25px;padding:25px 15px;font-size:12px}
 .listado.consultas header {margin-bottom: 35px;}
-.main .listado.consultas .title > i {background-position: -443px -33px;height: 28px;width: 25px;top: 8px;left: 0;display: inline-block;position: relative;margin-right: 10px;}
+.main .listado.consultas .title > i {background-position: -431px -142px;height: 28px;width: 25px;top: 8px;left: 0;display: inline-block;position: relative;margin-right: 10px;}
 .main .listado.consultas ul li {background-color: #e0e0e0;border-radius: 25px;margin:10px 0 }
 .main .listado.consultas ul li i.fullname{margin: 0 5px 0 30px;}
 .main .listado.consultas ul li .btn {float: right;margin-top: -15px;margin-right: 0;border-radius: 25px;margin-right: -15px;padding: 15px 25px;}
@@ -346,12 +348,13 @@ body.sending .info-sending{display:block;top:50px}
 }
 .navigation-hcp > div:last-child {float:right;width:18%}
 
-
+.table tfoot .form-group label{padding-left:0}
+.table tfoot .form-group .form-control::-moz-placeholder {font-size: 10px;}
 @media(min-width:660px){
 	.page-inicio{width:660px}
 	.main .listado.consultas {padding:25px 123px;}
 	.main .listado.pacientes {padding:15px;}
-
+	.content-form {padding-bottom: 150px;}
 }
 @media(min-width:768px){
 	body{font-size:12px;}

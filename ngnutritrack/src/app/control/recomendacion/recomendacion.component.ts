@@ -96,10 +96,12 @@ export class RecomendacionComponent implements OnInit {
    
 
 	get ingesta_calorica_recomendada(){
-		return this.ingestaCaloricaRecomendada();
+		this.recomendacion.icr	=	this.ingestaCaloricaRecomendada();
+		return this.recomendacion.icr;
 	}
 	get gasto_calorico_real(){
-		return this.gastoCaloricoReal();
+		this.recomendacion.gcr	=	this.gastoCaloricoReal();
+		return this.recomendacion.gcr;
 	}
 	ingestaCaloricaRecomendada(){
 /*

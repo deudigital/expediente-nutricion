@@ -21,7 +21,7 @@
 					<div class="ingesta-calorica-recomendada-value with-cicle col-md-6">
 						<i>
 							<strong>
-								2048
+								{{ rdd.icr | number : '1.0-0'}}
 								<span>Kcal</span>							
 							</strong>
 						</i>
@@ -33,9 +33,9 @@
 							<div class="inner">
 								<i>
 									<span>Gramos</span>
-									<strong>336.5</strong>
+									<strong>{{gramos_carbohidratos | number : '1.0-0'}}</strong>
 									<span>Kcal</span>
-									<strong>1346</strong>	
+									<strong>{{kcal_carbohidratos | number : '1.0-0'}}</strong>	
 								</i>
 							</div>
 							<h5>Carbohidratos</h5>
@@ -49,9 +49,9 @@
 							<div class="inner">
 								<i>
 									<span>Gramos</span>
-									<strong>336.5</strong>
+									<strong>{{gramos_proteinas | number : '1.0-0'}}</strong>
 									<span>Kcal</span>
-									<strong>1346</strong>								
+									<strong>{{kcal_proteinas | number : '1.0-0'}}</strong>	
 								</i>
 							</div>
 							<h5>Proteínas</h5>
@@ -65,9 +65,9 @@
 							<div class="inner">
 								<i>
 									<span>Gramos</span>
-									<strong>336.5</strong>
+									<strong>{{gramos_grasas | number : '1.0-0'}}</strong>
 									<span>Kcal</span>
-									<strong>1346</strong>	
+									<strong>{{kcal_grasas | number : '1.0-0'}}</strong>	
 								</i>
 							</div>
 							<h5>Grasas</h5>
@@ -387,20 +387,20 @@
 					<td>2</td>
 					<td>180</td>
 				</tr>
-				<!--<tr>
+				<tr>
 					<td>Ideal</td>
+					<!--<td>{{}}</td>
 					<td>{{}}</td>
 					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
+					<td>{{}}</td>-->
 				</tr>
 				<tr>
 					<td>% de</td>
+					<!--<td>{{}}</td>
 					<td>{{}}</td>
 					<td>{{}}</td>
-					<td>{{}}</td>
-					<td>{{}}</td>
-				</tr>-->
+					<td>{{}}</td>-->
+				</tr>
 			</tbody>
 		</table>
 	</section>

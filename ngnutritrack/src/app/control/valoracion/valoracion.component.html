@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="form-group col-sm-6 with-icon estatura">
 						<label class="col-form-label" for="estatura">Estatura</label>
-						<div class="input-group">
+
 							<input 
 							class="form-control" 
 							id="estatura" 
@@ -30,8 +30,7 @@
 							type="text" 
 							[(ngModel)]="valoracion.estatura">
 						<i></i>
-							<div class="input-group-addon"><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-th"></span></a></div>
-						</div>
+							<a class="link-modal pen"><i></i></a>
 					</div>
 					<div class="form-group col-sm-6 with-icon muneca">
 						<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
@@ -46,13 +45,11 @@
 						<i></i>
 					</div>
 					<div class="form-group col-sm-6 with-icon grasa">
-						<label class="col-form-label" for="grasa">Grasa</label>
-						<div class="input-group">
+						<label class="col-form-label" for="grasa">Grasa</label>						
 							<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
 							[(ngModel)]="valoracion.grasa">
 							<i></i>
-							<div class="input-group-addon"><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-th"></span></a></div>
-						</div>
+							<a class="link-modal pen"><i></i></a>						
 					</div>
 					<div class="form-group col-sm-6 with-icon musculo">
 						<label class="col-form-label" for="musculo">Músculo</label>

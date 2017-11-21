@@ -27,6 +27,9 @@ export class DietaComponent implements OnInit {
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
 	model:any;
+	kcalCarb:any;
+	kcalProt:any;
+	kcalGrasas:any;
 	changeLog:any;
 	
 	tab_class_datos:string='active';
@@ -39,6 +42,7 @@ export class DietaComponent implements OnInit {
 	this.createOriginal();	
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
+	console.log(this.rdd);
   }
   ngOnInit() {
   }
@@ -100,7 +104,6 @@ export class DietaComponent implements OnInit {
 		else
 			body.classList.remove('open-modal');
 	}
-	
    tabSelected(tab:string){
       if(tab=='graficos'){
         this.showModalTabDatos = false;
@@ -114,7 +117,31 @@ export class DietaComponent implements OnInit {
         this.tab_class_graficos = '';
       }
    }
-   
+
+	get kcal_carbohidratos(){
+		var percentage	=	this.prescripcion.carbohidratos*0.01;
+		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
+		return this.kcalCarb;
+	}
+	get gramos_carbohidratos(){
+		return this.kcalCarb/4;
+	}
+	get kcal_proteinas(){
+		var percentage	=	this.prescripcion.proteinas*0.01;
+		this.kcalProt	=	Math.round(this.rdd.icr*percentage);
+		return this.kcalProt;
+	}
+	get gramos_proteinas(){
+		return this.kcalProt/4;
+	}
+	get kcal_grasas(){
+		var percentage	=	this.prescripcion.grasas*0.01;
+		this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);
+		return this.kcalGrasas;
+	}
+	get gramos_grasas(){
+		return this.kcalGrasas/9;
+	}
    calculate(item){
 	   //console.log(item);
 	   var cho_factor=0;
