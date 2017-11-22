@@ -13,6 +13,7 @@ export class PatronmenuComponent implements OnInit {
   model:any;
   showmodal:boolean=false;
   showmodalgraficos:boolean=false;
+  inputModal:any;
 
   showTabGrafico:boolean=false;
   showTabDatos:boolean=true;
@@ -116,9 +117,25 @@ export class PatronmenuComponent implements OnInit {
 			
 		}
 		this.arrayMenuCurrent	=	aMenu;
-		//this.concatenar(aMenu);
+		this.concatenar(aMenu);
   }
-	get summary(){
+  
+  concatenar(aMenu){
+	  var summary	=	'';
+		for(var i in aMenu){
+			if(aMenu[i]){
+				if(summary)
+					summary	+=	', ';
+				summary	+=	aMenu[i] + ' ' + i;
+			}
+		}
+		this.inputModal	=	summary;
+		return summary;
+  }
+/*	get summary(){
+		return this.concatenar(this.arrayMenuCurrent);
+  }*/
+	get summary_old(){
 		var summary	=	'';
 		for(var i in this.arrayMenuCurrent){
 			if(this.arrayMenuCurrent[i]){
@@ -196,6 +213,7 @@ export class PatronmenuComponent implements OnInit {
 		return summary;
   }
    showModalPorciones(tiempoComida, nameTiempoComida){
+	   this.inputModal	=	'';
 	   this.currentTiempoComida	=	tiempoComida;
 	   var aMenu	=	{};
 	   switch(tiempoComida){
@@ -249,11 +267,14 @@ export class PatronmenuComponent implements OnInit {
 	   this.displayModalPorciones=true;
 	   let body = document.getElementsByTagName('body')[0];
 		body.classList.add('open-modal');
+		this.concatenar(aMenu);
    }
    closeModalPorciones(){
 		let body = document.getElementsByTagName('body')[0];
 		this.displayModalPorciones=false;
 		body.classList.remove('open-modal');
+		this.inputModal	=	'';
+		
 	}
    fxshowmodal(){
      this.showmodal=!this.showmodal;

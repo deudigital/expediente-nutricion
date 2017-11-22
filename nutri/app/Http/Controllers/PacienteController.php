@@ -217,9 +217,10 @@ from `hcf_patologias_pacientes`
 			$persona->save();
 			$paciente	=	Paciente::create([
 							/*	datos personales	*/
-								'responsable_cedula'	=>	$request->input('responsable_cedula'),
-								'responsable_nombre'	=>	$request->input('responsable_nombre'),
-								'responsable_parentezco'=>	$request->input('responsable_parentezco'),						
+								'persona_id'			=>	$persona->id,
+								'responsable_cedula'	=>	$request->responsable_cedula,
+								'responsable_nombre'	=>	$request->responsable_nombre,
+								'responsable_parentezco'=>	$request->responsable_parentezco,						
 							]);
 			$paciente->save();
 		}
@@ -253,19 +254,19 @@ from `hcf_patologias_pacientes`
 			$paciente->save();
 		}else{
 			$persona	=	Persona::create([
-							'telefono'			=>	$request->input('telefono'),
-							'celular'			=>	$request->input('celular'),
-							'email'				=>	$request->input('email'),
-							'provincia'			=>	$request->input('provincia'),
-							'canton'			=>	$request->input('canton'),
-							'distrito'			=>	$request->input('distrito'),
-							'detalles_direccion'=>	$request->input('detalles_direccion')					
+							'telefono'			=>	$request->telefono,
+							'celular'			=>	$request->celular,
+							'email'				=>	$request->email,
+							'provincia'			=>	$request->provincia,
+							'canton'			=>	$request->canton,
+							'distrito'			=>	$request->distrito,
+							'detalles_direccion'=>	$request->detalles_direccion					
 							]);
 			$persona->save();
 			$paciente	=	Paciente::create([
 
-								'responsable_telefono'	=>	$request->input('responsable_cedula'),
-								'responsable_email'=>	$request->input('responsable_parentezco'),						
+								'responsable_telefono'	=>	$request->responsable_telefono,
+								'responsable_email'		=>	$request->responsable_email,						
 							]);
 			$paciente->save();
 		}

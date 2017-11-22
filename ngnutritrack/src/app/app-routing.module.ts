@@ -64,7 +64,8 @@ export const appRoutes: Routes = [
 	
 	
 	
-	{ path: 'nuevo',   redirectTo: '/personales' },
+	//{ path: 'nuevo',   redirectTo: '/personales' },
+	{ path: 'nuevo',  component: NuevoComponent},
 		
 		{ path: 'personales',  component: PersonalesComponent},
 		{ path: 'contacto',  component: ContactoComponent},

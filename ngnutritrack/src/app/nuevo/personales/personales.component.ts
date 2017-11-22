@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { Analisis, Paciente } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -12,13 +13,14 @@ export class PersonalesComponent implements OnInit {
 	fcData:any;
 	paciente=new Paciente();
 	oPaciente=new Paciente();
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private formControlDataService: FormControlDataService, private location:Location) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();
 		this.setInfoInit();
 	}
 
 	ngOnInit() {
+		console.log(this.location);
 	}
 	ngOnDestroy() {
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);

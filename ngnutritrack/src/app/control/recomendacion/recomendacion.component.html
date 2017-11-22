@@ -78,13 +78,13 @@
 								[(ngModel)]="recomendacion.peso_calculo"								
 								>
 							<span>Peso Ideal Ajustado</span>
-						</label><!--[(ngModel)]="model.rdd_metodo_peso"-->
+						</label>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row factores">
-			<div class="form-group col-md-6 with-icon factor-actividad">
+			<div class="form-group col-sm-6 with-icon factor-actividad">
 				<label for="cedula" class="col-form-label">Factor de actividad sedentaria y térmico de los alimentos</label>
 				<input 
 					type="number" 
@@ -96,7 +96,7 @@
 					>
 				<i></i>
 			</div>
-			<div class="form-group col-md-6 with-icon promedio-gc">
+			<div class="form-group col-sm-6 with-icon promedio-gc">
 				<label for="cedula" class="col-form-label">Promedio de gasto calórico diario por actividad Física</label>
 				<input 
 					type="number" 
@@ -110,14 +110,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="form-group col-md-6">
+			<div class="form-group col-sm-6">
 				<small>
 					Por defecto se utiliza un factor de 1.4 para actividades diarios sedentarios,
 					tales como dormir, trabajo de oficina, ver televisión, etc. Si asi lo desea,
 					puede cambiar este factor para este paciente.
 				</small>
 			</div>
-			<div class="form-group col-md-6">
+			<div class="form-group col-sm-6">
 				<small>
 					Este gasto calórico es calculado según la información de los hábitos de 
 					actividad física del paciente ingresados anteriormente, si desea puede 
@@ -135,37 +135,36 @@
 			<header>
 				<h3 class="title">Cálculo Calórico Actual</h3>
 			</header>
-		  <div class="row">
-			<div class="form-group col-md-6">						
-			<div class="tasa-metabolica col-md-6">
-					<i></i>
-				Tasa Metabólica Basal
+			<div class="row">
+				<div class="form-group col-md-6">						
+					<div class="tasa-metabolica col-sm-6">
+						<i></i>
+						Tasa Metabólica Basal
+					</div>
+					<div class="tasa-metabolica-value with-cicle col-sm-6">
+						<i>
+							<strong>
+								{{ tasa_basal | number : '1.0-0'}}
+								<span>Kcal</span>							
+							</strong>
+						</i>
+					</div>
 				</div>
-				<div class="tasa-metabolica-value with-cicle col-md-6">
-					<i>
-						<strong>
-							{{ tasa_basal | number : '1.0-0'}}
-							<span>Kcal</span>							
-						</strong>
-					</i>
+				<div class="form-group col-md-6 ">
+					<div class="gasto-calorico-real col-sm-6">
+						<i></i>
+						Gasto Calorico Real
+					</div>
+					<div class="gasto-calorico-real-value with-cicle col-sm-6">
+						<i>
+							<strong>
+								{{ gasto_calorico_real | number : '1.0-0'}}
+								<span>Kcal</span>							
+							</strong>
+						</i>
+					</div>
 				</div>
 			</div>
-			<div class="form-group col-md-6 ">						
-									
-				<div class="gasto-calorico-real col-md-6">
-					<i></i>
-					Gasto Calorico Real
-				</div>
-				<div class="gasto-calorico-real-value with-cicle col-md-6">
-					<i>
-						<strong>
-							{{ gasto_calorico_real | number : '1.0-0'}}
-							<span>Kcal</span>							
-						</strong>
-					</i>
-				</div>
-			</div>
-		  </div>
 		</div>
 	</section>
 	<section>

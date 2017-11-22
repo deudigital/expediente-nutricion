@@ -16,7 +16,7 @@
 		<div id="navbar" class="navbar-collapse collapse">
 		  <ul class="nav navbar-nav navbar-right">
 			<li class="nuevo">			
-				<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
+				<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente"(click)="action_nuevo">
 					<i class="menu-icon nuevo"></i>Paciente Nuevo
 				</a>
 			</li>
@@ -42,4 +42,5 @@
 		</div>
 	</div>
 </div>
+<div class="info-data">{{items}}</div>
 <div class="info-sending">cambios detectados, enviando datos</div>

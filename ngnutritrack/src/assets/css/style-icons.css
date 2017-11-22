@@ -51,7 +51,7 @@
 .ingesta-calorica {text-align:center;}
 
 .with-cicle i{display: table-cell;vertical-align: middle;text-align: center;line-height:1.5em}
-.with-cicle i strong {font-weight: normal;font-size: 1.8em;position: relative;top: -5px;}
+.with-cicle i strong {font-weight: 500;font-size: 1.8em;position: relative;top: -5px;}
 .with-cicle i span {font-size: 0.6em;position: absolute;bottom: -10px;right: 6px;display: block;width: 100%;text-align: right;}
 
 .ingesta-calorica i {background-position: -389px -140px;width: 39px;height: 39px;display: block;margin: 0 auto 10px;}

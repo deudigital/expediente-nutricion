@@ -67,8 +67,10 @@ export class FormControlData {
         this.circunferencia_cadera = 0;
 		
 		/*this.manejadorDatos		=	new ManejadorDatos();*/
-		if(this.manejadorDatos.operacion!='nueva-consulta')
-			this.paciente			=	new Paciente();	
+		if(this.manejadorDatos.operacion!='nueva-consulta'){
+			this.paciente			=	new Paciente();
+			this.paciente.nutricionista_id	=	this.nutricionista_id;
+		}
 		
 		this.consulta			=	new Consulta();			
 		this.prescripcion	=	new Prescripcion();
@@ -161,6 +163,8 @@ export class FormControlData {
 		this.paciente.canton			=	data.canton;
 		this.paciente.distrito			=	data.distrito;
 		this.paciente.detalles_direccion=	data.detalles_direccion;
+		
+		this.paciente.edad				=	data.edad;
 
 	}
 	
@@ -188,6 +192,8 @@ export class Persona{
 	canton:string=''
 	distrito:string=''
 	detalles_direccion:string='';
+	
+	edad:number=0;
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -417,4 +423,21 @@ export class PrescripcionItem{
 export class PatronMenu{
 /*, public consulta_id:number*/	
 	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public porciones:number, public ejemplo:string ){}
+}
+export class Grasa{
+	abdominal:number=0;
+	piernaIzquierda:number=0;
+	piernaDerecha:number=0;
+	brazoIzquierdo:number=0;
+	brazoDerecho:number=0;
+	
+	tricipital:number=0;
+	bicipital:number=0;
+	subescapular:number=0;
+	suprailiaco:number=0;
+	
+	valorGrasaSegmentado:number=0;
+	valorGrasaPliegues:number=0;
+	
+	
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 /*import { Router }              from '@angular/router';*/
 
-import { Analisis,ValoracionAntropometrica } from '../data/formControlData.model';
+import { Analisis,ValoracionAntropometrica, Grasa, Paciente } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
 
 @Component({
@@ -14,6 +14,9 @@ export class ValoracionComponent implements OnInit {
 	analisis=new Analisis();
 	valoracion=new ValoracionAntropometrica();
 	oValoracion=new ValoracionAntropometrica();
+	grasa=new Grasa();
+	paciente=new Paciente();
+	
 	sexo:string='M';
 	titulo_pagina:string='Expediente: Jorge Lpez';
 	
@@ -21,10 +24,18 @@ export class ValoracionComponent implements OnInit {
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
 	
+	showModalGrasa:boolean=false;
+	showModalGrasaTabSegmentado:boolean=true;
+	showModalGrasaTabPliegues:boolean=false;
+	
 	tagBody:any;
 	
 	tab_class_datos:string='active';
 	tab_class_graficos:string='';
+	
+	tab_grasa_class_segmentado:string='active';
+	tab_grasa_class_pliegues:string='';
+	
 
 	constructor(private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -93,6 +104,11 @@ export class ValoracionComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
+	closeModal(){
+		this.tagBody.classList.remove('open-modal');
+		this.showModalDatos	=	false;
+		this.showModalGrasa	=	false;
+	}
 	openModalDatos() {
 		this.showModalDatos	=	!this.showModalDatos;
 		let body = document.getElementsByTagName('body')[0];
@@ -100,6 +116,14 @@ export class ValoracionComponent implements OnInit {
 			body.classList.add('open-modal');
 		else
 			body.classList.remove('open-modal');
+	}
+	openModalGrasa() {
+		this.showModalGrasa	=	!this.showModalGrasa;
+		//let body = document.getElementsByTagName('body')[0];
+		if(this.showModalGrasa)
+			this.tagBody.classList.add('open-modal');
+		else
+			this.tagBody.classList.remove('open-modal');
 	}	
    tabSelected(tab:string){
       if(tab=='graficos'){
@@ -114,7 +138,102 @@ export class ValoracionComponent implements OnInit {
         this.tab_class_graficos = '';
       }
    }
+   tabGrasaSelected(tab:string){
+	   console.log(tab);
+      if(tab=='pliegues'){
+        this.showModalGrasaTabSegmentado = false;
+		this.tab_grasa_class_segmentado = '';
+		
+        this.showModalGrasaTabPliegues=true;
+        this.tab_grasa_class_pliegues = 'active';
+        
+      }else{
+        this.showModalGrasaTabSegmentado = true;
+        this.showModalGrasaTabPliegues=false;
+        this.tab_grasa_class_segmentado = 'active';
+        this.tab_grasa_class_pliegues = '';
+      }
+   }
 	
+	get grasaSegmentado(){
+		var i=0;
+		this.grasa.valorGrasaSegmentado	=	0;
+		if(this.grasa.abdominal)
+			i++;
+		if(this.grasa.piernaIzquierda)
+			i++;
+		if(this.grasa.piernaDerecha)
+			i++;
+		if(this.grasa.brazoIzquierdo)
+			i++;
+		if(this.grasa.brazoDerecho)
+			i++;
+		if(i==0)
+			return this.grasa.valorGrasaSegmentado;
+		
+		var sumatoria	=	Number(this.grasa.abdominal) + Number(this.grasa.piernaIzquierda) + Number(this.grasa.piernaDerecha) + Number(this.grasa.brazoIzquierdo) + Number(this.grasa.brazoDerecho);
+		this.grasa.valorGrasaSegmentado	=	sumatoria/i;
+		
+		return this.grasa.valorGrasaSegmentado;
+	}
+	get grasaPiegues(){
+		/*	pliegues	*/
+		this.grasa.valorGrasaPliegues	=	0;
+		var edad	=	31;//this.paciente.edad;
+		var esMasculino	=	true;//this.paciente.genero=='M';
+/*
+	D= Densidad del cuerpo; 
+	L= Suma de pliegues cutáneos
+*/
+		var D	=	0;
+		var L	=	Number(this.grasa.tricipital) + Number(this.grasa.bicipital) + Number(this.grasa.subescapular) + Number(this.grasa.suprailiaco);
+		console.log(L);
+		
+	
+/*	Años	Ecuación para Hombres		Ecuación para mujeres		*/
+		if(edad<17){
+/*	< 17	D = 1.1533-(0.0643 X L)	D = 1.1369-(0.0598 X L)	*/
+			if(esMasculino)
+				D	=	1.1533 - (0.0643*L)
+			else
+				D = 1.1369 - (0.0598*L);
+		}else if(edad<20){
+/*	17-19	D = 1.1620-(0.0630 X L)	D = 1.1549-(0.0678 X L)	*/
+				if(esMasculino)
+					D = 1.1620-(0.0630*L);
+				else
+					D = 1.1549-(0.0678*L);
+			}else if(edad<30){
+/*	20-29	D = 1.1631-(0.0632 X L)	D = 1.1599-(0.0717 X L)	*/
+					if(esMasculino)
+						D = 1.1631-(0.0632*L);
+					else
+						D = 1.1599-(0.0717*L);
+				}else if(edad<40){
+/*	30-39	D = 1.1422-(0.0544 X L)	D = 1.1423-(0.0632 X L)	*/
+						if(esMasculino)
+							D = 1.1422-(0.0544*L);
+						else
+							D = 1.1423-(0.0632*L);
+					}else if(edad<50){
+/*	40 -49	D = 1.1620-(0.0700 X L)	D = 1.1333-(0.0612 X L)	*/
+							if(esMasculino)
+								D = 1.1620-(0.0700*L);
+							else
+								D = 1.1333-(0.0612*L);
+						}else{
+/*	> 50	D = 1.1715-(0.0779 X L)	D = 1.1339-(0.0645 X L)	*/
+							if(esMasculino)
+								D = 1.1715-(0.0779*L);
+							else
+								D = 1.1339-(0.0645*L);
+						}
+		console.log(D);
+/*	Porcentage de grasa (%) = (495 / D) – 450	*/
+		console.log('(495' + '/' + D + ')-450');
+		this.grasa.valorGrasaPliegues	=	(495/D)-450;
+		return this.grasa.valorGrasaPliegues;
+	}
 	get	imc(){
 		if(!this.valoracion.peso)
 			return 0;

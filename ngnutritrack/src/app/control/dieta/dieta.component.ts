@@ -124,6 +124,8 @@ export class DietaComponent implements OnInit {
 		return this.kcalCarb;
 	}
 	get gramos_carbohidratos(){
+		var percentage	=	this.prescripcion.carbohidratos*0.01;
+		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalCarb/4;
 	}
 	get kcal_proteinas(){
@@ -132,6 +134,8 @@ export class DietaComponent implements OnInit {
 		return this.kcalProt;
 	}
 	get gramos_proteinas(){
+		var percentage	=	this.prescripcion.proteinas*0.01;
+		this.kcalProt	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalProt/4;
 	}
 	get kcal_grasas(){
@@ -140,6 +144,8 @@ export class DietaComponent implements OnInit {
 		return this.kcalGrasas;
 	}
 	get gramos_grasas(){
+		var percentage	=	this.prescripcion.grasas*0.01;
+		this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalGrasas/9;
 	}
    calculate(item){

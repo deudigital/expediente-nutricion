@@ -217,8 +217,11 @@ Enviar usuario y contrasena?????? por ahora si...
 		$paciente	=	Paciente::where('persona_id', $consulta->paciente_id)
 										->get();
 */
-		if(count($paciente)>0)
+		if(count($paciente)>0){
 			$registros['paciente']	=	$paciente->toArray();
+			$registros['edad']		=	31;
+			
+		}
 		
 		$hcf_patologias = DB::table('hcf_patologias_pacientes')
 				->join('hcf_patologias', 'hcf_patologias.id', '=', 'hcf_patologias_pacientes.hcf_patologia_id')

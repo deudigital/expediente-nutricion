@@ -44,7 +44,7 @@
 								value="{{summary_media_manana}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones(2, 'Media Mañana')"><i></i></a>
+							<a class="link-modal" (click)="showModalPorciones(2, 'media_manana')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -68,7 +68,7 @@
 								value="{{summary_almuerzo}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones(3,'Almuerzo')"><i></i></a>
+							<a class="link-modal" (click)="showModalPorciones(3,'almuerzo')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -90,7 +90,7 @@
 								value="{{summary_media_tarde}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Media Tarde')"><i></i></a>
+							<a class="link-modal" (click)="showModalPorciones(4,'media_tarde')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -114,7 +114,7 @@
 								value="{{summary_cena}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Cena')"><i></i></a>
+							<a class="link-modal" (click)="showModalPorciones(5, 'cena')"><i></i></a>
 						</div>
 						
 						<div class="form-group">
@@ -138,7 +138,7 @@
 								value="{{summary_coicion_nocturna}}"
 							>
 							<i></i>
-							<a class="link-modal" (click)="showModalPorciones('Coici&oacute;n Nocturna')"><i></i></a>
+							<a class="link-modal" (click)="showModalPorciones(6, 'coicion_nocturna')"><i></i></a>
 						</div>
 						<div class="form-group">
 							<textarea 
@@ -399,8 +399,8 @@
 
 			<div class="form-group">
 			  <label>{{label_modal_porciones}}</label>
-			  <input type="text" class="form-control" name="leche_descremada" value="0" min="0" 
-			  value="{{summary}}"
+			  <input type="text" class="form-control" name="leche_descremada" id="modal-text" value=""  
+			  [(ngModel)]="inputModal"
 			  >			  
 			</div>
 	  

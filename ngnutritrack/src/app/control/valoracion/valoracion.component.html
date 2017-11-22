@@ -15,7 +15,6 @@
 					</div>
 					<div class="buttons">
 						<a class="btn btn-default" (click)="openModalDatos()">Ver Historial Antropom&eacute;trico</a>
-						<!--<a [routerLink]="[{ outlets: { historialPopup: ['get-historial'] } }]" routerLinkActive="active">Add Book</a>-->
 					</div>
 				</div>
 				<div class="row">
@@ -49,7 +48,7 @@
 							<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
 							[(ngModel)]="valoracion.grasa">
 							<i></i>
-							<a class="link-modal pen"><i></i></a>						
+							<a (click)="openModalGrasa()" class="link-modal pen"><i></i></a>
 					</div>
 					<div class="form-group col-sm-6 with-icon musculo">
 						<label class="col-form-label" for="musculo">Músculo</label>
@@ -172,7 +171,7 @@
 	</div>
 </div>
 
-<div class="overlay" (click)="openModalDatos()"></div>
+<div class="overlay" (click)="closeModal()"></div>
 <div class="esc-modal wide" *ngIf="showModalDatos">
 	
 	<div class="box">
@@ -311,6 +310,125 @@
 				<div class="well">
 					grafico AQUI
 				</div>
+			</div>
+	  
+		</div>
+	</div>
+</div>
+
+<div class="esc-modal" *ngIf="showModalGrasa">
+	
+	<div class="box">
+		<a class="modal-close" (click)="openModalGrasa()">X</a>
+		<div class="body content-form">		
+			<header>
+				<h3>Detalle Grasa</h3>
+			</header>
+			<div class="row navigation-dieta">
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabGrasaSelected('segmentado')" class="{{tab_grasa_class_segmentado}}">
+						<i class="datos"></i>
+						Segmentado
+					</a>
+				</div>
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabGrasaSelected('pliegues')" class="{{tab_grasa_class_pliegues}}">
+						<i class="grafico"></i>
+						Pliegues
+					</a>
+				</div>
+			</div>
+			<div *ngIf="showModalGrasaTabSegmentado">
+				<div class="form-group">
+					<label>Abdominal</label>
+					<input type="text" class="form-control" 
+					[(ngModel)]="grasa.abdominal"
+					>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<label>Piernas</label>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Derecha"		
+								[(ngModel)]="grasa.piernaDerecha"
+							>
+						</div>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Izquierda"		
+								[(ngModel)]="grasa.piernaIzquierda"
+							>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<label>Brazos</label>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Derecha"	
+								[(ngModel)]="grasa.brazoDerecho"
+							>
+						</div>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Izquierda"			
+								[(ngModel)]="grasa.brazoIzquierdo"								
+							>
+						</div>
+					</div>
+				</div>
+				{{grasaSegmentado}} %
+			</div>
+
+			<div *ngIf="showModalGrasaTabPliegues">
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label>Tricipital</label>						
+						<input 
+							type="text" 
+							class="form-control" 
+							name="pliegue_tricipital"
+							[(ngModel)]="grasa.tricipital"
+						>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>Bicipital</label>						
+						<input 
+							type="text" 
+							class="form-control" 
+							name="pliegue_bicipital"
+							[(ngModel)]="grasa.bicipital"
+						>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>Subescapular</label>						
+						<input 
+							type="text" 
+							class="form-control"  
+							name="pliegue_subescapular"
+							[(ngModel)]="grasa.subescapular"
+						>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>Suprailiaco</label>						
+						<input 
+							type="text" 
+							class="form-control" 
+							name="pliegue_suprailiaco"
+							[(ngModel)]="grasa.suprailiaco"
+						>
+					</div>
+				</div>
+			
+				{{grasaPiegues}} %
 			</div>
 	  
 		</div>
