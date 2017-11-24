@@ -186,8 +186,9 @@ export class ValoracionComponent implements OnInit {
 	L= Suma de pliegues cutáneos
 */
 		var D	=	0;
-		var L	=	Number(this.grasa.tricipital) + Number(this.grasa.bicipital) + Number(this.grasa.subescapular) + Number(this.grasa.suprailiaco);
-		console.log(L);
+		var L	=	Number(this.grasa.tricipital) + Number(this.grasa.bicipital) + Number(this.grasa.subescapular) + Number(this.grasa.suprailiaco);		
+			L	=	Math.log(L);
+		/*console.log(L);*/
 		
 	
 /*	Años	Ecuación para Hombres		Ecuación para mujeres		*/
@@ -228,7 +229,7 @@ export class ValoracionComponent implements OnInit {
 							else
 								D = 1.1339-(0.0645*L);
 						}
-		console.log(D);
+		/*console.log(D);*/
 /*	Porcentage de grasa (%) = (495 / D) – 450	*/
 		console.log('(495' + '/' + D + ')-450');
 		this.grasa.valorGrasaPliegues	=	(495/D)-450;

@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use App\PatronMenu;
-
-class PatronMenuController extends Controller
+use App\TiempoComida;
+class TiempoComidaController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $registros	=	PatronMenu::all();
+        $registros	=	TiempoComida::all();
 		if(count($registros)>0)
 			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		else

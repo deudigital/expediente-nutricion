@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Analisis,PatronMenu } from '../../data/formControlData.model';
+import { Analisis,PatronMenu, Paciente } from '../../data/formControlData.model';
 import { FormControlDataService }     from '../../data/formControlData.service';
 
 @Component({
@@ -10,11 +10,12 @@ import { FormControlDataService }     from '../../data/formControlData.service';
 })
 export class PatronmenuComponent implements OnInit {
   menus: any[];
+  asignacionPorciones: {};
   model:any;
   showmodal:boolean=false;
   showmodalgraficos:boolean=false;
-  inputModal:any;
-
+  inputModal:any;  
+  
   showTabGrafico:boolean=false;
   showTabDatos:boolean=true;
   tab_class_datos:string='';
@@ -40,22 +41,103 @@ export class PatronmenuComponent implements OnInit {
   porciones_grasas:number=0;
   porciones_vaso_agua:number=0;
 
-  arrayMenuDesayuno:{ [id: string]: any; } = {}; 
-  arrayMenuMediaManana:{ [id: string]: any; } = {}; 
-  arrayMenuAlmuerzo:{ [id: string]: any; } = {}; 
-  arrayMenuMediaTarde:{ [id: string]: any; } = {}; 
-  arrayMenuCena:{ [id: string]: any; } = {}; 
-  arrayMenuCoicionNocturna:{ [id: string]: any; } = {};
-  arrayMenuCurrent:{ [id: string]: any; } = {};
+  arrayMenuDesayuno:{ [id: string]: any; } = {'0':''}; 
+  arrayMenuMediaManana:{ [id: string]: any; } = {'0':''}; 
+  arrayMenuAlmuerzo:{ [id: string]: any; } = {'0':''}; 
+  arrayMenuMediaTarde:{ [id: string]: any; } = {'0':''}; 
+  arrayMenuCena:{ [id: string]: any; } = {'0':''}; 
+  arrayMenuCoicionNocturna:{ [id: string]: any; } = {'0':''};
+  arrayMenuCurrent:{ [id: string]: any; } = {'0':''};
+  
+	alimentos:Object[]=[];
+	tiempos:Object[]=[];
+
 
   constructor(private formControlDataService: FormControlDataService) {
     this.model	=	formControlDataService.getFormControlData();
     this.menus	=	formControlDataService.getFormControlData().patronmenu;	
+	console.log(this.menus);
   }
-  porciones(alimento_name, alimento_id){
-	  /*console.log(event); */
-	  console.log(alimento_id);
-	  
+  ngOnInit() {
+	this.alimentos['0']	=	'';
+	this.alimentos['1']	=	'Leche Descremada';
+	this.alimentos['2']	=	'Leche 2%';
+	this.alimentos['3']	=	'Leche Entera';
+	this.alimentos['4']	=	'Vegetales';
+	this.alimentos['5']	=	'Frutas';
+	this.alimentos['6']	=	'Harinas';
+	this.alimentos['7']	=	'Carne Magra';
+	this.alimentos['8']	=	'Carne Intermedia';
+	this.alimentos['9']	=	'Carne Grasa';
+	this.alimentos['10']	=	'Azucares';
+	this.alimentos['11']	=	'Grasas';
+	this.alimentos['12']	=	'Vasos de Agua';
+
+	this.tiempos['']	=	'';
+	this.tiempos['1']	=	'Desayuno';
+	this.tiempos['2']	=	'Media Mañana';
+	this.tiempos['3']	=	'Almuerzo';
+	this.tiempos['4']	=	'Media Tarde';
+	this.tiempos['5']	=	'Cena';
+	this.tiempos['6']	=	'Coici&oacute;n Nocturna';
+  }
+	ngOnDestroy() {
+		//this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
+		if(this.infoEdited())
+			this.saveInfo(this.asignacionPorciones);
+
+	}
+	setInfoInit(){
+/*		this.oPaciente.cedula				=	this.paciente.cedula;
+		this.oPaciente.nombre				=	this.paciente.nombre;
+		this.oPaciente.genero				=	this.paciente.genero;
+		this.oPaciente.fecha_nac			=	this.paciente.fecha_nac;
+		this.oPaciente.responsable_cedula	=	this.paciente.responsable_cedula;
+		this.oPaciente.responsable_nombre	=	this.paciente.responsable_nombre;
+		this.oPaciente.responsable_parentezco	=	this.paciente.responsable_parentezco;*/
+	}
+	
+	infoEdited(){
+		return 	true;
+/*		return 	(
+			this.oPaciente.cedula					!==	this.paciente.cedula || 
+			this.oPaciente.nombre					!==	this.paciente.nombre || 
+			this.oPaciente.genero					!==	this.paciente.genero || 
+			this.oPaciente.fecha_nac				!==	this.paciente.fecha_nac || 
+			this.oPaciente.responsable_cedula		!==	this.paciente.responsable_cedula || 
+			this.oPaciente.responsable_nombre		!==	this.paciente.responsable_nombre || 
+			this.oPaciente.responsable_parentezco	!==	this.paciente.responsable_parentezco
+		);
+*/
+	}
+	save(){
+		this.asignacionPorciones = {
+				'0': '',
+				'1': this.arrayMenuDesayuno,
+				'2': this.arrayMenuMediaManana,
+				'3': this.arrayMenuAlmuerzo,
+				'4': this.arrayMenuMediaTarde,
+				'5': this.arrayMenuCena,
+				'6': this.arrayMenuCoicionNocturna,
+			};
+		this.saveInfo(this.asignacionPorciones);
+	}
+	saveInfo(data){
+		console.log('saveInfo:sending...');
+		console.log(data);
+		this.formControlDataService.saveDatosPatronMenu(data)
+		.subscribe(
+			 response  => {
+						console.log('saveInfo:receiving...');
+						console.log(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+  
+  
+
+  porciones(alimento_name, alimento_id){  
 	  var aMenu	=	{};
 		switch(this.currentTiempoComida){
 			case 1:
@@ -77,73 +159,60 @@ export class PatronmenuComponent implements OnInit {
 				aMenu	=	this.arrayMenuCoicionNocturna;
 				break;
 		}
+		var cantidad	=	0;
 		switch(alimento_id){
 			case 1:
-				aMenu[alimento_name]	=	this.porciones_leche_descremada;
+				cantidad	=	this.porciones_leche_descremada;
 				break;
 			case 2:
-				aMenu[alimento_name]	=	this.porciones_leche_2;
+				cantidad	=	this.porciones_leche_2;
 				break;
 			case 3:
-				aMenu[alimento_name]	=	this.porciones_leche_entera;
+				cantidad	=	this.porciones_leche_entera;
 				break;
 			case 4:
-				aMenu[alimento_name]	=	this.porciones_vegetales;
+				cantidad	=	this.porciones_vegetales;
 				break;
 			case 5:
-				aMenu[alimento_name]	=	this.porciones_frutas;
+				cantidad	=	this.porciones_frutas;
 				break;
 			case 6:
-				aMenu[alimento_name]	=	this.porciones_harinas;
+				cantidad	=	this.porciones_harinas;
 				break;
 			case 7:
-				aMenu[alimento_name]	=	this.porciones_carne_magra;
+				cantidad	=	this.porciones_carne_magra;
 				break;
 			case 8:
-				aMenu[alimento_name]	=	this.porciones_carne_intermedia;
+				cantidad	=	this.porciones_carne_intermedia;
 				break;
 			case 9:
-				aMenu[alimento_name]	=	this.porciones_carne_grasa;
+				cantidad	=	this.porciones_carne_grasa;
 				break;
 			case 10:
-				aMenu[alimento_name]	=	this.porciones_azucares;
+				cantidad	=	this.porciones_azucares;
 				break;
 			case 11:
-				aMenu[alimento_name]	=	this.porciones_grasas;
+				cantidad	=	this.porciones_grasas;
 				break;
 			case 12:
-				aMenu[alimento_name]	=	this.porciones_vaso_agua;
-				break;
-			
+				cantidad	=	this.porciones_vaso_agua;
+				break;			
 		}
+		aMenu[alimento_id]	=	cantidad;
 		this.arrayMenuCurrent	=	aMenu;
 		this.concatenar(aMenu);
-  }
-  
+  }  
   concatenar(aMenu){
 	  var summary	=	'';
 		for(var i in aMenu){
 			if(aMenu[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	aMenu[i] + ' ' + i;
+				
+				summary	+=	aMenu[i] + ' ' + this.alimentos[i];
 			}
 		}
 		this.inputModal	=	summary;
-		return summary;
-  }
-/*	get summary(){
-		return this.concatenar(this.arrayMenuCurrent);
-  }*/
-	get summary_old(){
-		var summary	=	'';
-		for(var i in this.arrayMenuCurrent){
-			if(this.arrayMenuCurrent[i]){
-				if(summary)
-					summary	+=	', ';
-				summary	+=	this.arrayMenuCurrent[i] + ' ' + i;
-			}
-		}
 		return summary;
   }
 	get summary_desayuno(){
@@ -152,7 +221,7 @@ export class PatronmenuComponent implements OnInit {
 			if(this.arrayMenuDesayuno[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	this.arrayMenuDesayuno[i] + ' ' + i;
+				summary	+=	this.arrayMenuDesayuno[i] + ' ' + this.alimentos[i];;
 			}
 		}
 		return summary;
@@ -163,7 +232,7 @@ export class PatronmenuComponent implements OnInit {
 			if(this.arrayMenuMediaManana[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	this.arrayMenuMediaManana[i] + ' ' + i;
+				summary	+=	this.arrayMenuMediaManana[i] + ' ' + this.alimentos[i];
 			}
 		}
 		return summary;
@@ -174,7 +243,7 @@ export class PatronmenuComponent implements OnInit {
 			if(this.arrayMenuAlmuerzo[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	this.arrayMenuAlmuerzo[i] + ' ' + i;
+				summary	+=	this.arrayMenuAlmuerzo[i] + ' ' + this.alimentos[i];
 			}
 		}
 		return summary;
@@ -185,7 +254,7 @@ export class PatronmenuComponent implements OnInit {
 			if(this.arrayMenuMediaTarde[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	this.arrayMenuMediaTarde[i] + ' ' + i;
+				summary	+=	this.arrayMenuMediaTarde[i] + ' ' + this.alimentos[i];
 			}
 		}
 		return summary;
@@ -196,7 +265,7 @@ export class PatronmenuComponent implements OnInit {
 			if(this.arrayMenuCena[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	this.arrayMenuCena[i] + ' ' + i;
+				summary	+=	this.arrayMenuCena[i] + ' ' + this.alimentos[i];
 			}
 		}
 		return summary;
@@ -207,7 +276,7 @@ export class PatronmenuComponent implements OnInit {
 			if(this.arrayMenuCoicionNocturna[i]){
 				if(summary)
 					summary	+=	', ';
-				summary	+=	this.arrayMenuCoicionNocturna[i] + ' ' + i;
+				summary	+=	this.arrayMenuCoicionNocturna[i] + ' ' + this.alimentos[i];
 			}
 		}
 		return summary;
@@ -236,9 +305,7 @@ export class PatronmenuComponent implements OnInit {
 				aMenu	=	this.arrayMenuCoicionNocturna;
 				break;
 	   }
-	   console.log('cargar menu');
-	   console.log(aMenu);
-	   /*this.porciones_leche_descremada	=	aMenu[1];
+	   this.porciones_leche_descremada	=	aMenu[1];
 	   this.porciones_leche_2			=	aMenu[2];
 	   this.porciones_leche_entera		=	aMenu[3];
 	   this.porciones_vegetales			=	aMenu[4];
@@ -249,22 +316,11 @@ export class PatronmenuComponent implements OnInit {
 	   this.porciones_carne_grasa		=	aMenu[9];
 	   this.porciones_azucares			=	aMenu[10];
 	   this.porciones_grasas			=	aMenu[11];
-	   this.porciones_vaso_agua			=	aMenu[12];*/
-	   this.porciones_leche_descremada	=	aMenu['leche_descremada'];
-	   this.porciones_leche_2			=	aMenu['leche_2'];
-	   this.porciones_leche_entera		=	aMenu['leche_entera'];
-	   this.porciones_vegetales			=	aMenu['vegetales'];
-	   this.porciones_frutas			=	aMenu['frutas'];
-	   this.porciones_harinas			=	aMenu['harinas'];
-	   this.porciones_carne_magra		=	aMenu['carne_magra'];
-	   this.porciones_carne_intermedia	=	aMenu['carne_intermedia'];
-	   this.porciones_carne_grasa		=	aMenu['carne_grasa'];
-	   this.porciones_azucares			=	aMenu['azucares'];
-	   this.porciones_grasas			=	aMenu['grasas'];
-	   this.porciones_vaso_agua			=	aMenu['vaso_agua'];
-	   
-	   //this.label_modal_porciones	=	titulo;	   
-	   this.displayModalPorciones=true;
+	   this.porciones_vaso_agua			=	aMenu[12];
+		var tiempo_de_comida	=	this.tiempos[tiempoComida];;
+		this.label_modal_porciones	=	tiempo_de_comida.toString()
+
+		this.displayModalPorciones=true;
 	   let body = document.getElementsByTagName('body')[0];
 		body.classList.add('open-modal');
 		this.concatenar(aMenu);
@@ -295,9 +351,7 @@ export class PatronmenuComponent implements OnInit {
         this.tab_class_graficos = '';
       }
    }
-  ngOnInit() {
 
-  }
   get currentArray() {
 		return JSON.stringify(this.arrayMenuDesayuno);
 	}

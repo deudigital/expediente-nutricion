@@ -28,17 +28,17 @@
 			</a>
 		</div>
 	</div>
-	
-	<section class="listado consultas">
+	<section *ngIf="!showBoxConsultasPendientes" class="text-center">Cargando Consulta(s) Sin Finalizar...</section>
+	<section class="listado consultas" *ngIf="showBoxConsultasPendientes">
 		<div class="row">
 			<header>
 				<h2 class="title"><i></i>Consulta(s) Sin Finalizar</h2>
 			</header>
 			
 			<ul>
-			
-				<li *ngFor="let consulta of consultas | async" (click)="onSelect(consulta)">
-					<i class="calendar"></i> {{consulta.fecha}} <i class="fullname"></i> {{consulta.id}} - {{consulta.paciente_nombre}} <a href="javascript:void(0);" class="btn btn-default" (click)="onSelect(consulta)">CONTINUAR</a>
+			<!-- | async	{{consulta.fecha}}  -->
+				<li *ngFor="let consulta of consultas" (click)="onSelect(consulta)">
+					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.paciente_nombre}} <a href="javascript:void(0);" class="btn btn-default" (click)="onSelect(consulta)">CONTINUAR</a>
 				</li>
 			</ul>
 		</div>

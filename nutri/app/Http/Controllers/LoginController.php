@@ -37,6 +37,20 @@ class LoginController extends Controller
 		$json['paciente']['id'] = $persona->id;
         $json['paciente']['nombre'] = $persona->nombre;
         $json['paciente']['genero'] = $persona->genero;
+        $json['paciente']['telefono'] = $persona->telefono;
+        $json['paciente']['celular'] = $persona->celular;
+        $json['paciente']['email'] = $persona->email;
+		
+		$persona	=	Persona::find($paciente->nutricionista_id);
+		/*$json['nutricionista']['id'] = $persona->id;*/
+        $json['nutricionista']['nombre'] = $persona->nombre;
+        $json['nutricionista']['genero'] = $persona->genero;
+        $json['nutricionista']['telefono'] = $persona->telefono;
+        $json['nutricionista']['celular'] = $persona->celular;
+        $json['nutricionista']['email'] = $persona->email;
+		
+		$paciente	=	Paciente::find($paciente->persona_id);
+		
         $response->setContent(json_encode($json));
         return $response;	
     }

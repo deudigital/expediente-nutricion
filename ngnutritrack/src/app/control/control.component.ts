@@ -14,11 +14,19 @@ export class ControlComponent implements OnInit {
 	nueva_consulta: Observable<Consulta[]>;
 	selectedConsulta: Consulta;
 	selectedPaciente: Paciente;
-
+	tagBody:any;
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.pacientes = formControlDataService.getPacientesDeNutricionista();
 	}
-	ngOnInit() {}
+	ngOnInit() {
+		this.tagBody = document.getElementsByTagName('body')[0];
+		this.tagBody.classList.add('with-bg');
+		this.tagBody.classList.add('page-control');
+	}
+	ngOnDestroy(){
+		this.tagBody.classList.remove('with-bg');
+		this.tagBody.classList.remove('page-control');
+	}
 	onSelect(paciente: Paciente) {
 		this.selectedPaciente = paciente;
 		this.formControlDataService.setPaciente(paciente);

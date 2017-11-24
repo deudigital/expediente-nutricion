@@ -2,14 +2,13 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
-			<!--<app-nuevo-nav></app-nuevo-nav>-->
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
 			<section>
 				<div class="row">
 					<div class="col-md-6">
-					  <label for="cedula" class="col-form-label">Teléfonos</label>
+					  <label for="cedula" class="col-form-label">Tel&eacute;fonos</label>
 					  <div class="form-group with-icon telefono">
 						  <input type="text" class="form-control" id="phone" name="phone" placeholder=""
 						  [(ngModel)]="paciente.telefono"
@@ -24,7 +23,7 @@
 					  </div>
 					</div>
 					<div class="col-md-6 with-icon correo">
-					  <label for="nombre" class="col-form-label">Correo Electronico</label>
+					  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico</label>
 					  <input type="text" class="form-control" id="email" name="email" placeholder=""
 					  [(ngModel)]="paciente.email"
 					  >
@@ -60,7 +59,11 @@
 					  <i></i>
 					</div>
 				</div>
-				  <hr />
+			</section>
+			<section *ngIf="esMenor">
+				<header>
+					<h3>Contacto del responsable</h3>
+				</header>
 				  <div class="row">
 					<div class="form-group col-md-6 with-icon contacto_telefono">
 					  <label for="cedula" class="col-form-label">Teléfono del responsable</label>
@@ -70,7 +73,7 @@
 					  <i></i>
 					</div>
 					<div class="form-group col-md-6 with-icon correo">
-					  <label for="nombre" class="col-form-label">Correo Electronico del responsable</label>
+					  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico del responsable</label>
 					  <input type="text" class="form-control" id="email" name="email" placeholder=""
 					  [(ngModel)]="paciente.responsable_email"
 					  >

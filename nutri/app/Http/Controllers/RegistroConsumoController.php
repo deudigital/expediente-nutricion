@@ -108,4 +108,14 @@ class RegistroConsumoController extends Controller
     {
         //
     }
+	function belongsToPaciente($id){
+		$registros	=	RegistroConsumo::where('paciente_id', $id)
+						->get();
+		if(count($registros)>0)
+			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		else
+			$response	=	Response::json('Sin Datos', 204);
+
+		return $response;
+	}
 }

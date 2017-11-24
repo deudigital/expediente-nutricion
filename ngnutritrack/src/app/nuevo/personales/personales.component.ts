@@ -13,6 +13,7 @@ export class PersonalesComponent implements OnInit {
 	fcData:any;
 	paciente=new Paciente();
 	oPaciente=new Paciente();
+	esMenor:boolean=false;
 	constructor(private formControlDataService: FormControlDataService, private location:Location) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();

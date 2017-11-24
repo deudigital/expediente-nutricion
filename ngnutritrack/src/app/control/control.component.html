@@ -1,8 +1,9 @@
 <app-control-nav-center></app-control-nav-center>
+<div class="back-button"><a routerLink="/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente"><i class="menu-icon nuevo"></i></a></div>
 <div class="container main page-busqueda content-form">
 	<figure class="text-center">
 		<i class="searching"></i>
-		<h2>Digite el nombre o la c&eacute;dula del paciente</h2>
+		<h2 class="main-title">Digite el nombre o la c&eacute;dula del paciente</h2>
 	</figure>
 	<section class="listado pacientes">
 		<div class="row">
@@ -12,7 +13,7 @@
 			</div>
 			<ul>
 				<li *ngFor="let paciente of pacientes | async" (click)="onSelect(paciente)">
-					<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.telefono}}</span>
+					<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.cedula}}</span>
 				</li>
 			</ul>
 		</div>

@@ -29,7 +29,7 @@
 							type="text" 
 							[(ngModel)]="valoracion.estatura">
 						<i></i>
-							<a class="link-modal pen"><i></i></a>
+							<!--<a class="link-modal pen"><i></i></a>-->
 					</div>
 					<div class="form-group col-sm-6 with-icon muneca">
 						<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
@@ -55,6 +55,7 @@
 						<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
 						[(ngModel)]="valoracion.musculo">
 						<i></i>
+						<a class="link-modal pen"><i></i></a>
 					</div>
 					<div class="form-group col-sm-6 with-icon agua">
 						<label class="col-form-label" for="agua">Agua</label>
@@ -106,7 +107,7 @@
 					<div class="box imc">
 						<i></i>
 						<br>
-						IMG
+						IMC
 						<strong>{{ imc | number : '1.2-2'}}</strong>
 					</div>
 					<div class="box peso-ideal">
@@ -137,13 +138,13 @@
 						<i></i>
 						<br>
 						Relación Cintura-Cadera
-						<strong>{{ relacionCinturaCadera | number : '1.2-2'}}</strong>
+						<strong>{{ relacionCinturaCadera | number : '1.2-2'}} %</strong>
 					</div>
 					<div class="box porcentaje-sobrepeso">
 						<i></i>
 						<br>
-						Porcentaje Peso
-						<strong>{{ porcentajePeso | number : '1.2-2'}} kg</strong>
+						Porcentaje de Sobrepeso
+						<strong>{{ porcentajePeso | number : '1.2-2'}} %</strong>
 					</div>
 					<div class="box grado-sobrepeso">
 						<i></i>
@@ -154,13 +155,13 @@
 					<div class="box peso-meta-maximo">
 						<i></i>
 						<br>
-						Pêso Meta Máximo
+						Peso Meta M&aacute;ximo
 						<strong>{{ pesoMetaMaximo | number : '1.2-2'}} kg</strong>
 					</div>
 					<div class="box peso-meta-minimo">
 						<i></i>
 						<br>
-						Peso Meta Mínimo
+						Peso Meta M&iacute;nimo
 						<strong>{{ pesoMetaMinimo | number : '1.2-2'}} kg</strong>
 					</div>
 				</div>

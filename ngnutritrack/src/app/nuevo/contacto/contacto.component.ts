@@ -14,6 +14,7 @@ export class ContactoComponent implements OnInit {
 	fcData:any;
 	paciente=new Paciente();
 	oPaciente=new Paciente();
+	esMenor:boolean=false;
 	constructor(private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();

@@ -13,14 +13,25 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-	consultas: Observable<Consulta[]>;
+	consultas: any;//Observable<Consulta[]>;
+	//consultas: Observable<Consulta[]>;
 	/*consulta: Observable<Consulta>;*/
 	selectedConsulta: Consulta;
-
+	showBoxConsultasPendientes:boolean=false;
+	tagBody:any;
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
-		this.consultas = formControlDataService.getConsultasPendientes();
+		
 	}
-	ngOnInit() {}
+	ngOnInit() {
+		this.tagBody = document.getElementsByTagName('body')[0];
+		this.tagBody.classList.add('with-bg');
+		this.tagBody.classList.add('page-inicio');
+		this.getConsultasPendientes();
+	}
+	ngOnDestroy(){
+		this.tagBody.classList.remove('with-bg');
+		this.tagBody.classList.remove('page-inicio');
+	}
 	onSelect(consulta: Consulta) {
 		this.selectedConsulta = consulta;
 		this.formControlDataService.resetFormControlData();
@@ -30,4 +41,22 @@ export class InicioComponent implements OnInit {
 		mng.setMenuPacienteStatus(false);
 		this.router.navigate(['/valoracion']);
 	}
+	setConsultas(consultas){
+		this.consultas = consultas;
+	}
+	getConsultasPendientes() {
+		//this.formControlDataService.addConsulta(paciente)
+		this.formControlDataService.getConsultasPendientes()
+		.subscribe(
+			 response  => {					
+						//this.consultas = response;
+						this.setConsultas(response);
+						this.showBoxConsultasPendientes	=	true;
+						console.log(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	
+	
 }

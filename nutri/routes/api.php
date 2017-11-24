@@ -24,6 +24,7 @@ Route::group(['middleware' => 'cors'], function(){
 
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 
+	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 	Route::get('consultas/new/{id}', 'ConsultaController@setConsultaForPaciente');	
 	Route::get('consultas/process', 'ConsultaController@process');	
 /*	consultas / del paciente / X	*/
@@ -43,6 +44,8 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('consultas/notas', 'ConsultaController@storeNotas');
 	Route::post('consultas/valoracion', 'ValoracionAntropometricaController@store');
 	Route::post('consultas/rdd', 'RddController@store');
+	
+	Route::resource('dietas', 'DietaController');
 	Route::post('consultas/prescripcion', 'PrescripcionController@store');
 	
 	Route::get('pacientes/{id}/patologiashcp', 'PacienteController@patologiashcp');
@@ -56,7 +59,9 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::resource('consultas', 'ConsultaController');	
 	Route::get('alimentos/categorias', 'AlimentoController@categorias');
 	Route::get('alimentos/categorias/{id}', 'AlimentoController@categoriasbyid');
-	Route::resource('alimentos', 'AlimentoController');
+	Route::resource('alimentos', 'AlimentoController', ['only' => ['index']]);
+	Route::resource('tiempocomidas', 'TiempoComidaController', ['only' => ['index']]);
+	Route::get('registroconsumos/paciente/{id}', 'RegistroConsumoController@belongsToPaciente');
 	Route::resource('registroconsumos', 'RegistroConsumoController');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){	

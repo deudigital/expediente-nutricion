@@ -28,11 +28,13 @@ export class FormControlDataService {
 	}
 	getConsultasPendientes(): Observable<Consulta[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
-		return this.http.get( this.apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/').map((response: Response) => response.json());
+		return this.http.get( this.apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/')
+		.map((response: Response) => response.json());
 	}	
 	getPacientes(): Observable<Consulta[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
-		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id).map((response: Response) => response.json());
+		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id)
+		.map((response: Response) => response.json());
 	}
 	addConsulta(paciente: Paciente): Observable<Consulta[]> {
 		var data={paciente_id:paciente.id};
@@ -55,6 +57,9 @@ export class FormControlDataService {
 	}
 	saveNotasConsulta(consulta: Consulta): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/notas', consulta).map((response: Response) => response.json());
+	}
+	saveDatosPatronMenu(patronMenus: any): Observable<Consulta[]> {
+		return this.http.post( this.apiURL + 'dietas', patronMenus).map((response: Response) => response.json());
 	}
 	
 	setSelectedConsuta(consulta){
