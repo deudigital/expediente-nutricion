@@ -39,17 +39,10 @@ export class ControlComponent implements OnInit {
 		this.formControlDataService.addConsulta(paciente)
 		.subscribe(
 			 response  => {
-					console.log(response);
+					/*console.log(response);*/
 						this.formControlDataService.setSelectedConsuta(response['data']);
 						this.router.navigate(['/valoracion']);
 						},
-			error =>  console.log(<any>error)
-		);
-	}
-	createConsulta__last_working(paciente) {
-		this.formControlDataService.addConsulta(paciente)
-		.subscribe(
-			 response  => console.log(response),
 			error =>  console.log(<any>error)
 		);
 	}

@@ -9,10 +9,13 @@ use App\Persona;
 use App\ValoracionAntropometrica;
 use App\Rdd;
 use App\Prescripcion;
+use App\DetalleDescripcion;
 use App\PatronMenu;
+use App\DetalleMusculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use Carbon\Carbon;
 class ConsultaController extends Controller
 {
     /**
@@ -212,15 +215,28 @@ Enviar usuario y contrasena?????? por ahora si...
 		$paciente = DB::table('pacientes')
             ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
             ->where('pacientes.persona_id', $consulta->paciente_id)
-			->get();
+			->get()
+			->first();
 /*
 		$paciente	=	Paciente::where('persona_id', $consulta->paciente_id)
 										->get();
 */
 		if(count($paciente)>0){
-			$registros['paciente']	=	$paciente->toArray();
-			$registros['edad']		=	31;
+			$paciente->edad		=	0;
+			if($paciente->fecha_nac){
+				$fecha_nac = explode('-', $paciente->fecha_nac);
+				$edad	=	Carbon::createFromDate($fecha_nac[0], $fecha_nac[1], $fecha_nac[2])->age;          // int(41) calculated vs now in the same tz
+				$paciente->fecha_nac=	$fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
+				$paciente->edad		=	$edad;	
+			}
 			
+			
+			/*$response	=	Response::json($paciente, 200, [], JSON_NUMERIC_CHECK);
+		return $response;*/
+
+				
+			
+			$registros['paciente']	=	(array)$paciente;
 		}
 		
 		$hcf_patologias = DB::table('hcf_patologias_pacientes')
@@ -292,19 +308,52 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 		
 		$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $id)
-										->get();
-		if(count($valoracionAntropometrica)>0)
+										->get()
+										->first();
+		if(count($valoracionAntropometrica)>0){
 			$registros['va']	=	$valoracionAntropometrica->toArray();
+			//$registros['va']	=	(array)$valoracionAntropometrica;
+			$detalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+											->get()
+											->first();
+			if(count($detalleMusculo)>0){
+				$registros['va']['detalleMusculo']	=	$detalleMusculo->toArray();
+				//$registros['va']	=	(array)$valoracionAntropometrica;
+			}
+		}	
 		
 		$rdd	=	Rdd::where('consulta_id', $id)
-										->get();
+										->get()
+										->first();
 		if(count($rdd)>0)
 			$registros['rdd']	=	$rdd->toArray();
 		
 		$prescripcion	=	Prescripcion::where('consulta_id', $id)
-										->get();
-		if(count($prescripcion)>0)
+										->get()
+										->first();
+		if(count($prescripcion)>0){
 			$registros['dieta']['prescripcion']	=	$prescripcion->toArray();
+			/*$detalleDescripcion	=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
+											->get();*/
+			$detalleDescripcion	=	DB::table('grupo_alimento_nutricionistas')
+										->leftJoin('detalle_prescripcion', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+										->get();
+			if(count($detalleDescripcion)>0){
+				$registros['dieta']['prescripcion']['items']	=	$detalleDescripcion->toArray();
+			}
+		}
+			
+			
+		$detalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+										->get()
+										->first();
+
+		if(count($detalleMusculo)>0){
+			$registros['va']['detalleMusculo']	=	$detalleMusculo->toArray();
+			//$registros['va']	=	(array)$valoracionAntropometrica;
+		}	
+		
 		
 		$patronMenu	=	PatronMenu::where('consulta_id', $id)
 										->get();
@@ -347,6 +396,40 @@ Enviar usuario y contrasena?????? por ahora si...
 			$consulta->save();
 		}
 		$response	=	Response::json($consulta, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+		
+	}
+	function storeMusculo(Request $request){
+		/*$response	=	Response::json($request->all(), 200, [], JSON_NUMERIC_CHECK);
+		return $response;*/
+		if($request->input('id')){
+			$detalleMusculo									=	DetalleMusculo::where('valoracion_antropometrica_id', $request->valoracion_antropometrica_id)
+																					->get()
+																					->first();
+			
+			$detalleMusculo->tronco							=	$request->tronco;
+			$detalleMusculo->brazo_izquierdo				=	$request->brazo_izquierdo;
+			$detalleMusculo->brazo_derecho					=	$request->brazo_derecho;
+			$detalleMusculo->pierna_izquierda				=	$request->pierna_izquierda;
+			$detalleMusculo->pierna_derecha					=	$request->pierna_derecha;
+			$detalleMusculo->valoracion_antropometrica_id	=	$request->valoracion_antropometrica_id;
+		}else{
+			$detalleMusculo	=	DetalleMusculo::create([
+							'tronco'						=>	$request->tronco,
+							'brazo_izquierdo'				=>	$request->brazo_izquierdo,
+							'brazo_derecho'					=>	$request->brazo_derecho,
+							'pierna_izquierda'				=>	$request->pierna_izquierda,
+							'pierna_derecha'				=>	$request->pierna_derecha,
+							'valoracion_antropometrica_id'	=>	$request->valoracion_antropometrica_id					
+							]);
+		}
+		$detalleMusculo->save();
+		$message	=	array(
+							'code'		=> '201',
+							'id'		=> $detalleMusculo->id,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
 		return $response;
 		
 	}

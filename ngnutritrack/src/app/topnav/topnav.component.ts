@@ -16,11 +16,14 @@ export class TopnavComponent implements OnInit {
 	constructor( private router: Router, private formControlDataService: FormControlDataService ) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.items	=	this.model.getManejadorDatos();
-
-	}
-		
+	}		
 	ngOnInit() {
 		this.title_control	=	this.model.getFormPaciente().nombre;
+		if(!this.title_control){
+			setInterval(() => {
+				this.title_control	=	this.model.getFormPaciente().nombre;
+			  }, 1000); 
+		}
 	}
 	action_nuevo(){
 		console.log('topnav component');

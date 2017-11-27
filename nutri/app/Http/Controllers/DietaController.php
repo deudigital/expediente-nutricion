@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\PatronMenu;
+use App\PatronMenuEjemplo;
 use DB;
 
 class DietaController extends Controller
@@ -37,38 +38,53 @@ class DietaController extends Controller
      */
     public function store(Request $request)
     {
-		$items	=	$request->all();
-		/*$response	=	Response::json($items, 200, [], JSON_NUMERIC_CHECK);
+		/*$data	=	$request->all();
+		$response	=	Response::json($data, 200, []);
 		return $response;*/
-		$n	=	count($items);
-		$datos	=	array();
-		for($i=1;$i<$n;$i++){
-			if(count($items[$i])>0){
-				foreach($items[$i] as $key=>$item){
-					if(empty($item))
+		/*$request->consulta_id	=	1;*/
+		$items	=	$request->items;
+		if($items){
+			$datos	=	array();			
+			$deletedRows = PatronMenu::where('consulta_id', $request->consulta_id)->delete();
+			
+			foreach($items as $key=>$item){
+				foreach($item['porciones'] as $alimento=>$porciones){
+					if(empty($porciones))
 						continue ;
-					/*$patronMenu	=	PatronMenu::create([
-								'grupo_alimento_nutricionista_id'	=>	$key,
-								'tiempo_comida_id'					=>	$i,
-								'consulta_id'						=>	100,
-								'porciones'							=>	$item,						
-								'ejemplo'							=>	'ejemplo'						
-							]);*/
-					$patronMenu	=	[
-							/*	datos personales	*/
-								'consulta_id'						=>	100,
-								'tiempo_comida_id'					=>	$i,
-								'grupo_alimento_nutricionista_id'	=>	$key,
-								'porciones'							=>	$item,						
-								'ejemplo'							=>	'ejemplo'						
-							];
+
+					$patronMenu	=	PatronMenu::create([
+										'consulta_id'						=>	$request->consulta_id,
+										'tiempo_comida_id'					=>	$item['tiempo_id'],
+										'grupo_alimento_nutricionista_id'	=>	$alimento,
+										'porciones'							=>	$porciones,
+									]);
 					$datos[]	=	$patronMenu;
-				}
-			}
+					$patronMenu->save();
+				}			
+			}	
 		}
-		//$response	=	Response::json($request->all(), 200, [], JSON_NUMERIC_CHECK);
+		$tiempos	=	$request->tiempos;
+		if($tiempos){
+			$datos	=	array();			
+			$deletedRows = PatronMenuEjemplo::where('consulta_id', $request->consulta_id)->delete();
+			
+			foreach($tiempos as $key=>$item){
+				if($item['tiempo_id']<1)
+					continue ;
+				$patronMenuEjemplo	=	PatronMenuEjemplo::create([
+									'consulta_id'		=>	$request->consulta_id,
+									'tiempo_comida_id'	=>	$item['tiempo_id'],
+									'ejemplo'			=>	$item['ejemplo']
+								]);
+				$datos[]	=	$patronMenuEjemplo;
+				$patronMenuEjemplo->save();
+						
+			}	
+		}
+		
+		
 		$response	=	Response::json($datos, 200, [], JSON_NUMERIC_CHECK);
-		return $response;
+		return $response;		
     }
 
     /**

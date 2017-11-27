@@ -7,8 +7,7 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
-	private apiURL	=	'http://127.0.0.1:8000/api/v0/';
-	//private apiURL	=	'//expediente.nutricion.co.cr/nutri/public/api/v0/';
+	private apiURL	=	'//expediente.nutricion.co.cr/nutri/public/api/v0/';
 	data:any={};
 	constructor(private http: Http) {}  
 	getPacientesDeNutricionista(): Observable<Paciente[]> {
@@ -60,6 +59,9 @@ export class FormControlDataService {
 	}
 	saveDatosPatronMenu(patronMenus: any): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'dietas', patronMenus).map((response: Response) => response.json());
+	}
+	saveDatosMusculo(data: any): Observable<Consulta[]> {
+		return this.http.post( this.apiURL + 'consultas/musculo', data).map((response: Response) => response.json());
 	}
 	
 	setSelectedConsuta(consulta){

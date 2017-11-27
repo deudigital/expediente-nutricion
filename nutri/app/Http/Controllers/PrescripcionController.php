@@ -59,12 +59,14 @@ class PrescripcionController extends Controller
 			$deletedRows = DetalleDescripcion::where('prescripcion_id', $prescripcion->id)->delete();
 			
 			foreach($request->items as $item){
+				if($item['porciones']<1)
+					continue ;
 				
 				$detalleDescripcion	=	new DetalleDescripcion(
 						array(
 							'prescripcion_id'					=>	$prescripcion->id, 
 							'grupo_alimento_nutricionista_id'	=>	$item['id'], 
-							'porciones'							=>	$item['cantidad'], 
+							'porciones'							=>	$item['porciones'], 
 						)
 					);
 				$detalleDescripcion->save();
@@ -81,12 +83,14 @@ class PrescripcionController extends Controller
 						)
 					);
 			$prescripcion->save();
-			foreach($request->items as $item){				
+			foreach($request->items as $item){
+				if($item['porciones']<1)
+					continue ;				
 				$detalleDescripcion	=	new DetalleDescripcion(
 						array(
 							'prescripcion_id'					=>	$prescripcion->id, 
 							'grupo_alimento_nutricionista_id'	=>	$item['id'], 
-							'porciones'							=>	$item['cantidad'], 
+							'porciones'							=>	$item['porciones'], 
 						)
 					);
 				$detalleDescripcion->save();

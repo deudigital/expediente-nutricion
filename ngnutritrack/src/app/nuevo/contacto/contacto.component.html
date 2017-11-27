@@ -7,9 +7,9 @@
 		<div class="col-sm-9 content-form">
 			<section>
 				<div class="row">
-					<div class="col-md-6">
-					  <label for="cedula" class="col-form-label">Tel&eacute;fonos</label>
+					<div class="col-md-6">					  
 					  <div class="form-group with-icon telefono">
+							<label for="cedula" class="col-form-label">Tel&eacute;fonos</label>
 						  <input type="text" class="form-control" id="phone" name="phone" placeholder=""
 						  [(ngModel)]="paciente.telefono"
 						  >
@@ -22,12 +22,12 @@
 						  <i></i>
 					  </div>
 					</div>
-					<div class="col-md-6 with-icon correo">
-					  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico</label>
-					  <input type="text" class="form-control" id="email" name="email" placeholder=""
-					  [(ngModel)]="paciente.email"
-					  >
-					  <i></i>
+					<div class="col-md-6 form-group with-icon correo">
+						  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico</label>
+						  <input type="text" class="form-control" id="email" name="email" placeholder=""
+						  [(ngModel)]="paciente.email"
+						  >
+						  <i></i>
 					</div>
 				</div>
 				<div class="row">
@@ -60,7 +60,7 @@
 					</div>
 				</div>
 			</section>
-			<section *ngIf="esMenor">
+			<section *ngIf="!paciente.esMayor">
 				<header>
 					<h3>Contacto del responsable</h3>
 				</header>

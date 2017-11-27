@@ -28,7 +28,7 @@
 			</a>
 		</div>
 	</div>
-	<section *ngIf="!showBoxConsultasPendientes" class="text-center">Cargando Consulta(s) Sin Finalizar...</section>
+	<section *ngIf="showLoading" class="text-center">Cargando Consulta(s) Sin Finalizar...</section>
 	<section class="listado consultas" *ngIf="showBoxConsultasPendientes">
 		<div class="row">
 			<header>

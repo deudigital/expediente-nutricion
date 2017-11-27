@@ -41,6 +41,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	
 	Route::post('pacientes/datos', 'PacienteController@storeDatosPersonales');
 	Route::post('pacientes/contacto', 'PacienteController@storeDatosContacto');
+	Route::post('consultas/musculo', 'ConsultaController@storeMusculo');
 	Route::post('consultas/notas', 'ConsultaController@storeNotas');
 	Route::post('consultas/valoracion', 'ValoracionAntropometricaController@store');
 	Route::post('consultas/rdd', 'RddController@store');

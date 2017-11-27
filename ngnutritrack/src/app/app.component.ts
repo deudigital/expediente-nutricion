@@ -24,4 +24,8 @@ export class AppComponent implements OnInit {
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
+	get developmentInfo (){
+		var summary	=	'Nutricionista ID: ' + this.formControlDataService.getFormControlData().nutricionista_id;
+		return summary;
+	}
 }

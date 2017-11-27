@@ -3,14 +3,13 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
-			<!--<app-control-nav></app-control-nav>-->
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
 
 			<section>
 				<div class="row">
-					<div class="well">
+					<div class="fill-data-valoracion">
 						Importar datos - arrastre archivo en formato csv a este cuadro
 					</div>
 					<div class="buttons">
@@ -29,7 +28,6 @@
 							type="text" 
 							[(ngModel)]="valoracion.estatura">
 						<i></i>
-							<!--<a class="link-modal pen"><i></i></a>-->
 					</div>
 					<div class="form-group col-sm-6 with-icon muneca">
 						<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
@@ -55,7 +53,7 @@
 						<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
 						[(ngModel)]="valoracion.musculo">
 						<i></i>
-						<a class="link-modal pen"><i></i></a>
+						<a (click)="openModalMusculo()" class="link-modal pen"><i></i></a>
 					</div>
 					<div class="form-group col-sm-6 with-icon agua">
 						<label class="col-form-label" for="agua">Agua</label>
@@ -95,20 +93,16 @@
 					</div>
 				</div>
 			</section>
-<!--
-<div class="pre">
-    <h2>Model: </h2>
-    {{ currentModel }}
-  </div>
-  -->
 			<section>
-				<div class="row analisis">
+				<header>
 					<h3 class="title">An&aacute;lisis</h3>
+				</header>
+				<div class="row analisis">					
 					<div class="box imc">
 						<i></i>
 						<br>
 						IMC
-						<strong>{{ imc | number : '1.2-2'}}</strong>
+						<strong>{{ imc }}</strong>
 					</div>
 					<div class="box peso-ideal">
 						<i></i>
@@ -132,7 +126,7 @@
 						<i></i>
 						<br>
 						Adecuación
-						<strong>% {{ adecuacion | number : '1.2-2'}}</strong>
+						<strong>{{ adecuacion | number : '1.2-2'}} <small>%</small></strong>
 					</div>
 					<div class="box cintura-cadera">
 						<i></i>
@@ -150,7 +144,7 @@
 						<i></i>
 						<br>
 						Grado de Sobrepeso
-						<strong>{{ gradoSobrepeso | number : '1.2-2'}} kg</strong>
+						<strong>{{ gradoSobrepeso }}</strong>
 					</div>
 					<div class="box peso-meta-maximo">
 						<i></i>
@@ -178,20 +172,20 @@
 	<div class="box">
 		<a class="modal-close" (click)="openModalDatos()">X</a>
 		<div class="body content-form">			
-			<div class="row navigation-dieta">
-				<div class="col-sm-6">
+			<ul class="row nav submenu navigation-dieta">
+				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
 						<i class="datos"></i>
 						Datos Generales
 					</a>
-				</div>
-				<div class="col-sm-6">
+				</li>
+				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
 						<i class="grafico"></i>
 						Graficos
 					</a>
-				</div>
-			</div>
+				</li>
+			</ul>
 			
 			<div *ngIf="showModalTabDatos">
 				<table class="table">
@@ -325,20 +319,20 @@
 			<header>
 				<h3>Detalle Grasa</h3>
 			</header>
-			<div class="row navigation-dieta">
-				<div class="col-sm-6">
+			<ul class="row nav submenu navigation-dieta">
+				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabGrasaSelected('segmentado')" class="{{tab_grasa_class_segmentado}}">
 						<i class="datos"></i>
 						Segmentado
 					</a>
-				</div>
-				<div class="col-sm-6">
+				</li>
+				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabGrasaSelected('pliegues')" class="{{tab_grasa_class_pliegues}}">
 						<i class="grafico"></i>
 						Pliegues
 					</a>
-				</div>
-			</div>
+				</li>
+			</ul>
 			<div *ngIf="showModalGrasaTabSegmentado">
 				<div class="form-group">
 					<label>Abdominal</label>
@@ -432,6 +426,85 @@
 				{{grasaPiegues}} %
 			</div>
 	  
+		</div>
+	</div>
+</div>
+
+<div class="esc-modal" *ngIf="showModalMusculo">
+	
+	<div class="box">
+		<a class="modal-close" (click)="openModalMusculo()">X</a>
+		<div class="body content-form">		
+			<header>
+				<h3>Detalle M&uacute;sculo</h3>
+			</header>
+			<ul class="row nav submenu navigation-dieta">
+				<li class="col-sm-6">
+					<a href="javascript:void(0)" class="active">
+						<i class="datos"></i>
+						Segmentado
+					</a>
+				</li>
+			</ul>
+				<div class="form-group">
+					<label>Tronco</label>
+					<input type="text" class="form-control" 
+					id="musculo_tronco"
+					name="musculo_tronco"
+					[(ngModel)]="detalleMusculo.tronco"
+					>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<label>Piernas</label>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Derecha"		
+								id="musculo_pierna_derecha"
+								name="musculo_pierna_derecha"
+								[(ngModel)]="detalleMusculo.pierna_derecha"
+							>
+						</div>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Izquierda"		
+								id="musculo_pierna_izquierda"
+								name="musculo_pierna_izquierda"
+								[(ngModel)]="detalleMusculo.pierna_izquierda"
+							>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<label>Brazos</label>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Derecha"	
+								id="musculo_brazo_derecho"
+								name="musculo_brazo_derecho"
+								[(ngModel)]="detalleMusculo.brazo_derecho"
+							>
+						</div>
+						<div class="form-group">
+							<input 
+								type="text" 
+								class="form-control" 
+								placeholder="Izquierda"			
+								id="musculo_brazo_izquierdo"								
+								name="musculo_brazo_izquierdo"								
+								[(ngModel)]="detalleMusculo.brazo_izquierdo"								
+							>
+						</div>
+					</div>
+				</div>
+				 %
+<button class="btn btn-default" (click)="save()">SaVE</button>
+
 		</div>
 	</div>
 </div>

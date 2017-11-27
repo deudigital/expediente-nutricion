@@ -22,4 +22,7 @@ class Persona extends Model
 		'detalles_direccion'
     ];
 	
+	public function age() {
+		return $this->fecha_nac->diffInYears(\Carbon::now());
+	}
 }

@@ -13,11 +13,10 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-	consultas: any;//Observable<Consulta[]>;
-	//consultas: Observable<Consulta[]>;
-	/*consulta: Observable<Consulta>;*/
+	consultas: any;
 	selectedConsulta: Consulta;
 	showBoxConsultasPendientes:boolean=false;
+	showLoading:boolean=true;
 	tagBody:any;
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		
@@ -40,21 +39,23 @@ export class InicioComponent implements OnInit {
 		mng.setOperacion('continuar-consulta');
 		mng.setMenuPacienteStatus(false);
 		this.router.navigate(['/valoracion']);
-	}
+	}	
 	setConsultas(consultas){
 		this.consultas = consultas;
 	}
 	getConsultasPendientes() {
-		//this.formControlDataService.addConsulta(paciente)
 		this.formControlDataService.getConsultasPendientes()
 		.subscribe(
 			 response  => {					
-						//this.consultas = response;
 						this.setConsultas(response);
-						this.showBoxConsultasPendientes	=	true;
-						console.log(response);
+						this.showLoading	=	false;
+						this.showBoxConsultasPendientes	=	true;						
+						/*console.log(response);*/
 						},
-			error =>  console.log(<any>error)
+			error =>  {
+					this.showLoading	=	false;
+					console.log(<any>error)
+				}
 		);
 	}
 	

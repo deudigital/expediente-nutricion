@@ -18,7 +18,6 @@ export class ContactoComponent implements OnInit {
 	constructor(private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();
-		console.log(this.paciente);
 		this.setInfoInit();
 	}
 /*

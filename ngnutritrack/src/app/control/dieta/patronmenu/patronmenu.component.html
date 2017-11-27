@@ -28,6 +28,7 @@
 							id="dieta_desayuno_ejemplo"
 							name="dieta_desayuno_ejemplo"
 							class="form-control" 
+							placeholder="Ejemplo"
 							[(ngModel)]="model.dieta_desayuno_ejemplo"
 						></textarea>
 							
@@ -50,7 +51,8 @@
 							<textarea 
 								id="dieta_media_manana_ejemplo"
 								name="dieta_media_manana_ejemplo"
-								class="form-control" 
+								class="form-control"  
+								placeholder="Ejemplo"
 								[(ngModel)]="model.dieta_media_manana_ejemplo"
 							></textarea>
 						</div>
@@ -74,7 +76,8 @@
 							<textarea 
 								id="dieta_almuerzo_ejemplo"
 								name="dieta_almuerzo_ejemplo"
-								class="form-control" 
+								class="form-control"  
+								placeholder="Ejemplo"
 								[(ngModel)]="model.dieta_almuerzo_ejemplo"
 							></textarea>
 						</div>
@@ -96,7 +99,8 @@
 							<textarea 
 								id="dieta_media_tarde_ejemplo"
 								name="dieta_media_tarde_ejemplo"
-								class="form-control" 
+								class="form-control"  
+								placeholder="Ejemplo"
 								[(ngModel)]="model.dieta_media_tarde_ejemplo"
 							></textarea>
 						</div>
@@ -121,7 +125,8 @@
 							<textarea 
 								id="dieta_cena_ejemplo"
 								name="dieta_cena_ejemplo"
-								class="form-control" 
+								class="form-control"  
+								placeholder="Ejemplo"
 								[(ngModel)]="model.dieta_cena_ejemplo"
 							></textarea>
 						</div>
@@ -144,7 +149,8 @@
 							<textarea 
 								id="dieta_coicion_nocturna_ejemplo"
 								name="dieta_coicion_nocturna_ejemplo"
-								class="form-control" 
+								class="form-control"  
+								placeholder="Ejemplo"
 								[(ngModel)]="model.dieta_coicion_nocturna_ejemplo"
 							></textarea>
 						</div>
@@ -155,19 +161,14 @@
 						<div class="overlay" (click)="fxshowmodalgraficos()"></div>
 						<div class="body">
 							<a class="modal-close" (click)="fxshowmodalgraficos()">X</a>					
-							<div class="row">
-									<div class="row navigation-dieta">
-								<div class="col-sm-6">
+							<ul class="row nav submenu navigation-dieta">
+								<li class="col-sm-6">
 									<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}"><i></i>Datos Generales</a>
-								</div>
-								<div class="col-sm-6">
+								</li>
+								<li class="col-sm-6">
 									<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}"><i></i>Graficoss</a>
-								</div>
-							</div>
-						</div>
-
-
-
+								</li>
+						</ul>
 
 						<div *ngIf="showTabDatos">
 							<table class="table">
@@ -293,23 +294,24 @@
 
 			</section>
 			<button (click)="save()" class="btn btn-primary">Guardar</button>
-			<section class="">
+		<section class="patron-menu">
 				<header>
-					<h3>Asignaciones</h3>
+					<h3 class="title">Asignaciones</h3>
 				</header>
 				
-			<div class="alimentos">
+			<div class="alimentos row">
 			  <div class="col-sm-2">
 				<figure>
 				  <i class="leche-descremada"></i>
 				  <label>Leche Descremada</label>
-				  
+				  <strong>0/0</strong>
 				</figure>
 			  </div>
 			  <div class="col-sm-2">
 				<figure>
 				  <i class="leche-2"></i>
 				  <label>Leche 2%</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -317,6 +319,7 @@
 				<figure>
 				  <i class="leche-entera"></i>
 				  <label>Leche Entera</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -324,6 +327,7 @@
 				<figure>
 				  <i class="vegetales"></i>
 				  <label>vegetales</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -331,6 +335,7 @@
 				<figure>
 				  <i class="frutas"></i>
 				  <label>frutas</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -338,6 +343,7 @@
 				<figure>
 				  <i class="harinas"></i>
 				  <label>harinas</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -345,6 +351,7 @@
 				<figure>
 				  <i class="carne-magra"></i>
 				  <label>carne-magra</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -352,6 +359,7 @@
 				<figure>
 				  <i class="carne-intermedia "></i>
 				  <label>carne-intermedia </label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -359,6 +367,7 @@
 				<figure>
 				  <i class="carne-grasa"></i>
 				  <label>carne-grasa</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -366,6 +375,7 @@
 				<figure>
 				  <i class="azucares"></i>
 				  <label>azucares</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -373,6 +383,7 @@
 				<figure>
 				  <i class="grasas"></i>
 				  <label>grasas</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -380,6 +391,7 @@
 				<figure>
 				  <i class="vaso-agua"></i>
 				  <label>vaso-agua</label>
+				  <strong>0/0</strong>
 				  
 				</figure>
 			  </div>
@@ -395,11 +407,13 @@
 	
 	<div class="box">
 		<a class="modal-close" (click)="closeModalPorciones()">X</a>
-		<h3>Cantidad de Porciones</h3>
+		<header>
+			<h3>Cantidad de Porciones</h3>
+		</header>
 		<div class="body content-form">			
 
 			<div class="form-group">
-			  <label>{{label_modal_porciones}}</label>
+			  <label class="label-modal-porciones">{{label_modal_porciones}}</label>
 			  <input type="text" class="form-control" name="leche_descremada" id="modal-text" value=""  
 			  [(ngModel)]="inputModal"
 			  >			  

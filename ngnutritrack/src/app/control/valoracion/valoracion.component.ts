@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 /*import { Router }              from '@angular/router';*/
 
-import { Analisis,ValoracionAntropometrica, Grasa, Paciente } from '../data/formControlData.model';
+import { Analisis,ValoracionAntropometrica, Paciente, DetalleMusculo, DetalleGrasa } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
 
 @Component({
@@ -14,8 +14,16 @@ export class ValoracionComponent implements OnInit {
 	analisis=new Analisis();
 	valoracion=new ValoracionAntropometrica();
 	oValoracion=new ValoracionAntropometrica();
-	grasa=new Grasa();
+	grasa:any;
+	detalleMusculo:DetalleMusculo=new DetalleMusculo();
+	detalleGrasa:DetalleGrasa=new DetalleGrasa();
 	paciente=new Paciente();
+	musculo_tronco:number;
+	musculo_pierna_derecha:number;
+	musculo_pierna_izquierda:number;
+	musculo_brazo_derecho:number;
+	musculo_brazo_izquierdo:number;
+	
 	
 	sexo:string='M';
 	titulo_pagina:string='Expediente: Jorge Lpez';
@@ -27,6 +35,9 @@ export class ValoracionComponent implements OnInit {
 	showModalGrasa:boolean=false;
 	showModalGrasaTabSegmentado:boolean=true;
 	showModalGrasaTabPliegues:boolean=false;
+	
+	showModalMusculo:boolean=false;
+	showModalMusculoTabSegmentado:boolean=true;
 	
 	tagBody:any;
 	
@@ -40,19 +51,20 @@ export class ValoracionComponent implements OnInit {
 	constructor(private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		var mng	=	this.model.getManejadorDatos();
-
+		/*console.log(this.model);*/
 		this.formControlDataService.getConsultaSelected(this.model.consulta.id).subscribe(
 			data => {
-				/*console.log(data);*/
 				this.model.fill(data);
 				this.valoracion	=	this.model.getFormValoracionAntropometrica();
-				/*console.log(this.valoracion);*/
+				this.detalleMusculo	=	this.valoracion.getDetalleMusculo();
+				this.detalleGrasa	=	this.valoracion.getDetalleGrasa();
 				this.setInfoInit();
 			},
 			error => console.log(<any>error));
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
+		
 	}
 	ngOnDestroy() {
 		this.formControlDataService.setFormControlData(this.model);
@@ -92,7 +104,7 @@ export class ValoracionComponent implements OnInit {
 	}
 		
 	createValoracionAntropometrica(valoracionAntropometrica) {
-		console.log(valoracionAntropometrica);
+		/*console.log(valoracionAntropometrica);*/
 		this.tagBody.classList.add('sending');
 		this.formControlDataService.addValoracionAntropometrica(valoracionAntropometrica)
 		.subscribe(
@@ -106,8 +118,13 @@ export class ValoracionComponent implements OnInit {
 	}
 	closeModal(){
 		this.tagBody.classList.remove('open-modal');
-		this.showModalDatos	=	false;
-		this.showModalGrasa	=	false;
+		this.showModalDatos		=	false;
+		this.showModalGrasa		=	false;
+		if(this.showModalMusculo){
+			this.setInfoMusculo();
+			this.saveInfoMusculo(this.detalleMusculo);
+		}
+		this.showModalMusculo	=	false;
 	}
 	openModalDatos() {
 		this.showModalDatos	=	!this.showModalDatos;
@@ -121,6 +138,13 @@ export class ValoracionComponent implements OnInit {
 		this.showModalGrasa	=	!this.showModalGrasa;
 		//let body = document.getElementsByTagName('body')[0];
 		if(this.showModalGrasa)
+			this.tagBody.classList.add('open-modal');
+		else
+			this.tagBody.classList.remove('open-modal');
+	}	
+	openModalMusculo() {
+		this.showModalMusculo	=	!this.showModalMusculo;
+		if(this.showModalMusculo)
 			this.tagBody.classList.add('open-modal');
 		else
 			this.tagBody.classList.remove('open-modal');
@@ -139,7 +163,7 @@ export class ValoracionComponent implements OnInit {
       }
    }
    tabGrasaSelected(tab:string){
-	   console.log(tab);
+	   /*console.log(tab);*/
       if(tab=='pliegues'){
         this.showModalGrasaTabSegmentado = false;
 		this.tab_grasa_class_segmentado = '';
@@ -154,7 +178,39 @@ export class ValoracionComponent implements OnInit {
         this.tab_grasa_class_pliegues = '';
       }
    }
-	
+	save(){
+		if(this.showModalMusculo){
+			this.setInfoMusculo();
+			this.saveInfoMusculo(this.detalleMusculo);
+		}
+	}
+	setInfoMusculo(){
+		this.detalleMusculo.id					=	0;
+		this.detalleMusculo.tronco				=	this.musculo_tronco;
+		this.detalleMusculo.pierna_derecha		=	this.musculo_pierna_derecha;
+		this.detalleMusculo.pierna_izquierda	=	this.musculo_pierna_izquierda;
+		this.detalleMusculo.brazo_derecho		=	this.musculo_brazo_derecho;
+		this.detalleMusculo.brazo_izquierdo		=	this.musculo_brazo_izquierdo;
+		this.detalleMusculo.valoracion_antropometrica_id	=	this.valoracion.id;
+		
+		var valor	=	Number(this.detalleMusculo.tronco) + Number(this.detalleMusculo.pierna_derecha) + Number(this.detalleMusculo.pierna_izquierda) + Number(this.detalleMusculo.brazo_derecho) + Number(this.detalleMusculo.brazo_izquierdo);
+		this.valoracion.musculo	=	valor/5;
+	}
+	saveInfoMusculo(data){
+		this.tagBody.classList.add('sending');
+		/*console.log('saveInfo:sending...');
+		console.log(data);*/
+		this.formControlDataService.saveDatosMusculo(data)
+		.subscribe(
+			 response  => {
+						console.log('saveInfo:receiving...');
+						console.log(response);
+						this.detalleMusculo.id	=	response['id'];
+						this.tagBody.classList.remove('sending');
+						},
+			error =>  console.log(<any>error)
+		);
+	}
 	get grasaSegmentado(){
 		var i=0;
 		this.grasa.valorGrasaSegmentado	=	0;
@@ -236,13 +292,37 @@ export class ValoracionComponent implements OnInit {
 		return this.grasa.valorGrasaPliegues;
 	}
 	get	imc(){
+		/*if(!this.valoracion.peso)
+			return 0;*/
 		if(!this.valoracion.peso)
-			return 0;
+			return '';
 /*
 =PESO/(ESTATURA*ESTATURA)
+
+=SI(B10<18,5;"BAJO PESO";SI(B10<24,9;"NORMAL";SI(B10<30;"SOBREPESO 1";SI(B10<40;"SOBREPESO 2";"SOBREPESO 3"))))
+
 */
 		this.analisis.imc	=	this.valoracion.peso / ( this.valoracion.estatura *  this.valoracion.estatura );
-		return this.analisis.imc;
+		var _print	=	'';
+		if(this.analisis.imc<18)
+			_print	=	'BAJO PESO';
+		else{
+			if(this.analisis.imc<24)
+				_print	=	'NORMAL';
+			else{
+				if(this.analisis.imc<30)
+					_print	=	'SOBREPESO 1';
+				else{
+					if(this.analisis.imc<40)
+						_print	=	'SOBREPESO 2';
+					else
+						_print	=	'SOBREPESO 2';
+				}
+				
+			}
+		}		
+		/*return this.analisis.imc;*/
+		return _print;
 	}
 	get	pesoIdeal(){
 		if(!this.valoracion.peso)
@@ -293,17 +373,36 @@ export class ValoracionComponent implements OnInit {
 =CINTURA/CADERA
 */
 		this.model.relacionCinturaCadera	=	this.valoracion.circunferencia_cintura/this.valoracion.circunferencia_cadera;
-		return this.model.relacionCinturaCadera;
+		var perc	=	this.model.relacionCinturaCadera*100;
+		/*return this.model.relacionCinturaCadera;*/
+		return perc;
 	}
 	get gradoSobrepeso(){
+		/*if(!this.valoracion.peso)
+			return 0;*/
 		if(!this.valoracion.peso)
-			return 0;		
+			return '';
+/*
 /*
 NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB MEDIA";SI(GRADO_SOBREPESO_VALOR>10;"SOBREP";"NP")))	
 3,793658207		=(PESO-PESO_IDEAL)/PESO_IDEAL*100
 */
 		this.model.gradoSobrepeso	=this.valoracion.peso/this.analisis.pesoIdeal*100;
-		return this.model.gradoSobrepeso;
+		var _print	=	'';
+		if(this.model.gradoSobrepeso>40)
+			_print	=	'OB GRAVE';
+		else{
+			if(this.model.gradoSobrepeso>20)
+				_print	=	'OB MEDIA';
+			else{
+				if(this.model.gradoSobrepeso>10)
+					_print	=	'SOBREPESO';
+				else{_print	=	'NP';
+				}
+			}
+		}		
+		/*return this.model.gradoSobrepeso;*/
+		return _print;
 	}
 	get porcentajePeso(){
 		if(!this.valoracion.peso)

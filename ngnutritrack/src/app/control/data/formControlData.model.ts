@@ -7,24 +7,14 @@ export class FormControlData {
 	rdd:Rdd						=	new Rdd();
 	patronmenu:any[];
 	bioquimicas:any[];
-	
-	
-	
-
 /*	Paciente	*/
 	paciente_id:number=0;
 	nutricionista_id:number=1;//Math.floor((Math.random()*5)+1);
 	
-	dieta_desayuno:string='';
-	dieta_media_manana:string='';
 	dieta_desayuno_ejemplo:string='';
 	dieta_media_manana_ejemplo:string='';
-	dieta_media_tarde:string='';
-	dieta_almuerzo:string='';
 	dieta_almuerzo_ejemplo:string='';
-	dieta_media_tarde_ejemplo:string='';
-	dieta_cena:string='';
-	dieta_coicion_nocturna:string='';
+	dieta_media_tarde_ejemplo:string='';	
 	dieta_cena_ejemplo:string='';
 	dieta_coicion_nocturna_ejemplo:string='';
 
@@ -75,13 +65,15 @@ export class FormControlData {
 		this.consulta			=	new Consulta();			
 		this.prescripcion	=	new Prescripcion();
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
+		/**/
 		this.rdd						=	new Rdd();
 		this.patronmenu					=	[];
 	}
 	
 	fill(data){
 		this.consulta.set(data);
-		var paciente	=	data.paciente[0];
+		//var paciente	=	data.paciente[0];
+		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
 
 		if(data.paciente['hcp']){
@@ -94,13 +86,15 @@ export class FormControlData {
 		/*	VA	*/
 		this.valoracionAntropometrica.consulta_id	=	this.consulta.id;
 		if(data.va){
-			var va			=	data.va[0];
+			/*var va			=	data.va[0];*/
+			var va			=	data.va;
 			this.valoracionAntropometrica.set(va);
 		}
 		this.rdd.consulta_id	=	this.consulta.id;
 		if(data.rdd){
 /*	RDDS	*/
-			var rdd 							=	data.rdd[0];
+			/*var rdd 							=	data.rdd[0];*/
+			var rdd 							=	data.rdd;
 			this.rdd.set(rdd);
 		}
 /*	Dieta	*/
@@ -108,11 +102,12 @@ export class FormControlData {
 		if(data.dieta){
 			if(data.dieta.prescripcion){
 /*		Prescripcion */
-				var prescripcion		=	data.dieta.prescripcion[0];
+				/*var prescripcion		=	data.dieta.prescripcion[0];*/
+				var prescripcion		=	data.dieta.prescripcion;
 				this.prescripcion.set(prescripcion);
 			}
 /*		Patron Menu	*/
-			if(data.dieta.patron_menu)
+			if(data.dieta.patron_menu)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 				this.patronmenu			=	data.dieta.patron_menu;
 		}
 	}
@@ -139,6 +134,9 @@ export class FormControlData {
 	/*getFormHcpPatologias(){
 		return this.hcpPatologias;
 	}*/
+	setPatronMenu(patron_menu){
+		this.patronmenu			=	patron_menu;
+	}
 	setFormPaciente(data){
 		this.paciente.persona_id		=	data.persona_id;
 		this.paciente.notas_patologias	=	data.notas_patologias;
@@ -165,6 +163,7 @@ export class FormControlData {
 		this.paciente.detalles_direccion=	data.detalles_direccion;
 		
 		this.paciente.edad				=	data.edad;
+		this.paciente.esMayor			=	data.edad>17;
 
 	}
 	
@@ -194,6 +193,7 @@ export class Persona{
 	detalles_direccion:string='';
 	
 	edad:number=0;
+	esMayor:boolean=true;
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -244,10 +244,14 @@ export class Paciente extends Persona{
 		this.canton				=	data.canton;
 		this.distrito			=	data.distrito;
 		this.detalles_direccion	=	data.detalles_direccion;
+		
+		this.edad				=	data.edad;
+		this.esMayor			=	data.edad>17;
 	}
 }
 
 export class ValoracionAntropometrica {
+    id: number = 0;
     estatura: number = 0;
     circunferencia_muneca: number = 0;
     peso: number = 0;
@@ -261,7 +265,11 @@ export class ValoracionAntropometrica {
 	circunferencia_cadera: number = 0;
 	consulta_id: number = 0;
 	
+	detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
+	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();
+	
 	set(data:ValoracionAntropometrica){
+		this.id						=	data.id;
 		this.estatura				=	data.estatura;
 		this.circunferencia_muneca	=	data.circunferencia_muneca;
 		this.estatura				=	data.estatura;
@@ -275,14 +283,26 @@ export class ValoracionAntropometrica {
 		this.circunferencia_cintura	=	data.circunferencia_cintura;
 		this.circunferencia_cadera	= 	data.circunferencia_cadera;
 		this.consulta_id			= 	data.consulta_id;
+		
+		if(data.detalleGrasa)
+			this.detalleGrasa	=	data.detalleGrasa;
+		if(data.detalleMusculo)
+			this.detalleMusculo	=	data.detalleMusculo;
+		
 
+	}
+	getDetalleMusculo(){
+		return this.detalleMusculo;
+	}
+	getDetalleGrasa(){
+		return this.detalleGrasa;
 	}
 }
 export class Rdd{
 	id:number;
-	metodo_calculo_gc:string;
-	peso_calculo:number;
-	factor_actividad_sedentaria:number;
+	metodo_calculo_gc:string='benedict';
+	peso_calculo:string='actual';
+	factor_actividad_sedentaria:number=1.4;
 	promedio_gc_diario:number;
 	variacion_calorica:number;
 	consulta_id:number;
@@ -367,8 +387,8 @@ export class Prescripcion{
 		if(prescripcion.items){
 			this.items	=	prescripcion.items;
 		}else{
-			this.items	=[				//		id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
-							new PrescripcionItem(1, 'Leche Descremada x', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
+			this.items	=[				//							id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
+							new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
 							new PrescripcionItem(2, 'Leche 2%', 'leche-2', 'leche_2', 0, 0, 0, 0, 0),
 							new PrescripcionItem(3, 'Leche entera', 'leche-entera', 'leche_entera', 0, 0, 0, 0, 0),
 							new PrescripcionItem(4, 'Vegetales', 'vegetales', 'vegetales', 0, 0, 0, 0, 0),
@@ -390,7 +410,8 @@ export class ManejadorDatos{
 	consulta_id:number=0;
 	paciente_id:number=0;
 	lastStatusMenuPaciente:boolean=false;
-	
+	extraInfoAlimentos:any[];
+		
 	setOperacion(operacion:string){
 		this.operacion	=	operacion;		
 	}
@@ -400,6 +421,25 @@ export class ManejadorDatos{
 	getMenuPacienteLastStatus():boolean{
 		return this.lastStatusMenuPaciente;
 	}
+	getExtraInfoAlimentos(){
+		return this.extraInfoAlimentos;
+	}
+	setExtraInfoAlimentos(){
+		
+		this.extraInfoAlimentos['0']	=	'';
+		this.extraInfoAlimentos['1']	=	{'slug':'leche-descremada', 'ngmodel':'leche_descremada'};
+		this.extraInfoAlimentos['2']	=	{'slug':'leche-2', 'ngmodel':'leche_2'};
+		this.extraInfoAlimentos['3']	=	{'slug':'leche-entera', 'ngmodel':'leche_entera'};
+		this.extraInfoAlimentos['4']	=	{'slug':'vegetales', 'ngmodel':'vegetales'};
+		this.extraInfoAlimentos['5']	=	{'slug':'frutas', 'ngmodel':'frutas'};
+		this.extraInfoAlimentos['6']	=	{'slug':'harinas', 'ngmodel':'harinas'};
+		this.extraInfoAlimentos['7']	=	{'slug':'carne-magra', 'ngmodel':'carne_magra'};
+		this.extraInfoAlimentos['8']	=	{'slug':'harinas', 'ngmodel':'harinas'};
+		this.extraInfoAlimentos['9']	=	{'slug':'carne-grasa', 'ngmodel':'carne_grasa'};
+		this.extraInfoAlimentos['10']	=	{'slug':'azucares', 'ngmodel':'azucares'};
+		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
+		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
+	}
 }
 export class Ejercicio{
 	id:number;
@@ -408,7 +448,7 @@ export class Ejercicio{
 }
 export class PrescripcionItem{
 	
-	constructor(public id:number, public nombre:string, public slug:string, public ngmodel:string, public cantidad:number, public carbohidratos:number, public proteinas:number, public grasas:number, public kcal:number=0) {
+	constructor(public id:number, public nombre:string, public slug:string, public ngmodel:string, public porciones:number, public carbohidratos:number, public proteinas:number, public grasas:number, public kcal:number=0) {
   }
 /*	id:number;
 	nombre:string;
@@ -424,7 +464,25 @@ export class PatronMenu{
 /*, public consulta_id:number*/	
 	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public porciones:number, public ejemplo:string ){}
 }
-export class Grasa{
+export class PatronMenuEjemplo{
+//	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public ejemplo:string ){}
+	dieta_desayuno_ejemplo:string='';
+	dieta_media_manana_ejemplo:string='';
+	dieta_almuerzo_ejemplo:string='';
+	dieta_media_tarde_ejemplo:string='';	
+	dieta_cena_ejemplo:string='';
+	dieta_coicion_nocturna_ejemplo:string='';
+	
+	arrayMenuDesayuno:{ [id: string]: any; };
+	arrayMenuMediaManana:{ [id: string]: any; };
+	arrayMenuAlmuerzo:{ [id: string]: any; };
+	arrayMenuMediaTarde:{ [id: string]: any; };
+	arrayMenuCena:{ [id: string]: any; };
+	arrayMenuCoicionNocturna:{ [id: string]: any; };
+	arrayMenuCurrent:{ [id: string]: any; };
+
+}
+export class DetalleGrasa{
 	abdominal:number=0;
 	piernaIzquierda:number=0;
 	piernaDerecha:number=0;
@@ -438,6 +496,14 @@ export class Grasa{
 	
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
-	
-	
+}
+export class DetalleMusculo{
+	id:number=0;
+	tronco:number=0;
+	pierna_izquierda:number=0;
+	pierna_derecha:number=0;
+	brazo_izquierdo:number=0;
+	brazo_derecho:number=0;
+ 	valoracion_antropometrica_id:number=0;
+		
 }

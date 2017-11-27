@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Analisis,PatronMenu, Paciente } from '../../data/formControlData.model';
+import { Analisis,PatronMenu, PatronMenuEjemplo, Paciente } from '../../data/formControlData.model';
 import { FormControlDataService }     from '../../data/formControlData.service';
 
 @Component({
@@ -9,8 +9,9 @@ import { FormControlDataService }     from '../../data/formControlData.service';
   styles: []
 })
 export class PatronmenuComponent implements OnInit {
-  menus: any[];
+  menus:{ [id: string]: any; } = {'0':''}; 
   asignacionPorciones: {};
+  asignacionEjemplos: {};
   model:any;
   showmodal:boolean=false;
   showmodalgraficos:boolean=false;
@@ -51,12 +52,22 @@ export class PatronmenuComponent implements OnInit {
   
 	alimentos:Object[]=[];
 	tiempos:Object[]=[];
-
-
+	//data:Object[]=[];
+	data:{ [id: string]: any; } = {'0':''}; 
+	oData:{ [id: string]: any; } = {'0':''}; 
+	pme:PatronMenuEjemplo=new PatronMenuEjemplo();
+	
+	tagBody:any;
+	oMenu:{ [id: string]: any; } = {'0':''};
   constructor(private formControlDataService: FormControlDataService) {
     this.model	=	formControlDataService.getFormControlData();
-    this.menus	=	formControlDataService.getFormControlData().patronmenu;	
+	/*
+	this.menus	=	formControlDataService.getFormControlData().patronmenu;	
+	
+	console.log('cargando Patron Menu');
 	console.log(this.menus);
+	this.setInfoInit();
+	*/
   }
   ngOnInit() {
 	this.alimentos['0']	=	'';
@@ -69,9 +80,9 @@ export class PatronmenuComponent implements OnInit {
 	this.alimentos['7']	=	'Carne Magra';
 	this.alimentos['8']	=	'Carne Intermedia';
 	this.alimentos['9']	=	'Carne Grasa';
-	this.alimentos['10']	=	'Azucares';
-	this.alimentos['11']	=	'Grasas';
-	this.alimentos['12']	=	'Vasos de Agua';
+	this.alimentos['10']=	'Azucares';
+	this.alimentos['11']=	'Grasas';
+	this.alimentos['12']=	'Vasos de Agua';
 
 	this.tiempos['']	=	'';
 	this.tiempos['1']	=	'Desayuno';
@@ -79,50 +90,231 @@ export class PatronmenuComponent implements OnInit {
 	this.tiempos['3']	=	'Almuerzo';
 	this.tiempos['4']	=	'Media Tarde';
 	this.tiempos['5']	=	'Cena';
-	this.tiempos['6']	=	'Coici&oacute;n Nocturna';
+	this.tiempos['6']	=	'Coición Nocturna';
+	
+	this.tagBody = document.getElementsByTagName('body')[0];
+	this.tagBody.classList.add('menu-parent-dieta');
+	
+	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
+	console.log('cargando Patron Menu');
+	console.log(this.menus);
+	this.setInfoInit();
+	
   }
 	ngOnDestroy() {
-		//this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
-		if(this.infoEdited())
-			this.saveInfo(this.asignacionPorciones);
+		this.save();
+/*
+		if(this.infoEdited()){
+			this.data['0']	=	'';
+			this.saveInfo(this.data);
+		}
+		
+*/
 
+		this.tagBody.classList.remove('menu-parent-dieta');
 	}
 	setInfoInit(){
-/*		this.oPaciente.cedula				=	this.paciente.cedula;
-		this.oPaciente.nombre				=	this.paciente.nombre;
-		this.oPaciente.genero				=	this.paciente.genero;
-		this.oPaciente.fecha_nac			=	this.paciente.fecha_nac;
-		this.oPaciente.responsable_cedula	=	this.paciente.responsable_cedula;
-		this.oPaciente.responsable_nombre	=	this.paciente.responsable_nombre;
-		this.oPaciente.responsable_parentezco	=	this.paciente.responsable_parentezco;*/
+		this.pme.dieta_desayuno_ejemplo			=	this.model.dieta_desayuno_ejemplo;
+		this.pme.dieta_media_manana_ejemplo		=	this.model.dieta_media_manana_ejemplo;
+		this.pme.dieta_almuerzo_ejemplo			=	this.model.dieta_almuerzo_ejemplo;
+		this.pme.dieta_media_tarde_ejemplo		=	this.model.dieta_media_tarde_ejemplo;
+		this.pme.dieta_cena_ejemplo				=	this.model.dieta_cena_ejemplo;
+		this.pme.dieta_coicion_nocturna_ejemplo	=	this.model.dieta_coicion_nocturna_ejemplo;
+		
+		var aMenu	=	{};
+		this.oMenu	=	{};
+		for(var i in this.menus){
+			var item	=	this.menus[i];
+			var tiempo_de_comida	=	item.tiempo_comida_id;
+			switch(tiempo_de_comida){
+				case 1:
+					aMenu	=	this.arrayMenuDesayuno;
+					break;
+				case 2:
+					aMenu	=	this.arrayMenuMediaManana;
+					break;
+				case 3:
+					aMenu	=	this.arrayMenuAlmuerzo;
+					break;
+				case 4:
+					aMenu	=	this.arrayMenuMediaTarde;
+					break;
+				case 5:
+					aMenu	=	this.arrayMenuCena;
+					break;
+				case 6:
+					aMenu	=	this.arrayMenuCoicionNocturna;
+					break;
+			}
+
+			aMenu[item.grupo_alimento_nutricionista_id]			=	item.porciones;			
+			this.concatenar(aMenu);
+		}
+		this.oMenu[0]	=	'';
+		this.oMenu[1]	=	this.copy(this.arrayMenuDesayuno);
+		this.oMenu[2]	=	this.copy(this.arrayMenuMediaManana);
+		this.oMenu[3]	=	this.copy(this.arrayMenuAlmuerzo);
+		this.oMenu[4]	=	this.copy(this.arrayMenuMediaTarde);
+		this.oMenu[5]	=	this.copy(this.arrayMenuCena);
+		this.oMenu[6]	=	this.copy(this.arrayMenuCoicionNocturna);
+	}
+	copy(data){
+		var myArray={};
+		for(var i in data){
+			/*console.log(i)console.log(data[i])*/
+			myArray[i]	=	data[i];
+		}
+		return myArray;
+	}
+	//prepare(data, tiempo_comida_id, id_consulta){
+	prepare(id_consulta){
+		var myArray=[];
+		
+		var menus	=	[];
+		menus[0]	=	this.arrayMenuDesayuno;
+		menus[1]	=	this.arrayMenuMediaManana;
+		menus[2]	=	this.arrayMenuAlmuerzo;
+		menus[3]	=	this.arrayMenuMediaTarde;
+		menus[4]	=	this.arrayMenuCena;
+		menus[5]	=	this.arrayMenuCoicionNocturna;
+		var j=0;
+		for(var a in menus){
+			var data	=	menus[a];
+			var tiempoComida	=	Number(a) + 1;
+			for(var i in data){
+				var grupoAlimentoNutricionista	=	Number(i);
+				if(Number(i)>0){
+					myArray[j]	=	{'consulta_id': id_consulta, 'ejemplo': '', 'grupo_alimento_nutricionista_id': grupoAlimentoNutricionista, 'porciones': data[grupoAlimentoNutricionista], 'tiempo_comida_id': tiempoComida}
+					j++;
+				}
+			}
+		}
+		return myArray;
+	}
+	infoEdited(){		
+		
+		var result	=	this.infoEditedEjemplos() || this.infoEditedPorciones();
+		return result;
+	}
+	infoEditedEjemplos(){
+		var i=0;
+		var tiempo_de_comidas	=	[];
+		tiempo_de_comidas[i]	=	{'tiempo_id':'0', 'ejemplo':''};
+		i++;
+		if(this.pme.dieta_desayuno_ejemplo !==	this.model.dieta_desayuno_ejemplo){
+			tiempo_de_comidas[i]	=	{'tiempo_id':'1', 'ejemplo':this.model.dieta_desayuno_ejemplo} ;
+			i++;
+		}
+		if(this.pme.dieta_media_manana_ejemplo !==	this.model.dieta_media_manana_ejemplo){
+			tiempo_de_comidas[i]	=	{'tiempo_id':'2', 'ejemplo':this.model.dieta_media_manana_ejemplo};
+			i++;
+		}
+		if(this.pme.dieta_almuerzo_ejemplo !==	this.model.dieta_almuerzo_ejemplo){
+			tiempo_de_comidas[i]	=	{'tiempo_id':'3', 'ejemplo':this.model.dieta_almuerzo_ejemplo};
+			i++;
+		}
+		if(this.pme.dieta_media_tarde_ejemplo !==	this.model.dieta_media_tarde_ejemplo){
+			tiempo_de_comidas[i]	=	{'tiempo_id':'4', 'ejemplo':this.model.dieta_media_tarde_ejemplo};
+			i++;
+		}
+		if(this.pme.dieta_cena_ejemplo !==	this.model.dieta_cena_ejemplo){
+			tiempo_de_comidas[i]	=	{'tiempo_id':'5', 'ejemplo':this.model.dieta_cena_ejemplo};
+			i++;
+		}
+		if(this.pme.dieta_coicion_nocturna_ejemplo	!==	this.model.dieta_coicion_nocturna_ejemplo){
+			tiempo_de_comidas[i]	=	{'tiempo_id':'6', 'ejemplo':this.model.dieta_coicion_nocturna_ejemplo};
+			i++;
+		}
+		if(tiempo_de_comidas.length>1){
+			this.data['tiempos']	=	tiempo_de_comidas;
+			return true;
+		}
+		
+		return false;
+	}
+	infoEditedPorciones(){
+		if(this.chechChangesItems()){
+			this.asignacionPorciones = [
+				{'tiempo_id':'1', 'porciones': this.arrayMenuDesayuno},
+				{'tiempo_id':'2', 'porciones': this.arrayMenuMediaManana},
+				{'tiempo_id':'3', 'porciones': this.arrayMenuAlmuerzo},
+				{'tiempo_id':'4', 'porciones': this.arrayMenuMediaTarde},
+				{'tiempo_id':'5', 'porciones': this.arrayMenuCena},
+				{'tiempo_id':'6', 'porciones': this.arrayMenuCoicionNocturna},
+			];
+			this.data['items']		=	this.asignacionPorciones;
+			return 	true;
+		}
+
+		return false;		
 	}
 	
-	infoEdited(){
-		return 	true;
-/*		return 	(
-			this.oPaciente.cedula					!==	this.paciente.cedula || 
-			this.oPaciente.nombre					!==	this.paciente.nombre || 
-			this.oPaciente.genero					!==	this.paciente.genero || 
-			this.oPaciente.fecha_nac				!==	this.paciente.fecha_nac || 
-			this.oPaciente.responsable_cedula		!==	this.paciente.responsable_cedula || 
-			this.oPaciente.responsable_nombre		!==	this.paciente.responsable_nombre || 
-			this.oPaciente.responsable_parentezco	!==	this.paciente.responsable_parentezco
-		);
+	chechChangesItems(){
+		var obj2	=	{};
+		for(var i in this.oMenu){
+			if(Number(i)>0){
+				var oItem	=	this.oMenu[i];
+				switch(i.toString()){
+					case '1':
+						obj2	=	this.arrayMenuDesayuno;
+						break;
+					case '2':
+						obj2	=	this.arrayMenuMediaManana;
+						break;
+					case '3':
+						obj2	=	this.arrayMenuAlmuerzo;
+						break;
+					case '4':
+						obj2	=	this.arrayMenuMediaTarde;
+						break;
+					case '5':
+						obj2	=	this.arrayMenuCena;
+						break;
+					case '6':
+						obj2	=	this.arrayMenuCoicionNocturna;
+						break;
+				}
+				if(JSON.stringify(oItem) !== JSON.stringify(obj2)){
+					/*console.log('diferentes');console.log(oItem);console.log(obj2);*/
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	save(){		
+		if(this.infoEdited()){
+			console.log('CAMBIOS');
+			this.updateItems();
+			this.data['0']				=	'';
+			this.data['consulta_id']	=	 this.model.getFormConsulta().id;
+			//this.saveInfo(this.data);
+			
+		}
+	}
+	updateItems(){
+		/*console.log('current this.menus');
+		console.log(this.menus);*/
+		this.menus		=	{};
+		this.menus[0]	=	'';
+		var id_consulta	=	this.model.getFormConsulta().id;
+/*		this.menus[1]	=	this.prepare(this.arrayMenuDesayuno,1, id_consulta);
+		this.menus[2]	=	this.prepare(this.arrayMenuMediaManana,2, id_consulta);
+		this.menus[3]	=	this.prepare(this.arrayMenuAlmuerzo,3, id_consulta);
+		this.menus[4]	=	this.prepare(this.arrayMenuMediaTarde,4, id_consulta);
+		this.menus[5]	=	this.prepare(this.arrayMenuCena,5, id_consulta);
+		this.menus[6]	=	this.prepare(this.arrayMenuCoicionNocturna,6, id_consulta);
 */
+		this.menus		=	this.prepare(id_consulta)
+		/*console.log('updated this.menus');
+		console.log(this.menus);*/
+		this.model.setPatronMenu(this.menus);
+		this.formControlDataService.setFormControlData(this.model);		
+		console.log('global this.model');
+		console.log(this.formControlDataService.getFormControlData().patronmenu);
 	}
-	save(){
-		this.asignacionPorciones = {
-				'0': '',
-				'1': this.arrayMenuDesayuno,
-				'2': this.arrayMenuMediaManana,
-				'3': this.arrayMenuAlmuerzo,
-				'4': this.arrayMenuMediaTarde,
-				'5': this.arrayMenuCena,
-				'6': this.arrayMenuCoicionNocturna,
-			};
-		this.saveInfo(this.asignacionPorciones);
-	}
-	saveInfo(data){
+	saveInfo(data){		
+		this.tagBody.classList.add('sending');
 		console.log('saveInfo:sending...');
 		console.log(data);
 		this.formControlDataService.saveDatosPatronMenu(data)
@@ -130,6 +322,7 @@ export class PatronmenuComponent implements OnInit {
 			 response  => {
 						console.log('saveInfo:receiving...');
 						console.log(response);
+						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
 		);

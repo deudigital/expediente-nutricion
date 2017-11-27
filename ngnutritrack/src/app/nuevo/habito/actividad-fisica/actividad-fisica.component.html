@@ -10,7 +10,7 @@
 				<app-habito-nav></app-habito-nav>
 				
 						<div class="row">
-							<table class="table table-bordered habitos">
+							<table class="table habitos">
 								<thead>
 									<tr>
 										<th>Ejercicio</th>
@@ -30,7 +30,7 @@
 
 						  <div class="row">
 							<div class="form-group col-md-6">
-							  <label for="ejercicio" class="col-form-label">Que ejercicio realiza?</label>
+							  <label for="ejercicio" class="col-form-label">¿Que ejercicio realiza?</label>
 							  <select class="form-control" id="ejercicio" name="ejercicio">
 								<option  *ngFor="let ejercicio of ejercicios | async" (click)="onSelect(ejercicio)"
 										[value]="ejercicio.id"

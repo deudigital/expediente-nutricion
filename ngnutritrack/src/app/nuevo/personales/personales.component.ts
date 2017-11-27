@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 import { Analisis, Paciente } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -14,14 +13,14 @@ export class PersonalesComponent implements OnInit {
 	paciente=new Paciente();
 	oPaciente=new Paciente();
 	esMenor:boolean=false;
-	constructor(private formControlDataService: FormControlDataService, private location:Location) {
+	constructor(private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();
 		this.setInfoInit();
 	}
 
 	ngOnInit() {
-		console.log(this.location);
+		this.verificarEdad();
 	}
 	ngOnDestroy() {
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
@@ -62,5 +61,18 @@ export class PersonalesComponent implements OnInit {
 						},
 			error =>  console.log(<any>error)
 		);
+	}
+	verificarEdad() {
+		this.esMenor	=	false;
+		if (this.paciente.fecha_nac) {
+			console.log(Date.now() );
+			/*console.log(Date.now()  +  ' - ' + this.paciente.fecha_nac );
+			var timeDiff = Math.abs(Date.now() - this.paciente.fecha_nac);
+			console.log(timeDiff);
+			var edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);
+			console.log(edad);
+			this.esMenor	=	edad<18;*/
+		
+		}
 	}
 }

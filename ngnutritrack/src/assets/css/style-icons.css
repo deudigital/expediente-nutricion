@@ -31,8 +31,7 @@
 .with-icon.estatura i{background-position: 0 -35px;width: 17px;height: 22px;}
 .with-icon.muneca i {background-position: -85px -35px;width: 15px;height: 22px;}
 .with-icon.peso i {background-position: -56px -35px;width: 21px;height: 21px;}
-.with-icon.grasa i {background-position: -106px -35px;width: 22px;height: 22px;
-}
+.with-icon.grasa i {background-position: -106px -35px;width: 22px;height: 22px;}
 .with-icon.musculo i {background-position: -134px -35px;width: 22px;height: 22px;}
 .with-icon.agua i {background-position: -163px -35px;width: 15px;height: 22px;}
 .with-icon.viceral i {background-position: -184px -35px;width: 24px;height: 22px;}
@@ -48,7 +47,7 @@
 .with-icon.search {margin-top: -13px;position: relative;}
 .with-icon.search i {background-position: -469px -71px;width: 14px;height: 14px;bottom: 18px;left: 25px;}
 
-.ingesta-calorica {text-align:center;}
+.ingesta-calorica {text-align:center;font-weight:600;}
 
 .with-cicle i{display: table-cell;vertical-align: middle;text-align: center;line-height:1.5em}
 .with-cicle i strong {font-weight: 500;font-size: 1.8em;position: relative;top: -5px;}
@@ -97,6 +96,7 @@
 .division-nutricional .distribucion .with-cicle i span {font-size: 0.7em;position: inherit;text-align: inherit;}
 .division-nutricional i {line-height:1.1em}
 .division-nutricional i strong {font-size:1.2em}
+.division-nutricional .ingesta-calorica-recomendada {text-align:center;font-weight:500}
 .division-nutricional .ingesta-calorica-recomendada i {background-position: -389px -140px;width: 39px;height: 39px;display: block;margin: 0 auto 10px;}
 .division-nutricional .ingesta-calorica-recomendada-value i {background-position: 0px -454px;width: 83px;height: 86px;	color: #8bc23f;}
 .division-nutricional .ingesta-calorica-recomendada-value i strong {font-size:1.5em}
@@ -110,40 +110,30 @@
 .with-icon a.link-modal.pen > i {background-position: -27px -30px;width: 21px;height: 25px;right: 30px;bottom: 7px;}
 .with-icon a.link-modal:hover > i {transform:scale(1.3)}
 
-.navigation-habito,
-.navigation-hcp,
-.navigation-dieta{text-align:center;margin-bottom:30px;font-weight:500;}
-.navigation-habito a,
-.navigation-hcp a,
-.navigation-dieta a{color:#000;position:relative;padding-bottom:10px;border-bottom:2px solid transparent;text-decoration:none;font-size:12px;}
-.navigation-habito a.active,
-.navigation-habito a:hover,
-.navigation-hcp  a.active,
-.navigation-hcp  a:hover.active,
-.navigation-dieta a.active,
-.navigation-dieta a:hover{color:#8bc23f;border-color:#8bc23f;}
+.submenu{text-align:center;margin-bottom:30px;font-weight:500;}
+.submenu > li > a{color:#000;position:relative;border-bottom:2px solid transparent;text-decoration:none;font-size:12px;display:inline-block;}
+.submenu > li > a:focus, 
+.submenu > li > a:hover,
+.submenu > li > a.active{color:#8bc23f;border-color:#8bc23f;background-color:transparent;}
+.submenu > li > a > i {display: inline-block;margin-right:10px}
+.submenu > li > a > span {position:relative;top:-7px;}
 
-.navigation-habito a > i ,
-.navigation-hcp a > i ,
-.navigation-dieta a > i {display: inline-block;margin-right:10px}
-.navigation-habito a > span,
-.navigation-hcp a > span,
-.navigation-dieta a > span {position:relative;top:-7px;}
+.submenu > li:not(:first-child):before{ width: 1px; border-left: 1px solid #ccc; content: ""; height: 20px; display: block; position: absolute; left: 0; top: 10px; }
+.submenu > li.hcp-otros > a {top: 15px;position: relative;}
+.submenu > li.hcp-otros > a > i {background-position: -127px -71px;width: 16px;height: 4px;top: -9px;position: relative;}
+
 .navigation-dieta .notas a > i {background-position: -155px -70px;width: 16px;height: 25px;}
 .navigation-dieta .prescripcion a > i{background-position: -155px -70px;width: 20px;height: 25px;}
 .navigation-dieta .patron-menu a > i {background-position: -183px -70px;width: 24px;	height: 22px;}
-
-.navigation-habito .hcp-otros,
-.navigation-hcp .hcp-otros {position: relative;top: 14px;}
 
 .navigation-hcp .hcp-menu a > i {background-position: 0 -71px;width: 25px;height: 26px;}
 .navigation-hcp .alergias a > i {background-position: -35px -71px;width: 25px;height: 26px;}
 .navigation-hcp .medicamentos a > i {background-position: -70px -71px;width: 25px;height: 26px;}
 .navigation-hcp .bioquimica a > i {background-position: -100px -71px;width: 25px;height: 26px;}
-
+/*
 .navigation-habito .hcp-otros a > i,
 .navigation-hcp .hcp-otros a > i {background-position: -127px -71px;width: 16px;height: 4px;top: -9px;position: relative;}
-
+*/
 .navigation-hcp .hcp-menu a.active > i ,
 .navigation-hcp .hcp-menu a:hover > i {background-position: 0 -105px;width: 25px;height: 26px;}
 .navigation-hcp .alergias a.active > i ,
@@ -170,12 +160,13 @@
 .navigation-habito .gustos a > i {background-position: -396px -70px;width: 25px;height: 25px;}
 /*.navigation-habito .hcp-otros a > i {background-position: -333px -70px;width: 25px;height: 25px;}*/
 
+.navigation-habito .actividad a.active > i,
 .navigation-habito .actividad a:hover > i  {background-position: -333px -105px;	}
+.navigation-habito .valoracion-dietetica a.active > i,
 .navigation-habito .valoracion-dietetica a:hover > i  {background-position: -368px -105px;	}
+.navigation-habito .gustos a.active > i  {background-position: -396px -105px;	}
 .navigation-habito .gustos a:hover > i  {background-position: -396px -105px;	}
 /*.navigation-habito .hcp-otros a:hover > i  {background-position: -333px -105px;	}*/
-
-
 /*.navigation-dieta a:hover:before{border-bottom:1px solid #8bc23f;bottom:10px;}*/
 
 .analisis .box i {content: "";display: inline-block;z-index: 100;margin-bottom:10px}
@@ -184,8 +175,6 @@
 .analisis .box.peso-ideal-ajustado i {background-position: -141px -303px;width: 50px;height: 60px;}
 .analisis .box.diferencia-peso i {background-position: -204px -303px;width: 53px;height: 60px;}
 .analisis .box.adecuacion i {background-position: -268px -303px;width: 59px;height: 60px;}
-
-
 .analisis .box.cintura-cadera i {background-position: 0 -370px;width: 41px;height: 70px;}
 .analisis .box.porcentaje-sobrepeso i {background-position: -55px -374px;width: 56px;height: 70px;}
 .analisis .box.grado-sobrepeso i {background-position: -120px -374px;width: 56px;height: 70px;}

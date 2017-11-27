@@ -56,7 +56,7 @@
 								[(ngModel)]="recomendacion.peso_calculo"															
 								>
 							<span>Peso Actual</span>
-						</label><!--[(ngModel)]="model.rdd_metodo_peso"-->
+						</label>
 					</div>
 					<div class="col-sm-4">
 						<label>
@@ -126,7 +126,7 @@
 			</div>
 		</div>
 		<div class="row text-center">
-			<a class="btn btn-default red"  (click)="toggleModalRdds()">Ver Historial RDDs</a>
+			<a class="btn btn-default"  (click)="toggleModalRdds()">Ver Historial RDDs</a>
 		</div>
 	</section>
 	<section>
@@ -135,10 +135,10 @@
 				<h3 class="title">Cálculo Cal&oacute;rico Actual</h3>
 			</header>
 			<div class="row">
-				<div class="form-group col-md-6">						
+				<div class="form-group col-md-offset-2 col-md-4">						
 					<div class="tasa-metabolica col-sm-6">
 						<i></i>
-						Tasa Metab&oacute;lica Basal
+						Tasa Metab&oacute;lica<br>Basal
 					</div>
 					<div class="tasa-metabolica-value with-cicle col-sm-6">
 						<i>
@@ -149,10 +149,10 @@
 						</i>
 					</div>
 				</div>
-				<div class="form-group col-md-6 ">
+				<div class="form-group col-md-4 ">
 					<div class="gasto-calorico-real col-sm-6">
 						<i></i>
-						Gasto Cal&oacute;rico Real
+						Gasto Cal&oacute;rico<br>Real
 					</div>
 					<div class="gasto-calorico-real-value with-cicle col-sm-6">
 						<i>
@@ -209,20 +209,20 @@
 		<div class="body content-form">			
 
 					
-			<div class="row navigation-dieta">
-				<div class="col-sm-6">
+			<ul class="row nav submenu navigation-dieta">
+				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
 						<i class="datos"></i>
 						Datos Generales
 					</a>
-				</div>
-				<div class="col-sm-6">
+				</li>
+				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
 						<i class="grafico"></i>
 						Graficos
 					</a>
-				</div>
-			</div>
+				</li>
+			</ul>
 			<div *ngIf="showModalTabDatos">
 				<table class="table">
 					<thead>
