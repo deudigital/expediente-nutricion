@@ -33,13 +33,27 @@ export class ControlComponent implements OnInit {
 		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		mng.setOperacion('nueva-consulta');
 		mng.setMenuPacienteStatus(false);
-		this.createConsulta(paciente);
+		//this.createConsulta(paciente);
+		this.save(paciente);
 	}
 	createConsulta(paciente) {
 		this.formControlDataService.addConsulta(paciente)
 		.subscribe(
 			 response  => {
 					/*console.log(response);*/
+						this.formControlDataService.setSelectedConsuta(response['data']);
+						this.router.navigate(['/valoracion']);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	
+	save(data){
+		this.formControlDataService.store('consulta', data)
+		.subscribe(
+			 response  => {
+						console.log('Service:consulta->receiving...');
+						console.log(response);
 						this.formControlDataService.setSelectedConsuta(response['data']);
 						this.router.navigate(['/valoracion']);
 						},

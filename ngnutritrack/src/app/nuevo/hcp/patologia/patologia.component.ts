@@ -14,6 +14,7 @@ export class PatologiaComponent implements OnInit {
 		this.paciente	=	formControlDataService.getFormControlData().getFormPaciente();
 	}
   ngOnInit() {
+								
   }
 
 }

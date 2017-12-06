@@ -12,10 +12,27 @@
 					<div class="wrap-patologias">
 						<div class="checkbox">
 							<div class="row">
+								
+							<ng-template [ngIf]="patologias" [ngIfElse]="loading">
+								<div class="col-sm-4" *ngFor="let patologia of patologias">
+									<label>
+										<input 
+											type="checkbox" 
+											name="patologia.id" 
+											value="{{patologia.id}}" 
+											[(ngModel)]="patologia.checked"
+											>
+										<span>{{patologia.nombre}}</span>
+									</label>
+								</div>
+							</ng-template>
+							
+							
+							<ng-template #loading>
 								<div class="col-sm-4">
 									<label>
 										<input type="checkbox" name="hcp" value="estreñimiento">
-										<span>Estreñimiento</span>
+										<span>Estreñimiento *****</span>
 									</label>
 								</div>
 								<div class="col-sm-4">
@@ -48,8 +65,8 @@
 										<span>Hernia hiatal</span>
 									</label>
 								</div>
-							</div>
-							<div class="row">	
+							<!--</div>
+							<div class="row">-->
 								<div class="col-sm-4">
 									<label>
 										<input type="checkbox" name="hcp" value="gastritis">
@@ -85,9 +102,9 @@
 										<input type="checkbox" name="hcp" value="gastritis">
 										<span>Hipotiroidismo</span>
 									</label>
-								</div>
-							</div>
-							<div class="row">
+								</div>	
+							<!--</div>
+							<div class="row">-->
 								<div class="col-sm-4">
 									<label>
 										<input type="checkbox" name="hcp" value="gastritis">
@@ -118,16 +135,22 @@
 										<span>Enfermedades del Corazón</span>
 									</label>
 								</div>
+
+</ng-template>
 								<div class="col-sm-4">
 									<label>
-										<input type="checkbox" name="hcp" value="gastritis">
+										<input type="checkbox" name="hcp" value="cuales">
 										<span>¿Cuáles?</span>
 									</label>
 								</div>
+
+							
 							</div>
-								
 							</div>
+							
 						</div>
+						<!--<button class="btn btn-primary" (click)="saveTest()">Guardar</button>-->
+						
 						<div class="form-group">
 							<label>Notas</label>
 							<textarea name="notas_patologias" class="form-control" placeholder="Notas"  rows="7"

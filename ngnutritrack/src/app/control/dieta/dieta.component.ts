@@ -19,20 +19,20 @@ export class DietaComponent implements OnInit {
 	paciente:Paciente;
 	rdd:Rdd;
 	
-	total_carbohidratos:number;
-	total_proteinas:number;
-	total_grasas:number;
-	total_kcal:number;
+	total_carbohidratos:number=0;
+	total_proteinas:number=0;
+	total_grasas:number=0;
+	total_kcal:number=0;
 	
-	total_faltante_carbohidratos:number;
-	total_faltante_proteinas:number;
-	total_faltante_grasas:number;
-	total_faltante_kcal:number;
+	total_faltante_carbohidratos:number=0;
+	total_faltante_proteinas:number=0;
+	total_faltante_grasas:number=0;
+	total_faltante_kcal:number=0;
 	
-	total_adecuacion_carbohidratos:number;
-	total_adecuacion_proteinas:number;
-	total_adecuacion_grasas:number;
-	total_adecuacion_kcal:number;
+	total_adecuacion_carbohidratos:number=0;
+	total_adecuacion_proteinas:number=0;
+	total_adecuacion_grasas:number=0;
+	total_adecuacion_kcal:number=0;
 
 	showModalDatos:boolean=false;
 	showModalTabDatos:boolean=true;
@@ -51,6 +51,7 @@ export class DietaComponent implements OnInit {
   constructor(private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
 	this.prescripcion	=	this.model.getFormPrescripcion();
+	console.log(this.prescripcion);
 	this.items			=	this.prescripcion.items;	
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
@@ -73,6 +74,10 @@ export class DietaComponent implements OnInit {
 		this.oPrescripcion.carbohidratos	=	this.prescripcion.carbohidratos;
 		this.oPrescripcion.grasas			=	this.prescripcion.grasas;
 		this.oPrescripcion.proteinas		=	this.prescripcion.proteinas;
+		
+		if(this.items.length==0)
+			return ;
+		
 		for(var i =0;i<this.items.length;i++){
 			var obj	=	this.items[i];
 			var presc	=	new PrescripcionItem(obj.id, obj.nombre, obj.slug, obj.ngmodel, obj.porciones, obj.carbohidratos, obj.proteinas, obj.grasas, obj.kcal);
@@ -97,6 +102,8 @@ export class DietaComponent implements OnInit {
 		return false;
 	}	
 	createPrescripcion(prescripcion) {
+		console.log('Prescripcion sending...');
+		console.log(prescripcion);
 		this.formControlDataService.addPrescripcion(prescripcion)
 		.subscribe(
 			 response  => {
@@ -182,16 +189,18 @@ export class DietaComponent implements OnInit {
 		return this.getCalculoKcalGrasas()/9;
 	}
 	calculateItems(){
+		if(this.items.length==0)
+			return ;
 		for(var i =0;i<this.items.length;i++){
 			this.calculate(this.items[i]);
 	   }
 	}
    calculate(item){
-	   var cho_factor=0;
-	   var prot_factor=0;
-	   var grasa_factor=0;
-	   var kcal_factor=0;
-		   switch(item.id){
+	   var cho_factor	=	0;
+	   var prot_factor	=	0;
+	   var grasa_factor	=	0;
+	   var kcal_factor	=	0;
+		switch(item.id){
 			case 1://Leche Descremada
 				cho_factor	=	12;
 				prot_factor	=	8;
@@ -273,27 +282,42 @@ export class DietaComponent implements OnInit {
    }
    
    total(){
-	   var total	=	0;
-		this.total_carbohidratos=0;
-		this.total_proteinas=0;
-		this.total_grasas=0;
-		this.total_kcal=0;
+		var total	=	0;
+		this.total_carbohidratos=	0;
+		this.total_proteinas	=	0;
+		this.total_grasas		=	0;
+		this.total_kcal			=	0;
 	   for(var i =0;i<this.items.length;i++){
-			this.total_carbohidratos +=this.items[i].carbohidratos;
-			this.total_proteinas +=this.items[i].proteinas;
-			this.total_grasas +=this.items[i].grasas;
-			this.total_kcal +=this.items[i].kcal;
+			this.total_carbohidratos+=	this.items[i].carbohidratos;
+			this.total_proteinas 	+=	this.items[i].proteinas;
+			this.total_grasas 		+=	this.items[i].grasas;
+			this.total_kcal 		+=	this.items[i].kcal;
 	   }
-	   this.total_faltante_carbohidratos	=	this.prescripcion.carbohidratos - this.total_carbohidratos;
+	   this.total_faltante_carbohidratos=	this.prescripcion.carbohidratos - this.total_carbohidratos;
 	   this.total_faltante_proteinas	=	this.prescripcion.proteinas - this.total_proteinas;
-	   this.total_faltante_grasas	=	this.prescripcion.grasas - this.total_grasas;
-	   
-	   this.total_adecuacion_carbohidratos	=	this.total_carbohidratos/this.prescripcion.carbohidratos*100;
-	   this.total_adecuacion_proteinas		=	this.total_proteinas/this.prescripcion.proteinas*100;
-	   this.total_adecuacion_grasas			=	this.total_grasas/this.prescripcion.grasas*100;
-	   
+	   this.total_faltante_grasas		=	this.prescripcion.grasas - this.total_grasas;
+
+		if(this.total_carbohidratos)
+			this.total_adecuacion_carbohidratos	=	this.total_carbohidratos/this.prescripcion.carbohidratos*100;
+		else
+			this.total_adecuacion_carbohidratos	=	0;
+		
+		if(this.total_proteinas)
+			this.total_adecuacion_proteinas		=	this.total_proteinas/this.prescripcion.proteinas*100;
+		else
+			this.total_adecuacion_proteinas		=	0;
+		
+		if(this.total_grasas)
+			this.total_adecuacion_grasas			=	this.total_grasas/this.prescripcion.grasas*100;
+		else
+			this.total_adecuacion_grasas			=	0;
+
 	   this.total_faltante_kcal		=	this.rdd.icr - this.total_kcal;
-	   this.total_adecuacion_kcal	=	this.total_kcal/this.prescripcion.grasas*100;
+	   
+	   if(this.total_kcal)
+			this.total_adecuacion_kcal	=	this.total_kcal/this.prescripcion.grasas*100;
+		else
+			this.total_adecuacion_kcal	=	0;
    }
 
 }

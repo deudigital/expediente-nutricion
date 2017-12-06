@@ -7,15 +7,18 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
-	private apiURL	=	'//expediente.nutricion.co.cr/nutri/public/api/v0/';
+	private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
 	data:any={};
-	constructor(private http: Http) {}  
+	constructor(private http: Http) {}
+
+	getDataForm(): Observable<any[]> {
+		return this.http.get( this.apiURL + 'form/data' ).map((response: Response) => response.json());
+	}
 	getPacientesDeNutricionista(): Observable<Paciente[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'pacientes/nutricionista/' + nutricionista_id ).map((response: Response) => response.json());
 	}
 	getConsultaSelected(consulta_id): Observable<Consulta> {
-		console.log('FCDS::ConsSel(): ' + this.apiURL + 'consultas/' + consulta_id + '/all' );
 		return this.http.get( this.apiURL + 'consultas/' + consulta_id + '/all')
 				.map((response: Response) => response.json());
 	}
@@ -64,6 +67,58 @@ export class FormControlDataService {
 		return this.http.post( this.apiURL + 'consultas/musculo', data).map((response: Response) => response.json());
 	}
 	
+	store(module:string, data:any): Observable<any[]> {
+		console.log('Service:' + module + '->sending...');
+		console.log(data);
+		var serviceUrl	=	this.apiURL;
+		switch(module){
+			case 'consulta':
+				serviceUrl	+=	'consultas';
+				break;
+			case 'objetivos':
+				serviceUrl	+=	'pacientes/objetivos';
+				break;
+			case 'medicamentos':
+				serviceUrl	+=	'pacientes/medicamentos';
+				break;
+			case 'gustos':
+				serviceUrl	+=	'pacientes/gustos';
+				break;
+			case 'habitos_ejercicios':
+				serviceUrl	+=	'pacientes/ejercicios';
+				break;
+			case 'habitos_otros':
+				serviceUrl	+=	'pacientes/otros';
+				break;
+			case 'hcf_patologis':
+				serviceUrl	+=	'pacientes/hcfpatologias';
+				break;
+			case 'hcp_patologis':
+				serviceUrl	+=	'pacientes/hcppatologias';
+				break;
+			case 'alergias':
+				serviceUrl	+=	'pacientes/alergias';
+				break;
+		}
+		
+		return this.http.post( serviceUrl, data)
+				.map((response: Response) => response.json());
+	}
+	delete(module:string, data:any): Observable<any[]> {
+		console.log('Service:' + module + '->sending...');
+		console.log(data);
+		var serviceUrl	=	this.apiURL;
+		switch(module){
+			case 'objetivos':
+				serviceUrl	+=	'objetivos/' + data.id + '/delete';
+				break;
+			case 'ejercicios':
+				serviceUrl	+=	'ejercicios/' + data.id + '/delete';
+				break;
+		}
+		return this.http.post( serviceUrl, data)
+				.map((response: Response) => response.json());
+	}
 	setSelectedConsuta(consulta){
 		this.formControlData.setFormConsulta(consulta);
 	}

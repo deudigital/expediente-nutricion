@@ -3,10 +3,19 @@ export class FormControlData {
 	consulta:Consulta			=	new Consulta();	
 	paciente:Paciente			=	new Paciente();	
 	prescripcion:Prescripcion	=	new Prescripcion();
-	valoracionAntropometrica:ValoracionAntropometrica	= 	new ValoracionAntropometrica();
-	rdd:Rdd						=	new Rdd();
-	patronmenu:any[];
-	bioquimicas:any[];
+	valoracionAntropometrica	= 	new ValoracionAntropometrica();
+	rdd:Rdd		=	new Rdd();	
+	gustos		=	new Gusto;
+	habitosOtro	=	new HabitosOtro();
+	
+	patronmenu:any[]=[];
+	bioquimicas:any[]=[];
+	patologias:any[]=[];
+	alergias:any[]=[];
+	hcf_patologias:any[]=[];
+	objetivos:any[]= [];
+	ejercicios:any[]=[];
+
 /*	Paciente	*/
 	paciente_id:number=0;
 	nutricionista_id:number=1;//Math.floor((Math.random()*5)+1);
@@ -70,18 +79,44 @@ export class FormControlData {
 		this.patronmenu					=	[];
 	}
 	
-	fill(data){
+	fill(data){console.log('filling');console.log(data);
 		this.consulta.set(data);
 		//var paciente	=	data.paciente[0];
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
-
-		if(data.paciente['hcp']){
-			if(data.paciente['hcp']['bioquimicas'])
-				this.bioquimicas	=	data.paciente['hcp']['bioquimicas']
-		}
-			
 		
+		if(data.paciente['hcp']){
+			var hcp	=	data.paciente['hcp'];
+			if(hcp['patologias'])
+				this.patologias	=	hcp['patologias'];
+			if(hcp['alergias'])
+				this.alergias	=	hcp['alergias'];
+			if(hcp['bioquimicas'])
+				this.bioquimicas	=	hcp['bioquimicas'];
+		}
+		if(data.paciente['hcf']){
+			var hcf	=	data.paciente['hcf'];
+			if(hcf['patologias'])
+				this.hcf_patologias	=	hcf['patologias'];
+			
+		}
+		if(data.paciente['objetivos'])
+			this.objetivos	=	data.paciente['objetivos'];			
+		
+		if(data.paciente['habitos']){
+			var habitos	=	data.paciente['habitos'];
+			if(habitos['ejercicios'])
+				this.ejercicios	=	habitos['ejercicios'];
+			if(habitos['gustos'])
+				this.gustos	=	habitos['gustos'];
+			if(habitos['otros'])
+				this.habitosOtro	=	habitos['otros'];
+			else
+				this.habitosOtro.paciente_id	=	this.paciente.id;
+			
+		}
+
+		/**/
 		
 		/*	VA	*/
 		this.valoracionAntropometrica.consulta_id	=	this.consulta.id;
@@ -105,7 +140,9 @@ export class FormControlData {
 				/*var prescripcion		=	data.dieta.prescripcion[0];*/
 				var prescripcion		=	data.dieta.prescripcion;
 				this.prescripcion.set(prescripcion);
-			}
+			}else
+				this.prescripcion.items	=	[];
+			
 /*		Patron Menu	*/
 			if(data.dieta.patron_menu)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 				this.patronmenu			=	data.dieta.patron_menu;
@@ -125,8 +162,90 @@ export class FormControlData {
 	getFormPaciente():Paciente{
 		return this.paciente;
 	}
+	getFormPacienteHcpPatologias(){
+		return this.patologias;
+	}
+	setFormPacienteHcpPatologias(patologias){
+		var patologiasSelected	=	[];
+		var	j=0;
+		var obj;
+		for(var i in patologias){
+			var item	=	patologias[i];
+			if(!item.checked)
+				continue;
+			
+			obj						=	new Object();
+			obj.id					=	item.id;
+			obj.nombre				=	item.nombre;
+			obj.hcp_patologia_id	=	item.id;//item.hcf_patologia_id;
+			obj.paciente_id			=	this.paciente.id;//item.paciente_id;
+			patologiasSelected[j]	=	obj;
+			j++;
+		}
+		this.patologias	=	patologiasSelected;
+	}
+	getFormPacienteHcpAlergias(){
+		return this.alergias;
+	}
+	setFormPacienteHcpAlergias(alergias){
+		var alergiasSelected	=	[];
+		var	j=0;
+		var obj;
+		for(var i in alergias){
+			var item	=	alergias[i];
+			if(!item.checked)
+				continue;
+			
+			obj						=	new Object();
+			obj.id					=	item.id;
+			obj.nombre				=	item.nombre;
+			obj.alergia_id	=	item.id;//item.hcf_patologia_id;
+			obj.paciente_id			=	this.paciente.id;//item.paciente_id;
+			alergiasSelected[j]	=	obj;
+			j++;
+		}
+		this.alergias	=	alergiasSelected;
+	}
 	getFormPacienteBioquimicas(){
 		return this.bioquimicas;
+	}
+	getFormPacienteHcfPatologias(){
+		return this.hcf_patologias;
+	}
+	setFormPacienteHcfPatologias(patologias){
+		var patologiasSelected	=	[];
+		var	j=0;
+		var obj;
+		for(var i in patologias){
+			var item	=	patologias[i];
+			if(!item.checked)
+				continue;
+			
+			obj						=	new Object();
+			obj.id					=	item.id;
+			obj.nombre				=	item.nombre;
+			obj.notas				=	item.notas;
+			obj.hcf_patologia_id	=	item.id;//item.hcf_patologia_id;
+			obj.paciente_id			=	this.paciente.id;//item.paciente_id;
+			patologiasSelected[j]	=	obj;
+			j++;
+		}
+		this.hcf_patologias	=	patologiasSelected;
+	}
+	getFormPacienteObjetivos(){
+		return this.objetivos;
+	}
+	getFormPacienteActividades(){
+		return this.objetivos;
+	}
+	getFormPacienteHabitosEjercicios(){
+		return this.ejercicios;
+	}
+	getFormPacienteHabitosGustos(){
+		return this.gustos;
+	}
+	getFormPacienteHabitosOtros(){
+		return this.habitosOtro;
 	}
 	getFormValoracionAntropometrica(){
 		return this.valoracionAntropometrica;
@@ -194,6 +313,25 @@ export class Persona{
 	
 	edad:number=0;
 	esMayor:boolean=true;
+/*	
+	public esMenor():boolean{
+		if (this.fecha_nac) {		
+			var current_fecha = this.fecha_nac.split('/');	
+			console.log(current_fecha);
+			var year	=	Number(current_fecha[2]);
+			var month	=	Number(current_fecha[1]);
+			var day		=	Number(current_fecha[0]);
+			var fecha	=	new Date(year, month, day).getTime();
+			var today	=	new Date().getTime();
+			console.log(fecha + ' - ' + today )			
+			var timeDiff = Math.abs(Date.now() - fecha);
+			console.log(timeDiff);
+			var edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);
+			console.log(edad);
+			return this.edad<18;			
+		}
+		return false;
+	}*/
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -231,6 +369,8 @@ export class Paciente extends Persona{
 		this.responsable_email		=	data.responsable_email;
 		this.usuario			=	data.usuario;
 		this.contrasena			=	data.contrasena;
+		
+		
 
 		this.id					=	data.id;
 		this.cedula				=	data.cedula;
@@ -246,7 +386,22 @@ export class Paciente extends Persona{
 		this.detalles_direccion	=	data.detalles_direccion;
 		
 		this.edad				=	data.edad;
-		this.esMayor			=	data.edad>17;
+		this.esMayor			=	data.esMayor;
+		
+		
+		/*
+		if(data.paciente['hcp']){			
+			if(data.paciente['hcp']['patologias']){
+				this.paciente.setPatologias(data.paciente['hcp']['patologias']);
+			}
+
+			if(data.paciente['hcp']['alergias'])
+				this.alergias	=	data.paciente['hcp']['alergias'];
+			
+			if(data.paciente['hcp']['bioquimicas'])
+				this.bioquimicas	=	data.paciente['hcp']['bioquimicas'];
+		}*/
+		
 	}
 }
 
@@ -303,13 +458,13 @@ export class Rdd{
 	metodo_calculo_gc:string='benedict';
 	peso_calculo:string='actual';
 	factor_actividad_sedentaria:number=1.4;
-	promedio_gc_diario:number;
-	variacion_calorica:number;
+	promedio_gc_diario:number=0;
+	variacion_calorica:number=0;
 	consulta_id:number;
 	
-	tmb:number;
-	gcr:number;
-	icr:number;
+	tmb:number=0;
+	gcr:number=0;
+	icr:number=0;
 
 	set(rdd:Rdd){
 		this.id							=	rdd.id;
@@ -372,22 +527,45 @@ export class Nutricionista {
 }
 export class Prescripcion{
 	id:number;
-	carbohidratos:number;
-	proteinas:number;
-	grasas:number;
+	carbohidratos:number=0;
+	proteinas:number=0;
+	grasas:number=0;
 	consulta_id:number;
-	items:PrescripcionItem[];
+	items:PrescripcionItem[]=[];
 
+	constructor(){
+		this.prepareItems();
+	}
 	set(prescripcion:Prescripcion){
 		this.id				=	prescripcion.id;
 		this.carbohidratos	=	prescripcion.carbohidratos;
 		this.proteinas		=	prescripcion.proteinas;
 		this.grasas			=	prescripcion.grasas;
 		this.consulta_id	=	prescripcion.consulta_id;
-		if(prescripcion.items){
+		console.log('prescripcion.items.length: ' + prescripcion.items.length);
+		if(prescripcion.items.length>0){
 			this.items	=	prescripcion.items;
 		}else{
-			this.items	=[				//							id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
+			/*this.items	=[				//							id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
+							new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
+							new PrescripcionItem(2, 'Leche 2%', 'leche-2', 'leche_2', 0, 0, 0, 0, 0),
+							new PrescripcionItem(3, 'Leche entera', 'leche-entera', 'leche_entera', 0, 0, 0, 0, 0),
+							new PrescripcionItem(4, 'Vegetales', 'vegetales', 'vegetales', 0, 0, 0, 0, 0),
+							new PrescripcionItem(5, 'Frutas', 'frutas', 'frutas', 0, 0, 0, 0, 0),
+							new PrescripcionItem(6, 'Harinas', 'harinas', 'harinas', 0, 0, 0, 0, 0),
+							new PrescripcionItem(7, 'Carne Magra', 'carne-magra', 'carne_magra', 0, 0, 0, 0, 0),
+							new PrescripcionItem(8, 'Carne Intermedia', 'carne-intermedia', 'carne_intermedia', 0, 0, 0, 0, 0),
+							new PrescripcionItem(9, 'Carne Grasa', 'carne-grasa', 'carne_grasa', 0, 0, 0, 0, 0),
+							new PrescripcionItem(10, 'Azúcares', 'azucares', 'azucares', 0, 0, 0, 0, 0),
+							new PrescripcionItem(11, 'Grasas', 'grasas', 'grasas', 0, 0, 0, 0, 0),
+							new PrescripcionItem(12, 'Vasos de Agua', 'vaso-agua', 'vaso_agua', 0, 0, 0, 0, 0)
+						];*/
+			this.prepareItems();
+		}
+		
+	}
+	prepareItems(){
+		this.items	=[				//							id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
 							new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
 							new PrescripcionItem(2, 'Leche 2%', 'leche-2', 'leche_2', 0, 0, 0, 0, 0),
 							new PrescripcionItem(3, 'Leche entera', 'leche-entera', 'leche_entera', 0, 0, 0, 0, 0),
@@ -401,8 +579,6 @@ export class Prescripcion{
 							new PrescripcionItem(11, 'Grasas', 'grasas', 'grasas', 0, 0, 0, 0, 0),
 							new PrescripcionItem(12, 'Vasos de Agua', 'vaso-agua', 'vaso_agua', 0, 0, 0, 0, 0)
 						];
-		}
-		
 	}
 }
 export class ManejadorDatos{
@@ -411,6 +587,13 @@ export class ManejadorDatos{
 	paciente_id:number=0;
 	lastStatusMenuPaciente:boolean=false;
 	extraInfoAlimentos:any[];
+	
+	hcpPatologias:any;
+	hcfPatologias:any;
+	alergias:any;
+	ejercicios:any;
+	tiempo_comidas:any;
+	
 		
 	setOperacion(operacion:string){
 		this.operacion	=	operacion;		
@@ -423,6 +606,18 @@ export class ManejadorDatos{
 	}
 	getExtraInfoAlimentos(){
 		return this.extraInfoAlimentos;
+	}
+	getHcpPatologias(){
+		return this.hcpPatologias;
+	}
+	getHcpAlergias(){
+		return this.alergias;
+	}
+	getHcfPatologias(){
+		return this.hcfPatologias;
+	}
+	getEjercicios(){
+		return this.ejercicios;
 	}
 	setExtraInfoAlimentos(){
 		
@@ -439,6 +634,13 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['10']	=	{'slug':'azucares', 'ngmodel':'azucares'};
 		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
+	}
+	fillDataForm(data){
+		this.hcpPatologias	=	data.hcp_patologias;
+		this.hcfPatologias	=	data.hcf_patologias;
+		this.alergias		=	data.alergias;
+		this.ejercicios		=	data.ejercicios;
+		this.tiempo_comidas	=	data.tiempo_comidas;
 	}
 }
 export class Ejercicio{
@@ -507,3 +709,61 @@ export class DetalleMusculo{
  	valoracion_antropometrica_id:number=0;
 		
 }
+export class Patologia{
+	constructor(public id:number, public nombre:string, public checked:boolean){}
+}
+export class Alergia{
+	constructor(public id:number, public nombre:string, public checked:boolean){}
+}
+export class HcfPatologia{
+	constructor(public id:number, public nombre:string, public checked:boolean, public notas:string, public html:string){}
+}
+export class Objetivo{
+	public id:number;
+	public fecha:string;
+	public descripcion:string;
+	public paciente_id:number;
+	/*constructor(public id:number, public fecha:string, public descripcion:string,public paciente_id:number){}*/
+}
+export class Gusto{
+	public id:number;
+	public comidas_favoritas:string;
+	public comidas_no_gustan:string;
+	public lugar_acostumbra_comer:string;
+	public lugar_caen_mal:string;
+	public notas:string;
+	public paciente_id:number;
+}
+export class HabitosOtro{
+	public id:number;
+	public ocupacion:string;
+	public ocupacion_horas:number;
+	public ocupacion_frecuencia:string;
+	public sueno:string;
+	public fumado:boolean;
+	public fuma_cantidad:number;
+	public fuma_frecuencia:string;
+	public alcohol:boolean;
+	public alcohol_cantidad:number;
+	public alcohol_frecuencia:string;
+	public notas:string;
+	public paciente_id:number; 
+}
+
+export class HabitosEjercicio{
+	public paciente_id:number;
+	public ejercicio_id:number;
+	public horas_semanales:number;
+	public nombre:string;
+	public mets:number;
+	
+}
+
+
+
+
+
+
+
+
+

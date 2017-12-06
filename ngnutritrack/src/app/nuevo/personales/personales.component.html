@@ -7,74 +7,89 @@
 		<div class="col-sm-9 content-form">
 			<section>
 				<div class="row">
-					<div class="form-group col-md-6 with-icon paciente_cedula">
-					  <label for="cedula" class="col-form-label">C&eacute;dula</label>
-					  <input type="text" class="form-control" id="cedula" name="cedula" placeholder="required" required
-					  [(ngModel)]="paciente.cedula"
-					  >
-					  <i></i>
+					<div class="col-md-6">
+						<div class="form-group with-icon paciente_cedula">
+						  <label for="cedula" class="col-form-label">C&eacute;dula</label>
+						  <input type="text" class="form-control" id="cedula" name="cedula" placeholder="required" required
+						  [(ngModel)]="paciente.cedula"
+						  >
+						  <i></i>
+						</div>
 					</div>
-					<div class="form-group col-md-6 with-icon paciente_nombre">
-					  <label for="nombre" class="col-form-label">Nombre Completo</label>
-					  <input type="text" class="form-control" id="nombre" name="nombre" placeholder=""
-					  [(ngModel)]="paciente.nombre"
-					  >
-					  <i></i>
+					<div class="col-md-6">
+						<div class="form-group with-icon paciente_nombre">
+						  <label for="nombre" class="col-form-label">Nombre Completo</label>
+						  <input type="text" class="form-control" id="nombre" name="nombre" placeholder=""
+						  [(ngModel)]="paciente.nombre"
+						  >
+						  <i></i>
+						</div>
 					</div>
-					<div class="form-group col-md-6 genero">
-						<label for="genero" class="col-form-label">G&eacute;nero</label>						
-						<div class="checkbox row">
-							<div class="col-xs-6">
-								<label class="femenino">
-									<input type="radio" name="genero" value="F"
-									[(ngModel)]="paciente.genero"
-									>
-									<span>Femenino</span>
-								</label>
-							</div>
-							<div class="col-xs-6">
-								<label class="masculino">
-									<input type="radio" name="genero" value="M"
-									[(ngModel)]="paciente.genero">
-									<span>Masculino</span>
-								</label>
+					<div class="col-md-6">
+						<div class="form-group genero">
+							<label for="genero" class="col-form-label">G&eacute;nero</label>						
+							<div class="checkbox row">
+								<div class="col-xs-6">
+									<label class="femenino">
+										<input type="radio" name="genero" value="F"
+										[(ngModel)]="paciente.genero"
+										>
+										<span>Femenino</span>
+									</label>
+								</div>
+								<div class="col-xs-6">
+									<label class="masculino">
+										<input type="radio" name="genero" value="M"
+										[(ngModel)]="paciente.genero">
+										<span>Masculino</span>
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="form-group col-md-6 with-icon nacimiento">
-					  <label for="nombre" class="col-form-label">Fecha de Nacimiento</label>
-					  <input type="text" class="form-control" id="fecha_nac" name="fecha_nac" placeholder="dd/mm/aaaa"
-					  [(ngModel)]="paciente.fecha_nac"
-					  >
-					  <i></i>
+					<div class="col-md-6">
+						<div class="form-group with-icon nacimiento">
+						  <label for="nombre" class="col-form-label">Fecha de Nacimiento {{paciente}}</label>
+						  <input type="text" class="form-control" id="fecha_nac" name="fecha_nac" placeholder="dd/mm/aaaa"
+						  [(ngModel)]="paciente.fecha_nac"
+						  (change)="verificarEdad()"						  
+						  >
+						  <i></i>
+						</div>
 					</div>
 				</div>
 			</section>
-			<section *ngIf="esMenor">
+			<section *ngIf="mostrarFormParentezco">
 				  <div class="row">
 					<header class="text-center">
 						<h3 class="title">Datos del Responsable</h3>
 					</header>
-					<div class="form-group col-md-6 with-icon responsable_cedula">
-					  <label for="inputCity" class="col-form-label">Cédula del responsable</label>
-					  <input type="text" class="form-control" id="responsable_cedula" id="responsable_cedula"
-					  [(ngModel)]="paciente.responsable_cedula"
-					  >
-					  <i></i>
+					<div class="col-md-6">
+						<div class="form-group with-icon responsable_cedula">
+						  <label for="inputCity" class="col-form-label">Cédula del responsable</label>
+						  <input type="text" class="form-control" id="responsable_cedula" id="responsable_cedula"
+						  [(ngModel)]="paciente.responsable_cedula"
+						  >
+						  <i></i>
+						</div>
 					</div>
-					<div class="form-group col-md-6 with-icon responsable">
-					  <label for="inputState" class="col-form-label">Nombre Completo</label>
-  					  <input type="text" class="form-control" id="responsable_nombre" name="responsable_nombre" placeholder=""
-					  [(ngModel)]="paciente.responsable_nombre"
-					  >
-					  <i></i>
+					<div class="col-md-6">
+						<div class="form-group with-icon responsable">
+						  <label for="inputState" class="col-form-label">Nombre Completo</label>
+						  <input type="text" class="form-control" id="responsable_nombre" name="responsable_nombre" placeholder=""
+						  [(ngModel)]="paciente.responsable_nombre"
+						  >
+						  <i></i>
+						</div>
 					</div>
-					<div class="form-group col-md-6 with-icon parentezco">
-					  <label for="inputZip" class="col-form-label">Parentezco</label>
-					  <input type="text" class="form-control" id="parentezco"
-					  [(ngModel)]="paciente.responsable_parentezco"
-					  >
-					  <i></i>
+					<div class="col-md-6">
+						<div class="form-group with-icon parentezco">
+						  <label for="inputZip" class="col-form-label">Parentezco</label>
+						  <input type="text" class="form-control" id="parentezco"
+						  [(ngModel)]="paciente.responsable_parentezco"
+						  >
+						  <i></i>
+						</div>
 					</div>
 				  </div>
 			</section>

@@ -2,27 +2,44 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
-			<!--<app-nuevo-nav></app-nuevo-nav>-->
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
 			<section>
 				<app-habito-nav></app-habito-nav>			
-			<div class="row">
+			<div class="row dif">
 				<div class="col-md-6">
-					
-					<div class="row">
-						<div class="form-group col-md-6">
-							<label for="cedula" class="col-form-label">Trabajo / Ocupación</label>
-							<input type="text" class="form-control" id="trabajo_descripcion" name="trabajo_descripcion" placeholder="Descripcion">
+					<div class="row np-section">
+						<div class="col-md-6">
+							<label for="cedula">Trabajo / Ocupación</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="ocupacion" 
+								name="ocupacion" 
+								[(ngModel)]="otros.ocupacion"
+								>
 						</div>
-						<div class="form-group col-sm-3">
+						<div class="col-sm-3">
 							<label>&nbsp;</label>
-							<input type="number" class="form-control" id="trabajo_horas" name="trabajo_horas" placeholder="Horas">
+							<input 
+								type="number" 
+								class="form-control" 
+								id="ocupacion_horas" 
+								name="ocupacion_horas" 
+								placeholder="Horas" 
+								[(ngModel)]="otros.ocupacion_horas"
+								>
 						</div>
-						<div class="form-group col-sm-3 nplr">
+						<div class="col-sm-3">
 							<label>&nbsp;</label>
-							<select id="trabajo_frecuencia" name="trabajo_frecuencia" class="form-control">
+							<select 
+								id="ocupacion_frecuencia" 
+								name="ocupacion_frecuencia" 
+								class="form-control" 
+								placeholder="Frecuencia"
+								[(ngModel)]="otros.ocupacion_frecuencia"
+								>
 								<option value="diarias">Diarias</option>
 								<option value="semanales">Semanales</option>
 								<option value="mensuales">Mensuales</option>
@@ -32,59 +49,105 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="nombre" class="col-form-label">Sueño</label>
-						<input type="text" class="form-control" id="suenho" name="suenho" placeholder="Horas al día">
+						<label for="nombre">Sueño</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							id="sueno" 
+							name="sueno" 
+							placeholder="Horas al día"
+							[(ngModel)]="otros.sueno"
+							>
 					</div>
 				</div>
 
-						
+			</div>
+			<div class="row dif">			
 				<div class="col-md-6">
-					<label for="cedula" class="col-form-label">&nbsp;</label>
-					<div class="row">
-						<div class="col-sm-6">						
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" id="fuma_check" name="fuma_check" value="fuma">
-									<span>Fumado</span>
-								</label>
+					<div class="row np-section">
+							<div class="col-sm-6">						
+								<div class="checkbox">
+									<label>
+										<input 
+											type="checkbox" 
+											name="fumado"
+											[(ngModel)]="otros.fumado"
+											>
+										<span>Fumado</span>
+									</label>
+								</div>
 							</div>
-						</div>
-						<div class="col-sm-3">
-							<input type="number" class="form-control" id="fuma_cantidad" name="fuma_cantidad" placeholder="Cantidad">
-						</div>
-						<div class="col-sm-3 nplr">
-							<select id="fuma_frecuencia" name="fuma_frecuencia" class="form-control">
-								<option value="diarias">Diarias</option>
-								<option value="semanales">Semanales</option>
-								<option value="mensuales">Mensuales</option>
-							</select>
-						</div>						
+							<div class="col-sm-3" *ngIf="otros.fumado">
+								<input 
+									type="number" 
+									class="form-control" 
+									id="fuma_cantidad" 
+									name="fuma_cantidad" 
+									placeholder="Cantidad"
+									[(ngModel)]="otros.fuma_cantidad"
+									>
+							</div>
+							<div class="col-sm-3" *ngIf="otros.fumado">
+								<select 
+									id="fuma_frecuencia" 
+									name="fuma_frecuencia" 
+									class="form-control"
+									[(ngModel)]="otros.fuma_frecuencia"
+									>
+									<option value="diarias">Diarias</option>
+									<option value="semanales">Semanales</option>
+									<option value="mensuales">Mensuales</option>
+								</select>
+							</div>						
 					</div>
 				</div>
 				
 				<div class="col-md-6">
-					<label for="cedula" class="col-form-label">&nbsp;</label>
-					<div class="row">
+					<div class="row np-section">
 						<div class="col-sm-6">
 							<div class="checkbox">
 								<label>
-									<input type="checkbox" id="alcohol_check" name="alcohol_check" value="Ingesta de Alcohol">
+									<input 
+										type="checkbox" 
+										name="alcohol"
+										[(ngModel)]="otros.alcohol"
+										>
 									<span>Ingesta de Alcohol</span>
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="alcohol_cantidad" name="alcohol_cantidad" placeholder="Cantidad">
+						<div class="col-sm-3" *ngIf="otros.alcohol">
+							<input 
+								type="number" 
+								class="form-control" 
+								id="alcohol_cantidad" 
+								name="alcohol_cantidad" 
+								placeholder="Cantidad"
+								[(ngModel)]="otros.alcohol_cantidad"
+								>
 						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="alcohol_frecuencia" name="alcohol_frecuencia" placeholder="Frecuencia">
+						<div class="col-sm-3" *ngIf="otros.alcohol">
+							<select 
+								id="alcohol_frecuencia" 
+								name="alcohol_frecuencia" 
+								class="form-control"
+								[(ngModel)]="otros.alcohol_frecuencia"
+								>
+								<option value="diarias">Diarias</option>
+								<option value="semanales">Semanales</option>
+								<option value="mensuales">Mensuales</option>
+							</select>
 						</div>
 					</div>
 				</div>
 			</div>
 				<div class="form-group">
-					<label for="nombre" class="col-form-label">Notas</label>
-					<textarea class="form-control" rows="5"></textarea>
+					<label for="nombre">Notas</label>
+					<textarea 
+						class="form-control" 
+						rows="5"
+						[(ngModel)]="otros.notas"
+						></textarea>
 				</div>
 			</section>
 		</div>

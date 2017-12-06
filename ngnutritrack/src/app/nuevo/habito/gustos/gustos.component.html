@@ -2,35 +2,63 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
-			<!--<app-nuevo-nav></app-nuevo-nav>-->
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
 			<section>
 				<app-habito-nav></app-habito-nav>
-				
-						<div class="row">
-							<div class="form-group col-md-6">
-								<label for="cedula" class="col-form-label">Comidas Favoritas</label>
-								<input type="text" class="form-control" id="phone" name="phone_responsable" placeholder="">
-							</div>
-							<div class="form-group col-md-6">
-								<label for="nombre" class="col-form-label">Comidas que no le gustan</label>
-								<input type="text" class="form-control" id="email" name="email" placeholder="">
-							</div>
-							<div class="form-group col-md-6">
-								<label for="cedula" class="col-form-label">Lugar(es) donde acostumbra a comer</label>
-								<input type="text" class="form-control" id="phone" name="phone_responsable" placeholder="">
-							</div>
-							<div class="form-group col-md-6">
-								<label for="nombre" class="col-form-label">Intolerancias/comidas que le caen mal</label>
-								<input type="text" class="form-control" id="email" name="email" placeholder="">
-							</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="comidas_favoritas">Comidas Favoritas</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="comidas_favoritas" 
+								name="comidas_favoritas" 
+								[(ngModel)]="gusto.comidas_favoritas"
+								>
 						</div>
-						<div class="form-group">
-							<label for="nombre" class="col-form-label">Notas</label>
-							<textarea class="form-control" rows="8"></textarea>
+						<div class="form-group col-md-6">
+							<label for="comidas_no_gustan">Comidas que no le gustan</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="comidas_no_gustan" 
+								name="comidas_no_gustan" 
+								[(ngModel)]="gusto.comidas_no_gustan"
+								>
 						</div>
+						<div class="form-group col-md-6">
+							<label for="lugar_acostumbra_comer">Lugar(es) donde acostumbra a comer</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="lugar_acostumbra_comer" 
+								name="lugar_acostumbra_comer" 
+								[(ngModel)]="gusto.lugar_acostumbra_comer"
+								>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="lugar_caen_mal">Intolerancias/comidas que le caen mal</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="lugar_caen_mal" 
+								name="lugar_caen_mal" 
+								[(ngModel)]="gusto.lugar_caen_mal"
+								>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="notas">Notas</label>
+						<textarea 
+							id="notas" 
+							name="notas" 
+							class="form-control" 
+							rows="8"
+							[(ngModel)]="gusto.notas"
+					></textarea>
+					</div>
 					
 			</section>
 		</div>

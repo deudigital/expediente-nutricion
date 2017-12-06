@@ -61,6 +61,7 @@ export class RecomendacionComponent implements OnInit {
 	}
 	
 	createRdds(recomendacion) {
+		console.log('rdds sending...');
 		console.log(recomendacion);
 
 		this.formControlDataService.addRdds(recomendacion)

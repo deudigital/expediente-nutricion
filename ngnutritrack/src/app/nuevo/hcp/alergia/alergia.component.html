@@ -2,7 +2,6 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
-			<!--<app-nuevo-nav></app-nuevo-nav>-->
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
@@ -12,12 +11,30 @@
 						<div class="row wrap-patologias">
 						
 							<div class="checkbox">
+							
+							
+							<ng-template [ngIf]="alergias" [ngIfElse]="loading">
+							
+								<div class="col-sm-4" *ngFor="let alergia of alergias">
+									<label>
+										<input 
+											type="checkbox" 
+											name="alergia.id" 
+											value="{{alergia.id}}" 
+											[(ngModel)]="alergia.checked"
+											>
+										<span>{{alergia.nombre}}</span>
+									</label>
+								</div>
+								
+							</ng-template>
+							<ng-template #loading>	
 								<div class="col-sm-4">
 									<label>
 										<input type="checkbox" name="hcp" value="lacteos">
 										<span>L&aacute;cteos</span>
 									</label>
-								</div>
+								</div>								
 								<div class="col-sm-4">
 									<label>
 										<input type="checkbox" name="hcp" value="gluten">
@@ -72,6 +89,8 @@
 										<span>Carnes</span>
 									</label>
 								</div>
+							</ng-template>
+								
 							</div>
 						</div>
 						<div class="form-group">

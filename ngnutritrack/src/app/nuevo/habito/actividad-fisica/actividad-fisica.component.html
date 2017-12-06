@@ -2,48 +2,65 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
-			<!--<app-nuevo-nav></app-nuevo-nav>-->
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
 			<section>
-				<app-habito-nav></app-habito-nav>
+				<app-habito-nav></app-habito-nav>				
+				<div class="row">
+					<table class="table habitos">
+						<thead>
+							<tr>
+								<th>Ejercicio</th>
+								<th>Horas por Semana</th>
+							</tr>
+						</thead>
+						<tbody>
+						<ng-template ngFor let-habitosEjercicio [ngForOf]= "habitosEjercicios" let-i="index">
+							<tr>
+								<td><a class="remove-item" (click)="remove(habitosEjercicio)"><i></i></a>{{habitosEjercicio.nombre}}</td>
+								<td>{{habitosEjercicio.horas_semanales}}</td>
+							</tr>
+						</ng-template>
+						</tbody>
+					</table>
+				</div>
 				
+				<p><small>El gasto cal&oacute;rico de estas actividades f&iacute;sicas se calcular&aacute; automaticamente 
+				una vez se ingrese el peso del paciente mas adelante en la valoraci&oacute;n antropom&eacute;trica</small></p>
+				
+				<div class="container-form">
+					<div class="actions">
+						<a [ngClass]="{'form-close objetivos':nuevo, 'form-open': !nuevo }" (click)="showFormEdit()" href="javascript:void(0)"><i></i>Añadir Ejercicio</a>
+					</div>					
+					<div class="form-edit objetivo" ng-animate="'example'" *ngIf="nuevo">
+						<div class="form-group">
+							<label for="ejercicio" class="col-form-label">¿Que ejercicio realiza?</label>
+						</div>
 						<div class="row">
-							<table class="table habitos">
-								<thead>
-									<tr>
-										<th>Ejercicio</th>
-										<th>Horas por Semana</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="remove-item"><i class="remove-"></i>Nadar</td>
-										<td>5 Horas</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>	
-
-						  <hr />
-
-						  <div class="row">
-							<div class="form-group col-md-6">
-							  <label for="ejercicio" class="col-form-label">¿Que ejercicio realiza?</label>
-							  <select class="form-control" id="ejercicio" name="ejercicio">
-								<option  *ngFor="let ejercicio of ejercicios | async" (click)="onSelect(ejercicio)"
-										[value]="ejercicio.id"
-										>{{ejercicio.nombre}}</option>
-							  </select>
+							<div class="col-md-6">								  
+								  <select 
+									class="form-control" 
+									id="ejercicio" 
+									name="ejercicio"
+									[(ngModel)]="newHabitosEjercicio.ejercicio_id"
+									>
+										<option *ngFor="let ejercicio of ejercicios" [ngValue]="ejercicio">{{ejercicio.nombre}}</option>
+								  </select>
 							</div>
-							<div class="form-group col-md-6">
-							  <label for="tiempo_semana" class="col-form-label">Tiempo por semana</label>
-							  <input type="text" class="form-control" id="tiempo_semana" name="tiempo_semana" placeholder="En Horas">
+							<div class="col-md-6">
+								<input type="text" class="form-control" 
+									id="tiempo_semana" name="tiempo_semana" placeholder="Tiempo por semana"
+									[(ngModel)]="newHabitosEjercicio.horas_semanales"
+									
+									>
 							</div>
-						  </div>
-							<a href="#" class="add-item"><i></i>Añadir Ejercicio</a>
-					
+						</div>
+						<div class="actions text-center">
+							<a (click)="adicionarNuevo()" class="btn btn-default">AÑADIR</a>
+						</div>
+					</div>
+				</div>
 			</section>
 		</div>
 	</div>

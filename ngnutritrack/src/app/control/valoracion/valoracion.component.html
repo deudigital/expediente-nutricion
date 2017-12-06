@@ -17,79 +17,101 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-sm-6 with-icon estatura">
-						<label class="col-form-label" for="estatura">Estatura</label>
+					<div class="col-sm-6 with-icon estatura">
+						<div class="form-group with-icon estatura">
+							<label class="col-form-label" for="estatura">Estatura</label>
 
-							<input 
-							class="form-control" 
-							id="estatura" 
-							name="estatura" 
-							placeholder="En metros" 
-							type="text" 
-							[(ngModel)]="valoracion.estatura">
-						<i></i>
-					</div>
-					<div class="form-group col-sm-6 with-icon muneca">
-						<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
-						<input class="form-control" id="muneca" name="muneca" placeholder="En centímetros" type="text"
-						[(ngModel)]="valoracion.circunferencia_muneca">
-						<i></i>
-					</div>
-					<div class="form-group col-sm-6 with-icon peso">
-						<label class="col-form-label" for="peso">Peso</label>
-						<input class="form-control" id="peso" name="peso" placeholder="Kilogramos" type="text"
-						[(ngModel)]="valoracion.peso">
-						<i></i>
-					</div>
-					<div class="form-group col-sm-6 with-icon grasa">
-						<label class="col-form-label" for="grasa">Grasa</label>						
-							<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
-							[(ngModel)]="valoracion.grasa">
+								<input 
+								class="form-control" 
+								id="estatura" 
+								name="estatura" 
+								placeholder="En metros" 
+								type="text" 
+								[(ngModel)]="valoracion.estatura">
 							<i></i>
-							<a (click)="openModalGrasa()" class="link-modal pen"><i></i></a>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon musculo">
-						<label class="col-form-label" for="musculo">Músculo</label>
-						<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
-						[(ngModel)]="valoracion.musculo">
-						<i></i>
-						<a (click)="openModalMusculo()" class="link-modal pen"><i></i></a>
+					<div class="col-sm-6">
+						<div class="form-group with-icon muneca">
+							<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
+							<input class="form-control" id="muneca" name="muneca" placeholder="En centímetros" type="text"
+							[(ngModel)]="valoracion.circunferencia_muneca">
+							<i></i>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon agua">
-						<label class="col-form-label" for="agua">Agua</label>
-						<input class="form-control" id="agua" name="agua" placeholder="Porcentaje" type="text"
-						[(ngModel)]="valoracion.agua">
-						<i></i>
+					<div class="col-sm-6">
+						<div class="form-group with-icon peso">
+							<label class="col-form-label" for="peso">Peso</label>
+							<input class="form-control" id="peso" name="peso" placeholder="Kilogramos" type="text"
+							[(ngModel)]="valoracion.peso">
+							<i></i>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon viceral">
-						<label class="col-form-label" for="viceral">Grasa Viceral</label>
-						<input class="form-control" id="viceral" name="viceral" placeholder="Porcentaje" type="text"
-						[(ngModel)]="valoracion.grasa_viceral">
-						<i></i>
+					<div class="col-sm-6">
+						<div class="form-group with-icon grasa">
+							<label class="col-form-label" for="grasa">Grasa</label>						
+								<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
+								[(ngModel)]="valoracion.grasa">
+								<i></i>
+								<a (click)="openModalGrasa()" class="link-modal pen"><i></i></a>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon hueso">
-						<label class="col-form-label" for="hueso">Hueso</label>
-						<input class="form-control" id="hueso" name="hueso" placeholder="Kilogramos" type="text"
-						[(ngModel)]="valoracion.hueso">
-						<i></i>
+					<div class="col-sm-6">
+						<div class="form-group with-icon musculo">
+							<label class="col-form-label" for="musculo">Músculo</label>
+							<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
+							[(ngModel)]="valoracion.musculo">
+							<i></i>
+							<a (click)="openModalMusculo()" class="link-modal pen"><i></i></a>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon edad_metabolica">
-						<label class="col-form-label" for="edad_metabolica">Edad Metabólica</label>
-						<input class="form-control" id="edad_metabolica" name="edad_metabolica" placeholder="Años" type="text"
-						[(ngModel)]="valoracion.edad_metabolica">
-						<i></i>
+					<div class="col-sm-6">
+						<div class="form-group with-icon agua">
+							<label class="col-form-label" for="agua">Agua</label>
+							<input class="form-control" id="agua" name="agua" placeholder="Porcentaje" type="text"
+							[(ngModel)]="valoracion.agua">
+							<i></i>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon cintura">
-						<label class="col-form-label" for="cintura">Circunferencia Cintura</label>
-						<input class="form-control" id="cintura" name="cintura" placeholder="En centímetros" type="text"
-						[(ngModel)]="valoracion.circunferencia_cintura">
-						<i></i>
+					<div class="col-sm-6">
+						<div class="form-group with-icon viceral">
+							<label class="col-form-label" for="viceral">Grasa Viceral</label>
+							<input class="form-control" id="viceral" name="viceral" placeholder="Porcentaje" type="text"
+							[(ngModel)]="valoracion.grasa_viceral">
+							<i></i>
+						</div>
 					</div>
-					<div class="form-group col-sm-6 with-icon cadera">
-						<label class="col-form-label" for="cadera">Circunferencia Cadera</label>
-						<input class="form-control" id="cadera" name="cadera" placeholder="En centímetros" type="text"
-						[(ngModel)]="valoracion.circunferencia_cadera">
-						<i></i>
+					<div class="col-sm-6">
+						<div class="form-group with-icon hueso">
+							<label class="col-form-label" for="hueso">Hueso</label>
+							<input class="form-control" id="hueso" name="hueso" placeholder="Kilogramos" type="text"
+							[(ngModel)]="valoracion.hueso">
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon edad_metabolica">
+							<label class="col-form-label" for="edad_metabolica">Edad Metabólica</label>
+							<input class="form-control" id="edad_metabolica" name="edad_metabolica" placeholder="Años" type="text"
+							[(ngModel)]="valoracion.edad_metabolica">
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon cintura">
+							<label class="col-form-label" for="cintura">Circunferencia Cintura</label>
+							<input class="form-control" id="cintura" name="cintura" placeholder="En centímetros" type="text"
+							[(ngModel)]="valoracion.circunferencia_cintura">
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon cadera">
+							<label class="col-form-label" for="cadera">Circunferencia Cadera</label>
+							<input class="form-control" id="cadera" name="cadera" placeholder="En centímetros" type="text"
+							[(ngModel)]="valoracion.circunferencia_cadera">
+							<i></i>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -502,7 +524,7 @@
 						</div>
 					</div>
 				</div>
-				 %
+				 {{musculoSegmentado}} %
 <button class="btn btn-default" (click)="save()">SaVE</button>
 
 		</div>

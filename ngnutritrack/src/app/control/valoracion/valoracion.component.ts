@@ -14,7 +14,7 @@ export class ValoracionComponent implements OnInit {
 	analisis=new Analisis();
 	valoracion=new ValoracionAntropometrica();
 	oValoracion=new ValoracionAntropometrica();
-	grasa:any;
+	grasa=new DetalleGrasa();
 	detalleMusculo:DetalleMusculo=new DetalleMusculo();
 	detalleGrasa:DetalleGrasa=new DetalleGrasa();
 	paciente=new Paciente();
@@ -51,12 +51,13 @@ export class ValoracionComponent implements OnInit {
 	constructor(private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		var mng	=	this.model.getManejadorDatos();
-		/*console.log(this.model);*/
+		console.log(this.model);
 		this.formControlDataService.getConsultaSelected(this.model.consulta.id).subscribe(
 			data => {
 				this.model.fill(data);
 				this.valoracion	=	this.model.getFormValoracionAntropometrica();
 				this.detalleMusculo	=	this.valoracion.getDetalleMusculo();
+				this.grasa			=	this.valoracion.getDetalleGrasa();
 				this.detalleGrasa	=	this.valoracion.getDetalleGrasa();
 				this.setInfoInit();
 			},
@@ -137,10 +138,24 @@ export class ValoracionComponent implements OnInit {
 	openModalGrasa() {
 		this.showModalGrasa	=	!this.showModalGrasa;
 		//let body = document.getElementsByTagName('body')[0];
+		
+		
 		if(this.showModalGrasa)
 			this.tagBody.classList.add('open-modal');
-		else
+		else{
+			console.log('this.showModalGrasaTabPliegues:' + this.showModalGrasaTabPliegues);
+			console.log('this.grasa.valorGrasaPliegues:' + this.grasa.valorGrasaPliegues);
+			console.log('this.grasa.valorGrasaSegmentado:' + this.grasa.valorGrasaSegmentado);
+			
+			if(this.showModalGrasaTabPliegues)
+				this.valoracion.grasa	=	this.grasa.valorGrasaPliegues;
+			else
+				this.valoracion.grasa	=	this.grasa.valorGrasaSegmentado;
+
 			this.tagBody.classList.remove('open-modal');
+			
+			
+		}
 	}	
 	openModalMusculo() {
 		this.showModalMusculo	=	!this.showModalMusculo;
@@ -185,21 +200,21 @@ export class ValoracionComponent implements OnInit {
 		}
 	}
 	setInfoMusculo(){
-		this.detalleMusculo.id					=	0;
+		/*this.detalleMusculo.id					=	0;
 		this.detalleMusculo.tronco				=	this.musculo_tronco;
 		this.detalleMusculo.pierna_derecha		=	this.musculo_pierna_derecha;
 		this.detalleMusculo.pierna_izquierda	=	this.musculo_pierna_izquierda;
 		this.detalleMusculo.brazo_derecho		=	this.musculo_brazo_derecho;
 		this.detalleMusculo.brazo_izquierdo		=	this.musculo_brazo_izquierdo;
 		this.detalleMusculo.valoracion_antropometrica_id	=	this.valoracion.id;
-		
+		*/
 		var valor	=	Number(this.detalleMusculo.tronco) + Number(this.detalleMusculo.pierna_derecha) + Number(this.detalleMusculo.pierna_izquierda) + Number(this.detalleMusculo.brazo_derecho) + Number(this.detalleMusculo.brazo_izquierdo);
 		this.valoracion.musculo	=	valor/5;
 	}
 	saveInfoMusculo(data){
 		this.tagBody.classList.add('sending');
-		/*console.log('saveInfo:sending...');
-		console.log(data);*/
+		console.log('saveInfo:sending...');
+		console.log(data);
 		this.formControlDataService.saveDatosMusculo(data)
 		.subscribe(
 			 response  => {
@@ -210,6 +225,14 @@ export class ValoracionComponent implements OnInit {
 						},
 			error =>  console.log(<any>error)
 		);
+	}
+	calcularMusculoSegmentado(){
+		var valor	=	Number(this.detalleMusculo.tronco) + Number(this.detalleMusculo.pierna_derecha) + Number(this.detalleMusculo.pierna_izquierda) + Number(this.detalleMusculo.brazo_derecho) + Number(this.detalleMusculo.brazo_izquierdo);
+		this.valoracion.musculo	=	valor/5;
+		return this.valoracion.musculo;
+	}
+	get musculoSegmentado(){
+		return this.calcularMusculoSegmentado();
 	}
 	get grasaSegmentado(){
 		var i=0;
@@ -287,7 +310,7 @@ export class ValoracionComponent implements OnInit {
 						}
 		/*console.log(D);*/
 /*	Porcentage de grasa (%) = (495 / D) – 450	*/
-		console.log('(495' + '/' + D + ')-450');
+		/*console.log('(495' + '/' + D + ')-450');*/
 		this.grasa.valorGrasaPliegues	=	(495/D)-450;
 		return this.grasa.valorGrasaPliegues;
 	}

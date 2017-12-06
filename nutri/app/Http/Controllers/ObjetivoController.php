@@ -13,7 +13,8 @@ class ObjetivoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {$response	=	Response::json(['index'], 201);
+		return $response;
         $registros	=	Objetivo::All();
 		if(count($registros)>0)
 			/*$response	=	Response::json($registros, 200);*/
@@ -29,7 +30,8 @@ class ObjetivoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {$response	=	Response::json(['create'], 201);
+		return $response;
         //
     }
 
@@ -40,8 +42,8 @@ class ObjetivoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {       
-        \App\Objetivo::create([
+    {
+        Objetivo::create([
             'fecha' => $request['fecha'],            
             'descripcion' => $request['descripcion'],
             'paciente_id' => $request['paciente_id'],
@@ -63,7 +65,8 @@ class ObjetivoController extends Controller
      */
     public function show($id)
     {
-        //
+        $response	=	Response::json(['show'], 201);
+		return $response;
     }
 
     /**
@@ -74,7 +77,8 @@ class ObjetivoController extends Controller
      */
     public function edit($id)
     {
-        //
+       $response	=	Response::json(['edit'], 201);
+		return $response;
     }
 
     /**
@@ -86,7 +90,8 @@ class ObjetivoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response	=	Response::json(['update'], 201);
+		return $response;
     }
 
     /**
@@ -97,6 +102,13 @@ class ObjetivoController extends Controller
      */
     public function destroy($id)
     {
-        //
+		Objetivo::destroy($id);
+		$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Se ha eliminado correctamente'
+						);
+        $response	=	Response::json($message, 201);
+		return $response;
+
     }
 }

@@ -288,7 +288,7 @@ export class PatronmenuComponent implements OnInit {
 			this.updateItems();
 			this.data['0']				=	'';
 			this.data['consulta_id']	=	 this.model.getFormConsulta().id;
-			//this.saveInfo(this.data);
+			this.saveInfo(this.data);
 			
 		}
 	}

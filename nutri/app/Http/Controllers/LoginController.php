@@ -7,12 +7,18 @@ use Illuminate\Support\Facades\Response;
 use Route;
 use App\Persona;
 use App\Paciente;
+use App\Consulta;
 
 use Illuminate\Routing\Controller;
 
 class LoginController extends Controller
 {
     function check(Request $request) {
+		$consulta	=	Consulta::find(6)
+						->orderBy('consulta.fecha', 'DESC')
+						-get();
+		$response	=	Response::json($consulta, 201);
+		return $response;
 		$user		=	$request->offsetGet('username');
 		$password	=	$request->offsetGet('password');	
 		$paciente	=	Paciente::where('usuario','=', $user)
@@ -50,6 +56,7 @@ class LoginController extends Controller
         $json['nutricionista']['email'] = $persona->email;
 		
 		$paciente	=	Paciente::find($paciente->persona_id);
+		$consulta	=	Consulta::find($paciente->persona_id);
 		
         $response->setContent(json_encode($json));
         return $response;	

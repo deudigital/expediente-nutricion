@@ -8,6 +8,7 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 })
 export class BioquimicaComponent implements OnInit {
 
+	nuevo:boolean=false;
 	model:any;
 	bioquimicas:any;
 	body:any;
@@ -24,4 +25,7 @@ export class BioquimicaComponent implements OnInit {
 		this.body.classList.remove('menu-parent-hcp');	
 	}
 
+	showFormEdit(){
+		this.nuevo	=	!this.nuevo;
+	}
 }

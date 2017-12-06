@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Persona;
 use App\Paciente;
+use App\Objetivo;
 use App\HcpPatologia;
 use App\PatologiasPaciente;
+use App\HabitosGusto;
+use App\HabitosOtro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use Carbon\Carbon;
 class PacienteController extends Controller
 {
     /**
@@ -160,14 +164,16 @@ from `hcf_patologias_pacientes`
 		return $registros;
 	}
 	public function medicamentos(Request $request){
-		$paciente	=	Paciente::find($request->input('paciente_id'));
-		$paciente	=	Paciente::find($request->input('hcp_patologia_id'));
-		
-		/*$pacientes->fill($request->all());*/
-		$paciente->notas_medicamentos	=	$request->input('medicamentos');
+		$paciente	=	Paciente::find($request->input('id'));	
+		$paciente->notas_medicamentos	=	$request->input('notas_medicamentos');
 		$paciente->save();
-		/*$res		=	Response::json($request, 200);*/
-		return $pacientes;
+				
+		$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
 	}
 	
 	function belongsToNutricionista($id){
@@ -193,12 +199,14 @@ from `hcf_patologias_pacientes`
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
 		$persona	=	false;
-		if($request->input('id')){
+		if($request->input('id')){			
+			$fecha	=	explode('/', $request->fecha_nac);
+			$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
 			$persona	=	Persona::find($request->id);
 			$persona->cedula	=	$request->cedula;
 			$persona->nombre	=	$request->nombre;
 			$persona->genero	=	$request->genero;
-			$persona->fecha_nac	=	$request->fecha_nac;
+			$persona->fecha_nac	=	$fecha_nac;
 			$persona->save();
 			$paciente	=	Paciente::find($request->id);
 			$paciente->responsable_cedula		=	$request->responsable_cedula;
@@ -207,12 +215,14 @@ from `hcf_patologias_pacientes`
 			$paciente->save();
 		}else{
 			/*	persona	*/
+			$fecha	=	explode('/', $request->input('fecha_nac'));
+			$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
 			$persona	=	Persona::create([
 							/*	datos personales	*/
 								'cedula'			=>	$request->input('cedula'),
 								'nombre'			=>	$request->input('nombre'),
 								'genero'			=>	$request->input('genero'),
-								'fecha_nac'			=>	$request->input('fecha_nac'),						
+								'fecha_nac'			=>	$fecha_nac,
 							]);
 			$persona->save();
 			$paciente	=	Paciente::create([
@@ -274,6 +284,134 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $persona->id,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
+    public function storeDatosObjetivo(Request $request)
+    {
+		/*$response	=	Response::json($request->all(), 201);
+		return $response;*/
+		if($request->input('id')){
+			$objetivo			=	Objetivo::find($request->id);
+			$objetivo->descripcion	=	$request->descripcion;
+		}else{
+			$objetivo	=	Objetivo::create([
+								'fecha'			=>	DB::raw('UNIX_TIMESTAMP()'),//Carbon::now()->timestamp,
+								'descripcion'	=>	$request->descripcion,
+								'paciente_id'	=>	$request->paciente_id					
+							]);
+			
+		}
+		$objetivo->save();
+		$objetivo			=	Objetivo::find($objetivo->id);
+		$objetivo->fecha	=	gmdate("d/m/Y", $objetivo->fecha);
+		$message	=	array(
+							'code'		=> '201',
+							'data'		=> $objetivo,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
+	public function storeDatosEjercicio(Request $request)
+    {
+		$response	=	Response::json($request->input('ejercicio_id'), 201);
+		return $response;
+		
+		
+	
+		$deletedRows = EjerciciosPaciente::where('paciente_id', $request->paciente_id)->delete();
+		
+		if($request->input('paciente_id')){
+			$ejerciciosPaciente			=	EjerciciosPaciente::find($request->id);
+			$objetivo->ejercicio_id		=	$ejercicio_id;
+			$objetivo->horas_semanales	=	$request->horas_semanales;
+		}else{
+			$ejerciciosPaciente	=	EjerciciosPaciente::create([
+								'ejercicio_id'		=>	$ejercicio_id,
+								'horas_semanales'	=>	$request->horas_semanales,
+								'paciente_id'		=>	$request->paciente_id					
+							]);
+			
+		}
+		$ejerciciosPaciente->save();
+		
+		$message	=	array(
+							'code'		=> '201',
+							'data'		=> $ejerciciosPaciente,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
+	public function storeDatosGustos(Request $request){
+		/*$response	=	Response::json($request->all(), 201);
+		return $response;*/
+		if($request->input('id')){
+			$gusto			=	HabitosGusto::find($request->id);
+			$gusto->comidas_favoritas		=	$request->comidas_favoritas;
+			$gusto->comidas_no_gustan		=	$request->comidas_no_gustan;
+			$gusto->lugar_acostumbra_comer	=	$request->lugar_acostumbra_comer;
+			$gusto->lugar_caen_mal			=	$request->lugar_caen_mal;
+			$gusto->notas					=	$request->notas;
+			$gusto->paciente_id				=	$request->paciente_id;
+		}else{
+			$gusto	=	Gusto::create([
+								'comidas_favoritas'		=>	$request->comidas_favoritas,					
+								'comidas_no_gustan'		=>	$request->comidas_no_gustan,
+								'lugar_acostumbra_comer'=>	$request->lugar_acostumbra_comer,
+								'lugar_caen_mal'		=>	$request->lugar_caen_mal,	
+								'notas'					=>	$request->notas,
+								'paciente_id'			=>	$request->paciente_id
+							]);
+		}
+		$gusto->save();
+		$message	=	array(
+							'code'		=> '201',
+							'data'		=> $gusto,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
+	public function storeDatosOtros(Request $request){
+		/*$response	=	Response::json($request->all(), 201);
+		return $response;*/
+		if($request->input('id')){
+			$habitosOtro						=	HabitosOtro::find($request->id);
+			$habitosOtro->alcohol				=	$request->alcohol;
+			$habitosOtro->alcohol_cantidad		=	$request->alcohol_cantidad;
+			$habitosOtro->alcohol_frecuencia	=	$request->alcohol_frecuencia;
+			$habitosOtro->fumado				=	$request->fumado;
+			$habitosOtro->fuma_cantidad			=	$request->fuma_cantidad;
+			$habitosOtro->fuma_frecuencia		=	$request->fuma_frecuencia;
+			$habitosOtro->ocupacion				=	$request->ocupacion;
+			$habitosOtro->ocupacion_frecuencia	=	$request->ocupacion_frecuencia;
+			$habitosOtro->ocupacion_horas		=	$request->ocupacion_horas;
+			$habitosOtro->notas					=	$request->notas;
+			$habitosOtro->sueno					=	$request->sueno;
+		}else{
+			$habitosOtro	=	HabitosOtro::create([
+								'alcohol'				=>	$request->alcohol,
+								'alcohol_cantidad'		=>	$request->alcohol_cantidad,
+								'alcohol_frecuencia'	=>	$request->alcohol_frecuencia,
+								'fumado'				=>	$request->fumado,
+								'fuma_cantidad'			=>	$request->fuma_cantidad,
+								'fuma_frecuencia'		=>	$request->fuma_frecuencia,
+								'ocupacion'				=>	$request->ocupacion,
+								'ocupacion_frecuencia'	=>	$request->ocupacion_frecuencia,
+								'ocupacion_horas'		=>	$request->ocupacion_horas,
+								'sueno'					=>	$request->sueno,
+								'notas'					=>	$request->notas,
+								'paciente_id'			=>	$request->paciente_id,
+							]);
+		}
+		$habitosOtro->save();
+		$message	=	array(
+							'code'		=> '201',
+							'data'		=> $habitosOtro,
 							'message'	=> 'Se ha registrado correctamente'
 						);
 		$response	=	Response::json($message, 201);

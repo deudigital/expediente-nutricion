@@ -48,7 +48,7 @@ export const appRoutes: Routes = [
     
     { path: 'login',  component: LoginComponent },
     { path: 'reset',  component: ResetComponent },
-    { path: 'inicio',  component: InicioComponent },
+    { path: 'inicio',  component: InicioComponent},//, canActivate: [WorkflowGuard] },
 /*
 	 {
         path: 'dieta',

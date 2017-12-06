@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Analisis } from '../../control/data/formControlData.model';
+import { Analisis,Patologia } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
 
 @Component({
@@ -9,13 +9,109 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
   styles: []
 })
 export class HcpComponent implements OnInit {
-	model:any;
+	fcd:any;
+	mng:any;
 	paciente:any;
+	notas:any;
+	patologias:Patologia[];
+	oPatologias:any[];
+	data:{ [id: string]: any; } = {'0':''};
 	constructor(private formControlDataService: FormControlDataService) {
-		this.model		=	formControlDataService.getFormControlData();
-		this.paciente	=	formControlDataService.getFormControlData().getFormPaciente();
+		this.fcd		=	formControlDataService.getFormControlData();
+		this.mng		=	this.fcd.getManejadorDatos();
+		this.paciente	=	this.fcd.getFormPaciente();
+		this.oPatologias	=	[];
+		this.data['paciente_id']	=	this.paciente.id;
 	}
-
 	ngOnInit() {
+		this.cargarPatologiasDelPaciente();
+		this.setInfoInit();
+	}
+	ngOnDestroy(){		
+		if(this.infoEdited()){
+			//this.data['items']	=	this.patologias;
+			this.save(this.data);
+		}	
+	}
+	infoEdited(){
+		var notas_changed	=	false;
+		this.data['notas']	=	[];
+		this.data['items']	=	[];
+		if(this.notas	!==	this.paciente.notas_patologias){
+			notas_changed	=	true;
+			this.data['notas'][0]	=	this.paciente.notas_patologias;
+		}
+			
+
+		for(var i in this.patologias){
+			var orig	=	this.oPatologias[i];
+			var edit	=	this.patologias[i];
+			/*console.log(orig);console.log(edit);*/
+			var check_dif	=	orig.checked!== edit.checked;			
+			
+			if( check_dif ){
+				this.data['items']	=	this.patologias;
+				return true;
+			}
+				
+		}
+					
+		/*return false;*/
+		return notas_changed;
+	}
+/*
+paciente_id	6
+hcp_patologia_id	1
+id	1
+nombre	"Estreñimiento"
+1
+*/
+	setInfoInit(){
+		var obj;
+		var item;
+		this.notas	=	this.paciente.notas_patologias;
+		for(var i in this.patologias){
+			item	=	this.patologias[i];
+			obj	=	new Object();
+			obj.id		=	item.id;
+			obj.nombre	=	item.nombre;
+			/**/
+			obj.checked	=	item.checked;		
+			/**/
+			this.oPatologias[i]	=	obj;
+		}
+	}
+	cargarPatologiasDelPaciente(){
+		this.patologias			=	this.mng.getHcpPatologias();
+		var hcpPatologias		=	this.fcd.getFormPacienteHcpPatologias();
+		var id;
+		var found;
+			
+		for(var i in this.patologias)
+			this.patologias[i].checked		=	false;
+		
+		for(var i in hcpPatologias){
+			id		=	hcpPatologias[i].hcp_patologia_id;
+			found			=	this.patologias.filter(function(arr){return arr.id == id})[0];
+			if(found)
+				found.checked	=	true;
+		}
+	}
+	saveTest(){
+		if(this.infoEdited()){
+			this.data['items']	=	this.patologias;
+			this.save(this.data);
+		}
+	}
+	save(data){
+		this.fcd.setFormPacienteHcpPatologias(this.patologias);
+		this.formControlDataService.store('hcp_patologis', data)
+		.subscribe(
+			 response  => {
+						console.log('Service:hcp_patologis->receiving...');
+						console.log(response);
+						},
+			error =>  console.log(<any>error)
+		);
 	}
 }

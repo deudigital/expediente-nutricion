@@ -1,8 +1,7 @@
-/*sprite@2x.png	1140x1092*/
 .with-icon{position:relative;}
-.with-icon i{content: "";position: absolute;display: block;z-index: 100;left: 30px;bottom: 9px;}
+.with-icon i{content: "";position: absolute;display: block;z-index: 100;left: 15px;bottom: 7px;}
 .with-icon .input-group i{left: 15px;}
-.with-icon .form-control {padding-left: 50px;}
+.with-icon .form-control:not(textarea) {padding-left: 50px;}
 
 .with-icon.userlogin i {background-position: -446px 0;width: 18px;height: 21px;}
 .with-icon.passlogin i {background-position: -422px 0;width: 18px;height: 23px;}
@@ -16,7 +15,7 @@
 .with-icon.nacimiento i {background-position: -223px 0px;width: 26px;height: 23px;}
 
 .genero span {position:relative}
-.genero span:before {background: url(../images/sprite@2x.png) no-repeat left top transparent;background-size: 570px 830px;position: absolute;content: "";display: inline-block;z-index: 100;height: 25px;width: 20px;margin-left: -30px;}
+.genero span:before {background: url(../images/sprite@2x.png) no-repeat left top transparent;background-size: 570px 910px;position: absolute;content: "";display: inline-block;z-index: 100;height: 25px;width: 20px;margin-left: -30px;}
 .genero .femenino span:before {background-position: -423px -70px;}
 .genero .femenino input:checked + span:before {background-position: -423px -105px;}
 .genero .masculino span:before {background-position: -442px -70px;}
@@ -37,7 +36,7 @@
 .with-icon.viceral i {background-position: -184px -35px;width: 24px;height: 22px;}
 .with-icon.hueso i {background-position: -213px -35px;width: 25px;height: 25px;}
 .with-icon.edad_metabolica i {background-position: -248px -35px;width: 21px;height: 22px;}
-.with-icon.cadera i{background-position: -519px -70px;width: 40px;height: 20px;left: 25px;}
+.with-icon.cadera i{background-position: -519px -70px;width: 40px;height: 20px;}
 .with-icon.cintura i {background-position: -277px -35px;width: 27px;height: 20px;}
 
 .with-icon.factor-actividad i {background-position: -311px -35px;width: 18px;height: 18px;}
@@ -65,31 +64,18 @@
 
 .with-icon.dieta_desayuno i {background-position: -416px -36px;height: 19px;width: 30px;display: block;}
 .with-icon.dieta_media_manana i {	background-position: -445px -36px;height: 19px;width: 27px;display: block;}
-.with-icon.dieta_almuerzo i {
-	background-position: -474px -36px;
-	height: 19px;
-	width: 32px;
-	display: block;
-}
-.with-icon.dieta_media_tarde i {
-	background-position: -506px -36px;
-	height: 25px;
-	width: 33px;
-	display: block;
-}
-.with-icon.dieta_cena i {
-	background-position: -542px -36px;
-	height: 19px;
-	width: 30px;
-	display: block;
-}
-.with-icon.dieta_coicion_nocturna i {
-	background-position: -517px 0;
-	height: 21px;
-	width: 30px;
-	display: block;
-}
-.form-fix-icon .with-icon i {left: 15px;}
+.with-icon.dieta_almuerzo i {	background-position: -474px -36px;height: 19px;width: 32px;display: block;}
+.with-icon.dieta_media_tarde i {background-position: -506px -36px;height: 21px;width: 33px;display: block;}
+.with-icon.dieta_cena i {background-position: -542px -36px;height: 19px;width: 30px;display: block;}
+.with-icon.dieta_coicion_nocturna i {background-position: -517px 0;height: 21px;width: 30px;display: block;}
+
+.with-icon.dieta_agua i {	background-position: -169px -800px;height: 24px;width: 20px;display: block;}
+.with-icon.dieta_gaseosas i {	background-position: -191px -801px;height: 24px;width: 16px;display: block;}
+.with-icon.dieta_jugos_empacados i {background-position: -209px -800px;height: 26px;width: 20px;display: block;}
+.with-icon.dieta_comidas_rapidas i {background-position: -233px -800px;height: 20px;width: 25px;display: block;}
+.with-icon.dieta_alimentos_empacados i {background-position: -269px -800px;height: 24px;width: 20px;display: block;}
+.with-icon.dieta_embutidos i {background-position: -298px -800px;height: 21px;width: 21px;	display: block;}
+
 
 .division-nutricional .distribucion .with-cicle .inner{display:inline-block;}
 .division-nutricional .distribucion .with-cicle i strong {top:0;}
@@ -110,8 +96,8 @@
 .with-icon a.link-modal.pen > i {background-position: -27px -30px;width: 21px;height: 25px;right: 30px;bottom: 7px;}
 .with-icon a.link-modal:hover > i {transform:scale(1.3)}
 
-.submenu{text-align:center;margin-bottom:30px;font-weight:500;}
-.submenu > li > a{color:#000;position:relative;border-bottom:2px solid transparent;text-decoration:none;font-size:12px;display:inline-block;}
+.submenu{margin-bottom:30px;font-weight:500;}
+.submenu > li > a{color:#000;position:relative;border-bottom:2px solid transparent;text-decoration:none;}
 .submenu > li > a:focus, 
 .submenu > li > a:hover,
 .submenu > li > a.active{color:#8bc23f;border-color:#8bc23f;background-color:transparent;}
@@ -182,6 +168,9 @@
 .analisis .box.peso-meta-minimo i {background-position: -268px -374px;width: 64px;height: 70px;}
 
 .add-item {color: #000;font-weight: 500;}
+.add-item:active,
+.add-item:focus,
+.add-item:hover{text-decoration:none;color:inherit}
 .add-item > i {height: 20px;width: 20px;background-position: -532px -481px;display: inline-block;position: relative;top: 7px;	margin-right: 10px;}
 .remove-item > i {height: 20px;width: 20px;background-position: -532px -425px;display: inline-block;position: relative;top: 8px;margin-right: 5px;}
 .remove-item.big > i {height: 20px;width: 20px;background-position: -531px -446px;display: inline-block;position: relative;top: 5px;margin-right: 5px;}
@@ -195,4 +184,6 @@
 @media(min-width:768px){
 	.navigation-hcp > div {padding: 0;margin: 0;}
 	.navigation-hcp.esfemenino > div {width: 20%;}
+	.submenu{text-align:center;}
+	.submenu > li > a{font-size:12px;display:inline-block;}
 }

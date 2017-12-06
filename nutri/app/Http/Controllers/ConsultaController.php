@@ -11,6 +11,7 @@ use App\Rdd;
 use App\Prescripcion;
 use App\DetalleDescripcion;
 use App\PatronMenu;
+use App\HcpPatologia;
 use App\DetalleMusculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -50,8 +51,8 @@ class ConsultaController extends Controller
     public function store(Request $request)
     {
 		/*		*/
-        //if(!$request->notas || !$request->paciente_id){
-        if(!$request->paciente_id){
+        /*if(!$request->paciente_id){*/
+        if(!$request->persona_id){
 			$response	=	Response::json([
 				'message'	=>	'Por Favor escriba los campos requeridos'
 			], 422);
@@ -60,7 +61,8 @@ class ConsultaController extends Controller
 		$consulta	=	new Consulta(array(
 			'fecha'	=>	DB::raw('now()'),
 			'notas'	=>	trim($request->notas), 
-			'paciente_id'	=>	trim($request->paciente_id)
+			'paciente_id'	=>	trim($request->persona_id)
+			/*'paciente_id'	=>	trim($request->paciente_id)*/
 		));
 		$consulta->save();
 		$message	=	'Su Consulta ha sido añadida de modo correcto';
@@ -204,7 +206,7 @@ class ConsultaController extends Controller
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
 		return true;
 	}
-	function all($id){
+	function all($id){global $consulta;
 		$consulta	=	Consulta::find($id);
 		if(count($consulta)==0)
 			return Response::json(['message' => 'Record not found'], 204);
@@ -251,9 +253,10 @@ Enviar usuario y contrasena?????? por ahora si...
 				->join('hcp_patologias', 'hcp_patologias.id', '=', 'patologias_pacientes.hcp_patologia_id')
 				->where('patologias_pacientes.paciente_id',  $consulta->paciente_id)
 				->get();
+		
 
 		if(count($hcp_patologias)>0)
-			$registros['paciente']['hcp']['patologias']	=	$hcp_patologias->toArray();
+			$registros['paciente']['hcp']['patologias']	=	$hcp_patologias;//->toArray();
 		
 		$alergias = DB::table('alergias_pacientes')
 				->join('alergias', 'alergias.id', '=', 'alergias_pacientes.alergia_id')
@@ -272,8 +275,12 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 		$objetivos	=	DB::table('objetivos')
 				->where('objetivos.paciente_id',  $consulta->paciente_id)
+				->select('objetivos.*', DB::raw('date_format(from_unixtime(objetivos.fecha),\'%d/%m/%Y\') as fecha'))
 				->get();
+/*
 
+				
+*/
 		if(count($objetivos)>0)
 			$registros['paciente']['objetivos']	=	$objetivos->toArray();
 		
@@ -288,18 +295,20 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 		$gustos	=	DB::table('habitos_gustos')
 				->where('habitos_gustos.paciente_id',  $consulta->paciente_id)
-				->get();
+				->get()
+				->first();
 
 		if(count($gustos)>0)
-			$registros['paciente']['habitos']['gustos']	=	$ejercicios->toArray();
+			$registros['paciente']['habitos']['gustos']	=	$gustos;
 		
 		
 		$habitos_otros	=	DB::table('habitos_otros')
 				->where('habitos_otros.paciente_id',  $consulta->paciente_id)
-				->get();
+				->get()
+				->first();
 
 		if(count($habitos_otros)>0)
-			$registros['paciente']['habitos']['otros']	=	$habitos_otros->toArray();
+			$registros['paciente']['habitos']['otros']	=	$habitos_otros;
 		
 		
 		

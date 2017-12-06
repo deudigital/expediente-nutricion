@@ -24,6 +24,9 @@ Route::group(['middleware' => 'cors'], function(){
 
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 
+	Route::get('form/data', 'FormController@dataform');
+	
+	
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 	Route::get('consultas/new/{id}', 'ConsultaController@setConsultaForPaciente');	
 	Route::get('consultas/process', 'ConsultaController@process');	
@@ -41,6 +44,10 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	
 	Route::post('pacientes/datos', 'PacienteController@storeDatosPersonales');
 	Route::post('pacientes/contacto', 'PacienteController@storeDatosContacto');
+	Route::post('pacientes/objetivos', 'PacienteController@storeDatosObjetivo');
+	Route::post('pacientes/ejercicios', 'PacienteController@storeDatosEjercicio');
+	Route::post('pacientes/gustos', 'PacienteController@storeDatosGustos');
+	Route::post('pacientes/otros', 'PacienteController@storeDatosOtros');
 	Route::post('consultas/musculo', 'ConsultaController@storeMusculo');
 	Route::post('consultas/notas', 'ConsultaController@storeNotas');
 	Route::post('consultas/valoracion', 'ValoracionAntropometricaController@store');
@@ -54,8 +61,10 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('pacientes/medicamentos', 'PacienteController@medicamentos');
 	Route::resource('nutricionistas', 'NutricionistaController');
 	Route::resource('pacientes', 'PacienteController');
+	Route::post('objetivos/{id}/delete', 'ObjetivoController@destroy');	
 	Route::resource('objetivos', 'ObjetivoController');	
-	Route::resource('ejercicios', 'EjercicioController');	
+	//Route::post('ejercicios/{id}/delete', 'EjercicioController');	
+	Route::resource('ejercicios', 'EjercicioController');
 	
 	Route::resource('consultas', 'ConsultaController');	
 	Route::get('alimentos/categorias', 'AlimentoController@categorias');
