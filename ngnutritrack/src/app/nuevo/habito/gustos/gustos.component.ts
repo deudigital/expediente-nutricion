@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormControlData, ManejadorDatos, Gusto }     from '../../../control/data/formControlData.model';
+import { FormControlData, ManejadorDatos, HabitosGusto }     from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
 
 @Component({
@@ -11,17 +11,17 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 export class GustosComponent implements OnInit {
 	fcd:FormControlData;
 	mng:ManejadorDatos;
-	gusto:Gusto;
-	oGusto:Gusto;
+	gusto:HabitosGusto;
+	oGusto:HabitosGusto;
 
 	body:any;
 	constructor(private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.gusto		=	this.fcd.getFormPacienteHabitosGustos();
-		this.oGusto		=	new Gusto();
-		/*console.log('this.gusto');
-		console.log(this.gusto);*/
+		this.oGusto		=	new HabitosGusto();
+		console.log('this.gusto');
+		console.log(this.gusto);
 		this.setInfoInit();
 	}
 	ngOnInit() {

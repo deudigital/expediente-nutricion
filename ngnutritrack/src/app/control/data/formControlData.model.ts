@@ -5,7 +5,7 @@ export class FormControlData {
 	prescripcion:Prescripcion	=	new Prescripcion();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
 	rdd:Rdd		=	new Rdd();	
-	gustos		=	new Gusto;
+	gustos		=	new HabitosGusto();
 	habitosOtro	=	new HabitosOtro();
 	
 	patronmenu:any[]=[];
@@ -109,6 +109,9 @@ export class FormControlData {
 				this.ejercicios	=	habitos['ejercicios'];
 			if(habitos['gustos'])
 				this.gustos	=	habitos['gustos'];
+			else
+				this.gustos.paciente_id	=	this.paciente.id;
+			
 			if(habitos['otros'])
 				this.habitosOtro	=	habitos['otros'];
 			else
@@ -725,7 +728,7 @@ export class Objetivo{
 	public paciente_id:number;
 	/*constructor(public id:number, public fecha:string, public descripcion:string,public paciente_id:number){}*/
 }
-export class Gusto{
+export class HabitosGusto{
 	public id:number;
 	public comidas_favoritas:string;
 	public comidas_no_gustan:string;
