@@ -4,7 +4,7 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 @Component({
   selector: 'app-patologia',
   templateUrl: './patologia.component.html',
-  styleUrls: ['./patologia.component.css']
+  styleUrls: []
 })
 export class PatologiaComponent implements OnInit {
 	paciente:any;

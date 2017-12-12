@@ -1,16 +1,19 @@
 <app-topnav></app-topnav>
 <div class="container-fluid">
+
 	<div class="row">
 		<div class="col-sm-3 content-nav">
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
+
+				<form #personalForm="ngForm" class="editForm" novalidate>
 			<section>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group with-icon paciente_cedula">
 						  <label for="cedula" class="col-form-label">C&eacute;dula</label>
-						  <input type="text" class="form-control" id="cedula" name="cedula" placeholder="required" required
+						  <input type="text" class="form-control" id="cedula" name="cedula"  
 						  [(ngModel)]="paciente.cedula"
 						  >
 						  <i></i>
@@ -19,7 +22,7 @@
 					<div class="col-md-6">
 						<div class="form-group with-icon paciente_nombre">
 						  <label for="nombre" class="col-form-label">Nombre Completo</label>
-						  <input type="text" class="form-control" id="nombre" name="nombre" placeholder=""
+						  <input type="text" class="form-control" id="nombre" name="nombre" required
 						  [(ngModel)]="paciente.nombre"
 						  >
 						  <i></i>
@@ -33,6 +36,7 @@
 									<label class="femenino">
 										<input type="radio" name="genero" value="F"
 										[(ngModel)]="paciente.genero"
+										required
 										>
 										<span>Femenino</span>
 									</label>
@@ -94,6 +98,27 @@
 				  </div>
 			</section>
 
+
+			<div class="buttons-navigation">
+
+					<button class="btn btn-default previous" 
+					> ANTERIOR 
+					</button>
+
+					<button class="btn btn-success next" 
+						[disabled]="!personalForm.valid" 
+						> SIGUIENTE 
+						</button>
+				</div>
+
+
+		</form>
+
 		</div>
 	</div>
+
+
 </div>
+
+<!--(click)="goToNext(personalForm)"-->
+

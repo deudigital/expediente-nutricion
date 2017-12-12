@@ -325,14 +325,51 @@
 
 			<div *ngIf="showModalTabGrafico">
 				<div class="well">
-					grafico AQUI
+					grafico AQUI					
 				</div>
+				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function drawBasic() {
+		var date;
+		var toGraph = "Peso";
+		var medidas = [{"Fecha":"1508997600","IMC":"30","Peso":"85","Estatura":"1.79","Grasa":"25","Grasa Viceral":"9","Músculo":"60","Agua":"50","Hueso":"4","Edad Metbólica":"45","Cintura":"100","Cadera":"110","Muñeca":"18"},{"Fecha":"1506384000","IMC":"29.1","Peso":"83.3","Estatura":"1.79","Grasa":"23.5","Grasa Viceral":"8.1","Músculo":"61.8","Agua":"51.5","Hueso":"4","Edad Metbólica":"40.5","Cintura":"96","Cadera":"105.6","Muñeca":"18"},{"Fecha":"1503705600","IMC":"28.227","Peso":"81.634","Estatura":"1.79","Grasa":"22.09","Grasa Viceral":"7.29","Músculo":"63.654","Agua":"53.045","Hueso":"4","Edad Metbólica":"36.45","Cintura":"92.16","Cadera":"101.376","Muñeca":"18"},{"Fecha":"1501027200","IMC":"27.38019","Peso":"80.00132","Estatura":"1.79","Grasa":"20.7646","Grasa Viceral":"6.561","Músculo":"65.56362","Agua":"54.63635","Hueso":"4","Edad Metbólica":"32.805","Cintura":"88.4736","Cadera":"97.32096","Muñeca":"18"},{"Fecha":"1495756800","IMC":"26.5587843","Peso":"78.4012936","Estatura":"1.79","Grasa":"19.518724","Grasa Viceral":"5.9049","Músculo":"67.5305286","Agua":"56.2754405","Hueso":"4","Edad Metbólica":"29.5245","Cintura":"84.934656","Cadera":"93.4281216","Muñeca":"18"},{"Fecha":"1493164800","IMC":"25.762020771","Peso":"76.833267728","Estatura":"1.79","Grasa":"18.34760056","Grasa Viceral":"5.31441","Músculo":"69.556444458","Agua":"57.963703715","Hueso":"4","Edad Metbólica":"26.57205","Cintura":"81.53726976","Cadera":"89.690996736","Muñeca":"18"}];
+		var data = new google.visualization.DataTable();
+		data.addColumn('date', "Fecha");
+		data.addColumn('number', toGraph);
+
+		for(var i in medidas) {
+			date = new Date(0);
+			date.setUTCSeconds(medidas[i].Fecha);
+			data.addRow([new Date( date.getFullYear(), date.getMonth(), date.getDate()),parseInt(medidas[i][toGraph])])
+		}
+
+		var options = {
+		'height':500,
+		pointShape: 'circle', pointSize: 15,
+		hAxis: {
+		title: 'Fecha'
+		},
+		vAxis: {
+		title: toGraph
+		},
+		colors: ['#cc1f25']
+		};
+
+		var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+		chart.draw(data, options);
+	}
+</script>
+					<div id="chart_div"></div>
 			</div>
 	  
 		</div>
 	</div>
 </div>
-
 <div class="esc-modal" *ngIf="showModalGrasa">
 	
 	<div class="box">

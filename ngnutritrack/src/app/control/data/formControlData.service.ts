@@ -90,6 +90,9 @@ export class FormControlDataService {
 			case 'habitos_otros':
 				serviceUrl	+=	'pacientes/otros';
 				break;
+			case 'habitos_valoracion_dietetica':
+				serviceUrl	+=	'valoraciondietetica';
+				break;
 			case 'hcf_patologis':
 				serviceUrl	+=	'pacientes/hcfpatologias';
 				break;

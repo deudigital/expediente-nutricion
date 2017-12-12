@@ -10,7 +10,7 @@ import {Observable} from 'rxjs/Observable';
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.css']
+  styleUrls: []
 })
 export class InicioComponent implements OnInit {
 	consultas: any;

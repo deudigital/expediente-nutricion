@@ -28,9 +28,9 @@ export class ValoracionComponent implements OnInit {
 	sexo:string='M';
 	titulo_pagina:string='Expediente: Jorge Lpez';
 	
-	showModalDatos:boolean=false;
-	showModalTabDatos:boolean=true;
-	showModalTabGrafico:boolean=false;
+	showModalDatos:boolean=true;
+	showModalTabDatos:boolean=false;
+	showModalTabGrafico:boolean=true;
 	
 	showModalGrasa:boolean=false;
 	showModalGrasaTabSegmentado:boolean=true;
@@ -130,8 +130,9 @@ export class ValoracionComponent implements OnInit {
 	openModalDatos() {
 		this.showModalDatos	=	!this.showModalDatos;
 		let body = document.getElementsByTagName('body')[0];
-		if(this.showModalDatos)
+		if(this.showModalDatos){
 			body.classList.add('open-modal');
+		}
 		else
 			body.classList.remove('open-modal');
 	}

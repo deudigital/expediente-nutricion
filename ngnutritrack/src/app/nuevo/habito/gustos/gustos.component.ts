@@ -13,15 +13,16 @@ export class GustosComponent implements OnInit {
 	mng:ManejadorDatos;
 	gusto:HabitosGusto;
 	oGusto:HabitosGusto;
-
+	paciente:any;
 	body:any;
 	constructor(private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.gusto		=	this.fcd.getFormPacienteHabitosGustos();
 		this.oGusto		=	new HabitosGusto();
-		console.log('this.gusto');
-		console.log(this.gusto);
+		this.paciente	=	this.fcd.getFormPaciente();
+		/*console.log('this.gusto');
+		console.log(this.gusto);*/
 		this.setInfoInit();
 	}
 	ngOnInit() {
@@ -30,8 +31,10 @@ export class GustosComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-habito');
-		if(this.infoEdited())
+		if(this.infoEdited()){
+			this.gusto.paciente_id	=	this.paciente.id;
 			this.save(this.gusto);
+		}
 
 	}
 	setInfoInit(){

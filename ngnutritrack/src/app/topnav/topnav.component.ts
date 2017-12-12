@@ -6,7 +6,7 @@ import { Consulta } from '../control/data/formControlData.model';
 @Component({
   selector: 'app-topnav',
   templateUrl: './topnav.component.html',
-  styleUrls: ['./topnav.component.css']
+  styleUrls: []
 })
 export class TopnavComponent implements OnInit {
 	consulta:Consulta;

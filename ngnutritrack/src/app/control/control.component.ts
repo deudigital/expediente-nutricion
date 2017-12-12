@@ -7,7 +7,7 @@ import { Router }              from '@angular/router';
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
-  styleUrls: ['./control.component.css']
+  styleUrls: []
 })
 export class ControlComponent implements OnInit {	
 	pacientes: Observable<Paciente[]>;

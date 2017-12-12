@@ -4,7 +4,7 @@
 		<div class="col-sm-3 content-nav">
 			<app-navigation></app-navigation>
 		</div>
-		<div class="col-sm-9 content-form">
+		<div class="col-sm-9 content-form form-valoracion-dietetica">
 			<section>
 				<app-habito-nav></app-habito-nav>
 				
@@ -186,9 +186,11 @@
 
 						<div class="form-group">
 						  <label for="nombre" class="col-form-label">Notas</label>
-						  <textarea class="form-control" placeholder="" rows="5"></textarea>
+						  <textarea class="form-control" rows="5" name="notas_valoracion_dietetica"
+						  [(ngModel)]="paciente.notas_valoracion_dietetica"
+						  ></textarea>
 						</div>
-						
+						<!--<button (click)="save()" class="btn btn-primary">Guardar</button>-->
 			</section>
 			
 	<section>
@@ -261,14 +263,14 @@
 				<figure>
 				  <i class="leche-descremada"></i>
 				  <label>Leche Descremada</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				</figure>
 			  </div>
 			  <div class="col-sm-2">
 				<figure>
 				  <i class="leche-2"></i>
 				  <label>Leche 2%</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -276,7 +278,7 @@
 				<figure>
 				  <i class="leche-entera"></i>
 				  <label>Leche Entera</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -284,7 +286,7 @@
 				<figure>
 				  <i class="vegetales"></i>
 				  <label>vegetales</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -292,7 +294,7 @@
 				<figure>
 				  <i class="frutas"></i>
 				  <label>frutas</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -300,7 +302,7 @@
 				<figure>
 				  <i class="harinas"></i>
 				  <label>harinas</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -308,7 +310,7 @@
 				<figure>
 				  <i class="carne-magra"></i>
 				  <label>carne-magra</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -316,7 +318,7 @@
 				<figure>
 				  <i class="carne-intermedia "></i>
 				  <label>carne-intermedia </label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -324,7 +326,7 @@
 				<figure>
 				  <i class="carne-grasa"></i>
 				  <label>carne-grasa</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -332,7 +334,7 @@
 				<figure>
 				  <i class="azucares"></i>
 				  <label>azucares</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -340,7 +342,7 @@
 				<figure>
 				  <i class="grasas"></i>
 				  <label>grasas</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -348,7 +350,7 @@
 				<figure>
 				  <i class="vaso-agua"></i>
 				  <label>vaso-agua</label>
-				  <strong>0/0</strong>
+				  <strong>0</strong>
 				  
 				</figure>
 			  </div>
@@ -379,7 +381,6 @@
 			  [(ngModel)]="inputModal"
 			  >			  
 			</div>
-	  
 			<div class="alimentos">
 			  <div class="col-sm-4">
 				<figure>

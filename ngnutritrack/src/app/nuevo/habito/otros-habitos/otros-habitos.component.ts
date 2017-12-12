@@ -21,7 +21,8 @@ export class OtrosHabitosComponent implements OnInit {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.otros		=	this.fcd.getFormPacienteHabitosOtros();
-		console.log(this.otros);
+		this.paciente	=	this.fcd.getFormPaciente();
+		/*console.log(this.otros);*/
 		//this.oOtros		=	new HabitosOtro();
 		this.setInfoInit();
 	}
@@ -32,8 +33,10 @@ export class OtrosHabitosComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-habito');
-		if(this.infoEdited())
+		if(this.infoEdited()){
+			this.otros.paciente_id	=	this.paciente.id;
 			this.save(this.otros);		
+		}
 	}
 	
 	setInfoInit(){

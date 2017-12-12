@@ -17,7 +17,7 @@ import { HabitoComponent }      from './nuevo/habito/habito.component';
 
 import { ControlComponent }      from './control/control.component';
 import { ValoracionComponent }      from './control/valoracion/valoracion.component';
-import { GrasaComponent }      from './control/grasa/grasa.component';
+
 import { RecomendacionComponent }      from './control/recomendacion/recomendacion.component';
 import { DietaComponent }      from './control/dieta/dieta.component';
 import { NotasComponent } from './control/dieta/notas/notas.component';
@@ -49,24 +49,8 @@ export const appRoutes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'reset',  component: ResetComponent },
     { path: 'inicio',  component: InicioComponent},//, canActivate: [WorkflowGuard] },
-/*
-	 {
-        path: 'dieta',
-        component: DietaComponent,
-        children: [
-            { path: '', component: DietaComponent },
-            { path: 'prescripcion', component: DietaComponent },
-            { path: 'patron-menu', component: PatronmenuComponent },
-            { path: 'notas', component: NotasComponent }
-        ]
-    },
-*/
-	
-	
-	
-	//{ path: 'nuevo',   redirectTo: '/personales' },
-	{ path: 'nuevo',  component: NuevoComponent},
-		
+
+	{ path: 'nuevo',  component: NuevoComponent},	
 		{ path: 'personales',  component: PersonalesComponent},
 		{ path: 'contacto',  component: ContactoComponent},
 		{ path: 'hcp',  component: HcpComponent},
@@ -89,18 +73,10 @@ export const appRoutes: Routes = [
 			{ path: 'prescripcion',  component: DietaComponent },	
 			{ path: 'patron-menu',  component: PatronmenuComponent },	
 			{ path: 'notas',  component: NotasComponent },	
-			
-		
 	
     { path: 'agenda',  component: AgendaComponent },
 	{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
-/*	
-	{
-	   path: 'get-historial',
-	   component: GrasaComponent,
-	   outlet: 'historialPopup'
-	},	
-*/
+
 /*	
 	// 1st Route
     { path: 'personal',  component: PersonalComponent },

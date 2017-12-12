@@ -8,7 +8,7 @@ import { Router }              from '@angular/router';
 @Component({
   selector: 'app-nuevo',
   templateUrl: './nuevo.component.html',
-  styleUrls: ['./nuevo.component.css']
+  styleUrls: []
 })
 export class NuevoComponent implements OnInit {
 mng:ManejadorDatos;

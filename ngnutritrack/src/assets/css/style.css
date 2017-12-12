@@ -106,10 +106,14 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .page-title {position: relative;padding-left: 30px;font-size:18px;}
 .page-title:before {background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 910px;content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}
 /*********************/
-.content-form > section{background: #f3f3f3;border-radius: 15px;padding: 15px;}
-.content-form > section:not(:first-child){margin-top:20px;}
-.content-form > section header {text-align: center;margin-bottom: 20px;}
-.content-form > section header > .title {margin-top: 0;font-weight: 500;font-size: 17px;color:#000}
+/*
+.content-form > section
+*/
+.content-form section{background: #f3f3f3;border-radius: 15px;padding: 15px;}
+.content-form section:not(:first-child){margin-top:20px;}
+.content-form section header {text-align: center;margin-bottom: 20px;}
+.content-form section header > .title {margin-top: 0;font-weight: 500;font-size: 17px;color:#000}
+/**/
 .content-form tbody .form-group > label{margin-left:15px;}
 .content-form .form-control{background: #e0e0e0;border-radius: 20px;color:#000;font-weight:500;box-shadow:none;border-color:#e0e0e0;}
 .content-form input.form-control:not(textarea){height:37px}
