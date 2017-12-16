@@ -19,6 +19,8 @@ export class DietaComponent implements OnInit {
 	paciente:Paciente;
 	rdd:Rdd;
 	
+	historial:any[];
+	
 	total_carbohidratos:number=0;
 	total_proteinas:number=0;
 	total_grasas:number=0;
@@ -56,9 +58,10 @@ export class DietaComponent implements OnInit {
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
 	this.calculateItems()
-	this.createOriginal();	
+	this.createOriginal();
   }
   ngOnInit() {
+	this.getHistorial();
   }
 	ngOnDestroy() {
 		
@@ -137,7 +140,90 @@ export class DietaComponent implements OnInit {
 	displayFormAddOther(){
 		this.showAdicionarOtro=true;
 	}
-   getCalculoKcalCarbohidratos(){
+
+
+	getHistorial(){
+		var paciente_id	=	this.paciente.persona_id;
+		this.formControlDataService.select('prescripcion', paciente_id)
+		.subscribe(
+			 response  => {
+						console.log('saveInfo:receiving...');
+						console.log(response);
+						this.fillHistorial(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	in_array(_array, ele){
+		return _array.indexOf(ele)>-1;
+	}
+	fillHistorial(historial){
+		var data	=	[];
+		for(var i in historial){
+			historial[i].display	=	false;;
+			data[i]		=	historial[i];
+		}
+		this.historial	=	data;
+		
+	}
+	fillHistorial__good(historial){
+		var data	=	[];
+		var item;
+		var alimento=	[];
+		var prescripcion=	new Object();
+		var detalle_prescripcion;
+
+		var keys	=	[];
+		console.log('procesando historial');
+		for(var i in historial){
+			historial[i].display	=	false;;
+			historial[i].items		=	[];			
+		}
+		data[0]	=	historial[0];
+		for(var i in historial){
+			item		=	historial[i];
+			if(!this.in_array(keys, item.id)){
+				if(keys.length>0){
+					//item.items	=	alimento;					
+					/*var _item	=	data[data.length-1];
+					_item.items	=	alimento;
+					data.push(_item);*/
+					if(data.length>0)
+						data[data.length-1].items	=	alimento;
+				}
+				keys.push(item.id);
+				item.items	=	[];
+				alimento	=	[];
+				for(var j =0;j<13;j++)
+					alimento[j]	=	'0';
+			}
+			console.log(item.grupo_alimento_nutricionista_id + '->' + item.porciones);
+			//item.items[item.grupo_alimento_nutricionista_id]	=	item.porciones;
+			alimento[item.grupo_alimento_nutricionista_id]	=	item.porciones;
+			console.log('-----');
+			console.log(alimento);
+		}
+		if(keys.length>0){
+			item.items	=	alimento;
+			data.push(item);
+			//data[keys.length-1].items	=	alimento;
+		}
+		console.log(data);
+		this.historial	=	data;
+	}
+	fillHistorial_ok(historial){
+		this.historial	=	historial;
+
+		for(var i in this.historial)
+			this.historial[i].display		=	false;
+		
+
+		
+	}
+	displayDetails(item){
+		item.display	=	!item.display;
+	}
+	getCalculoKcalCarbohidratos(){
 		var percentage	=	this.prescripcion.carbohidratos*0.01;
 		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalCarb;
@@ -321,3 +407,8 @@ export class DietaComponent implements OnInit {
    }
 
 }
+/*
+SELECT consultas.fecha, prescripcions.carbohidratos, prescripcions.proteinas,prescripcions.grasas, detalle_prescripcion.grupo_alimento_nutricionista_id, detalle_prescripcion.porciones
+
+FROM `detalle_prescripcion` inner join prescripcions on prescripcions.id=detalle_prescripcion.prescripcion_id inner join consultas on consultas.id=prescripcions.consulta_id where consultas.estado=1 and consultas.paciente_id=18
+*/

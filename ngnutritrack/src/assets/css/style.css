@@ -283,7 +283,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .listado.consultas ul li {background-color: #e0e0e0;border-radius: 25px;margin:10px 0 }
 .main .listado.consultas ul li i.fullname{margin: 0 5px 0 30px;}
 .main .listado.consultas ul li .btn {float: right;margin-top: -15px;margin-right: 0;border-radius: 25px;margin-right: -15px;padding: 15px 25px;}
-.main .listado.consultas ul li .btn {float: right;margin-top: -8px;margin-right: 0;margin-right: -15px;padding: 8px 15px;font-size: inherit;}
+.main .listado.consultas ul li .btn {float: right;margin-top: -8px;margin-right: 0;margin-right: -15px;padding: 5px 15px;font-size: inherit;}
 /*******************/
 .main .listado.pacientes ul li i.fullname {margin-right: 10px;}
 .main .listado.pacientes {width: 424px;max-width:100%;background-color:#e6e6e6;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
@@ -370,7 +370,15 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
 .container-file {display: block;background: #dedede;padding: 20px;border-radius: 20px;line-height: 2em;text-align: center;min-height: 70px;color: rgba(0,0,0,0.5);}
 .container-file > input[type="file"] {visibility: hidden;position: absolute;color: #e0e0e0;}
 
+.esc-modal .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
+.esc-modal .table tr.detalle_prescripcion > td {color:#fff}
+.esc-modal .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}
+.esc-modal .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
+.esc-modal .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
+.esc-modal .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
 
+.expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;display: block;position: absolute;margin-left: -20px;}
+.expand-patron-menu.open i{background-position: -531px -506px;}
 @media(min-width:660px){
 	.main .listado.consultas {padding:25px 123px;}
 	.main .listado.pacientes {padding:15px;}

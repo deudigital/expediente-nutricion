@@ -122,6 +122,24 @@ export class FormControlDataService {
 		return this.http.post( serviceUrl, data)
 				.map((response: Response) => response.json());
 	}
+	select(module:string, data:any): Observable<any[]> {
+		console.log('Service:' + module + '->sending...');
+		console.log(data);
+		var serviceUrl	=	this.apiURL;
+		switch(module){
+			case 'valoracionAntropometrica':
+				serviceUrl	+=	'valoracionantropometrica/paciente/' + data;
+				break;
+			case 'rdds':
+				serviceUrl	+=	'rdds/paciente/' + data;
+				break;
+			case 'prescripcion':
+				serviceUrl	+=	'prescripcion/paciente/' + data;
+				break;
+		}
+		return this.http.get( serviceUrl )
+				.map((response: Response) => response.json());
+	}
 	setSelectedConsuta(consulta){
 		this.formControlData.setFormConsulta(consulta);
 	}
