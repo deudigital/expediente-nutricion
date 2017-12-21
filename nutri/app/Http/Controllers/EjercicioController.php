@@ -83,7 +83,6 @@ class EjercicioController extends Controller
      */
     public function destroy($id)
     {
-        $response	=	Response::json($id, 201);
-		return $response;
+        //
     }
 }

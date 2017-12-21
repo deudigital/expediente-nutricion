@@ -5,29 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Rdd;
-
+use DB;
 class RddController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,23 +16,24 @@ class RddController extends Controller
      */
     public function store(Request $request)
     {
-		/**/
+		
 		
 		$rdd	=	Rdd::where('consulta_id', $request->consulta_id)
 						->get()
 						->first();
-		
-		if($rdd){
+
+		if(count($rdd)>0){
+			return $rdd;
 			/*$va->id	=	 1,*/
 			$rdd->metodo_calculo_gc				=	$request->metodo_calculo_gc;
 			$rdd->peso_calculo					=	$request->peso_calculo;
 			$rdd->factor_actividad_sedentaria	=	$request->factor_actividad_sedentaria;
-			$rdd->promedio_gc_diario				=	$request->promedio_gc_diario;
-			$rdd->variacion_calorica				=	$request->variacion_calorica;
+			$rdd->promedio_gc_diario			=	$request->promedio_gc_diario;
+			$rdd->variacion_calorica			=	$request->variacion_calorica;
 			/*"consulta_id": 1*/
 			
 		}else{
-			$rdd	=	new ValoracionAntropometrica(
+			$rdd	=	new Rdd(
 						array(
 							'metodo_calculo_gc'				=>	$request->metodo_calculo_gc, 
 							'peso_calculo'					=>	$request->peso_calculo, 
@@ -62,6 +43,7 @@ class RddController extends Controller
 							'consulta_id'					=>	$request->consulta_id
 						)
 					);
+			return $rdd;
 		}
 		$rdd->save();
 		$message	=	'Su Consulta ha sido añadida de modo correcto';
@@ -73,50 +55,17 @@ class RddController extends Controller
 		
 		/**/
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function belongsToPaciente($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+		$registros = DB::table('rdds')
+            ->join('consultas', 'consultas.id', '=', 'rdds.consulta_id')
+            ->where('consultas.paciente_id', $id)
+            ->where('consultas.estado', 1)
+            ->select('consultas.fecha', 'rdds.*')
+			->orderBy('consultas.fecha', 'DESC')
+			->get();
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
     }
 
 }

@@ -15,12 +15,12 @@
 .container-form > .actions > a.form-open > i {background-position: -532px -481px;}
 .container-form > .actions > a.form-close > i {background-position: -530px -445px;top: -4px;}
 .container-form > .actions > a.form-close {text-indent: -1000px;position: absolute;margin-bottom: -17px;z-index: 0;}
-
+/*
 .container-form > .form-edit .form-control::-webkit-input-placeholder {font-size:11px;text-align: center;line-height: 11em;}
 .container-form > .form-edit .form-control::-moz-placeholder {font-size:11px;text-align: center;line-height: 11em;}
 .container-form > .form-edit .form-control:-ms-input-placeholder {font-size:11px;text-align: center;line-height: 11em;}
 .container-form > .form-edit .form-control:-moz-placeholder {font-size:11px;text-align: center;line-height: 11em;}
-
+*/
 .form-valoracion-dietetica.content-form .form-control:not(textarea){font-size:10px;}
 
 .buttons-navigation {padding: 0 5%;/*40px;*/margin-top: 20px;}

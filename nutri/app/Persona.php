@@ -19,10 +19,8 @@ class Persona extends Model
 		'provincia', 
 		'canton',
 		'distrito', 
-		'detalles_direccion'
+		'detalles_direccion',
+		'ubicacion_id'
     ];
 	
-	public function age() {
-		return $this->fecha_nac->diffInYears(\Carbon::now());
-	}
 }

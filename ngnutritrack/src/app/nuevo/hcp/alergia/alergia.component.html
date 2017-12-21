@@ -8,11 +8,9 @@
 			<section>
 				<app-hcp-nav></app-hcp-nav>
 
-						<div class="row wrap-patologias">
-						
-							<div class="checkbox">
-							
-							
+					<div class="wrap-patologias">
+						<div class="checkbox">
+							<div class="row">
 							<ng-template [ngIf]="alergias" [ngIfElse]="loading">
 							
 								<div class="col-sm-4" *ngFor="let alergia of alergias">
@@ -93,12 +91,13 @@
 								
 							</div>
 						</div>
-						<div class="form-group">
-							<label>Notas</label>
-							<textarea name="notas_alergias" class="form-control" placeholder="Notas"  rows="7"
+					</div>
+					<div class="form-group">
+						<label>Notas</label>
+						<textarea name="notas_alergias" class="form-control" placeholder="Notas"  rows="7"
 							[(ngModel)]="paciente.notas_alergias"
 							></textarea>
-						</div>
+					</div>
 			</section>
 		</div>
 	</div>

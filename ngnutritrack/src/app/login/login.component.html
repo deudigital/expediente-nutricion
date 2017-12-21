@@ -1,39 +1,39 @@
-<div class="container main page-inicio content-form">
-	<figure class="container-logo">
-		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
-	</figure>	
-	<section *ngIf="showFormLogin" class="login">
-		<div class="form-group with-icon userlogin">
-			<label for="user_login">Correo Electronico</label>
-			<input type="email" class="form-control" id="user_login" name="user_login">
-			<i></i>
-		</div>
-		<div class="form-group with-icon passlogin">
-			<label for="pass_login">Contraseña</label>
-			<input type="password" class="form-control" id="pass_login" name="pass_login">
-			<i></i>
-		</div>
-		<div class="buttons">
-			<div class="form-group">				
-				<button type="button" class="btn btn-primary red">Ingresar</button>
+<div class="container main page-login content-form">
+	<section class="login">
+		<figure class="container-logo">
+			<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
+		</figure>
+		<form *ngIf="showFormLogin" (ngSubmit)="onLogin()" novalidate>
+			<div class="form-group with-icon userlogin">
+				<label for="user_login">Correo Electronico</label>
+				<input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.email" name="email" required>
+				<i></i>
 			</div>
-		
-			<a class="btn btn-link" (click)="resetPassword()">Olvido su Contraseña?</a>
-		</div>
-	</section>
-	<section *ngIf="showResetPassword">
-		<div class="form-group">
-			<label for="nueva_contrasena">Olvid&oacute; su Contraseña?</label>
-			<input class="form-control" type="text" name="nueva_contrasena" id="nueva_contrasena">
-		</div>
-
-		<div class="buttons">
+			<div class="form-group with-icon passlogin">
+				<label for="pass_login">Contraseña</label>
+				<!--<input type="password" class="form-control" id="pass_login" name="pass_login">-->
+				<input type="password" class="form-control" id="password" placeholder="enter password" [(ngModel)]="user.password" name="password" required>
+				<i></i>
+			</div>
+			<div class="buttons">
 				<div class="form-group">				
-					<button type="button" class="btn btn-primary red">REENVIAR</button>
+					<button type="submit" class="btn btn-default">INGRESAR</button>
 				</div>
 			
-				<a class="btn btn-link" (click)="showLogin()">Ingresar</a>
+				<a class="link" (click)="showReminder()">Olvido su Contraseña?</a>
 			</div>
-		
+		</form>
+		<form *ngIf="showFormReminder" (ngSubmit)="onReminder()" novalidate>
+			<div class="form-group">
+				<label for="nueva_contrasena">Olvid&oacute; su Contraseña?</label>
+				<input class="form-control" type="text" name="nueva_contrasena" id="nueva_contrasena" required>
+			</div>
+			<div class="buttons">
+					<div class="form-group">				
+						<button type="button" class="btn btn-default">REENVIAR</button>
+					</div>				
+					<a class="link" (click)="showLogin()">Ingresar</a>
+				</div>
+		</form>
 	</section>
 </div>

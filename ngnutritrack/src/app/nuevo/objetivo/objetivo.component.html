@@ -16,7 +16,7 @@
 					<tbody>
 					<ng-template ngFor let-objetivo [ngForOf]= "objetivos" let-i="index">
 						<tr>
-							<td><a class="remove-item" (click)="remove(objetivo)"><i></i></a>{{objetivo.fecha}}</td>
+							<td><a href="javascript:void(0);" class="remove-item" (click)="remove(objetivo)"><i></i></a>{{objetivo.fecha}}</td>
 							<td>{{objetivo.descripcion}}</td>
 						</tr>
 					</ng-template>

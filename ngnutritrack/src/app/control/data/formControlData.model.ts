@@ -19,7 +19,7 @@ export class FormControlData {
 
 /*	Paciente	*/
 	paciente_id:number=0;
-	nutricionista_id:number=1;//Math.floor((Math.random()*5)+1);
+	nutricionista_id:number=0;//Math.floor((Math.random()*5)+1);
 	
 	dieta_desayuno_ejemplo:string='';
 	dieta_media_manana_ejemplo:string='';
@@ -80,7 +80,9 @@ export class FormControlData {
 		this.patronmenu					=	[];
 		this.valoracionDietetica		=	[];
 	}
-	
+	setNutricionistaId(nutricionista_id){
+		this.nutricionista_id	=	nutricionista_id;
+	}
 	fill(data){console.log('filling');console.log(data);
 		this.consulta.set(data);
 		//var paciente	=	data.paciente[0];
@@ -294,6 +296,7 @@ export class FormControlData {
 		this.paciente.canton			=	data.canton;
 		this.paciente.distrito			=	data.distrito;
 		this.paciente.detalles_direccion=	data.detalles_direccion;
+		this.paciente.ubicacion_id		=	data.ubicacion_id;
 		
 		this.paciente.edad				=	data.edad;
 		this.paciente.esMayor			=	data.edad>17;
@@ -324,6 +327,7 @@ export class Persona{
 	canton:string=''
 	distrito:string=''
 	detalles_direccion:string='';
+	ubicacion_id:number=0;
 	
 	edad:number=0;
 	esMayor:boolean=true;
@@ -400,6 +404,7 @@ export class Paciente extends Persona{
 		this.canton				=	data.canton;
 		this.distrito			=	data.distrito;
 		this.detalles_direccion	=	data.detalles_direccion;
+		this.ubicacion_id		=	data.ubicacion_id;
 		
 		this.edad				=	data.edad;
 		this.esMayor			=	data.esMayor;
@@ -600,6 +605,7 @@ export class Prescripcion{
 export class ManejadorDatos{
 	operacion:string='nuevo-paciente';
 	consulta_id:number=0;
+	nutricionista_id:number=0;
 	paciente_id:number=0;
 	lastStatusMenuPaciente:boolean=false;
 	extraInfoAlimentos:any[];
@@ -609,6 +615,10 @@ export class ManejadorDatos{
 	alergias:any;
 	ejercicios:any;
 	tiempo_comidas:any;
+	ubicaciones:any;
+	provincias:any[]=[];
+	cantones:any[]=[];
+	distritos:any[]=[];
 	
 		
 	setOperacion(operacion:string){
@@ -635,6 +645,18 @@ export class ManejadorDatos{
 	getEjercicios(){
 		return this.ejercicios;
 	}
+	getUbicaciones(){
+		return this.ubicaciones;
+	}
+	getProvincias(){
+		return this.provincias;
+	}
+	getCantones(){
+		return this.cantones;
+	}
+	getDistritos(){
+		return this.distritos;
+	}
 	setExtraInfoAlimentos(){
 		
 		this.extraInfoAlimentos['0']	=	'';
@@ -657,6 +679,46 @@ export class ManejadorDatos{
 		this.alergias		=	data.alergias;
 		this.ejercicios		=	data.ejercicios;
 		this.tiempo_comidas	=	data.tiempo_comidas;
+		this.ubicaciones	=	data.ubicaciones;
+		this.createInfoUbicacion();
+	}
+	createInfoUbicacion(){
+		var ubicacion;
+		var obj;
+		
+		var prov;
+		var cant;
+		var dist;
+		
+		for(var i in this.ubicaciones){
+			ubicacion	=	this.ubicaciones[i];
+			
+			var item = this.provincias.find(item => item.codigo_provincia === ubicacion.codigo_provincia);
+			if(!item){
+				prov	=	new Object();
+				prov.codigo_provincia		=	ubicacion.codigo_provincia;
+				prov.nombre_provincia		=	ubicacion.nombre_provincia;
+				this.provincias.push(prov);
+			}
+			var item = this.cantones.find(item => item.codigo_canton === ubicacion.codigo_canton  && item.codigo_provincia === ubicacion.codigo_provincia);
+			if(!item){
+				cant	=	new Object();
+				cant.codigo_canton		=	ubicacion.codigo_canton;
+				cant.nombre_canton		=	ubicacion.nombre_canton;
+				cant.codigo_provincia	=	ubicacion.codigo_provincia;
+				this.cantones.push(cant);
+			}
+			var item = this.distritos.find(item => item.codigo_provincia === ubicacion.codigo_provincia && item.codigo_canton === ubicacion.codigo_canton && item.codigo_distrito === ubicacion.codigo_distrito);
+			if(!item){
+				dist	=	new Object();
+				dist.codigo_canton		=	ubicacion.codigo_canton;
+				dist.codigo_provincia	=	ubicacion.codigo_provincia;
+				dist.codigo_distrito	=	ubicacion.codigo_distrito;
+				dist.nombre_distrito	=	ubicacion.nombre_distrito;
+				this.distritos.push(dist);
+			}
+		}
+		console.log('ubicaciones procesadas...');
 	}
 }
 export class Ejercicio{
@@ -775,7 +837,15 @@ export class HabitosEjercicio{
 	
 }
 
-
+export class Provincia{
+	constructor(public codigo_provincia, public nombre_provincia){}
+}
+export class Canton{
+	constructor(public codigo_canton, public nombre_canton, public codigo_provincia){}
+}
+export class Distrito{
+	constructor(public codigo_distrito, public nombre_distrito, public codigo_canton, public codigo_provincia){}
+}
 
 
 

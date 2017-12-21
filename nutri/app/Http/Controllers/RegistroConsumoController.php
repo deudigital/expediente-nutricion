@@ -118,4 +118,5 @@ class RegistroConsumoController extends Controller
 
 		return $response;
 	}
+	
 }

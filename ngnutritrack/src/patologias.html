@@ -1,0 +1,269 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Nutri Track</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css">
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700)">
+
+
+<link type="text/css" rel="stylesheet" href="assets/css/riliwan-rabo.css" />
+<link type="text/css" rel="stylesheet" href="assets/css/style.css" />
+<link type="text/css" rel="stylesheet" href="assets/css/style-icons.css" />
+<link type="text/css" rel="stylesheet" href="assets/css/form.css" />
+<link type="text/css" rel="stylesheet" href="assets/css/table.css" />
+<link type="text/css" rel="stylesheet" href="assets/css/loading-bars.css" />
+</head>
+<body>
+
+
+<nutri-track-app ng-version="4.4.6"><router-outlet name="pagina"></router-outlet>
+<router-outlet></router-outlet><app-hcp><app-topnav><nav class="navbar navbar-default top">
+  <div class="container-fluid">
+	  <div class="row">
+		<div class="navbar-header">
+		  <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+
+		  <a class="navbar-brand" routerlink="/inicio" title="Inicio" ng-reflect-router-link="/inicio" href="/inicio">
+			<img alt="nutritrack" src="assets/images/logo.png" width="125">
+		</a>
+		</div>
+		<div class="navbar-collapse collapse" id="navbar">
+		  <ul class="nav navbar-nav navbar-right">
+			<li class="nuevo">			
+				<a data-toggle="tab" routerlink="/nuevo" routerlinkactive="active" title="Nuevo Paciente" ng-reflect-router-link="/nuevo" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/nuevo">
+					<i class="menu-icon nuevo"></i>Paciente Nuevo
+				</a>
+			</li>
+			<li class="control">
+				<a data-toggle="tab" routerlink="/control" routerlinkactive="active" title="Control" ng-reflect-router-link="/control" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/control">
+					<i class="menu-icon"></i>Control
+				</a>
+			</li>
+			<li class="agenda">
+				<a data-toggle="tab" routerlink="/agenda" routerlinkactive="active" title="Agenda" ng-reflect-router-link="/agenda" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/agenda">
+					<i class="menu-icon"></i>Agenda
+				</a>
+			</li>
+		  </ul>
+		</div>
+	  </div>
+  </div>
+</nav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 class="page-title" id="expediente_nombre">Expediente: </h3>
+		</div>
+	</div>
+</div>
+<div class="info-sending">cambios detectados, enviando datos</div></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			
+			<app-navigation><div class="board-inner control" id="status-buttons">
+<!--bindings={
+  "ng-reflect-ng-if": "false"
+}-->
+	<!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><div>
+			<ul class="list-group">
+				<li class="list-group-item personales">
+					<a data-toggle="tab" routerlink="/personales" routerlinkactive="active" title="Valoración Antropométrico" ng-reflect-router-link="/personales" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/personales">
+						<span>Datos Personales</span>
+						<i></i>
+					</a>
+				</li>
+				<li class="list-group-item contacto">
+					<a routerlink="/contacto" routerlinkactive="active" ng-reflect-router-link="/contacto" ng-reflect-router-link-active="active" href="/contacto">
+						<span>Contacto</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item hcp">
+					<a routerlink="/hcp" routerlinkactive="active" ng-reflect-router-link="/hcp" ng-reflect-router-link-active="active" href="/hcp" class="active">
+						<span>Historia Clínica Personal</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item hcf">
+					<a routerlink="/hcf" routerlinkactive="active" ng-reflect-router-link="/hcf" ng-reflect-router-link-active="active" href="/hcf">
+						<span>Historia Clínica Familiar</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item objetivo">
+					<a routerlink="/objetivo" routerlinkactive="active" ng-reflect-router-link="/objetivo" ng-reflect-router-link-active="active" href="/objetivo">
+						<span>Objetivos del Paciente</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item habito">
+					<a routerlink="/actividad" routerlinkactive="active" ng-reflect-router-link="/actividad" ng-reflect-router-link-active="active" href="/actividad">
+						<span>Hábitos</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+			</ul>
+	</div>
+	<!--bindings={
+  "ng-reflect-ng-if": "false"
+}-->
+</div>
+</app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<section>
+				<app-hcp-nav><!--bindings={
+  "ng-reflect-ng-if": "true"
+}--><ul class="nav submenu navigation-hcp">
+	<li class="col-sm-3 hcp-menu">
+		<a data-toggle="tab" routerlink="/hcp" routerlinkactive="active" title="Patologias" ng-reflect-router-link="/hcp" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/hcp" class="active">
+			<i></i>
+			<span>Patologías</span>
+		</a>
+	</li>
+	<li class="col-sm-3 alergias">
+		<a data-toggle="tab" routerlink="/alergias" routerlinkactive="active" title="Alergias" ng-reflect-router-link="/alergias" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/alergias">
+			<i></i>
+			<span>Alergias</span>
+		</a>
+	</li>
+	<li class="col-sm-3 medicamentos">
+		<a data-toggle="tab" routerlink="/medicamentos" routerlinkactive="active" title="Medicamentos" ng-reflect-router-link="/medicamentos" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/medicamentos">
+			<i></i>
+			<span>Medicamentos</span>
+		</a>
+	</li>
+	<li class="col-sm-3 bioquimica">
+		<a data-toggle="tab" routerlink="/bioquimica" routerlinkactive="active" title="Bioqu&amp;iacute Cl&amp;iacute" ng-reflect-router-link="/bioquimica" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/bioquimica">
+			<i></i>
+			<span>Bioquímica Clínica</span>
+		</a>
+	</li>
+</ul>
+<!--bindings={
+  "ng-reflect-ng-if": "false"
+}--></app-hcp-nav>
+				
+					<div class="wrap-patologias">
+						<div class="checkbox">
+							<div class="row">
+								
+							<div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="1" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Estreñimiento</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="2" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Colitis</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="3" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Reflujo</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="4" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Gastritis</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="5" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Celiaquia</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="6" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Hernia hiatal</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="7" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Obesidad</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="8" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Hipertensión</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="9" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Hipertiroidismo</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="10" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Diabetes</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="11" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Dislipidemias</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="12" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Hipotiroidismo</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="13" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Cancer</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="true" value="14" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Migraña</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="15" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Ovario Poliquístico</span>
+									</label>
+								</div><div class="col-sm-4">
+									<label>
+										<input name="patologia.id" ng-reflect-name="patologia.id" ng-reflect-model="false" value="16" class="ng-untouched ng-pristine ng-valid" type="checkbox">
+										<span>Enfermedades del Corazón</span>
+									</label>
+								</div>
+							
+							
+							
+							<!---->
+							
+							</div>
+							</div>
+							
+						</div>
+						
+						
+						<div class="form-group">
+							<label>Notas</label>
+							<textarea class="form-control ng-untouched ng-pristine ng-valid" name="notas_patologias" placeholder="Notas" rows="7" ng-reflect-name="notas_patologias" ng-reflect-model=""></textarea>
+						</div>
+					
+			</section>
+		</div>
+	</div>
+</div></app-hcp>
+<div class="developmentInfo">Nutricionista ID: 1</div></nutri-track-app>
+
+
+<script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script>
+
+</body></html>

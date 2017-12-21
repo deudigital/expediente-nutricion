@@ -11,6 +11,7 @@ use App\Ejercicio;
 use App\Alergia;
 use App\GrupoAlimentoNutricionista;
 use App\TiempoComida;
+use App\Ubicacion;
 
 class FormController extends Controller
 {
@@ -39,7 +40,15 @@ class FormController extends Controller
 		$data	=	TiempoComida::all();
 		if($data)
 			$response['tiempo_comidas']	=	$data->toArray();
+		$data	=	Ubicacion::all();
+		if($data)
+			$response['ubicaciones']	=	$data->toArray();
 		
+		/*
+		$data	=	Ubicacion::paginate(30);
+		if($data)
+			$response['ubicaciones']	=	$data->toArray()['data'];
+		*/
 		$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}

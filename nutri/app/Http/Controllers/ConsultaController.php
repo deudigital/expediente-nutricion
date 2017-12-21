@@ -11,7 +11,6 @@ use App\Rdd;
 use App\Prescripcion;
 use App\DetalleDescripcion;
 use App\PatronMenu;
-use App\HcpPatologia;
 use App\DetalleMusculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -51,7 +50,6 @@ class ConsultaController extends Controller
     public function store(Request $request)
     {
 		/*		*/
-        /*if(!$request->paciente_id){*/
         if(!$request->persona_id){
 			$response	=	Response::json([
 				'message'	=>	'Por Favor escriba los campos requeridos'
@@ -62,9 +60,16 @@ class ConsultaController extends Controller
 			'fecha'	=>	DB::raw('now()'),
 			'notas'	=>	trim($request->notas), 
 			'paciente_id'	=>	trim($request->persona_id)
-			/*'paciente_id'	=>	trim($request->paciente_id)*/
 		));
-		$consulta->save();
+		if($consulta->save()){
+			$valoracionAntropometrica	=	new ValoracionAntropometrica(array(
+				'estatura'				=>	0, 
+				'circunferencia_muneca'	=>	0, 
+				'peso'					=>	0, 
+				'consulta_id'			=>	$consulta->id
+			));
+			$valoracionAntropometrica->save();
+		}
 		$message	=	'Su Consulta ha sido añadida de modo correcto';
 		$response	=	Response::json([
 			'message'	=>	$message,
@@ -206,7 +211,7 @@ class ConsultaController extends Controller
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
 		return true;
 	}
-	function all($id){global $consulta;
+	function all($id){
 		$consulta	=	Consulta::find($id);
 		if(count($consulta)==0)
 			return Response::json(['message' => 'Record not found'], 204);
@@ -253,10 +258,9 @@ Enviar usuario y contrasena?????? por ahora si...
 				->join('hcp_patologias', 'hcp_patologias.id', '=', 'patologias_pacientes.hcp_patologia_id')
 				->where('patologias_pacientes.paciente_id',  $consulta->paciente_id)
 				->get();
-		
 
 		if(count($hcp_patologias)>0)
-			$registros['paciente']['hcp']['patologias']	=	$hcp_patologias;//->toArray();
+			$registros['paciente']['hcp']['patologias']	=	$hcp_patologias->toArray();
 		
 		$alergias = DB::table('alergias_pacientes')
 				->join('alergias', 'alergias.id', '=', 'alergias_pacientes.alergia_id')
@@ -277,10 +281,7 @@ Enviar usuario y contrasena?????? por ahora si...
 				->where('objetivos.paciente_id',  $consulta->paciente_id)
 				->select('objetivos.*', DB::raw('date_format(from_unixtime(objetivos.fecha),\'%d/%m/%Y\') as fecha'))
 				->get();
-/*
 
-				
-*/
 		if(count($objetivos)>0)
 			$registros['paciente']['objetivos']	=	$objetivos->toArray();
 		
@@ -309,6 +310,13 @@ Enviar usuario y contrasena?????? por ahora si...
 
 		if(count($habitos_otros)>0)
 			$registros['paciente']['habitos']['otros']	=	$habitos_otros;
+		
+		$valoracion_dietetica	=	DB::table('detalle_valoracion_dieteticas')
+				->where('detalle_valoracion_dieteticas.paciente_id',  $consulta->paciente_id)
+				->get();
+
+		if(count($valoracion_dietetica)>0)
+			$registros['paciente']['habitos']['valoracionDietetica']	=	$valoracion_dietetica->toArray();
 		
 		
 		
@@ -340,6 +348,10 @@ Enviar usuario y contrasena?????? por ahora si...
 		$prescripcion	=	Prescripcion::where('consulta_id', $id)
 										->get()
 										->first();
+		
+		/*$registros['dieta']['prescripcion']	=	array();
+		$registros['dieta']['prescripcion']['items']	=	array();*/
+		
 		if(count($prescripcion)>0){
 			$registros['dieta']['prescripcion']	=	$prescripcion->toArray();
 			/*$detalleDescripcion	=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
@@ -352,17 +364,6 @@ Enviar usuario y contrasena?????? por ahora si...
 				$registros['dieta']['prescripcion']['items']	=	$detalleDescripcion->toArray();
 			}
 		}
-			
-			
-		$detalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
-										->get()
-										->first();
-
-		if(count($detalleMusculo)>0){
-			$registros['va']['detalleMusculo']	=	$detalleMusculo->toArray();
-			//$registros['va']	=	(array)$valoracionAntropometrica;
-		}	
-		
 		
 		$patronMenu	=	PatronMenu::where('consulta_id', $id)
 										->get();

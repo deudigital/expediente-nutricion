@@ -23,5 +23,4 @@ class Paciente extends Model
 		'usuario',
 		'contrasena'
     ];
-	
 }

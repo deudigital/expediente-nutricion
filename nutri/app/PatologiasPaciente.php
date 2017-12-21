@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PatologiasPaciente extends Model
 {
-    protected $table	=	'hcf_patologias_pacientes';
-	
+    protected $fillable = [
+		'hcp_patologia_id', 	
+		'paciente_id'
+    ];
+	public $timestamps = false;
 }

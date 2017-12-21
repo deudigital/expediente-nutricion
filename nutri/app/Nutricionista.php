@@ -6,5 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nutricionista extends Model
 {
-    //
+	protected $fillable	=	[
+		'persona_id',
+		'nombre_comercial',
+		'usuario',
+		'contrasena',
+		'carne_cpn',
+		'descuento_25_consultas',
+		'token',
+		'atv_ingreso_id',
+		'atv_ingreso_contrasena',
+		'atv_llave_criptografica',
+		'atv_clave_llave_criptografica',
+		'pe',
+		'activo'
+	];
+	public $timestamps	=	false;
 }

@@ -38,15 +38,13 @@ class DietaController extends Controller
      */
     public function store(Request $request)
     {
-		/*$data	=	$request->all();
-		$response	=	Response::json($data, 200, []);
+		/*$response	=	Response::json($request->all(), 200, []);
 		return $response;*/
-		/*$request->consulta_id	=	1;*/
 		$items	=	$request->items;
 		if($items){
 			$datos	=	array();			
 			$deletedRows = PatronMenu::where('consulta_id', $request->consulta_id)->delete();
-			
+					
 			foreach($items as $key=>$item){
 				foreach($item['porciones'] as $alimento=>$porciones){
 					if(empty($porciones))

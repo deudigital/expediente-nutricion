@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ValoracionAntropometrica extends Model
 {
-    //
 	public $timestamps	=	false;
 	protected $table	=	'valor_antropometricas';
 	protected $fillable	=	[
