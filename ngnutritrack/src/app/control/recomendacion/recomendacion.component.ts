@@ -18,8 +18,6 @@ export class RecomendacionComponent implements OnInit {
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
 
-	historial:any[];
-	
 	tab_class_datos:string='active';
 	tab_class_graficos:string='';
 	
@@ -34,7 +32,6 @@ export class RecomendacionComponent implements OnInit {
 	  this.setInfoInit();
    }
   ngOnInit() {
-	  this.getHistorial();
   }
 	ngOnDestroy() {
 		this.model.getFormRdd().set(this.recomendacion);
@@ -43,30 +40,6 @@ export class RecomendacionComponent implements OnInit {
 			this.createRdds(this.recomendacion);
 	}
 	
-	getHistorial(){
-		var paciente_id	=	this.paciente.persona_id;
-		this.formControlDataService.select('rdds', paciente_id)
-		.subscribe(
-			 response  => {
-						console.log('saveInfo:receiving...');
-						console.log(response);
-						this.processHistorial(response);
-						},
-			error =>  console.log(<any>error)
-		);
-	}
-	processHistorial(data){
-		console.log('processing');
-		var _rdds;
-		for(var i in data){
-			var rdd	=	data[i];
-			
-			
-			
-			
-		}
-		this.historial	=	_rdds;
-	}
 	
 	setInfoInit(){
 		this.oRdd.metodo_calculo_gc				=	this.recomendacion.metodo_calculo_gc;
@@ -75,6 +48,7 @@ export class RecomendacionComponent implements OnInit {
 		this.oRdd.promedio_gc_diario			=	this.recomendacion.promedio_gc_diario;
 		this.oRdd.variacion_calorica			=	this.recomendacion.variacion_calorica;
 	}
+	
 	infoEdited(){
 		return 	(
 			this.oRdd.metodo_calculo_gc				!==	this.recomendacion.metodo_calculo_gc || 
@@ -83,10 +57,13 @@ export class RecomendacionComponent implements OnInit {
 			this.oRdd.promedio_gc_diario			!==	this.recomendacion.promedio_gc_diario || 
 			this.oRdd.variacion_calorica			!==	this.recomendacion.variacion_calorica
 		);
+
 	}
+	
 	createRdds(recomendacion) {
 		console.log('rdds sending...');
 		console.log(recomendacion);
+
 		this.formControlDataService.addRdds(recomendacion)
 		.subscribe(
 			 response  => {
@@ -96,7 +73,7 @@ export class RecomendacionComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	toggleModalRdds() {
+  toggleModalRdds() {
 		this.showModalRdds	=	!this.showModalRdds;
 		let body = document.getElementsByTagName('body')[0];
 		if(this.showModalRdds)
@@ -104,19 +81,19 @@ export class RecomendacionComponent implements OnInit {
 		else
 			body.classList.remove('open-modal');
 	}
-	tabSelected(tab:string){
-		if(tab=='graficos'){
-			this.showModalTabDatos = false;
-			this.showModalTabGrafico=true;
-			this.tab_class_graficos = 'active';
-			this.tab_class_datos = '';
-		}else{
-			this.showModalTabDatos = true;
-			this.showModalTabGrafico=false;
-			this.tab_class_datos = 'active';
-			this.tab_class_graficos = '';
-		}
-	}
+   tabSelected(tab:string){
+      if(tab=='graficos'){
+        this.showModalTabDatos = false;
+        this.showModalTabGrafico=true;
+        this.tab_class_graficos = 'active';
+        this.tab_class_datos = '';
+      }else{
+        this.showModalTabDatos = true;
+        this.showModalTabGrafico=false;
+        this.tab_class_datos = 'active';
+        this.tab_class_graficos = '';
+      }
+   }
    
 
 	get ingesta_calorica_recomendada(){

@@ -24,14 +24,13 @@ export class ValoracionComponent implements OnInit {
 	musculo_brazo_derecho:number;
 	musculo_brazo_izquierdo:number;
 	
-	historial:any[];
 	
 	sexo:string='M';
 	titulo_pagina:string='Expediente: Jorge Lpez';
 	
-	showModalDatos:boolean=false;
-	showModalTabDatos:boolean=true;
-	showModalTabGrafico:boolean=false;
+	showModalDatos:boolean=true;
+	showModalTabDatos:boolean=false;
+	showModalTabGrafico:boolean=true;
 	
 	showModalGrasa:boolean=false;
 	showModalGrasaTabSegmentado:boolean=true;
@@ -61,12 +60,12 @@ export class ValoracionComponent implements OnInit {
 				this.grasa			=	this.valoracion.getDetalleGrasa();
 				this.detalleGrasa	=	this.valoracion.getDetalleGrasa();
 				this.setInfoInit();
-				this.getHistorial();
 			},
 			error => console.log(<any>error));
     }
 	ngOnInit() {
-		this.tagBody = document.getElementsByTagName('body')[0];		
+		this.tagBody = document.getElementsByTagName('body')[0];
+		
 	}
 	ngOnDestroy() {
 		this.formControlDataService.setFormControlData(this.model);
@@ -105,18 +104,6 @@ export class ValoracionComponent implements OnInit {
 
 	}
 		
-	getHistorial(){
-		var paciente_id	=	this.model.consulta.paciente_id;
-		this.formControlDataService.select('valoracionAntropometrica', paciente_id)
-		.subscribe(
-			 response  => {
-						console.log('saveInfo:receiving...');
-						console.log(response);
-						this.historial	=	response;
-						},
-			error =>  console.log(<any>error)
-		);
-	}
 	createValoracionAntropometrica(valoracionAntropometrica) {
 		/*console.log(valoracionAntropometrica);*/
 		this.tagBody.classList.add('sending');
