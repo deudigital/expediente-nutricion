@@ -18,31 +18,31 @@
 					</a>
 				</li>
 				<li class="list-group-item contacto">
-					<a routerLink="/contacto" routerLinkActive="active">
+					<a routerLink="/contacto" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }" >
 						<span>Contacto</span>
 						<i class="icon"></i>
 					</a>
 				</li>
 				<li class="list-group-item hcp">
-					<a routerLink="/hcp" routerLinkActive="active">
+					<a routerLink="/hcp" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
 						<span>Historia Cl&iacute;nica Personal</span>
 						<i class="icon"></i>
 					</a>
 				</li>
 				<li class="list-group-item hcf">
-					<a routerLink="/hcf" routerLinkActive="active">
+					<a routerLink="/hcf" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
 						<span>Historia Cl&iacute;nica Familiar</span>
 						<i class="icon"></i>
 					</a>
 				</li>
 				<li class="list-group-item objetivo">
-					<a routerLink="/objetivo" routerLinkActive="active">
+					<a routerLink="/objetivo" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
 						<span>Objetivos del Paciente</span>
 						<i class="icon"></i>
 					</a>
 				</li>
 				<li class="list-group-item habito">
-					<a routerLink="/actividad" routerLinkActive="active">
+					<a routerLink="/actividad" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
 						<span>H&aacute;bitos</span>
 						<i class="icon"></i>
 					</a>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Alergia } from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
@@ -20,7 +21,7 @@ export class AlergiaComponent implements OnInit {
 	oAlergias:any[];
 	data:{ [id: string]: any; } = {'0':''};
 	
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.paciente	=	this.fcd.getFormPaciente();
@@ -36,9 +37,10 @@ export class AlergiaComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-hcp');
-		if(this.infoEdited()){
+		/*if(this.infoEdited()){
 			this.save(this.data);
-		}	
+		}*/
+		this.saveForm();
 	}
 
 	infoEdited(){
@@ -107,5 +109,17 @@ export class AlergiaComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-
+	saveForm(){
+		if(this.infoEdited()){
+			this.save(this.data);
+		}
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/hcp']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/medicamentos']);
+	}
 }

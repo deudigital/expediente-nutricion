@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { FormControlData, ManejadorDatos, Objetivo }     from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -17,7 +18,7 @@ export class ObjetivoComponent implements OnInit {
 	newObjetivo=new Objetivo();
 	body:any;
 
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 	}
@@ -73,4 +74,13 @@ export class ObjetivoComponent implements OnInit {
 			this.nuevo	=	false;
 		}
 	}
+	
+	Previous(){
+		this.router.navigate(['/hcf']);
+	}
+	Next(){
+		this.router.navigate(['/actividad']);
+	}
+	
+	
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Analisis, Paciente } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -10,11 +11,14 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
 })
 export class PersonalesComponent implements OnInit {
 	fcData:any;
+	mng:any;
 	paciente=new Paciente();
 	oPaciente=new Paciente();
 	esMenor:boolean=false;
-	constructor(private formControlDataService: FormControlDataService) {
+
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
+		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
 		this.setInfoInit();
 	}
@@ -23,10 +27,12 @@ export class PersonalesComponent implements OnInit {
 		this.verificarEdad();
 	}
 	ngOnDestroy() {
+/*
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
 		if(this.infoEdited())
 			this.saveInfo(this.paciente);
-
+*/
+		this.saveForm();
 	}
 	setInfoInit(){
 		this.oPaciente.cedula				=	this.paciente.cedula;
@@ -59,14 +65,26 @@ export class PersonalesComponent implements OnInit {
 						console.log('saveInfo:receiving...');
 						console.log(response);
 						this.updatePacienteInfo(response);
-						},
+					},
 			error =>  console.log(<any>error)
 		);
+	}
+	saveForm(){
+		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
+		if(this.infoEdited())
+			this.saveInfo(this.paciente);
+	}
+	
+	Next(){
+		this.saveForm();
+		if(this.mng.getEnableLink())
+			this.router.navigate(['/contacto']);
 	}
 	updatePacienteInfo(data){
 		this.paciente.id	=	data.id;
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
 		//this.formControlDataService.getFormPaciente.id	=	data.id;
+		this.mng.setEnableLink(true);
 	}
 	get mostrarFormParentezco(){
 		return this.verificarEdad();

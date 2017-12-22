@@ -11,16 +11,16 @@ import { Router }              from '@angular/router';
   styleUrls: []
 })
 export class NuevoComponent implements OnInit {
-mng:ManejadorDatos;
-  constructor(private router: Router, private formControlDataService: FormControlDataService) {
-	this.formControlDataService.resetFormControlData();
-	var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
-	mng.setOperacion('nuevo-paciente');
-	mng.setMenuPacienteStatus(false);
-  }
-
-  ngOnInit() {
-	  this.router.navigate(['/personales']);
-  }
+	mng:ManejadorDatos;
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
+		mng.setOperacion('nuevo-paciente');
+		mng.setMenuPacienteStatus(false);
+		mng.setEnableLink(false);
+		this.formControlDataService.resetFormControlData();
+	}
+	ngOnInit() {
+		this.router.navigate(['/personales']);
+	}
 
 }

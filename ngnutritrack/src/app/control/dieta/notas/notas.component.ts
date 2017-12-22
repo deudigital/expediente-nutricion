@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Analisis, Consulta } from '../../data/formControlData.model';
 import { FormControlDataService }     from '../../data/formControlData.service';
@@ -14,7 +15,7 @@ export class NotasComponent implements OnInit {
 	oConsulta=new Consulta();
 	tagBody:any;
 
-  constructor(private formControlDataService: FormControlDataService) {
+  constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	  this.model	=	formControlDataService.getFormControlData();
 	  this.consulta	=	this.model.getFormConsulta();
 	  this.setInfoInit();
@@ -26,11 +27,11 @@ export class NotasComponent implements OnInit {
   }
   
 	ngOnDestroy() {
-		this.formControlDataService.setFormControlData(this.model);
+		/*this.formControlDataService.setFormControlData(this.model);
 		this.model.getFormConsulta().set(this.consulta);
 		if(this.infoEdited())
-			this.saveInfo(this.consulta);
-		
+			this.saveInfo(this.consulta);*/
+		this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');	
 	}
 	setInfoInit(){
@@ -56,4 +57,18 @@ export class NotasComponent implements OnInit {
 		);
 	}
 
+	saveForm(){
+		this.formControlDataService.setFormControlData(this.model);
+		this.model.getFormConsulta().set(this.consulta);
+		if(this.infoEdited())
+			this.saveInfo(this.consulta);
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/patron-menu']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/inicio']);
+	}
 }

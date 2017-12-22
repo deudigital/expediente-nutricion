@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { Analisis, Paciente, Provincia, Canton, Distrito } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
 
@@ -35,8 +35,10 @@ export class ContactoComponent implements OnInit {
 	filter_barrios:{ [id: string]: any; };
 	ubicaciones:any;
 	mng:any;
+	goToNext:boolean;
+	goToPrevious:boolean;
 	
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();
 		console.log(this.paciente);
@@ -54,15 +56,15 @@ export class ContactoComponent implements OnInit {
 		this.setInfoInit();
 	}
 	ngOnInit() {
+		this.goToPrevious	=	false;
+		this.goToNext		=	false;
 	}
 	ngOnDestroy() {
-		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
+		/*this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
 		if(this.infoEdited()){
-			/*if(this.barrio)
-				this.paciente.ubicacion_id	=	this.barrio.id;*/
 			this.saveInfo(this.paciente);
-		}
-
+		}*/
+		this.saveForm();
 	}
 /*	 
 id 	
@@ -141,9 +143,22 @@ nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
 		.subscribe(
 			 response  => {
 						console.log('saveInfo:receiving...');
-						console.log(response);
-						},
+						console.log(response);						
+					},
 			error =>  console.log(<any>error)
 		);
+	}
+	saveForm(){
+		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
+		if(this.infoEdited())
+			this.saveInfo(this.paciente);
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/personales']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/hcp']);
 	}
 }

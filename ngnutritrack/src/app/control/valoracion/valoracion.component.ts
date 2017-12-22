@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-/*import { Router }              from '@angular/router';*/
+import { Router } from '@angular/router';
 
 import { Analisis,ValoracionAntropometrica, Paciente, DetalleMusculo, DetalleGrasa } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
@@ -48,7 +48,7 @@ export class ValoracionComponent implements OnInit {
 	tab_grasa_class_pliegues:string='';
 	
 
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		var mng	=	this.model.getManejadorDatos();
 		console.log(this.model);
@@ -68,10 +68,11 @@ export class ValoracionComponent implements OnInit {
 		
 	}
 	ngOnDestroy() {
-		this.formControlDataService.setFormControlData(this.model);
+		/*this.formControlDataService.setFormControlData(this.model);
 		this.model.getFormValoracionAntropometrica().set(this.valoracion);
 		if(this.infoEdited())
-			this.createValoracionAntropometrica(this.valoracion);
+			this.createValoracionAntropometrica(this.valoracion);*/
+		this.saveForm();
 	}
 	setInfoInit(){
 		this.oValoracion.estatura				=	this.valoracion.estatura;
@@ -462,5 +463,20 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 	get currentModel() {
 		return JSON.stringify(this.model);
 		/*return JSON.stringify(this.analisis);*/
+	}
+
+	saveForm(){
+		this.formControlDataService.setFormControlData(this.model);
+		this.model.getFormValoracionAntropometrica().set(this.valoracion);
+		if(this.infoEdited())
+			this.createValoracionAntropometrica(this.valoracion);
+	}
+/*	Previous(){
+		this.saveForm();
+		this.router.navigate(['/personales']);
+	}*/
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/recomendacion']);
 	}
 }

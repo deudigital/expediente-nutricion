@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
 
@@ -68,7 +69,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 	oMenu:{ [id: string]: any; } = {'0':''};
 	
 	notas:any;
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.paciente	=	this.model.getFormPaciente();
 		this.notas	=	this.paciente.notas_valoracion_dietetica;
@@ -80,7 +81,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('menu-parent-habito');
-		this.save();
+		this.saveForm();
 	}
 	
 	initAlimentos(){
@@ -113,6 +114,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 		this.tiempos['12']	=	'Embutidos';
 		
 		this.menus	=	this.formControlDataService.getFormControlData().valoracionDietetica;
+		console.log('this.menus');
 		console.log(this.menus);
 		this.setInfoInit();
 	}
@@ -293,7 +295,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 		}
 		return false;
 	}
-	save(){
+	saveForm(){
 		this.data	=	{'0':''};
 		this.data['paciente_id']	=	this.paciente.id;
 		if(this.infoEdited()){
@@ -947,4 +949,14 @@ export class ValoracionDieteticaComponent implements OnInit {
 		return JSON.stringify(this.arrayMenuCurrent);
 	}
    
+	
+	
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/actividad']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/gustos']);
+	}
 }

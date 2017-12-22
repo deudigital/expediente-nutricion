@@ -33,6 +33,7 @@ export class ControlComponent implements OnInit {
 		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		mng.setOperacion('nueva-consulta');
 		mng.setMenuPacienteStatus(false);
+		mng.setEnableLink(true);
 		//this.createConsulta(paciente);
 		this.save(paciente);
 	}

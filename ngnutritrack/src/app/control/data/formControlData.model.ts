@@ -4,18 +4,18 @@ export class FormControlData {
 	paciente:Paciente			=	new Paciente();	
 	prescripcion:Prescripcion	=	new Prescripcion();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
-	rdd:Rdd		=	new Rdd();	
-	gustos		=	new HabitosGusto();
-	habitosOtro	=	new HabitosOtro();
+	rdd:Rdd						=	new Rdd();	
+	gustos						=	new HabitosGusto();
+	habitosOtro					=	new HabitosOtro();
 	
-	patronmenu:any[]=[];
-	bioquimicas:any[]=[];
-	patologias:any[]=[];
-	alergias:any[]=[];
-	hcf_patologias:any[]=[];
-	objetivos:any[]= [];
-	ejercicios:any[]=[];
-	valoracionDietetica:any[]=[];
+	patronmenu:any[]			=	[];
+	bioquimicas:any[]			=	[];
+	patologias:any[]			=	[];
+	alergias:any[]				=	[];
+	hcf_patologias:any[]		=	[];
+	objetivos:any[]				=	[];
+	ejercicios:any[]			=	[];
+	valoracionDietetica:any[]	=	[];
 
 /*	Paciente	*/
 	paciente_id:number=0;
@@ -54,6 +54,7 @@ export class FormControlData {
     pesoMetaMinimo: number = 0;
 
     clear() {
+		console.log('fcd::clear()')
         this.estatura = 0;
         this.circunferencia_muneca = 0;
         this.peso = 0;
@@ -66,34 +67,40 @@ export class FormControlData {
         this.circunferencia_cintura = 0;
         this.circunferencia_cadera = 0;
 		
-		/*this.manejadorDatos		=	new ManejadorDatos();*/
+		//console.log('fcd::this.manejadorDatos.operacion-> ' + this.manejadorDatos.operacion)
 		if(this.manejadorDatos.operacion!='nueva-consulta'){
+			//console.log('new Paciente()');
 			this.paciente			=	new Paciente();
 			this.paciente.nutricionista_id	=	this.nutricionista_id;
+			//console.log('hcp');
 			/*	HCP	*/
 			this.patologias			=	[];
 			this.alergias			=	[];
 			this.bioquimicas		=	[];
+			//console.log('hcf');
 			/*	HCF	*/
 			this.hcf_patologias		=	[];
+			//console.log('objetivos');
 			/*	OBJETIVOS	*/
 			this.objetivos			=	[];
+			//console.log('habitos');
 			/*	HABITOS	*/
 			this.ejercicios			=	[];
 			this.valoracionDietetica=	[];
-			this.gustos			=	new HabitosGusto();
-			this.habitosOtro	=	new HabitosOtro();
-			
-			
-			
+			this.gustos				=	new HabitosGusto();
+			this.habitosOtro		=	new HabitosOtro();			
 		}
-		
+		//console.log('new Consulta()');
 		this.consulta					=	new Consulta();			
+		//console.log('new Prescripcion()');
 		this.prescripcion				=	new Prescripcion();
+		//console.log('new ValoracionAntropometrica()');
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
 		/**/
 		this.rdd						=	new Rdd();
+		//console.log('new Rdd()');
 		this.patronmenu					=	[];
+		//console.log('patronmenu[]');
 		//this.valoracionDietetica		=	[];
 	}
 	setNutricionistaId(nutricionista_id){
@@ -284,8 +291,29 @@ export class FormControlData {
 	setPatronMenu(patron_menu){
 		this.patronmenu			=	patron_menu;
 	}
-	setValoracionDietetica(valoracionDietetica){
-		this.valoracionDietetica			=	valoracionDietetica;
+	setValoracionDietetica(valoracionDietetica){console.log('setValoracionDietetica');
+		var _array	=	[];
+/*
+categoria_valoracion_dietetica_id: "1"
+porciones: {…}
+_1: 7
+_2: 6
+_3: 5
+*/
+		for(var i in valoracionDietetica){
+			var vd	=	valoracionDietetica[i];
+			var cvd	=	vd.categoria_valoracion_dietetica_id;
+			for(var j in vd.porciones){
+				var obj	=	{};
+				obj['categoria_valoracion_dietetica_id']	=	cvd;
+				obj['grupo_alimento_nutricionista_id']		=	j.substring(1, 1);
+				obj['paciente_id']	=	this.paciente.id;
+				obj['porciones']	=	vd.porciones[j];
+				_array.push(obj);
+			}
+		}console.log(_array);
+		//this.valoracionDietetica			=	valoracionDietetica;
+		this.valoracionDietetica			=	_array;
 	}
 	setFormPaciente(data){
 		this.paciente.persona_id		=	data.persona_id;
@@ -624,6 +652,7 @@ export class ManejadorDatos{
 	nutricionista_id:number=0;
 	paciente_id:number=0;
 	lastStatusMenuPaciente:boolean=false;
+	enableLink:boolean=false;
 	extraInfoAlimentos:any[];
 	
 	hcpPatologias:any;
@@ -637,6 +666,12 @@ export class ManejadorDatos{
 	distritos:any[]=[];
 	
 		
+	setEnableLink(enable){
+		this.enableLink	=	enable;
+	}		
+	getEnableLink():boolean{
+		return this.enableLink;
+	}	
 	setOperacion(operacion:string){
 		this.operacion	=	operacion;		
 	}

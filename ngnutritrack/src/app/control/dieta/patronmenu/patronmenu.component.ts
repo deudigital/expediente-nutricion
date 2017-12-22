@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Analisis,PatronMenu, PatronMenuEjemplo, Paciente } from '../../data/formControlData.model';
 import { FormControlDataService }     from '../../data/formControlData.service';
@@ -59,7 +60,7 @@ export class PatronmenuComponent implements OnInit {
 	
 	tagBody:any;
 	oMenu:{ [id: string]: any; } = {'0':''};
-  constructor(private formControlDataService: FormControlDataService) {
+  constructor(private router: Router, private formControlDataService: FormControlDataService) {
     this.model	=	formControlDataService.getFormControlData();
 	/*
 	this.menus	=	formControlDataService.getFormControlData().patronmenu;	
@@ -102,7 +103,7 @@ export class PatronmenuComponent implements OnInit {
 	
   }
 	ngOnDestroy() {
-		this.save();
+		this.saveForm();
 /*
 		if(this.infoEdited()){
 			this.data['0']	=	'';
@@ -282,7 +283,7 @@ export class PatronmenuComponent implements OnInit {
 		}
 		return false;
 	}
-	save(){		
+	saveForm(){		
 		if(this.infoEdited()){
 			console.log('CAMBIOS');
 			this.updateItems();
@@ -549,4 +550,13 @@ export class PatronmenuComponent implements OnInit {
 		return JSON.stringify(this.arrayMenuDesayuno);
 	}
 
+	
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/dieta']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/notas']);
+	}
 }

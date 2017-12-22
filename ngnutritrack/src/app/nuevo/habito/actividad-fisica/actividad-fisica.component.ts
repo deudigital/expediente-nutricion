@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { HabitosEjercicio }     from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
@@ -18,7 +19,7 @@ export class ActividadFisicaComponent implements OnInit {
 	mng:any;	
 	body:any;
 
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 	}
@@ -80,5 +81,12 @@ export class ActividadFisicaComponent implements OnInit {
 			this.newHabitosEjercicio.horas_semanales	=	0;
 			this.nuevo	=	false;
 		}
+	}
+	
+	Previous(){
+		this.router.navigate(['/objetivo']);
+	}
+	Next(){
+		this.router.navigate(['/valoracion-dietetica']);
 	}
 }

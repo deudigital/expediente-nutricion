@@ -27,7 +27,8 @@ export class InicioComponent implements OnInit {
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
 		this.getConsultasPendientes();
-		this.loadDataForm();
+		/*this.loadDataForm();*/
+		console.log(this.mng);
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
@@ -35,6 +36,9 @@ export class InicioComponent implements OnInit {
 	}
 	onSelect(consulta: Consulta) {
 		this.selectedConsulta = consulta;
+		
+		this.mng.setEnableLink(true);
+		
 		this.formControlDataService.resetFormControlData();
 		this.formControlDataService.setSelectedConsuta(consulta);
 		

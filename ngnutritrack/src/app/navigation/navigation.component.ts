@@ -11,6 +11,7 @@ import { FormControlDataService }     from '../control/data/formControlData.serv
 export class NavigationComponent implements OnInit {
 	showMenuPaciente:boolean=true;
 	showMenuConsulta:boolean=false;
+	enableLink:boolean=false;
 	class_toggle:string='';
 	mng:ManejadorDatos;
 	
@@ -24,6 +25,7 @@ export class NavigationComponent implements OnInit {
 			this.showMenuPaciente	=	this.mng.getMenuPacienteLastStatus();
 			this.class_toggle = (this.showMenuPaciente? ' opened':'');
 		}
+		this.enableLink	=	this.mng.getEnableLink();	
 	}
 	ngOnDestroy(){
 		this.mng.setMenuPacienteStatus(this.showMenuPaciente);

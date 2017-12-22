@@ -8,11 +8,19 @@ import {Observable} from 'rxjs/Rx';
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
+	//private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v1/';
+	private headers: Headers;
 	data:any={};
-	constructor(private http: Http) {}
 
+	constructor(private http: Http) {}
+	setHeader(token){
+		this.headers	=	new Headers({
+								  'Content-Type': 'application/json',
+								  Authorization: `Bearer ${token}`
+								});
+	}
 	getDataForm(): Observable<any[]> {
-		return this.http.get( this.apiURL + 'form/data' ).map((response: Response) => response.json());
+		return this.http.get( this.apiURL + 'form/data', {headers: this.headers} ).map((response: Response) => response.json());
 	}
 	getPacientesDeNutricionista(): Observable<Paciente[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;

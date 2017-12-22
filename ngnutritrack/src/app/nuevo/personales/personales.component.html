@@ -101,15 +101,19 @@
 
 			<div class="buttons-navigation">
 
-					<button class="btn btn-default previous" 
-					> ANTERIOR 
-					</button>
-					<button class="btn btn-success next" 
-						[disabled]="!personalForm.valid" 
-						> SIGUIENTE 
-						</button>
-				</div>
-
+				<button 
+					class="btn btn-default previous" 
+					disabled="disabled"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next" 
+				[disabled]="!personalForm.valid"
+				(click)="Next()"
+					
+				> SIGUIENTE 
+				</button>
+			</div>
+<!---->
 
 		</form>
 

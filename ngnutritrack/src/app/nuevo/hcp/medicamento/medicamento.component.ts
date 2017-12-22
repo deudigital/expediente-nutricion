@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { FormControlData, ManejadorDatos, Paciente }     from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
@@ -15,7 +16,7 @@ export class MedicamentoComponent implements OnInit {
 	medicamentos:any;
 	body:any;
 
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.paciente	=	this.fcd.getFormPaciente();
@@ -27,8 +28,10 @@ export class MedicamentoComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-hcp');
-		if(this.isValid())
+/*		if(this.isValid())
 			this.save(this.paciente);
+*/
+		this.saveForm();
 	}
 	isValid(){
 		return this.medicamentos!=this.paciente.notas_medicamentos;
@@ -43,6 +46,19 @@ export class MedicamentoComponent implements OnInit {
 						},
 			error =>  console.log(<any>error)
 		);
+	}
+	
+	saveForm(){
+		if(this.isValid())
+			this.save(this.paciente);
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/alergias']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/bioquimica']);
 	}
 
 }

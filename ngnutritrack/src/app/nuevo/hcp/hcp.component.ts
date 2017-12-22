@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Analisis,Patologia } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -16,7 +17,7 @@ export class HcpComponent implements OnInit {
 	patologias:Patologia[];
 	oPatologias:any[];
 	data:{ [id: string]: any; } = {'0':''};
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.paciente	=	this.fcd.getFormPaciente();
@@ -28,10 +29,10 @@ export class HcpComponent implements OnInit {
 		this.setInfoInit();
 	}
 	ngOnDestroy(){		
-		if(this.infoEdited()){
-			//this.data['items']	=	this.patologias;
+		/*if(this.infoEdited()){
 			this.save(this.data);
-		}	
+		}*/
+		this.saveForm();
 	}
 	infoEdited(){
 		var notas_changed	=	false;
@@ -113,5 +114,19 @@ nombre	"Estreñimiento"
 						},
 			error =>  console.log(<any>error)
 		);
+	}
+	
+	saveForm(){
+		if(this.infoEdited()){
+			this.save(this.data);
+		}
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/contacto']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/alergias']);
 	}
 }

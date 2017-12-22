@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { FormControlData, ManejadorDatos, HabitosGusto }     from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
@@ -15,7 +16,7 @@ export class GustosComponent implements OnInit {
 	oGusto:HabitosGusto;
 	paciente:any;
 	body:any;
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.gusto		=	this.fcd.getFormPacienteHabitosGustos();
@@ -31,11 +32,11 @@ export class GustosComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-habito');
-		if(this.infoEdited()){
+		/*if(this.infoEdited()){
 			this.gusto.paciente_id	=	this.paciente.id;
 			this.save(this.gusto);
-		}
-
+		}*/
+		this.saveForm();
 	}
 	setInfoInit(){
 		this.oGusto.comidas_favoritas		=	this.gusto.comidas_favoritas;
@@ -65,4 +66,18 @@ export class GustosComponent implements OnInit {
 		);
 	}
 
+	saveForm(){
+		if(this.infoEdited()){
+			this.gusto.paciente_id	=	this.paciente.id;
+			this.save(this.gusto);
+		}
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/valoracion-dietetica']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/otros']);
+	}
 }

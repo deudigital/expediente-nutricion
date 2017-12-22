@@ -1,4 +1,5 @@
 import { Component, OnInit, Input  } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Prescripcion, PrescripcionItem, Paciente, Rdd } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
@@ -49,7 +50,7 @@ export class DietaComponent implements OnInit {
 	
 	showAdicionarOtro:boolean=false;
   
-  constructor(private formControlDataService: FormControlDataService) {
+  constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
 	this.prescripcion	=	this.model.getFormPrescripcion();
 	console.log(this.prescripcion);
@@ -63,13 +64,14 @@ export class DietaComponent implements OnInit {
   }
 	ngOnDestroy() {
 		
-		this.prescripcion.items	=	this.items;
+		/*this.prescripcion.items	=	this.items;
 		this.model.getFormPrescripcion().set(this.prescripcion);
 		this.formControlDataService.setFormControlData(this.model);		
 		if(this.existChanges()){
 			console.log('HAY CAMBIOS, ENVIAR A LA API');
 			this.createPrescripcion(this.prescripcion);
-		}
+		}*/
+		this.saveForm();
 	}
 	createOriginal(){
 		this.oPrescripcion.carbohidratos	=	this.prescripcion.carbohidratos;
@@ -328,5 +330,21 @@ export class DietaComponent implements OnInit {
 		else
 			this.total_adecuacion_kcal	=	0;
    }
-
+	saveForm(){
+		this.prescripcion.items	=	this.items;
+		this.model.getFormPrescripcion().set(this.prescripcion);
+		this.formControlDataService.setFormControlData(this.model);		
+		if(this.existChanges()){
+			console.log('HAY CAMBIOS, ENVIAR A LA API');
+			this.createPrescripcion(this.prescripcion);
+		}
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/recomendacion']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/patron-menu']);
+	}
 }

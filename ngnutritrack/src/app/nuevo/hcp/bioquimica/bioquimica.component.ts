@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { FormControlDataService }     from '../../../control/data/formControlData.service';
 
 @Component({
@@ -12,7 +14,7 @@ export class BioquimicaComponent implements OnInit {
 	model:any;
 	bioquimicas:any;
 	body:any;
-	constructor(private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model		=	formControlDataService.getFormControlData();		
 		this.bioquimicas	=	formControlDataService.getFormControlData().getFormPacienteBioquimicas();
 	}
@@ -27,5 +29,17 @@ export class BioquimicaComponent implements OnInit {
 
 	showFormEdit(){
 		this.nuevo	=	!this.nuevo;
+	}
+	
+	saveForm(){
+		
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/medicamentos']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/hcf']);
 	}
 }

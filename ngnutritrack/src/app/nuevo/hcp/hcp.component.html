@@ -141,9 +141,7 @@
 							</div>
 							</div>
 							
-						</div>
-						<!--<button class="btn btn-primary" (click)="saveTest()">Guardar</button>-->
-						
+						</div>						
 						<div class="form-group">
 							<label>Notas</label>
 							<textarea name="notas_patologias" class="form-control" placeholder="Notas"  rows="7"
@@ -152,6 +150,19 @@
 						</div>
 					
 			</section>
+			
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+				
 		</div>
 	</div>
 </div>

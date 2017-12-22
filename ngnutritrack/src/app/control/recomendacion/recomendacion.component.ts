@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Rdd } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
@@ -24,7 +25,7 @@ export class RecomendacionComponent implements OnInit {
 	tmb:number;
 	gcr:number;
 
-  constructor(private formControlDataService: FormControlDataService) {
+  constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	  this.model	=	formControlDataService.getFormControlData();
 	  this.recomendacion	=	this.model.getFormRdd();
 	  this.paciente	=	this.model.getFormPaciente();
@@ -34,10 +35,11 @@ export class RecomendacionComponent implements OnInit {
   ngOnInit() {
   }
 	ngOnDestroy() {
-		this.model.getFormRdd().set(this.recomendacion);
+		/*this.model.getFormRdd().set(this.recomendacion);
 		this.formControlDataService.setFormControlData(this.model);
 		if(this.infoEdited())
-			this.createRdds(this.recomendacion);
+			this.createRdds(this.recomendacion);*/
+		this.saveForm();
 	}
 	
 	
@@ -214,4 +216,18 @@ export class RecomendacionComponent implements OnInit {
 	   return result;
    }
 
+	saveForm(){
+		this.model.getFormRdd().set(this.recomendacion);
+		this.formControlDataService.setFormControlData(this.model);
+		if(this.infoEdited())
+			this.createRdds(this.recomendacion);
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/valoracion']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/dieta']);
+	}
 }

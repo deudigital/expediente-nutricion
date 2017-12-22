@@ -22,7 +22,7 @@
 .container-form > .form-edit .form-control:-moz-placeholder {font-size:11px;text-align: center;line-height: 11em;}
 */
 .form-valoracion-dietetica.content-form .form-control:not(textarea){font-size:10px;}
-
+.content-nav .list-group > li > a.disabled {pointer-events: none;}
 .buttons-navigation {padding: 0 5%;/*40px;*/margin-top: 20px;}
 .buttons-navigation .btn{background-color: #acacac;color: #fff;border:none;box-shadow:none;}
 /*.buttons-navigation .previous{background-color: #acacac;color: #fff;}*/

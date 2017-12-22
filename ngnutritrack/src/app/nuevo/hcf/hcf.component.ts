@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 //import { Alergia } from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -18,7 +19,7 @@ export class HcfComponent implements OnInit {
 	oPatologias:any[];
 	
 	data:{ [id: string]: any; } = {'0':''};
-  constructor(private formControlDataService: FormControlDataService) {
+  constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.paciente	=	this.fcd.getFormPaciente();
@@ -32,10 +33,11 @@ export class HcfComponent implements OnInit {
 		this.setInfoInit();
 	}
 	ngOnDestroy(){		
-		if(this.infoEdited()){
+		/*if(this.infoEdited()){
 			this.data['items']	=	this.patologias;
 			this.save(this.data);
-		}	
+		}*/
+		this.saveForm();
 	}
 	
 	infoEdited(){
@@ -115,5 +117,20 @@ export class HcfComponent implements OnInit {
 						},
 			error =>  console.log(<any>error)
 		);
+	}
+	
+	saveForm(){
+		if(this.infoEdited()){
+			this.data['items']	=	this.patologias;
+			this.save(this.data);
+		}
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/bioquimica']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/objetivo']);
 	}
 }
