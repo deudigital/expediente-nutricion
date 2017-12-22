@@ -12,4 +12,12 @@ export class ControlNavCenterComponent implements OnInit {
   ngOnInit() {
   }
 
+  mouseOut(){
+    document.getElementById("invoice-menu-div").className = "dropdown";
+  }	
+
+  mouseOver(){
+    document.getElementById("invoice-menu-div").className = "dropdown open";
+  }
+
 }

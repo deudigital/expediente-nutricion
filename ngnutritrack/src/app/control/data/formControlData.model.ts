@@ -70,15 +70,31 @@ export class FormControlData {
 		if(this.manejadorDatos.operacion!='nueva-consulta'){
 			this.paciente			=	new Paciente();
 			this.paciente.nutricionista_id	=	this.nutricionista_id;
+			/*	HCP	*/
+			this.patologias			=	[];
+			this.alergias			=	[];
+			this.bioquimicas		=	[];
+			/*	HCF	*/
+			this.hcf_patologias		=	[];
+			/*	OBJETIVOS	*/
+			this.objetivos			=	[];
+			/*	HABITOS	*/
+			this.ejercicios			=	[];
+			this.valoracionDietetica=	[];
+			this.gustos			=	new HabitosGusto();
+			this.habitosOtro	=	new HabitosOtro();
+			
+			
+			
 		}
 		
-		this.consulta			=	new Consulta();			
-		this.prescripcion	=	new Prescripcion();
+		this.consulta					=	new Consulta();			
+		this.prescripcion				=	new Prescripcion();
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
 		/**/
 		this.rdd						=	new Rdd();
 		this.patronmenu					=	[];
-		this.valoracionDietetica		=	[];
+		//this.valoracionDietetica		=	[];
 	}
 	setNutricionistaId(nutricionista_id){
 		this.nutricionista_id	=	nutricionista_id;

@@ -30,6 +30,40 @@
 					<i class="menu-icon"></i>Agenda
 				</a>
 			</li>
+			<li class="facturacion">				
+				<a  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda" data-toggle="dropdown"  (mouseenter) = "mouseOver()" (mouseleave) = "mouseOut()">                  
+                	<i class="menu-icon"></i>Facturación
+                	<div class="dropdown" style="margin:10% 0% 0% 0%" id="invoice-menu-div">									
+	                    <ul class="dropdown-menu" style="margin:0% 0% 0% 19%;">
+	                    	<li>
+		                      	<a routerLink="/facturar" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true}" data-toggle="tab" title="Facturar">
+		                      		<i class="menu-icon"></i>Facturar
+		                      	</a>
+	                      	</li>
+	                      	<li>
+	                      		<a routeLink="/reportes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Reportes">
+	                      			<i class="menu-icon"></i>Reportes
+	                      		</a>
+	                      	</li>
+	                      	<li>
+	                      		<a routeLink="/sinfacturar" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Consultas Sin Facturar">
+	                      			<i class="menu-icon"></i>Consultas sin Facturar
+	                      		</a>
+	                      	</li>
+	                      	<li>
+	                      		<a routeLink="/producServ" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Productos / Servicios">
+	                      			<i class="menu-icon"></i>Productos / Servicios
+	                      		</a>
+	                      	</li>
+	                      	<li>
+	                      		<a routeLink="/configuración" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Configuración">
+	                      			<i class="menu-icon"></i>Configuración
+	                      		</a>
+	                      	</li>
+	                    </ul>
+					</div>
+                </a>
+			</li>
 		  </ul>
 		</div>
 	  </div>
