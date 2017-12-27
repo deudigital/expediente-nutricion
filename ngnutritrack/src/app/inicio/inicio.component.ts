@@ -48,14 +48,11 @@ export class InicioComponent implements OnInit {
 	getConsultasPendientes() {
 		this.formControlDataService.getConsultasPendientes()
 		.subscribe(
-			 response  => {
-						console.log(response);
+			 response  => {					
+						this.setConsultas(response);
 						this.showLoading	=	false;
-							if(response){
-								this.setConsultas(response);
-								this.showBoxConsultasPendientes	=	true;
-							}
-						
+						this.showBoxConsultasPendientes	=	true;						
+						/*console.log(response);*/
 						},
 			error =>  {
 					this.showLoading	=	false;

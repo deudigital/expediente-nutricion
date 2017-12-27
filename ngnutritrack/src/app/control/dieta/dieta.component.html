@@ -11,10 +11,10 @@
 		<header>
 			<h3 class="title">Divisi&oacute;n Nutricional </h3>
 		</header>
-		<div class="row division-nutricional s-75">
+		<div class="row division-nutricional">
 		
 				<div class="col-md-5">
-					<div class="ingesta-calorica-recomendada col-lg-offset-2 col-lg-4 col-sm-6">
+					<div class="ingesta-calorica-recomendada col-sm-offset-2 col-sm-4">
 						<i></i>
 						Ingesta Cal&oacute;rica<br>Recomendada
 					</div>
@@ -88,7 +88,7 @@
 			<h3 class="title">Asignaci&oacute;n de Porciones</h3>
 		</header>
 		
-			<table class="table separate asignacion-porciones">
+			<table class="table asignacion-porciones">
 				<thead>
 					<tr>
 						<th>&nbsp;</th>
@@ -202,7 +202,6 @@
 		</table>
 	</section>
 		</div>
-
 		<button (click)="openModalFactura()">Dummy</button>
 	</div>
 </div>
@@ -230,6 +229,7 @@
 <!-- End Factura -->
 
 
+
 <div class="overlay" (click)="openModalDatos()"></div>
 <div class="esc-modal wide" *ngIf="showModalDatos">
 	
@@ -241,7 +241,7 @@
 		<div class="body content-form">
 			<div *ngIf="showModalTabDatos">
 				<div class="table-responsive">
-					<table class="table separate historial prescripcion">
+					<table class="table">
 						<thead>
 							<tr>
 								<th>Fecha</th>

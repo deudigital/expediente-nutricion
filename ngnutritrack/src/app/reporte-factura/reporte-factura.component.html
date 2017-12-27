@@ -1,0 +1,215 @@
+<app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 content-form">			
+			<section>
+				<header>
+					<h3 class="title">Reporte de Facturación</h3>
+				</header>
+			</section>
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-12 content-form">
+			<section>
+				<div class="row">
+                    <div class="col-md-3 col-sm-2 col-xs-12">
+						<div class="form-group with-icon paciente_nombre">
+						  <label class="col-form-label" for="cliente">Cliente</label>
+						  <input class="form-control" id="cliente" name="cliente" type="text">
+						  <i></i>
+						</div>
+				    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <div class="form-group with-icon nacimiento">
+                          <label class="col-form-label" for="desde">Desde</label>
+                          <input class="form-control" id="desde" name="desde" placeholder="dd/mm/aaaa" type="text">
+                          <i></i>
+                        </div>
+					</div>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <div class="form-group with-icon nacimiento">
+                          <label class="col-form-label" for="desde">Hasta</label>
+                          <input class="form-control" id="desde" name="desde" placeholder="dd/mm/aaaa" type="text">
+                          <i></i>
+                        </div>
+					</div>
+					<div class="col-md-3 col-sm- col-xs-12">
+                        <div class="form-group with-icon parentezco">
+                          <label class="col-form-label" for="tipo">Tipo</label>
+                          <select class="form-control ng-pristine ng-valid ng-touched" id="tipo" name="tipo">
+                          	<option>Factura</option>
+                          </select>
+                          <i></i>
+                        </div>
+					</div>
+                    <div class="col-xs-2 col-md-2 col-sm-12" style="margin-top:20px;">
+                        <button class="btn btn-success no-border" id="search_button"> BUSCAR </button>
+                    </div>
+                 </div>
+			</section>
+			<section>
+            	<div class="row">
+            		<!-- iconos de modificado y agregado -->
+					<div class="col-md-1" id="product_editor_column" style="margin-top: 3.1%">
+            			<div class="row" style="margin-top: -10px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <a href="#">
+                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!---->
+                    <div class="col-md-11">
+                    	<div class="table-responsive">
+	                        <table class="table">                                
+	                            <thead>
+	                                <tr>
+	                                    <th># Documento</th>
+	                                    <th>Receptor</th>
+	                                    <th>Tipo</th>
+	                                    <th>Fecha</th>
+	                                    <th>Moneda</th>
+	                                    <th>Monto</th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr>
+	                                    <td class="flat-border">001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡22,000</td>
+	                                </tr>
+	                                <tr>
+	                                    <td class="flat-border">001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡22,000</td>
+	                                </tr>
+	                                <tr>
+	                                    <td class="flat-border">001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡22,000</td>
+	                                </tr>
+	                                <tr>
+	                                    <td class="flat-border">001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡22,000</td>
+	                                </tr>
+	                                <tr>
+	                                    <td class="flat-border">001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡22,000</td>
+	                                </tr>
+	                                 <tr>
+	                                    <td class="flat-border">001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡22,000</td>
+	                                </tr>
+	                                <tr>
+	                                    <td>001000101011111188</td>
+	                                    <td>Esteban Ramirez</td>
+	                                    <td>Factura</td>
+	                                    <td>10/10/2017 3:45pm</td>
+	                                    <td>Colones</td>
+	                                    <td >₡22,000</td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+                    </div>
+            	</div>
+
+
+                <div class="actions">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4 href="javascript:void(0)" class="form-open">
+                                <span class="glyphicon glyphicon-floppy-save"></span>
+                                Exportar a
+                            </h4>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="#">
+                                <i class="fa fa-file-pdf-o" style="font-size:48px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="#">
+                                <i class="fa fa-file-excel-o" style="font-size:48px;color:green;background:none;"></i>
+                            </a>
+                        </div>
+                    </div>
+				</div>
+            </section>
+		</div>
+	</div>
+</div>

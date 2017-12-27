@@ -210,7 +210,7 @@
 			</ul>
 			
 			<div *ngIf="showModalTabDatos">
-				<table class="table separate">
+				<table class="table">
 					<thead>
 						<tr>
 							<th>Fecha</th>
@@ -497,6 +497,14 @@ function drawBasic() {
 			<header>
 				<h3>Detalle M&uacute;sculo</h3>
 			</header>
+			<ul class="row nav submenu navigation-dieta">
+				<li class="col-sm-6">
+					<a href="javascript:void(0)" class="active">
+						<i class="datos"></i>
+						Segmentado
+					</a>
+				</li>
+			</ul>
 				<div class="form-group">
 					<label>Tronco</label>
 					<input type="text" class="form-control" 
@@ -554,7 +562,7 @@ function drawBasic() {
 					</div>
 				</div>
 				 {{musculoSegmentado}} %
-<!--<button class="btn btn-default" (click)="save()">SaVE</button>-->
+<button class="btn btn-default" (click)="save()">SaVE</button>
 
 		</div>
 	</div>

@@ -1,0 +1,198 @@
+<app-topnav></app-topnav>
+<!-- Modal Confirmacion Precio -->
+<div class="overlay" (click)="confirmZeroPrice()"></div>
+<div class="esc-modal" *ngIf="showZero_price">
+	<div class="box">
+		<a class="modal-close" (click)="confirmZeroPrice()">X</a>
+		<header>
+			¿Está seguro que desea agregar un producto sin costo? 			
+		</header>
+		<div class="body content-form">
+			<div class="buttons-navigation">
+            	<div class="col-md-5">
+					<button class="btn btn-success no-border" 
+							style="width: 100%; background-color:#8BC23F" 
+							id="button2"
+							(click)="agregarProducto()">Si</button>
+				</div>
+				<div class="col-md-offset-2 col-md-5">
+					<button class="btn btn-success no-border" style="width: 100%" id="button3" (click)="confirmZeroPrice()">No</button>
+				</div>
+          	</div>
+		</div>
+	</div>
+</div>
+<!-- End Modal Confirmacion Precio -->
+
+<!-- Modal Confirmacion Borrado de Item -->
+<div class="overlay" (click)="confirmDeleteItem()"></div>
+<div class="esc-modal" *ngIf="show_deleteConfirmation">
+	<div class="box">
+		<a class="modal-close" (click)="confirmDeleteItem()">X</a>
+		<header>
+			¿Está seguro que desea eliminar este producto? 			
+		</header>
+		<div class="body content-form">
+			<div class="buttons-navigation">
+            	<div class="col-md-5">
+					<button class="btn btn-success no-border" 
+							style="width: 100%; background-color:#8BC23F" 
+							id="button2"
+							(click)="removeProduct()">Si</button>
+				</div>
+				<div class="col-md-offset-2 col-md-5">
+					<button class="btn btn-success no-border" style="width: 100%" id="button3" (click)="confirmDeleteItem()">No</button>
+				</div>
+          	</div>
+		</div>
+	</div>
+</div>
+<!-- End Modal Borrado de Item -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-xs-12 col-md-12 col-sm-12 content-form">
+                <section>
+                 <div class="row">
+                 		<div class="col-md-1" style="padding-left:2%;margin-top:1.5%">
+             			    <table class="table">
+                        		<thead class="table-button-header">
+                        			<tr>
+                        				<th></th>
+                        			</tr>	                            			
+                        		</thead>
+                        		<tbody>
+                        			<tr style="background-color: #F3F3F3;"
+                        				*ngFor="let pr of productos">
+                        				<td class="table-with-icons">
+                        					<a href="javascript:void(0)" (click)="editProduct(pr)">
+			                                    <i class="fa fa-edit" style="font-size:15px;color:darkgreen;background:none;"></i>
+			                                </a>
+			                                <a href="javascript:void(0)" (click)="confirmDeleteItem(pr)">
+			                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
+			                                </a>
+                        				</td>
+                        			</tr>
+                        		</tbody>
+                        	</table>
+                 		</div>
+                        <div class="col-md-11" style="margin-left:-2%;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Unidad</th>
+                                            <th>Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let pr of productos">
+                                        	<td>
+                                        		<span *ngIf="!pr.edit_mode">{{pr.descripcion}}</span>
+                                        	    <input class="form-control"
+                                        	    	   style="background-color: white"	 
+                                      		 	       placeholder="{{pr.descripcion}}" 
+                                      		           type="text"
+                                      		           [(ngModel)]="pr.descripcion" 
+                                      		           *ngIf="pr.edit_mode"> 
+                                        	</td>
+                                        	<td>
+                                        		<span *ngIf=!pr.edit_mode>{{pr.unidad_medida}}</span>
+                                    		    <select class="form-control"  
+                                    		    		[(ngModel)]="pr.unidad_medida"
+                                    		    		style="background-color: white"	 
+                                    		    		 *ngIf="pr.edit_mode">
+		                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida}}</option>
+		                                        </select>
+                                        	</td>
+                                        	<td>
+                                        		<span *ngIf="!pr.edit_mode">₡. {{pr.precio}}</span>
+                                        		<input   class="form-control" 
+			                                      		 placeholder="₡. Precio" 
+			                                      		 style="background-color: white"	 
+			                                      		 currencyMask 
+			                                      		 [(ngModel)]="pr.precio" 
+			                                      		 *ngIf="pr.edit_mode"
+			                                      		 [options]="{ prefix: '₡. ', thousands: '.', decimal: ',' }"/>   
+                                        	</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                 <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.delete_product">
+                                 	No se pudo <b>eliminar</b> el producto. Imposible conectarse con el servidor. Verifique su conexión.
+                                 </span>
+                                 <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.edit_product">
+                                 	No se pudo <b>editar</b> el producto. Imposible conectarse con el servidor. Verifique su conexión.
+                                 </span>
+                            </div>                            
+                            <div class="row" *ngIf="nuevo">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">                              
+                                      <input class="form-control" 
+                                      		 placeholder="Descripcion" 
+                                      		 type="text" [(ngModel)]="descripcion" 
+                                      		 (change)="cleanError('descripcion')" 
+                                      		 required> 
+                                      <span class="form-errors" *ngIf="form_errors.null_description">Por favor, escriba una descripción.</span>                             
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                    <div class="form-group">                              
+                                      <select class="form-control"  (change)="cleanError('unidad')"  [(ngModel)]="unidad_medida">
+                                      	  <option [ngValue]="null">
+                                      	  	Escoja una Unidad
+                                      	  </option>
+                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida}}</option>
+                                      </select>
+                                      <span class="form-errors" *ngIf="form_errors.null_unity">Por favor, seleccione una unidad.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <div class="form-group">                              	                                      
+                                      <input class="form-control" 
+                                      		 placeholder="₡. Precio" 
+                                      		 currencyMask 
+                                      		 [(ngModel)]="precio" 
+                                      		 [options]="{ prefix: '₡. ', thousands: '.', decimal: ',' }" 
+                                      		 (click)="cleanError('precio')" 
+                                      		 (keyup)="cleanError('precio')"
+                                      		 required/>      
+                                      <span class="form-errors" *ngIf="form_errors.NaN_error">Por favor, asigne un precio al producto.</span>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a (click)="showNewProductForm()" href="javascript:void(0)" *ngIf="!nuevo">
+                                            <h5 class="form-open">
+                                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                                Añadir Producto
+                                            </h5>
+                                        </a>
+                                        <a (click)="showNewProductForm()" href="javascript:void(0)" *ngIf="nuevo">
+                                            <h5 class="form-open">
+                                                <span class="glyphicon glyphicon-minus-sign" style="color:#D0373D"></span>
+                                                ¿Qué deseas agregar?
+                                            </h5>
+                                        </a>
+                                    </div>                                                   
+                                </div>
+                                <div class="row" *ngIf="nuevo">
+                                    <div class="col-md-10" style="padding: 0px 57px 0px 280px;">
+                                        <button class="btn btn-success no-border" 
+                                        		id="save_product_button"
+                                        		(click)="agregarProducto()"> GUARDAR </button>
+                                        <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.save_product">Imposible conectarse con el servidor. Por favor, verifique su conexión</span>		
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

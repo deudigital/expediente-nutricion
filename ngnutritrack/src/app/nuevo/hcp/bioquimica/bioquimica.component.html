@@ -11,7 +11,7 @@
 				<ng-template [ngIf]="bioquimicas" [ngIfElse]="loading">
 					<ul class="lista-examen navbar">
 						<li *ngFor="let bioquimica of bioquimicas">
-							<a href="{{bioquimica.filename}}" target="_blank">
+							<a href="{{bioquimica.filename}}">
 								<i></i>
 								<span>{{bioquimica.fecha}} {{bioquimica.filename}}</span>
 							</a>

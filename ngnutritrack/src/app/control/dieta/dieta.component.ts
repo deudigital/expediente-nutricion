@@ -37,7 +37,7 @@ export class DietaComponent implements OnInit {
 	showModalDatos:boolean=false;
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
-	showModalFactura:boolean=false;
+	showModalFactura:boolean=false;	
 	model:any;
 	kcalCarb:any;
 	kcalProt:any;

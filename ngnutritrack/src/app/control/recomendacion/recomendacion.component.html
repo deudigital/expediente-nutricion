@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="form-group">
 				<label for="cedula" class="col-form-label">¿Como desea calcular gasto cal&oacute;rico?</label>
-				<div class="radio clearfix">
+				<div class="radio row">
 					<div class="col-sm-4">
 						<label>
 							<input name="metodo-calculo-calorico" value="benedict" 
@@ -45,7 +45,7 @@
 			</div>
 			<div class="form-group">
 				<label for="cedula" class="col-form-label">¿Con cu&aacute;l peso desea hacer el c&aacute;lculo?</label>
-				<div class="radio clearfix">
+				<div class="radio row">
 					<div class="col-sm-4">
 						<label>
 							<input 
@@ -84,33 +84,29 @@
 			</div>
 		</div>
 		<div class="row factores">
-			<div class="col-sm-6">
-				<div class="form-group with-icon factor-actividad">
-					<label for="cedula" class="col-form-label">Factor de actividad sedentaria y t&eacute;rmico de los alimentos</label>
-					<input 
-						type="number" 
-						class="form-control" 
-						id="factor-actividad" 
-						name="factor-actividad" 
-						placeholder=""
-						[(ngModel)]="recomendacion.factor_actividad_sedentaria"
-						>
-					<i></i>
-				</div>
+			<div class="form-group col-sm-6 with-icon factor-actividad">
+				<label for="cedula" class="col-form-label">Factor de actividad sedentaria y t&eacute;rmico de los alimentos</label>
+				<input 
+					type="number" 
+					class="form-control" 
+					id="factor-actividad" 
+					name="factor-actividad" 
+					placeholder=""
+					[(ngModel)]="recomendacion.factor_actividad_sedentaria"
+					>
+				<i></i>
 			</div>
-			<div class="col-sm-6">
-				<div class="form-group with-icon promedio-gc">
-					<label for="cedula" class="col-form-label">Promedio de gasto cal&oacute;rico diario por actividad F&iacute;sica</label>
-					<input 
-						type="number" 
-						class="form-control" 
-						id="promedio-gc" 
-						name="promedio-gc" 
-						placeholder=""					
-						[(ngModel)]="recomendacion.promedio_gc_diario"
-						>
-					<i></i>
-				</div>
+			<div class="form-group col-sm-6 with-icon promedio-gc">
+				<label for="cedula" class="col-form-label">Promedio de gasto cal&oacute;rico diario por actividad F&iacute;sica</label>
+				<input 
+					type="number" 
+					class="form-control" 
+					id="promedio-gc" 
+					name="promedio-gc" 
+					placeholder=""					
+					[(ngModel)]="recomendacion.promedio_gc_diario"
+					>
+				<i></i>
 			</div>
 		</div>
 		<div class="row">
@@ -139,7 +135,7 @@
 				<h3 class="title">Cálculo Cal&oacute;rico Actual</h3>
 			</header>
 			<div class="row">
-				<div class="form-group col-lg-offset-2 col-lg-4 col-md-6">						
+				<div class="form-group col-md-offset-2 col-md-4">						
 					<div class="tasa-metabolica col-sm-6">
 						<i></i>
 						Tasa Metab&oacute;lica<br>Basal
@@ -153,7 +149,7 @@
 						</i>
 					</div>
 				</div>
-				<div class="form-group col-lg-4 col-md-6">
+				<div class="form-group col-md-4 ">
 					<div class="gasto-calorico-real col-sm-6">
 						<i></i>
 						Gasto Cal&oacute;rico<br>Real
@@ -176,21 +172,19 @@
 				<h3 class="title">Calorías Recomendadas según metas del paciente</h3>
 			</header>
 		  <div class="row">
-			<div class="col-md-5">
-				<div class="form-group with-icon variacion-calorica">
-					<label for="variacion-calorica" class="col-form-label">Variación Calórica</label>
-					<input type="number" class="form-control" id="variacion-calorica" name="variacion-calorica" placeholder="En centímetros"
-					[(ngModel)]="recomendacion.variacion_calorica"
-					>
-					<i></i>				
-				</div>
+			<div class="form-group col-md-5 with-icon variacion-calorica">
+				<label for="cedula" class="col-form-label">Variación Calórica</label>
+				<input type="number" class="form-control" id="variacion-calorica" name="variacion-calorica" placeholder="En centímetros"
+				[(ngModel)]="recomendacion.variacion_calorica"
+				>
+				<i></i>				
 			</div>
 			<div class="form-group col-md-offset-1 col-md-6">
-				<div class="ingesta-calorica col-sm-6">
+				<div class="ingesta-calorica col-md-6">
 					<i></i>
 					Ingesta Cal&oacute;rica Recomendada
 				</div>
-				<div class="ingesta-calorica-recomendada with-cicle col-sm-6">
+				<div class="ingesta-calorica-recomendada with-cicle col-md-6">
 					<i>
 						<strong>
 							{{ ingesta_calorica_recomendada | number : '1.0-0'}}

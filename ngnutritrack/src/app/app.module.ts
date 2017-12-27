@@ -2,6 +2,7 @@ import { NgModule }           from '@angular/core';
 import { BrowserModule }      from '@angular/platform-browser';
 import { HttpModule} from '@angular/http';
 import { FormsModule }        from '@angular/forms';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 /* App Root */
 import { AppComponent }       from './app.component';
@@ -69,43 +70,22 @@ import { ResetComponent } from './login/reset.component';
 
 
 import { NavigationComponent } from './navigation/navigation.component';
-import { TestComponent } from './test/test.component';
+import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
+import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
 
-import { ComboChartComponent } from './Dashboard/Charts/combochart.component'
-import { DashboardComponent } from './Dashboard/dashboard.component';
-import { DataTableModule } from 'angular-4-data-table';
-
-import { GoogleComboChartService } from './Services/google-combo-chart.service';
-import { GooglePieChartService } from './Services/google-pie-chart.service';
-import { GoogleLineChartService } from './Services/google-line-chart.service';
-
-import { PieChartComponent } from './Dashboard/Charts/piechart.component';
-import { LineChartComponent } from './Dashboard/Charts/linechart.component';
-
-import { AuthService } from './Services/auth.service';
-import { EnsureAuthenticated } from './Services/ensure-authenticated.service';
-import { LoginRedirect } from './Services/login-redirect.service';
-import { LogoutComponent } from './login/logout.component';
 
 @NgModule({
     imports:      [ BrowserModule, 
                     FormsModule,
 					 HttpModule,
-					DataTableModule,
-                    AppRoutingModule
+                    AppRoutingModule,
+                    CurrencyMaskModule
                   ],
     providers:    [
                    { provide: FormControlDataService, useClass: FormControlDataService },
 				   { provide: FormDataService, useClass: FormDataService },
-                   { provide: WorkflowService, useClass: WorkflowService },
-                   { provide: GoogleComboChartService, useClass: GoogleComboChartService },
-                   { provide: GooglePieChartService, useClass: GooglePieChartService },
-                   { provide: GoogleLineChartService, useClass: GoogleLineChartService },
-                   { provide: AuthService, useClass: AuthService },
-                   { provide: EnsureAuthenticated, useClass: EnsureAuthenticated },
-                   { provide: LoginRedirect, useClass: LoginRedirect },
-				   ],
-    declarations: [ AppComponent, NavbarComponent, PersonalComponent, WorkComponent, AddressComponent, ResultComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PrescripcionComponent, PatronmenuComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, ModalComponent, ModalPatronmenuComponent, NavigationComponent, TestComponent, ComboChartComponent, PieChartComponent, LineChartComponent, DashboardComponent, LogoutComponent ],
+                   { provide: WorkflowService, useClass: WorkflowService },],
+    declarations: [ AppComponent, NavbarComponent, PersonalComponent, WorkComponent, AddressComponent, ResultComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PrescripcionComponent, PatronmenuComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, ModalComponent, ModalPatronmenuComponent, NavigationComponent, ReporteFacturaComponent, ServiciosProductosComponent ],
     bootstrap:    [ AppComponent ]
 })
 

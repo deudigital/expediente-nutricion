@@ -18,7 +18,7 @@
 						<tbody>
 						<ng-template ngFor let-habitosEjercicio [ngForOf]= "habitosEjercicios" let-i="index">
 							<tr>
-								<td><a href="javascript:void(0);" class="remove-item" (click)="remove(habitosEjercicio)"><i></i></a>{{habitosEjercicio.nombre}}</td>
+								<td><a class="remove-item" (click)="remove(habitosEjercicio)"><i></i></a>{{habitosEjercicio.nombre}}</td>
 								<td>{{habitosEjercicio.horas_semanales}}</td>
 							</tr>
 						</ng-template>
@@ -35,12 +35,10 @@
 					</div>					
 					<div class="form-edit objetivo" ng-animate="'example'" *ngIf="nuevo">
 						<div class="form-group">
-							<label for="ejercicio" class="col-form-label">¿Qu&eacute; ejercicio realiza?</label>
+							<label for="ejercicio" class="col-form-label">¿Que ejercicio realiza?</label>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
-							<div class="form-group">
-								<label for="ejercicio">Ejercicio</label>
+							<div class="col-md-6">								  
 								  <select 
 									class="form-control" 
 									id="ejercicio" 
@@ -50,16 +48,12 @@
 										<option *ngFor="let ejercicio of ejercicios" [ngValue]="ejercicio">{{ejercicio.nombre}}</option>
 								  </select>
 							</div>
-							</div>
 							<div class="col-md-6">
-							<div class="form-group">							
-								<label for="tiempo_semana">Tiempo por semana</label>
 								<input type="text" class="form-control" 
-									id="tiempo_semana" name="tiempo_semana" placeholder="horas"
+									id="tiempo_semana" name="tiempo_semana" placeholder="Tiempo por semana"
 									[(ngModel)]="newHabitosEjercicio.horas_semanales"
 									
 									>
-							</div>
 							</div>
 						</div>
 						<div class="actions text-center">

@@ -7,13 +7,13 @@
 		</div>
 		<div class="col-sm-9 content-form">
 
-		<form #personalForm="ngForm" class="editForm" novalidate>
+				<form #personalForm="ngForm" class="editForm" novalidate>
 			<section>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group with-icon paciente_cedula">
 						  <label for="cedula" class="col-form-label">C&eacute;dula</label>
-						  <input type="text" class="form-control" id="cedula" name="cedula" maxlength="20" 
+						  <input type="text" class="form-control" id="cedula" name="cedula"  
 						  [(ngModel)]="paciente.cedula"
 						  >
 						  <i></i>
@@ -53,7 +53,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group with-icon nacimiento">
-						  <label for="nombre" class="col-form-label">Fecha de Nacimiento</label>
+						  <label for="nombre" class="col-form-label">Fecha de Nacimiento {{paciente}}</label>
 						  <input type="text" class="form-control" id="fecha_nac" name="fecha_nac" placeholder="dd/mm/aaaa"
 						  [(ngModel)]="paciente.fecha_nac"
 						  (change)="verificarEdad()"						  
@@ -71,7 +71,7 @@
 					<div class="col-md-6">
 						<div class="form-group with-icon responsable_cedula">
 						  <label for="inputCity" class="col-form-label">Cédula del responsable</label>
-						  <input type="text" class="form-control" id="responsable_cedula" name="responsable_cedula"
+						  <input type="text" class="form-control" id="responsable_cedula" id="responsable_cedula"
 						  [(ngModel)]="paciente.responsable_cedula"
 						  >
 						  <i></i>
@@ -89,7 +89,7 @@
 					<div class="col-md-6">
 						<div class="form-group with-icon parentezco">
 						  <label for="inputZip" class="col-form-label">Parentezco</label>
-						  <input type="text" class="form-control" id="responsable_parentezco" name="responsable_parentezco"
+						  <input type="text" class="form-control" id="parentezco"
 						  [(ngModel)]="paciente.responsable_parentezco"
 						  >
 						  <i></i>
@@ -104,6 +104,7 @@
 					<button class="btn btn-default previous" 
 					> ANTERIOR 
 					</button>
+
 					<button class="btn btn-success next" 
 						[disabled]="!personalForm.valid" 
 						> SIGUIENTE 

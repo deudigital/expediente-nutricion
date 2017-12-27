@@ -86,6 +86,13 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	
 	Route::get('alimentos/categorias', 'AlimentoController@categorias');
 	Route::get('alimentos/categorias/{id}', 'AlimentoController@categoriasbyid');
+
+	/* Rutas para manejar los productos */
+	Route::get('productos/nutricionista/{id}', 'ProductosController@getProducts');
+	Route::post('productos/nuevoproducto', 'ProductosController@storeProducts');
+	Route::post('productos/{id}/delete', 'ProductosController@destroy');	
+	Route::post('productos/editarproducto', 'ProductosController@updateProduct');
+
 /*
 	Route::get('alimentos/indices', 'AlimentoController@indices');
 	Route::get('alimentos/indices/{id}', 'AlimentoController@indicesbyid');

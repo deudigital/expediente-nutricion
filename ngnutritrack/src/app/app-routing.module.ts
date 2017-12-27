@@ -36,17 +36,11 @@ import { OtrosHabitosComponent } from './nuevo/habito/otros-habitos/otros-habito
 
 import { LoginComponent } from './login/login.component';
 import { ResetComponent } from './login/reset.component';
-import { LogoutComponent } from './login/logout.component';
 
 
 import { AgendaComponent }      from './agenda/agenda.component';
-
-import { DashboardComponent }   from './Dashboard/dashboard.component';
-
-
-import { AuthService } from './Services/auth.service';
-import { EnsureAuthenticated } from './Services/ensure-authenticated.service';
-import { LoginRedirect } from './Services/login-redirect.service';
+import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
+import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
 /*
 import { WorkflowGuard }        from './workflow/workflow-guard.service';
 import { WorkflowService }      from './workflow/workflow.service';
@@ -54,42 +48,43 @@ import { WorkflowService }      from './workflow/workflow.service';
 
 export const appRoutes: Routes = [
     
-    { path: 'login',  component: LoginComponent, canActivate: [LoginRedirect] },
-    { path: 'logout',  component: LogoutComponent, canActivate: [EnsureAuthenticated] },
-    { path: 'reset',  component: ResetComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'login',  component: LoginComponent },
+    { path: 'reset',  component: ResetComponent },
     { path: 'inicio',  component: InicioComponent},//, canActivate: [WorkflowGuard] },
-	{ path: 'dashboard',  component: DashboardComponent, canActivate: [EnsureAuthenticated] },
-	{ path: 'nuevo',  component: NuevoComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'personales',  component: PersonalesComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'contacto',  component: ContactoComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'hcp',  component: HcpComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'alergias',  component: AlergiaComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'medicamentos',  component: MedicamentoComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'bioquimica',  component: BioquimicaComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'hcp-otros',  component: OtrosComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'hcf',  component: HcfComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'objetivo',  component: ObjetivoComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'habito',  component: HabitoComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'actividad',  component: ActividadFisicaComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'valoracion-dietetica',  component: ValoracionDieteticaComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'gustos',  component: GustosComponent, canActivate: [EnsureAuthenticated] },
-			{ path: 'otros',  component: OtrosHabitosComponent, canActivate: [EnsureAuthenticated] },
+
+	{ path: 'nuevo',  component: NuevoComponent},	
+		{ path: 'personales',  component: PersonalesComponent},
+		{ path: 'contacto',  component: ContactoComponent},
+		{ path: 'hcp',  component: HcpComponent},
+			{ path: 'alergias',  component: AlergiaComponent},
+			{ path: 'medicamentos',  component: MedicamentoComponent},
+			{ path: 'bioquimica',  component: BioquimicaComponent},
+			{ path: 'hcp-otros',  component: OtrosComponent},
+		{ path: 'hcf',  component: HcfComponent},
+		{ path: 'objetivo',  component: ObjetivoComponent},
+		{ path: 'habito',  component: HabitoComponent},
+			{ path: 'actividad',  component: ActividadFisicaComponent},
+			{ path: 'valoracion-dietetica',  component: ValoracionDieteticaComponent},
+			{ path: 'gustos',  component: GustosComponent},
+			{ path: 'otros',  component: OtrosHabitosComponent},
 	
-    { path: 'control',  component: ControlComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'valoracion',  component: ValoracionComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'recomendacion',  component: RecomendacionComponent, canActivate: [EnsureAuthenticated] },
-		{ path: 'dieta',  component: DietaComponent, canActivate: [EnsureAuthenticated] },	
-			{ path: 'prescripcion',  component: DietaComponent, canActivate: [EnsureAuthenticated] },	
-			{ path: 'patron-menu',  component: PatronmenuComponent, canActivate: [EnsureAuthenticated] },	
-			{ path: 'notas',  component: NotasComponent, canActivate: [EnsureAuthenticated] },	
+    { path: 'control',  component: ControlComponent },
+		{ path: 'valoracion',  component: ValoracionComponent },
+		{ path: 'recomendacion',  component: RecomendacionComponent },
+		{ path: 'dieta',  component: DietaComponent },	
+			{ path: 'prescripcion',  component: DietaComponent },	
+			{ path: 'patron-menu',  component: PatronmenuComponent },	
+			{ path: 'notas',  component: NotasComponent },	
 	
-    { path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
-	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
-	{ path: '',   redirectTo: '/login', pathMatch: 'full' },
+    { path: 'agenda',  component: AgendaComponent },
+    { path:'reportes', component: ReporteFacturaComponent },
+    { path: 'servicios-productos', component: ServiciosProductosComponent },
+    //{ path: 'servicios-productos', component: servicios-productos },
+	{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 
 /*	
 	// 1st Route
-    { path: 'personal',  component: PersonalComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'personal',  component: PersonalComponent },
     // 2nd Route
     { path: 'work',  component: WorkComponent, canActivate: [WorkflowGuard] },
     // 3rd Route
@@ -100,18 +95,13 @@ export const appRoutes: Routes = [
     { path: '',   redirectTo: '/personal', pathMatch: 'full' },
 */
     // 6th Route
-    { path: '**',  component: InicioComponent},
+    { path: '**', component: InicioComponent }
 ];
 /*, { useHash: true}*/
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes )],
   exports: [RouterModule],
   //providers: [WorkflowGuard]
-  providers: [
-    AuthService,
-    EnsureAuthenticated,
-    LoginRedirect
-  ]
 })
 
 export class AppRoutingModule {}

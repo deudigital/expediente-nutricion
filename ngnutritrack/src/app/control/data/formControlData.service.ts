@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Ejercicio,Rdd, Prescripcion } from './formControlData.model';
+import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Ejercicio,Rdd, Prescripcion, Producto } from './formControlData.model';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Rx';
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
+	//private apiURL	=	'http://127.0.0.1:8000/api/v0/';
 	data:any={};
 	constructor(private http: Http) {}
 
@@ -38,6 +39,18 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id)
 		.map((response: Response) => response.json());
 	}
+
+	//original method
+	getProducts(): Observable<Producto[]> {
+		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		return this.http.get( this.apiURL + 'productos/nutricionista/' + nutricionista_id)
+		.map((response: Response) => response.json());
+	}
+	/*getProducts() {
+		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		return this.http.get( this.apiURL + 'productos/nutricionista/' + nutricionista_id)
+		.map((response: Response) => response);
+	}*/
 	addConsulta(paciente: Paciente): Observable<Consulta[]> {
 		var data={paciente_id:paciente.id};
 		return this.http.post( this.apiURL + 'consultas/', data).map((response: Response) => response.json());
@@ -51,6 +64,12 @@ export class FormControlDataService {
 	addPrescripcion(prescripcion: Prescripcion): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/prescripcion', prescripcion).map((response: Response) => response.json());
 	}
+	addProducto(producto: Producto): Observable<Producto[]> {
+		return this.http.post( this.apiURL + 'productos/nuevoproducto', producto).map((response: Response) => response.json());
+	}
+	/*addProducto(producto: Producto){
+		return this.http.post( this.apiURL + 'productos/nuevoproducto', producto).map((response: Response) => response);
+	}*/
 	saveDatosPersonales(paciente: Paciente): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'pacientes/datos', paciente).map((response: Response) => response.json());
 	}
@@ -187,5 +206,15 @@ export class FormControlDataService {
 			.subscribe((res:Response)=>{console.log()});
 	}
 
+	updateProducto(producto: Producto): Observable<Producto[]> {
+		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response.json()); 
+	}
+	/*updateProducto(producto: Producto) {
+		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response); 
+	}*/
+
+	deleteProducto(producto: Producto){
+		return this.http.post( this.apiURL + 'productos/'+producto+'/delete', {}).map((response: Response) => response);
+	}
 	
 }

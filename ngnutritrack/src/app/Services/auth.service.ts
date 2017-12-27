@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { Headers, Http } from '@angular/http';
-import { User } from '../models/user';
+import { User } from '../Models/user';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {
-  private BASE_URL: string = 'https://expediente.nutricion.co.cr/nutri/public/api/web/';
+  //private BASE_URL: string = 'https://expediente.nutricion.co.cr/nutri/public/api/web/';
+  private BASE_URL: string = 'http://127.0.0.1:8000';
   private headers: Headers = new Headers({'Content-Type': 'application/json'});
   constructor(private http: Http) {}
   login(user: User): Promise<any> {
