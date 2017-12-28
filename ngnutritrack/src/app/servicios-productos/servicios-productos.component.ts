@@ -28,6 +28,8 @@ export class ServiciosProductosComponent implements OnInit {
 	};
 	productos: any = [];
 
+	responses: any = [];
+
 	precio: number = 0.00;
 	descripcion: string;
 	unidad_medida: string = null;
@@ -200,11 +202,12 @@ export class ServiciosProductosComponent implements OnInit {
 
 			 			resArray = res.split('<br />');			 			
 			 			finalResult = JSON.parse(resArray[2]);	*/		 			
-
-			 			producto.id = response.data;			 			
-
 			 			//producto.id = finalResult.data;
 
+			 			this.responses.push(response);
+			 			producto.id = this.responses[0].data;
+
+			 			this.responses.splice(0, 1);	
 						this.productos.push(producto);
 						},
 			error =>  {

@@ -3,6 +3,7 @@ export class FormControlData {
 	consulta:Consulta			=	new Consulta();	
 	paciente:Paciente			=	new Paciente();	
 	producto:Producto           =   new Producto();
+	reporte:Reporte 			=	new Reporte();
 	prescripcion:Prescripcion	=	new Prescripcion();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
 	rdd:Rdd		=	new Rdd();	
@@ -169,6 +170,9 @@ export class FormControlData {
 		this.consulta.estado			=	consulta.estado;
 		this.consulta.paciente_id		=	consulta.paciente_id;
 		this.consulta.paciente_nombre	=	consulta.paciente_nombre;
+	}
+	getFormReportes():Reporte{
+		return this.reporte;
 	}
 	getFormPaciente():Paciente{
 		return this.paciente;
@@ -347,6 +351,15 @@ export class Persona{
 		}
 		return false;
 	}*/
+}
+export class Reporte{
+	id:number=0;
+	documento:number=0;
+	receptor:string='';
+	tipo:string='';
+	fecha:string='';
+	moneda:string='';
+	monto:string='';
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -783,6 +796,8 @@ export class Producto{
 	public precio:number;
 	public unidad_medida:string;
 }
+
+
 
 
 

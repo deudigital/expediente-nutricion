@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Ejercicio,Rdd, Prescripcion, Producto } from './formControlData.model';
+import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Reporte, Ejercicio,Rdd, Prescripcion, Producto } from './formControlData.model';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
@@ -18,6 +18,9 @@ export class FormControlDataService {
 	getPacientesDeNutricionista(): Observable<Paciente[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'pacientes/nutricionista/' + nutricionista_id ).map((response: Response) => response.json());
+	}
+	getReporteFactura(): Observable<Reporte[]>{
+		return this.http.get( this.apiURL+'/repotes/facturas/all').map((response:Response)=>response.json());
 	}
 	getConsultaSelected(consulta_id): Observable<Consulta> {
 		return this.http.get( this.apiURL + 'consultas/' + consulta_id + '/all')
@@ -39,7 +42,6 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id)
 		.map((response: Response) => response.json());
 	}
-
 	//original method
 	getProducts(): Observable<Producto[]> {
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
@@ -205,7 +207,6 @@ export class FormControlDataService {
 		return this.http.post(this.apiURL + 'consultas', data, options)
 			.subscribe((res:Response)=>{console.log()});
 	}
-
 	updateProducto(producto: Producto): Observable<Producto[]> {
 		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response.json()); 
 	}
