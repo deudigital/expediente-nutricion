@@ -1,0 +1,96 @@
+<app-topnav></app-topnav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-8">
+            <h3>Consultas sin Facturar</h3>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-xs-12 col-md-12 col-sm-12 content-form">
+                <section>
+                 <div class="row">
+                    <app-facturacion></app-facturacion>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="form-group with-icon paciente_nombre">
+                          <label class="col-form-label" for="cliente">Cliente</label>
+                          <input class="form-control" [(ngModel)]="nombre" id="cliente" name="cliente" type="text">
+                          <i></i>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="form-group with-icon nacimiento">
+                        <label class="col-form-label" for="desde">Desde</label>
+                        <my-date-picker name="desde" 
+                                        [options]="fromOptions"
+                                        [(ngModel)]="fromDate" 
+                                        (dateChanged)="refreshDateFromLimits($event)"
+                                        required>                    
+                        </my-date-picker>                          
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="form-group with-icon nacimiento">
+                          <label class="col-form-label" for="desde">Hasta</label>
+                          <my-date-picker name="hasta" 
+                                          [options]="untilOptions"
+                                          [(ngModel)]="untilDate" 
+                                          (dateChanged)="refreshUntilDateLimits($event)"
+                                          required>                                              
+                            </my-date-picker>                             
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-md-3 col-sm-12" style="margin-top:20px;">
+                        <button class="btn btn-success no-border" id="search_button" (click)="filterQuery()"> BUSCAR </button>
+                    </div>
+                 </div>
+                </section>
+                <section>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Paciente</th>
+                                    <th>Fecha de Consulta</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let cs of resultArray">
+                                    <td>{{cs.nombre}}</td>
+                                    <td>{{cs.fecha}}</td>
+                                    <td>Consulta sin facturar - 
+                                        <a href="javascript:void(0)" (click)="openFacturacion(cs.persona_id)">crear factura digital</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="actions">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h4 href="javascript:void(0)" class="form-open">
+                                    <span class="glyphicon glyphicon-floppy-save"></span>
+                                    Exportar a
+                                </h4>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="javascript:void(0)" (click)="exportData(1)">
+                                    <i class="fa fa-file-pdf-o" style="font-size:48px;color:red;background:none;"></i>
+                                </a>
+                            </div>   
+                            <div class="col-md-1">
+                                <a href="javascript:void(0)" (click)="exportData(2)">
+                                    <i class="fa fa-file-excel-o" style="font-size:48px;color:green;background:none;"></i>
+                                </a>
+                            </div>                                                     
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

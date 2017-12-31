@@ -1,6 +1,7 @@
 export class FormControlData {
 	manejadorDatos				=	new ManejadorDatos();
-	consulta:Consulta			=	new Consulta();	
+	consulta:Consulta			=	new Consulta();
+	consulta_s_f:Consulta_s_f   =   new Consulta_s_f();	
 	paciente:Paciente			=	new Paciente();	
 	producto:Producto           =   new Producto();
 	reporte:Reporte 			=	new Reporte();
@@ -795,6 +796,12 @@ export class Producto{
 	public nutricionista_id:number;
 	public precio:number;
 	public unidad_medida:string;
+}
+
+export class Consulta_s_f{
+	public id: number;
+	public paciente: string;
+	public fecha: string;
 }
 
 

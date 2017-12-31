@@ -41,6 +41,8 @@ import { ResetComponent } from './login/reset.component';
 import { AgendaComponent }      from './agenda/agenda.component';
 import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
 import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
+import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
+import { ConfigFacturaComponent } from './config-factura/config-factura.component';
 /*
 import { WorkflowGuard }        from './workflow/workflow-guard.service';
 import { WorkflowService }      from './workflow/workflow.service';
@@ -77,8 +79,10 @@ export const appRoutes: Routes = [
 			{ path: 'notas',  component: NotasComponent },	
 	
     { path: 'agenda',  component: AgendaComponent },
-    { path:'reportes', component: ReporteFacturaComponent },
+    { path: 'reportes', component: ReporteFacturaComponent },
     { path: 'servicios-productos', component: ServiciosProductosComponent },
+    { path: 'sinfacturar', component: ConsultasSinFacturarComponent },
+    { path: 'config-factura', component: ConfigFacturaComponent },
     //{ path: 'servicios-productos', component: servicios-productos },
 	{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 

@@ -1,0 +1,116 @@
+<app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 content-form">			
+			<section>
+				<header>
+					<h3 class="title">Configuración de Factura</h3>
+				</header>
+			</section>
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="col-md-12 col-sm-12 col-xs-12 content-form">
+				<section>
+					<div class="row" style="margin-bottom:2%">
+	                    <div class="col-md-1">
+	                         <img alt="nutritrack" src="assets/images/logo-placeholder.jpg" style="width: 220%;">
+	                    </div>
+	                    <div class="col-md-11" style="padding:1.5% 0% 0% 0%">
+	                        <button id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%">CARGAR</button>
+	                    </div> 
+	                </div> 
+                  	<!-- First Input Row -->
+              		<div class="form-group">
+                  		<div class="row">
+                  			<div class="col-md-3 col-sm-12 col-xs-12">                  			
+                  				<label class="col-form-label" for="nombre_comercial">Nombre Comercial</label>
+						  		<input class="form-control" id="nombre_comercial" type="text" required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="id_type">Tipo de Identificación</label>
+                          		<input class="form-control" id="id_type" type="text" required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="id_number">Número de Identificación</label>
+                          		<input class="form-control" id="id_number" type="text" required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="social">Razón Social</label>
+                      			<input class="form-control" id="social" type="text">
+                  			</div>
+                  		</div>
+                  		<!-- Second Input Row -->
+                  		<div class="row">
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="postal">Apartado Postal</label>
+						  		<input class="form-control" id="postal" type="text" required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="zip">Código de Área</label>
+                            	<select class="form-control" id="zip"></select> 
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="phone">Teléfono</label>
+                          		<input class="form-control" id="phone" type="text" required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="email">Email</label>
+                          		<input class="form-control" id="email" type="email" required>
+                  			</div>
+                  		</div>
+                  		<!-- Third Input Row -->
+                  		<div class="row">
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="state">Provincia</label>
+						  		<select class="form-control" id="state"></select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="canton">Cantón</label>
+                          		<select class="form-control" id="canton"></select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="district">Distrito</label>
+                          		<select class="form-control" id="district"></select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="address">Dirección</label>
+              					<input class="form-control" id="address" type="text" required>
+                  			</div>
+                  		</div>
+                  		<!-- Fourth Input Row -->
+                  		<div class="row">                  	
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="access_id">Identificación de Ingreso (Generado por ATV)</label>
+                				<input class="form-control" id="access_id" type="text" required> 
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+	                  			<label class="col-form-label" for="access_password">Contraseña de Ingreso (Generado por ATV)</label>
+	                          	<input class="form-control" id="access_password" type="password" required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="crypt_key">Llave Criptográfica</label>
+		                        <div style="padding:0% 0% 0% 6%;">
+	                              	<button id="button2" class="btn btn-success no-border" id="crypt_key">CARGAR</button>
+		                        </div>                              
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="PIN">Clave o PIN de la llave criptográfica</label>
+                        		<input class="form-control" id="PIN" type="text" required>
+                  			</div>
+                  		</div>
+                  		<!-- Fifth Input Row --> 
+                  		<div class="row">
+	                    	<div class="col-xs-12 col-md-offset-4 col-md-4 col-sm-12" style="margin-top:1.5%">
+	                        	<button id="button3" class="btn btn-success no-border" style="width:100%">GUARDAR</button>
+		          			</div>
+		                </div>
+                  	</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

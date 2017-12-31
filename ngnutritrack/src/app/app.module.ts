@@ -1,8 +1,9 @@
 import { NgModule }           from '@angular/core';
 import { BrowserModule }      from '@angular/platform-browser';
-import { HttpModule} from '@angular/http';
+import { HttpModule}          from '@angular/http';
 import { FormsModule }        from '@angular/forms';
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { MyDatePickerModule } from 'mydatepicker';
 
 /* App Root */
 import { AppComponent }       from './app.component';
@@ -20,6 +21,7 @@ import { AppRoutingModule }   from './app-routing.module';
 /* Shared Service */
 import { FormDataService }    from './data/formData.service';
 import { WorkflowService }    from './workflow/workflow.service';
+import { CommonService }      from './Services/common.service';
 
 import { FormControlDataService }    from './control/data/formControlData.service';
 import { InicioComponent } from './inicio/inicio.component';
@@ -72,20 +74,72 @@ import { ResetComponent } from './login/reset.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
 import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
-
+import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
+import { ConfigFacturaComponent } from './config-factura/config-factura.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
 
 @NgModule({
     imports:      [ BrowserModule, 
                     FormsModule,
-					 HttpModule,
+					HttpModule,
                     AppRoutingModule,
-                    CurrencyMaskModule
+                    CurrencyMaskModule,
+                    MyDatePickerModule                                                
                   ],
     providers:    [
                    { provide: FormControlDataService, useClass: FormControlDataService },
 				   { provide: FormDataService, useClass: FormDataService },
-                   { provide: WorkflowService, useClass: WorkflowService },],
-    declarations: [ AppComponent, NavbarComponent, PersonalComponent, WorkComponent, AddressComponent, ResultComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PrescripcionComponent, PatronmenuComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, ModalComponent, ModalPatronmenuComponent, NavigationComponent, ReporteFacturaComponent, ServiciosProductosComponent ],
+                   { provide: WorkflowService, useClass: WorkflowService },
+                   { provide: CommonService, useClass: CommonService}],
+    declarations: [ AppComponent, 
+                    NavbarComponent, 
+                    PersonalComponent, 
+                    WorkComponent, 
+                    AddressComponent, 
+                    ResultComponent, 
+                    InicioComponent, 
+                    ControlComponent, 
+                    AgendaComponent, 
+                    ControlNavComponent, 
+                    ValoracionComponent, 
+                    RecomendacionComponent, 
+                    DietaComponent, 
+                    TopnavComponent, 
+                    NuevoComponent, 
+                    PersonalesComponent, 
+                    ContactoComponent, 
+                    HcpComponent, 
+                    HcfComponent, 
+                    ObjetivoComponent, 
+                    HabitoComponent, 
+                    NuevoNavComponent, 
+                    ControlNavCenterComponent, 
+                    PrescripcionComponent, 
+                    PatronmenuComponent, 
+                    NotasComponent, 
+                    DietaNavComponent, 
+                    HcpNavComponent, 
+                    PatologiaComponent, 
+                    AlergiaComponent, 
+                    MedicamentoComponent, 
+                    BioquimicaComponent, 
+                    OtrosComponent, 
+                    ActividadFisicaComponent, 
+                    ValoracionDieteticaComponent, 
+                    GustosComponent, 
+                    OtrosHabitosComponent, 
+                    HabitoNavComponent, 
+                    LoginComponent, 
+                    ResetComponent, 
+                    ModalComponent, 
+                    ModalPatronmenuComponent, 
+                    NavigationComponent, 
+                    ReporteFacturaComponent, 
+                    ServiciosProductosComponent,
+                    ConsultasSinFacturarComponent,
+                    ConfigFacturaComponent,
+                    FacturacionComponent                    
+                  ],
     bootstrap:    [ AppComponent ]
 })
 
