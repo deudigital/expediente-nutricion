@@ -71,13 +71,13 @@ export class ConsultasSinFacturarComponent implements OnInit {
   	this.formControlDataService.getConsultasSinFacturar()
 		.subscribe(
 			response => {
-						let res = response.text();
+						/*let res = response.text();
 			 			let resArray = [] 
 
 			 			resArray = res.split('<br />');			 			
-			 			this.consultas = Object.values(JSON.parse(resArray[2]));
+			 			this.consultas = Object.values(JSON.parse(resArray[2]));*/
 
-            //this.consultas = res;            
+            this.consultas = response;               
 			 			this.resultArray = this.consultas;
 			},
 			error => {

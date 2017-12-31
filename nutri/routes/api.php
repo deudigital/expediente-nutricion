@@ -96,7 +96,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	/* Manejo de Facturas */
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
 	Route::get('reportes/consultas_sin_facturar/nutricionista/{id}','FacturaController@getConsultasSinFacturar');
-	Route::get('persona/{id}','FacturaController@getPersona');
+	Route::get('nutricionista/{nutricionista_id}/cliente/{persona_id}','FacturaController@getPaciente');
 /*
 	Route::get('alimentos/indices', 'AlimentoController@indices');
 	Route::get('alimentos/indices/{id}', 'AlimentoController@indicesbyid');

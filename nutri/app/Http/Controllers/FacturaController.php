@@ -59,14 +59,41 @@ class FacturaController extends Controller
         return $response;
     }
 
-    public function getPersona($id){
+    public function getPaciente($nutricionista_id, $persona_id){
         try{
-            $persona = DB::table('personas')
-                        ->select('*')
-                        ->where('id','=',$id)->get();
+            $clientes = DB::table('clientes')
+                        ->select('personas.id',
+                                 'personas.apartado_postal',
+                                 'personas.canton',
+                                 'personas.cedula',
+                                 'personas.celular',
+                                 'personas.detalles_direccion',
+                                 'personas.distrito',
+                                 'personas.email',
+                                 'personas.fecha_nac',
+                                 'personas.genero',
+                                 'personas.nombre',
+                                 'personas.provincia',
+                                 'personas.telefono',
+                                 'personas.tipo_idenfificacion_id',
+                                 'personas.ubicacion_id')
+                        ->join('nutricionistas', 'clientes.nutricionista_id', '=', 'nutricionistas.persona_id')
+                        ->join('personas', 'personas.id', '=', 'clientes.persona_id')
+                        ->where('nutricionista_id','=',$nutricionista_id)->get();
 
-            $response   =   Response::json($persona, 200, [], JSON_NUMERIC_CHECK);                   
-            
+            $clientes = $clientes->toArray();
+
+            for($i = 0; $i < count($clientes); $i++){
+                $clientes[$i] = json_decode(json_encode($clientes[$i]), True);
+            }      
+
+            for($i = 0; $i<count($clientes); $i++){
+               if($clientes[$i]['id'] == $persona_id){
+                    $response = Response::json($clientes[$i], 200, [], JSON_NUMERIC_CHECK);   
+                    return $response; 
+                }
+            } 
+            $response = Response::json('No existe el cliente seleccionado para el actual nutricionista', 200);                                                
         }catch (Illuminate\Database\QueryException $e) {
             dd($e);
         } catch (PDOException $e) {

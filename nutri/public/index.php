@@ -28,7 +28,7 @@ $allowedOrigins = array(
 );
 
 if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] != '') {
-    foreach ($allowedOrigins as $allowedOrigin) {
+    foreach ($allowedOrigins as $allowedOrigin) {        
         if (preg_match('#' . $allowedOrigin . '#', $_SERVER['HTTP_ORIGIN'])) {
             header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
             header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');

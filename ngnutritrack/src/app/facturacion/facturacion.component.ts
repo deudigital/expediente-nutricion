@@ -21,7 +21,7 @@ export class FacturacionComponent implements OnInit {
   	this.subscription= this.commonService.notifyObservable$.subscribe((res)=>{
   		if(res.hasOwnProperty('option') && res.option === 'openModalDatos') {
   			this.openModalDatos();  			
-  			this.getPersona(res.persona_id);
+  			this.getPaciente(res.persona_id);
   		}
   	});
   }
@@ -32,13 +32,14 @@ export class FacturacionComponent implements OnInit {
 		this.showModalDatos		=	false;
 	}
 
-	getPersona(id){
-		this.formControlDataService.getPersona(id)
+	getPaciente(id){
+		this.formControlDataService.getPaciente(id)
 		.subscribe(
 			response => {				
-				let resArray = [];
-				resArray = response.text().split('<br />');					 		
-			 	this.persona = Object.values(JSON.parse(resArray[2]))[0];				
+				/*let resArray = [];
+				resArray = response.text().split('<br />');							
+			 	this.persona = JSON.parse(resArray[2]);	*/			
+			 	this.persona = response;
 			},
 			error => {
 				console.log(<any>error);

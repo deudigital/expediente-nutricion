@@ -51,14 +51,16 @@ export class FormControlDataService {
 		.map((response: Response) => response.json());
 	}
 
-	//Original methof
-	/*getPersona(id): Observable<Persona> {
-		return this.http.get(this.apiURL + 'persona/'+id).map((response: Response) => response.json());
-	}*/
-
-	getPersona(id){
-		return this.http.get(this.apiURL + 'persona/'+id).map((response: Response) => response);
+	//Original method
+	getPaciente(id): Observable<Persona> {
+		var nutricionista_id = this.formControlData.nutricionista_id;
+		return this.http.get(this.apiURL + 'nutricionista/'+nutricionista_id+'/cliente/'+id).map((response: Response) => response.json());
 	}
+
+	/*getPaciente(id){
+		var nutricionista_id = this.formControlData.nutricionista_id;
+		return this.http.get(this.apiURL + 'nutricionista/'+nutricionista_id+'/cliente/'+id).map((response: Response) => response);
+	}*/
 
 	//original method
 	getProducts(): Observable<Producto[]> {
@@ -236,14 +238,14 @@ export class FormControlDataService {
 		return this.http.post( this.apiURL + 'productos/'+producto+'/delete', {}).map((response: Response) => response);
 	}
 
-	/*getConsultasSinFacturar(): Observable<Consulta_s_f[]>{
+	getConsultasSinFacturar(): Observable<Consulta_s_f[]>{
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'reportes/consultas_sin_facturar/nutricionista/'+nutricionista_id).map((response: Response) => response.json());
-	}*/
+	}
 
-	getConsultasSinFacturar(){
+	/*getConsultasSinFacturar(){
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'reportes/consultas_sin_facturar/nutricionista/'+nutricionista_id).map((response: Response) => response);
-	}
+	}*/
 	
 }
