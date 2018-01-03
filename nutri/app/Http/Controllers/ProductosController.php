@@ -15,6 +15,23 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return Response
      */
+
+    public function getMeasures(){
+        try{
+        $measures = DB::table('unidad_medidas')->select('*')->get();
+            if(count($measures)>0)
+                $response   =   Response::json($measures, 200, [], JSON_NUMERIC_CHECK);
+            else
+                $response   =   Response::json(['message' => 'Record not found'], 204);
+        }
+        catch (Illuminate\Database\QueryException $e) {
+            dd($e);
+        } catch (PDOException $e) {
+            dd($e);
+        }
+        return $response;   
+    }
+
     public function getProducts($id)
     {        
         try{

@@ -85,10 +85,32 @@ class ReportesFacturasController extends Controller
         //
     }
 
-    public function getDocumentos($id)
-    {        
+    public function getTipo_Documento(){
         try{
-        $facturas = DB::table('documentos')->where('nutricionista_id', $id)->get();
+            $tipos = DB::table('tipo_documentos')
+              ->select('*')
+              ->get();
+                if(count($tipos)>0)
+                    $response   =   Response::json($tipos, 200, [], JSON_NUMERIC_CHECK);
+                else
+                    $response   =   Response::json(['message' => 'Record not found'], 204);
+        }
+        catch (Illuminate\Database\QueryException $e) {
+            dd($e);
+        } catch (PDOException $e) {
+            dd($e);
+        }
+        return $response;
+    }
+
+    public function getDocumentos($id)
+    {
+        try{
+        $facturas = DB::table('documentos')
+          ->join('personas', 'personas.id', '=', 'documentos.persona_id')
+          ->leftjoin('productos','productos.id', '=', 'documentos.consulta_id')
+          ->where('documentos.nutricionista_id', $id)       
+          ->get();
             if(count($facturas)>0)
                 $response   =   Response::json($facturas, 200, [], JSON_NUMERIC_CHECK);
             else
@@ -99,6 +121,6 @@ class ReportesFacturasController extends Controller
         } catch (PDOException $e) {
             dd($e);
         }
-        return $response;    
+        return $response;
     }
 }

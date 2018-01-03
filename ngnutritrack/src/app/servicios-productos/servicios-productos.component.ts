@@ -37,95 +37,12 @@ export class ServiciosProductosComponent implements OnInit {
 
 	paquete: any = {};
 
-	unidades = [
-		"Servicios Profesionales",
-		"Unidad",
-		"Kilogramo",
-		"Onzas",
-		"Litro",
-		"Galón",
-		"Metro",
-		"Minuto",
-		"Hora",
-		"Dia",
-		"Mililitro",
-		"Gramo",
-		"Tonelada",
-		"Segundo",
-		"Ampere",
-		"Kelvin",
-		"Mol",
-		"Candela",
-		"Metro cuadrado",
-		"Metro cúbico",
-		"Metro por segundo",
-		"Metro por segundo cuadrado",
-		"1 por metro",
-		"Kilogramo por metro cúbico",
-		"Ampere por metro cuadrado",
-		"Ampere por metro",
-		"Mol por metro cúbico",
-		"Candela por metro cuadrado",
-		"Uno (indice de refracción)",
-		"Radián",
-		"Estereorradián",
-		"Hertz",
-		"Newton",
-		"Pascal",
-		"Joule",
-		"Watt",
-		"Coulomb",
-		"Volt",
-		"Farad",
-		"Ohm",
-		"Siemens",
-		"Weber",
-		"Tesla",
-		"Henry",
-		"Celsius",
-		"Lumen",
-		"Lux",
-		"Becquerel",
-		"Gray",
-		"Sievert",
-		"Katal",
-		"Pascal segundo",
-		"Newton metro",
-		"Newton por metro",
-		"Radián por segundo",
-		"Radián por segundo cuadrado",
-		"Joule por kelvin",
-		"Joule por kilogramo kelvin",
-		"Joule por kilogramo",
-		"Watt por metro kevin",
-		"Joule por metro cúbico",
-		"Volt por metro",
-		"Coulomb por metro cúbico",
-		"Coulomb por metro cuadrado",
-		"Farad por metro",
-		"Henry por metro",
-		"Joule por mol",
-		"Joule por mol kelvin",
-		"Coulomb por kilogramo",
-		"Gray por segundo",
-		"Watt por estereorradián",
-		"Watt por metro cuadrado estereorradián",
-		"Katal por metro cúbico",
-		"Grado",
-		"Neper",
-		"Bel",
-		"Electronvolt",
-		"Unidad de masa atómica unificada",
-		"Unidad astronómica",
-		"Kilometro",
-		"Pulgada",
-		"Centimetro",
-		"Milimetro"
-	];
+	unidades: any = [];
 
   	constructor(private formControlDataService: FormControlDataService) {}
 
   	ngOnInit() {
+  		this.obtenerUnidades();
   		this.obtenerProductos();
   	}
 
@@ -159,12 +76,13 @@ export class ServiciosProductosComponent implements OnInit {
 			}
 		}		
 
-		var nutricionista_id	=	this.formControlData.nutricionista_id;
+		var nutricionista_id	=	this.formControlData.nutricionista_id;		
 
 		this.paquete = {
 			precio: this.precio,
 			descripcion: this.descripcion,
-			unidad_medida: this.unidad_medida,
+			unidad_medida: this.unidad_medida["id"],
+			nombre_unidad: this.unidad_medida["nombre"],
 			index: this.productIndex,
 			nutricionista_id: nutricionista_id
 		};
@@ -174,16 +92,43 @@ export class ServiciosProductosComponent implements OnInit {
 		this.saveProduct(this.paquete);
 	}
 
+	obtenerUnidades(){
+		this.formControlDataService.getMeasures()
+		.subscribe(
+			response => {
+						let res = response.text();
+			 			let resArray = [] 
+
+			 			resArray = res.split('<br />');			 			
+			 			this.unidades = JSON.parse(resArray[2]);
+			 			//this.unidades = response;
+			},
+			error => {
+				console.log(error);
+			}
+		)
+	}
+
 	obtenerProductos(){
 		this.formControlDataService.getProducts()
 		.subscribe(
 			 response  => {
-			 			/*let res = response.text();
+			 			let res = response.text();
 			 			let resArray = [] 
 
-			 			resArray = res.split('<br />');			 			
-			 			this.productos = JSON.parse(resArray[2]);*/
-			 			this.productos = response;
+			 			resArray = res.split('<br />');		
+
+			 			this.productos = JSON.parse(resArray[2]);
+
+			 			//this.productos = response;
+
+			 			for(let producto in this.productos){
+			              for(let item in this.unidades){			            			               
+			              	if(this.productos[producto].unidad_medida === this.unidades[item].id){
+			                	this.productos[producto].nombre_unidad = this.unidades[item].nombre;
+			              	}
+			              }    
+			          	}						          	
 						},
 			error =>  {
 					console.log(error)
@@ -209,7 +154,7 @@ export class ServiciosProductosComponent implements OnInit {
 
 			 			this.responses.splice(0, 1);	
 						this.productos.push(producto);
-						},
+					},
 			error =>  {
 						console.log(<any>error);
 						this.form_errors.save_product = true;
@@ -225,9 +170,12 @@ export class ServiciosProductosComponent implements OnInit {
 
 	editProduct(producto){		
 		this.form_errors.edit_product = false;
-		producto.edit_mode = !producto.edit_mode;	
+		producto.edit_mode = !producto.edit_mode;
 
-		if(!producto.edit_mode){
+		if(!producto.edit_mode){			
+			producto.unidad_medida = this.unidad_medida["id"];
+			producto.nombre_unidad = this.unidad_medida["nombre"];			
+
 			this.formControlDataService.updateProducto(producto)
 			.subscribe(
 				response => {

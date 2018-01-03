@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IMyDpOptions} from 'mydatepicker';
 
 import { Reporte } from '../control/data/formControlData.model';
 import { FormControlData }     from '../control/data/formControlData.model';
@@ -13,91 +14,102 @@ declare let jsPDF;
 })
 export class ReporteFacturaComponent implements OnInit {
 	private formControlData: FormControlData = new FormControlData();
-	filter = {};	
-	factura = [
-	{
-		'id'		: '1',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	},
-	{
-		'id'		: '2',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	},
-	{
-		'id'		: '3',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	},
-	{
-		'id'		: '4',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	},
-	{
-		'id'		: '5',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	},
-	{
-		'id'		: '6',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	},
-	{
-		'id'		: '7',
-		'documento' : '001000101011111188',
-		'receptor'  : 'Esteban Ramirez',
-		'tipo'		: 'Factura',
-		'fecha'		: '10/10/2017 3:45pm',
-		'moneda'	: 'Colones',
-		'monto'		: '22,000'
-	}]
+	filter = {};
+	factura = [];
+  nombre: string = "";
+  tipo: string = "Todos";
+  tipos: any = [];
+  resultArray: any = [];
+
+  public fromDate: any = { date: {year: 2017, month: 10, day:9 } };
+  public untilDate: any = { date: {year: 2017, month: 10, day:15 } };
+  public fromOptions: IMyDpOptions = {
+    dateFormat: 'dd/mm/yyyy',
+    disableSince: {year: this.untilDate.date.year,
+             month: this.untilDate.date.month,
+             day: this.untilDate.date.day +1
+            },
+    editableDateField: false,
+    showClearDateBtn: false
+  };
+  public untilOptions: IMyDpOptions = {
+    dateFormat: 'dd/mm/yyyy',
+    disableUntil: {year: this.fromDate.date.year,
+             month: this.fromDate.date.month,
+             day: this.fromDate.date.day -1
+            },
+    editableDateField: false,
+    showClearDateBtn: false
+  };
 
   constructor(private formControlDataService: FormControlDataService) {
   }
 
   ngOnInit() {
-  	this.obtenerProductos();
+    this.obtenerTiposDeDocumento();
+  	this.obtenerFacturas();
   }
 
-  obtenerProductos(){
+  refreshDateFromLimits(event){       
+   this.untilOptions = {
+      dateFormat: 'dd/mm/yyyy',
+      disableUntil: {year: event.date.year,
+               month: event.date.month,
+               day: event.date.day
+              }
+   };
+  }
+
+  refreshUntilDateLimits(event){
+   this.fromOptions = {
+      dateFormat: 'dd/mm/yyyy',
+      disableSince: {year: event.date.year,
+               month: event.date.month,
+               day: event.date.day
+              }
+   };
+  }
+
+  obtenerTiposDeDocumento(){
+    this.formControlDataService.getTipos()
+      .subscribe(
+        response  =>  {
+          let res = response.text();
+          let resArray = []
+
+          resArray = res.split('<br />');
+          //this.tipo = response;
+          this.tipos = JSON.parse(resArray[2]);  
+        },
+        error =>  {
+          console.log(error);
+        }
+      )
+  }
+
+  obtenerFacturas(){
 		this.formControlDataService.getReporteFactura()
 		.subscribe(
 			 response  => {
-			 			console.log(response);
-			 			/*let res = response.text();
-			 			let resArray = [] 
 
-			 			resArray = res.split('<br />');			 			
-			 			this.productos = JSON.parse(resArray[2]);*/
-			 			//this.productos = response;
-						},
+			 		let res = response.text();
+			 		let resArray = []
+
+			 		resArray = res.split('<br />');
+          this.factura = JSON.parse(resArray[2]);
+
+          //this.factura = response;
+
+          for(let doc in this.factura){
+            for(let item in this.tipos){
+              if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
+                this.factura[doc].nombre_tipo = this.tipos[item].nombre;
+              }
+            }    
+          }
+
+          this.resultArray = this.factura;
+			},
 			error =>  {
 					console.log(error)
 				}
@@ -110,35 +122,76 @@ export class ReporteFacturaComponent implements OnInit {
   	for(let i=0; i<this.factura.length;i++){
   		if(item.id===this.factura[i].id){
   			console.log(this.factura[i]);
-  			this.factura.splice(i,1);  			
+  			this.factura.splice(i,1);
   		}
   	}
   }
 
-  filterData(){  	
-  	console.log(this.filter);
-  	/* colocar aqui el servicio para los filtros desde la base de datos */
+  filterQuery(){  
+
+    console.log(this.tipo);
+    this.resultArray = [];
+
+    //filter dates      
+    let fromDate = new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
+    let uDate = new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);       
+
+    if(this.fromDate.date.day != fromDate.getDate()){
+      fromDate = new Date(fromDate.setDate(fromDate.getDate() + 1));
+    }
+
+    if(this.untilDate.date.day != uDate.getDate()){
+      uDate = new Date(uDate.setDate(uDate.getDate() + 1));
+    }
+
+    if(this.nombre === ""){
+      for(let consulta in this.factura){
+        let queryDate =  new Date(this.factura[consulta].fecha);
+        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));          
+
+        if(queryDate >= fromDate && queryDate <= uDate){          
+          if(this.tipo === this.factura[consulta].nombre_tipo){
+            this.resultArray.push(this.factura[consulta]);
+          } else if(this.tipo === "Todos"){
+            this.resultArray.push(this.factura[consulta]);
+          }
+        }
+      }
+    }else{
+      for(let consulta in this.factura){
+        let queryDate =  new Date(this.factura[consulta].fecha);
+        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));          
+         
+        if(queryDate >= fromDate && queryDate <= 
+          uDate && this.factura[consulta].nombre.toLowerCase().includes(this.nombre.toLowerCase())){          
+          if(this.tipo === this.factura[consulta].nombre_tipo){
+            this.resultArray.push(this.factura[consulta]);
+          } else if(this.tipo === "Todos"){
+            this.resultArray.push(this.factura[consulta]);
+          }
+        }
+      }
+    }
   }
 
   exportData(Data){
   	switch(Data){
   		case 1: console.log('pdf');
   			let doc = new jsPDF({orientation:'l', format: 'a2'});
-  			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];  			
-  			let rows = [];  			
+  			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];
+  			let rows = [];
 
   			for(let xi=0;xi< this.factura.length;xi++){
   				let js = this.factura[xi];
 				let temp = [js.documento,js.receptor,js.tipo,js.fecha,js.moneda,js.monto];
-        		rows.push(temp);  						        
+        		rows.push(temp);
 		    }
   			doc.autoTable(col, rows);
   			doc.save('Reporte de Factura.pdf');
   			break;
-		case 2: console.log('excel');
-			new Angular2Csv(this.factura, 'My Report');
+		  case 2: console.log('excel');
+			  new Angular2Csv(this.factura, 'My Report');
   			break;
   	}
   }
-
 }

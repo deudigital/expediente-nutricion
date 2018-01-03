@@ -1,7 +1,7 @@
 <app-topnav></app-topnav>
 <div class="container">
 	<div class="row">
-		<div class="col-sm-12 content-form">			
+		<div class="col-sm-12 content-form">
 			<section>
 				<header>
 					<h3 class="title">Reporte de Facturación</h3>
@@ -18,37 +18,44 @@
                     <div class="col-md-3 col-sm-2 col-xs-12">
 						<div class="form-group with-icon paciente_nombre">
 						  <label class="col-form-label" for="cliente">Cliente</label>
-						  <input class="form-control" [(ngModel)]="filter.cliente" id="cliente" name="cliente" type="text">
+						  <input class="form-control" [(ngModel)]="nombre" id="cliente" name="cliente" type="text">
 						  <i></i>
 						</div>
 				    </div>
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <div class="form-group with-icon nacimiento">
                           <label class="col-form-label" for="desde">Desde</label>
-                          <input class="form-control" [(ngModel)]="filter.desde" id="desde" name="desde" placeholder="dd/mm/aaaa" type="text">
-                          <i></i>
+							<my-date-picker name="desde"
+	                                        [options]="fromOptions"
+	                                        [(ngModel)]="fromDate"
+	                                        (dateChanged)="refreshDateFromLimits($event)"
+	                                        required>
+	                        </my-date-picker>
                         </div>
 					</div>
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <div class="form-group with-icon nacimiento">
-                          <label class="col-form-label" for="desde">Hasta</label>
-                          <input class="form-control" [(ngModel)]="filter.hasta" id="desde" name="desde" placeholder="dd/mm/aaaa" type="text">
-                          <i></i>
+                          <label class="col-form-label" for="hasta">Hasta</label>
+							<my-date-picker name="hasta" 
+	                                        [options]="untilOptions"
+	                                        [(ngModel)]="untilDate"
+	                                        (dateChanged)="refreshUntilDateLimits($event)"
+	                                        required>
+	                        </my-date-picker>
                         </div>
 					</div>
 					<div class="col-md-3 col-sm- col-xs-12">
                         <div class="form-group with-icon parentezco">
                           <label class="col-form-label" for="tipo">Tipo</label>
-                          <select class="form-control ng-pristine ng-valid ng-touched" [(ngModel)]="filter.tipo" id="tipo" name="tipo">
-                            <option>Todos</option>
-                          	<option>Factura</option>
-                            <option>Nota de Credito</option>
+                          <select class="form-control ng-pristine ng-valid ng-touched" [(ngModel)]="tipo" id="tipo" name="tipo">
+                          	<option>Todos</option>
+                            <option *ngFor="let item of tipos">{{item.nombre}}</option>
                           </select>
                           <i></i>
                         </div>
 					</div>
                     <div class="col-xs-2 col-md-2 col-sm-12" style="margin-top:20px;">
-                        <button class="btn btn-success no-border" id="search_button" (click)="filterData()"> BUSCAR </button>
+                        <button class="btn btn-success no-border" id="search_button" (click)="filterQuery()"> BUSCAR </button>
                     </div>
                  </div>
 			</section>
@@ -56,7 +63,7 @@
             	<div class="row">
             		<!-- iconos de modificado y agregado -->
 					<div class="col-md-1" id="product_editor_column" style="margin-top: 3.1%">
-            			<div class="row" *ngFor="let item of factura">
+            			<div class="row" *ngFor="let item of resultArray">
                             <a routerLinkActive="active" >
                                 <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
                             </a>
@@ -64,12 +71,12 @@
                                 <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
                             </a>
                             <div style="height: 9px"></div>
-                        </div>                        
+                        </div>
                     </div>
                     <!---->
                     <div class="col-md-11">
                     	<div class="table-responsive">
-	                        <table class="table">                                
+	                        <table class="table">
 	                            <thead>
 	                                <tr>
 	                                    <th># Documento</th>
@@ -81,14 +88,14 @@
 	                                </tr>
 	                            </thead>
 	                            <tbody>
-	                                <tr *ngFor="let item of factura">
-	                                    <td class="flat-border">{{item.documento}}</td>
-	                                    <td>{{item.receptor}}</td>
-	                                    <td>{{item.tipo}}</td>
+	                                <tr *ngFor="let item of resultArray">
+	                                    <td class="flat-border">{{item.numeracion_consecutiva}}</td>
+	                                    <td>{{item.nombre}}</td>
+	                                    <td>{{item.nombre_tipo}}</td>
 	                                    <td>{{item.fecha}}</td>
-	                                    <td>{{item.moneda}}</td>
-	                                    <td class="flat-border">₡{{item.monto}}</td>
-	                                </tr>	                                
+	                                    <td>Colones</td>
+	                                    <td class="flat-border">₡{{item.precio}}</td>
+	                                </tr>
 	                            </tbody>
 	                        </table>
 	                    </div>

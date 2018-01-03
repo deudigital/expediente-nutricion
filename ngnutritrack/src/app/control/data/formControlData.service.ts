@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Persona, Reporte, Ejercicio,Rdd, Prescripcion, Producto, Consulta_s_f } from './formControlData.model';
+import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Persona, Reporte, Tipo, Ejercicio,Rdd, Prescripcion, Producto, Consulta_s_f } from './formControlData.model';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
@@ -30,6 +30,16 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL+'reportes/nutricionista/'+nutricionista_id )
 		.map((response:Response)=>response);
 	}
+
+	//original method
+	/*getTipos(): Observable<Tipo[]>{
+		return this.http.get( this.apiURL+'reportes/tipos_documento').map((response: Response)=>response.json());
+	}*/
+
+	getTipos(){
+		return this.http.get( this.apiURL+'reportes/tipos_documento').map((response: Response)=>response);
+	}
+
 	getConsultaSelected(consulta_id): Observable<Consulta> {
 		return this.http.get( this.apiURL + 'consultas/' + consulta_id + '/all')
 				.map((response: Response) => response.json());
@@ -63,16 +73,25 @@ export class FormControlDataService {
 	}*/
 
 	//original method
-	getProducts(): Observable<Producto[]> {
+	/*getProducts(): Observable<Producto[]> {
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'productos/nutricionista/' + nutricionista_id)
 		.map((response: Response) => response.json());
-	}
-	/*getProducts() {
+	}*/
+	getProducts() {
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'productos/nutricionista/' + nutricionista_id)
 		.map((response: Response) => response);
-	}*/
+	}
+	/*
+	getMeasures(): Observable<Medida[]> {
+		return this.http.get( this.apiURL + 'productos/medidas').map((response: Response) => response.json());
+	}
+	*/
+	getMeasures() {
+		return this.http.get( this.apiURL + 'productos/medidas').map((response: Response) => response);
+	}
+
 	addConsulta(paciente: Paciente): Observable<Consulta[]> {
 		var data={paciente_id:paciente.id};
 		return this.http.post( this.apiURL + 'consultas/', data).map((response: Response) => response.json());
@@ -86,12 +105,12 @@ export class FormControlDataService {
 	addPrescripcion(prescripcion: Prescripcion): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/prescripcion', prescripcion).map((response: Response) => response.json());
 	}
-	addProducto(producto: Producto): Observable<Producto[]> {
+	/*addProducto(producto: Producto): Observable<Producto[]> {
 		return this.http.post( this.apiURL + 'productos/nuevoproducto', producto).map((response: Response) => response.json());
-	}
-	/*addProducto(producto: Producto){
-		return this.http.post( this.apiURL + 'productos/nuevoproducto', producto).map((response: Response) => response);
 	}*/
+	addProducto(producto: Producto){
+		return this.http.post( this.apiURL + 'productos/nuevoproducto', producto).map((response: Response) => response);
+	}
 	saveDatosPersonales(paciente: Paciente): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'pacientes/datos', paciente).map((response: Response) => response.json());
 	}
@@ -227,12 +246,12 @@ export class FormControlDataService {
 		return this.http.post(this.apiURL + 'consultas', data, options)
 			.subscribe((res:Response)=>{console.log()});
 	}
-	updateProducto(producto: Producto): Observable<Producto[]> {
+	/*updateProducto(producto: Producto): Observable<Producto[]> {
 		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response.json()); 
-	}
-	/*updateProducto(producto: Producto) {
-		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response); 
 	}*/
+	updateProducto(producto: Producto) {
+		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response); 
+	}
 
 	deleteProducto(producto: Producto){
 		return this.http.post( this.apiURL + 'productos/'+producto+'/delete', {}).map((response: Response) => response);

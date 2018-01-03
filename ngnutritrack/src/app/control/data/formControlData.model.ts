@@ -5,6 +5,8 @@ export class FormControlData {
 	paciente:Paciente			=	new Paciente();	
 	producto:Producto           =   new Producto();
 	reporte:Reporte 			=	new Reporte();
+	tipo:Tipo                   =	new Tipo();	
+	medida:Medida 				= 	new Medida();
 	prescripcion:Prescripcion	=	new Prescripcion();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
 	rdd:Rdd		=	new Rdd();	
@@ -795,7 +797,7 @@ export class Producto{
 	public id:number;
 	public nutricionista_id:number;
 	public precio:number;
-	public unidad_medida:string;
+	public unidad_medida:number;
 }
 
 export class Consulta_s_f{
@@ -804,7 +806,15 @@ export class Consulta_s_f{
 	public fecha: string;
 }
 
+export class Tipo{
+	public id: number;
+	public name: string;
+}
 
+export class Medida{
+	public id: number;
+	public name: string;
+}
 
 
 

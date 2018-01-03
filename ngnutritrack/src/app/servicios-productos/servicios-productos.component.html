@@ -92,30 +92,30 @@
                                         	<td>
                                         		<span *ngIf="!pr.edit_mode">{{pr.descripcion}}</span>
                                         	    <input class="form-control"
-                                        	    	   style="background-color: white"	 
-                                      		 	       placeholder="{{pr.descripcion}}" 
+                                        	    	     style="background-color: white"	 
+                                      		 	         placeholder="{{pr.descripcion}}" 
                                       		           type="text"
                                       		           [(ngModel)]="pr.descripcion" 
                                       		           *ngIf="pr.edit_mode"> 
                                         	</td>
                                         	<td>
-                                        		<span *ngIf=!pr.edit_mode>{{pr.unidad_medida}}</span>
+                                        		<span *ngIf=!pr.edit_mode>{{pr.nombre_unidad}}</span>
                                     		    <select class="form-control"  
-                                    		    		[(ngModel)]="pr.unidad_medida"
-                                    		    		style="background-color: white"	 
-                                    		    		 *ngIf="pr.edit_mode">
-		                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida}}</option>
+                                    		    		    [(ngModel)]="unidad_medida"
+                                    		    		    style="background-color: white"	 
+                                    		    		    *ngIf="pr.edit_mode">                                            
+		                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida.nombre}}</option>
 		                                        </select>
                                         	</td>
                                         	<td>
-                                        		<span *ngIf="!pr.edit_mode">₡. {{pr.precio}}</span>
+                                        		<span *ngIf="!pr.edit_mode">₡ {{pr.precio}}</span>
                                         		<input   class="form-control" 
-			                                      		 placeholder="₡. Precio" 
+			                                      		 placeholder="₡ Precio" 
 			                                      		 style="background-color: white"	 
 			                                      		 currencyMask 
 			                                      		 [(ngModel)]="pr.precio" 
 			                                      		 *ngIf="pr.edit_mode"
-			                                      		 [options]="{ prefix: '₡. ', thousands: '.', decimal: ',' }"/>   
+			                                      		 [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"/>   
                                         	</td>
                                         </tr>
                                     </tbody>
@@ -144,7 +144,7 @@
                                       	  <option [ngValue]="null">
                                       	  	Escoja una Unidad
                                       	  </option>
-                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida}}</option>
+                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida.nombre}}</option>
                                       </select>
                                       <span class="form-errors" *ngIf="form_errors.null_unity">Por favor, seleccione una unidad.</span>
                                     </div>
@@ -152,10 +152,10 @@
                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                     <div class="form-group">                              	                                      
                                       <input class="form-control" 
-                                      		 placeholder="₡. Precio" 
+                                      		 placeholder="₡ Precio" 
                                       		 currencyMask 
                                       		 [(ngModel)]="precio" 
-                                      		 [options]="{ prefix: '₡. ', thousands: '.', decimal: ',' }" 
+                                      		 [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }" 
                                       		 (click)="cleanError('precio')" 
                                       		 (keyup)="cleanError('precio')"
                                       		 required/>      

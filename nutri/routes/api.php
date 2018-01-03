@@ -88,12 +88,14 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('alimentos/categorias/{id}', 'AlimentoController@categoriasbyid');
 
 	/* Rutas para manejar los productos */
+	Route::get('productos/medidas', 'ProductosController@getMeasures');
 	Route::get('productos/nutricionista/{id}', 'ProductosController@getProducts');
 	Route::post('productos/nuevoproducto', 'ProductosController@storeProducts');
 	Route::post('productos/{id}/delete', 'ProductosController@destroy');	
-	Route::post('productos/editarproducto', 'ProductosController@updateProduct');
+	Route::post('productos/editarproducto', 'ProductosController@updateProduct');	
 
 	/* Manejo de Facturas */
+	Route::get('reportes/tipos_documento', 'ReportesFacturasController@getTipo_Documento');
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
 	Route::get('reportes/consultas_sin_facturar/nutricionista/{id}','FacturaController@getConsultasSinFacturar');
 	Route::get('nutricionista/{nutricionista_id}/cliente/{persona_id}','FacturaController@getPaciente');
