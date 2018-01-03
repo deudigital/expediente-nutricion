@@ -23,9 +23,12 @@ class FacturaController extends Controller
                         ->join('consultas', 'pacientes.persona_id', '=', 'consultas.paciente_id')
                         ->join('nutricionistas', 'pacientes.nutricionista_id', '=', 'nutricionistas.persona_id')
                         ->join('personas', 'pacientes.persona_id', '=', 'personas.id')
-                        ->where('nutricionistas.persona_id','=',$id)->get();
+                        ->where('nutricionistas.persona_id','=',$id)
+                        ->where('consultas.estado', '=', 1)->get();
 
             $consultas = $consultas->toArray();
+
+            $consultas_a_eliminar = [];
 
             for($i = 0; $i < count($consultas); $i++){
                 $consultas[$i] = json_decode(json_encode($consultas[$i]), True);
@@ -44,11 +47,15 @@ class FacturaController extends Controller
             for($i = 0; $i<count($consultas); $i++){
                 for($j = 0; $j<count($documentos); $j++){
                     if($documentos[$j]['consulta_id'] == $consultas[$i]['id']){
-                        unset($consultas[$i]);
+                        array_push($consultas_a_eliminar,$i);
                     }
                 }
             }
-            
+
+            for($i = 0; $i<count($consultas_a_eliminar); $i++){
+                unset($consultas[$consultas_a_eliminar[$i]]);
+            }                    
+
             $response   =   Response::json($consultas, 200, [], JSON_NUMERIC_CHECK);            
         }
         catch (Illuminate\Database\QueryException $e) {

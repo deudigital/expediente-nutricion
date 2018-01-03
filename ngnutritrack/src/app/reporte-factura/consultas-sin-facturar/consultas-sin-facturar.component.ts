@@ -97,19 +97,34 @@ export class ConsultasSinFacturarComponent implements OnInit {
         let col = ["ID", "Paciente","Fecha","Estado"];        
         let rows = [];        
 
-        for(let i=0; i< this.consultas.length; i++){
-          let q = this.consultas[i];
+        for(let i=0; i< this.resultArray.length; i++){
+          let q = this.resultArray[i];
           let temp = [q.id,
                       q.nombre,
                       q.fecha,
-                      "Sin Consultar"];
+                      "Sin Facturar"];
           rows.push(temp);                      
         }
         doc.autoTable(col, rows);
         doc.save('Consultas_Sin_Facturar.pdf');
         break;
-    case 2:
-        new Angular2Csv(this.consultas, 'Consultas_Sin_Facturar');
+    case 2:        
+        let excelArray = [];        
+        let options = {
+          showLabels: true
+        };        
+
+        for(let con in this.resultArray){
+          excelArray.push({
+            id: this.resultArray[con].id,
+            fecha: this.resultArray[con].fecha,
+            nombre: this.resultArray[con].nombre
+          });
+        }
+
+        let head = ['ID', 'Fecha', 'Paciente']        
+
+        new Angular2Csv(excelArray, 'Consultas_Sin_Facturar', {headers: (head)});
         break;
     }
   }

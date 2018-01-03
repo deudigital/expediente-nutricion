@@ -79,7 +79,7 @@ export class ReporteFacturaComponent implements OnInit {
 
           resArray = res.split('<br />');
           this.tipos = JSON.parse(resArray[2]);  */
-          this.tipo = response;          
+          this.tipos = response;          
         },
         error =>  {
           console.log(error);

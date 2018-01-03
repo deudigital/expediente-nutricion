@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Persona, Reporte, Tipo, Ejercicio,Rdd, Prescripcion, Producto, Consulta_s_f } from './formControlData.model';
+import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Persona, Reporte, Tipo, Medida, Ejercicio,Rdd, Prescripcion, Producto, Consulta_s_f } from './formControlData.model';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
