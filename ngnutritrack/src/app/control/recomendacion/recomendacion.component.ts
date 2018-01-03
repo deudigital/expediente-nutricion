@@ -53,8 +53,7 @@ export class RecomendacionComponent implements OnInit {
 	}
 	ngOnDestroy() {
 		this.saveForm();
-	}	
-	
+	}
 	setGastoCaloricoActividadFisica(){
 		if(this.recomendacion.promedio_gc_diario>0)
 			return ;
@@ -62,14 +61,6 @@ export class RecomendacionComponent implements OnInit {
 		var gasto_calorico_total_semanal	=	0;
 		var ejercicio;
 		for(var i in this.habitosEjercicios) {
-/*
-ejercicio_id: 1
-horas_semanales: 2
-id: 1
-mets: 6.83
-nombre: "Aeróbicos"
-paciente_id: 115
-*/
 			ejercicio	=	this.habitosEjercicios[i];
 			gasto_calorico_total_semanal		+=	(ejercicio.mets*0.0175*this.va.peso)*(ejercicio.horas_semanales*60);
 		}
@@ -100,22 +91,15 @@ paciente_id: 115
 		var tmbMifflin;
 		for(var i in data){
 			item	=	data[i];
-			//console.log(item);
 			tmbBenedict			=	this._tmbBenedict(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);
-			//console.log('tmbBenedict-> ' + tmbBenedict);
 			tmbMifflin			=	this._tmbMifflin(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);
-			//console.log('tmbMifflin-> ' + tmbMifflin);
 			item.tmb			=	this._tmbPromedio(tmbBenedict,tmbMifflin);
-			//console.log('item.tmb-> ' + item.tmb);
 			item.gc_real		=	this._gastoCaloricoReal(item.metodo_calculo_gc, tmbBenedict, tmbMifflin, item.tmb, item.factor_actividad_sedentaria, item.promedio_gc_diario );
-			//console.log('item.gc_real-> ' + item.gc_real);
 			item.gc_recomendado	=	this._ingestaCaloricaRecomendada(item.gc_real, item.variacion_calorica)
-			//console.log('item.gc_recomendado-> ' + item.gc_recomendado);
 			_rdds.push(item);
 		}
 		this.historial	=	_rdds;
 	}
-	
 	createGraphs(){console.log('processing graphics');
 		var toGraph = '';
 		var date;
@@ -201,7 +185,6 @@ paciente_id: 115
 		this.graficos	=	items;
 		this.tagBody.classList.add('grafico-selected-promedio_gc_diario');
 	}
-	
 	graficoSelected(header){//console.log(header);
 		this.tagBody.classList.remove('grafico-selected-promedio_gc_diario');
 		this.tagBody.classList.remove('grafico-selected-tmb');
@@ -220,7 +203,6 @@ paciente_id: 115
 		document.getElementById('container_' + header.id).className = 'active';
 		
 	}
-	
 	setInfoInit(){
 		this.oRdd.metodo_calculo_gc				=	this.recomendacion.metodo_calculo_gc;
 		this.oRdd.peso_calculo					=	this.recomendacion.peso_calculo;
@@ -228,7 +210,6 @@ paciente_id: 115
 		this.oRdd.promedio_gc_diario			=	this.recomendacion.promedio_gc_diario;
 		this.oRdd.variacion_calorica			=	this.recomendacion.variacion_calorica;
 	}
-	
 	infoEdited(){
 		return 	(
 			this.oRdd.metodo_calculo_gc				!==	this.recomendacion.metodo_calculo_gc || 
@@ -237,9 +218,7 @@ paciente_id: 115
 			this.oRdd.promedio_gc_diario			!==	this.recomendacion.promedio_gc_diario || 
 			this.oRdd.variacion_calorica			!==	this.recomendacion.variacion_calorica
 		);
-
 	}
-	
 	createRdds(recomendacion) {
 		console.log('save rdds...');
 		console.log(recomendacion);
@@ -274,8 +253,6 @@ paciente_id: 115
         this.tab_class_graficos = '';
       }
    }
-   
-   
 	showModal(modal){
 		this.hideModalDatos		=	true;
 
@@ -304,16 +281,14 @@ paciente_id: 115
 		return this.recomendacion.gcr;
 	}
 	ingestaCaloricaRecomendada(){
-/*
-	Ingesta calórica Recomendada
+/*	Ingesta calórica Recomendada
 	=GASTO_CALORICO_REAL+VARIACION_CALORICA
 */
 		var result	=	this.gastoCaloricoReal()+this.recomendacion.variacion_calorica;
 		return result;
 	}
 	gastoCaloricoReal(){
-		/*
-		Gasto Calórico Real
+/*		Gasto Calórico Real
 		=REDONDEAR(
 			SI(METODO="HARRIS BENEDICT";
 				TMB_HARRIS_BENEDICT*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
@@ -340,7 +315,6 @@ paciente_id: 115
 		}
 	   return result;
 	}
-
 	_ingestaCaloricaRecomendada(gastoCaloricoReal, variacion_calorica){
 /*
 	Ingesta calórica Recomendada
@@ -350,8 +324,7 @@ paciente_id: 115
 		return result;
 	}
 	_gastoCaloricoReal(metodo_calculo_gc, tmbBenedict, tmbMifflin, tmbPromedio, factor_actividad_sedentaria, promedio_gc_diario ){
-		/*
-		Gasto Calórico Real
+/*		Gasto Calórico Real
 		=REDONDEAR(
 			SI(METODO="HARRIS BENEDICT";
 				TMB_HARRIS_BENEDICT*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
@@ -379,8 +352,7 @@ paciente_id: 115
 	   return result;
 	}
 	_tmbPromedio(tmbBenedict,tmbMifflin){
-/*
-		TMB Promedio
+/*		TMB Promedio
 		=REDONDEAR(
 			PROMEDIO(HARRIS;MIFFLIN)
 		;0)
@@ -389,8 +361,7 @@ paciente_id: 115
 		return result;
 	}	
 	_tmbBenedict(genero, peso, estatura, edad_metabolica){
-/*
-	Tasa Metabolica Basal Harris Benedict
+/*	Tasa Metabolica Basal Harris Benedict
 	=REDONDEAR(
 		SI(	SEXO="M";
 			(66,5+(13,75*PESO)+(5,003*ESTATURA*100)-(6,755*EDAD));
@@ -410,8 +381,7 @@ paciente_id: 115
 			
 	}
 	_tmbMifflin(genero, peso, estatura, edad_metabolica){
-/*
-		Tasa Metabolica Basal Mifflin - St Jeor
+/*	Tasa Metabolica Basal Mifflin - St Jeor
 		=REDONDEAR(
 			(10*PESO)+(6,25*(ESTATURA*100))-(5*EDAD)+VARIABLE_MSJ
 		;0)
@@ -430,12 +400,10 @@ paciente_id: 115
 
 		var result	=	(10*peso)+(6.25*(estatura*100))-(5*edad_metabolica)+variable_msj;
 		return result;
-					
-	}
 
+	}
 	tmbPromedio(){
-/*
-		TMB Promedio
+/*		TMB Promedio
 		=REDONDEAR(
 			PROMEDIO(HARRIS;MIFFLIN)
 		;0)
@@ -456,13 +424,10 @@ paciente_id: 115
 				this.current_peso	=	this.va.pesoIdealAjustado;
 				break;
 		}
-		
-/*
-		Tasa Metabolica Basal Mifflin - St Jeor
+/*		Tasa Metabolica Basal Mifflin - St Jeor
 		=REDONDEAR(
 			(10*PESO)+(6,25*(ESTATURA*100))-(5*EDAD)+VARIABLE_MSJ
 		;0)
-		
 		Variable MSJ:
 		=SI(SEXO="F";
 			-161;
@@ -475,10 +440,8 @@ paciente_id: 115
 		else
 			variable_msj	=	-161;
 
-		//var result	=	(10*this.va.peso)+(6.25*(this.va.estatura*100))-(5*this.va.edad_metabolica)+variable_msj;
 		var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.va.edad_metabolica)+variable_msj;
 		return result;
-					
 	}
 	tmbBenedict(){
 		this.current_peso	=	0;
@@ -505,12 +468,7 @@ paciente_id: 115
 	;0)
 */
 		var result	=	0;
-/*		if(this.paciente.genero=='M')
-			result	=	66.5+(13.75*this.va.peso)+(5.003*this.va.estatura*100)-(6.755*this.va.edad_metabolica);
-		else
-			result	=	655.1+(9.563*this.va.peso)+(1.85*this.va.estatura*100)-(4.676*this.va.edad_metabolica);
-*/
-				if(this.paciente.genero=='M')
+		if(this.paciente.genero=='M')
 			result	=	66.5+(13.75*this.current_peso)+(5.003*this.va.estatura*100)-(6.755*this.va.edad_metabolica);
 		else
 			result	=	655.1+(9.563*this.current_peso)+(1.85*this.va.estatura*100)-(4.676*this.va.edad_metabolica);
@@ -535,7 +493,6 @@ paciente_id: 115
 		}
 	   return result;
    }
-
 	saveForm(){
 		this.model.getFormRdd().set(this.recomendacion);
 		this.formControlDataService.setFormControlData(this.model);
@@ -543,11 +500,9 @@ paciente_id: 115
 			this.createRdds(this.recomendacion);
 	}
 	Previous(){
-		//this.saveForm();
 		this.router.navigate(['/valoracion']);
 	}
 	Next(){
-		//this.saveForm();
 		this.router.navigate(['/dieta']);
 	}
 }
