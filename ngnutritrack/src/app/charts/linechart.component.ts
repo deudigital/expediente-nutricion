@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { GoogleLineChartService } from './../../Services/google-line-chart.service';
-import { LineChartConfig } from './../../Models/LineChartConfig';
+import { GoogleLineChartService } from '../services/google-line-chart.service';
+import { LineChartConfig } from '../models/LineChartConfig';
 
 declare var google: any;
 

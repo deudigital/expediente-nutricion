@@ -59,7 +59,7 @@ export class GustosComponent implements OnInit {
 		this.formControlDataService.store('gustos', data)
 		.subscribe(
 			 response  => {
-						console.log('saveInfo:receiving...');
+						console.log('store->response...');
 						console.log(response);
 						},
 			error =>  console.log(<any>error)

@@ -103,7 +103,7 @@ export class AlergiaComponent implements OnInit {
 		this.formControlDataService.store('alergias', data)
 		.subscribe(
 			 response  => {
-						console.log('Service:alergias->receiving...');
+						console.log('store->response...');
 						console.log(response);
 						},
 			error =>  console.log(<any>error)

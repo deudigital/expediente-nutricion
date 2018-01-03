@@ -1,10 +1,13 @@
 body.page-login{background: url(../images/bg-login@2x.jpg) no-repeat top center transparent;background-size:cover;}
+body.page-login .developmentInfo{display:none;}
 .container-logo{text-align:center;margin-bottom:45px}
 body.page-login .link{color:#b9b9b9}
 .page-login .login {margin: 50px auto 0;padding: 30px 20px 40px;}
 .page-login .message{padding:5px 10px;}
 .page-login .message:not(.show){display:none}
 .page-login .btn.red {border-radius:25px;}
+
+.form-message{text-align:center;margin-top:20px;}
 @media (min-width:768px){
 	.page-login .login {width: 480px;margin-top:90px;padding: 30px 65px 40px;}
 }

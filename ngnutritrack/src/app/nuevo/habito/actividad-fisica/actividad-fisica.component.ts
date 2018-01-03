@@ -18,10 +18,12 @@ export class ActividadFisicaComponent implements OnInit {
 	fcd:any;
 	mng:any;	
 	body:any;
+	helpers:any;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
+		this.helpers	=	this.fcd.getHelpers();
 	}
 
 	ngOnInit() {
@@ -50,7 +52,7 @@ export class ActividadFisicaComponent implements OnInit {
 		var index	=	this.habitosEjercicios.indexOf(habitosEjercicio);
 		this.formControlDataService.delete('ejercicios', habitosEjercicio).subscribe(
 			 response  => {
-						console.log('Service:habitosEjercicios->receiving...');
+						console.log('Eliminado');
 						console.log(response);						
 						this.habitosEjercicios.splice(index,1);
 						},
@@ -61,7 +63,7 @@ export class ActividadFisicaComponent implements OnInit {
 		this.formControlDataService.store('habitos_ejercicios', data)
 		.subscribe(
 			 response  => {
-						console.log('Service:habitosEjercicios->receiving...');
+						console.log('store->response...');
 						console.log(response);
 						this.setHabitosEjercicio(response);
 						},

@@ -2,25 +2,18 @@ import { NgModule }           from '@angular/core';
 import { BrowserModule }      from '@angular/platform-browser';
 import { HttpModule} from '@angular/http';
 import { FormsModule }        from '@angular/forms';
+import { MyDatePickerModule } from 'mydatepicker';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 /* App Root */
 import { AppComponent }       from './app.component';
-import { NavbarComponent }    from './navbar/navbar.component';
-
-/* Feature Components */
-import { PersonalComponent }  from './personal/personal.component';
-import { WorkComponent }      from './work/work.component';
-import { AddressComponent }   from './address/address.component';
-import { ResultComponent }    from './result/result.component';
 
 /* Routing Module */
 import { AppRoutingModule }   from './app-routing.module';
 
 /* Shared Service */
-import { FormDataService }    from './data/formData.service';
-import { WorkflowService }    from './workflow/workflow.service';
-
 import { FormControlDataService }    from './control/data/formControlData.service';
+
 import { InicioComponent } from './inicio/inicio.component';
 import { ControlComponent } from './control/control.component';
 import { AgendaComponent } from './agenda/agenda.component';
@@ -32,7 +25,6 @@ import { ControlNavCenterComponent } from './control/control-nav/control-nav-cen
 import { DietaNavComponent } from './control/dieta/dieta-nav/dieta-nav.component';
 import { HabitoNavComponent } from './nuevo/habito/habito-nav/habito-nav.component';
 
-import { ModalComponent } from './modal/modal.component';
 import { ModalPatronmenuComponent } from './control/dieta/patronmenu/modal-patronmenu/modal-patronmenu.component';
 
 import { NuevoComponent } from './nuevo/nuevo.component';
@@ -47,7 +39,6 @@ import { ValoracionComponent } from './control/valoracion/valoracion.component';
 
 import { RecomendacionComponent } from './control/recomendacion/recomendacion.component';
 import { DietaComponent } from './control/dieta/dieta.component';
-
 import { PrescripcionComponent } from './control/dieta/prescripcion/prescripcion.component';
 import { PatronmenuComponent } from './control/dieta/patronmenu/patronmenu.component';
 import { NotasComponent } from './control/dieta/notas/notas.component';
@@ -67,45 +58,43 @@ import { OtrosHabitosComponent } from './nuevo/habito/otros-habitos/otros-habito
 import { LoginComponent } from './login/login.component';
 import { ResetComponent } from './login/reset.component';
 
-
 import { NavigationComponent } from './navigation/navigation.component';
-import { TestComponent } from './test/test.component';
 
-import { ComboChartComponent } from './Dashboard/Charts/combochart.component'
-import { DashboardComponent } from './Dashboard/dashboard.component';
 import { DataTableModule } from 'angular-4-data-table';
+import { LineChartComponent } from './charts/linechart.component';
 
-import { GoogleComboChartService } from './Services/google-combo-chart.service';
-import { GooglePieChartService } from './Services/google-pie-chart.service';
-import { GoogleLineChartService } from './Services/google-line-chart.service';
+import { GoogleComboChartService } from './services/google-combo-chart.service';
+import { GooglePieChartService } from './services/google-pie-chart.service';
+import { GoogleLineChartService } from './services/google-line-chart.service';
 
-import { PieChartComponent } from './Dashboard/Charts/piechart.component';
-import { LineChartComponent } from './Dashboard/Charts/linechart.component';
-
-import { AuthService } from './Services/auth.service';
-import { EnsureAuthenticated } from './Services/ensure-authenticated.service';
-import { LoginRedirect } from './Services/login-redirect.service';
+import { AuthService } from './services/auth.service';
+import { EnsureAuthenticated } from './services/ensure-authenticated.service';
+import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './login/logout.component';
+
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import {FileService} from './services/file.service';
 
 @NgModule({
     imports:      [ BrowserModule, 
                     FormsModule,
 					 HttpModule,
 					DataTableModule,
-                    AppRoutingModule
+                    AppRoutingModule,
+                    MyDatePickerModule,
+					CurrencyMaskModule
                   ],
     providers:    [
                    { provide: FormControlDataService, useClass: FormControlDataService },
-				   { provide: FormDataService, useClass: FormDataService },
-                   { provide: WorkflowService, useClass: WorkflowService },
                    { provide: GoogleComboChartService, useClass: GoogleComboChartService },
                    { provide: GooglePieChartService, useClass: GooglePieChartService },
                    { provide: GoogleLineChartService, useClass: GoogleLineChartService },
                    { provide: AuthService, useClass: AuthService },
                    { provide: EnsureAuthenticated, useClass: EnsureAuthenticated },
                    { provide: LoginRedirect, useClass: LoginRedirect },
+                   { provide: FileService, useClass: FileService },
 				   ],
-    declarations: [ AppComponent, NavbarComponent, PersonalComponent, WorkComponent, AddressComponent, ResultComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PrescripcionComponent, PatronmenuComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, ModalComponent, ModalPatronmenuComponent, NavigationComponent, TestComponent, ComboChartComponent, PieChartComponent, LineChartComponent, DashboardComponent, LogoutComponent ],
+    declarations: [ AppComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PatronmenuComponent, PrescripcionComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, ModalPatronmenuComponent, NavigationComponent, LogoutComponent, LineChartComponent, FileUploadComponent ],
     bootstrap:    [ AppComponent ]
 })
 

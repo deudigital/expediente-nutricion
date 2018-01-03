@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Analisis,PatronMenu, PatronMenuEjemplo, Paciente } from '../../data/formControlData.model';
+import { Prescripcion, PrescripcionItem, Analisis,PatronMenu, PatronMenuEjemplo, Paciente } from '../../data/formControlData.model';
 import { FormControlDataService }     from '../../data/formControlData.service';
 
 @Component({
@@ -16,7 +16,10 @@ export class PatronmenuComponent implements OnInit {
   model:any;
   showmodal:boolean=false;
   showmodalgraficos:boolean=false;
-  inputModal:any;  
+  inputModal:any;
+  
+  prescripcion=new Prescripcion();
+  items:PrescripcionItem[]=[]; 
   
   showTabGrafico:boolean=false;
   showTabDatos:boolean=true;
@@ -42,6 +45,19 @@ export class PatronmenuComponent implements OnInit {
   porciones_azucares:number=0;
   porciones_grasas:number=0;
   porciones_vaso_agua:number=0;
+  
+	total_leche_descremada:number=0;
+	total_leche_2:number=0;
+	total_leche_entera:number=0;
+	total_vegetales:number=0;
+	total_frutas:number=0;
+	total_harinas:number=0;
+	total_carne_magra:number=0;
+	total_carne_intermedia:number=0;
+	total_carne_grasa:number=0;
+	total_azucares:number=0;
+	total_grasas:number=0;
+	total_vaso_agua:number=0;
 
   arrayMenuDesayuno:{ [id: string]: any; } = {'0':''}; 
   arrayMenuMediaManana:{ [id: string]: any; } = {'0':''}; 
@@ -60,6 +76,9 @@ export class PatronmenuComponent implements OnInit {
 	
 	tagBody:any;
 	oMenu:{ [id: string]: any; } = {'0':''};
+	
+	prescritos:Object[]=[];
+	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
     this.model	=	formControlDataService.getFormControlData();
 	/*
@@ -81,9 +100,9 @@ export class PatronmenuComponent implements OnInit {
 	this.alimentos['7']	=	'Carne Magra';
 	this.alimentos['8']	=	'Carne Intermedia';
 	this.alimentos['9']	=	'Carne Grasa';
-	this.alimentos['10']=	'Azucares';
+	this.alimentos['10']=	'Azúcares';
 	this.alimentos['11']=	'Grasas';
-	this.alimentos['12']=	'Vasos de Agua';
+	this.alimentos['12']=	'Vasos con Agua';
 
 	this.tiempos['']	=	'';
 	this.tiempos['1']	=	'Desayuno';
@@ -101,17 +120,40 @@ export class PatronmenuComponent implements OnInit {
 	console.log(this.menus);
 	this.setInfoInit();
 	
+	
+	this.prescripcion	=	this.model.getFormPrescripcion();
+	console.log('prescripcion');
+	console.log(this.prescripcion);
+	this.items			=	this.prescripcion.items;
+	console.log(this.items);
+	
+	for(var i=0;i<13;i++)
+		this.prescritos[i]	=	0;
+	
+/*
+carbohidratos: 48
+grasas: 4
+grupo_alimento_nutricionista_id: 1
+id: 1
+kcal: 360
+nombre: "Leche Descremada"
+porciones: 4
+prescripcion_id: 43
+proteinas: 32
+*/
+	var obj;
+	for(var i =0;i<this.items.length;i++){
+		obj	=	this.items[i];
+		//console.log(obj);
+		//this.prescritos[obj.grupo_alimento_nutricionista_id]	=	obj.porciones;
+		this.prescritos[obj.id]	=	obj.porciones;
+	}
+	
+	this.setTotales();
+
   }
 	ngOnDestroy() {
 		this.saveForm();
-/*
-		if(this.infoEdited()){
-			this.data['0']	=	'';
-			this.saveInfo(this.data);
-		}
-		
-*/
-
 		this.tagBody.classList.remove('menu-parent-dieta');
 	}
 	setInfoInit(){
@@ -162,15 +204,12 @@ export class PatronmenuComponent implements OnInit {
 	copy(data){
 		var myArray={};
 		for(var i in data){
-			/*console.log(i)console.log(data[i])*/
 			myArray[i]	=	data[i];
 		}
 		return myArray;
 	}
-	//prepare(data, tiempo_comida_id, id_consulta){
 	prepare(id_consulta){
 		var myArray=[];
-		
 		var menus	=	[];
 		menus[0]	=	this.arrayMenuDesayuno;
 		menus[1]	=	this.arrayMenuMediaManana;
@@ -192,8 +231,7 @@ export class PatronmenuComponent implements OnInit {
 		}
 		return myArray;
 	}
-	infoEdited(){		
-		
+	infoEdited(){
 		var result	=	this.infoEditedEjemplos() || this.infoEditedPorciones();
 		return result;
 	}
@@ -316,12 +354,12 @@ export class PatronmenuComponent implements OnInit {
 	}
 	saveInfo(data){		
 		this.tagBody.classList.add('sending');
-		console.log('saveInfo:sending...');
+		console.log('save PatronMenu...');
 		console.log(data);
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
 			 response  => {
-						console.log('saveInfo:receiving...');
+						console.log('Response PatronMenu');
 						console.log(response);
 						this.tagBody.classList.remove('sending');
 						},
@@ -524,7 +562,43 @@ export class PatronmenuComponent implements OnInit {
 		this.displayModalPorciones=false;
 		body.classList.remove('open-modal');
 		this.inputModal	=	'';
+		this.setTotales();
+	}
+	getTotalAlimentos(alimento_id):number{
+	  var total	=	0;
+		if(this.arrayMenuDesayuno[alimento_id])
+			total	+=	Number(this.arrayMenuDesayuno[alimento_id]);
 		
+		if(this.arrayMenuMediaManana[alimento_id])
+			total	+=	Number(this.arrayMenuMediaManana[alimento_id]);
+		
+		if(this.arrayMenuAlmuerzo[alimento_id])
+			total	+=	Number(this.arrayMenuAlmuerzo[alimento_id]);
+		
+		if(this.arrayMenuMediaTarde[alimento_id])
+			total	+=	Number(this.arrayMenuMediaTarde[alimento_id]);
+		
+		if(this.arrayMenuCena[alimento_id])
+			total	+=	Number(this.arrayMenuCena[alimento_id]);
+		
+		if(this.arrayMenuCoicionNocturna[alimento_id])
+			total	+=	Number(this.arrayMenuCoicionNocturna[alimento_id]);
+
+	  return total;	  
+	}
+	setTotales(){	
+		this.total_leche_descremada	=	this.getTotalAlimentos(1);
+		this.total_leche_2			=	this.getTotalAlimentos(2);
+		this.total_leche_entera		=	this.getTotalAlimentos(3);
+		this.total_vegetales		=	this.getTotalAlimentos(4);
+		this.total_frutas			=	this.getTotalAlimentos(5);
+		this.total_harinas			=	this.getTotalAlimentos(6);
+		this.total_carne_magra		=	this.getTotalAlimentos(7);
+		this.total_carne_intermedia	=	this.getTotalAlimentos(8);
+		this.total_carne_grasa		=	this.getTotalAlimentos(9);
+		this.total_azucares			=	this.getTotalAlimentos(10);
+		this.total_grasas			=	this.getTotalAlimentos(11);
+		this.total_vaso_agua		=	this.getTotalAlimentos(12);
 	}
    fxshowmodal(){
      this.showmodal=!this.showmodal;

@@ -20,6 +20,7 @@ export class HcpComponent implements OnInit {
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(true);
 		this.paciente	=	this.fcd.getFormPaciente();
 		this.oPatologias	=	[];
 		this.data['paciente_id']	=	this.paciente.id;
@@ -109,7 +110,7 @@ nombre	"Estreñimiento"
 		this.formControlDataService.store('hcp_patologis', data)
 		.subscribe(
 			 response  => {
-						console.log('Service:hcp_patologis->receiving...');
+						console.log('store->response...');
 						console.log(response);
 						},
 			error =>  console.log(<any>error)

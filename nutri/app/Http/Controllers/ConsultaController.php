@@ -10,8 +10,11 @@ use App\ValoracionAntropometrica;
 use App\Rdd;
 use App\Prescripcion;
 use App\DetalleDescripcion;
+use App\OtrosAlimento;
 use App\PatronMenu;
+use App\PatronMenuEjemplo;
 use App\DetalleMusculo;
+use App\DetalleGrasa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
@@ -120,7 +123,89 @@ class ConsultaController extends Controller
      */
     public function destroy($id)
     {
-        //
+		/*$response	=	Response::json($id, 200, []);
+		return $response;*/
+		$message	=	array(
+							'code'		=> '500',
+							'message'	=> 'Se produjo un error interno al procesar la solicitud. Inténtalo de nuevo'
+						);
+		$consulta_id	=	$id;
+		DB::beginTransaction();
+		try {			
+			$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $consulta_id)
+											->get()
+											->first();
+			
+			if(count($valoracionAntropometrica)>0){
+				DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+				DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+			}	
+			$prescripcion	=	Prescripcion::where('consulta_id', $consulta_id)
+										->get()
+										->first();
+										
+			if(count($prescripcion)>0){
+				DetalleDescripcion::where('prescripcion_id', $prescripcion->id)->delete();
+				OtrosAlimento::where('prescripcion_id', $prescripcion->id)->delete();
+			}
+			ValoracionAntropometrica::where('consulta_id', $consulta_id)->delete();
+			Prescripcion::where('consulta_id', $consulta_id)->delete();
+			Rdd::where('consulta_id', $consulta_id)->delete();
+			PatronMenu::where('consulta_id', $consulta_id)->delete();
+			PatronMenuEjemplo::where('consulta_id', $consulta_id)->delete();
+			
+			Consulta::destroy($consulta_id);			
+			
+			DB::commit();
+			// all good
+			$message	=	array(
+							'code'		=> '204',
+							'message'	=> 'Se ha eliminado correctamente'
+						);
+		} catch (\Exception $e) {
+			DB::rollback();
+			// something went wrong
+			$message['error']	=	$e->getMessage();
+			
+		}
+        $response	=	Response::json($message, 201);
+		return $response;
+    }
+	public function destroy__old($id)
+    {
+		DB::beginTransaction();
+		try {
+			$consulta_id	=	$id;
+			$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $consulta_id);
+			if(count($valoracionAntropometrica)>0){
+				DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+				DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+				ValoracionAntropometrica::where('consulta_id', $consulta_id)->delete();
+			}
+			$rdd	=	Rdd::where('consulta_id', $consulta_id);
+			if(count($rdd)>0)
+				Rdd::where('consulta_id', $consulta_id)->delete();
+				
+			$prescripcion		=	Prescripcion::where('consulta_id', $consulta_id);
+			if(count($prescripcion)>0){
+				DetalleDescripcion::where('prescripcion_id', $prescripcion->id)->delete();
+				OtrosAlimento::where('prescripcion_id', $prescripcion->id)->delete();
+				Prescripcion::where('consulta_id', $consulta_id)->delete();
+			}
+			$patronMenu			=	PatronMenu::where('consulta_id', $consulta_id);
+			if(count($patronMenu)>0)
+				PatronMenu::where('consulta_id', $consulta_id)->delete();
+
+			$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta_id);
+			if(count($patronMenuEjemplo)>0)
+				PatronMenuEjemplo::where('consulta_id', $consulta_id)->delete();
+
+			DB::commit();
+			// all good
+		} catch (\Exception $e) {
+			DB::rollback();
+			// something went wrong
+		}
     }
 	
 	
@@ -317,7 +402,16 @@ Enviar usuario y contrasena?????? por ahora si...
 
 		if(count($valoracion_dietetica)>0)
 			$registros['paciente']['habitos']['valoracionDietetica']	=	$valoracion_dietetica->toArray();
+
 		
+		$detalleValoracionDieteticaEjemplo	=	DB::table('detalle_valoracion_dietetica_ejemplos')
+									->where('detalle_valoracion_dietetica_ejemplos.paciente_id',  $consulta->paciente_id)
+									->orderBy('categoria_valoracion_dietetica_id', 'ASC')
+									->get();
+		if(count($detalleValoracionDieteticaEjemplo)>0){
+			$registros['paciente']['habitos']['valoracionDieteticaEjemplo']	=	$detalleValoracionDieteticaEjemplo->toArray();
+		}
+	
 		
 		
 		
@@ -356,13 +450,25 @@ Enviar usuario y contrasena?????? por ahora si...
 			$registros['dieta']['prescripcion']	=	$prescripcion->toArray();
 			/*$detalleDescripcion	=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
 											->get();*/
-			$detalleDescripcion	=	DB::table('grupo_alimento_nutricionistas')
+			/*$detalleDescripcion	=	DB::table('grupo_alimento_nutricionistas')
 										->leftJoin('detalle_prescripcion', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+										->get();*/
+			$detalleDescripcion	=	DB::table('detalle_prescripcion')
+										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+										->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
 										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
 										->get();
 			if(count($detalleDescripcion)>0){
 				$registros['dieta']['prescripcion']['items']	=	$detalleDescripcion->toArray();
 			}
+			
+			$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
+											->get();
+			if(count($otrosAlimento)>0){
+				$registros['dieta']['prescripcion']['otros']	=	$otrosAlimento->toArray();
+			}else
+				$registros['dieta']['prescripcion']['otros']	=	array();
 		}
 		
 		$patronMenu	=	PatronMenu::where('consulta_id', $id)
@@ -395,20 +501,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 		return Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 	}
-	function storeNotas(Request $request){
-		if(!$request->input('id'))
-			return Response::json(['message' => 'Record not found'], 204);
-		
-		
-		$consulta	=	Consulta::find($request->input('id'));
-		if($consulta){
-			$consulta->notas	=	$request->notas;
-			$consulta->save();
-		}
-		$response	=	Response::json($consulta, 200, [], JSON_NUMERIC_CHECK);
-		return $response;
-		
-	}
+	
 	function storeMusculo(Request $request){
 		/*$response	=	Response::json($request->all(), 200, [], JSON_NUMERIC_CHECK);
 		return $response;*/
@@ -444,6 +537,258 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 	}
 
-	
+	function storeNotas(Request $request){
+		if(!$request->input('id'))
+			return Response::json(['message' => 'Record not found'], 204);
+		
+		
+		$consulta	=	Consulta::find($request->input('id'));
+		if($consulta){
+			$notas	=	$request->notas;
+			if($notas)
+				$consulta->notas	=	$request->notas[0];
+
+			if($request->input('finalizar')){
+				$consulta->estado	=	1;
+				$persona		=	Persona::find($consulta->paciente_id);
+				//if(is_null($persona->email) || !$persona->email)
+				if($persona->email)
+					$this->generatePacienteCredentials($persona);			
+			}
+			$consulta->save();
+			
+		}
+		$response	=	Response::json($consulta, 201, [], JSON_NUMERIC_CHECK);
+		return $response;
+		
+	}
+	function generatePacienteCredentials($persona){
+		$paciente		=	Paciente::find($persona->id);		
+		if($paciente->usuario)
+			return ;
+
+		$paciente->usuario		=	$persona->email;
+		$paciente->contrasena	=	rand ( 1234 , 9999 );
+		$paciente->save();
+		
+		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
+		
+		$html	=	'<div style="text-align:center;margin-bottom:20px">';
+		$html	.=	'<img src="' . $images . 'logo.png" width="180" />';
+		$html	.=	'</div>';
+		$html	.=	'<p>' . $persona->nombre . ', puedes descargar el app de <strong>NutriTrack</strong> completamente <strong>GRATIS</strong>, en las tiendas de iPhone y Android.  Tus credenciales para usarla son:</p>';
+		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
+		$html	.=	'<p>Contraseña: ' . $paciente->contrasena . '</p>';
+		
+		$html	.=	'<div style="text-align:center;margin-bottom:20px;margin-top:20px;display:inline-block;width:100%">';
+		$html	.=	'	<div style="@media(min-width:768px){width:45%;float:left;padding-right:5%;text-align:right;}">';
+		$html	.=	'		<img src="' . $images . 'appstore.png" width="180" />';
+		$html	.=	'	</div>';
+		$html	.=	'	<div style="@media(min-width:768px){width:45%;float:left;padding-left:5%;text-align:left;}">';
+		$html	.=	'		<img src="' . $images . 'googleplay.png" width="180" />';
+		$html	.=	'	</div>';
+		$html	.=	'</div>';
+		
+		$html	.=	'<p>En esta app vas a poder:</p>';
+		
+		$html	.=	'<ul>';
+		$html	.=	'<li>Llevar el control de lo que comes día a día.</li>';
+		$html	.=	'<li>Ver el historial de tus medidas.</li>';
+		$html	.=	'<li>Ver listados de comidas y sus equivalencias en porciones.</li>';
+		$html	.=	'<li>Ver los ejemplos y porciones que te indico el nutricionista en tu consulta.</li>';
+		$html	.=	'<li>Motivarte todos los días para cumplir tus metas.</li>';
+		$html	.=	'<li>Habilitar recordatorios para los diferentes tiempos de comida.</li>';
+		$html	.=	'</ul>';
+
+		$to			=	$persona->email;
+		$subject 	=	'Credenciales NutriTrack';
+		$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
+		$headers   .=	'CC: danilo@deudigital.com' . "\r\n";
+		$headers   .=	'Bcc: jaime@deudigital.com, inv_jaime@yahoo.com' . "\r\n";
+		$headers   .=	'MIME-Version: 1.0' . "\r\n";
+		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
+
+		mail($to, $subject, utf8_decode($html), $headers);
+/*
+Al finalizar la primera consulta, 
+se deben crear las credenciales para el acceso al app 
+para el usuario, las credenciales a crear son:
+
+Usuario: [correo electrónico]
+Password: [crear numero aleatorio de 4 dígitos]
+
+Una vez creados y almacenados los credenciales en la base de datos, 
+se debe enviar la informacion de los mismos al correo del usuario.
+
+Subject: Credenciales NutriTrack
+Body: [documento adjunto] (ver zip para imagenes de descarga en tiendas 
+de app y play)
+
+Importante: Esto únicamente es necesario al finalizar la primera consulta de un paciente, no es necesario en consultas recurrentes
+
+*/
+	}
+	function generateResumenConsulta($id){
+		$consulta	=	Consulta::find($id);
+		if(count($consulta)==0)
+			return Response::json(['message' => 'Record not found'], 204);
+		
+		$registros	=	$consulta->toArray();
+		$paciente = DB::table('pacientes')
+            ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
+            ->where('pacientes.persona_id', $consulta->paciente_id)
+			->get()
+			->first();
+
+		if(count($paciente)>0){			
+			$registros['paciente']	=	(array)$paciente;
+		}		
+		$_resumen['va']	=	'';
+		$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $id)
+										->get()
+										->first();
+		//echo '<pre>' . print_r($valoracionAntropometrica, true) . '</pre>';
+		if(count($valoracionAntropometrica)>0){
+			$aValoracionAntropometrica	=	$valoracionAntropometrica->toArray();
+			$html	=	'<table>';
+			foreach($aValoracionAntropometrica as $key=>$value){
+				if(in_array($key,['id','consulta_id']) || floatval($value)==0)
+					continue;
+				$html	.=	'<tr><th>' . $key . ':</th><td>' . $value . '</td></tr>';
+			}
+			$html	.=	'</table>';
+		}
+		$_resumen['va']	=	$html;
+/*
+		$html	.=	'<ul>';
+		$html	.=	'[#] Vegetales</li>';
+		$html	.=	'[#] Frutas</li>';
+		$html	.=	'[#] Harinas</li>';
+		$html	.=	'[#] Carnes</li>';
+		$html	.=	'[#] Azúcares</li>';
+		$html	.=	'[#] Grasas</li>';
+		$html	.=	'[#] Vasos con Agua </li>';
+		$html	.=	'</ul>';
+*/
+		
+		$prescripcion	=	Prescripcion::where('consulta_id', $id)
+										->get()
+										->first();
+
+		if(count($prescripcion)>0){
+			$aPrescripcion	=	$prescripcion->toArray();
+			$detalleDescripcion	=	DB::table('detalle_prescripcion')
+										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+										->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
+										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+										->get();
+			if(count($detalleDescripcion)>0){
+				$aPrescripcionItems	=	$detalleDescripcion->toArray();
+				$array	=	array();
+				foreach($aPrescripcionItems as $key=>$value){
+					if(in_array($value->grupo_alimento_nutricionista_id,[1,2,3])){
+						if(isset($array['Lacteos']))
+							$array['Lacteos']	=	$array['Lacteos'] + $value->porciones;
+						else
+							$array['Lacteos']	=	$value->porciones;
+					}						
+					else{
+						if(in_array($value->grupo_alimento_nutricionista_id,[7,8,9])){
+							if(isset($array['Carnes']))
+								$array['Carnes']	=	$array['Carnes'] + $value->porciones;
+							else
+								$array['Carnes']	=	$value->porciones;
+						}							
+						else
+							$array[$value->nombre]	=	$value->porciones;
+					}
+				}
+				$html	=	'<ul>';
+				foreach($array as $nombre=>$valor)
+					$html	.=	'<li>[' . $valor . '] ' . $nombre . '</li>';
+
+				$html	.=	'</ul>';
+			}
+			/*$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
+											->get();
+			if(count($otrosAlimento)>0){
+				$registros['dieta']['prescripcion']['otros']	=	$otrosAlimento->toArray();
+			}*/			
+			$_resumen['porciones']	=	$html;
+		}		
+/*		
+		$patronMenu	=	PatronMenu::where('consulta_id', $id)
+										->get();
+		if(count($patronMenu)>0)
+			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
+*/		
+
+		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
+		
+		$html	=	'<div style="text-align:center;margin-bottom:20px">';
+		$html	.=	'<img src="' . $images . 'logo.png" width="180" />';
+		$html	.=	'</div>';
+		
+		$html	.=	'<p>' . $paciente->nombre . ', a continuación, un resumen de las medidas en esta consulta:</p>';
+		$html	.=	$_resumen['va'];
+
+		$html	.=	'<p>Asimismo, acá tienes el total de porciones que debes comer día a día según lo indicado por la nutricionista:</p>';
+		$html	.=	$_resumen['porciones'];
+
+		$html	.=	'<p>Además, acá tienes el detalle de como dividir estas porciones en los diferentes tiempos de comida con sus respectivos ejemplos:</p>';
+
+		$html	.=	'<h4>Desayuno</h4>'; 
+		$html	.=	'<p>[detalle porciones]</p>'; 
+		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
+
+
+		$html	.=	'<h4>Media Mañana</h4>';
+		$html	.=	'<p>[detalle porciones]</p>';
+		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
+		$html	.=	'<h4>Almuerzo</h4>';
+		$html	.=	'<p>[detalle porciones]</p>';
+		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
+		$html	.=	'<h4>Media tarde</h4>';
+		$html	.=	'<p>[detalle porciones]</p>';
+		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
+		$html	.=	'<h4>Cena</h4>';
+		$html	.=	'<p>[detalle porciones]</p>';
+		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
+		$html	.=	'<h4>Antes de dormir</h4>';
+		$html	.=	'<p>[detalle porciones]</p>';
+		$html	.=	'<p>Ejemplo: [ejemplo] </p>';
+
+
+
+		$html	.=	'<p>Finalmente, toda esta información y otras herramientas para llevar el registro de lo que comes día a día y ayudarte a cumplir tus objetivos, están disponibles en el app de NutriTrack, si aún no la tienes descárgala GRATIS en las tiendas de iPhone y Android</p>';	
+		
+		$html	.=	'<div style="text-align:center;margin-bottom:20px;margin-top:20px;display:inline-block;width:100%">';
+		$html	.=	'	<div style="@media(min-width:768px){width:45%;float:left;padding-right:5%;text-align:right;}">';
+		$html	.=	'		<img src="' . $images . 'appstore.png" width="180" />';
+		$html	.=	'	</div>';
+		$html	.=	'	<div style="@media(min-width:768px){width:45%;float:left;padding-left:5%;text-align:left;}">';
+		$html	.=	'		<img src="' . $images . 'googleplay.png" width="180" />';
+		$html	.=	'	</div>';
+		$html	.=	'</div>';
+		
+		$html	.=	'<p>Te recordamos tus credenciales:</p>';
+		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
+		$html	.=	'<p>Contraseña: ' . $paciente->contrasena . '</p>';
+		echo $html;
+/*
+		$to			=	$paciente->email;
+		$subject 	=	'Credenciales NutriTrack';
+		$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
+		$headers   .=	'CC: danilo@deudigital.com' . "\r\n";
+		$headers   .=	'Bcc: jaime@deudigital.com, inv_jaime@yahoo.com' . "\r\n";
+		$headers   .=	'MIME-Version: 1.0' . "\r\n";
+		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
+
+		mail($to, $subject, utf8_decode($html), $headers);
+*/
+		
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+	}
 	
 }

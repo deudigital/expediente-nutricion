@@ -1,7 +1,7 @@
 import { Component, OnInit, Input  } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Prescripcion, PrescripcionItem, Paciente, Rdd } from '../data/formControlData.model';
+import { Prescripcion, PrescripcionItem, Paciente, Rdd, OtroAlimento } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
 
 @Component({
@@ -13,17 +13,26 @@ export class DietaComponent implements OnInit {
 	/*@Input()*/
 	items:PrescripcionItem[]=[]; 
 	oItems:PrescripcionItem[]=[];
+	otrosItems:PrescripcionItem[]=[]; 
+	oOtrosItems:PrescripcionItem[]=[];
 	extraInfoAlimentos:any[]=[];
 
 	prescripcion=new Prescripcion();
 	oPrescripcion=new Prescripcion();
 	paciente:Paciente;
 	rdd:Rdd;
+	otroAlimento:any;
+	
+	historial:any[];
 	
 	total_carbohidratos:number=0;
 	total_proteinas:number=0;
 	total_grasas:number=0;
 	total_kcal:number=0;
+	
+	total_ideal_carbohidratos:number=0;
+	total_ideal_proteinas:number=0;
+	total_ideal_grasas:number=0;
 	
 	total_faltante_carbohidratos:number=0;
 	total_faltante_proteinas:number=0;
@@ -34,11 +43,21 @@ export class DietaComponent implements OnInit {
 	total_adecuacion_proteinas:number=0;
 	total_adecuacion_grasas:number=0;
 	total_adecuacion_kcal:number=0;
+	
+	
+	total_otros_carbohidratos:number=0;
+	total_otros_proteinas:number=0;
+	total_otros_grasas:number=0;
+	total_otros_calorias:number=0;
 
+	hideModalDatos:boolean=true;
 	showModalDatos:boolean=false;
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
 	showModalFactura:boolean=false;
+	
+	navitation:boolean=false;
+	
 	model:any;
 	kcalCarb:any;
 	kcalProt:any;
@@ -47,31 +66,34 @@ export class DietaComponent implements OnInit {
 	
 	tab_class_datos:string='active';
 	tab_class_graficos:string='';
-	
+	tagBody:any;
 	showAdicionarOtro:boolean=false;
+	nuevo:boolean=false;
+	helpers:any;
   
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
-	this.prescripcion	=	this.model.getFormPrescripcion();
-	console.log(this.prescripcion);
-	this.items			=	this.prescripcion.items;	
+	this.helpers		=	this.model.getHelpers();
+	
+	this.prescripcion	=	this.model.getFormPrescripcion();	
+	
+	//this.items			=	this.prescripcion.items;	
+	this.items			=	this.prescripcion.itemsByDefault;	
+	this.otrosItems			=	this.prescripcion.otros;	
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
-	this.calculateItems()
 	this.createOriginal();	
+	this.calculateItems()
   }
   ngOnInit() {
+	  this.tagBody = document.getElementsByTagName('body')[0];
+	  this.getHistorial();
+	  this.navitation	=	false;
+	  this.otroAlimento	=	new OtroAlimento('et', this.prescripcion.id);
   }
 	ngOnDestroy() {
-		
-		/*this.prescripcion.items	=	this.items;
-		this.model.getFormPrescripcion().set(this.prescripcion);
-		this.formControlDataService.setFormControlData(this.model);		
-		if(this.existChanges()){
-			console.log('HAY CAMBIOS, ENVIAR A LA API');
-			this.createPrescripcion(this.prescripcion);
-		}*/
-		this.saveForm();
+		if(!this.navitation)
+			this.saveForm();
 	}
 	createOriginal(){
 		this.oPrescripcion.carbohidratos	=	this.prescripcion.carbohidratos;
@@ -81,11 +103,20 @@ export class DietaComponent implements OnInit {
 		if(this.items.length==0)
 			return ;
 		
+		var found:any;
 		for(var i =0;i<this.items.length;i++){
 			var obj	=	this.items[i];
-			var presc	=	new PrescripcionItem(obj.id, obj.nombre, obj.slug, obj.ngmodel, obj.porciones, obj.carbohidratos, obj.proteinas, obj.grasas, obj.kcal);
+			found	=	this.prescripcion.items.filter(function(arr){return arr.grupo_alimento_nutricionista_id == obj.id})[0];
+			if(found)
+				this.items[i].porciones	=	found.porciones;
+		}
+		for(var i =0;i<this.items.length;i++){
+			var obj	=	this.items[i];
+			var presc	=	new PrescripcionItem(obj.id, obj.nombre, obj.slug, obj.porciones, obj.carbohidratos, obj.proteinas, obj.grasas, obj.kcal);
 			this.oItems[i]	=	presc;
 		}
+		
+		
 	}
 	existChanges(){
 		return this.chechChangesItems() || 
@@ -105,25 +136,25 @@ export class DietaComponent implements OnInit {
 		return false;
 	}	
 	createPrescripcion(prescripcion) {
-		console.log('Prescripcion sending...');
+		console.log('save Prescripcion...');
 		console.log(prescripcion);
 		this.formControlDataService.addPrescripcion(prescripcion)
 		.subscribe(
 			 response  => {
-						console.log('Prescripcion receiving...');
+						console.log('Response Prescripcion');
 						console.log(response);
 						},
 			error =>  console.log(<any>error)
 		);
 	}
-	openModalDatos() {
+/*	openModalDatos() {
 		this.showModalDatos	=	!this.showModalDatos;
 		let body = document.getElementsByTagName('body')[0];
 		if(this.showModalDatos)
 			body.classList.add('open-modal');
 		else
 			body.classList.remove('open-modal');
-	}
+	}*/
 	openModalFactura(){
 		this.showModalFactura = !this.showModalFactura;
 		let body = document.getElementsByTagName('body')[0];
@@ -148,6 +179,99 @@ export class DietaComponent implements OnInit {
 	displayFormAddOther(){
 		this.showAdicionarOtro=true;
 	}
+	
+	getHistorial(){
+		var paciente_id	=	this.paciente.persona_id;
+		this.formControlDataService.select('prescripcion', paciente_id)
+		.subscribe(
+			 response  => {
+						console.log('Respuesta');
+						console.log(response);
+						this.fillHistorial(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	in_array(_array, ele){
+		return _array.indexOf(ele)>-1;
+	}
+	fillHistorial(historial){
+		var data	=	[];
+		for(var i in historial){
+			historial[i].display	=	false;;
+			data[i]		=	historial[i];
+		}
+		this.historial	=	data;
+		
+	}
+	displayDetails(item){
+		item.display	=	!item.display;
+	}
+	
+	
+	showModal(modal){
+		this.hideModalDatos		=	true;
+		switch(modal){
+			case 'datos':
+				this.hideModalDatos	=	false;
+				break;
+		}
+		this.tagBody.classList.add('open-modal');		
+	}
+	hideModal(modal){
+		switch(modal){
+			case 'datos':
+				this.hideModalDatos	=	true;
+				break;
+		}
+		this.tagBody.classList.remove('open-modal');		
+	}
+	
+	showFormEdit(){
+		this.nuevo	=	!this.nuevo;
+	}
+	
+	adicionarNuevo(){
+		//if(this.isValid()){
+			this.otroAlimento.prescripcion_id	=	this.prescripcion.id;
+			this.save(this.otroAlimento);
+		//}
+	}
+	setOtroAlimento(response){
+		if(response.code==201){
+			var item	=	response.data;
+			this.otrosItems.push(item);
+			this.otroAlimento.nombre	=	'';
+			this.otroAlimento.porciones	=	'';
+			this.otroAlimento.carbohidratos	=	'';
+			this.otroAlimento.proteinas	=	'';
+			this.otroAlimento.calorias	=	'';
+			this.otroAlimento.grasas	=	'';
+			this.nuevo	=	false;
+		}
+	}
+	remove(otroAlimento){
+		var index	=	this.otrosItems.indexOf(otroAlimento);
+		this.formControlDataService.delete('otros_alimentos', otroAlimento).subscribe(
+			 response  => {
+						console.log('Eliminado');
+						console.log(response);						
+						this.otrosItems.splice(index,1);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	save(data){
+		this.formControlDataService.store('otros_alimentos', data)
+		.subscribe(
+			 response  => {
+						console.log('store->response...');
+						console.log(response);
+						this.setOtroAlimento(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
    getCalculoKcalCarbohidratos(){
 		var percentage	=	this.prescripcion.carbohidratos*0.01;
 		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
@@ -164,39 +288,22 @@ export class DietaComponent implements OnInit {
 		return this.kcalGrasas;
    }
 	get kcal_carbohidratos(){
-		/*var percentage	=	this.prescripcion.carbohidratos*0.01;
-		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
-		return this.kcalCarb;*/
 		return this.getCalculoKcalCarbohidratos();
 	}
+
 	get gramos_carbohidratos(){
-		/*var percentage	=	this.prescripcion.carbohidratos*0.01;
-		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
-		return this.kcalCarb/4;*/
 		return this.getCalculoKcalCarbohidratos()/4;
 	}
 	get kcal_proteinas(){
-		/*var percentage	=	this.prescripcion.proteinas*0.01;
-		this.kcalProt	=	Math.round(this.rdd.icr*percentage);
-		return this.kcalProt;*/
 		return this.getCalculoKcalProteinas();
 	}
 	get gramos_proteinas(){
-		/*var percentage	=	this.prescripcion.proteinas*0.01;
-		this.kcalProt	=	Math.round(this.rdd.icr*percentage);
-		return this.kcalProt/4;*/
 		return this.getCalculoKcalProteinas()/4;
 	}
 	get kcal_grasas(){
-		/*var percentage	=	this.prescripcion.grasas*0.01;
-		this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);
-		return this.kcalGrasas;*/
 		return this.getCalculoKcalGrasas();
 	}
 	get gramos_grasas(){
-		/*var percentage	=	this.prescripcion.grasas*0.01;
-		this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);
-		return this.kcalGrasas/9;*/
 		return this.getCalculoKcalGrasas()/9;
 	}
 	calculateItems(){
@@ -292,41 +399,72 @@ export class DietaComponent implements OnInit {
 	   this.total();
    }
    
+   calculateOtrosItems(){
+		this.total_otros_carbohidratos	=	0;
+		this.total_otros_proteinas		=	0;
+		this.total_otros_grasas			=	0;
+		this.total_otros_calorias			=	0;
+		var value;
+		for(var i =0;i<this.otrosItems.length;i++){
+			value	=	this.otrosItems[i];
+			this.total_otros_carbohidratos	+=	isNaN(value.carbohidratos)? 0: value.carbohidratos;
+			this.total_otros_proteinas		+=	isNaN(value.proteinas)? 0: value.proteinas;
+			this.total_otros_grasas			+=	isNaN(value.grasas)? 0: value.grasas;
+			this.total_otros_calorias		+=	isNaN(value.calorias)? 0: value.calorias;
+		}
+   }
+   calculate_total_ideal(){	   
+   }
+   
    total(){
 		var total	=	0;
 		this.total_carbohidratos=	0;
 		this.total_proteinas	=	0;
 		this.total_grasas		=	0;
 		this.total_kcal			=	0;
+		
+		this.calculateOtrosItems();
+		
+		this.total_ideal_carbohidratos	=	this.getCalculoKcalCarbohidratos()/4;
+		this.total_ideal_proteinas		=	this.getCalculoKcalProteinas()/4;
+		this.total_ideal_grasas			=	this.getCalculoKcalGrasas()/9;
+		
 	   for(var i =0;i<this.items.length;i++){
 			this.total_carbohidratos+=	this.items[i].carbohidratos;
 			this.total_proteinas 	+=	this.items[i].proteinas;
 			this.total_grasas 		+=	this.items[i].grasas;
 			this.total_kcal 		+=	this.items[i].kcal;
 	   }
-	   this.total_faltante_carbohidratos=	this.prescripcion.carbohidratos - this.total_carbohidratos;
-	   this.total_faltante_proteinas	=	this.prescripcion.proteinas - this.total_proteinas;
-	   this.total_faltante_grasas		=	this.prescripcion.grasas - this.total_grasas;
+	   
+		this.total_carbohidratos+=	this.total_otros_carbohidratos;
+		this.total_proteinas 	+=	this.total_otros_proteinas;
+		this.total_grasas 		+=	this.total_otros_grasas;
+		this.total_kcal 		+=	this.total_otros_calorias;
+	   
 
+	   this.total_faltante_carbohidratos=	this.total_ideal_carbohidratos - this.total_carbohidratos;
+	   this.total_faltante_proteinas	=	this.total_ideal_proteinas - this.total_proteinas;
+	   this.total_faltante_grasas		=	this.total_ideal_grasas - this.total_grasas;
+	   
 		if(this.total_carbohidratos)
-			this.total_adecuacion_carbohidratos	=	this.total_carbohidratos/this.prescripcion.carbohidratos*100;
+			this.total_adecuacion_carbohidratos	=	this.total_carbohidratos/this.total_ideal_carbohidratos*100;
 		else
 			this.total_adecuacion_carbohidratos	=	0;
 		
 		if(this.total_proteinas)
-			this.total_adecuacion_proteinas		=	this.total_proteinas/this.prescripcion.proteinas*100;
+			this.total_adecuacion_proteinas		=	this.total_proteinas/this.total_ideal_proteinas*100;
 		else
 			this.total_adecuacion_proteinas		=	0;
 		
 		if(this.total_grasas)
-			this.total_adecuacion_grasas			=	this.total_grasas/this.prescripcion.grasas*100;
+			this.total_adecuacion_grasas			=	this.total_grasas/this.total_ideal_grasas*100;
 		else
 			this.total_adecuacion_grasas			=	0;
 
 	   this.total_faltante_kcal		=	this.rdd.icr - this.total_kcal;
 	   
 	   if(this.total_kcal)
-			this.total_adecuacion_kcal	=	this.total_kcal/this.prescripcion.grasas*100;
+			this.total_adecuacion_kcal	=	this.total_kcal/this.rdd.icr*100;
 		else
 			this.total_adecuacion_kcal	=	0;
    }
@@ -340,10 +478,12 @@ export class DietaComponent implements OnInit {
 		}
 	}
 	Previous(){
+		this.navitation	=	true;
 		this.saveForm();
 		this.router.navigate(['/recomendacion']);
 	}
 	Next(){
+		this.navitation	=	true;
 		this.saveForm();
 		this.router.navigate(['/patron-menu']);
 	}

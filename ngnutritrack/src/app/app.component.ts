@@ -1,6 +1,5 @@
 import { Component, OnInit, Input }   from '@angular/core';
 
-import { FormDataService }            from './data/formData.service';
 import { FormControlDataService }            from './control/data/formControlData.service';
 
 @Component ({
@@ -10,22 +9,29 @@ import { FormControlDataService }            from './control/data/formControlDat
 
 export class AppComponent implements OnInit {
     title = 'Nutri Track';
-    @Input() formData;
     @Input() formControlData;
-    
-    constructor(private formDataService: FormDataService, private formControlDataService: FormControlDataService) {
+	info:any;
+		
+    constructor(private formControlDataService: FormControlDataService) {
     }
 
     ngOnInit() {
-        this.formData = this.formDataService.getFormData();
         this.formControlData = this.formControlDataService.getFormControlData();
-        /*console.log(this.title + ' loaded!');*/
     }
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
 	get developmentInfo (){
-		var summary	=	'Nutricionista ID: ' + this.formControlDataService.getFormControlData().nutricionista_id;
+/*
+Nutricionista ID: 4
+Consulta ID: 
+{"id":141,"fecha":"2017-12-27","notas":"","paciente_id":22,"paciente_nombre":"Juan Manuel Solano"} Logout
+*/		this.info	=	this.formControlDataService.getFormControlData().getFormConsulta();
+		var summary	=	'Nutricionista: ' + this.formControlDataService.getFormControlData().nutricionista_id;
+		if(this.info.id)
+			summary	+=	', Consulta: ' + this.info.id;
+		if(this.info.paciente_id)
+			summary	+=	', Paciente: ' + this.info.paciente_id;
 		return summary;
 	}
 }

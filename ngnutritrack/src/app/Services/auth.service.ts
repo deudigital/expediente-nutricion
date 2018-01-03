@@ -10,7 +10,7 @@ export class AuthService {
   private headers: Headers = new Headers({'Content-Type': 'application/json'});
   constructor(private http: Http) {}
   login(user: User): Promise<any> {
-    let url: string = `${this.BASE_URL}login`;console.log(url);
+    let url: string = `${this.BASE_URL}login`;//console.log(url);
     return this.http.post(url, user, {headers: this.headers}).toPromise();
   }
   reminder(user: User): Promise<any> {

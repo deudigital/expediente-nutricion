@@ -1,10 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PersonalComponent }    from './personal/personal.component';
-import { WorkComponent }        from './work/work.component';
-import { AddressComponent }     from './address/address.component';
-import { ResultComponent }      from './result/result.component';
 import { InicioComponent }      from './inicio/inicio.component';
 
 import { NuevoComponent }      from './nuevo/nuevo.component';
@@ -41,24 +37,16 @@ import { LogoutComponent } from './login/logout.component';
 
 import { AgendaComponent }      from './agenda/agenda.component';
 
-import { DashboardComponent }   from './Dashboard/dashboard.component';
-
-
-import { AuthService } from './Services/auth.service';
-import { EnsureAuthenticated } from './Services/ensure-authenticated.service';
-import { LoginRedirect } from './Services/login-redirect.service';
-/*
-import { WorkflowGuard }        from './workflow/workflow-guard.service';
-import { WorkflowService }      from './workflow/workflow.service';
-*/
+import { AuthService } from './services/auth.service';
+import { EnsureAuthenticated } from './services/ensure-authenticated.service';
+import { LoginRedirect } from './services/login-redirect.service';
 
 export const appRoutes: Routes = [
     
     { path: 'login',  component: LoginComponent, canActivate: [LoginRedirect] },
     { path: 'logout',  component: LogoutComponent, canActivate: [EnsureAuthenticated] },
     { path: 'reset',  component: ResetComponent, canActivate: [EnsureAuthenticated] },
-    { path: 'inicio',  component: InicioComponent},//, canActivate: [WorkflowGuard] },
-	{ path: 'dashboard',  component: DashboardComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'inicio',  component: InicioComponent, canActivate: [EnsureAuthenticated] },//, canActivate: [WorkflowGuard] },
 	{ path: 'nuevo',  component: NuevoComponent, canActivate: [EnsureAuthenticated] },
 		{ path: 'personales',  component: PersonalesComponent, canActivate: [EnsureAuthenticated] },
 		{ path: 'contacto',  component: ContactoComponent, canActivate: [EnsureAuthenticated] },
@@ -86,19 +74,6 @@ export const appRoutes: Routes = [
     { path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
 	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 	{ path: '',   redirectTo: '/login', pathMatch: 'full' },
-
-/*	
-	// 1st Route
-    { path: 'personal',  component: PersonalComponent, canActivate: [EnsureAuthenticated] },
-    // 2nd Route
-    { path: 'work',  component: WorkComponent, canActivate: [WorkflowGuard] },
-    // 3rd Route
-    { path: 'address',  component: AddressComponent, canActivate: [WorkflowGuard] },
-    // 4th Route
-    { path: 'result',  component: ResultComponent, canActivate: [WorkflowGuard] },
-    // 5th Route
-    { path: '',   redirectTo: '/personal', pathMatch: 'full' },
-*/
     // 6th Route
     { path: '**',  component: InicioComponent},
 ];

@@ -17,6 +17,9 @@ export class OtrosHabitosComponent implements OnInit {
 	otros:HabitosOtro	=	new HabitosOtro();;
 	oOtros:HabitosOtro=	new HabitosOtro();
 	body:any;
+	
+	navitation:boolean=false;
+	goToNext:boolean=false;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
@@ -31,6 +34,8 @@ export class OtrosHabitosComponent implements OnInit {
 	ngOnInit() {
 		this.body = document.getElementsByTagName('body')[0];
 		this.body.classList.add('menu-parent-habito');
+		this.navitation	=	false;
+		this.goToNext	=	false;
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-habito');
@@ -38,7 +43,8 @@ export class OtrosHabitosComponent implements OnInit {
 			this.otros.paciente_id	=	this.paciente.id;
 			this.save(this.otros);		
 		}*/
-		this.saveForm();
+		if(!this.navitation)
+			this.saveForm();
 	}
 	
 	setInfoInit(){
@@ -74,8 +80,8 @@ export class OtrosHabitosComponent implements OnInit {
 		this.formControlDataService.store('habitos_otros', data)
 		.subscribe(
 			 response  => {
-						console.log('saveInfo:receiving...');
-						console.log(response);
+						console.log('store->response...');
+						console.log(response);	
 						},
 			error =>  console.log(<any>error)
 		);
@@ -85,14 +91,37 @@ export class OtrosHabitosComponent implements OnInit {
 		if(this.infoEdited()){
 			this.otros.paciente_id	=	this.paciente.id;
 			this.save(this.otros);		
+		}else{
+			if(this.goToNext)
+				this.router.navigate(['/valoracion']);
 		}
 	}
 	Previous(){
+		this.navitation	=	true;
 		this.saveForm();
 		this.router.navigate(['/gustos']);
 	}
-/*	Next(){
+	Next(){
+		this.navitation	=	true;
 		this.saveForm();
-		this.router.navigate(['/valoracion']);
-	}*/
+		if(this.mng.operacion=='nuevo-paciente')
+			this.crearConsulta(this.paciente);
+		else
+			this.router.navigate(['/valoracion']);		
+	}
+	crearConsulta(data){
+		this.formControlDataService.store('consulta', data)
+		.subscribe(
+			 response  => {
+						console.log('store->response...');
+						console.log(response);
+						this.formControlDataService.setSelectedConsuta(response['data']);
+						this.mng.setOperacion('nueva-consulta');
+						this.mng.setMenuPacienteStatus(false);
+						this.mng.setEnableLink(true);
+						this.router.navigate(['/valoracion']);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
 }

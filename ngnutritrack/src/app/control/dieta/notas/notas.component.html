@@ -1,5 +1,4 @@
 <app-topnav></app-topnav>
-<router-outlet name="historialPopup"></router-outlet>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -23,12 +22,14 @@
 			<div class="buttons-navigation">
 				<button 
 					class="btn btn-default previous" 
+					[disabled]="finalizar"
 					(click)="Previous()"
 				> ANTERIOR 
 				</button>
 				<button class="btn btn-success next"
+					[disabled]="finalizar"
 					(click)="Next()"
-					> FINALIZAR 
+					> FINALIZAR  <span *ngIf="finalizar" class="fa fa-spinner fa-spin"></span>
 					</button>
 			</div>
 			

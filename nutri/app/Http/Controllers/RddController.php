@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Rdd;
+use App\ValoracionAntropometrica;
+
 use DB;
 class RddController extends Controller
 {
@@ -23,7 +25,7 @@ class RddController extends Controller
 						->first();
 
 		if(count($rdd)>0){
-			return $rdd;
+			/*return $rdd;*/
 			/*$va->id	=	 1,*/
 			$rdd->metodo_calculo_gc				=	$request->metodo_calculo_gc;
 			$rdd->peso_calculo					=	$request->peso_calculo;
@@ -43,7 +45,7 @@ class RddController extends Controller
 							'consulta_id'					=>	$request->consulta_id
 						)
 					);
-			return $rdd;
+			//return $rdd;
 		}
 		$rdd->save();
 		$message	=	'Su Consulta ha sido añadida de modo correcto';
@@ -59,9 +61,10 @@ class RddController extends Controller
     {
 		$registros = DB::table('rdds')
             ->join('consultas', 'consultas.id', '=', 'rdds.consulta_id')
+            ->join('valor_antropometricas', 'valor_antropometricas.consulta_id', '=', 'rdds.consulta_id')
             ->where('consultas.paciente_id', $id)
             ->where('consultas.estado', 1)
-            ->select('consultas.fecha', 'rdds.*')
+            ->select('consultas.fecha', 'rdds.*',DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), 'valor_antropometricas.estatura', 'valor_antropometricas.peso', 'valor_antropometricas.edad_metabolica')
 			->orderBy('consultas.fecha', 'DESC')
 			->get();
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);

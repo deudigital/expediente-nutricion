@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 export class LoginRedirect {
 	constructor(private auth: AuthService, private router: Router) {}
 	canActivate(): boolean {
-		 console.log('LoginRedirect');
+		 /*console.log('LoginRedirect');*/
 		if (localStorage.getItem('token')) {
 		  this.router.navigateByUrl('/inicio');
 		  return false;

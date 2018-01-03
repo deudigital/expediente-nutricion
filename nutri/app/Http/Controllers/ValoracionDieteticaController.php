@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Paciente;
 use App\DetalleValoracionDietetica;
+use App\DetalleValoracionDieteticaEjemplo;
 use DB;
 
 class ValoracionDieteticaController extends Controller
@@ -40,7 +41,6 @@ class ValoracionDieteticaController extends Controller
     {
 		/*$response	=	Response::json($request->all(), 200, []);
 		return $response;*/
-		
 		$message	=	array(
 							'code'		=> '201',							
 							'message'	=> 'Se ha registrado correctamente'
@@ -63,14 +63,32 @@ class ValoracionDieteticaController extends Controller
 
 					$detalleValoracionDietetica	=	DetalleValoracionDietetica::create([
 										'paciente_id'						=>	$request->paciente_id,
-										'categoria_valoracion_dietetica_id'	=>	$item['categoria_valoracion_dietetica_id'],
-										'grupo_alimento_nutricionista_id'	=>	preg_replace('/\D/', '', $alimento),
+										'categoria_valoracion_dietetica_id'	=>	$item['tiempo_id'],
+										'grupo_alimento_nutricionista_id'	=>	$alimento,
 										'porciones'							=>	$porciones,
 									]);
 					$datos[]	=	$detalleValoracionDietetica;
 					//$patronMenu->save();
 					$message['datos']	=	$datos;
 				}			
+			}	
+		}
+		$tiempos	=	$request->tiempos;
+		if($tiempos){
+			$datos	=	array();			
+			$deletedRows = DetalleValoracionDieteticaEjemplo::where('paciente_id', $request->paciente_id)->delete();
+			
+			foreach($tiempos as $key=>$item){
+				if($item['tiempo_id']<1)
+					continue ;
+				$detalleValoracionDieteticaEjemplo	=	DetalleValoracionDieteticaEjemplo::create([
+									'paciente_id'						=>	$request->paciente_id,
+									'categoria_valoracion_dietetica_id'	=>	$item['tiempo_id'],
+									'ejemplo'							=>	$item['ejemplo']
+								]);
+				$datos[]	=	$detalleValoracionDieteticaEjemplo;
+				$detalleValoracionDieteticaEjemplo->save();
+						
 			}	
 		}
 		$response	=	Response::json($message, 200, [], JSON_NUMERIC_CHECK);

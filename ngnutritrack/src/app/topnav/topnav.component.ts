@@ -26,7 +26,6 @@ export class TopnavComponent implements OnInit {
 		}
 	}
 	action_nuevo(){
-		console.log('topnav component');
 		this.formControlDataService.getFormControlData().clear();
 		this.router.navigate(['/nuevo']);
 	}

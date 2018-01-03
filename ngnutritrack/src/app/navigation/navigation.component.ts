@@ -16,16 +16,18 @@ export class NavigationComponent implements OnInit {
 	mng:ManejadorDatos;
 	
 	isConsulta:boolean=false;
+	expandMenu:boolean=false;
 	constructor(private formControlDataService: FormControlDataService) {}
 
 	ngOnInit() {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
+		//console.log('navigation');console.log(this.mng);
 		if(this.mng.operacion!='nuevo-paciente'){
 			this.isConsulta			=	true;
 			this.showMenuPaciente	=	this.mng.getMenuPacienteLastStatus();
 			this.class_toggle = (this.showMenuPaciente? ' opened':'');
 		}
-		this.enableLink	=	this.mng.getEnableLink();	
+		this.enableLink	=	this.mng.getEnableLink();
 	}
 	ngOnDestroy(){
 		this.mng.setMenuPacienteStatus(this.showMenuPaciente);
@@ -35,5 +37,7 @@ export class NavigationComponent implements OnInit {
 		this.class_toggle = (this.showMenuPaciente? ' opened':'');
 
 	  }
-
+	toggle(){
+		this.expandMenu  = !this.expandMenu;		
+	}
 }

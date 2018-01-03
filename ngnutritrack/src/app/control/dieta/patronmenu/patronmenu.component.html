@@ -1,5 +1,4 @@
 <app-topnav></app-topnav>
-<router-outlet name="historialPopup"></router-outlet>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -180,7 +179,7 @@
 										<th>Estatura</th>
 										<th>Grasa</th>
 										<th>Grasa Viceral</th>
-										<th>Musculo</th>
+										<th>M&uacute;sculo</th>
 										<th>Agua</th>
 										<th>Hueso</th>
 										<th>Edad Metabolica</th>
@@ -300,100 +299,100 @@
 				</header>
 				
 			<div class="alimentos row">
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="leche-descremada"></i>
-				  <label>Leche Descremada</label>
-				  <strong>0/0</strong>
 				</figure>
+				  <label>Leche Descremada</label>
+				 <strong [ngClass]="{'success': total_leche_descremada==prescritos[1],  'warning': total_leche_descremada > prescritos[1], 'black': total_leche_descremada==0 && prescritos[1]==0 }">{{total_leche_descremada}}/{{prescritos[1]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="leche-2"></i>
-				  <label>Leche 2%</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Leche 2%</label>
+				  <strong [ngClass]="{'success': total_leche_2==prescritos[2],  'warning': total_leche_2 > prescritos[2], 'black': total_leche_2==0 && prescritos[2]==0 }">{{total_leche_2}}/{{prescritos[2]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="leche-entera"></i>
-				  <label>Leche Entera</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Leche Entera</label>
+				  <strong [ngClass]="{'success': total_leche_entera==prescritos[3],  'warning': total_leche_entera > prescritos[3], 'black': total_leche_entera==0 && prescritos[3]==0 }">{{total_leche_entera}}/{{prescritos[3]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="vegetales"></i>
-				  <label>vegetales</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Vegetales</label>
+				  <strong [ngClass]="{'success': total_vegetales==prescritos[4],  'warning': total_vegetales > prescritos[4], 'black': total_vegetales==0 && prescritos[4]==0 }">{{total_vegetales}}/{{prescritos[4]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="frutas"></i>
-				  <label>frutas</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Frutas</label>
+				  <strong [ngClass]="{'success': total_frutas==prescritos[5],  'warning': total_frutas > prescritos[5], 'black': total_frutas==0 && prescritos[5]==0 }">{{total_frutas}}/{{prescritos[5]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="harinas"></i>
-				  <label>harinas</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Harinas</label>
+				  <strong [ngClass]="{'success': total_harinas==prescritos[6],  'warning': total_harinas > prescritos[6], 'black': total_harinas==0 && prescritos[6]==0 }">{{total_harinas}}/{{prescritos[6]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="carne-magra"></i>
-				  <label>carne-magra</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Carne Magra</label>
+				  <strong [ngClass]="{'success': total_carne_magra==prescritos[7],  'warning': total_carne_magra > prescritos[7], 'black': total_carne_magra==0 && prescritos[7]==0 }">{{total_carne_magra}}/{{prescritos[7]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="carne-intermedia "></i>
-				  <label>carne-intermedia </label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Carne Intermedia </label>
+				  <strong [ngClass]="{'success': total_carne_intermedia==prescritos[8],  'warning': total_carne_intermedia > prescritos[8], 'black': total_carne_intermedia==0 && prescritos[8]==0 }">{{total_carne_intermedia}}/{{prescritos[8]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="carne-grasa"></i>
-				  <label>carne-grasa</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Carne Grasa</label>
+				  <strong [ngClass]="{'success': total_carne_grasa==prescritos[9],  'warning': total_carne_grasa > prescritos[9], 'black': total_carne_grasa==0 && prescritos[9]==0 }">{{total_carne_grasa}}/{{prescritos[9]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="azucares"></i>
-				  <label>azucares</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Az&uacute;cares</label>
+				  <strong [ngClass]="{'success': total_azucares==prescritos[11],  'warning': total_azucares > prescritos[10], 'black': total_azucares==0 && prescritos[10]==0 }">{{total_azucares}}/{{prescritos[10]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="grasas"></i>
-				  <label>grasas</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Grasas</label>
+				  <strong [ngClass]="{'success': total_grasas==prescritos[11], 'warning': total_grasas > prescritos[11], 'black': total_grasas==0 && prescritos[11]==0 }">{{total_grasas}}/{{prescritos[11]}}</strong>
 			  </div>
-			  <div class="col-sm-2">
+			  <div class="col-sm-2 col-xs-6">
 				<figure>
 				  <i class="vaso-agua"></i>
-				  <label>vaso-agua</label>
-				  <strong>0/0</strong>
 				  
 				</figure>
+				  <label>Vasos con Agua</label>
+				  <strong [ngClass]="{'warning': total_vaso_agua > prescritos[12], 'success': total_vaso_agua==prescritos[12], 'black': total_vaso_agua==0 && prescritos[12]==0}">{{total_vaso_agua}}/{{prescritos[12]}}</strong>
 			  </div>
 			</div>
 	
@@ -434,7 +433,7 @@
 			</div>
 	  
 			<div class="alimentos">
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="leche-descremada"></i>
 				  <label>Leche Descremada</label>
@@ -444,7 +443,7 @@
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="leche-2"></i>
 				  <label>Leche 2%</label>
@@ -454,7 +453,7 @@
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="leche-entera"></i>
 				  <label>Leche Entera</label>
@@ -464,7 +463,7 @@
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="vegetales"></i>
 				  <label>vegetales</label>
@@ -474,80 +473,80 @@
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="frutas"></i>
-				  <label>frutas</label>
+				  <label>Frutas</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				   [(ngModel)]="porciones_frutas"
 				  (change)="porciones('frutas', 5)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="harinas"></i>
-				  <label>harinas</label>
+				  <label>Harinas</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				   [(ngModel)]="porciones_harinas"
 				  (change)="porciones('harinas', 6)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="carne-magra"></i>
-				  <label>carne-magra</label>
+				  <label>Carne Magra</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				   [(ngModel)]="porciones_carne_magra"
 				  (change)="porciones('carne_magra', 7)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="carne-intermedia "></i>
-				  <label>carne-intermedia </label>
+				  <label>Carne Intermedia </label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				   [(ngModel)]="porciones_carne_intermedia"
 				  (change)="porciones('carne_intermedia', 8)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="carne-grasa"></i>
-				  <label>carne-grasa</label>
+				  <label>Carne Grasa</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				   [(ngModel)]="porciones_carne_grasa"
 				  (change)="porciones('carne_grasa', 9)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="azucares"></i>
-				  <label>azucares</label>
+				  <label>Az&uacute;cares</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				   [(ngModel)]="porciones_azucares"
 				  (change)="porciones('azucares', 10)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="grasas"></i>
-				  <label>grasas</label>
+				  <label>Grasas</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				  [(ngModel)]="porciones_grasas"
 				  (change)="porciones('grasas', 11)"
 				  >
 				</figure>
 			  </div>
-			  <div class="col-sm-4">
+			  <div class="col-sm-4 col-xs-6">
 				<figure>
 				  <i class="vaso-agua"></i>
-				  <label>vaso-agua</label>
+				  <label>Vasos con Agua</label>
 				  <input type="number" class="form-control" value="0" min="0" 
 				  [(ngModel)]="porciones_vaso_agua"
 				  (change)="porciones('vaso_agua', 12)"

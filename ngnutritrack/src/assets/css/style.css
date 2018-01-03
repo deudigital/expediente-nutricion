@@ -2,8 +2,6 @@ body{font-family: 'Montserrat', sans-serif;color:#000;font-weight:500;padding-bo
 textarea,select,input,table {max-width: 100%;}
 img,iframe,figure{max-width:100%}
 img{height:auto}
-a{-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
-a:hover{}
 
 body.main{padding-top:50px}
 body.with-bg:before,
@@ -44,11 +42,11 @@ i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-
 .buttons{margin:15px 0 25px;text-align:center;}
 /********************/ /********************/
 .main .navbar-default .navbar-nav > li:not(:first-child):before {border-left: 1px solid #000;content: "";position: absolute;height: 20px;width: 1px;top: 30%;}
-.navbar.top {margin-top: 25px;margin-bottom: 0;}
 
-body.page-control .navbar.top {margin-top: 35px;}
 
-.navbar.top .navbar-brand {margin-top:-25px}
+
+
+.navbar.top .navbar-brand {margin-top:-25px;height:auto;}
 .navbar.top .navbar-nav > li{}
 .navbar.top .navbar-nav > li:not(:first-child):before {border-left: 1px solid #000;content: "";position: absolute;height: 20px;width: 1px;top: 30%;}
 /*.navbar.top .navbar-nav > li > a {font-size:12px}*/
@@ -170,6 +168,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 /********************/
 .content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-6px;}
 .alimentos {text-align: center}
+.alimentos figure {height: 70px;display: table;width: 100%;}
+.alimentos figure .inner{display: table-cell;vertical-align: middle;}
 .alimentos i {display: inline-block;left: 0;top:-6px;}
 .alimentos label {display: block;}
 .alimentos .form-control {width: 75px;margin: 0 auto;}
@@ -198,33 +198,19 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .asignacion-porciones i.item-12,
 .content-form .asignacion-porciones i.vaso-agua{background-position: -360px -142px;width: 19px;height: 23px;}
 
-.esc-modal .alimentos .form-control{text-align:center;}
-.esc-modal .alimentos i.leche-descremada {background-position: 0 -688px;width: 30px;height: 53px;}
-.esc-modal .alimentos i.leche-2 {background-position: -42px -688px;width: 30px;height: 53px;}
-.esc-modal .alimentos i.leche-entera {background-position: -84px -688px;width: 30px;height: 53px;}
-.esc-modal .alimentos i.vegetales {background-position: -127px -688px;width: 50px;height: 53px;}
-.esc-modal .alimentos i.frutas {background-position: -185px -688px;width: 46px;height: 53px;}
-.esc-modal .alimentos i.harinas {background-position: -245px -688px;width: 50px;height: 55px;}
-.esc-modal .alimentos i.carne-magra {background-position: -311px -688px;width: 65px;height: 40px;margin-top: 10px;}
-.esc-modal .alimentos i.carne-intermedia {background-position: -388px -685px;width: 66px;height: 50px;}
-.esc-modal .alimentos i.carne-grasa {background-position: -467px -686px;width: 63px;height: 54px;}
-.esc-modal .alimentos i.azucares {background-position: 1px -756px;width: 60px;height: 65px;}
-.esc-modal .alimentos i.grasas {background-position: -64px -758px;width: 40px;height: 60px;}
-.esc-modal .alimentos i.vaso-agua {background-position: -119px -759px;width: 41px;height: 52px;}
-
 .patron-menu .alimentos > div {min-height: 130px;}
 .patron-menu .alimentos i.leche-descremada {background-position: 0 -688px;width: 30px;height: 53px;}
 .patron-menu .alimentos i.leche-2 {background-position: -42px -688px;width: 30px;height: 53px;}
 .patron-menu .alimentos i.leche-entera {background-position: -84px -688px;width: 30px;height: 53px;}
-.patron-menu .alimentos i.vegetales {background-position: -127px -688px;width: 50px;height: 53px;}
-.patron-menu .alimentos i.frutas {background-position: -185px -688px;width: 46px;height: 53px;}
+.patron-menu .alimentos i.vegetales {background-position: -127px -687px;width: 50px;height: 47px;}
+.patron-menu .alimentos i.frutas {background-position: -185px -687px;width: 46px;height: 46px;}
 .patron-menu .alimentos i.harinas {background-position: -245px -688px;width: 50px;height: 55px;}
-.patron-menu .alimentos i.carne-magra {background-position: -311px -688px;width: 65px;height: 40px;margin-top: 10px;}
-.patron-menu .alimentos i.carne-intermedia {background-position: -388px -685px;width: 66px;height: 50px;}
+.patron-menu .alimentos i.carne-magra {background-position: -311px -688px;width: 65px;height: 39px;margin-top: 10px;}
+.patron-menu .alimentos i.carne-intermedia {background-position: -388px -685px;width: 66px;height: 38px;}
 .patron-menu .alimentos i.carne-grasa {background-position: -467px -686px;width: 63px;height: 54px;}
 .patron-menu .alimentos i.azucares {background-position: 1px -756px;width: 60px;height: 65px;}
-.patron-menu .alimentos i.grasas {background-position: -64px -758px;width: 40px;height: 60px;}
-.patron-menu .alimentos i.vaso-agua {background-position: -119px -759px;width: 41px;height: 52px;}
+.patron-menu .alimentos i.grasas {background-position: -64px -758px;width: 41px;height: 58px;}
+.patron-menu .alimentos i.vaso-agua {background-position: -119px -759px;width: 41px;height: 49px;}
 
 .patron-menu .alimentos label {font-size: 10px;font-weight: 500;margin-top: 10px;}
 /********************/
@@ -259,7 +245,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .links .box a figure.main-control i {background-position: -129px -552px;width: 69px;height: 55px;}
 .main .links .box a:hover figure.main-control i{background-position:-129px -623px;}
 /***************************/
-.searching {background-position: -212px -545px;display: inline-block;width: 353px;height: 78px;margin-bottom:15px}
+.searching {background-position: -212px -545px;display: inline-block;max-width:100%;width: 353px;height: 78px;margin-bottom:15px}
 /***************************/
 .main .listado {position:relative;}
 .main .listado ul{margin:0;text-align:left;margin-left:0;list-style-type:none;padding:0}
@@ -278,8 +264,11 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .listado.consultas .title > i {background-position: -431px -142px;height: 28px;width: 25px;top: 8px;left: 0;display: inline-block;position: relative;margin-right: 10px;}
 .main .listado.consultas ul li {background-color: #e0e0e0;border-radius: 25px;margin:10px 0 }
 .main .listado.consultas ul li i.fullname{margin: 0 5px 0 30px;}
-.main .listado.consultas ul li .btn {float: right;margin-top: -15px;margin-right: 0;border-radius: 25px;margin-right: -15px;padding: 15px 25px;}
-.main .listado.consultas ul li .btn {float: right;margin-top: -8px;margin-right: 0;margin-right: -15px;padding: 8px 15px;font-size: inherit;}
+
+.main .listado.consultas ul li .action {position: absolute;border: none;}
+.main .listado.consultas ul li .continuar {padding: 6px 15px;right: 0;top: 0;}
+.main .listado.consultas ul li .eliminar {left: -30px;top: 3px;}
+
 /*******************/
 .main .listado.pacientes ul li i.fullname {margin-right: 10px;}
 .main .listado.pacientes {width: 424px;max-width:100%;background-color:#e6e6e6;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
@@ -288,28 +277,9 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .listado.pacientes ul{padding:0 10px;max-height:300px;overflow:auto;height:auto}
 .main .listado.pacientes ul li {-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
 .main .listado.pacientes ul li:hover {background-color:#7fb831;color:#fff;border-radius:25px;}
-body.open-modal .overlay {display:block}
-.overlay { background-color:rgba(0, 0, 0, 0.33); position: fixed;left: 0;top: 0;z-index: 1000;width: 100%;height: 100%;display:none; /*-webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease;*/ }
-.esc-modal a.modal-close { position: absolute; right: 25px; top: 10px; font-weight: 300; font-size: 25px; cursor: pointer; text-decoration: none; text-indent: 0; z-index:500; }
-.esc-modal { position: absolute; z-index: 10001; width: 665px; max-width: 100%; background-color: #fff;top: -150%; left: 50%; padding: 30px 55px; margin-left: -333px; border-radius: 15px; -webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease; overflow: hidden; }
-.esc-modal header {text-align: center;margin-bottom: 15px;}
-.esc-modal header h3 {margin: 0;font-size: 20px;font-weight:600;}
-.esc-modal .label-modal-porciones {font-size: 14px;margin-bottom:15px}
-.esc-modal .alimentos > div {min-height: 150px;/* border: 1px solid; */}
-body.open-modal .esc-modal  {top:5%}
 
-/*.esc-modal #modal-text {font-size: 12px;font-weight: 300;}*/
+
 a.active{color:red}
-
-.esc-modal .navigation-dieta {border-bottom: 1px solid #dcdcdc;/*margin-bottom: 0;*/}
-.esc-modal .navigation-dieta a{display:block;padding-bottom:10px;}
-.esc-modal .navigation-dieta a.active{border-bottom-width:5px;}
-.esc-modal .navigation-dieta a i.datos {background-position: -499px -114px;width: 32px;height: 25px;}
-.esc-modal .navigation-dieta a i.grafico {background-position: -465px -114px;width: 31px;height: 26px;}
-.esc-modal .navigation-dieta a.active i.datos {background-position: -499px -144px;}
-.esc-modal .navigation-dieta a.active i.grafico {background-position: -465px -144px;}
-
-
 
 .lista-examen {list-style: none;font-size: 10px;min-height:auto;/*margin-top:50px;*/}
 .lista-examen > li {float: left;width: 20%;text-align: center;min-height: 150px;position: relative;}
@@ -332,7 +302,7 @@ body.sending .info-sending{display:block;top:50px}
 .distribucion h5 {font-size: 12px;}
 .distribucion .form-control {width: 65%;/*80px;*/border-radius: 10px;margin: 0 auto;text-align: center;}
 
-body.page-inicio .main{width:660px;padding-top:45px}
+body.page-inicio .main{padding-top:45px}
 body.page-inicio .container-logo {margin-bottom: 55px;}
 
 .calculo-calorico {font-weight: 600;text-align: center;}
@@ -351,15 +321,34 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
 .container-file > input[type="file"] {visibility: hidden;position: absolute;color: #e0e0e0;}
 
 
+.esc-modal .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
+
+.esc-modal .table tr.detalle_prescripcion > td {color:#fff}
+.esc-modal .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}
+.esc-modal .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
+.esc-modal .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
+.esc-modal .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
 
 
-.expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;display: block;position: absolute;margin-left: -20px;}
+/*.expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;display: block;position: absolute !important;margin-left: -20px;}*/
+
+.expand-patron-menu {position: absolute;left: -9px;z-index: 1000;width: 20px;height: 17px;display: block;}
+.esc-modalbox .expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;	display: block;top: 0;}
+
+.esc-modalbox .table.prescripcion tbody tr > td:first-child{width:100px}
+
 .expand-patron-menu.open i{background-position: -531px -506px;}
 .select-ubicacion select {margin-bottom: 15px;}
+
+.esc-grafico-boxes > div:not(.active) {display: none;}
+
 
 @media(min-width:660px){
 	.main .listado.consultas {padding:25px 123px;}
 	.main .listado.pacientes {padding:15px;}
+	body.page-inicio .main{width:660px;}
+	body.page-control .navbar.top {margin-top: 35px;}
+	.navbar.top {margin-top: 25px;margin-bottom: 0;}
 	/*.content-form {padding-bottom: 150px;}*/
 	.label-modal-porciones{font-size:14px;}
 }
@@ -400,11 +389,10 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
 }
 @media (min-width:1200px){
 	.content-nav .list-group {margin-right: 31px;}
-	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}
 }
 @media (min-width:1370px){
 	.container-fluid{width:90%;}
-	.content-form > section{padding: 25px 50px;}
+	.content-form  section{padding: 25px 50px;}
 }
 @media (max-width:767px){
 	body > [class*="col-"] .row > [class*="col-"] {margin-top:3%;margin-bottom:3%;}

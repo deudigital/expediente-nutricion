@@ -18,7 +18,14 @@ export class FormControlDataService {
 								  'Content-Type': 'application/json',
 								  Authorization: `Bearer ${token}`
 								});
+	}	
+	setSession(nutricionista_id, token){
+		localStorage.setItem('token', token);
+		localStorage.setItem('nutricionista_id', nutricionista_id);
+		this.setHeader(token);
+		this.formControlData.setNutricionistaId(nutricionista_id);		
 	}
+	
 	getDataForm(): Observable<any[]> {
 		return this.http.get( this.apiURL + 'form/data', {headers: this.headers} ).map((response: Response) => response.json());
 	}
@@ -76,12 +83,15 @@ export class FormControlDataService {
 	}
 	
 	store(module:string, data:any): Observable<any[]> {
-		console.log('Service:' + module + '->sending...');
+		console.log('Store:' + module + '->sending...');
 		console.log(data);
 		var serviceUrl	=	this.apiURL;
 		switch(module){
 			case 'consulta':
 				serviceUrl	+=	'consultas';
+				break;
+			case 'otros_alimentos':
+				serviceUrl	+=	'consultas/otros';
 				break;
 			case 'objetivos':
 				serviceUrl	+=	'pacientes/objetivos';
@@ -116,18 +126,42 @@ export class FormControlDataService {
 				.map((response: Response) => response.json());
 	}
 	delete(module:string, data:any): Observable<any[]> {
-		console.log('Service:' + module + '->sending...');
+		console.log('Delete:' + module + '...');
 		console.log(data);
 		var serviceUrl	=	this.apiURL;
 		switch(module){
+			case 'consultas':
+				serviceUrl	+=	'consultas/' + data.id + '/delete';
+				break;
 			case 'objetivos':
 				serviceUrl	+=	'objetivos/' + data.id + '/delete';
 				break;
 			case 'ejercicios':
 				serviceUrl	+=	'ejercicios/' + data.id + '/delete';
 				break;
+			case 'otros_alimentos':
+				serviceUrl	+=	'otrosalimentos/' + data.id + '/delete';
+				break;
 		}
 		return this.http.post( serviceUrl, data)
+				.map((response: Response) => response.json());
+	}
+	select(module:string, data:any): Observable<any[]> {
+		console.log('GET ' + module + '...');
+		console.log(data);
+		var serviceUrl	=	this.apiURL;
+		switch(module){
+			case 'valoracionAntropometrica':
+				serviceUrl	+=	'valoracionantropometrica/paciente/' + data;
+				break;
+			case 'rdds':
+				serviceUrl	+=	'rdds/paciente/' + data;
+				break;
+			case 'prescripcion':
+				serviceUrl	+=	'prescripcion/paciente/' + data;
+				break;
+		}
+		return this.http.get( serviceUrl )
 				.map((response: Response) => response.json());
 	}
 	setSelectedConsuta(consulta){
@@ -147,6 +181,7 @@ export class FormControlDataService {
         this.formControlData.clear();
         return this.formControlData;
     }
+/*
 	getAnalisis():Analisis{
 		var analisis:Analisis={
 			imc: this.formControlData.imc,
@@ -174,7 +209,6 @@ export class FormControlDataService {
 		this.formControlData.pesoMetaMaximo= data.pesoMetaMaximo;
 		this.formControlData.pesoMetaMinimo= data.pesoMetaMinimo;
     }
-
 	addConsulta__0(paciente: Paciente): Observable<Consulta[]> {
 		//let headers = new Headers({ 'Content-Type': 'application/json' });
 		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' });
@@ -194,6 +228,6 @@ export class FormControlDataService {
 		return this.http.post(this.apiURL + 'consultas', data, options)
 			.subscribe((res:Response)=>{console.log()});
 	}
-
+*/
 	
 }

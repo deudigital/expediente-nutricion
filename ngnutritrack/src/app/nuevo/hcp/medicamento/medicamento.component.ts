@@ -40,7 +40,7 @@ export class MedicamentoComponent implements OnInit {
 		this.formControlDataService.store('medicamentos', data)
 		.subscribe(
 			 response  => {
-						console.log('Service:medicamentos->receiving...');
+						console.log('store->response...');
 						console.log(response);
 						
 						},

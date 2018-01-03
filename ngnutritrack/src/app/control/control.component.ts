@@ -20,6 +20,7 @@ export class ControlComponent implements OnInit {
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
+		this.tagBody.className = '';
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-control');
 	}
@@ -29,6 +30,9 @@ export class ControlComponent implements OnInit {
 	}
 	onSelect(paciente: Paciente) {
 		this.selectedPaciente = paciente;
+		
+		this.formControlDataService.resetFormControlData();
+		
 		this.formControlDataService.setPaciente(paciente);
 		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		mng.setOperacion('nueva-consulta');

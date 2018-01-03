@@ -1,5 +1,4 @@
 <app-topnav></app-topnav>
-<router-outlet name="historialPopup"></router-outlet>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -9,11 +8,32 @@
 
 			<section>
 				<div class="row">
+				
+					
+<div class="col-md-12">
+<app-file-upload 
+  projectId="100" 
+  sectionId="107" 
+  maxFiles="4"
+  maxSize="2"
+  fileExt="JPG, GIF, PNG"
+  (uploadStatus)="refreshImages($event)" >
+</app-file-upload>
+</div>
+<br>
+
+<div class="well">
+  <img *ngFor="let img of images"
+	   [src]="'http://localhost:33699' + img.thumbPath"
+	  class="img-thumbnail"
+	  alt="">
+</div>
+				
 					<div class="fill-data-valoracion">
 						Importar datos - arrastre archivo en formato csv a este cuadro
 					</div>
 					<div class="buttons">
-						<a class="btn btn-default" (click)="openModalDatos()">Ver Historial Antropom&eacute;trico</a>
+						<a class="btn btn-default" (click)="showModal('datos')">Ver Historial Antropom&eacute;trico</a>
 					</div>
 				</div>
 				<div class="row">
@@ -53,7 +73,7 @@
 								<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
 								[(ngModel)]="valoracion.grasa">
 								<i></i>
-								<a (click)="openModalGrasa()" class="link-modal pen"><i></i></a>
+								<a (click)="showModal('grasa')" class="link-modal pen"><i></i></a>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -62,7 +82,7 @@
 							<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
 							[(ngModel)]="valoracion.musculo">
 							<i></i>
-							<a (click)="openModalMusculo()" class="link-modal pen"><i></i></a>
+							<a (click)="showModal('musculo')" class="link-modal pen"><i></i></a>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -124,7 +144,7 @@
 						<i></i>
 						<br>
 						IMC
-						<strong>{{ imc }}</strong>
+						<strong>{{ analisis.imc | number : '1.2-2' }}<br>{{ imc }}</strong>
 					</div>
 					<div class="box peso-ideal">
 						<i></i>
@@ -185,7 +205,7 @@
 
 			<div class="buttons-navigation">
 				<button 
-					class="btn btn-default previous" 
+					class="btn btn-default previous invisible" 
 					disabled="disabled"
 				> ANTERIOR 
 				</button>
@@ -198,13 +218,13 @@
 	</div>
 </div>
 
-<div class="overlay" (click)="closeModal()"></div>
-<div class="esc-modal wide" *ngIf="showModalDatos">
-	
-	<div class="box">
-		<a class="modal-close" (click)="openModalDatos()">X</a>
-		<div class="body content-form">			
-			<ul class="row nav submenu navigation-dieta">
+
+
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<div class="body">
+		<nav>
+			<ul class="nav nabvar menu">
 				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
 						<i class="datos"></i>
@@ -214,358 +234,268 @@
 				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
 						<i class="grafico"></i>
-						Graficos
+						Gr&aacute;ficos
 					</a>
 				</li>
 			</ul>
+		</nav>
 			
-			<div *ngIf="showModalTabDatos">
-				<table class="table separate">
-					<thead>
-						<tr>
-							<th>Fecha</th>
-							<th>IMC</th>
-							<th>Peso</th>
-							<th>Estatura</th>
-							<th>Grasa</th>
-							<th>Grasa Viceral</th>
-							<th>Musculo</th>
-							<th>Agua</th>
-							<th>Hueso</th>
-							<th>Edad Metabolica</th>
-							<th>Cintura</th>
-							<th>Cadera</th>
-							<th>Muñeca</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>18/05/2017</td>
-							<td>33.1</td>
-							<td>90Kg</td>
-							<td>1.79m</td>
-							<td>22%</td>
-							<td>6</td>
-							<td>64.2</td>
-							<td>%60</td>
-							<td>5kg</td>
-							<td>45 años</td>
-							<td>97cm</td>
-							<td>90cm</td>
-							<td>18cm</td>
-						</tr>
-						<tr>
-							<td>18/05/2017</td>
-							<td>33.1</td>
-							<td>90Kg</td>
-							<td>1.79m</td>
-							<td>22%</td>
-							<td>6</td>
-							<td>64.2</td>
-							<td>%60</td>
-							<td>5kg</td>
-							<td>45 años</td>
-							<td>97cm</td>
-							<td>90cm</td>
-							<td>18cm</td>
-						</tr>
-						<tr>
-							<td>18/05/2017</td>
-							<td>33.1</td>
-							<td>90Kg</td>
-							<td>1.79m</td>
-							<td>22%</td>
-							<td>6</td>
-							<td>64.2</td>
-							<td>%60</td>
-							<td>5kg</td>
-							<td>45 años</td>
-							<td>97cm</td>
-							<td>90cm</td>
-							<td>18cm</td>
-						</tr>
-						<tr>
-							<td>18/05/2017</td>
-							<td>33.1</td>
-							<td>90Kg</td>
-							<td>1.79m</td>
-							<td>22%</td>
-							<td>6</td>
-							<td>64.2</td>
-							<td>%60</td>
-							<td>5kg</td>
-							<td>45 años</td>
-							<td>97cm</td>
-							<td>90cm</td>
-							<td>18cm</td>
-						</tr>
-						<tr>
-							<td>18/05/2017</td>
-							<td>33.1</td>
-							<td>90Kg</td>
-							<td>1.79m</td>
-							<td>22%</td>
-							<td>6</td>
-							<td>64.2</td>
-							<td>%60</td>
-							<td>5kg</td>
-							<td>45 años</td>
-							<td>97cm</td>
-							<td>90cm</td>
-							<td>18cm</td>
-						</tr>
-						<tr>
-							<td>18/05/2017</td>
-							<td>33.1</td>
-							<td>90Kg</td>
-							<td>1.79m</td>
-							<td>22%</td>
-							<td>6</td>
-							<td>64.2</td>
-							<td>%60</td>
-							<td>5kg</td>
-							<td>45 años</td>
-							<td>97cm</td>
-							<td>90cm</td>
-							<td>18cm</td>
-						</tr>
-					</tbody>
-				</table>
+		<div *ngIf="showModalTabDatos" class="container-datos">
+			<table class="table separate">
+				<thead>
+					<tr>
+						<th>Fecha</th>
+						<th>IMC</th>
+						<th>Peso</th>
+						<th>Estatura</th>
+						<th>Grasa</th>
+						<th>Grasa Viceral</th>
+						<th>M&uacute;sculo</th>
+						<th>Agua</th>
+						<th>Hueso</th>
+						<th>Edad Metabolica</th>
+						<th>Cintura</th>
+						<th>Cadera</th>
+						<th>Muñeca</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let historia of historial">
+						<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+						<td>{{historia.imc}}</td>
+						<td>{{historia.peso}}Kg</td>
+						<td>{{historia.estatura}}m</td>
+						<td>{{historia.grasa}}%</td>
+						<td>{{historia.grasa_viceral}}</td>
+						<td>{{historia.musculo}}</td>
+						<td>{{historia.agua}}</td>
+						<td>{{historia.hueso}}</td>
+						<td>{{historia.edad_metabolica}} años</td>
+						<td>{{historia.circunferencia_cintura}}</td>
+						<td>{{historia.circunferencia_cadera}}</td>
+						<td>{{historia.circunferencia_muneca}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div *ngIf="showModalTabGrafico" class="container-graficos">
+			<nav class="clearfix">
+				<ul class="nav navbar-nav menu grafico">
+					<li *ngFor="let header of graficosH">
+						<a class="{{header.class}}" href="javascript:void(0)" (click)="graficoSelected(header)">
+							<span>{{header.nombre}}	</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="esc-grafico-boxes row">
+<ng-template [ngIf]="graficos" [ngIfElse]="loading">
+	<ng-template ngFor let-grafico [ngForOf]= "graficos">
+	<div id="{{grafico.key}}" class="{{grafico.class}}">
+		<line-chart 
+			[data]="grafico.data" 
+			[config]="grafico.config" 
+			[elementId]="grafico.elementId"
+		></line-chart>
+	</div>
+	</ng-template>
+	<ng-template #loading>
+		processing...
+	</ng-template>
+</ng-template>
 			</div>
-
-			<div *ngIf="showModalTabGrafico">
-				<div class="well">
-					grafico AQUI					
-				</div>
-				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-
-google.charts.load('current', {packages: ['corechart', 'line']});
-google.charts.setOnLoadCallback(drawBasic);
-
-function drawBasic() {
-		var date;
-		var toGraph = "Peso";
-		var medidas = [{"Fecha":"1508997600","IMC":"30","Peso":"85","Estatura":"1.79","Grasa":"25","Grasa Viceral":"9","Músculo":"60","Agua":"50","Hueso":"4","Edad Metbólica":"45","Cintura":"100","Cadera":"110","Muñeca":"18"},{"Fecha":"1506384000","IMC":"29.1","Peso":"83.3","Estatura":"1.79","Grasa":"23.5","Grasa Viceral":"8.1","Músculo":"61.8","Agua":"51.5","Hueso":"4","Edad Metbólica":"40.5","Cintura":"96","Cadera":"105.6","Muñeca":"18"},{"Fecha":"1503705600","IMC":"28.227","Peso":"81.634","Estatura":"1.79","Grasa":"22.09","Grasa Viceral":"7.29","Músculo":"63.654","Agua":"53.045","Hueso":"4","Edad Metbólica":"36.45","Cintura":"92.16","Cadera":"101.376","Muñeca":"18"},{"Fecha":"1501027200","IMC":"27.38019","Peso":"80.00132","Estatura":"1.79","Grasa":"20.7646","Grasa Viceral":"6.561","Músculo":"65.56362","Agua":"54.63635","Hueso":"4","Edad Metbólica":"32.805","Cintura":"88.4736","Cadera":"97.32096","Muñeca":"18"},{"Fecha":"1495756800","IMC":"26.5587843","Peso":"78.4012936","Estatura":"1.79","Grasa":"19.518724","Grasa Viceral":"5.9049","Músculo":"67.5305286","Agua":"56.2754405","Hueso":"4","Edad Metbólica":"29.5245","Cintura":"84.934656","Cadera":"93.4281216","Muñeca":"18"},{"Fecha":"1493164800","IMC":"25.762020771","Peso":"76.833267728","Estatura":"1.79","Grasa":"18.34760056","Grasa Viceral":"5.31441","Músculo":"69.556444458","Agua":"57.963703715","Hueso":"4","Edad Metbólica":"26.57205","Cintura":"81.53726976","Cadera":"89.690996736","Muñeca":"18"}];
-		var data = new google.visualization.DataTable();
-		data.addColumn('date', "Fecha");
-		data.addColumn('number', toGraph);
-
-		for(var i in medidas) {
-			date = new Date(0);
-			date.setUTCSeconds(medidas[i].Fecha);
-			data.addRow([new Date( date.getFullYear(), date.getMonth(), date.getDate()),parseInt(medidas[i][toGraph])])
-		}
-
-		var options = {
-		'height':500,
-		pointShape: 'circle', pointSize: 15,
-		hAxis: {
-		title: 'Fecha'
-		},
-		vAxis: {
-		title: toGraph
-		},
-		colors: ['#cc1f25']
-		};
-
-		var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
-		chart.draw(data, options);
-	}
-</script>
-					<div id="chart_div"></div>
-			</div>
-	  
 		</div>
 	</div>
 </div>
-<div class="esc-modal" *ngIf="showModalGrasa">
-	
-	<div class="box">
-		<a class="modal-close" (click)="openModalGrasa()">X</a>
-		<div class="body content-form">		
-			<header>
-				<h3>Detalle Grasa</h3>
-			</header>
-			<ul class="row nav submenu navigation-dieta">
+
+<div [ngClass]="{'invisible ': hideModalGrasa }" class="esc-modalbox grasa">
+	<a class="modal-close" (click)="hideModal('grasa')"><i></i></a>
+	<header class="text-center">
+		<h4>Detalle Grasa</h4>
+	</header>	
+	<div class="body content-form">
+		<nav>
+			<ul class="nav nabvar menu">
 				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabGrasaSelected('segmentado')" class="{{tab_grasa_class_segmentado}}">
-						<i class="datos"></i>
+						<i class="segmentado"></i>
 						Segmentado
 					</a>
 				</li>
 				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabGrasaSelected('pliegues')" class="{{tab_grasa_class_pliegues}}">
-						<i class="grafico"></i>
+						<i class="pliegues"></i>
 						Pliegues
 					</a>
 				</li>
 			</ul>
-			<div *ngIf="showModalGrasaTabSegmentado">
-				<div class="form-group">
-					<label>Abdominal</label>
-					<input type="text" class="form-control" 
-					[(ngModel)]="grasa.abdominal"
-					>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<label>Piernas</label>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Derecha"		
-								[(ngModel)]="grasa.piernaDerecha"
-							>
-						</div>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Izquierda"		
-								[(ngModel)]="grasa.piernaIzquierda"
-							>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<label>Brazos</label>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Derecha"	
-								[(ngModel)]="grasa.brazoDerecho"
-							>
-						</div>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Izquierda"			
-								[(ngModel)]="grasa.brazoIzquierdo"								
-							>
-						</div>
-					</div>
-				</div>
-				{{grasaSegmentado}} %
-			</div>
-
-			<div *ngIf="showModalGrasaTabPliegues">
-				<div class="row">
-					<div class="form-group col-sm-6">
-						<label>Tricipital</label>						
-						<input 
-							type="text" 
-							class="form-control" 
-							name="pliegue_tricipital"
-							[(ngModel)]="grasa.tricipital"
-						>
-					</div>
-					<div class="form-group col-sm-6">
-						<label>Bicipital</label>						
-						<input 
-							type="text" 
-							class="form-control" 
-							name="pliegue_bicipital"
-							[(ngModel)]="grasa.bicipital"
-						>
-					</div>
-					<div class="form-group col-sm-6">
-						<label>Subescapular</label>						
-						<input 
-							type="text" 
-							class="form-control"  
-							name="pliegue_subescapular"
-							[(ngModel)]="grasa.subescapular"
-						>
-					</div>
-					<div class="form-group col-sm-6">
-						<label>Suprailiaco</label>						
-						<input 
-							type="text" 
-							class="form-control" 
-							name="pliegue_suprailiaco"
-							[(ngModel)]="grasa.suprailiaco"
-						>
-					</div>
-				</div>
+		</nav>
 			
-				{{grasaPiegues}} %
+			
+		<div *ngIf="showModalGrasaTabSegmentado">
+			<div class="form-group">
+				<label>Abdominal</label>
+				<input type="text" class="form-control" 
+				[(ngModel)]="grasa.abdominal"
+				>
 			</div>
-	  
-		</div>
-	</div>
-</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label>Piernas</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							placeholder="Derecha"		
+							[(ngModel)]="grasa.piernaDerecha"
+						>
+					</div>
+					<div class="form-group">
+						<input 
+							type="text" 
+							class="form-control" 
+							placeholder="Izquierda"		
+							[(ngModel)]="grasa.piernaIzquierda"
+						>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label>Brazos</label>
+						<input 
+							type="text" 
+							class="form-control" 
+							placeholder="Derecha"	
+							[(ngModel)]="grasa.brazoDerecho"
+						>
+					</div>
+					<div class="form-group">
+						<input 
+							type="text" 
+							class="form-control" 
+							placeholder="Izquierda"			
+							[(ngModel)]="grasa.brazoIzquierdo"								
+						>
+					</div>
+				</div>
+			</div>
 
-<div class="esc-modal" *ngIf="showModalMusculo">
-	
-	<div class="box">
-		<a class="modal-close" (click)="openModalMusculo()">X</a>
-		<div class="body content-form">		
-			<header>
-				<h3>Detalle M&uacute;sculo</h3>
-			</header>
-				<div class="form-group">
-					<label>Tronco</label>
-					<input type="text" class="form-control" 
-					id="musculo_tronco"
-					name="musculo_tronco"
-					[(ngModel)]="detalleMusculo.tronco"
+			<div class="row result">
+				<i></i>{{grasaSegmentado}} %
+			</div>
+		</div>
+		<div *ngIf="showModalGrasaTabPliegues">
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label>Tricipital</label>						
+					<input 
+						type="text" 
+						class="form-control" 
+						name="pliegue_tricipital"
+						[(ngModel)]="grasa.tricipital"
 					>
 				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<label>Piernas</label>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Derecha"		
-								id="musculo_pierna_derecha"
-								name="musculo_pierna_derecha"
-								[(ngModel)]="detalleMusculo.pierna_derecha"
-							>
-						</div>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Izquierda"		
-								id="musculo_pierna_izquierda"
-								name="musculo_pierna_izquierda"
-								[(ngModel)]="detalleMusculo.pierna_izquierda"
-							>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<label>Brazos</label>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Derecha"	
-								id="musculo_brazo_derecho"
-								name="musculo_brazo_derecho"
-								[(ngModel)]="detalleMusculo.brazo_derecho"
-							>
-						</div>
-						<div class="form-group">
-							<input 
-								type="text" 
-								class="form-control" 
-								placeholder="Izquierda"			
-								id="musculo_brazo_izquierdo"								
-								name="musculo_brazo_izquierdo"								
-								[(ngModel)]="detalleMusculo.brazo_izquierdo"								
-							>
-						</div>
-					</div>
+				<div class="form-group col-sm-6">
+					<label>Bicipital</label>						
+					<input 
+						type="text" 
+						class="form-control" 
+						name="pliegue_bicipital"
+						[(ngModel)]="grasa.bicipital"
+					>
 				</div>
-				 {{musculoSegmentado}} %
-<!--<button class="btn btn-default" (click)="save()">SaVE</button>-->
-
+				<div class="form-group col-sm-6">
+					<label>Subescapular</label>						
+					<input 
+						type="text" 
+						class="form-control"  
+						name="pliegue_subescapular"
+						[(ngModel)]="grasa.subescapular"
+					>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Suprailiaco</label>						
+					<input 
+						type="text" 
+						class="form-control" 
+						name="pliegue_suprailiaco"
+						[(ngModel)]="grasa.suprailiaco"
+					>
+				</div>
+			</div>
+			<div class="row result">
+				<i></i>{{grasaPiegues}} %
+			</div>
 		</div>
 	</div>
 </div>
+<div [ngClass]="{'invisible ': hideModalMusculo }" class="esc-modalbox musculo">
+	<a class="modal-close" (click)="hideModal('musculo')"><i></i></a>
+	<header class="text-center">
+		<h4>Detalle M&uacute;sculo</h4>
+	</header>	
+	<div class="body content-form">
+		<div class="form-group">
+			<label>Tronco</label>
+			<input type="text" class="form-control" 
+			id="musculo_tronco"
+			name="musculo_tronco"
+			[(ngModel)]="detalleMusculo.tronco"
+			>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label>Piernas</label>
+				<div class="form-group">
+					<input 
+						type="text" 
+						class="form-control" 
+						placeholder="Derecha"		
+						id="musculo_pierna_derecha"
+						name="musculo_pierna_derecha"
+						[(ngModel)]="detalleMusculo.pierna_derecha"
+					>
+				</div>
+				<div class="form-group">
+					<input 
+						type="text" 
+						class="form-control" 
+						placeholder="Izquierda"		
+						id="musculo_pierna_izquierda"
+						name="musculo_pierna_izquierda"
+						[(ngModel)]="detalleMusculo.pierna_izquierda"
+					>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<label>Brazos</label>
+				<div class="form-group">
+					<input 
+						type="text" 
+						class="form-control" 
+						placeholder="Derecha"	
+						id="musculo_brazo_derecho"
+						name="musculo_brazo_derecho"
+						[(ngModel)]="detalleMusculo.brazo_derecho"
+					>
+				</div>
+				<div class="form-group">
+					<input 
+						type="text" 
+						class="form-control" 
+						placeholder="Izquierda"			
+						id="musculo_brazo_izquierdo"								
+						name="musculo_brazo_izquierdo"								
+						[(ngModel)]="detalleMusculo.brazo_izquierdo"								
+					>
+				</div>
+			</div>
+		</div>
+		 <div class="row result">
+				<i></i>{{musculoSegmentado}} %
+			</div>
+	</div>
+</div>
+
+<div class="overlay" (click)="hideModal()"></div>

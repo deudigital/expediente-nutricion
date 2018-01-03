@@ -22,6 +22,7 @@ export class HcfComponent implements OnInit {
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(true);
 		this.paciente	=	this.fcd.getFormPaciente();
 		//console.log(this.paciente);
 		this.data['paciente_id']	=	this.paciente.id;		
@@ -112,7 +113,7 @@ export class HcfComponent implements OnInit {
 		this.formControlDataService.store('hcf_patologis', data)
 		.subscribe(
 			 response  => {
-						console.log('Service:hcf_patologis->receiving...');
+						console.log('store->response...');
 						console.log(response);
 						},
 			error =>  console.log(<any>error)

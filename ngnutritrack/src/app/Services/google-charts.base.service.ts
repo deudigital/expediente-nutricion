@@ -15,16 +15,9 @@ export class GoogleChartsBaseService {
   }
   protected buildLineChart(data: any[], columns: any, chartFunc: any, options: any) : void {
     var func = (chartFunc, options) => {
-		console.log('data');
-		console.log(data);
-		
-		var datatable = new google.visualization.DataTable();
-		/*datatable.addColumn('number', 'X');
-		datatable.addColumn('number', 'Dogs');*/
-		
+		var datatable = new google.visualization.DataTable();		
 		for(var i in columns)
-			datatable.addColumn(columns[i].type, columns[i].label);
-		
+			datatable.addColumn(columns[i]);//datatable.addColumn(columns[i].type, columns[i].label);	
 
 		datatable.addRows(data);
 		chartFunc().draw(datatable, options);
@@ -32,6 +25,4 @@ export class GoogleChartsBaseService {
     var callback = () => func(chartFunc, options);
     google.charts.setOnLoadCallback(callback);
   }
-
-  
 }

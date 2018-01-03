@@ -21,6 +21,7 @@ export class ObjetivoComponent implements OnInit {
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcd.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(true);
 	}
 	ngOnInit(){
 		this.body = document.getElementsByTagName('body')[0];
@@ -42,7 +43,7 @@ export class ObjetivoComponent implements OnInit {
 		var index	=	this.objetivos.indexOf(objetivo);
 		this.formControlDataService.delete('objetivos', objetivo).subscribe(
 			 response  => {
-						console.log('Service:objetivos->receiving...');
+						console.log('Eliminado');
 						console.log(response);						
 						this.objetivos.splice(index,1);
 						},
@@ -53,7 +54,7 @@ export class ObjetivoComponent implements OnInit {
 		this.formControlDataService.store('objetivos', data)
 		.subscribe(
 			 response  => {
-						console.log('Service:objetivos->receiving...');
+						console.log('store->response...');
 						console.log(response);
 						this.setObjetivo(response);
 						},

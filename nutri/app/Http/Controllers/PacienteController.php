@@ -196,14 +196,17 @@ from `hcf_patologias_pacientes`
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
 		$persona	=	false;
-		if($request->input('id')){
-			$fecha	=	explode('/', $request->fecha_nac);
-			$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
+		if($request->input('id') && $request->id!=0){			
 			$persona	=	Persona::find($request->id);
 			$persona->cedula	=	$request->cedula;
 			$persona->nombre	=	$request->nombre;
 			$persona->genero	=	$request->genero;
-			$persona->fecha_nac	=	$fecha_nac;
+			if($request->input('fecha_nac')){
+				$fecha	=	explode('/', $request->fecha_nac);
+				$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
+				$persona->fecha_nac	=	$fecha_nac;
+			}
+			
 			$persona->save();
 			$paciente	=	Paciente::find($request->id);
 			$paciente->responsable_cedula		=	$request->responsable_cedula;
@@ -223,14 +226,8 @@ from `hcf_patologias_pacientes`
 				$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
 				$aPersona['fecha_nac']	=	$fecha_nac;
 				
-			}
-			
-			/*$persona	=	Persona::create([
-								'cedula'			=>	$request->input('cedula'),
-								'nombre'			=>	$request->input('nombre'),
-								'genero'			=>	$request->input('genero'),
-								'fecha_nac'			=>	$fecha_nac
-							]);*/
+			}			
+
 			$persona	=	Persona::create($aPersona);
 			$persona->save();
 			if($persona->id){

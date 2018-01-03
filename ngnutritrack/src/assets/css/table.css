@@ -26,7 +26,18 @@
 .table.asignacion-porciones > tfoot > tr > td .form-control:-ms-input-placeholder {text-align:cente}
 .table.asignacion-porciones > tfoot > tr > td .form-control:-moz-placeholder {text-align:center}
 
+.table.asignacion-porciones.resumen{border-spacing: 0 5px;}
+.content-form .asignacion-porciones.resumen tr td{padding:10px;}
+.content-form .asignacion-porciones.resumen tbody tr td:not(:first-child) {text-align:center}
+.content-form .asignacion-porciones.resumen tbody tr td:first-child {padding-left: 30px;}
 
+.table.asignacion-porciones.otro-alimento tbody{text-align:center;}
+.table.asignacion-porciones tbody tr td{position:relative;}
+.table.asignacion-porciones tbody tr td .remove-item {position: absolute;top: 50%;left: -20px;margin-top: 0;}
+.table.asignacion-porciones.otro-alimento tbody tr td{background-color:transparent;border:none;padding-top:0;padding-bottom:0;}
+.table.asignacion-porciones.otro-alimento tbody tr td input{text-align:center;padding:0}
+.table.asignacion-porciones.otro-alimento tbody tr td:first-child input{max-width:100%;width:100%;}
+.otros-alimentos .actions.open{position:absolute;margin-top:60px}
 /*
 .table.habitos {border-spacing: 0;border-collapse: collapse;}
 .table.habitos thead tr th {background-color: #e0e0e0;}
@@ -55,3 +66,4 @@
 .esc-modal .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
 .esc-modal .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
 .esc-modal .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
+

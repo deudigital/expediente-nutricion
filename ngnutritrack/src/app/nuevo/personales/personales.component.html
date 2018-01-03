@@ -26,6 +26,7 @@
 						  [(ngModel)]="paciente.nombre"
 						  >
 						  <i></i>
+						  <span class="msg-validation">Ingresa tu nombre</span>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -53,12 +54,16 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group with-icon nacimiento">
-						  <label for="nombre" class="col-form-label">Fecha de Nacimiento</label>
-						  <input type="text" class="form-control" id="fecha_nac" name="fecha_nac" placeholder="dd/mm/aaaa"
-						  [(ngModel)]="paciente.fecha_nac"
-						  (change)="verificarEdad()"						  
-						  >
-						  <i></i>
+							<label class="col-form-label" for="fecha_nac">Fecha de Nacimiento</label>
+							<my-date-picker name="fecha_nac" 
+											class="form-control fecha_nac"
+											[options]="birthdayOptions"
+											[(ngModel)]="fecha_nac"                                         
+											(dateChanged)="verificarEdad()"
+											required>
+							</my-date-picker>
+							 <i></i>
+							<!--<span class="msg-validation">Requerido</span>-->
 						</div>
 					</div>
 				</div>
@@ -81,18 +86,20 @@
 						<div class="form-group with-icon responsable">
 						  <label for="inputState" class="col-form-label">Nombre Completo</label>
 						  <input type="text" class="form-control" id="responsable_nombre" name="responsable_nombre" placeholder=""
-						  [(ngModel)]="paciente.responsable_nombre"
+						  [(ngModel)]="paciente.responsable_nombre" required
 						  >
 						  <i></i>
+						  <span class="msg-validation">Requerido</span>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group with-icon parentezco">
 						  <label for="inputZip" class="col-form-label">Parentezco</label>
 						  <input type="text" class="form-control" id="responsable_parentezco" name="responsable_parentezco"
-						  [(ngModel)]="paciente.responsable_parentezco"
+						  [(ngModel)]="paciente.responsable_parentezco" required
 						  >
 						  <i></i>
+						  <span class="msg-validation">Requerido</span>
 						</div>
 					</div>
 				  </div>
@@ -102,7 +109,7 @@
 			<div class="buttons-navigation">
 
 				<button 
-					class="btn btn-default previous" 
+					class="btn btn-default previous hide" 
 					disabled="disabled"
 				> ANTERIOR 
 				</button>

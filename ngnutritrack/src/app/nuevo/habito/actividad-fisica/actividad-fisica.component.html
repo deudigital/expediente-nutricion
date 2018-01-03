@@ -18,7 +18,12 @@
 						<tbody>
 						<ng-template ngFor let-habitosEjercicio [ngForOf]= "habitosEjercicios" let-i="index">
 							<tr>
-								<td><a href="javascript:void(0);" class="remove-item" (click)="remove(habitosEjercicio)"><i></i></a>{{habitosEjercicio.nombre}}</td>
+								<td>
+									<a 
+										href="javascript:void(0);" 
+										class="remove-item" 
+										(click)="remove(habitosEjercicio)" 
+									><i></i></a>{{habitosEjercicio.nombre}}</td>
 								<td>{{habitosEjercicio.horas_semanales}}</td>
 							</tr>
 						</ng-template>
@@ -55,7 +60,10 @@
 							<div class="form-group">							
 								<label for="tiempo_semana">Tiempo por semana</label>
 								<input type="text" class="form-control" 
-									id="tiempo_semana" name="tiempo_semana" placeholder="horas"
+									id="tiempo_semana" 
+									name="tiempo_semana" 
+									placeholder="horas" 									
+									(keypress)="helpers.onKeyPress($event)" 
 									[(ngModel)]="newHabitosEjercicio.horas_semanales"
 									
 									>

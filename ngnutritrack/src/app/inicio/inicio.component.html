@@ -36,11 +36,31 @@
 			</header>
 			
 			<ul>
-			<!-- | async	{{consulta.fecha}}  -->
-				<li *ngFor="let consulta of consultas" (click)="onSelect(consulta)">
-					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.paciente_nombre}} <a href="javascript:void(0);" class="btn btn-default" (click)="onSelect(consulta)">CONTINUAR</a>
+			<!-- | async	{{consulta.fecha}}   (click)="onSelect(consulta)"-->
+				<li *ngFor="let consulta of consultas">
+					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.id}} - {{consulta.paciente_nombre}} 
+					<!--<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.paciente_nombre}} -->
+					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="btn btn-default action continuar" (click)="onSelect(consulta)">CONTINUAR</a>
+					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="remove-item big action eliminar" (click)="onDelete(consulta)"><i></i></a>
 				</li>
 			</ul>
 		</div>
 	</section>
 </div>
+
+<div class="esc-modalbox prompt">
+	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
+	<header>
+		<h4>¿Estas seguro de eliminar esta consulta?</h4>
+	</header>
+	<div class="body">
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block" (click)="promptYes()">Yes</button>
+		</div>
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
+		</div>
+	</div>
+</div>
+<div class="overlay" (click)="promptCancelar()"></div>
+

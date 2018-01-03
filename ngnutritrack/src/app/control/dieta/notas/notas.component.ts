@@ -14,7 +14,9 @@ export class NotasComponent implements OnInit {
 	consulta=new Consulta();
 	oConsulta=new Consulta();
 	tagBody:any;
-
+	finalizar:boolean=false;
+	data:{ [id: string]: any; } = {'0':''};
+	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	  this.model	=	formControlDataService.getFormControlData();
 	  this.consulta	=	this.model.getFormConsulta();
@@ -24,13 +26,12 @@ export class NotasComponent implements OnInit {
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
 	  this.tagBody.classList.add('menu-parent-dieta');
+	  this.finalizar	=	false;
+	  this.data			=	{'0':''};
+	  this.data['id']	=	this.consulta.id;
   }
-  
 	ngOnDestroy() {
-		/*this.formControlDataService.setFormControlData(this.model);
-		this.model.getFormConsulta().set(this.consulta);
-		if(this.infoEdited())
-			this.saveInfo(this.consulta);*/
+		console.log('ngOnDestroy');
 		this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');	
 	}
@@ -38,19 +39,33 @@ export class NotasComponent implements OnInit {
 		this.oConsulta.notas				=	this.consulta.notas;
 	}
 	
-	infoEdited(){
+	/*infoEdited(){
 		return this.oConsulta.notas !== this.consulta.notas;
-	}
+	}*/
 	
+	infoEdited(){
+		var notas_changed	=	false;
+		if(this.oConsulta.notas !== this.consulta.notas){
+			notas_changed	=	true;
+			this.data['notas']	=	[];
+			this.data['notas'][0]	=	this.consulta.notas;
+		}
+		return notas_changed;
+	}
 	saveInfo(data){
 		this.tagBody.classList.add('sending');
-		console.log('saveInfo:sending...');
+		console.log('save Notas...');
 		console.log(data);
 		this.formControlDataService.saveNotasConsulta(data)
 		.subscribe(
 			 response  => {
-						console.log('saveInfo:receiving...');
+						console.log('Response Notas');
 						console.log(response);
+						/*if(this.finalizar){
+							this.formControlDataService.resetFormControlData();
+							this.finalizar	=	false;
+							this.router.navigate(['/inicio']);
+						}*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
@@ -60,15 +75,21 @@ export class NotasComponent implements OnInit {
 	saveForm(){
 		this.formControlDataService.setFormControlData(this.model);
 		this.model.getFormConsulta().set(this.consulta);
-		if(this.infoEdited())
-			this.saveInfo(this.consulta);
+		if(this.infoEdited() || this.finalizar){
+			if(this.finalizar)
+				this.data['finalizar']	=	true;
+			//this.saveInfo(this.consulta);
+			this.saveInfo(this.data);
+		}
+			
 	}
 	Previous(){
-		this.saveForm();
+		//this.saveForm();
 		this.router.navigate(['/patron-menu']);
 	}
 	Next(){
+		this.finalizar	=	true;
 		this.saveForm();
-		this.router.navigate(['/inicio']);
+		
 	}
 }

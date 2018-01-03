@@ -59,7 +59,7 @@ class PrescripcionController extends Controller
 						array(
 							'prescripcion_id'					=>	$prescripcion->id, 
 							'grupo_alimento_nutricionista_id'	=>	$item['id'], 
-							'porciones'							=>	$item['cantidad'], 
+							'porciones'							=>	$item['porciones'], 
 						)
 					);
 				$detalleDescripcion->save();

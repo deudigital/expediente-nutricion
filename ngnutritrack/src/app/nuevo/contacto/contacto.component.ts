@@ -43,69 +43,105 @@ export class ContactoComponent implements OnInit {
 		this.paciente	=	this.fcData.getFormPaciente();
 		console.log(this.paciente);
 		this.mng		=	this.fcData.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(true);
 		this.ubicaciones	=	this.mng.getUbicaciones();
 		this._provincias	=	this.mng.getProvincias();
 		this._cantones	=	this.mng.getCantones();
 		this._distritos	=	this.mng.getDistritos();
-		
 		//console.log('this._cantones');
-		//console.log(this._cantones);
-
-		this.setUbicacion();
-		
+		//console.log(this._cantones);		
 		this.setInfoInit();
+		if(this.ubicaciones)
+			this.setUbicacion();
 	}
 	ngOnInit() {
 		this.goToPrevious	=	false;
 		this.goToNext		=	false;
 	}
 	ngOnDestroy() {
-		/*this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
-		if(this.infoEdited()){
-			this.saveInfo(this.paciente);
-		}*/
 		this.saveForm();
 	}
+	
+	filterItems(query) {
+		//x => x.codigo_provincia === 1, x => x.codigo_distrito === 1 ,  && x.codigo_canton === 1
+		
+		return this.ubicaciones.filter(function(x) {
+			return x => x.codigo_provincia === 1;
+		});
+	}
+
 /*	 
 id 	
 codigo_provincia 	codigo_canton 	codigo_distrito 	codigo_barrio
 nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
 */	
 	setUbicacion(){console.log('this.paciente.ubicacion_id-> ' + this.paciente.ubicacion_id);
-		if(!this.paciente.ubicacion_id)
-			return ;
-		var ubicacion	=	this.ubicaciones.filter(x => x.id === this.paciente.ubicacion_id);
+		var	ubicacion_id	=	6345;
+		if(this.paciente.ubicacion_id>0)
+			ubicacion_id	=	this.paciente.ubicacion_id;
+			
 		
-		console.log(ubicacion);//console.log(this.ubicaciones);
-		this.setCantones(ubicacion.codigo_provincia);
-		this.setDistritos(ubicacion.codigo_provincia, ubicacion.codigo_canton);
+		var ubicacion	=	this.ubicaciones.filter(x => x.id === ubicacion_id);
+		ubicacion	=	ubicacion[0];
+		console.log('ubicacion');
+		console.log(ubicacion);
+		
+		 //setTimeout(() => {
+                //this.provincia	=	2;
+           // }, 1000);
+		
+		
+		
+		//this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_provincia === 1 && x.codigo_canton === 1 && x.codigo_distrito === 1);
+				
+		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === ubicacion.codigo_provincia);		
+		this.filter_distritos	=	this._distritos.filter(x => x.codigo_provincia === ubicacion.codigo_provincia && x.codigo_canton === ubicacion.codigo_canton);
+		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_provincia === ubicacion.codigo_provincia && x.codigo_canton === ubicacion.codigo_canton && x.codigo_distrito === ubicacion.codigo_distrito);
+		this.canton		=	ubicacion.codigo_canton;
+		this.distrito	=	ubicacion.codigo_distrito;
+		this.provincia	=	ubicacion.codigo_provincia;
+		
+		
+		this.paciente.ubicacion_id	=	ubicacion_id;
+		return ;
+/*		
+		
+
 		var prov	=	new Provincia(ubicacion.codigo_provincia, ubicacion.nombre_provincia);
-		/*prov.codigo_provincia		=	ubicacion.codigo_provincia;
-		prov.nombre_provincia		=	ubicacion.nombre_provincia;*/
+		/ *prov.codigo_provincia		=	ubicacion.codigo_provincia;
+		prov.nombre_provincia		=	ubicacion.nombre_provincia;* /
 		this.provincia	=	prov;
+		
+		this.setCantones(ubicacion.codigo_provincia);
 		var cant	=	new Canton(ubicacion.codigo_canton, ubicacion.nombre_canton, ubicacion.codigo_provincia);
 		this.canton		=	cant;
 		
+		this.setDistritos(ubicacion.codigo_provincia, ubicacion.codigo_canton);
 		var dist	=	new Distrito(ubicacion.codigo_distrito, ubicacion.nombre_distrito, ubicacion.codigo_canton, ubicacion.codigo_provincia);
-		this.distrito	=	dist;		
-		/*this.barrio		=	ubicacion;*/
+		this.distrito	=	dist;*/
+
 	}
-	setCantones(codigo_provincia){
+/*	setCantones(codigo_provincia){
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === codigo_provincia);
 	}
 	setDistritos(codigo_provincia, codigo_canton){
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === codigo_canton && x.codigo_provincia === codigo_provincia);
 	}
-	selectCantones(event:Event):void {console.log(this.provincia);
-		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia.codigo_provincia);
-		//console.log(this.filter_cantones);
+*/
+	selectCantones(event:Event):void {console.log('selectCantones de provincia->' + this.provincia);
+		//this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia.codigo_provincia);
+		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
+		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
+		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 	}
-	selectDistritos(event:Event):void {console.log(this.canton);
-		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton.codigo_canton && x.codigo_provincia === this.canton.codigo_provincia);
-		//console.log(this.filter_distritos);
+	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);
+		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
+		
+		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
+		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 	}
-	selectBarrios(event:Event):void {console.log(this.distrito);
-		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito.codigo_distrito && x.codigo_canton === this.distrito.codigo_canton && x.codigo_provincia === this.distrito.codigo_provincia);
+	selectBarrios(event:Event):void {console.log('selectBarrios de Distrito->' + this.distrito);
+		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		//console.log(this.filter_barrios);
 	}
 	setInfoInit(){
@@ -137,12 +173,12 @@ nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
 
 	}
 	saveInfo(data){
-		console.log('saveInfo:sending...');
+		console.log('save Contacto...');
 		console.log(data);
 		this.formControlDataService.saveDatosContacto(data)
 		.subscribe(
 			 response  => {
-						console.log('saveInfo:receiving...');
+						console.log('Response Contacto');
 						console.log(response);						
 					},
 			error =>  console.log(<any>error)

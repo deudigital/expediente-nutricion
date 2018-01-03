@@ -1,14 +1,25 @@
 export class FormControlData {
+	aaa:string='class FormControlData';
+	dataFilled:boolean=false;
+	paciente_id:number=0;
+	nutricionista_id:number=0;	
+	dieta_desayuno_ejemplo:string			=	'';
+	dieta_media_manana_ejemplo:string		=	'';
+	dieta_almuerzo_ejemplo:string			=	'';
+	dieta_media_tarde_ejemplo:string		=	'';	
+	dieta_cena_ejemplo:string				=	'';
+	dieta_coicion_nocturna_ejemplo:string	=	'';
+
+	helpers						=	new Helpers();
 	manejadorDatos				=	new ManejadorDatos();
-	consulta:Consulta			=	new Consulta();	
-	paciente:Paciente			=	new Paciente();	
-	prescripcion:Prescripcion	=	new Prescripcion();
-	valoracionAntropometrica	= 	new ValoracionAntropometrica();
-	rdd:Rdd						=	new Rdd();	
+	paciente:Paciente			=	new Paciente();
+	consulta:Consulta			=	new Consulta();
 	gustos						=	new HabitosGusto();
-	habitosOtro					=	new HabitosOtro();
+	habitosOtro					=	new HabitosOtro();	
+	valoracionAntropometrica	= 	new ValoracionAntropometrica();
+	prescripcion:Prescripcion	=	new Prescripcion();
+	rdd:Rdd						=	new Rdd();
 	
-	patronmenu:any[]			=	[];
 	bioquimicas:any[]			=	[];
 	patologias:any[]			=	[];
 	alergias:any[]				=	[];
@@ -16,102 +27,65 @@ export class FormControlData {
 	objetivos:any[]				=	[];
 	ejercicios:any[]			=	[];
 	valoracionDietetica:any[]	=	[];
+	valoracionDieteticaEjemplo:any[]	=	[];
 
-/*	Paciente	*/
-	paciente_id:number=0;
-	nutricionista_id:number=0;//Math.floor((Math.random()*5)+1);
-	
-	dieta_desayuno_ejemplo:string='';
-	dieta_media_manana_ejemplo:string='';
-	dieta_almuerzo_ejemplo:string='';
-	dieta_media_tarde_ejemplo:string='';	
-	dieta_cena_ejemplo:string='';
-	dieta_coicion_nocturna_ejemplo:string='';
-
-/*	ValoracionAntropometrica	*/
-    estatura: number = 0;
-    circunferencia_muneca : number = 0;
-    peso: number = 0;
-    grasa: number = 0;
-    musculo: number = 0;
-    agua: number = 0;
-    grasa_viceral: number = 0;
-    hueso: number = 0;
-    edad_metabolica: number = 0;
-    circunferencia_cintura: number = 0;
-    circunferencia_cadera: number = 0;
-
-/*	Analisis	*/	
-	imc: number = 0;
-    pesoIdeal : number =0;
-    pesoIdealAjustado: number = 0;
-    diferenciaPeso: number = 0;
-    adecuacion: number = 0;
-    relacionCinturaCadera: number = 0;
-    porcentajePeso: number = 0;
-    gradoSobrepeso: number = 0;
-    pesoMetaMaximo: number = 0;
-    pesoMetaMinimo: number = 0;
+	patronmenu:any[]			=	[];
 
     clear() {
-		console.log('fcd::clear()')
-        this.estatura = 0;
-        this.circunferencia_muneca = 0;
-        this.peso = 0;
-        this.grasa = 0;
-        this.musculo = 0;
-        this.agua = 0;
-        this.grasa_viceral = 0;
-        this.hueso = 0;
-        this.edad_metabolica = 0;
-        this.circunferencia_cintura = 0;
-        this.circunferencia_cadera = 0;
-		
-		//console.log('fcd::this.manejadorDatos.operacion-> ' + this.manejadorDatos.operacion)
 		if(this.manejadorDatos.operacion!='nueva-consulta'){
-			//console.log('new Paciente()');
 			this.paciente			=	new Paciente();
 			this.paciente.nutricionista_id	=	this.nutricionista_id;
-			//console.log('hcp');
 			/*	HCP	*/
 			this.patologias			=	[];
 			this.alergias			=	[];
 			this.bioquimicas		=	[];
-			//console.log('hcf');
 			/*	HCF	*/
 			this.hcf_patologias		=	[];
-			//console.log('objetivos');
 			/*	OBJETIVOS	*/
 			this.objetivos			=	[];
-			//console.log('habitos');
 			/*	HABITOS	*/
 			this.ejercicios			=	[];
 			this.valoracionDietetica=	[];
+			this.valoracionDieteticaEjemplo=	[];
 			this.gustos				=	new HabitosGusto();
 			this.habitosOtro		=	new HabitosOtro();			
 		}
-		//console.log('new Consulta()');
 		this.consulta					=	new Consulta();			
-		//console.log('new Prescripcion()');
 		this.prescripcion				=	new Prescripcion();
-		//console.log('new ValoracionAntropometrica()');
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
-		/**/
 		this.rdd						=	new Rdd();
-		//console.log('new Rdd()');
-		this.patronmenu					=	[];
-		//console.log('patronmenu[]');
-		//this.valoracionDietetica		=	[];
+		this.patronmenu					=	[];		
+		this.dataFilled	=	false;
+		console.log('fcd:limpiado');
+		console.log(this);
 	}
 	setNutricionistaId(nutricionista_id){
 		this.nutricionista_id	=	nutricionista_id;
 	}
-	fill(data){console.log('filling');console.log(data);
+	fill(data){
+		console.log('filling');console.log(data);
+
 		this.consulta.set(data);
-		//var paciente	=	data.paciente[0];
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
 		
+		
+		/*	HCP	*/
+		this.patologias			=	[];
+		this.alergias			=	[];
+		this.bioquimicas		=	[];
+		/*	HCF	*/
+		this.hcf_patologias		=	[];
+		/*	OBJETIVOS	*/
+		this.objetivos			=	[];
+		/*	HABITOS	*/
+		this.ejercicios			=	[];
+		this.valoracionDietetica=	[];
+		this.valoracionDieteticaEjemplo=	[];
+		this.gustos				=	new HabitosGusto();
+		this.habitosOtro		=	new HabitosOtro();	
+			
+			
 		if(data.paciente['hcp']){
 			var hcp	=	data.paciente['hcp'];
 			if(hcp['patologias'])
@@ -144,44 +118,42 @@ export class FormControlData {
 			if(habitos['valoracionDietetica'])
 				this.valoracionDietetica	=	habitos['valoracionDietetica'];
 			
+			if(habitos['valoracionDieteticaEjemplo'])
+				this.valoracionDieteticaEjemplo	=	habitos['valoracionDieteticaEjemplo'];
+			
 			if(habitos['otros'])
 				this.habitosOtro	=	habitos['otros'];
 			else
 				this.habitosOtro.paciente_id	=	this.paciente.id;
 			
 		}
-
-		/**/
-		
 		/*	VA	*/
 		this.valoracionAntropometrica.consulta_id	=	this.consulta.id;
 		if(data.va){
-			/*var va			=	data.va[0];*/
 			var va			=	data.va;
 			this.valoracionAntropometrica.set(va);
 		}
 		this.rdd.consulta_id	=	this.consulta.id;
 		if(data.rdd){
 /*	RDDS	*/
-			/*var rdd 							=	data.rdd[0];*/
 			var rdd 							=	data.rdd;
 			this.rdd.set(rdd);
 		}
 /*	Dieta	*/
 		this.prescripcion.consulta_id	=	this.consulta.id;
+		this.prescripcion.items			=	[];
+		this.prescripcion.otros			=	[];
 		if(data.dieta){
 			if(data.dieta.prescripcion){
 /*		Prescripcion */
-				/*var prescripcion		=	data.dieta.prescripcion[0];*/
 				var prescripcion		=	data.dieta.prescripcion;
 				this.prescripcion.set(prescripcion);
-			}else
-				this.prescripcion.items	=	[];
-			
+			}			
 /*		Patron Menu	*/
 			if(data.dieta.patron_menu)
 				this.patronmenu			=	data.dieta.patron_menu;
 		}
+		this.dataFilled	=	true;
 	}
 	getFormConsulta():Consulta{
 		return this.consulta;
@@ -193,6 +165,7 @@ export class FormControlData {
 		this.consulta.estado			=	consulta.estado;
 		this.consulta.paciente_id		=	consulta.paciente_id;
 		this.consulta.paciente_nombre	=	consulta.paciente_nombre;
+		localStorage.setItem('consulta_id', String(this.consulta.id));
 	}
 	getFormPaciente():Paciente{
 		return this.paciente;
@@ -212,8 +185,8 @@ export class FormControlData {
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
-			obj.hcp_patologia_id	=	item.id;//item.hcf_patologia_id;
-			obj.paciente_id			=	this.paciente.id;//item.paciente_id;
+			obj.hcp_patologia_id	=	item.id;
+			obj.paciente_id			=	this.paciente.id;
 			patologiasSelected[j]	=	obj;
 			j++;
 		}
@@ -260,8 +233,8 @@ export class FormControlData {
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
 			obj.notas				=	item.notas;
-			obj.hcf_patologia_id	=	item.id;//item.hcf_patologia_id;
-			obj.paciente_id			=	this.paciente.id;//item.paciente_id;
+			obj.hcf_patologia_id	=	item.id;
+			obj.paciente_id			=	this.paciente.id;
 			patologiasSelected[j]	=	obj;
 			j++;
 		}
@@ -285,35 +258,14 @@ export class FormControlData {
 	getFormValoracionAntropometrica(){
 		return this.valoracionAntropometrica;
 	}
-	/*getFormHcpPatologias(){
-		return this.hcpPatologias;
-	}*/
 	setPatronMenu(patron_menu){
 		this.patronmenu			=	patron_menu;
 	}
-	setValoracionDietetica(valoracionDietetica){console.log('setValoracionDietetica');
-		var _array	=	[];
-/*
-categoria_valoracion_dietetica_id: "1"
-porciones: {…}
-_1: 7
-_2: 6
-_3: 5
-*/
-		for(var i in valoracionDietetica){
-			var vd	=	valoracionDietetica[i];
-			var cvd	=	vd.categoria_valoracion_dietetica_id;
-			for(var j in vd.porciones){
-				var obj	=	{};
-				obj['categoria_valoracion_dietetica_id']	=	cvd;
-				obj['grupo_alimento_nutricionista_id']		=	j.substring(1, 1);
-				obj['paciente_id']	=	this.paciente.id;
-				obj['porciones']	=	vd.porciones[j];
-				_array.push(obj);
-			}
-		}console.log(_array);
-		//this.valoracionDietetica			=	valoracionDietetica;
-		this.valoracionDietetica			=	_array;
+	setValoracionDietetica(data){
+		this.valoracionDietetica=	data;
+	}
+	setValoracionDieteticaEjemplo(data){
+		this.valoracionDieteticaEjemplo	=	data;
 	}
 	setFormPaciente(data){
 		this.paciente.persona_id		=	data.persona_id;
@@ -344,10 +296,9 @@ _3: 5
 		
 		this.paciente.edad				=	data.edad;
 		this.paciente.esMayor			=	data.edad>17;
-
+		
+		localStorage.setItem('paciente_id', String(this.paciente.persona_id));
 	}
-	
-	
 	getFormRdd():Rdd{
 		return this.rdd;
 	}
@@ -356,6 +307,9 @@ _3: 5
 	}
 	getManejadorDatos():ManejadorDatos{
 		return this.manejadorDatos;
+	}
+	getHelpers():Helpers{
+		return this.helpers;
 	}
 }
 export class Persona{
@@ -371,29 +325,10 @@ export class Persona{
 	canton:string=''
 	distrito:string=''
 	detalles_direccion:string='';
-	ubicacion_id:number=0;
+	ubicacion_id:number=1;
 	
 	edad:number=0;
 	esMayor:boolean=true;
-/*	
-	public esMenor():boolean{
-		if (this.fecha_nac) {		
-			var current_fecha = this.fecha_nac.split('/');	
-			console.log(current_fecha);
-			var year	=	Number(current_fecha[2]);
-			var month	=	Number(current_fecha[1]);
-			var day		=	Number(current_fecha[0]);
-			var fecha	=	new Date(year, month, day).getTime();
-			var today	=	new Date().getTime();
-			console.log(fecha + ' - ' + today )			
-			var timeDiff = Math.abs(Date.now() - fecha);
-			console.log(timeDiff);
-			var edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);
-			console.log(edad);
-			return this.edad<18;			
-		}
-		return false;
-	}*/
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -433,8 +368,6 @@ export class Paciente extends Persona{
 		this.responsable_email		=	data.responsable_email;
 		this.usuario			=	data.usuario;
 		this.contrasena			=	data.contrasena;
-		
-		
 
 		this.id					=	data.id;
 		this.cedula				=	data.cedula;
@@ -452,24 +385,8 @@ export class Paciente extends Persona{
 		
 		this.edad				=	data.edad;
 		this.esMayor			=	data.esMayor;
-		
-		
-		/*
-		if(data.paciente['hcp']){			
-			if(data.paciente['hcp']['patologias']){
-				this.paciente.setPatologias(data.paciente['hcp']['patologias']);
-			}
-
-			if(data.paciente['hcp']['alergias'])
-				this.alergias	=	data.paciente['hcp']['alergias'];
-			
-			if(data.paciente['hcp']['bioquimicas'])
-				this.bioquimicas	=	data.paciente['hcp']['bioquimicas'];
-		}*/
-		
 	}
 }
-
 export class ValoracionAntropometrica {
     id: number = 0;
     estatura: number = 0;
@@ -484,6 +401,8 @@ export class ValoracionAntropometrica {
     circunferencia_cintura: number = 0;
 	circunferencia_cadera: number = 0;
 	consulta_id: number = 0;
+	pesoIdeal: number = 0;
+	pesoIdealAjustado: number = 0;
 	
 	detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
 	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();
@@ -508,7 +427,6 @@ export class ValoracionAntropometrica {
 			this.detalleGrasa	=	data.detalleGrasa;
 		if(data.detalleMusculo)
 			this.detalleMusculo	=	data.detalleMusculo;
-		
 
 	}
 	getDetalleMusculo(){
@@ -516,6 +434,31 @@ export class ValoracionAntropometrica {
 	}
 	getDetalleGrasa(){
 		return this.detalleGrasa;
+	}
+	setPesos(peso, estatura, genero){
+		var pesoIdeal	=	this.getPesoIdeal(estatura, genero);
+		this.getPesoIdealAjustado(peso, pesoIdeal);
+	}
+	getPesoIdeal(estatura, genero){
+
+/*
+=SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
+*/
+		var factor_1	=	45.5;
+		var factor_2	=	2.27;
+		if(genero=='M'){
+			factor_1	=	47.7;
+			factor_2	=	2.72;
+		}
+		this.pesoIdeal	=	(estatura*100-152)*factor_2/2.5+factor_1;
+		return this.pesoIdeal;
+	}
+	getPesoIdealAjustado(peso, pesoIdeal){
+/*
+=(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
+*/
+		this.pesoIdealAjustado	=(peso-pesoIdeal)/(4)+(pesoIdeal);
+		return this.pesoIdealAjustado;
 	}
 }
 export class Rdd{
@@ -539,29 +482,29 @@ export class Rdd{
 		this.promedio_gc_diario			=	rdd.promedio_gc_diario;
 		this.variacion_calorica			=	rdd.variacion_calorica;
 		this.consulta_id				=	rdd.consulta_id;
-		this.tmb				=	rdd.tmb;
-		this.gcr				=	rdd.gcr;
-		this.icr				=	rdd.icr;
+		this.tmb						=	rdd.tmb;
+		this.gcr						=	rdd.gcr;
+		this.icr						=	rdd.icr;
 	}
 }
 export class Analisis {
-    imc: number = 0;
-    pesoIdeal : number =0;
-    pesoIdealAjustado: number = 0;
-    diferenciaPeso: number = 0;
-    adecuacion: number = 0;
+    imc: number 				=	0;
+    pesoIdeal : number 			=	0;
+    pesoIdealAjustado: number	=	0;
+    diferenciaPeso: number 		=	0;
+    adecuacion: number 			=	0;
     relacionCinturaCadera: number = 0;
-    porcentajePeso: number = 0;
-    gradoSobrepeso: number = 0;
-    pesoMetaMaximo: number = 0;
-    pesoMetaMinimo: number = 0;
+    porcentajePeso: number	=	0;
+    gradoSobrepeso: number 	=	0;
+    pesoMetaMaximo: number 	=	0;
+    pesoMetaMinimo: number 	=	0;
 }
-
 export class Consulta {
 	id:number;
 	fecha:number;
 	notas:string;
 	estado:boolean;
+	finalizar:boolean=false;
 	paciente_id:number;
 	paciente_nombre:string;
 
@@ -596,10 +539,14 @@ export class Prescripcion{
 	proteinas:number=0;
 	grasas:number=0;
 	consulta_id:number;
-	items:PrescripcionItem[]=[];
+	itemsByDefault:PrescripcionItem[]=[];
+	items:any[]=[];
+	otros:any[]=[];
 
 	constructor(){
 		this.prepareItems();
+		this.items	=	[];
+		this.otros	=	[];
 	}
 	set(prescripcion:Prescripcion){
 		this.id				=	prescripcion.id;
@@ -607,46 +554,37 @@ export class Prescripcion{
 		this.proteinas		=	prescripcion.proteinas;
 		this.grasas			=	prescripcion.grasas;
 		this.consulta_id	=	prescripcion.consulta_id;
-		console.log('prescripcion.items.length: ' + prescripcion.items.length);
+		if(!prescripcion.items){
+			this.prepareItems();
+			return ;
+		}
 		if(prescripcion.items.length>0){
 			this.items	=	prescripcion.items;
 		}else{
-			/*this.items	=[				//							id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
-							new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
-							new PrescripcionItem(2, 'Leche 2%', 'leche-2', 'leche_2', 0, 0, 0, 0, 0),
-							new PrescripcionItem(3, 'Leche entera', 'leche-entera', 'leche_entera', 0, 0, 0, 0, 0),
-							new PrescripcionItem(4, 'Vegetales', 'vegetales', 'vegetales', 0, 0, 0, 0, 0),
-							new PrescripcionItem(5, 'Frutas', 'frutas', 'frutas', 0, 0, 0, 0, 0),
-							new PrescripcionItem(6, 'Harinas', 'harinas', 'harinas', 0, 0, 0, 0, 0),
-							new PrescripcionItem(7, 'Carne Magra', 'carne-magra', 'carne_magra', 0, 0, 0, 0, 0),
-							new PrescripcionItem(8, 'Carne Intermedia', 'carne-intermedia', 'carne_intermedia', 0, 0, 0, 0, 0),
-							new PrescripcionItem(9, 'Carne Grasa', 'carne-grasa', 'carne_grasa', 0, 0, 0, 0, 0),
-							new PrescripcionItem(10, 'Azúcares', 'azucares', 'azucares', 0, 0, 0, 0, 0),
-							new PrescripcionItem(11, 'Grasas', 'grasas', 'grasas', 0, 0, 0, 0, 0),
-							new PrescripcionItem(12, 'Vasos de Agua', 'vaso-agua', 'vaso_agua', 0, 0, 0, 0, 0)
-						];*/
 			this.prepareItems();
 		}
-		
+		if(prescripcion.otros.length>0)
+			this.otros	=	prescripcion.otros;
 	}
 	prepareItems(){
-		this.items	=[				//							id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
-							new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada', 'leche_descremada', 0, 0, 0, 0, 0),
-							new PrescripcionItem(2, 'Leche 2%', 'leche-2', 'leche_2', 0, 0, 0, 0, 0),
-							new PrescripcionItem(3, 'Leche entera', 'leche-entera', 'leche_entera', 0, 0, 0, 0, 0),
-							new PrescripcionItem(4, 'Vegetales', 'vegetales', 'vegetales', 0, 0, 0, 0, 0),
-							new PrescripcionItem(5, 'Frutas', 'frutas', 'frutas', 0, 0, 0, 0, 0),
-							new PrescripcionItem(6, 'Harinas', 'harinas', 'harinas', 0, 0, 0, 0, 0),
-							new PrescripcionItem(7, 'Carne Magra', 'carne-magra', 'carne_magra', 0, 0, 0, 0, 0),
-							new PrescripcionItem(8, 'Carne Intermedia', 'carne-intermedia', 'carne_intermedia', 0, 0, 0, 0, 0),
-							new PrescripcionItem(9, 'Carne Grasa', 'carne-grasa', 'carne_grasa', 0, 0, 0, 0, 0),
-							new PrescripcionItem(10, 'Azúcares', 'azucares', 'azucares', 0, 0, 0, 0, 0),
-							new PrescripcionItem(11, 'Grasas', 'grasas', 'grasas', 0, 0, 0, 0, 0),
-							new PrescripcionItem(12, 'Vasos de Agua', 'vaso-agua', 'vaso_agua', 0, 0, 0, 0, 0)
-						];
+		this.itemsByDefault	=[//id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
+			new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada'),
+			new PrescripcionItem(2, 'Leche 2%', 'leche-2'),
+			new PrescripcionItem(3, 'Leche entera', 'leche-entera'),
+			new PrescripcionItem(4, 'Vegetales', 'vegetales'),
+			new PrescripcionItem(5, 'Frutas', 'frutas'),
+			new PrescripcionItem(6, 'Harinas', 'harinas'),
+			new PrescripcionItem(7, 'Carne Magra', 'carne-magra'),
+			new PrescripcionItem(8, 'Carne Intermedia', 'carne-intermedia'),
+			new PrescripcionItem(9, 'Carne Grasa', 'carne-grasa'),
+			new PrescripcionItem(10, 'Azúcares', 'azucares'),
+			new PrescripcionItem(11, 'Grasas', 'grasas'),
+			new PrescripcionItem(12, 'Vasos con Agua', 'vaso-agua')
+		];
 	}
 }
 export class ManejadorDatos{
+	aarchivo:string='class ManejadorDatos';
 	operacion:string='nuevo-paciente';
 	consulta_id:number=0;
 	nutricionista_id:number=0;
@@ -654,6 +592,8 @@ export class ManejadorDatos{
 	lastStatusMenuPaciente:boolean=false;
 	enableLink:boolean=false;
 	extraInfoAlimentos:any[];
+	
+	dataStored:boolean=false;
 	
 	hcpPatologias:any;
 	hcfPatologias:any;
@@ -664,7 +604,6 @@ export class ManejadorDatos{
 	provincias:any[]=[];
 	cantones:any[]=[];
 	distritos:any[]=[];
-	
 		
 	setEnableLink(enable){
 		this.enableLink	=	enable;
@@ -709,7 +648,6 @@ export class ManejadorDatos{
 		return this.distritos;
 	}
 	setExtraInfoAlimentos(){
-		
 		this.extraInfoAlimentos['0']	=	'';
 		this.extraInfoAlimentos['1']	=	{'slug':'leche-descremada', 'ngmodel':'leche_descremada'};
 		this.extraInfoAlimentos['2']	=	{'slug':'leche-2', 'ngmodel':'leche_2'};
@@ -724,7 +662,7 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
 	}
-	fillDataForm(data){
+	fillDataForm(data, local=false){console.log('fillDataForm');console.log(data);
 		this.hcpPatologias	=	data.hcp_patologias;
 		this.hcfPatologias	=	data.hcf_patologias;
 		this.alergias		=	data.alergias;
@@ -732,15 +670,33 @@ export class ManejadorDatos{
 		this.tiempo_comidas	=	data.tiempo_comidas;
 		this.ubicaciones	=	data.ubicaciones;
 		this.createInfoUbicacion();
+		if(!local)
+			this.storeLocal();
+	}
+	storeLocal(){console.log('storeLocal');
+		var data	=	{};
+		data['hcp_patologias']	=	this.hcpPatologias;
+		data['hcf_patologias']	=	this.hcfPatologias;
+		data['alergias']		=	this.alergias;
+		data['ejercicios']		=	this.ejercicios;
+		data['tiempo_comidas']	=	this.tiempo_comidas;
+		data['ubicaciones']		=	this.ubicaciones;
+		data['provincias']		=	this.provincias;
+		data['cantones']		=	this.cantones;
+		data['distritos']		=	this.distritos;
+		localStorage.setItem('data', JSON.stringify(data));
+		this.dataStored	=	true;
 	}
 	createInfoUbicacion(){
 		var ubicacion;
 		var obj;
-		
 		var prov;
 		var cant;
 		var dist;
-		
+		if(!this.ubicaciones){
+			console.log('NOT this.ubicaciones');
+			return ;
+		}
 		for(var i in this.ubicaciones){
 			ubicacion	=	this.ubicaciones[i];
 			
@@ -772,31 +728,47 @@ export class ManejadorDatos{
 		console.log('ubicaciones procesadas...');
 	}
 }
+export class Helpers{
+/*
+Modo de Uso
+<input (keypress)="helpers.onKeyPress($event)"> 
+*/
+	onKeyPress(e: any):boolean {
+		let input;
+		if (e.metaKey || e.ctrlKey)
+			return true;
+
+		if (e.which === 32)
+			return false;
+
+		if (e.which === 0)
+			return true;
+
+		if (e.which < 33)
+			return true;
+
+		input = String.fromCharCode(e.which);		
+		console.log(e.which + ' -> ' + input);
+		
+		return !!/[\d\s]/.test(input);
+	}
+	in_array(data, ele){
+		return data.indexOf(ele)>-1;
+	}
+}
 export class Ejercicio{
 	id:number;
 	nombre:string;
 	mets:string;
 }
 export class PrescripcionItem{
-	
-	constructor(public id:number, public nombre:string, public slug:string, public ngmodel:string, public porciones:number, public carbohidratos:number, public proteinas:number, public grasas:number, public kcal:number=0) {
+	constructor(public id:number, public nombre:string, public slug:string, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public kcal:number=0) {
   }
-/*	id:number;
-	nombre:string;
-	/*slug:string;
-	ngmodel:string;
-	cantidad:number=0;
-	carbohidratos:number=0;
-	proteinas:number=0;
-	grasas:number=0;
-	kcal:number=0;*/
 }
 export class PatronMenu{
-/*, public consulta_id:number*/	
 	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public porciones:number, public ejemplo:string ){}
 }
 export class PatronMenuEjemplo{
-//	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public ejemplo:string ){}
 	dieta_desayuno_ejemplo:string='';
 	dieta_media_manana_ejemplo:string='';
 	dieta_almuerzo_ejemplo:string='';
@@ -836,7 +808,6 @@ export class DetalleMusculo{
 	brazo_izquierdo:number=0;
 	brazo_derecho:number=0;
  	valoracion_antropometrica_id:number=0;
-		
 }
 export class Patologia{
 	constructor(public id:number, public nombre:string, public checked:boolean){}
@@ -878,7 +849,6 @@ export class HabitosOtro{
 	public notas:string;
 	public paciente_id:number; 
 }
-
 export class HabitosEjercicio{
 	public paciente_id:number;
 	public ejercicio_id:number;
@@ -887,7 +857,6 @@ export class HabitosEjercicio{
 	public mets:number;
 	
 }
-
 export class Provincia{
 	constructor(public codigo_provincia, public nombre_provincia){}
 }
@@ -897,10 +866,21 @@ export class Canton{
 export class Distrito{
 	constructor(public codigo_distrito, public nombre_distrito, public codigo_canton, public codigo_provincia){}
 }
+export class DetalleValoracionDieteticaTexto{
+	public textoDesayuno:string='';
+	public textoMediaManana:string='';
+	public textoAlmuerzo:string='';
+	public textoMediaTarde:string='';
+	public textoCena:string='';
+	public textoCoicionNocturna:string='';
 
-
-
-
-
-
-
+	public textoAgua:string='';
+	public textoGaseosa:string='';
+	public textoJugosEmpacados:string='';
+	public textoComidasRapidas:string='';
+	public textoAlimentosEmpacados:string='';
+	public textoEmbutidos:string='';
+}
+export class OtroAlimento{
+	constructor( public nombre:string, public prescripcion_id:number, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public calorias:number=0){}
+}

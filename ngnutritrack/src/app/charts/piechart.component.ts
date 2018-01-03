@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { GooglePieChartService } from './../../Services/google-pie-chart.service';
-import { PieChartConfig } from './../../Models/PieChartConfig';
+import { GooglePieChartService } from '../services/google-pie-chart.service';
+import { PieChartConfig } from '../models/PieChartConfig';
 
 declare var google: any;
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ComboChartConfig } from './../../Models/ComboChartConfig';
-import { GoogleComboChartService } from './../../Services/google-combo-chart.service';
+import { ComboChartConfig } from '../models/ComboChartConfig';
+import { GoogleComboChartService } from '../services/google-combo-chart.service';
 
 declare var google: any;
 
