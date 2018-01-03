@@ -74,12 +74,12 @@ export class ReporteFacturaComponent implements OnInit {
     this.formControlDataService.getTipos()
       .subscribe(
         response  =>  {
-          let res = response.text();
+          /*let res = response.text();
           let resArray = []
 
           resArray = res.split('<br />');
-          //this.tipo = response;
-          this.tipos = JSON.parse(resArray[2]);  
+          this.tipos = JSON.parse(resArray[2]);  */
+          this.tipo = response;          
         },
         error =>  {
           console.log(error);
@@ -92,13 +92,13 @@ export class ReporteFacturaComponent implements OnInit {
 		.subscribe(
 			 response  => {
 
-			 		let res = response.text();
+			 		/*let res = response.text();
 			 		let resArray = []
 
 			 		resArray = res.split('<br />');
-          this.factura = JSON.parse(resArray[2]);
+          this.factura = JSON.parse(resArray[2]);*/
 
-          //this.factura = response;
+          this.factura = response;
 
           for(let doc in this.factura){
             for(let item in this.tipos){
@@ -128,8 +128,7 @@ export class ReporteFacturaComponent implements OnInit {
   }
 
   filterQuery(){  
-
-    console.log(this.tipo);
+    
     this.resultArray = [];
 
     //filter dates      

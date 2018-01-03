@@ -96,12 +96,12 @@ export class ServiciosProductosComponent implements OnInit {
 		this.formControlDataService.getMeasures()
 		.subscribe(
 			response => {
-						let res = response.text();
+						/*let res = response.text();
 			 			let resArray = [] 
 
 			 			resArray = res.split('<br />');			 			
-			 			this.unidades = JSON.parse(resArray[2]);
-			 			//this.unidades = response;
+			 			this.unidades = JSON.parse(resArray[2]);*/
+			 			this.unidades = response;
 			},
 			error => {
 				console.log(error);
@@ -113,14 +113,14 @@ export class ServiciosProductosComponent implements OnInit {
 		this.formControlDataService.getProducts()
 		.subscribe(
 			 response  => {
-			 			let res = response.text();
+			 			/*let res = response.text();
 			 			let resArray = [] 
 
 			 			resArray = res.split('<br />');		
 
-			 			this.productos = JSON.parse(resArray[2]);
+			 			this.productos = JSON.parse(resArray[2]);*/
 
-			 			//this.productos = response;
+			 			this.productos = response;
 
 			 			for(let producto in this.productos){
 			              for(let item in this.unidades){			            			               
