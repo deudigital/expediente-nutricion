@@ -35,13 +35,19 @@ export class ContactoComponent implements OnInit {
 	filter_barrios:{ [id: string]: any; };
 	ubicaciones:any;
 	mng:any;
+
+	btnNavigation_pressed:boolean;
+
 	goToNext:boolean;
-	goToPrevious:boolean;
+	goToPrevious:boolean;	
+	page:string;
+	
+	pacienteNuevo:boolean;
 	
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();
-		console.log(this.paciente);
+		/*console.log(this.paciente);*/
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 		this.ubicaciones	=	this.mng.getUbicaciones();
@@ -55,45 +61,34 @@ export class ContactoComponent implements OnInit {
 			this.setUbicacion();
 	}
 	ngOnInit() {
+		this.btnNavigation_pressed	=	false;
 		this.goToPrevious	=	false;
 		this.goToNext		=	false;
+		this.pacienteNuevo	=	false;
+		/*if(this.mng.operacion!='nuevo-paciente')
+			this.mng.setEnableLink(false);
+		else
+			this.pacienteNuevo	=	true;*/
+		if(this.mng.operacion=='nuevo-paciente')
+			this.pacienteNuevo	=	true;
 	}
 	ngOnDestroy() {
-		this.saveForm();
+		if(!this.btnNavigation_pressed)
+			this.saveForm();
 	}
-	
-	filterItems(query) {
-		//x => x.codigo_provincia === 1, x => x.codigo_distrito === 1 ,  && x.codigo_canton === 1
-		
+	/*filterItems(query) {
 		return this.ubicaciones.filter(function(x) {
 			return x => x.codigo_provincia === 1;
 		});
-	}
-
-/*	 
-id 	
-codigo_provincia 	codigo_canton 	codigo_distrito 	codigo_barrio
-nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
-*/	
-	setUbicacion(){console.log('this.paciente.ubicacion_id-> ' + this.paciente.ubicacion_id);
+	}*/
+	setUbicacion(){//console.log('this.paciente.ubicacion_id-> ' + this.paciente.ubicacion_id);
 		var	ubicacion_id	=	6345;
 		if(this.paciente.ubicacion_id>0)
 			ubicacion_id	=	this.paciente.ubicacion_id;
-			
-		
+
 		var ubicacion	=	this.ubicaciones.filter(x => x.id === ubicacion_id);
 		ubicacion	=	ubicacion[0];
-		console.log('ubicacion');
-		console.log(ubicacion);
-		
-		 //setTimeout(() => {
-                //this.provincia	=	2;
-           // }, 1000);
-		
-		
-		
-		//this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_provincia === 1 && x.codigo_canton === 1 && x.codigo_distrito === 1);
-				
+		//console.log('ubicacion');console.log(ubicacion);
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === ubicacion.codigo_provincia);		
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_provincia === ubicacion.codigo_provincia && x.codigo_canton === ubicacion.codigo_canton);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_provincia === ubicacion.codigo_provincia && x.codigo_canton === ubicacion.codigo_canton && x.codigo_distrito === ubicacion.codigo_distrito);
@@ -104,45 +99,19 @@ nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
 		
 		this.paciente.ubicacion_id	=	ubicacion_id;
 		return ;
-/*		
-		
-
-		var prov	=	new Provincia(ubicacion.codigo_provincia, ubicacion.nombre_provincia);
-		/ *prov.codigo_provincia		=	ubicacion.codigo_provincia;
-		prov.nombre_provincia		=	ubicacion.nombre_provincia;* /
-		this.provincia	=	prov;
-		
-		this.setCantones(ubicacion.codigo_provincia);
-		var cant	=	new Canton(ubicacion.codigo_canton, ubicacion.nombre_canton, ubicacion.codigo_provincia);
-		this.canton		=	cant;
-		
-		this.setDistritos(ubicacion.codigo_provincia, ubicacion.codigo_canton);
-		var dist	=	new Distrito(ubicacion.codigo_distrito, ubicacion.nombre_distrito, ubicacion.codigo_canton, ubicacion.codigo_provincia);
-		this.distrito	=	dist;*/
-
 	}
-/*	setCantones(codigo_provincia){
-		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === codigo_provincia);
-	}
-	setDistritos(codigo_provincia, codigo_canton){
-		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === codigo_canton && x.codigo_provincia === codigo_provincia);
-	}
-*/
 	selectCantones(event:Event):void {console.log('selectCantones de provincia->' + this.provincia);
-		//this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia.codigo_provincia);
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 	}
 	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);
-		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
-		
+		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);		
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 	}
 	selectBarrios(event:Event):void {console.log('selectBarrios de Distrito->' + this.distrito);
 		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
-		//console.log(this.filter_barrios);
 	}
 	setInfoInit(){
 		this.oPaciente.telefono				=	this.paciente.telefono;
@@ -175,11 +144,17 @@ nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
 	saveInfo(data){
 		console.log('save Contacto...');
 		console.log(data);
+		if(!this.paciente.id){
+			console.log('sin datos de paciente id');
+			return ;
+		}
 		this.formControlDataService.saveDatosContacto(data)
 		.subscribe(
 			 response  => {
-						console.log('Response Contacto');
-						console.log(response);						
+						console.log('<--Crud Contacto');
+						console.log(response);
+						this.mng.setEnableLink(true);
+						this.goTo(this.page);
 					},
 			error =>  console.log(<any>error)
 		);
@@ -190,11 +165,24 @@ nombre_provincia 	nombre_canton 	nombre_distrito 	nombre_barrio
 			this.saveInfo(this.paciente);
 	}
 	Previous(){
-		this.saveForm();
-		this.router.navigate(['/personales']);
+		this.btnNavigation_pressed	=	true;
+		if(this.pacienteNuevo){
+			this.page	=	'/personales';
+			this.saveForm();
+		}else
+			this.router.navigate(['/personales']);
 	}
 	Next(){
-		this.saveForm();
-		this.router.navigate(['/hcp']);
+		this.btnNavigation_pressed	=	true;		
+		if(this.pacienteNuevo){
+			this.page	=	'/hcp';
+			this.saveForm();
+		}else
+			this.router.navigate(['/hcp']);
+		
+	}
+	goTo(page){
+		if(this.btnNavigation_pressed)
+			this.router.navigate([page]);
 	}
 }

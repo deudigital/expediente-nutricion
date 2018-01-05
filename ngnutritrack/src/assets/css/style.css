@@ -23,7 +23,7 @@ i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-
 .form-control::-moz-placeholder {font-size:10px}
 .form-control:-ms-input-placeholder {font-size:10px}
 .form-control:-moz-placeholder {font-size:10px}
-.btn {background-color: #8bc23f;color: #fff;border-radius: 15px;padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;}
+.btn {-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius: 25px;-khtml-border-radius: 25px;background-color: #8bc23f;color: #fff;padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:none !important}
 .btn-default:hover,
 .btn-default.focus, .btn-default:focus {color: #fff;background-color: #cc2026;border-color: #cc2026;}
 .btn.red {background-color: #cc2026;padding-left: 45px;padding-right: 45px;}
@@ -112,6 +112,9 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-nav .list-group > li.habito > a:hover > i,
 .content-nav .list-group > li.habito > a.active > i {background-position: -310px -241px;width: 45px;height: 47px;}
 .content-nav .board-inner.control .current-menu{}
+
+.content-nav .list-group > li > a.disabled {pointer-events: none;}
+.content-nav .list-group > li.current-step-consulta ~ li > a{pointer-events: none;}
 /********************/
 .page-title {position: relative;padding-left: 30px;font-size:18px;}
 .page-title:before {background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 910px;content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}

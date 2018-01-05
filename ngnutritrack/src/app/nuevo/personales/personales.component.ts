@@ -16,7 +16,12 @@ export class PersonalesComponent implements OnInit {
 	paciente=new Paciente();
 	oPaciente=new Paciente();
 	esMenor:boolean=false;
-	public fecha_nac: any = { date: {year: 2000, month: 1, day:1 } };;
+
+	btnNavigation_pressed:boolean;
+	page:string;
+	pacienteNuevo:boolean;
+	
+	public fecha_nac: any = { date: {year: 2000, month: 10, day:15 } };;
 
 	public birthdayOptions: IMyDpOptions = {
 		dateFormat: 'dd/mm/yyyy',
@@ -29,21 +34,27 @@ export class PersonalesComponent implements OnInit {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
-		console.log(this.paciente);		
+		//console.log(this.paciente);
 		this.setInfoInit();
 		
 		this.mng.setMenuPacienteStatus(true);
 	}
 
 	ngOnInit() {
+		this.btnNavigation_pressed	=	false;
 		//this.verificarEdad();
+		this.pacienteNuevo	=	this.mng.operacion=='nuevo-paciente';
+		
+			
 	}
 	ngOnDestroy() {
-		this.saveForm();
+		if(!this.btnNavigation_pressed)
+			this.saveForm();
 	}
 	setInfoInit(){
 		if(this.paciente.fecha_nac){
-			var current_fecha = this.paciente.fecha_nac.split('/');	
+			var current_fecha = this.paciente.fecha_nac.split('/');
+			console.log(current_fecha);
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
 			var day		=	Number(current_fecha[0]);		
@@ -60,6 +71,14 @@ export class PersonalesComponent implements OnInit {
 	}
 	
 	infoEdited(){
+		console.log(this.oPaciente.cedula + ' !==' + this.paciente.cedula);
+		console.log(this.oPaciente.nombre + ' !==' + this.paciente.nombre);
+		console.log(this.oPaciente.genero + ' !==' + this.paciente.genero);
+		console.log(this.oPaciente.fecha_nac + ' !==' + this.paciente.fecha_nac);
+		console.log(this.oPaciente.responsable_cedula + ' !==' + this.paciente.responsable_cedula);
+		console.log(this.oPaciente.responsable_nombre + ' !==' + this.paciente.responsable_nombre);
+		console.log(this.oPaciente.responsable_parentezco + '!==' + this.paciente.responsable_parentezco);
+
 		return 	(
 			this.oPaciente.cedula					!==	this.paciente.cedula || 
 			this.oPaciente.nombre					!==	this.paciente.nombre || 
@@ -72,16 +91,17 @@ export class PersonalesComponent implements OnInit {
 
 	}
 	saveInfo(data){
-		console.log('save Datos Personales...');
+		console.log('Crud Datos Personales-->');
 		console.log(data);
 		this.formControlDataService.saveDatosPersonales(data)
 		.subscribe(
 			 response  => {
-						console.log('Response Datos Personales');
+						console.log('<--Crud Datos Personales');
 						console.log(response);
 						this.updatePacienteInfo(response);
-						this.mng.setEnableLink(true);
-						this.router.navigate(['/contacto']);
+						//this.mng.setEnableLink(true);
+						//this.router.navigate(['/contacto']);
+						this.goTo(this.page);
 						
 					},
 			error =>  console.log(<any>error)
@@ -94,14 +114,23 @@ export class PersonalesComponent implements OnInit {
 	}
 	
 	Next(){
-		this.saveForm();
+		this.btnNavigation_pressed	=	true;
+		if(this.pacienteNuevo){
+			this.page	=	'/contacto';
+			this.saveForm();
+		}else
+			this.router.navigate(['/contacto']);
+	}
+	goTo(page){
+		if(this.btnNavigation_pressed)
+			this.router.navigate([page]);
 	}
 	updatePacienteInfo(data){
 		this.paciente.id		=	data.id;
 		this.paciente.persona_id=	data.id;
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
 		//this.formControlDataService.getFormPaciente.id	=	data.id;
-		this.mng.setEnableLink(true);
+		//this.mng.setEnableLink(true);
 	}
 	get mostrarFormParentezco(){
 		return this.verificarEdad();

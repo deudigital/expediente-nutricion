@@ -25,8 +25,6 @@ import { ControlNavCenterComponent } from './control/control-nav/control-nav-cen
 import { DietaNavComponent } from './control/dieta/dieta-nav/dieta-nav.component';
 import { HabitoNavComponent } from './nuevo/habito/habito-nav/habito-nav.component';
 
-import { ModalPatronmenuComponent } from './control/dieta/patronmenu/modal-patronmenu/modal-patronmenu.component';
-
 import { NuevoComponent } from './nuevo/nuevo.component';
 import { PersonalesComponent } from './nuevo/personales/personales.component';
 import { ContactoComponent } from './nuevo/contacto/contacto.component';
@@ -94,7 +92,7 @@ import {FileService} from './services/file.service';
                    { provide: LoginRedirect, useClass: LoginRedirect },
                    { provide: FileService, useClass: FileService },
 				   ],
-    declarations: [ AppComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PatronmenuComponent, PrescripcionComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, ModalPatronmenuComponent, NavigationComponent, LogoutComponent, LineChartComponent, FileUploadComponent ],
+    declarations: [ AppComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PatronmenuComponent, PrescripcionComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, NavigationComponent, LogoutComponent, LineChartComponent, FileUploadComponent ],
     bootstrap:    [ AppComponent ]
 })
 

@@ -75,18 +75,23 @@ export class ValoracionComponent implements OnInit {
 	hidecircunferencia_cadera:boolean=true;
 	hidecircunferencia_muneca:boolean=true;
 	allowCalculate:boolean=false;
+	nuevaConsulta:boolean=false;
 
-  errorMessage: string;
-  images: Array<any>= [];
+	errorMessage: string;
+	images: Array<any>= [];
+  
+	btnNavigation_pressed:boolean;
+	page:string;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model	=	formControlDataService.getFormControlData();
 		var mng	=	this.model.getManejadorDatos();
 		mng.setMenuPacienteStatus(false);
-		console.log(this.model);
-		if(!this.model.consulta.id)
-			return ;
-
+		this.nuevaConsulta	=	false;
+		if(mng.operacion=='nueva-consulta')
+			this.nuevaConsulta	=	true;			
+		
+		//console.log(this.model);
 		this.getDatosDeConsulta(this.model.consulta.id);
     }
 	ngOnInit() {
@@ -94,23 +99,35 @@ export class ValoracionComponent implements OnInit {
 		// this.getImageData();
 	}
 	ngOnDestroy() {
-		this.saveForm();
+		if(!this.btnNavigation_pressed)
+			this.saveForm();
 	}
 	setInfoInit(){
-		this.oValoracion.estatura				=	this.valoracion.estatura;
-		this.oValoracion.circunferencia_muneca	=	this.valoracion.circunferencia_muneca;
-		this.oValoracion.peso					=	this.valoracion.peso;
-		this.oValoracion.grasa					=	this.valoracion.grasa;
-		this.oValoracion.musculo				=	this.valoracion.musculo;
-		this.oValoracion.agua					=	this.valoracion.agua;
-		this.oValoracion.grasa_viceral			=	this.valoracion.grasa_viceral;
-		this.oValoracion.hueso					=	this.valoracion.hueso;
-		this.oValoracion.edad_metabolica		=	this.valoracion.edad_metabolica;
-		this.oValoracion.circunferencia_cintura	=	this.valoracion.circunferencia_cintura;
-		this.oValoracion.circunferencia_cadera	=	this.valoracion.circunferencia_cadera;
+		this.oValoracion.estatura				=	Number(this.valoracion.estatura);
+		this.oValoracion.circunferencia_muneca	=	Number(this.valoracion.circunferencia_muneca);
+		this.oValoracion.peso					=	Number(this.valoracion.peso);
+		this.oValoracion.grasa					=	Number(this.valoracion.grasa);
+		this.oValoracion.musculo				=	Number(this.valoracion.musculo);
+		this.oValoracion.agua					=	Number(this.valoracion.agua);
+		this.oValoracion.grasa_viceral			=	Number(this.valoracion.grasa_viceral);
+		this.oValoracion.hueso					=	Number(this.valoracion.hueso);
+		this.oValoracion.edad_metabolica		=	Number(this.valoracion.edad_metabolica);
+		this.oValoracion.circunferencia_cintura	=	Number(this.valoracion.circunferencia_cintura);
+		this.oValoracion.circunferencia_cadera	=	Number(this.valoracion.circunferencia_cadera);
 	}
 	
 	infoEdited(){
+		/*console.log(this.oValoracion.estatura + '!==' + Number(this.valoracion.estatura));
+		console.log(this.oValoracion.circunferencia_muneca + '!==' + Number(this.valoracion.circunferencia_muneca));
+		console.log(this.oValoracion.peso	 + '!==' + Number(this.valoracion.peso));
+		console.log(this.oValoracion.grasa	 + '!==' + Number(this.valoracion.grasa));
+		console.log(this.oValoracion.musculo + '!==' + Number(this.valoracion.musculo));
+		console.log(this.oValoracion.agua	 + '!==' + Number(this.valoracion.agua));
+		console.log(this.oValoracion.grasa_viceral + '!==' + Number(this.valoracion.grasa_viceral));
+		console.log(this.oValoracion.hueso	 + '!==' + Number(this.valoracion.hueso));
+		console.log(this.oValoracion.edad_metabolica	 + '!==' + Number(this.valoracion.edad_metabolica));
+		console.log(this.oValoracion.circunferencia_cintura + '!==' + Number(this.valoracion.circunferencia_cintura));
+		console.log(this.oValoracion.circunferencia_cadera + '!==' + Number(this.valoracion.circunferencia_cadera));*/
 		return 	(
 			this.oValoracion.estatura				!==	Number(this.valoracion.estatura) || 
 			this.oValoracion.circunferencia_muneca	!==	Number(this.valoracion.circunferencia_muneca) || 
@@ -127,10 +144,12 @@ export class ValoracionComponent implements OnInit {
 
 	}
 	getDatosDeConsulta(consulta_id){
+		if(!consulta_id)
+			return ;
+		
 		this.allowCalculate	=	false;
-		console.log('getConsultaSelected(' + consulta_id + ')');
 		this.formControlDataService.getConsultaSelected(consulta_id).subscribe(
-			data => {console.log('Response getConsultaSelected(' + consulta_id + ')');console.log(data);
+			data => {//console.log('<!--cRud getConsultaSelected(' + consulta_id + ')');console.log(data);console.log('-->');
 				this.model.fill(data);
 				this.valoracion		=	this.model.getFormValoracionAntropometrica();
 				this.detalleMusculo	=	this.valoracion.getDetalleMusculo();
@@ -143,12 +162,12 @@ export class ValoracionComponent implements OnInit {
 			error => console.log(<any>error)
 		);
 	}
-	getHistorial(){console.log('getHistorial()');
-		var paciente_id	=	this.model.consulta.paciente_id;console.log('paciente_id: ' + paciente_id);
+	getHistorial(){//console.log('getHistorial()');
+		var paciente_id	=	this.model.consulta.paciente_id;//console.log('paciente_id: ' + paciente_id);
 		this.formControlDataService.select('valoracionAntropometrica', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('Respuesta');
+						console.log('<!--cRud Historial valoracionAntropometrica');
 						console.log(response);
 						this.historial	=	response;
 						this.createGraphs();
@@ -159,7 +178,7 @@ export class ValoracionComponent implements OnInit {
 	createGraphs(){
 		if(this.historial.length==0)
 			return ;
-		console.log('processing graphics');
+		//console.log('processing graphics');
 		var toGraph = '';
 		var date;
 		var new_date;
@@ -319,15 +338,15 @@ export class ValoracionComponent implements OnInit {
 		this.config4 = new LineChartConfig('peso estatura', options, columns);
 		this.elementId4 = 'myLineChart4';
 	}
-	createValoracionAntropometrica(valoracionAntropometrica) {
-		/*console.log(valoracionAntropometrica);*/
+	createValoracionAntropometrica(valoracionAntropometrica) {/*console.log(valoracionAntropometrica);*/
 		this.tagBody.classList.add('sending');
 		this.formControlDataService.addValoracionAntropometrica(valoracionAntropometrica)
 		.subscribe(
 			 response  => {
-						console.log('va receiving...');
+						console.log('<!--Crud va');
 						console.log(response);
 						this.tagBody.classList.remove('sending');
+						this.goTo(this.page);
 						},
 			error =>  console.log(<any>error)
 		);
@@ -427,7 +446,7 @@ export class ValoracionComponent implements OnInit {
 		this.formControlDataService.saveDatosMusculo(data)
 		.subscribe(
 			 response  => {
-						console.log('Response Musculo');
+						console.log('<!--Crud Musculo');
 						console.log(response);
 						this.detalleMusculo.id	=	response['id'];
 						this.tagBody.classList.remove('sending');
@@ -709,11 +728,23 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		this.saveForm();
 		this.router.navigate(['/personales']);
 	}*/
-	Next(){
+/*	Next(){
 		this.saveForm();
 		this.router.navigate(['/recomendacion']);
+	}*/
+	Next(){
+		this.btnNavigation_pressed	=	true;		
+		if(this.nuevaConsulta){
+			this.page	=	'/recomendacion';
+			this.saveForm();
+		}else
+			this.router.navigate(['/recomendacion']);
+		
 	}
-
+	goTo(page){
+		if(this.btnNavigation_pressed)
+			this.router.navigate([page]);
+	}
 	
 	  getImageData(){
     this.fileService.getImages().subscribe(

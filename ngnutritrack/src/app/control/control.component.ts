@@ -15,7 +15,9 @@ export class ControlComponent implements OnInit {
 	selectedConsulta: Consulta;
 	selectedPaciente: Paciente;
 	tagBody:any;
+	mng:any;
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		this.pacientes = formControlDataService.getPacientesDeNutricionista();
 	}
 	ngOnInit() {
@@ -31,28 +33,15 @@ export class ControlComponent implements OnInit {
 	onSelect(paciente: Paciente) {
 		this.selectedPaciente = paciente;
 		
-		this.formControlDataService.resetFormControlData();
-		
+		this.formControlDataService.resetFormControlData();		
 		this.formControlDataService.setPaciente(paciente);
-		var mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
-		mng.setOperacion('nueva-consulta');
-		mng.setMenuPacienteStatus(false);
-		mng.setEnableLink(true);
-		//this.createConsulta(paciente);
+		
+		this.mng.setOperacion('nueva-consulta');
+		this.mng.setMenuPacienteStatus(false);
+		this.mng.setEnableLink(true);
+		this.mng.setCurrentStepConsulta('va');
 		this.save(paciente);
-	}
-	createConsulta(paciente) {
-		this.formControlDataService.addConsulta(paciente)
-		.subscribe(
-			 response  => {
-					/*console.log(response);*/
-						this.formControlDataService.setSelectedConsuta(response['data']);
-						this.router.navigate(['/valoracion']);
-						},
-			error =>  console.log(<any>error)
-		);
-	}
-	
+	}	
 	save(data){
 		this.formControlDataService.store('consulta', data)
 		.subscribe(
@@ -60,6 +49,9 @@ export class ControlComponent implements OnInit {
 						console.log('Service:consulta->receiving...');
 						console.log(response);
 						this.formControlDataService.setSelectedConsuta(response['data']);
+						if(response['va'])
+							this.formControlDataService.getFormControlData().setLastValuesFormValoracionAntropometrica(response['va']);
+						
 						this.router.navigate(['/valoracion']);
 						},
 			error =>  console.log(<any>error)

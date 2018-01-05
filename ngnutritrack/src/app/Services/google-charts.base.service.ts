@@ -2,7 +2,7 @@ declare var google: any;
 
 export class GoogleChartsBaseService {
   constructor() { 
-    google.charts.load('current', {'packages':['corechart', 'line']});
+    google.charts.load('current', {'packages':['corechart', 'line'], 'language':'es'});
   }
 
   protected buildChart(data: any[], chartFunc: any, options: any) : void {

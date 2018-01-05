@@ -9,7 +9,7 @@
 		</li>
 	</ul>
 </div>
-	<div *ngIf="showMenuPaciente">
+	<div *ngIf="showMenuPaciente" [ngClass]="{'show-menu-paciente': showMenuPaciente }">
 			<ul class="list-group">
 				<li class="list-group-item personales">
 					<a routerLink="/personales" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
@@ -52,19 +52,19 @@
 	<div *ngIf="isConsulta">
 		<h3 class="current-menu">Consulta en Curso</h3>
 		<ul class="list-group">
-			<li class="list-group-item valoracion">
+			<li class="list-group-item valoracion" [ngClass]="{'current-step-consulta': control_va }">
 				<a routerLink="/valoracion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
 					<span>Valoración Antropom&eacute;trica</span>
 					<i></i>
 				</a>
 			</li>
-			<li class="list-group-item recomendacion">
+			<li class="list-group-item recomendacion" [ngClass]="{'current-step-consulta': control_rdd }">
 				<a routerLink="/recomendacion" routerLinkActive="active">
 					<span>Recomendaciones diet&eacute;ticas diarias</span>
 					<i class="icon"></i>
 				</a>
 			</li>
-			<li class="list-group-item dieta">
+			<li class="list-group-item dieta" [ngClass]="{'current-step-consulta': control_dieta }">
 				<a routerLink="/dieta" routerLinkActive="active">
 					<span>Dieta</span>
 					<i class="icon"></i>

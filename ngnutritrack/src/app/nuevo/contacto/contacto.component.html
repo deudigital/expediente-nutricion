@@ -31,6 +31,7 @@
 							  [(ngModel)]="paciente.email"
 							  >
 							  <i></i>
+							   <span class="msg-validation">El Correo electronico es InV&aacute;lido</span>
 						</div>
 					</div>
 				</div>
@@ -102,7 +103,8 @@
 						(click)="Previous()"
 					> ANTERIOR 
 					</button>
-					<button class="btn btn-success next"
+					<button class="btn btn-success next" 
+						[disabled]="!contactForm.valid"
 						(click)="Next()"
 						> SIGUIENTE 
 						</button>

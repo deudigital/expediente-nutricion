@@ -42,6 +42,7 @@ export class InicioComponent implements OnInit {
 		this.formControlDataService.setSelectedConsuta(consulta);
 		
 		this.mng.setOperacion('continuar-consulta');
+		this.mng.setCurrentStepConsulta('');
 		this.mng.setMenuPacienteStatus(false);
 		this.router.navigate(['/valoracion']);
 	}

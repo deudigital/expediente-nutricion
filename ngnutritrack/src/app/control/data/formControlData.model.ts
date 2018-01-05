@@ -56,15 +56,14 @@ export class FormControlData {
 		this.rdd						=	new Rdd();
 		this.patronmenu					=	[];		
 		this.dataFilled	=	false;
-		console.log('fcd:limpiado');
-		console.log(this);
+		/*console.log('fcd:limpiado');
+		console.log(this);*/
 	}
 	setNutricionistaId(nutricionista_id){
 		this.nutricionista_id	=	nutricionista_id;
 	}
 	fill(data){
-		console.log('filling');console.log(data);
-
+		console.log('cargando Datos...');console.log(data);
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
@@ -142,7 +141,7 @@ export class FormControlData {
 /*	Dieta	*/
 		this.prescripcion.consulta_id	=	this.consulta.id;
 		this.prescripcion.items			=	[];
-		this.prescripcion.otros			=	[];
+		//this.prescripcion.otros			=	[];
 		if(data.dieta){
 			if(data.dieta.prescripcion){
 /*		Prescripcion */
@@ -258,6 +257,10 @@ export class FormControlData {
 	getFormValoracionAntropometrica(){
 		return this.valoracionAntropometrica;
 	}
+	setLastValuesFormValoracionAntropometrica(va){
+		this.valoracionAntropometrica.estatura				=	va.estatura;
+		this.valoracionAntropometrica.circunferencia_muneca	=	va.circunferencia_muneca;
+	}
 	setPatronMenu(patron_menu){
 		this.patronmenu			=	patron_menu;
 	}
@@ -329,6 +332,31 @@ export class Persona{
 	
 	edad:number=0;
 	esMayor:boolean=true;
+	
+	setEdad(){
+		this.edad	=	0;
+		if(!this.fecha_nac)
+			return ;
+		var birthday = this.fecha_nac.split('/');	
+		var year	=	Number(birthday[2]);
+		var month	=	Number(birthday[1]);
+		var day		=	Number(birthday[0]);
+		var fecha	=	new Date(year, month, day).getTime();
+		var timeDiff = Math.abs(Date.now() - fecha);
+		this.edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);		
+		this.esMayor	=	this.edad>17;	
+		
+/*
+		this.fecha_nac	=	this.fecha_nac.date.day + '/' + this.fecha_nac.date.month + '/' + this.fecha_nac.date.year;;
+		var fecha	=	new Date(this.fecha_nac.date.year, this.fecha_nac.date.month, this.fecha_nac.date.day).getTime();
+		var timeDiff = Math.abs(Date.now() - fecha);
+		var edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);		
+		this.paciente.esMayor	=	edad>17;	
+*/
+	}
+	getEdad(){
+		return this.edad;
+	}
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -385,6 +413,8 @@ export class Paciente extends Persona{
 		
 		this.edad				=	data.edad;
 		this.esMayor			=	data.esMayor;
+		
+		this.setEdad();
 	}
 }
 export class ValoracionAntropometrica {
@@ -548,13 +578,21 @@ export class Prescripcion{
 		this.items	=	[];
 		this.otros	=	[];
 	}
-	set(prescripcion:Prescripcion){
+	set(prescripcion:Prescripcion){console.log('set:prescripcion');console.log(prescripcion);
 		this.id				=	prescripcion.id;
 		this.carbohidratos	=	prescripcion.carbohidratos;
 		this.proteinas		=	prescripcion.proteinas;
 		this.grasas			=	prescripcion.grasas;
 		this.consulta_id	=	prescripcion.consulta_id;
-		if(!prescripcion.items){
+		
+		if(prescripcion.items){
+			this.items	=	prescripcion.items;
+		}else
+			this.prepareItems();
+
+		if(prescripcion.otros)
+			this.otros	=	prescripcion.otros;
+/*		if(!prescripcion.items){
 			this.prepareItems();
 			return ;
 		}
@@ -563,8 +601,10 @@ export class Prescripcion{
 		}else{
 			this.prepareItems();
 		}
+
 		if(prescripcion.otros.length>0)
 			this.otros	=	prescripcion.otros;
+*/
 	}
 	prepareItems(){
 		this.itemsByDefault	=[//id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
@@ -604,6 +644,8 @@ export class ManejadorDatos{
 	provincias:any[]=[];
 	cantones:any[]=[];
 	distritos:any[]=[];
+	
+	currentStepConsulta:string='';
 		
 	setEnableLink(enable){
 		this.enableLink	=	enable;
@@ -662,7 +704,7 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
 	}
-	fillDataForm(data, local=false){console.log('fillDataForm');console.log(data);
+	fillDataForm(data, local=false){console.log('Datos para formularios');console.log(data);
 		this.hcpPatologias	=	data.hcp_patologias;
 		this.hcfPatologias	=	data.hcf_patologias;
 		this.alergias		=	data.alergias;
@@ -673,7 +715,7 @@ export class ManejadorDatos{
 		if(!local)
 			this.storeLocal();
 	}
-	storeLocal(){console.log('storeLocal');
+	storeLocal(){//console.log('storeLocal');
 		var data	=	{};
 		data['hcp_patologias']	=	this.hcpPatologias;
 		data['hcf_patologias']	=	this.hcfPatologias;
@@ -694,7 +736,7 @@ export class ManejadorDatos{
 		var cant;
 		var dist;
 		if(!this.ubicaciones){
-			console.log('NOT this.ubicaciones');
+			//console.log('NOT this.ubicaciones');
 			return ;
 		}
 		for(var i in this.ubicaciones){
@@ -725,7 +767,14 @@ export class ManejadorDatos{
 				this.distritos.push(dist);
 			}
 		}
-		console.log('ubicaciones procesadas...');
+		//console.log('ubicaciones procesadas...');
+	}
+
+	setCurrentStepConsulta(step){
+		this.currentStepConsulta	=	step;
+	}
+	getCurrentStepConsulta(){
+		return this.currentStepConsulta;
 	}
 }
 export class Helpers{
@@ -748,8 +797,7 @@ Modo de Uso
 			return true;
 
 		input = String.fromCharCode(e.which);		
-		console.log(e.which + ' -> ' + input);
-		
+		//console.log(e.which + ' -> ' + input);		
 		return !!/[\d\s]/.test(input);
 	}
 	in_array(data, ele){
@@ -882,5 +930,6 @@ export class DetalleValoracionDieteticaTexto{
 	public textoEmbutidos:string='';
 }
 export class OtroAlimento{
-	constructor( public nombre:string, public prescripcion_id:number, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public calorias:number=0){}
+	//constructor( public nombre:string, public prescripcion_id:number, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public calorias:number=0){}
+	constructor( public nombre:string, public prescripcion_id:number){}
 }

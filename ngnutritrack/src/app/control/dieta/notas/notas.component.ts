@@ -61,11 +61,11 @@ export class NotasComponent implements OnInit {
 			 response  => {
 						console.log('Response Notas');
 						console.log(response);
-						/*if(this.finalizar){
+						if(this.finalizar){
 							this.formControlDataService.resetFormControlData();
 							this.finalizar	=	false;
 							this.router.navigate(['/inicio']);
-						}*/
+						}
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)

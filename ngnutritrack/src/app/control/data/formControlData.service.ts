@@ -83,7 +83,7 @@ export class FormControlDataService {
 	}
 	
 	store(module:string, data:any): Observable<any[]> {
-		console.log('Store:' + module + '->sending...');
+		console.log('Crud:' + module + '-->');
 		console.log(data);
 		var serviceUrl	=	this.apiURL;
 		switch(module){
@@ -92,6 +92,9 @@ export class FormControlDataService {
 				break;
 			case 'otros_alimentos':
 				serviceUrl	+=	'consultas/otros';
+				break;
+			case 'otros_alimentos_multiples':
+				serviceUrl	+=	'consultas/otrosmultiple';
 				break;
 			case 'objetivos':
 				serviceUrl	+=	'pacientes/objetivos';
@@ -126,7 +129,7 @@ export class FormControlDataService {
 				.map((response: Response) => response.json());
 	}
 	delete(module:string, data:any): Observable<any[]> {
-		console.log('Delete:' + module + '...');
+		console.log('cruD:' + module + '-->');
 		console.log(data);
 		var serviceUrl	=	this.apiURL;
 		switch(module){
@@ -147,7 +150,7 @@ export class FormControlDataService {
 				.map((response: Response) => response.json());
 	}
 	select(module:string, data:any): Observable<any[]> {
-		console.log('GET ' + module + '...');
+		console.log('cRud ' + module + '-->');
 		console.log(data);
 		var serviceUrl	=	this.apiURL;
 		switch(module){
@@ -180,54 +183,5 @@ export class FormControlDataService {
     resetFormControlData(): FormControlData {
         this.formControlData.clear();
         return this.formControlData;
-    }
-/*
-	getAnalisis():Analisis{
-		var analisis:Analisis={
-			imc: this.formControlData.imc,
-			pesoIdeal : this.formControlData.pesoIdeal,
-			pesoIdealAjustado: this.formControlData.pesoIdealAjustado,
-			diferenciaPeso: this.formControlData.diferenciaPeso,
-			adecuacion: this.formControlData.adecuacion,
-			relacionCinturaCadera: this.formControlData.relacionCinturaCadera,
-			porcentajePeso: this.formControlData.porcentajePeso,
-			gradoSobrepeso: this.formControlData.gradoSobrepeso,
-			pesoMetaMaximo: this.formControlData.pesoMetaMaximo,
-			pesoMetaMinimo: this.formControlData.pesoMetaMinimo
-		}
-		return analisis;
-	}
-    setAnalisis(data: Analisis) {
-        this.formControlData.imc	=	this.formControlData.imc;
-		this.formControlData.pesoIdeal = data.pesoIdeal;
-		this.formControlData.pesoIdealAjustado= data.pesoIdealAjustado;
-		this.formControlData.diferenciaPeso= data.diferenciaPeso;
-		this.formControlData.adecuacion= data.adecuacion;
-		this.formControlData.relacionCinturaCadera= data.relacionCinturaCadera;
-		this.formControlData.porcentajePeso= data.porcentajePeso;
-		this.formControlData.gradoSobrepeso= data.gradoSobrepeso;
-		this.formControlData.pesoMetaMaximo= data.pesoMetaMaximo;
-		this.formControlData.pesoMetaMinimo= data.pesoMetaMinimo;
-    }
-	addConsulta__0(paciente: Paciente): Observable<Consulta[]> {
-		//let headers = new Headers({ 'Content-Type': 'application/json' });
-		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' });
-		let options = new RequestOptions({ headers: headers });
-		var data={paciente_id:paciente.id}
-		return this.http.post(this.apiURL + 'consultas', data, options)
-			.map((response: Response) => response.json())
-			.catch((error: any) => Observable.throw(error.json().error));		
-	}
-	addConsulta_1(paciente: Paciente){
-		//let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' });
-		let headers = new Headers({ 'Content-Type': 'application/json' });
-//		headers.append('Access-Control-Allow-Origin','*');
-
-		let options = new RequestOptions({ headers: headers });
-		var data={paciente_id:paciente.id};
-		return this.http.post(this.apiURL + 'consultas', data, options)
-			.subscribe((res:Response)=>{console.log()});
-	}
-*/
-	
+    }	
 }

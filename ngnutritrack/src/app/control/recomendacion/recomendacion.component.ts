@@ -14,6 +14,7 @@ export class RecomendacionComponent implements OnInit {
 	oRdd=new Rdd();
 	recomendacion=new Rdd();
 	model:any;
+	mng:any;
 	jarvis:any;
 	va:any;
 	paciente:any;
@@ -36,6 +37,7 @@ export class RecomendacionComponent implements OnInit {
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
+		this.mng	=	this.model.getManejadorDatos();
 		this.jarvis	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
 		this.paciente	=	this.model.getFormPaciente();
@@ -55,7 +57,8 @@ export class RecomendacionComponent implements OnInit {
 		this.saveForm();
 	}
 	setGastoCaloricoActividadFisica(){
-		if(this.recomendacion.promedio_gc_diario>0)
+		//if(this.recomendacion.promedio_gc_diario>0)
+		if(this.mng.operacion!='nueva-consulta')
 			return ;
 
 		var gasto_calorico_total_semanal	=	0;
@@ -67,7 +70,7 @@ export class RecomendacionComponent implements OnInit {
 		console.log('gasto_calorico_total_semanal: ' + gasto_calorico_total_semanal);
 		gasto_calorico_total_semanal	=	gasto_calorico_total_semanal / 7;
 		console.log('gasto_calorico_total_semanal / 7: ' + gasto_calorico_total_semanal);
-		this.recomendacion.promedio_gc_diario	=	gasto_calorico_total_semanal;
+		this.recomendacion.promedio_gc_diario	=	Math.round(gasto_calorico_total_semanal);
 	}
 	getHistorial(){
 		var paciente_id	=	this.paciente.persona_id;
@@ -82,8 +85,7 @@ export class RecomendacionComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	processHistorial(data){
-		console.log('processing historial rdds');
+	processHistorial(data){//console.log('processing historial rdds');
 		var _rdds	=	[];
 		var _rdd;
 		var item;
@@ -91,8 +93,10 @@ export class RecomendacionComponent implements OnInit {
 		var tmbMifflin;
 		for(var i in data){
 			item	=	data[i];
-			tmbBenedict			=	this._tmbBenedict(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);
-			tmbMifflin			=	this._tmbMifflin(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);
+			/*tmbBenedict			=	this._tmbBenedict(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);
+			tmbMifflin			=	this._tmbMifflin(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);*/
+			tmbBenedict			=	this._tmbBenedict(this.paciente.genero, item.peso, item.estatura, item.edad);
+			tmbMifflin			=	this._tmbMifflin(this.paciente.genero, item.peso, item.estatura, item.edad);
 			item.tmb			=	this._tmbPromedio(tmbBenedict,tmbMifflin);
 			item.gc_real		=	this._gastoCaloricoReal(item.metodo_calculo_gc, tmbBenedict, tmbMifflin, item.tmb, item.factor_actividad_sedentaria, item.promedio_gc_diario );
 			item.gc_recomendado	=	this._ingestaCaloricaRecomendada(item.gc_real, item.variacion_calorica)
@@ -100,7 +104,7 @@ export class RecomendacionComponent implements OnInit {
 		}
 		this.historial	=	_rdds;
 	}
-	createGraphs(){console.log('processing graphics');
+	createGraphs(){//console.log('processing graphics');
 		var toGraph = '';
 		var date;
 		var new_date;
@@ -185,7 +189,7 @@ export class RecomendacionComponent implements OnInit {
 		this.graficos	=	items;
 		this.tagBody.classList.add('grafico-selected-promedio_gc_diario');
 	}
-	graficoSelected(header){//console.log(header);
+	graficoSelected(header){
 		this.tagBody.classList.remove('grafico-selected-promedio_gc_diario');
 		this.tagBody.classList.remove('grafico-selected-tmb');
 		this.tagBody.classList.remove('grafico-selected-gc_real');
@@ -226,7 +230,7 @@ export class RecomendacionComponent implements OnInit {
 		this.formControlDataService.addRdds(recomendacion)
 		.subscribe(
 			 response  => {
-						console.log('save rdds response');
+						console.log('<!--Crud rdds');
 						console.log(response);
 						},
 			error =>  console.log(<any>error)
@@ -439,8 +443,9 @@ export class RecomendacionComponent implements OnInit {
 			variable_msj	=	5;
 		else
 			variable_msj	=	-161;
-
-		var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.va.edad_metabolica)+variable_msj;
+//console.log('Mifflin: peso=' + this.current_peso + ', estatura=' + this.va.estatura + ', edad=' + this.paciente.edad + ', variable_msj=' + variable_msj);
+		//var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.va.edad_metabolica)+variable_msj;
+		var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.paciente.edad)+variable_msj;
 		return result;
 	}
 	tmbBenedict(){
@@ -468,10 +473,16 @@ export class RecomendacionComponent implements OnInit {
 	;0)
 */
 		var result	=	0;
-		if(this.paciente.genero=='M')
+		/*if(this.paciente.genero=='M')
 			result	=	66.5+(13.75*this.current_peso)+(5.003*this.va.estatura*100)-(6.755*this.va.edad_metabolica);
 		else
 			result	=	655.1+(9.563*this.current_peso)+(1.85*this.va.estatura*100)-(4.676*this.va.edad_metabolica);
+		*/
+		//console.log('BENEDICT: peso=' + this.current_peso + ', estatura=' + this.va.estatura + ', edad=' + this.paciente.edad);
+		if(this.paciente.genero=='M')
+			result	=	66.5+(13.75*this.current_peso)+(5.003*this.va.estatura*100)-(6.755*this.paciente.edad);
+		else
+			result	=	655.1+(9.563*this.current_peso)+(1.85*this.va.estatura*100)-(4.676*this.paciente.edad);
 		
 		return result;
 			

@@ -8,19 +8,32 @@
 .developmentInfo {position: fixed;bottom: 0;left: 0;width: 100%;background-color: rgba(0,0,0,0.5);color: #fff;word-wrap: break-word;padding: 5px 10px;z-index: 100;text-align:center;color:#eee;font-size:12px}
 .developmentInfo > a {color: #00f81d;margin-left: 20px;}
 
-.container-form > .actions > a {display: block;padding-left: 15px;color: #000;font-weight: 600;position:relative;}
+/*.container-form > .actions > a {display: block;padding-left: 15px;color: #000;font-weight: 600;position:relative;}
 .container-form > .actions > a > i{width: 20px;height: 20px;display: block;position: absolute;left: -20px;top: -3px;}
 .container-form > .actions > a.form-open > i {background-position: -532px -481px;}
 .container-form > .actions > a.form-close > i {background-position: -530px -445px;top: -4px;}
 .container-form > .actions > a.form-close {text-indent: -1000px;position: absolute;margin-bottom: -17px;z-index: 0;}
-/*
-.container-form > .form-edit .form-control::-webkit-input-placeholder {font-size:11px;text-align: center;line-height: 11em;}
-.container-form > .form-edit .form-control::-moz-placeholder {font-size:11px;text-align: center;line-height: 11em;}
-.container-form > .form-edit .form-control:-ms-input-placeholder {font-size:11px;text-align: center;line-height: 11em;}
-.container-form > .form-edit .form-control:-moz-placeholder {font-size:11px;text-align: center;line-height: 11em;}
 */
+/*.container-form > .actions > a {display: block;padding-left: 15px;color: #000;font-weight: 600;position:relative;left: -20px;top: -3px;width:20px;height:20px;}*/
+
+
+.container-form > .actions > a {
+    display: block;
+    padding-left: 25px;
+    color: #000;
+    font-weight: 600;
+    position: relative;
+    left: -20px;
+    z-index: 100;
+    top: -3px;
+}
+.container-form > .actions > a > i{width: 20px;height: 20px;display: block;position: absolute;left:0}
+.container-form > .actions > a.form-open > i {background-position: -532px -481px;}
+.container-form > .actions > a.form-close > i {background-position: -530px -445px;/*top: -4px;*/}
+.container-form > .actions > a.form-close {text-indent: -1000px;/*position: absolute;*/margin-bottom: -17px;}
+
+
 .form-valoracion-dietetica.content-form .form-control:not(textarea){font-size:10px;}
-.content-nav .list-group > li > a.disabled {pointer-events: none;}
 .buttons-navigation {padding: 0 5%;/*40px;*/margin-top: 20px;}
 .buttons-navigation .btn{background-color: #acacac;color: #fff;border:none;box-shadow:none;border-radius:25px;}
 /*.buttons-navigation .previous{background-color: #acacac;color: #fff;}*/
@@ -62,18 +75,20 @@ label.col-form-label::after {
 }
 */
 
+/*.form-control.ng-untouched.ng-pristine.ng-valid*/
 
-
-.form-control ~ .msg-validation {position: absolute;width: 100%;bottom: -20px;padding-left: 50px;color:#cc2026;}
-.form-control ~ .msg-validation:after {position: absolute;right: -30px;width: 25px;height: 25px;color: #cc2026;
+.form-control:not(.ng-untouched) ~ .msg-validation {position: absolute;width: 100%;bottom: -20px;padding-left: 50px;color:#cc2026;}
+.form-control:not(.ng-untouched) ~ .msg-validation:after {position: absolute;right: -30px;width: 25px;height: 25px;color: #cc2026;
 	top: -33px;border: 2px solid #cc2026;border-radius: 50%;
 	content: "!";padding: 0;line-height: 1.1em;text-align: center;font-size: 18px;
 	font-weight: 400;
 }
 
 .form-control.ng-untouched.ng-invalid ~ .msg-validation,
+.form-control.ng-untouched.ng-valid ~ .msg-validation,
 .form-control.ng-touched.ng-valid ~ .msg-validation {display:none}
 .form-control.ng-untouched.ng-invalid ~ .msg-validation:after,
+.form-control.ng-untouched.ng-valid ~ .msg-validation:after,
 .form-control.ng-touched.ng-valid ~ .msg-validation:after {display:none}
 
 .form-control.fecha_nac{padding-top:0;padding-bottom:0;}

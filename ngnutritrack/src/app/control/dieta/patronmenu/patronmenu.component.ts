@@ -116,16 +116,16 @@ export class PatronmenuComponent implements OnInit {
 	this.tagBody.classList.add('menu-parent-dieta');
 	
 	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
-	console.log('cargando Patron Menu');
+	//console.log('cargando Patron Menu');
 	console.log(this.menus);
 	this.setInfoInit();
 	
 	
 	this.prescripcion	=	this.model.getFormPrescripcion();
-	console.log('prescripcion');
-	console.log(this.prescripcion);
+	/*console.log('prescripcion');
+	console.log(this.prescripcion);*/
 	this.items			=	this.prescripcion.items;
-	console.log(this.items);
+	//console.log(this.items);
 	
 	for(var i=0;i<13;i++)
 		this.prescritos[i]	=	0;
@@ -323,7 +323,7 @@ proteinas: 32
 	}
 	saveForm(){		
 		if(this.infoEdited()){
-			console.log('CAMBIOS');
+			//console.log('CAMBIOS');
 			this.updateItems();
 			this.data['0']				=	'';
 			this.data['consulta_id']	=	 this.model.getFormConsulta().id;
@@ -349,8 +349,8 @@ proteinas: 32
 		console.log(this.menus);*/
 		this.model.setPatronMenu(this.menus);
 		this.formControlDataService.setFormControlData(this.model);		
-		console.log('global this.model');
-		console.log(this.formControlDataService.getFormControlData().patronmenu);
+		/*console.log('global this.model');
+		console.log(this.formControlDataService.getFormControlData().patronmenu);*/
 	}
 	saveInfo(data){		
 		this.tagBody.classList.add('sending');
@@ -359,7 +359,7 @@ proteinas: 32
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
 			 response  => {
-						console.log('Response PatronMenu');
+						console.log('<!--Crud PatronMenu');
 						console.log(response);
 						this.tagBody.classList.remove('sending');
 						},

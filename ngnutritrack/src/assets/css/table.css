@@ -33,7 +33,7 @@
 
 .table.asignacion-porciones.otro-alimento tbody{text-align:center;}
 .table.asignacion-porciones tbody tr td{position:relative;}
-.table.asignacion-porciones tbody tr td .remove-item {position: absolute;top: 50%;left: -20px;margin-top: 0;}
+.table.asignacion-porciones tbody tr td .remove-item {position: absolute;top: 50%;left: -5px;margin-top: 0;}
 .table.asignacion-porciones.otro-alimento tbody tr td{background-color:transparent;border:none;padding-top:0;padding-bottom:0;}
 .table.asignacion-porciones.otro-alimento tbody tr td input{text-align:center;padding:0}
 .table.asignacion-porciones.otro-alimento tbody tr td:first-child input{max-width:100%;width:100%;}

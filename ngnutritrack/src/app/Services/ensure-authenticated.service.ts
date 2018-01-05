@@ -7,7 +7,7 @@ import { FormControlDataService }     from '../control/data/formControlData.serv
 @Injectable()
 export class EnsureAuthenticated implements CanActivate {
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {}	
-	canActivate(): boolean {console.log('EnsureAuthenticated->canActivate()');
+	canActivate(): boolean {//console.log('EnsureAuthenticated->canActivate()');
 		if(!localStorage.getItem('token')){
 			this.router.navigateByUrl('/login');
 			return false;
@@ -19,9 +19,9 @@ export class EnsureAuthenticated implements CanActivate {
 			var fcd	=	this.formControlDataService.getFormControlData();
 			var mng	=	fcd.getManejadorDatos();
 			
-			console.log('mng.dataStored: ' + mng.dataStored );
+			//console.log('mng.dataStored: ' + mng.dataStored );
 			//if (!mng.dataStored && localStorage.getItem('data')){console.log('data from localStorage');
-			if (localStorage.getItem('data')){console.log('data from localStorage');
+			if (localStorage.getItem('data')){//console.log('data from localStorage');
 				var data	=	JSON.parse(localStorage.getItem('data'));
 				//mng.fillDataForm(data, true);
 				mng.fillDataForm(data);

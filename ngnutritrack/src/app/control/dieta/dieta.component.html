@@ -175,11 +175,14 @@
 												<input type="text" class="form-control" id="nombre" name="nombre"
 												[(ngModel)]	=	"otroAlimento.nombre"
 												>
+												<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.nombre">Escriba Nombre</span>
 										</td>
 										<td>
 												<input type="text" class="form-control" id="porciones" name="porciones" 
 												[(ngModel)]	=	"otroAlimento.porciones"
 												>
+												<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.porciones">Escriba la cantidad</span>
+												
 										</td>
 										<td>
 												<input type="text" class="form-control" id="carbohidratos" name="carbohidratos" placeholder="gramos"
@@ -308,7 +311,7 @@
 							<td><a [ngClass]="{'open ': historia.display }"  class="expand-patron-menu" href="javascript:void(0)" (click)="displayDetails(historia)"><i></i></a>{{historia.fecha}}</td>
 							<td>*{{historia.carbohidratos}} g</td>
 							<td>*{{historia.proteinas}} g</td>
-							<td>*{{historia.grasas}} g</td>
+							<!--<td>*{{historia.grasas}} g</td>-->
 							<td>{{historia.items[1]}}</td>
 							<td>{{historia.items[2]}}</td>
 							<td>{{historia.items[3]}}</td>
