@@ -77,10 +77,10 @@ export class ConfigFacturaComponent implements OnInit {
     this.formControlDataService.getDataForm()
     .subscribe(
        response  => {
-            let resArray = [];
+            /*let resArray = [];
             resArray = response.text().split('<br />');
-            this.mng.fillDataForm(JSON.parse(resArray[2]));
-            //this.mng.fillDataForm(response);
+            this.mng.fillDataForm(JSON.parse(resArray[2]));*/
+            this.mng.fillDataForm(response);
             },
       error =>  console.log(<any>error)
     );
@@ -155,13 +155,13 @@ export class ConfigFacturaComponent implements OnInit {
     this.formControlDataService.getTipo_ID()
     .subscribe(
       response  =>  {
-        let res = response.text();
+        /*let res = response.text();
         let resArray = []
 
         resArray = res.split('<br />');
         this.tipos = JSON.parse(resArray[2]);
-        console.log(this.tipos)
-        //this.tipos = response;
+        console.log(this.tipos)*/
+        this.tipos = response;
       },
       error =>  {
         console.log(error);
@@ -173,14 +173,14 @@ export class ConfigFacturaComponent implements OnInit {
     this.formControlDataService.getNutricionista()
     .subscribe(
       response  =>  {
-        let res = response.text();
+      /*  let res = response.text();
         let resArray = []
 
         resArray = res.split('<br />');
         let arreglo = JSON.parse(resArray[2]);
         this.data = arreglo[0];
-        console.log(this.data)
-        //this.data = response;
+        console.log(this.data)*/
+        this.data = response;
       },
       error =>  {
         console.log(error);
