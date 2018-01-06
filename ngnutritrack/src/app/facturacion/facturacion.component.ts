@@ -143,12 +143,12 @@ export class FacturacionComponent implements OnInit {
 		 	this.formControlDataService.buscarProductosDisponibles(this.query)
 			.subscribe(
 				response => {
-							let res = response.text();
+							/*let res = response.text();
 				 			let resArray = [] 
 			 				resArray = res.split('<br />');	
 
 			 				if(resArray[2]){
-			 					//this.results = JSON.parse(resArray[2]);	
+			 					this.results = JSON.parse(resArray[2]);	
 			 					this.results = response;			
 				 				this.filteredList = this.results.filter(function(el){
 				 					this.adjustAutoCompletePosition(this.productos.length);
@@ -156,7 +156,17 @@ export class FacturacionComponent implements OnInit {
 						 		}.bind(this));		
 			 				}else{
 			 					this.filteredList = [];
-			 				}	 						 						 				 			
+			 				}	*/
+
+			 				if(response){			 				
+			 					this.results = response;			
+				 				this.filteredList = this.results.filter(function(el){
+				 					this.adjustAutoCompletePosition(this.productos.length);
+						 			return el.descripcion.toLowerCase().indexOf(this.query.toLowerCase() > -1);
+						 		}.bind(this));		
+			 				}else{
+			 					this.filteredList = [];
+			 				} 						 						 				 			
 				},
 				error => {
 					console.log(error);
@@ -286,7 +296,7 @@ export class FacturacionComponent implements OnInit {
 				/*let resArray = [];
 				resArray = response.text().split('<br />');							
 			 	this.nutricionista = JSON.parse(resArray[2])[0];	*/		 	
-			 	this.nutricionista = response;
+			 	this.nutricionista = response[0];			 	
 			},
 			error => {
 				console.log(<any>error);

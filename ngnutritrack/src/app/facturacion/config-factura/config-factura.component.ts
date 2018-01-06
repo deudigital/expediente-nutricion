@@ -198,6 +198,15 @@ export class ConfigFacturaComponent implements OnInit {
     .subscribe(
       response => {
         console.log(response);
+        this.formControlDataService.uploadImagen(this.fileToUpload)
+        .subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(<any>error);
+          }
+        );
       },
       error => {
         console.log(<any>error);
@@ -210,15 +219,7 @@ export class ConfigFacturaComponent implements OnInit {
     if (fi.files && fi.files[0]) {
         this.fileToUpload = fi.files[0];
         console.log(this.fileToUpload);
-        this.formControlDataService.uploadImagen(this.fileToUpload)
-        .subscribe(
-          response => {
-            console.log(response);
-          },
-          error => {
-            console.log(<any>error);
-          }
-        );
+
         // this.uploadService
         //     .upload(fileToUpload)
         //     .subscribe(res => {

@@ -102,6 +102,7 @@ export class ServiciosProductosComponent implements OnInit {
 			 			resArray = res.split('<br />');			 			
 			 			this.unidades = JSON.parse(resArray[2]);*/
 			 			this.unidades = response;
+			 			console.log(this.unidades);
 			},
 			error => {
 				console.log(error);
@@ -122,14 +123,18 @@ export class ServiciosProductosComponent implements OnInit {
 
 			 			this.productos = response;
 
+			 			console.log(this.productos);
+
 			 			for(let producto in this.productos){
 			              for(let item in this.unidades){			            			               
-			              	if(this.productos[producto].unidad_medida === this.unidades[item].id){
+			              	if(this.productos[producto].unidad_medida_id === this.unidades[item].id){
 			                	this.productos[producto].nombre_unidad = this.unidades[item].nombre;
 			              	}
 			              }    
-			          	}						          	
-						},
+			          	}	
+
+			          	console.log(this.productos);
+					},
 			error =>  {
 					console.log(error)
 				}

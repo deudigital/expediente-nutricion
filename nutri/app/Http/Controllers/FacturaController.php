@@ -297,7 +297,10 @@ class FacturaController extends Controller
         }
 
         view()->share('nutricionista', $nutricionista[0]);  
-        view()->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);  
+        //local
+        //view(-)->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);  
+        //production
+        view()->share('nutricionista_ubicacion', $nutricionista_ubicacion);  
         view()->share('client_ubicacion', $client_ubicacion[0]);
         view()->share('client', $client);
         view()->share('factura', $factura);

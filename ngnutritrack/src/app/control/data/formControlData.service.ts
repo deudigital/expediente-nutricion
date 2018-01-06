@@ -148,7 +148,7 @@ export class FormControlDataService {
 			query: query
 		}
 		return this.http.post( this.apiURL + 'productos/buscar', data).map((response:Response) => response.json());
-	}	
+	}
 
 
 	/*buscarProductosDisponibles(query: string){
