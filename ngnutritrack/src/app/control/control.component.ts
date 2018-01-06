@@ -16,6 +16,8 @@ export class ControlComponent implements OnInit {
 	selectedPaciente: Paciente;
 	tagBody:any;
 	mng:any;
+	seleccionado:boolean=false;
+	
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		this.pacientes = formControlDataService.getPacientesDeNutricionista();
@@ -25,22 +27,26 @@ export class ControlComponent implements OnInit {
 		this.tagBody.className = '';
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-control');
+		this.seleccionado	=	false;
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
 		this.tagBody.classList.remove('page-control');
 	}
 	onSelect(paciente: Paciente) {
+		if(this.seleccionado)
+			return ;
+		
 		this.selectedPaciente = paciente;
-		
-		this.formControlDataService.resetFormControlData();		
+		this.formControlDataService.resetFormControlData();
 		this.formControlDataService.setPaciente(paciente);
-		
+
 		this.mng.setOperacion('nueva-consulta');
 		this.mng.setMenuPacienteStatus(false);
 		this.mng.setEnableLink(true);
 		this.mng.setCurrentStepConsulta('va');
 		this.save(paciente);
+		this.seleccionado	=	true;
 	}	
 	save(data){
 		this.formControlDataService.store('consulta', data)

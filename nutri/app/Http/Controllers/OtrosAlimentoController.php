@@ -31,15 +31,50 @@ class OtrosAlimentoController extends Controller
 		return $response;*/
 		$otrosAlimento	=	new OtrosAlimento(
 										array(
-										
-											'nombre'			=>	$request->nombre,
-											'porciones'			=>	$request->porciones,
-											'carbohidratos'		=>	$request->carbohidratos,
-											'proteinas'			=>	$request->proteinas,
-											'grasas'			=>	$request->grasas,
-											'calorias'			=>	$request->calorias,
+											'nombre'		=>	$request->nombre,
+											'porciones'		=>	$request->porciones,
+											'carbohidratos'	=>	$request->carbohidratos,
+											'proteinas'		=>	$request->proteinas,
+											'grasas'		=>	$request->grasas,
+											'calorias'		=>	$request->calorias,
 											'prescripcion_id'	=>	$request->prescripcion_id
-
+										)
+									);
+		$otrosAlimento->save();
+		$message	=	'Los Datos han sido almacenados correctamente';
+		$response	=	Response::json([
+			'message'	=>	$message,
+			'code'		=> '201',
+			'data'		=>	$otrosAlimento
+		], 201);
+		return $response;
+		
+    }
+    public function storemultiple(Request $request)
+    {
+		$response	=	Response::json($request->all(), 200);
+		return $response;
+		if($request->items){
+			$response	=	Response::json([
+				'code'		=>	204,
+				'message'	=>	'Sin datos para registrar',
+			], 200);
+			return $response;
+		}
+        
+		$array= Array();
+		foreach($request->items as $item){
+			
+		}
+		$otrosAlimento	=	new OtrosAlimento(
+										array(
+											'nombre'		=>	$request->nombre,
+											'porciones'		=>	$request->porciones,
+											'carbohidratos'	=>	$request->carbohidratos,
+											'proteinas'		=>	$request->proteinas,
+											'grasas'		=>	$request->grasas,
+											'calorias'		=>	$request->calorias,
+											'prescripcion_id'	=>	$request->prescripcion_id
 										)
 									);
 		$otrosAlimento->save();

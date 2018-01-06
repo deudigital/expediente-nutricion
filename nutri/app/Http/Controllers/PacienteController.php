@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Persona;
 use App\Paciente;
+use App\Cliente;
 use App\Objetivo;
 use App\HcpPatologia;
 use App\HcfPatologiasPaciente;
@@ -49,52 +50,6 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-		/*
-		$response	=	Response::json($request->all(), 201);
-		return $response;
-/*	persona	* /
-		$persona	=	Persona::create([
-						/*	datos personales	* /
-							'cedula'			=>	$request->input('cedula'),
-							'nombre'			=>	$request->input('nombre'),
-							'genero'			=>	$request->input('genero'),
-							'fecha_nac'			=>	$request->input('fecha_nac'),
-						/*	contacto	* /
-							'telefono'			=>	$request->input('telefono'),
-							'celular'			=>	$request->input('celular'),
-							'email'				=>	$request->input('email'),
-							'provincia'			=>	$request->input('provincia'),
-							'canton'			=>	$request->input('canton'),
-							'distrito'			=>	$request->input('distrito'),
-							'detalles_direccion'=>	$request->input('detalles_direccion')
-						]);
-						
-		$paciente	=	Paciente::create([
-							'persona_id'			=>	$persona->id,
-							'notas_patologias'		=>	'',
-							'otras_patologias'		=>	'',
-							'notas_alergias'		=>	'',
-							'notas_medicamentos'	=>	'',
-							'notas_otros'			=>	'',
-							'nutricionista_id'		=>	$request->input('nutricionista_id'),
-							'responsable_id'		=>	null,
-							'usuario'				=>	'',
-							'contrasena'			=>	''
-						]);
-*/
-	
-/*	paciente	*/
-		/*$table->integer('persona_id')->unsigned();*/
-/*		
-		
-		$message	=	array(
-							'code'		=> '201',
-							'id'		=> $persona->id,
-							'message'	=> 'Se ha registrado correctamente'
-						);
-		$response	=	Response::json($message, 201);
-		return $response;
-*/
     }
 
     /**
@@ -195,6 +150,15 @@ from `hcf_patologias_pacientes`
     {
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
+		if(!$request->input('nombre') || !$request->input('genero') || !$request->input('fecha_nac')){
+			$response	=	Response::json([
+				'code'		=>	422,
+				'message'	=>	'Datos Personales son requeridos, intente de nuevo',
+				'data'		=>	$request->all()
+			], 200);
+			return $response;
+		}
+		$action	=	'editado';
 		$persona	=	false;
 		if($request->input('id') && $request->id!=0){			
 			$persona	=	Persona::find($request->id);
@@ -213,7 +177,7 @@ from `hcf_patologias_pacientes`
 			$paciente->responsable_nombre		=	$request->responsable_nombre;
 			$paciente->responsable_parentezco	=	$request->responsable_parentezco;
 			$paciente->save();
-		}else{
+		}else{$action	=	'registrado';
 			/*	persona	*/
 			$aPersona	=	array(
 								'cedula'			=>	$request->input('cedula'),
@@ -240,12 +204,18 @@ from `hcf_patologias_pacientes`
 								'nutricionista_id'		=>	$request->input('nutricionista_id'),
 							]);
 				$paciente->save();
+				$cliente	=	Cliente::create([
+												'persona_id'			=>	$persona->id,
+												'nutricionista_id'		=>	$request->input('nutricionista_id'),
+												'tipo_identificacion_id'=>	1
+											]);
+				$cliente->save();
 			}			
 		}	
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $persona->id,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Datos Personales ' . $action . ' correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -254,6 +224,7 @@ from `hcf_patologias_pacientes`
     {
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
+		$action	=	'editado';
 		$persona	=	false;
 		if($request->input('id')){
 			$persona			=	Persona::find($request->id);
@@ -272,7 +243,7 @@ from `hcf_patologias_pacientes`
 			$paciente->responsable_telefono		=	$request->responsable_telefono;
 			$paciente->responsable_email		=	$request->responsable_email;
 			$paciente->save();
-		}else{
+		}else{$action	=	'registrado';
 			$new	=	array(
 							'telefono'			=>	$request->input('telefono'),
 							'celular'			=>	$request->input('celular'),
@@ -282,15 +253,10 @@ from `hcf_patologias_pacientes`
 							'distrito'			=>	$request->input('distrito'),
 							'detalles_direccion'=>	$request->input('detalles_direccion')
 						);
-			/*if($request->input('barrio'))
-				$new['ubicacion_id']	=	$request->input('barrio')['id'];*/
-			$new['ubicacion_id']	=	$request->input('ubicacion_id');
-			
+			$new['ubicacion_id']	=	$request->input('ubicacion_id');			
 			$persona	=	Persona::create($new);
-			
 			$persona->save();
 			$paciente	=	Paciente::create([
-
 								'responsable_telefono'	=>	$request->input('responsable_cedula'),
 								'responsable_email'=>	$request->input('responsable_parentezco'),						
 							]);
@@ -300,7 +266,7 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $persona->id,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Datos de Contacto ' . $action . ' correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -310,10 +276,11 @@ from `hcf_patologias_pacientes`
     {
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
+		$action	=	'editado';
 		if($request->input('id')){
 			$objetivo			=	Objetivo::find($request->id);
 			$objetivo->descripcion	=	$request->descripcion;
-		}else{
+		}else{$action	=	'registrado';
 			$objetivo	=	Objetivo::create([
 								'fecha'			=>	DB::raw('UNIX_TIMESTAMP()'),//Carbon::now()->timestamp,
 								'descripcion'	=>	$request->descripcion,
@@ -327,7 +294,7 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $objetivo,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Objetivo ' . $action . ' correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -338,27 +305,18 @@ from `hcf_patologias_pacientes`
 		return $response;*/
 		
 		$ejercicio	=	$request->input('ejercicio_id');
-		/*
-		if($request->input('paciente_id')){
-			$ejerciciosPaciente			=	EjerciciosPaciente::find($request->id);
-			$objetivo->ejercicio_id		=	$ejercicio['id'];
-			$objetivo->horas_semanales	=	$request->horas_semanales;
-		}else{*/
-			$horas_semanales	=	floatval($request->horas_semanales);
-			$ejerciciosPaciente	=	EjerciciosPaciente::create([
-								'ejercicio_id'		=>	$ejercicio['id'],
-								'horas_semanales'	=>	$horas_semanales,
-								'paciente_id'		=>	$request->paciente_id					
-							]);
-
+		$horas_semanales	=	floatval($request->horas_semanales);
+		$ejerciciosPaciente	=	EjerciciosPaciente::create([
+											'ejercicio_id'		=>	$ejercicio['id'],
+											'horas_semanales'	=>	$horas_semanales,
+											'paciente_id'		=>	$request->paciente_id					
+										]);
 		$ejerciciosPaciente->save();
 		$ejerciciosPaciente->nombre	=	$ejercicio['nombre'];
-		
-		
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $ejerciciosPaciente,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Ejercicio registrado correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -366,6 +324,7 @@ from `hcf_patologias_pacientes`
 	public function storeDatosGustos(Request $request){
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
+		$action	=	'editado';
 		if($request->input('id')){
 			$gusto			=	HabitosGusto::find($request->id);
 			$gusto->comidas_favoritas		=	$request->comidas_favoritas;
@@ -374,7 +333,7 @@ from `hcf_patologias_pacientes`
 			$gusto->lugar_caen_mal			=	$request->lugar_caen_mal;
 			$gusto->notas					=	$request->notas;
 			$gusto->paciente_id				=	$request->paciente_id;
-		}else{
+		}else{$action	=	'registrado';
 			$gusto	=	HabitosGusto::create([
 								'comidas_favoritas'		=>	$request->comidas_favoritas,					
 								'comidas_no_gustan'		=>	$request->comidas_no_gustan,
@@ -388,7 +347,7 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $gusto,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Gusto ' . $action . ' correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -396,6 +355,7 @@ from `hcf_patologias_pacientes`
 	public function storeDatosOtros(Request $request){
 		/*$response	=	Response::json($request->all(), 201);
 		return $response;*/
+		$action	=	'editado';
 		if($request->input('id')){
 			$habitosOtro						=	HabitosOtro::find($request->id);
 			$habitosOtro->alcohol				=	empty($request->alcohol)? '0':'1';
@@ -409,7 +369,7 @@ from `hcf_patologias_pacientes`
 			$habitosOtro->ocupacion_horas		=	$request->ocupacion_horas;
 			$habitosOtro->notas					=	$request->notas;
 			$habitosOtro->sueno					=	$request->sueno;
-		}else{
+		}else{$action	=	'registrado';
 			$habitosOtro	=	HabitosOtro::create([
 								'alcohol'				=>	empty($request->alcohol)? '0':'1',
 								'alcohol_cantidad'		=>	$request->alcohol_cantidad,
@@ -429,7 +389,7 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $habitosOtro,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Habito:Otro ' . $action . ' correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -479,7 +439,7 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $array,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'hcf:patologias registrados correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -497,7 +457,7 @@ from `hcf_patologias_pacientes`
 		if(!$request->items){			
 			$message	=	array(
 								'code'		=> '200',
-								'message'	=> 'Se ha registrado correctamente'
+								'message'	=> 'hcp:patologias Notas editado correctamente'
 							);
 			$response	=	Response::json($message, 201);
 			return $response;
@@ -521,8 +481,7 @@ from `hcf_patologias_pacientes`
 		
 		$message	=	array(
 							'code'		=> '201',
-							'data'		=> $array,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'hcp:patologias registrados correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;
@@ -539,7 +498,7 @@ from `hcf_patologias_pacientes`
 		if(!$request->items){			
 			$message	=	array(
 								'code'		=> '200',
-								'message'	=> 'Se ha registrado correctamente'
+								'message'	=> 'Notas de Alergia se ha editado correctamente'
 							);
 			$response	=	Response::json($message, 201);
 			return $response;
@@ -563,7 +522,7 @@ from `hcf_patologias_pacientes`
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $array,
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Alergias registrados correctamente'
 						);
 		$response	=	Response::json($message, 201);
 		return $response;

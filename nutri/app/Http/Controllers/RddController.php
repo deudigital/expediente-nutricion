@@ -62,9 +62,10 @@ class RddController extends Controller
 		$registros = DB::table('rdds')
             ->join('consultas', 'consultas.id', '=', 'rdds.consulta_id')
             ->join('valor_antropometricas', 'valor_antropometricas.consulta_id', '=', 'rdds.consulta_id')
+            ->join('personas', 'personas.id', '=', 'consultas.paciente_id')
             ->where('consultas.paciente_id', $id)
             ->where('consultas.estado', 1)
-            ->select('consultas.fecha', 'rdds.*',DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), 'valor_antropometricas.estatura', 'valor_antropometricas.peso', 'valor_antropometricas.edad_metabolica')
+            ->select('consultas.fecha', 'rdds.*',DB::raw('TIMESTAMPDIFF(YEAR, personas.fecha_nac, consultas.fecha) as edad'),DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), 'valor_antropometricas.estatura', 'valor_antropometricas.peso', 'valor_antropometricas.edad_metabolica')
 			->orderBy('consultas.fecha', 'DESC')
 			->get();
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);

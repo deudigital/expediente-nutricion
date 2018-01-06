@@ -68,6 +68,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
 	Route::post('consultas/prescripcion', 'PrescripcionController@store');
 	Route::post('consultas/otros', 'OtrosAlimentoController@store');
+	Route::post('consultas/otrosmultiple', 'OtrosAlimentoController@storemultiple');
 	Route::post('consultas/{id}/delete', 'ConsultaController@destroy');
 	Route::post('otrosalimentos/{id}/delete', 'OtrosAlimentoController@destroy');
 	
@@ -92,20 +93,24 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('alimentos/categorias', 'AlimentoController@categorias');
 	Route::get('alimentos/categorias/{id}', 'AlimentoController@categoriasbyid');
 	
-	
 	/* Rutas para manejar los productos */
+	Route::get('productos/medidas', 'ProductosController@getMeasures');
 	Route::get('productos/nutricionista/{id}', 'ProductosController@getProducts');
+	Route::post('productos/buscar', 'ProductosController@getProductsLike');
 	Route::post('productos/nuevoproducto', 'ProductosController@storeProducts');
-	Route::post('productos/{id}/delete', 'ProductosController@destroy');	
+	Route::post('productos/{id}/delete', 'ProductosController@destroy');
 	Route::post('productos/editarproducto', 'ProductosController@updateProduct');
-
 
 	/* Manejo de Facturas */
 	Route::get('reportes/tipos_documento', 'ReportesFacturasController@getTipo_Documento');
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
 	Route::get('reportes/consultas_sin_facturar/nutricionista/{id}','FacturaController@getConsultasSinFacturar');
 	Route::get('nutricionista/{nutricionista_id}/cliente/{persona_id}','FacturaController@getPaciente');
-
+	Route::get('facturacion/tipos_identification', 'FacturaController@getTiposIdentificacion');
+	Route::get('facturacion/medios_pagos', 'FacturaController@getMediosPagos');
+	Route::post('facturacion/generar_factura', 'FacturaController@generarFactura');
+	
+	
 /*
 	Route::get('alimentos/indices', 'AlimentoController@indices');
 	Route::get('alimentos/indices/{id}', 'AlimentoController@indicesbyid');

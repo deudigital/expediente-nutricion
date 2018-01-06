@@ -16,6 +16,7 @@ export class ValoracionComponent implements OnInit {
 	analisis	=	new Analisis();
 	valoracion	=	new ValoracionAntropometrica();
 	oValoracion	=	new ValoracionAntropometrica();
+	lValoracion	=	new ValoracionAntropometrica();
 	
 	detalleMusculo:DetalleMusculo	=	new DetalleMusculo();
 	detalleGrasa:DetalleGrasa		=	new DetalleGrasa();
@@ -114,10 +115,14 @@ export class ValoracionComponent implements OnInit {
 		this.oValoracion.edad_metabolica		=	Number(this.valoracion.edad_metabolica);
 		this.oValoracion.circunferencia_cintura	=	Number(this.valoracion.circunferencia_cintura);
 		this.oValoracion.circunferencia_cadera	=	Number(this.valoracion.circunferencia_cadera);
+		
+		if(this.nuevaConsulta){
+			this.valoracion.estatura				=	Number(this.valoracion.lastEstatura);
+			this.valoracion.circunferencia_muneca	=	Number(this.valoracion.lastCircunferencia_muneca);
+		}		
 	}
-	
 	infoEdited(){
-		/*console.log(this.oValoracion.estatura + '!==' + Number(this.valoracion.estatura));
+		console.log(this.oValoracion.estatura + '!==' + Number(this.valoracion.estatura));
 		console.log(this.oValoracion.circunferencia_muneca + '!==' + Number(this.valoracion.circunferencia_muneca));
 		console.log(this.oValoracion.peso	 + '!==' + Number(this.valoracion.peso));
 		console.log(this.oValoracion.grasa	 + '!==' + Number(this.valoracion.grasa));
@@ -127,7 +132,7 @@ export class ValoracionComponent implements OnInit {
 		console.log(this.oValoracion.hueso	 + '!==' + Number(this.valoracion.hueso));
 		console.log(this.oValoracion.edad_metabolica	 + '!==' + Number(this.valoracion.edad_metabolica));
 		console.log(this.oValoracion.circunferencia_cintura + '!==' + Number(this.valoracion.circunferencia_cintura));
-		console.log(this.oValoracion.circunferencia_cadera + '!==' + Number(this.valoracion.circunferencia_cadera));*/
+		console.log(this.oValoracion.circunferencia_cadera + '!==' + Number(this.valoracion.circunferencia_cadera));
 		return 	(
 			this.oValoracion.estatura				!==	Number(this.valoracion.estatura) || 
 			this.oValoracion.circunferencia_muneca	!==	Number(this.valoracion.circunferencia_muneca) || 
@@ -441,8 +446,7 @@ export class ValoracionComponent implements OnInit {
 	}
 	saveInfoMusculo(data){
 		this.tagBody.classList.add('sending');
-		console.log('save Musculo...');
-		console.log(data);
+		//console.log('save Musculo...');	console.log(data);
 		this.formControlDataService.saveDatosMusculo(data)
 		.subscribe(
 			 response  => {

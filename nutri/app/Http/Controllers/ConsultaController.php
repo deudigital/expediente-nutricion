@@ -55,29 +55,32 @@ class ConsultaController extends Controller
 		/*		*/
         if(!$request->persona_id){
 			$response	=	Response::json([
+				'code'	=>	422,
 				'message'	=>	'Por Favor escriba los campos requeridos'
-			], 422);
+			], 200);
 			return $response;
-		}
+		}		
+		$last_valor_antropometrica	=	DB::table('valor_antropometricas')
+            ->join('consultas', 'consultas.id', '=', 'valor_antropometricas.consulta_id')
+            ->where('consultas.paciente_id', $request->persona_id)
+			->orderBy('consultas.fecha', 'DESC')
+			->first();
+
 		$consulta	=	new Consulta(array(
 			'fecha'	=>	DB::raw('now()'),
 			'notas'	=>	trim($request->notas), 
 			'paciente_id'	=>	trim($request->persona_id)
 		));
-		if($consulta->save()){
-			$valoracionAntropometrica	=	new ValoracionAntropometrica(array(
-				'estatura'				=>	0, 
-				'circunferencia_muneca'	=>	0, 
-				'peso'					=>	0, 
-				'consulta_id'			=>	$consulta->id
-			));
-			$valoracionAntropometrica->save();
+		if($consulta->save()){			
+			$response	=	array(
+					'message'	=>	'Consulta registrada correctamente',
+					'data'		=>	$consulta
+				);
 		}
-		$message	=	'Su Consulta ha sido añadida de modo correcto';
-		$response	=	Response::json([
-			'message'	=>	$message,
-			'data'		=>	$consulta
-		], 201);
+		if(count($last_valor_antropometrica)>0)
+			$response['va']	=	$last_valor_antropometrica;
+
+		$response	=	Response::json($response, 201);
 		return $response;
     }
 
@@ -250,6 +253,7 @@ class ConsultaController extends Controller
             ->where('consultas.estado', 0)
             ->where('pacientes.nutricionista_id', $id)
             ->select('consultas.id', 'consultas.fecha', 'consultas.notas', 'personas.id as persona_id', 'personas.nombre as paciente_nombre', 'personas.telefono', 'pacientes.nutricionista_id as nutricionista')
+			->orderBy('consultas.id', 'DESC')
             ->get();
 			if(count($registros)>0)
 				$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
@@ -469,8 +473,9 @@ Enviar usuario y contrasena?????? por ahora si...
 				$registros['dieta']['prescripcion']['otros']	=	$otrosAlimento->toArray();
 			}else
 				$registros['dieta']['prescripcion']['otros']	=	array();
+			
 		}
-		
+
 		$patronMenu	=	PatronMenu::where('consulta_id', $id)
 										->get();
 		if(count($patronMenu)>0)
@@ -495,10 +500,8 @@ Enviar usuario y contrasena?????? por ahora si...
 
 		if(count($paciente)>0)
 			$registros['paciente']	=	$paciente->toArray();
-		
-		
-		$this-> getAllInfoConsulta($id)();
-		
+
+		$this-> getAllInfoConsulta($id)();		
 		return Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 	}
 	
@@ -658,19 +661,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un
 			}
 			$html	.=	'</table>';
 		}
-		$_resumen['va']	=	$html;
-/*
-		$html	.=	'<ul>';
-		$html	.=	'[#] Vegetales</li>';
-		$html	.=	'[#] Frutas</li>';
-		$html	.=	'[#] Harinas</li>';
-		$html	.=	'[#] Carnes</li>';
-		$html	.=	'[#] Azúcares</li>';
-		$html	.=	'[#] Grasas</li>';
-		$html	.=	'[#] Vasos con Agua </li>';
-		$html	.=	'</ul>';
-*/
-		
+		$_resumen['va']	=	$html;		
 		$prescripcion	=	Prescripcion::where('consulta_id', $id)
 										->get()
 										->first();
@@ -716,12 +707,89 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un
 			}*/			
 			$_resumen['porciones']	=	$html;
 		}		
-/*		
-		$patronMenu	=	PatronMenu::where('consulta_id', $id)
-										->get();
-		if(count($patronMenu)>0)
-			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
-*/		
+		
+		/*$patronMenu	=	PatronMenu::where('consulta_id', $id)
+										->get();*/
+		/*$patronMenuEjemplo	=	DB::table('patron_menus')
+										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
+										->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
+										->where('patron_menus.consulta_id',$id)
+										->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
+										->orderBy('patron_menus.tiempo_comida_id', 'ASC')
+										->get();*/
+		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $id)
+									->get();
+		
+		$aEjemplo	=	array();
+		if(count($patronMenuEjemplo)>0){
+			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
+			foreach($aPatronMenuEjemplo as $key=>$value)
+				$aEjemplo[$value['tiempo_comida_id']]	=	$value['ejemplo'];
+		}
+		/*echo '<pre>' . print_r($aEjemplo, true) . '</pre>';
+		exit;*/
+		$patronMenu	=	DB::table('patron_menus')
+							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
+							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
+							->where('patron_menus.consulta_id',$id)
+							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
+							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
+							->get();
+		if(count($patronMenu)>0){
+			$aPatronMenu	=	$patronMenu->toArray();
+			$html	=	'';
+			$array	=	array();
+			foreach($aPatronMenu as $key=>$value){
+				switch($value->tiempo_comida_id){
+					case 1:
+						$array['Desayuno']['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+						if(isset($aEjemplo[1]))
+							$array['Desayuno']['ejemplo']	=	$aEjemplo[1];
+						
+						break;
+					case 2:
+						$array['Media Mañana']['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+						if(isset($aEjemplo[2]))
+							$array['Media Mañana']['ejemplo']	=	$aEjemplo[2];
+						break;
+					case 3:
+						$array['Almuerzo']['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+						if(isset($aEjemplo[3]))
+							$array['Almuerzo']['ejemplo']	=	$aEjemplo[3];
+						break;
+					case 4:
+						$array['Media Tarde']['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+						if(isset($aEjemplo[4]))
+							$array['Media Tarde']['ejemplo']	=	$aEjemplo[4];
+						break;
+					case 5:
+						$array['Cena']['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+						if(isset($aEjemplo[5]))
+							$array['Cena']['ejemplo']	=	$aEjemplo[5];
+						break;
+					case 6:
+						$array['Antes de Dormir']['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+						if(isset($aEjemplo[6]))
+							$array['Antes de Dormir']['ejemplo']	=	$aEjemplo[6];
+						break;
+				}
+				
+			}/**/
+				//echo '<pre>' . print_r($array, true) . '</pre>';
+				//exit;
+			//$_resumen['porciones']	=	$html;
+			$html='';
+			foreach($array as $key=>$value){
+				$html	.=	'<h4>' . $key . '</h4>'; 
+				$html	.=	'<p>' . implode(', ', $value['menu']) . '</p>';
+
+				if(isset($value['ejemplo']))
+					$html	.=	'<p><strong>Ejemplo:</strong> ' . $value['ejemplo'] . '</p>';
+			}
+			$_resumen['patronMenu']	=	$html;
+			//echo '<pre>' . print_r($array, true) . '</pre>';
+		}
+		//exit;
 
 		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
 		
@@ -737,28 +805,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un
 
 		$html	.=	'<p>Además, acá tienes el detalle de como dividir estas porciones en los diferentes tiempos de comida con sus respectivos ejemplos:</p>';
 
-		$html	.=	'<h4>Desayuno</h4>'; 
-		$html	.=	'<p>[detalle porciones]</p>'; 
-		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
-
-
-		$html	.=	'<h4>Media Mañana</h4>';
-		$html	.=	'<p>[detalle porciones]</p>';
-		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
-		$html	.=	'<h4>Almuerzo</h4>';
-		$html	.=	'<p>[detalle porciones]</p>';
-		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
-		$html	.=	'<h4>Media tarde</h4>';
-		$html	.=	'<p>[detalle porciones]</p>';
-		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
-		$html	.=	'<h4>Cena</h4>';
-		$html	.=	'<p>[detalle porciones]</p>';
-		$html	.=	'<p>Ejemplo: [ejemplo]</p>';
-		$html	.=	'<h4>Antes de dormir</h4>';
-		$html	.=	'<p>[detalle porciones]</p>';
-		$html	.=	'<p>Ejemplo: [ejemplo] </p>';
-
-
+		$html	.=	$_resumen['patronMenu'];
 
 		$html	.=	'<p>Finalmente, toda esta información y otras herramientas para llevar el registro de lo que comes día a día y ayudarte a cumplir tus objetivos, están disponibles en el app de NutriTrack, si aún no la tienes descárgala GRATIS en las tiendas de iPhone y Android</p>';	
 		

@@ -15,23 +15,6 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return Response
      */
-
-    public function getMeasures(){
-        try{
-        $measures = DB::table('unidad_medidas')->select('*')->get();
-            if(count($measures)>0)
-                $response   =   Response::json($measures, 200, [], JSON_NUMERIC_CHECK);
-            else
-                $response   =   Response::json(['message' => 'Record not found'], 204);
-        }
-        catch (Illuminate\Database\QueryException $e) {
-            dd($e);
-        } catch (PDOException $e) {
-            dd($e);
-        }
-        return $response;   
-    }
-
     public function getProducts($id)
     {        
         try{
@@ -49,31 +32,12 @@ class ProductosController extends Controller
         return $response;    
     }
 
-    public function getProductsLike(Request $request){
-        try{
-        $query = $request->toArray();                
-        $products = DB::table('productos')                    
-                    ->where('descripcion', 'like', $query['query'] . '%')
-                    ->where('nutricionista_id', '=', $request->nutricionista_id)->get();
-            if(count($products)>0)
-                $response   =   Response::json($products, 200, [], JSON_NUMERIC_CHECK);
-            else
-                $response   =   Response::json(['message' => 'Record not found'], 204);
-        }
-        catch (Illuminate\Database\QueryException $e) {
-            dd($e);
-        } catch (PDOException $e) {
-            dd($e);
-        }
-        return $response; 
-    }
-
     public function storeProducts(Request $request)
     {
         try{
             $id= DB::table('productos')->insertGetId([
                  'descripcion' => $request->descripcion, 
-                 'unidad_medida_id' => $request->unidad_medida, 
+                 'unidad_medida' => $request->unidad_medida, 
                  'precio' => $request->precio,
                  'nutricionista_id' => $request->nutricionista_id]);
         } catch(Illuminate\Database\QueryException $e) {

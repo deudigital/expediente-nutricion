@@ -114,7 +114,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-nav .board-inner.control .current-menu{}
 
 .content-nav .list-group > li > a.disabled {pointer-events: none;}
-.content-nav .list-group > li.current-step-consulta ~ li > a{pointer-events: none;}
+/*.content-nav .list-group > li.current-step-consulta ~ li > a{pointer-events: none;}*/
 /********************/
 .page-title {position: relative;padding-left: 30px;font-size:18px;}
 .page-title:before {background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 910px;content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}

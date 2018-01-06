@@ -85,7 +85,7 @@ export class HcfComponent implements OnInit {
 		for(var i in this.patologias){
 			this.patologias[i].checked		=	false;
 			this.patologias[i].row			=	false;
-			if(index%3==0){
+			if(index%2==0){
 				this.patologias[i].row		=	true;
 			}
 			

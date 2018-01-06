@@ -297,17 +297,16 @@ class FacturaController extends Controller
         }
 
         view()->share('nutricionista', $nutricionista[0]);  
-        //local
-        //view(-)->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);  
-        //production
-        view(-)->share('nutricionista_ubicacion', $nutricionista_ubicacion);  
+        view()->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);  
         view()->share('client_ubicacion', $client_ubicacion[0]);
         view()->share('client', $client);
         view()->share('factura', $factura);
         view()->share('productos', $products);
         view()->share('fecha', date("d/m/Y"));
 
-        $env_route = "C:/Users/Jesus Soto/Dropbox/Freelance/Expediente Nutricion (320$)/expediente-nutricion/nutri";
+        //$env_route = "C:/Users/Jesus Soto/Dropbox/Freelance/Expediente Nutricion (320$)/expediente-nutricion/nutri";
+        //$env_route = "https://expediente.nutricion.co.cr/";
+        $env_route = storage_path('public/invoices');
 
         \PDF::loadView('templates.invoice')->save($env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');

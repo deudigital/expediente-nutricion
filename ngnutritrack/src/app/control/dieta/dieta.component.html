@@ -309,9 +309,9 @@
 					<ng-template ngFor let-historia [ngForOf]= "historial">
 						<tr>
 							<td><a [ngClass]="{'open ': historia.display }"  class="expand-patron-menu" href="javascript:void(0)" (click)="displayDetails(historia)"><i></i></a>{{historia.fecha}}</td>
-							<td>*{{historia.carbohidratos}} g</td>
-							<td>*{{historia.proteinas}} g</td>
-							<!--<td>*{{historia.grasas}} g</td>-->
+							<td>{{historia.carbohidratos}} %</td>
+							<td>{{historia.proteinas}} %</td>
+							<td>{{historia.grasas}} %</td>
 							<td>{{historia.items[1]}}</td>
 							<td>{{historia.items[2]}}</td>
 							<td>{{historia.items[3]}}</td>

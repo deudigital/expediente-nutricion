@@ -9,6 +9,8 @@ export class FormControlData {
 	dieta_media_tarde_ejemplo:string		=	'';	
 	dieta_cena_ejemplo:string				=	'';
 	dieta_coicion_nocturna_ejemplo:string	=	'';
+	lastEstatura:number=0;
+	lastCircunferencia_muneca:number=0;
 
 	helpers						=	new Helpers();
 	manejadorDatos				=	new ManejadorDatos();
@@ -258,8 +260,11 @@ export class FormControlData {
 		return this.valoracionAntropometrica;
 	}
 	setLastValuesFormValoracionAntropometrica(va){
-		this.valoracionAntropometrica.estatura				=	va.estatura;
+/*		this.valoracionAntropometrica.estatura				=	va.estatura;
 		this.valoracionAntropometrica.circunferencia_muneca	=	va.circunferencia_muneca;
+	*/
+		this.valoracionAntropometrica.lastEstatura				=	va.estatura;
+		this.valoracionAntropometrica.lastCircunferencia_muneca	=	va.circunferencia_muneca;
 	}
 	setPatronMenu(patron_menu){
 		this.patronmenu			=	patron_menu;
@@ -436,6 +441,9 @@ export class ValoracionAntropometrica {
 	
 	detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
 	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();
+	
+	lastEstatura:number=0;
+	lastCircunferencia_muneca:number=0;
 	
 	set(data:ValoracionAntropometrica){
 		this.id						=	data.id;

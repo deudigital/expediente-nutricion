@@ -91,7 +91,7 @@ export class RecomendacionComponent implements OnInit {
 		var item;
 		var tmbBenedict;
 		var tmbMifflin;
-		for(var i in data){
+		for(var i in data){//console.log(item);
 			item	=	data[i];
 			/*tmbBenedict			=	this._tmbBenedict(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);
 			tmbMifflin			=	this._tmbMifflin(this.paciente.genero, item.peso, item.estatura, item.edad_metabolica);*/
@@ -364,7 +364,7 @@ export class RecomendacionComponent implements OnInit {
 		var result	=	(tmbBenedict+tmbMifflin)/2;
 		return result;
 	}	
-	_tmbBenedict(genero, peso, estatura, edad_metabolica){
+	_tmbBenedict(genero, peso, estatura, edad_metabolica){//console.log('_tmbBenedict:' + genero + ' ' + peso + ' ' + estatura + ' ' + edad_metabolica);
 /*	Tasa Metabolica Basal Harris Benedict
 	=REDONDEAR(
 		SI(	SEXO="M";
@@ -384,7 +384,7 @@ export class RecomendacionComponent implements OnInit {
 		return result;
 			
 	}
-	_tmbMifflin(genero, peso, estatura, edad_metabolica){
+	_tmbMifflin(genero, peso, estatura, edad_metabolica){//console.log('_tmbMifflin:' + genero + ' ' + peso + ' ' + estatura + ' ' + edad_metabolica);
 /*	Tasa Metabolica Basal Mifflin - St Jeor
 		=REDONDEAR(
 			(10*PESO)+(6,25*(ESTATURA*100))-(5*EDAD)+VARIABLE_MSJ
