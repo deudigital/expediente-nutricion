@@ -73,7 +73,7 @@ class ProductosController extends Controller
         try{
             $id= DB::table('productos')->insertGetId([
                  'descripcion' => $request->descripcion, 
-                 'unidad_medida' => $request->unidad_medida, 
+                 'unidad_medida_id' => $request->unidad_medida, 
                  'precio' => $request->precio,
                  'nutricionista_id' => $request->nutricionista_id]);
         } catch(Illuminate\Database\QueryException $e) {
