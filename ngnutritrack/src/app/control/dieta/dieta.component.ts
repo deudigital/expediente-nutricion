@@ -81,8 +81,8 @@ export class DietaComponent implements OnInit {
 		
 		for(var i =0;i<this.items.length;i++){
 			var obj	=	this.items[i];
-			var presc	=	new PrescripcionItem(obj.id, obj.nombre, obj.slug, obj.ngmodel, obj.porciones, obj.carbohidratos, obj.proteinas, obj.grasas, obj.kcal);
-			this.oItems[i]	=	presc;
+			/*var presc	=	new PrescripcionItem(obj.id, obj.nombre, obj.slug, obj.ngmodel, obj.porciones, obj.carbohidratos, obj.proteinas, obj.grasas, obj.kcal);
+			this.oItems[i]	=	presc;*/
 		}
 	}
 	existChanges(){

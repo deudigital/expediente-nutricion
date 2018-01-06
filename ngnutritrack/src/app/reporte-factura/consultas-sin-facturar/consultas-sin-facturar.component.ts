@@ -41,10 +41,17 @@ export class ConsultasSinFacturarComponent implements OnInit {
   resultArray: any = [];
   nombre: string = "";
 
-  constructor(private formControlDataService: FormControlDataService, private commonService: CommonService) {}
+  fcData:any;
+  mng:any;
+
+  constructor(private formControlDataService: FormControlDataService, private commonService: CommonService) {
+    this.fcData  =  this.formControlDataService.getFormControlData();
+    this.mng     =  this.fcData.getManejadorDatos(); 
+  }
 
   ngOnInit() {
-  	this.obtenerConsultas_sinFacturar();
+  	this.obtenerConsultas_sinFacturar();    
+    //this.loadDataForm();
   }
 
   refreshDateFromLimits(event){  	  	
@@ -77,7 +84,7 @@ export class ConsultasSinFacturarComponent implements OnInit {
 			 			resArray = res.split('<br />');			 			
 			 			this.consultas = Object.values(JSON.parse(resArray[2]));*/
 
-            this.consultas = response;               
+            this.consultas = response;      
 			 			this.resultArray = this.consultas;
 			},
 			error => {
@@ -86,8 +93,8 @@ export class ConsultasSinFacturarComponent implements OnInit {
 		);	
   }
 
-  openFacturacion(persona_id){
-    this.commonService.notifyOther({option: 'openModalDatos', persona_id:persona_id});
+  openFacturacion(consulta){    
+    this.commonService.notifyOther({option: 'openModalDatos', persona_id:consulta.persona_id, consulta_id: consulta.id});
   }
 
   exportData(Data){
@@ -128,6 +135,25 @@ export class ConsultasSinFacturarComponent implements OnInit {
         break;
     }
   }
+
+  // Comentar para subir
+  loadDataForm(){
+    this.formControlDataService.getDataForm()
+    .subscribe(
+       response  => {
+           /* let resArray = [];
+            resArray = response.text().split('<br />');                         
+            this.mng.fillDataForm(JSON.parse(resArray[2]));   */        
+            this.mng.fillDataForm(response);
+            },
+      error =>  console.log(<any>error)
+    );
+  }
+
+  fillDataForm(data){
+    this.mng.fillDataForm(data);
+  }
+  //-----fin de codigo comentado ----- //
 
   filterQuery(){
   	this.resultArray = [];

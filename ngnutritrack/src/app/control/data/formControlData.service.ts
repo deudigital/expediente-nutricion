@@ -1,5 +1,20 @@
 import { Injectable } from '@angular/core';
-import { FormControlData, Analisis, Consulta, ValoracionAntropometrica, Paciente, Persona, Reporte, Tipo, Medida, Ejercicio,Rdd, Prescripcion, Producto, Consulta_s_f } from './formControlData.model';
+import { FormControlData,
+		 Analisis, Consulta,
+		 ValoracionAntropometrica,
+		 Paciente,
+		 Persona,
+		 Nutricionista,
+		 Reporte,
+		 Tipo,
+		 Tipo_ID,
+		 Medio,
+		 Medida,
+		 Ejercicio,
+		 Rdd,
+		 Prescripcion,
+		 Producto,
+		 Consulta_s_f } from './formControlData.model';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
@@ -7,24 +22,41 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
-	private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
-	//private apiURL	=	'http://127.0.0.1:8000/api/v0/';
+	//private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
+	private apiURL	=	'http://127.0.0.1:8000/api/v0/';
 	data:any={};
 	constructor(private http: Http) {}
 
 	getDataForm(): Observable<any[]> {
 		return this.http.get( this.apiURL + 'form/data' ).map((response: Response) => response.json());
 	}
+
+	/*getDataForm() {
+		return this.http.get( this.apiURL + 'form/data' ).map((response: Response) => response);
+	}*/
+
 	getPacientesDeNutricionista(): Observable<Paciente[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'pacientes/nutricionista/' + nutricionista_id ).map((response: Response) => response.json());
 	}
+
 	//original method
-	getReporteFactura(): Observable<Reporte[]>{
-		var nutricionista_id= this.formControlData.nutricionista_id;
-		return this.http.get( this.apiURL+'/repotes/facturas/nutricionista/'+nutricionista_id)
-		.map((response:Response)=>response.json());
+	getNutricionista(): Observable<any[]> {
+		var nutricionista_id = this.formControlData.nutricionista_id;
+		return this.http.get( this.apiURL +'nutricionistas/' + nutricionista_id ).map((response: Response) => response.json());
 	}
+
+	/*getNutricionista() {
+		var nutricionista_id = this.formControlData.nutricionista_id;
+		return this.http.get( this.apiURL +'nutricionistas/' + nutricionista_id ).map((response: Response) => response );
+	}*/
+
+	//original method
+	 getReporteFactura(): Observable<Reporte[]>{
+	 	var nutricionista_id= this.formControlData.nutricionista_id;
+	 	return this.http.get( this.apiURL+'/repotes/facturas/nutricionista/'+nutricionista_id)
+	 	.map((response:Response)=>response.json());
+	 }
 	/*getReporteFactura(){
 		var nutricionista_id = this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL+'reportes/nutricionista/'+nutricionista_id )
@@ -34,11 +66,36 @@ export class FormControlDataService {
 	//original method
 	getTipos(): Observable<Tipo[]>{
 		return this.http.get( this.apiURL+'reportes/tipos_documento').map((response: Response)=>response.json());
-	}
+	 }
 
 	/*getTipos(){
 		return this.http.get( this.apiURL+'reportes/tipos_documento').map((response: Response)=>response);
 	}*/
+
+
+	getTipo_ID(): Observable<Tipo_ID[]>{
+		return this.http.get( this.apiURL+'facturacion/tipos_identification').map((response:Response)=>response.json());
+	}
+
+	/*getTipo_ID(){
+		return this.http.get( this.apiURL+'facturacion/tipos_identification').map((response:Response)=>response);
+	}*/
+
+	getProvincia(){
+		return this.http.get( this.apiURL+'ubicacion').map((response:Response)=>response);
+	}
+
+	getCanton(id){
+		return this.http.get( this.apiURL+'ubicacion/canton/'+id).map((response:Response)=>response);
+	}
+
+	/*getMedio_Pagos(){
+		return this.http.get( this.apiURL+'facturacion/medios_pagos').map((response: Response)=>response);
+	}*/
+
+	getMedio_Pagos(): Observable<Medio>{
+		return this.http.get( this.apiURL+'facturacion/medios_pagos').map((response: Response)=>response.json());
+	}
 
 	getConsultaSelected(consulta_id): Observable<Consulta> {
 		return this.http.get( this.apiURL + 'consultas/' + consulta_id + '/all')
@@ -54,7 +111,7 @@ export class FormControlDataService {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/')
 		.map((response: Response) => response.json());
-	}	
+	}
 	getPacientes(): Observable<Consulta[]> {
 		var nutricionista_id	=	this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id)
@@ -83,11 +140,41 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL + 'productos/nutricionista/' + nutricionista_id)
 		.map((response: Response) => response);
 	}*/
-	
+
+
+	buscarProductosDisponibles(query: string){
+		let data = {
+			nutricionista_id:  this.formControlData.nutricionista_id,
+			query: query
+		}
+		return this.http.post( this.apiURL + 'productos/buscar', data).map((response:Response) => response.json());
+	}	
+
+
+	/*buscarProductosDisponibles(query: string){
+		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' });
+		let options = new RequestOptions({ headers: headers });
+		var data = {
+			nutricionista_id:  this.formControlData.nutricionista_id,
+			query: query
+		}
+		return this.http.post( this.apiURL + 'productos/buscar', data).map((response:Response) => response);
+	}*/
+
+	generarFactura(data: any){
+		data.nutricionista_id = this.formControlData.nutricionista_id;
+		return this.http.post( this.apiURL + 'facturacion/generar_factura', data).map((response:Response) => response.json());
+	}
+
+	/*generarFactura(data: any){
+		data.nutricionista_id = this.formControlData.nutricionista_id;
+		return this.http.post( this.apiURL + 'facturacion/generar_factura', data).map((response:Response) => response);
+	}*/
+
 	getMeasures(): Observable<Medida[]> {
 		return this.http.get( this.apiURL + 'productos/medidas').map((response: Response) => response.json());
 	}
-	
+
 	/*getMeasures() {
 		return this.http.get( this.apiURL + 'productos/medidas').map((response: Response) => response);
 	}*/
@@ -126,7 +213,7 @@ export class FormControlDataService {
 	saveDatosMusculo(data: any): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/musculo', data).map((response: Response) => response.json());
 	}
-	
+
 	store(module:string, data:any): Observable<any[]> {
 		console.log('Service:' + module + '->sending...');
 		console.log(data);
@@ -163,7 +250,7 @@ export class FormControlDataService {
 				serviceUrl	+=	'pacientes/alergias';
 				break;
 		}
-		
+
 		return this.http.post( serviceUrl, data)
 				.map((response: Response) => response.json());
 	}
@@ -188,7 +275,7 @@ export class FormControlDataService {
 	setPaciente(paciente: Paciente){
 		this.formControlData.setFormPaciente(paciente);
 	}
-	
+
     getFormControlData(): FormControlData {
         return this.formControlData;
     }
@@ -234,7 +321,7 @@ export class FormControlDataService {
 		var data={paciente_id:paciente.id}
 		return this.http.post(this.apiURL + 'consultas', data, options)
 			.map((response: Response) => response.json())
-			.catch((error: any) => Observable.throw(error.json().error));		
+			.catch((error: any) => Observable.throw(error.json().error));
 	}
 	addConsulta_1(paciente: Paciente){
 		//let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' });
@@ -247,10 +334,10 @@ export class FormControlDataService {
 			.subscribe((res:Response)=>{console.log()});
 	}
 	updateProducto(producto: Producto): Observable<Producto[]> {
-		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response.json()); 
+		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response.json());
 	}
 	/*updateProducto(producto: Producto) {
-		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response); 
+		return this.http.post( this.apiURL + 'productos/editarproducto', producto).map((response: Response) => response);
 	}*/
 
 	deleteProducto(producto: Producto){
@@ -266,5 +353,13 @@ export class FormControlDataService {
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'reportes/consultas_sin_facturar/nutricionista/'+nutricionista_id).map((response: Response) => response);
 	}*/
-	
+	updateConfiguracionFactura(nutri){
+		return this.http.post( this.apiURL + 'nutricionistas/configFactura',nutri).map((response: Response) => response);
+	}
+	uploadImagen(image:any){
+		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		let form: FormData  = new FormData();
+    form.append('avatar', image);
+		return this.http.post( this.apiURL + 'nutricionistas/uploadAvatar/'+nutricionista_id,form).map((response: Response) => response);
+	}
 }

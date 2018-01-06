@@ -50,7 +50,7 @@ export class ReporteFacturaComponent implements OnInit {
   	this.obtenerFacturas();
   }
 
-  refreshDateFromLimits(event){       
+  refreshDateFromLimits(event){
    this.untilOptions = {
       dateFormat: 'dd/mm/yyyy',
       disableUntil: {year: event.date.year,
@@ -74,12 +74,12 @@ export class ReporteFacturaComponent implements OnInit {
     this.formControlDataService.getTipos()
       .subscribe(
         response  =>  {
-          /*let res = response.text();
+         /* let res = response.text();
           let resArray = []
 
           resArray = res.split('<br />');
-          this.tipos = JSON.parse(resArray[2]);  */
-          this.tipos = response;          
+          this.tipos = JSON.parse(resArray[2]);*/
+          this.tipos = response;
         },
         error =>  {
           console.log(error);
@@ -96,7 +96,9 @@ export class ReporteFacturaComponent implements OnInit {
 			 		let resArray = []
 
 			 		resArray = res.split('<br />');
-          this.factura = JSON.parse(resArray[2]);*/
+          this.factura = JSON.parse(resArray[2]);
+          console.log(this.factura);*/
+          
 
           this.factura = response;
 
@@ -105,7 +107,7 @@ export class ReporteFacturaComponent implements OnInit {
               if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
                 this.factura[doc].nombre_tipo = this.tipos[item].nombre;
               }
-            }    
+            }
           }
 
           this.resultArray = this.factura;
@@ -115,6 +117,11 @@ export class ReporteFacturaComponent implements OnInit {
 				}
 		);
 	}
+
+  showPDF(item){
+    let pdf = item.pdf.split('/');    
+    window.open("http://expediente.nutricion.co.cr/nutri/public/invoices/"+pdf[pdf.length-1], "_blank");
+  }
 
   deleteData(item){
   	console.log(item);
@@ -127,13 +134,13 @@ export class ReporteFacturaComponent implements OnInit {
   	}
   }
 
-  filterQuery(){  
-    
+  filterQuery(){
+
     this.resultArray = [];
 
-    //filter dates      
+    //filter dates
     let fromDate = new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
-    let uDate = new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);       
+    let uDate = new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);
 
     if(this.fromDate.date.day != fromDate.getDate()){
       fromDate = new Date(fromDate.setDate(fromDate.getDate() + 1));
@@ -146,9 +153,9 @@ export class ReporteFacturaComponent implements OnInit {
     if(this.nombre === ""){
       for(let consulta in this.factura){
         let queryDate =  new Date(this.factura[consulta].fecha);
-        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));          
+        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
 
-        if(queryDate >= fromDate && queryDate <= uDate){          
+        if(queryDate >= fromDate && queryDate <= uDate){
           if(this.tipo === this.factura[consulta].nombre_tipo){
             this.resultArray.push(this.factura[consulta]);
           } else if(this.tipo === "Todos"){
@@ -159,10 +166,10 @@ export class ReporteFacturaComponent implements OnInit {
     }else{
       for(let consulta in this.factura){
         let queryDate =  new Date(this.factura[consulta].fecha);
-        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));          
-         
-        if(queryDate >= fromDate && queryDate <= 
-          uDate && this.factura[consulta].nombre.toLowerCase().includes(this.nombre.toLowerCase())){          
+        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
+
+        if(queryDate >= fromDate && queryDate <=
+          uDate && this.factura[consulta].nombre.toLowerCase().includes(this.nombre.toLowerCase())){
           if(this.tipo === this.factura[consulta].nombre_tipo){
             this.resultArray.push(this.factura[consulta]);
           } else if(this.tipo === "Todos"){

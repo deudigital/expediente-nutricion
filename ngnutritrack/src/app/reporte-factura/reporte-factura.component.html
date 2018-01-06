@@ -36,7 +36,7 @@
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <div class="form-group with-icon nacimiento">
                           <label class="col-form-label" for="hasta">Hasta</label>
-							<my-date-picker name="hasta" 
+							<my-date-picker name="hasta"
 	                                        [options]="untilOptions"
 	                                        [(ngModel)]="untilDate"
 	                                        (dateChanged)="refreshUntilDateLimits($event)"
@@ -64,8 +64,8 @@
             		<!-- iconos de modificado y agregado -->
 					<div class="col-md-1" id="product_editor_column" style="margin-top: 3.1%">
             			<div class="row" *ngFor="let item of resultArray">
-                            <a routerLinkActive="active" >
-                                <i class="fa fa-edit" style="font-size:24px;color:darkgreen;background:none;"></i>
+                            <a href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
+                                <i class="fa fa-file-pdf-o" style="font-size:24px;color:darkgreen;background:none;"></i>
                             </a>
                             <a routerLinkActive="active" (click)='deleteData(item)' >
                                 <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
@@ -94,7 +94,7 @@
 	                                    <td>{{item.nombre_tipo}}</td>
 	                                    <td>{{item.fecha}}</td>
 	                                    <td>Colones</td>
-	                                    <td class="flat-border">₡{{item.precio}}</td>
+	                                    <td class="flat-border">₡{{item.monto}}</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>

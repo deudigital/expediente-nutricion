@@ -438,3 +438,31 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
 	width: 215px;
     height: 30px;
 }
+.autocomplete-div{   
+    top: 65%;
+    position: absolute;
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;    
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+}
+.dropdown-autocomplete{
+	display: list-item;
+	position: unset;
+}
+.loading-modal{
+	width: 12%; margin: 5% 0% 0% -3%;
+}
+.success_ajax{
+	width: 29%;
+    margin: 5% 0% 0% -15%;
+    box-shadow: 3px 2px grey;
+}

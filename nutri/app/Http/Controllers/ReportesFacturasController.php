@@ -106,11 +106,35 @@ class ReportesFacturasController extends Controller
     public function getDocumentos($id)
     {
         try{
-        $facturas = DB::table('documentos')
-          ->join('personas', 'personas.id', '=', 'documentos.persona_id')
-          ->leftjoin('productos','productos.id', '=', 'documentos.consulta_id')
-          ->where('documentos.nutricionista_id', $id)       
-          ->get();
+          $result = [];
+          $facturas = DB::table('documentos')
+            ->join('personas', 'personas.id', '=', 'documentos.persona_id')
+            ->where('documentos.nutricionista_id', $id)
+            ->get();
+          $facturas = $facturas->toArray();
+          for ($xi=0; $xi < count($facturas) ; $xi++) {
+            $monto=0;
+            $facturas[$xi] = json_decode(json_encode($facturas[$xi]),True);
+            $productos = DB::table('linea_detalles')
+              ->join('productos','productos.id','=','linea_detalles.producto_id')
+              ->where('linea_detalles.documento_id',$facturas[$xi]['id'])
+              ->get();
+            $productos=$productos->toArray();
+            for ($xii=0; $xii < count($productos) ; $xii++) {
+              $productos[$xii]=json_decode(json_encode($productos[$xii]),True);
+            }
+            $facturas[$xi]['monto']=$productos;
+            /*$obj->numeracion_consecutiva=$facturas[$xi]['numeracion_consecutiva'];
+            $obj->nombre=$facturas[$xi]['nombre'];
+            $obj->tipo_documento_id=$facturas[$xi]['tipo_documento_id'];
+            $obj->fecha = $facturas[$xi]['fecha'];
+            $obj->precio= $monto;
+            $json= json_decode(json_encode($$obj),True);
+            array_push($result,$json);*/
+          }
+
+
+
             if(count($facturas)>0)
                 $response   =   Response::json($facturas, 200, [], JSON_NUMERIC_CHECK);
             else

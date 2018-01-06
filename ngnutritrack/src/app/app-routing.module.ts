@@ -42,19 +42,19 @@ import { AgendaComponent }      from './agenda/agenda.component';
 import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
 import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
 import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
-import { ConfigFacturaComponent } from './config-factura/config-factura.component';
+import { ConfigFacturaComponent } from './facturacion/config-factura/config-factura.component';
 /*
 import { WorkflowGuard }        from './workflow/workflow-guard.service';
 import { WorkflowService }      from './workflow/workflow.service';
 */
 
 export const appRoutes: Routes = [
-    
+
     { path: 'login',  component: LoginComponent },
     { path: 'reset',  component: ResetComponent },
     { path: 'inicio',  component: InicioComponent},//, canActivate: [WorkflowGuard] },
 
-	{ path: 'nuevo',  component: NuevoComponent},	
+	{ path: 'nuevo',  component: NuevoComponent},
 		{ path: 'personales',  component: PersonalesComponent},
 		{ path: 'contacto',  component: ContactoComponent},
 		{ path: 'hcp',  component: HcpComponent},
@@ -69,15 +69,15 @@ export const appRoutes: Routes = [
 			{ path: 'valoracion-dietetica',  component: ValoracionDieteticaComponent},
 			{ path: 'gustos',  component: GustosComponent},
 			{ path: 'otros',  component: OtrosHabitosComponent},
-	
+
     { path: 'control',  component: ControlComponent },
 		{ path: 'valoracion',  component: ValoracionComponent },
 		{ path: 'recomendacion',  component: RecomendacionComponent },
-		{ path: 'dieta',  component: DietaComponent },	
-			{ path: 'prescripcion',  component: DietaComponent },	
-			{ path: 'patron-menu',  component: PatronmenuComponent },	
-			{ path: 'notas',  component: NotasComponent },	
-	
+		{ path: 'dieta',  component: DietaComponent },
+			{ path: 'prescripcion',  component: DietaComponent },
+			{ path: 'patron-menu',  component: PatronmenuComponent },
+			{ path: 'notas',  component: NotasComponent },
+
     { path: 'agenda',  component: AgendaComponent },
     { path: 'reportes', component: ReporteFacturaComponent },
     { path: 'servicios-productos', component: ServiciosProductosComponent },
@@ -86,7 +86,7 @@ export const appRoutes: Routes = [
     //{ path: 'servicios-productos', component: servicios-productos },
 	{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 
-/*	
+/*
 	// 1st Route
     { path: 'personal',  component: PersonalComponent },
     // 2nd Route

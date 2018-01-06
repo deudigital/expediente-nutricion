@@ -49,6 +49,25 @@ class ProductosController extends Controller
         return $response;    
     }
 
+    public function getProductsLike(Request $request){
+        try{
+        $query = $request->toArray();                
+        $products = DB::table('productos')                    
+                    ->where('descripcion', 'like', $query['query'] . '%')
+                    ->where('nutricionista_id', '=', $request->nutricionista_id)->get();
+            if(count($products)>0)
+                $response   =   Response::json($products, 200, [], JSON_NUMERIC_CHECK);
+            else
+                $response   =   Response::json(['message' => 'Record not found'], 204);
+        }
+        catch (Illuminate\Database\QueryException $e) {
+            dd($e);
+        } catch (PDOException $e) {
+            dd($e);
+        }
+        return $response; 
+    }
+
     public function storeProducts(Request $request)
     {
         try{
