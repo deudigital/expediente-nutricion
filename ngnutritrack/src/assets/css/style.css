@@ -466,3 +466,11 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
     margin: 5% 0% 0% -15%;
     box-shadow: 3px 2px grey;
 }
+.loading-div{
+	width: 100%;
+	background: #0009;
+	position: absolute;
+	height: 945px;
+	margin-top: -152px;
+	z-index: 1;
+}

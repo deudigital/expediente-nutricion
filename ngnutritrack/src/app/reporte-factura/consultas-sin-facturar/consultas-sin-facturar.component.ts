@@ -40,6 +40,7 @@ export class ConsultasSinFacturarComponent implements OnInit {
   consultas: any = [];
   resultArray: any = [];
   nombre: string = "";
+  loading: boolean = false;
 
   fcData:any;
   mng:any;
@@ -50,8 +51,7 @@ export class ConsultasSinFacturarComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.obtenerConsultas_sinFacturar();    
-    //this.loadDataForm();
+    this.loadDataForm();
   }
 
   refreshDateFromLimits(event){  	  	
@@ -82,9 +82,11 @@ export class ConsultasSinFacturarComponent implements OnInit {
 			 			let resArray = [] 
 
 			 			resArray = res.split('<br />');			 			
-			 			this.consultas = Object.values(JSON.parse(resArray[2]));*/
+			 			this.consultas = Object.values(JSON.parse(resArray[2]));*/            
 
-            this.consultas = response;      
+            for(let con in response){
+              this.consultas.push(response[con]);
+            }              
 			 			this.resultArray = this.consultas;
 			},
 			error => {
@@ -136,17 +138,22 @@ export class ConsultasSinFacturarComponent implements OnInit {
     }
   }
 
-  // Comentar para subir
   loadDataForm(){
+    this.loading = true;
     this.formControlDataService.getDataForm()
     .subscribe(
        response  => {
            /* let resArray = [];
             resArray = response.text().split('<br />');                         
-            this.mng.fillDataForm(JSON.parse(resArray[2]));   */        
+            this.mng.fillDataForm(JSON.parse(resArray[2]));   */              
             this.mng.fillDataForm(response);
+            this.obtenerConsultas_sinFacturar(); 
+            this.loading = false;
             },
-      error =>  console.log(<any>error)
+      error => {
+        this.loading = false;
+        console.log(<any>error);
+      } 
     );
   }
 

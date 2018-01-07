@@ -121,9 +121,7 @@ export class ServiciosProductosComponent implements OnInit {
 
 			 			this.productos = JSON.parse(resArray[2]);*/
 
-			 			this.productos = response;
-
-			 			console.log(this.productos);
+			 			this.productos = response;			 			
 
 			 			for(let producto in this.productos){
 			              for(let item in this.unidades){			            			               

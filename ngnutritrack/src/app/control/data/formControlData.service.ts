@@ -54,7 +54,7 @@ export class FormControlDataService {
 	//original method
 	 getReporteFactura(): Observable<Reporte[]>{
 	 	var nutricionista_id= this.formControlData.nutricionista_id;
-	 	return this.http.get( this.apiURL+'/repotes/facturas/nutricionista/'+nutricionista_id)
+	 	return this.http.get( this.apiURL+'reportes/nutricionista/'+nutricionista_id)
 	 	.map((response:Response)=>response.json());
 	 }
 	/*getReporteFactura(){
@@ -354,12 +354,12 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL + 'reportes/consultas_sin_facturar/nutricionista/'+nutricionista_id).map((response: Response) => response);
 	}*/
 	updateConfiguracionFactura(nutri){
-		return this.http.post( this.apiURL + 'nutricionistas/configFactura',nutri).map((response: Response) => response);
+		return this.http.post( this.apiURL + 'nutricionistas/configFactura',nutri).map((response: Response) => response.json());
 	}
 	uploadImagen(image:any){
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		let form: FormData  = new FormData();
     form.append('avatar', image);
-		return this.http.post( this.apiURL + 'nutricionistas/uploadAvatar/'+nutricionista_id,form).map((response: Response) => response);
+		return this.http.post( this.apiURL + 'nutricionistas/uploadAvatar/'+nutricionista_id,form).map((response: Response) => response.json());
 	}
 }

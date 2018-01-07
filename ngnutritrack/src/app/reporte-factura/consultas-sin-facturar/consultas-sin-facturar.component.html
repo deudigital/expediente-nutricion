@@ -1,5 +1,10 @@
 <app-topnav></app-topnav>
-
+<div class="loading-div" *ngIf="loading" >
+    <div class="esc-modal loading-modal" style="top:15%;">
+        <img src="assets/images/loading-bars.svg" style="width:75px;" />
+        Cargando consultas . . .
+    </div>
+</div>    
 <div class="container">
     <div class="row">
         <div class="col-sm-offset-4 col-sm-8">

@@ -1,4 +1,10 @@
 <app-topnav></app-topnav>
+<div class="loading-div" *ngIf="loading" >
+    <div class="esc-modal loading-modal" style="top:15%;">
+        <img src="assets/images/loading-bars.svg" style="width:75px;" />
+        Cargando configuración . . .
+    </div>
+</div> 
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12 content-form">
@@ -15,16 +21,14 @@
 		<div class="col-sm-12">
 			<div class="col-md-12 col-sm-12 col-xs-12 content-form">
 				<section>
-					<div class="row" style="margin-bottom:2%">
-	                    <div class="col-md-1">
-	                         <img alt="nutritrack" src="assets/images/logo-placeholder.jpg" style="width: 220%;">
+					<div class="col-md-1">
+	                         <img alt="nutritrack" src="{{data.imagen}}" style="width: 220%;">
 	                    </div>
 	                    <div class="col-md-11" style="padding:1.5% 0% 0% 0%">
 	                        <!-- <input type="file" id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" value="CARGAR"> -->
-													<input #fileInput type="file"/>
-													<button id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" (click)="addFile()">CARGAR</button>
-	                    </div>
-	                </div>
+													<input #fileInput type="file" accept="image/* " id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" (change)="addFile()"/>
+													<!-- <button id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" (click)="addFile()">CARGAR</button> -->
+	                    </div>	                
                   	<!-- First Input Row -->
               		<div class="form-group">
                   		<div class="row">

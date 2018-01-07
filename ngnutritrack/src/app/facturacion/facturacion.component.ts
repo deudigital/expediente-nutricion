@@ -28,6 +28,7 @@ export class FacturacionComponent implements OnInit {
   unidades: any = [];
   medios_pagos: any = [];
   productos: any = [];
+  productosDB: any = [];
 
   filter:{ [id: string]: any; } = {};
   provincia:any;
@@ -107,7 +108,7 @@ export class FacturacionComponent implements OnInit {
 	  		if(res.hasOwnProperty('option') && res.option === 'openModalDatos') {
 
 	  			this.consulta_id = res.consulta_id;
-
+	  			this.obtenerProductos();
 	  		// Comentar para subir
 	  			this.ubicaciones	=	this.mng.getUbicaciones();
 				this._provincias	=	this.mng.getProvincias();
@@ -118,7 +119,7 @@ export class FacturacionComponent implements OnInit {
 						this.setUbicacion(6345);
 			//--------------------------------------//		
 
-				this.obtenerUnidades();
+				this.obtenerUnidades();				
 				this.getTipo_ID();
 				this.getMediosPagos();
 	  			this.getPaciente(res.persona_id);  
@@ -137,41 +138,18 @@ export class FacturacionComponent implements OnInit {
 	  	});
 	  }
 
-	 // Autocomplete test
+	 // Autocomplete 
 	 suggest(){
 	 	if(this.query !== ""){
-		 	this.formControlDataService.buscarProductosDisponibles(this.query)
-			.subscribe(
-				response => {
-							/*let res = response.text();
-				 			let resArray = [] 
-			 				resArray = res.split('<br />');	
-
-			 				if(resArray[2]){
-			 					this.results = JSON.parse(resArray[2]);	
-			 					this.results = response;			
-				 				this.filteredList = this.results.filter(function(el){
-				 					this.adjustAutoCompletePosition(this.productos.length);
-						 			return el.descripcion.toLowerCase().indexOf(this.query.toLowerCase() > -1);
-						 		}.bind(this));		
-			 				}else{
-			 					this.filteredList = [];
-			 				}	*/
-
-			 				if(response){			 				
-			 					this.results = response;			
-				 				this.filteredList = this.results.filter(function(el){
-				 					this.adjustAutoCompletePosition(this.productos.length);
-						 			return el.descripcion.toLowerCase().indexOf(this.query.toLowerCase() > -1);
-						 		}.bind(this));		
-			 				}else{
-			 					this.filteredList = [];
-			 				} 						 						 				 			
-				},
-				error => {
-					console.log(error);
-				}
-			);
+			if(this.productosDB.length>0){			 				
+				this.results = this.productosDB;			
+ 				this.filteredList = this.results.filter(function(el){
+ 					this.adjustAutoCompletePosition(this.productos.length);
+		 			return el.descripcion.toLowerCase().indexOf(this.query.toLowerCase() > -1);
+		 		}.bind(this));		
+			}else{
+				this.filteredList = [];
+			} 	
 	 	}else{
 	 		this.filteredList = [];
 	 	}
@@ -180,10 +158,9 @@ export class FacturacionComponent implements OnInit {
 	 select(item){	 	
 	 	this.query = item.descripcion;	 	
 	 	this.filteredList = [];
-
-	 	this.unidades
+	 	
 	 	for(let u in this.unidades){
-	 		if(this.unidades[u].id === item.unidad_medida){
+	 		if(this.unidades[u].id === item.unidad_medida_id){
 	 			item.unidad_nombre = this.unidades[u].nombre;
 	 		}
 	 	}
@@ -208,10 +185,10 @@ export class FacturacionComponent implements OnInit {
 
 		if(this.persona.ubicacion_id>0)
 			ubicacion_id	=	this.persona.ubicacion_id;
-			
+
 		
 		var ubicacion	=	this.ubicaciones.filter(x => x.id === ubicacion_id);
-		ubicacion	=	ubicacion[0];
+		ubicacion = ubicacion[0];
 		
 		 //setTimeout(() => {
                 //this.provincia	=	2;
@@ -270,6 +247,27 @@ export class FacturacionComponent implements OnInit {
 		let body = document.getElementsByTagName('body')[0];
 		body.classList.remove('open-modal');
 		this.showModalDatos		=	false;
+	}
+
+	obtenerProductos(){
+		this.formControlDataService.getProducts()
+		.subscribe(
+			 response  => {
+
+			 			this.productosDB = response;			 			
+
+			 			for(let producto in this.productosDB){
+			              for(let item in this.unidades){			            			               
+			              	if(this.productosDB[producto].unidad_medida_id === this.unidades[item].id){
+			                	this.productosDB[producto].nombre_unidad = this.unidades[item].nombre;
+			              	}
+			              }    
+			          	}				          	
+					},
+			error =>  {
+					console.log(error)
+				}
+		);
 	}
 
 	obtenerUnidades(){
@@ -408,9 +406,11 @@ export class FacturacionComponent implements OnInit {
 			this.producto.index = this.productIndex;
 			this.productIndex++;
 
-			this.productos.push(this.producto);
-
-			this.calcularFactura(true);			
+			this.productos.push(this.producto);			
+			this.unidad_medida = "Servicios Profesionales";
+			this.calcularFactura(true);		
+			this.query = "";
+			this.producto = {};
 
 			localStorage.setItem("productos", JSON.stringify(this.productos));
 			localStorage.setItem("datos_factura", JSON.stringify(this.factura));
@@ -425,6 +425,8 @@ export class FacturacionComponent implements OnInit {
 				impuesto: 0.00,
 				subtotal: 0.00
 			}			
+
+			
 		}		
 	}
 
@@ -531,11 +533,26 @@ export class FacturacionComponent implements OnInit {
 
 				this.formControlDataService.generarFactura(data)
 				.subscribe(
-					response => {					   
+					response => {			
+					   localStorage.removeItem("datos_factura");
+					   localStorage.removeItem("productos");		   
 					   let number = 0;	
 					   this.loading = false;
 					   this.form_errors.ajax_failure = false;	
 					   this.form_errors.successful_operation = true;
+
+					   	this.factura = {
+							subtotal: 0.00,
+							descuento: 0.00,
+							ive: 0.00,
+							total: 0.00,
+							medio: 1,
+							medio_nombre: 'Efectivo'
+						};  
+
+						this.productos = [];
+						this.producto.descripcion = "";
+
 					   setTimeout(() => {
 					      this.form_errors.successful_operation = false;
 					      this.openModalDatos();

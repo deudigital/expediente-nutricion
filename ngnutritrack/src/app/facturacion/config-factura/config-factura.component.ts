@@ -20,6 +20,7 @@ export class ConfigFacturaComponent implements OnInit {
 
   mng:any;
   fcData: any;
+  loading: boolean = false;
 
   tipos: any =[];
   data: any={};
@@ -56,17 +57,8 @@ export class ConfigFacturaComponent implements OnInit {
   ngOnInit() {
     this.loadDataForm();
 
-    this.ubicaciones	=	this.mng.getUbicaciones();
-    this._provincias	=	this.mng.getProvincias();
-    this._cantones	=	this.mng.getCantones();
-    this._distritos	=	this.mng.getDistritos();
-
     this.optenerTipoIdentificacion();
-    //this.optenerProvincia();
-    this.getDataNutricionista()
-
-    if(this.ubicaciones)
-        this.setUbicacion(6345);
+    //this.optenerProvincia();    
   //--------------------------------------//
 
 
@@ -74,6 +66,7 @@ export class ConfigFacturaComponent implements OnInit {
 
   // Comentar para subir
   loadDataForm(){
+    this.loading = true;
     this.formControlDataService.getDataForm()
     .subscribe(
        response  => {
@@ -81,8 +74,21 @@ export class ConfigFacturaComponent implements OnInit {
             resArray = response.text().split('<br />');
             this.mng.fillDataForm(JSON.parse(resArray[2]));*/
             this.mng.fillDataForm(response);
+            this.ubicaciones  = this.mng.getUbicaciones();
+            this._provincias  = this.mng.getProvincias();
+            this._cantones  = this.mng.getCantones();
+            this._distritos = this.mng.getDistritos();
+
+            if(this.ubicaciones)
+                this.setUbicacion(6345);
+
+            this.getDataNutricionista();  
+            this.loading = false;        
             },
-      error =>  console.log(<any>error)
+      error => { 
+        this.loading = false;
+        console.log(<any>error)
+      }
     );
   }
 
@@ -178,15 +184,17 @@ export class ConfigFacturaComponent implements OnInit {
 
         resArray = res.split('<br />');
         let arreglo = JSON.parse(resArray[2]);
-        this.data = arreglo[0];
-        console.log(this.data)*/
-        this.data = response;
+        this.data = arreglo[0];*/
+        console.log(this.data);
+        this.data = response[0];
       },
       error =>  {
         console.log(error);
-      }
+      }      
     )
-
+    if(this.data.imagen=='' && this.data.imagen==null ){
+      this.data.imagen='assets/images/logo-placeholder.jpg';
+    }
     this.setUbicacion(this.data.ubicacion_id);
   }
 

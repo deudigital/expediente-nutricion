@@ -349,7 +349,7 @@
 											[(ngModel)]="factura.medio_nombre">
 										<option *ngFor="let medio of medios_pagos" 
 												[attr.value]="medio.nombre" 
-												[attr.selected]="medio.nombre == 'Efectivo' ? true : null">
+												[attr.selected]="medio.nombre == 'Tarjeta' ? true : null">
 											{{medio.nombre}}
 										</option>
 									</select>
