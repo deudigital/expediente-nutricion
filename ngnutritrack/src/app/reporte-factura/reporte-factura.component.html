@@ -1,14 +1,47 @@
 <app-topnav></app-topnav>
-<div class="container">
-	<div class="row">
-		<div class="col-sm-12 content-form">
-			<section>
-				<header>
-					<h3 class="title">Reporte de Facturación</h3>
-				</header>
-			</section>
+<div class="esc-modal loading-modal" *ngIf="form_errors.loading" style="top:15%;">
+	<img src="assets/images/loading-bars.svg" style="width:75px;" />
+</div>
+<div class="esc-modal success_ajax" *ngIf="form_errors.successful_operation" style="top:15%;">
+	<img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png" />
+	<h4>¡Factura anulada de manera exitosa!</h4>
+</div>
+<div class="esc-modal success_ajax" *ngIf="form_errors.ajax_failure" style="top:15%;">
+	<img src="https://cdn3.iconfinder.com/data/icons/simple-web-navigation/165/cross-512.png" style="width:35%" />
+	<h4>Imposible comunicarse con el servidor.</h4>
+</div>
+
+<!-- Modal Confirmacion Borrado de Item -->
+<div class="overlay" *ngIf="show_deleteConfirmation || form_errors.loading || form_errors.successful_operation || form_errors.ajax_failure"></div>
+<div class="esc-modal" *ngIf="show_deleteConfirmation">
+	<div class="box">
+		<a class="modal-close" (click)="confirmDeleteFactura()">X</a>
+		<header>
+			¿Está seguro que desea anular esta factura? 			
+		</header>
+		<div class="body content-form">
+			<div class="buttons-navigation">
+            	<div class="col-md-5">
+					<button class="btn btn-success no-border" 
+							style="width: 100%; background-color:#8BC23F" 
+							id="button2"
+							(click)="anularFactura()">Si</button>
+				</div>
+				<div class="col-md-offset-2 col-md-5">
+					<button class="btn btn-success no-border" style="width: 100%" (click)="confirmDeleteFactura()" id="button3">No</button>
+				</div>
+          	</div>
 		</div>
 	</div>
+</div>
+<!-- End Modal Borrado de Item -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-8">
+            <h3>Reporte de Facturación</h3>
+        </div>
+    </div>
 </div>
 <div class="container-fluid">
 	<div class="row">
@@ -31,6 +64,7 @@
 	                                        (dateChanged)="refreshDateFromLimits($event)"
 	                                        required>
 	                        </my-date-picker>
+	                        <i style="margin-left: -2%;margin-bottom: 1%;"></i>       
                         </div>
 					</div>
                     <div class="col-md-2 col-sm-2 col-xs-12">
@@ -42,6 +76,7 @@
 	                                        (dateChanged)="refreshUntilDateLimits($event)"
 	                                        required>
 	                        </my-date-picker>
+	                        <i id="icon-from" style="margin-left: -2%;margin-bottom: 1%;" (click) = "openPicker()"></i>       
                         </div>
 					</div>
 					<div class="col-md-3 col-sm- col-xs-12">
@@ -59,7 +94,7 @@
                     </div>
                  </div>
 			</section>
-			<section>
+			<section *ngIf="resultArray.length > 0">
             	<div class="row">
             		<!-- iconos de modificado y agregado -->
 					<div class="col-md-1" id="product_editor_column" style="margin-top: 3.1%">
@@ -67,7 +102,7 @@
                             <a href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
                                 <i class="fa fa-file-pdf-o" style="font-size:24px;color:darkgreen;background:none;"></i>
                             </a>
-                            <a routerLinkActive="active" (click)='deleteData(item)' >
+                            <a routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.tipo_documento_id != 3">
                                 <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
                             </a>
                             <div style="height: 9px"></div>
@@ -88,13 +123,13 @@
 	                                </tr>
 	                            </thead>
 	                            <tbody>
-	                                <tr *ngFor="let item of resultArray">
-	                                    <td class="flat-border">{{item.numeracion_consecutiva}}</td>
+	                                <tr *ngFor="let item of resultArray; let i = index ">
+	                                    <td [ngStyle]="{ 'border-radius': setLeftBorder(i) }">{{item.numeracion_consecutiva}}</td>
 	                                    <td>{{item.nombre}}</td>
 	                                    <td>{{item.nombre_tipo}}</td>
 	                                    <td>{{item.fecha}}</td>
 	                                    <td>Colones</td>
-	                                    <td class="flat-border">₡{{item.monto}}</td>
+	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">₡{{item.monto}}</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>

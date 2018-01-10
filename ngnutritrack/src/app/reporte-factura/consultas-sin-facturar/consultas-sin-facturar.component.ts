@@ -15,9 +15,11 @@ declare let jsPDF;
 })
 export class ConsultasSinFacturarComponent implements OnInit {  
 
+  private today: any = new Date();
+  private subscription: Subscription;
   selectedOption: string;
-  public fromDate: any = { date: {year: 2017, month: 10, day:9 } };
-  public untilDate: any = { date: {year: 2017, month: 10, day:15 } };
+  public fromDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate() } };
+  public untilDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate() } };
   public fromOptions: IMyDpOptions = {
   	dateFormat: 'dd/mm/yyyy',
   	disableSince: {year: this.untilDate.date.year,
@@ -25,7 +27,8 @@ export class ConsultasSinFacturarComponent implements OnInit {
   				   day: this.untilDate.date.day +1
   				  },
   	editableDateField: false,
-  	showClearDateBtn: false
+  	showClearDateBtn: false,
+    openSelectorOnInputClick: true
   };
   public untilOptions: IMyDpOptions = {
   	dateFormat: 'dd/mm/yyyy',
@@ -34,7 +37,8 @@ export class ConsultasSinFacturarComponent implements OnInit {
   				   day: this.fromDate.date.day -1
   				  },
   	editableDateField: false,
-  	showClearDateBtn: false
+  	showClearDateBtn: false,
+    openSelectorOnInputClick: true
   };
 
   consultas: any = [];
@@ -51,13 +55,24 @@ export class ConsultasSinFacturarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.subscription = this.commonService.notifyObservable$.subscribe((res)=>{
+      if(res.hasOwnProperty('option') && res.option === 'removeConsulta') {
+
+        for(let con in this.consultas){
+          if(res.consulta === this.consultas[con].id){
+            this.consultas.splice(con, 1);
+          }
+        }
+      }
+    });
     this.loadDataForm();
   }
 
   refreshDateFromLimits(event){  	  	
 	 this.untilOptions = {
 	  	dateFormat: 'dd/mm/yyyy',
-	  	disableUntil: {year: event.date.year,
+	  	disableUntil: {
+               year: event.date.year,
 	  				   month: event.date.month,
 	  				   day: event.date.day
 	  				  }
@@ -67,7 +82,8 @@ export class ConsultasSinFacturarComponent implements OnInit {
   refreshUntilDateLimits(event){
 	 this.fromOptions = {
 	  	dateFormat: 'dd/mm/yyyy',
-	  	disableSince: {year: event.date.year,
+	  	disableSince: {
+               year: event.date.year,
 	  				   month: event.date.month,
 	  				   day: event.date.day
 	  				  }
@@ -77,22 +93,38 @@ export class ConsultasSinFacturarComponent implements OnInit {
   obtenerConsultas_sinFacturar(){
   	this.formControlDataService.getConsultasSinFacturar()
 		.subscribe(
-			response => {
-						/*let res = response.text();
-			 			let resArray = [] 
-
-			 			resArray = res.split('<br />');			 			
-			 			this.consultas = Object.values(JSON.parse(resArray[2]));*/            
-
+			response => {          
             for(let con in response){
               this.consultas.push(response[con]);
             }              
-			 			this.resultArray = this.consultas;
 			},
 			error => {
 				console.log(<any>error);
 			}
 		);	
+  }
+
+  setLeftBorder(index){
+    let value = "";
+    let maxPosition = this.resultArray.length-1;
+
+    if(index === maxPosition){      
+      return value = '0 0 0 15px';
+    }else{
+      return value = '0px';
+    }
+  }
+
+
+  setRightBorder(index){
+    let value = "";
+    let maxPosition = this.resultArray.length-1;
+
+    if(index === maxPosition){      
+      return value = '0 0 15px 0';
+    }else{
+      return value = '0px';
+    }
   }
 
   openFacturacion(consulta){    
@@ -142,10 +174,7 @@ export class ConsultasSinFacturarComponent implements OnInit {
     this.loading = true;
     this.formControlDataService.getDataForm()
     .subscribe(
-       response  => {
-           /* let resArray = [];
-            resArray = response.text().split('<br />');                         
-            this.mng.fillDataForm(JSON.parse(resArray[2]));   */              
+       response  => {         
             this.mng.fillDataForm(response);
             this.obtenerConsultas_sinFacturar(); 
             this.loading = false;
@@ -197,5 +226,9 @@ export class ConsultasSinFacturarComponent implements OnInit {
   			}
   		}
   	}
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 }

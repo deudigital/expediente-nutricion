@@ -50,6 +50,8 @@ export class FacturacionComponent implements OnInit {
   impuesto:boolean = false;
 
  form_errors:any = {
+ 	empty_id: false,
+ 	empty_name: false,
 	invalid_id: false,
 	negativeSubtotal_product: false,
 	invalid_phone: false,
@@ -133,7 +135,7 @@ export class FacturacionComponent implements OnInit {
 	  			}
 
 	  			this.openModalDatos();  		
-	  			this.getNutricionista();				
+	  			this.getNutricionista();			
 	  		}
 	  	});
 	  }
@@ -141,11 +143,11 @@ export class FacturacionComponent implements OnInit {
 	 // Autocomplete 
 	 suggest(){
 	 	if(this.query !== ""){
-			if(this.productosDB.length>0){			 				
-				this.results = this.productosDB;			
- 				this.filteredList = this.results.filter(function(el){
- 					this.adjustAutoCompletePosition(this.productos.length);
-		 			return el.descripcion.toLowerCase().indexOf(this.query.toLowerCase() > -1);
+			if(this.productosDB.length>0){	
+
+ 				this.filteredList = this.productosDB.filter(function(el){
+ 					this.adjustAutoCompletePosition(this.productos.length); 	 					
+		 			return el.descripcion.toString().toLowerCase().includes(this.query.toLowerCase());
 		 		}.bind(this));		
 			}else{
 				this.filteredList = [];
@@ -287,7 +289,29 @@ export class FacturacionComponent implements OnInit {
 		)
 	}
 
-	getNutricionista(){
+  setLeftBorder(index){
+    let value = "";
+    let maxPosition = this.productos.length-1;
+
+    if(index === maxPosition){      
+      return value = '0 0 0 15px';
+    }else{
+      return value = '0px';
+    }
+  }
+
+  setRightBorder(index){
+    let value = "";
+    let maxPosition = this.productos.length-1;
+
+    if(index === maxPosition){      
+      return value = '0 0 15px 0';
+    }else{
+      return value = '0px';
+    }
+  }
+
+  getNutricionista(){
 		this.formControlDataService.getNutricionista()
 		.subscribe(
 			response => {				
@@ -314,7 +338,18 @@ export class FacturacionComponent implements OnInit {
 			 		if(this.tipos_ID[tipo].id === this.persona.tipo_idenfificacion_id){
 			 			this.persona.identification_nombre = this.tipos_ID[tipo].nombre;
 			 		}
-			 	}					 	
+			 	}					
+
+			 // Validar carga de datos
+	  			this.validarNombre();
+				this.validarCorreo();
+				this.validarTelefono();
+				this.validarCedula();
+
+				if(!this.persona.cedula){
+					this.form_errors.empty_id = true;
+				}
+
 			 	this.setUbicacion(this.persona.ubicacion_id);	 			 	
 			},
 			error => {
@@ -410,6 +445,7 @@ export class FacturacionComponent implements OnInit {
 			this.unidad_medida = "Servicios Profesionales";
 			this.calcularFactura(true);		
 			this.query = "";
+			this.impuesto = false;
 			this.producto = {};
 
 			localStorage.setItem("productos", JSON.stringify(this.productos));
@@ -424,9 +460,7 @@ export class FacturacionComponent implements OnInit {
 				descuento: 0.00,
 				impuesto: 0.00,
 				subtotal: 0.00
-			}			
-
-			
+			}						
 		}		
 	}
 
@@ -497,18 +531,20 @@ export class FacturacionComponent implements OnInit {
 	}
 
 	facturar(){
+
+		if(!this.persona.cedula){
+			this.form_errors.empty_id = true;
+		}
+
 		if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
-			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){
+			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){			
+
 			if(this.productos.length > 0){
 				let telefono = this.persona.telefono+"";			
 
 				if(telefono.indexOf('-') > -1){
 					this.persona.telefono = telefono.replace('-','');
 				}
-
-				this.persona.provincia = this._provincias[this.provincia].nombre_provincia;
-				this.persona.distrito = this.filter_distritos[this.distrito].nombre_distrito;
-				this.persona.canton = this.filter_cantones[this.canton].nombre_canton;
 
 				for(let tipo in this.tipos_ID){
 					if(this.persona.identification_nombre === this.tipos_ID[tipo].nombre){
@@ -541,6 +577,8 @@ export class FacturacionComponent implements OnInit {
 					   this.form_errors.ajax_failure = false;	
 					   this.form_errors.successful_operation = true;
 
+					   this.form_errors.empty_id = false;
+
 					   	this.factura = {
 							subtotal: 0.00,
 							descuento: 0.00,
@@ -556,6 +594,7 @@ export class FacturacionComponent implements OnInit {
 					   setTimeout(() => {
 					      this.form_errors.successful_operation = false;
 					      this.openModalDatos();
+					      this.commonService.notifyOther({option: 'removeConsulta', consulta: this.consulta_id});
 					    }, 3000);					   					   					 
 					},
 					error => {
@@ -584,7 +623,7 @@ export class FacturacionComponent implements OnInit {
 		if (this.showModalDatos){
 			window.scrollTo(0, 0);
 			body.classList.add('open-modal');			
-			modal.item(0).setAttribute("style","margin-top: -15%");			
+			modal.item(0).setAttribute("style","margin-top: -10%");			
 		} else{			
 			modal.item(0).setAttribute("style","margin-top: -500%");
 			body.classList.remove('open-modal');
@@ -596,14 +635,22 @@ export class FacturacionComponent implements OnInit {
 	  return re.test(email);
 	}
 
+	validarNombre(){
+		console.log(this.persona);
+		if(this.persona.nombre){
+			this.form_errors.empty_name = false;
+		}else{
+			this.form_errors.empty_name = true;
+		}
+	}
+
 	validarCorreo() {
 	  let email = this.persona.email;
 	  if (this.regexEmail(email)) {
 	  	this.form_errors.invalid_email = false;
 	  } else {
 	    this.form_errors.invalid_email = true;
-	  }
-	  return false;
+	  }	  
 	}
 
 	validarTelefono(){
@@ -618,6 +665,7 @@ export class FacturacionComponent implements OnInit {
 	}
 
 	validarCedula(){
+		this.form_errors.empty_id = false;
 		let cedula = this.persona.cedula+"";
 		let ced_long = cedula.split('');
 
@@ -650,11 +698,18 @@ export class FacturacionComponent implements OnInit {
 			  	this.form_errors.invalid_id = true;
 			  }
 			  break;
+			 case "EXTRANJERO":
+			  if(ced_long.length <= 20){
+			  	this.form_errors.invalid_id = false;
+			  } else {
+			  	this.form_errors.invalid_id = true;
+			  }
+			  break;
 		}
 	}
 
 	_keyPress(event: any) {
-	    const pattern = /[0-9\+\-\ ]/;
+	    const pattern = /^[0-9._\b]/;
 	    let inputChar = String.fromCharCode(event.charCode);
 
 	    if (!pattern.test(inputChar)) {

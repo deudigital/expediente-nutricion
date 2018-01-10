@@ -1,4 +1,12 @@
 <app-topnav></app-topnav>
+
+<div class="loading-div" *ngIf="loading" >
+    <div class="esc-modal loading-modal" style="top:15%;">
+        <img src="assets/images/loading-bars.svg" style="width:75px;" />
+        Cargando productos . . .
+    </div>
+</div>
+
 <!-- Modal Confirmacion Precio -->
 <div class="overlay" (click)="confirmZeroPrice()"></div>
 <div class="esc-modal" *ngIf="showZero_price">
@@ -18,7 +26,7 @@
 				<div class="col-md-offset-2 col-md-5">
 					<button class="btn btn-success no-border" style="width: 100%" id="button3" (click)="confirmZeroPrice()">No</button>
 				</div>
-          	</div>
+      </div>
 		</div>
 	</div>
 </div>
@@ -126,6 +134,7 @@
                                  <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.edit_product">
                                  	No se pudo <b>editar</b> el producto. Imposible conectarse con el servidor. Verifique su conexión.
                                  </span>
+                                 <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.invoicedproduct">No se puede eliminar este producto, ya que el mismo ha sido facturado.</span>
                             </div>                            
                             <div class="row" *ngIf="nuevo">
                                 <div class="col-md-4 col-sm-4 col-xs-12">
@@ -133,8 +142,7 @@
                                       <input class="form-control" 
                                       		 placeholder="Descripcion" 
                                       		 type="text" [(ngModel)]="descripcion" 
-                                      		 (change)="cleanError('descripcion')" 
-                                      		 required> 
+                                      		 (change)="cleanError('descripcion')"> 
                                       <span class="form-errors" *ngIf="form_errors.null_description">Por favor, escriba una descripción.</span>                             
                                     </div>
                                 </div>
@@ -180,7 +188,7 @@
                                         </a>
                                     </div>                                                   
                                 </div>
-                                <div class="row" *ngIf="nuevo">
+                                <div class="row">
                                     <div class="col-md-10" style="padding: 0px 57px 0px 280px;">
                                         <button class="btn btn-success no-border" 
                                         		id="save_product_button"

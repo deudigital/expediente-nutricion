@@ -41,7 +41,7 @@
 					<div class="row">
 						<div clas="col-md-12 col-sm-12 col-xs-12" style="text-align: center;"><h3>Datos del Cliente</h3></div>
 					</div>
-					<div class="row">
+					<div class="row" style="margin-bottom:2%;">
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="tipo_indentificacion">Tipo de Identificación</label>
 							<select class="form-control" 
@@ -53,6 +53,8 @@
 										[ngValue]="option.nombre"
 										[selected]="option.nombre === persona.identification_nombre">{{option.nombre}}</option>
 							</select>
+							<span style="color:red;font-size: 10px;" 
+								  *ngIf="form_errors.empty_id">Por favor, seleccione un tipo de identificación.</span>	
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="cedula">Cédula</label>
@@ -70,40 +72,23 @@
 								  *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>	   
 						</div>
 						<div class="col-md-4 col-sm-4">
-							<label id="row-margin" for="nombre">Nombre Completo</label>
+							<label id="row-margin" for="nombre">Ing</label>
 							<input id="row-margin" 
 								   type="text" 
 								   placeholder="Nombre Completo"
 								   class="form-control" 
 								   id="nombre" 
 								   [(ngModel)] = "persona.nombre"
+								   (focusout) = "validarNombre()"
+								   (keyup) = "validarNombre()"
 								   name="nombre"
 								   required>
+							<span style="color:red;font-size: 10px;" 
+								  *ngIf="form_errors.empty_name">Ingrese el nombre del cliente.</span>
 						</div>
 					</div>
-          <div class="row">
-            	  <div class="col-md-4 col-sm-4">
-	              	  <label id="row-margin" for="direccion">Dirección</label>
-		              <input type="text"              		 
-		              		 id="direccion" 
-		              		 class="form-control" 
-		              		 name="direccion" 
-		              		 [(ngModel)] = "persona.detalles_direccion"
-		              		 placeholder="Dirección" value="">
-            		</div>
-            		<div class="col-md-4 col-sm-4">
-			              <label id="row-margin" for="barrio">Barrio</label>
-			              <select type="text" 
-			              		  id="barrio" 
-			              		  class="form-control" 
-			              		  name="barrio" 
-			              		  [(ngModel)]="persona.ubicacion_id">
-			              	<option *ngFor="let bar of filter_barrios" [ngValue]="bar.id">
-			              		{{bar.nombre_barrio}}
-			              	</option>		  	
-			              </select>
-           			</div>
-           			<div class="col-md-4 col-sm-4">
+          		<div class="row" style="margin-bottom:2%;">
+          			<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="provincia">Provincia</label>
 							<select id="row-margin" 
 									class="form-control" 
@@ -115,10 +100,8 @@
 									{{prov.nombre_provincia}}
 								</option>
 							</select>
-						</div>
-			        </div>
-					<div class="row">
-						<div class="col-md-4 col-sm-4">
+					</div>
+					<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="canton">Cantón</label>
 							<select id="row-margin" 
 									class="form-control" 
@@ -130,8 +113,8 @@
 									{{can.nombre_canton}}
 								</option>
 							</select>
-						</div>
-						<div class="col-md-4 col-sm-4">
+					</div>
+					<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="distrito">Distrito</label>
 							<select id="row-margin" 
 									class="form-control" 
@@ -143,7 +126,30 @@
 									{{dis.nombre_distrito}}
 								</option>
 							</select>
-						</div>
+					</div>           			
+			    </div>
+					<div class="row" style="margin-bottom:2%;">	
+						<div class="col-md-4 col-sm-4">
+			              <label id="row-margin" for="barrio">Barrio</label>
+			              <select type="text" 
+			              		  id="barrio" 
+			              		  class="form-control" 
+			              		  name="barrio" 
+			              		  [(ngModel)]="persona.ubicacion_id">
+			              	<option *ngFor="let bar of filter_barrios" [ngValue]="bar.id">
+			              		{{bar.nombre_barrio}}
+			              	</option>		  	
+			              </select>
+	           			</div>	
+					   <div class="col-md-4 col-sm-4">
+		              	  <label id="row-margin" for="direccion">Dirección</label>
+			              <input type="text"              		 
+			              		 id="direccion" 
+			              		 class="form-control" 
+			              		 name="direccion" 
+			              		 [(ngModel)] = "persona.detalles_direccion"
+			              		 placeholder="Dirección" value="">
+	            		</div>									
             			<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="telefono">Teléfono</label>
 							<input id="row-margin" 
@@ -195,8 +201,8 @@
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
-	                                    <tr *ngFor="let pr of productos">
-	                                    	<td>
+	                                    <tr *ngFor="let pr of productos; let i = index ">
+	                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }">                                        
 	  	                                		<a href="javascript:void(0)" (click)="removeProduct(pr)">
 				                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
 				                                </a>
@@ -219,7 +225,7 @@
 	                                    	<td>
 	                                    		<span>₡ {{pr.impuesto}}</span>
 	                                    	</td>
-	                                    	<td>
+	                                    	<td [ngStyle]="{ 'border-radius': setRightBorder(i) }"> 
 	                                    		<span>₡ {{pr.subtotal}}</span>
 	                                    	</td>
 	                                    </tr>
@@ -237,8 +243,7 @@
 						   		  name="proteina" 
 						   		  placeholder="Ingrese descripción"
 						   		  [(ngModel)]="query"
-						   		  (keyup)="suggest()"
-						   		  required>
+						   		  (keyup)="suggest()">
 						</div>
 						<div class="autocomplete-div" *ngIf="filteredList.length > 0">
 							<ul class="dropdown-menu dropdown-autocomplete" *ngFor="let item of filteredList">
@@ -269,13 +274,14 @@
 								   class="form-control" 
 								   placeholder="₡16,500" 
 								   name="precio"
+								   style="width:75%;"
 								   (keyup)="calcularSubtotalProducto()"
 								   [(ngModel)]="producto.precio"
 								   currencyMask 
 								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
 								   required>
 						</div>
-            			<div class="col-md-1 col-sm-6">
+            			<div class="col-md-1 col-sm-6" style="margin-left: -4%;">
              			    <label id="row-margin" for="cantidad">Cantidad</label>
 							<input type="number" 
 								   id="cantidad" 
@@ -287,7 +293,7 @@
 								   min="1" 
 								   placeholder="Cantidad">
 						</div>
-						<div class="col-md-1 col-sm-6">
+						<div class="col-md-1 col-sm-6" style="width: 13%;">
              			    <label id="row-margin" for="descuento">Descuento</label>
 							<input type="text" 
 								   id="descuento" 
@@ -302,13 +308,14 @@
 								El descuento no debe ser mayor al subtotal.
 							</span>							   
 						</div>
-						<div class="col-md-2 col-sm-6" style="margin-top:-0.3%;">
+						<div class="col-md-2 col-sm-6" style="margin-top:-0.3%;width: 15.5%;margin-right: -3%;">
               				<label id="row-margin" for="impuesto">
-              					<input type="checkbox" (change)="aplicarImpuestoProducto()"/>Impuesto (13%)
+              					<input type="checkbox" [checked]="impuesto" (change)="aplicarImpuestoProducto()"/>Impuesto (13%)
               				</label>
 							<input type="text" 
 								   id="impuesto" 
 								   class="form-control" 
+								   style="width: 75%;"
 								   placeholder="₡2,145" 
 								   name="impuesto"
 								   disabled="true" 
@@ -321,6 +328,7 @@
               				<label id="row-margin" for="subtotal">Subtotal</label>
 							<input id="subtotal" 
 								   class="form-control" 
+								   style="width: 75%;"
 								   placeholder="₡18,645"
 								   disabled="true" 
 								   [(ngModel)]="producto.subtotal"
@@ -330,18 +338,17 @@
 						</div>
 					</div>
 					<div class="row">
-            			<div id="row-margin" class="actions">
-							<a href="javascript:void(0)" (click)="addProducto()">
-								<h5 class="form-open" href="javascript:void(0)">
-									<span class="glyphicon glyphicon-plus-sign"></span>Añadir línea
-								</h5>
-							</a>
-						</div>
+        				<div class="col-md-12" style="text-align: center; width:33%; margin: 3% 0% 0% 33%;">
+  							<button class="btn btn-success no-border"
+  									style="width:100%; border-color: #8bc23f !important;" 
+  									(click)="addProducto()"
+  									id="button3"> Añadir Línea </button>
+  						</div>
 					</div>
 					<hr style="border-color:#d7dbdd">
 					<div class="row">
 							<div class="col-md-3">
-								<div id="row-margin" class="row">
+								<div id="row-margin" class="row" style="margin-bottom: 20px;">
 									<label id="row-margin" for="metodo"> Medio de Pago</label>							
 									<select id="metodo" 
 											class="form-control"
@@ -367,15 +374,13 @@
 							</div>
 					</div>
 
-					<div class="row">
-            			<div class="buttons-navigation">
-              				<div class="col-md-offset-3 col-md-3" style="text-align: center;">
-  								<button class="btn btn-success no-border" id="save_product_button" (click)="facturar()"> Facturar </button>  								
-  							</div>
-	  						<div class="col-md-3" style="text-align: center;">
-	  							<button class="btn btn-success no-border" style="width:100%;" id="button3"> Cancelar </button>
-	  						</div>
-            			</div>
+					<div class="row facturar-buttons">
+          				<div class="col-md-3" style="text-align: center;">
+								<button class="btn btn-success no-border" style="background-color:#cf2e34; border-color:#cf2e34; width:100%" id="save_product_button" (click)="facturar()"> Facturar </button>  								
+							</div>
+  						<div class="col-md-3" style="text-align: center;">
+  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" id="button3"> Cancelar </button>
+  						</div>
 					</div>
 					<div class="row">
 						<span style="color:red;" *ngIf="form_errors.empty_products">Debe por lo menos añadir un producto o servicio.</span>

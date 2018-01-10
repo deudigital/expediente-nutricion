@@ -13,6 +13,7 @@ declare let jsPDF;
   templateUrl: './reporte-factura.component.html',
 })
 export class ReporteFacturaComponent implements OnInit {
+  private today: any = new Date();
 	private formControlData: FormControlData = new FormControlData();
 	filter = {};
 	factura = [];
@@ -20,9 +21,17 @@ export class ReporteFacturaComponent implements OnInit {
   tipo: string = "Todos";
   tipos: any = [];
   resultArray: any = [];
+  deleted_document: any = {};
+  show_deleteConfirmation: boolean = false;
 
-  public fromDate: any = { date: {year: 2017, month: 10, day:9 } };
-  public untilDate: any = { date: {year: 2017, month: 10, day:15 } };
+  form_errors: any = {
+    loading: false,
+    successful_operation: false,
+    ajax_failure: false
+  };
+
+  public fromDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate() } };
+  public untilDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate() } };
   public fromOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     disableSince: {year: this.untilDate.date.year,
@@ -30,7 +39,8 @@ export class ReporteFacturaComponent implements OnInit {
              day: this.untilDate.date.day +1
             },
     editableDateField: false,
-    showClearDateBtn: false
+    showClearDateBtn: false,
+    openSelectorOnInputClick: true
   };
   public untilOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
@@ -39,7 +49,8 @@ export class ReporteFacturaComponent implements OnInit {
              day: this.fromDate.date.day -1
             },
     editableDateField: false,
-    showClearDateBtn: false
+    showClearDateBtn: false,
+    openSelectorOnInputClick: true
   };
 
   constructor(private formControlDataService: FormControlDataService) {
@@ -71,46 +82,32 @@ export class ReporteFacturaComponent implements OnInit {
   }
 
   obtenerTiposDeDocumento(){
-    this.formControlDataService.getTipos()
-      .subscribe(
-        response  =>  {
-         /* let res = response.text();
-          let resArray = []
-
-          resArray = res.split('<br />');
-          this.tipos = JSON.parse(resArray[2]);*/
-          this.tipos = response;
-        },
-        error =>  {
-          console.log(error);
-        }
-      )
+    this.tipos = [
+            {
+              id:1,
+              nombre:"Factura Electronica"
+            },
+            {
+              id:3,
+              nombre:"Nota de Credito"
+            }
+    ]
   }
 
   obtenerFacturas(){
 		this.formControlDataService.getReporteFactura()
 		.subscribe(
-			 response  => {
+			 response  => {                        
 
-			 		/*let res = response.text();
-			 		let resArray = []
-
-			 		resArray = res.split('<br />');
-          this.factura = JSON.parse(resArray[2]);
-          console.log(this.factura);*/
-          
-
-          this.factura = response;
-
+          this.factura = response;      
           for(let doc in this.factura){
             for(let item in this.tipos){
               if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
                 this.factura[doc].nombre_tipo = this.tipos[item].nombre;
+                this.factura[doc].monto = Math.round(this.factura[doc].monto * 100) / 100;
               }
             }
-          }
-
-          this.resultArray = this.factura;
+          }          
 			},
 			error =>  {
 					console.log(error)
@@ -118,20 +115,74 @@ export class ReporteFacturaComponent implements OnInit {
 		);
 	}
 
-  showPDF(item){
-    let pdf = item.pdf.split('/');    
-    window.open("http://expediente.nutricion.co.cr/nutri/public/invoices/"+pdf[pdf.length-1], "_blank");
+  confirmDeleteFactura(documento){
+    this.deleted_document = documento;
+    this.show_deleteConfirmation = !this.show_deleteConfirmation;
+    let body = document.getElementsByTagName('body')[0];
+    if(this.show_deleteConfirmation)
+      body.classList.add('open-modal');
+    else
+      body.classList.remove('open-modal');    
   }
 
-  deleteData(item){
-  	console.log(item);
-  	/*realizar aqui el codigo para la nota de creditoy si da 200 coloca este codigo*/
-  	for(let i=0; i<this.factura.length;i++){
-  		if(item.id===this.factura[i].id){
-  			console.log(this.factura[i]);
-  			this.factura.splice(i,1);
-  		}
-  	}
+  anularFactura(){
+    this.show_deleteConfirmation = false;
+    this.form_errors.loading = true;
+    this.formControlDataService.deleteFactura(this.deleted_document)
+    .subscribe(
+      response => {        
+        if(response.status === 201){          
+          this.form_errors.loading = false;
+          this.form_errors.successful_operation = true;
+          setTimeout(() => {
+            this.form_errors.successful_operation = false;  
+            this.deleted_document.nombre_tipo = "Nota de crédito";
+            this.deleted_document.tipo_documento_id = 3;
+          }, 3000); 
+        }
+      },
+      error => {
+        console.log(error);        
+        this.form_errors.loading = false;
+        this.form_errors.ajax_failure = true;
+        setTimeout(() => {
+            this.form_errors.ajax_failure = false;            
+          }, 3000); 
+      }
+    );
+  }
+
+  setLeftBorder(index){
+    let value = "";
+    let maxPosition = this.resultArray.length-1;
+
+    if(index === maxPosition){      
+      return value = '0 0 0 15px';
+    }else{
+      return value = '0px';
+    }
+  }
+
+
+  setRightBorder(index){
+    let value = "";
+    let maxPosition = this.resultArray.length-1;
+
+    if(index === maxPosition){      
+      return value = '0 0 15px 0';
+    }else{
+      return value = '0px';
+    }
+  }
+
+  showPDF(item){
+    let pdf = item.pdf.split('/');    
+
+    if(item.tipo_documento_id != 3){
+      window.open("http://expediente.nutricion.co.cr/nutri/public/invoices/"+pdf[pdf.length-1], "_blank");
+    }else{
+      window.open("http://expediente.nutricion.co.cr/nutri/public/invoices/deleted/"+pdf[pdf.length-1], "_blank");
+    }
   }
 
   filterQuery(){

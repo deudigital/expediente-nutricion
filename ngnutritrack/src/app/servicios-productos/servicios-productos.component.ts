@@ -16,7 +16,7 @@ export class ServiciosProductosComponent implements OnInit {
 	showZero_price:boolean = false;
 	show_deleteConfirmation:boolean = false;
 	edit_mode:boolean = false;
-
+	loading:boolean = false;
 
 	form_errors:any = {
 		null_description: false,
@@ -24,7 +24,8 @@ export class ServiciosProductosComponent implements OnInit {
 		NaN_error: false,
 		save_product: false,
 		edit_product: false,
-		delete_product: false
+		delete_product: false,
+		invoicedproduct: false
 	};
 	productos: any = [];
 
@@ -36,6 +37,8 @@ export class ServiciosProductosComponent implements OnInit {
 	productIndex: number = 0;
 
 	paquete: any = {};
+
+	editableProduct: any = {};
 
 	unidades: any = [];
 
@@ -52,57 +55,74 @@ export class ServiciosProductosComponent implements OnInit {
 
 	agregarProducto(){		
 
-		this.form_errors.save_product = false;
+		if(this.nuevo){
+			this.form_errors.save_product = false;
 
-		if(this.descripcion === ""){			
-			this.form_errors.null_description = true;
-			return;
-		}
-
-		if(this.unidad_medida === null){			
-			this.form_errors.null_unity = true;
-			return;
-		}
-
-		if(Number.isNaN(this.precio)){		 	
-		 	this.form_errors.NaN_error = true;
-			return;
-		}
-
-		if(this.precio === 0){	
-			if(!this.showZero_price){		
-				this.confirmZeroPrice();
+			if(this.descripcion === ""){			
+				this.form_errors.null_description = true;
 				return;
 			}
-		}		
 
-		var nutricionista_id	=	this.formControlData.nutricionista_id;		
+			if(this.unidad_medida === null){			
+				this.form_errors.null_unity = true;
+				return;
+			}
 
-		this.paquete = {
-			precio: this.precio,
-			descripcion: this.descripcion,
-			unidad_medida: this.unidad_medida["id"],
-			nombre_unidad: this.unidad_medida["nombre"],
-			index: this.productIndex,
-			nutricionista_id: nutricionista_id
-		};
+			if(Number.isNaN(this.precio)){		 	
+			 	this.form_errors.NaN_error = true;
+				return;
+			}
 
-		this.productIndex ++;
+			if(this.precio === 0){	
+				if(!this.showZero_price){		
+					this.confirmZeroPrice();
+					return;
+				}
+			}		
 
-		this.saveProduct(this.paquete);
+			var nutricionista_id	=	this.formControlData.nutricionista_id;		
+
+			this.paquete = {
+				precio: this.precio,
+				descripcion: this.descripcion,
+				unidad_medida: this.unidad_medida["id"],
+				nombre_unidad: this.unidad_medida["nombre"],
+				index: this.productIndex,
+				nutricionista_id: nutricionista_id
+			};
+
+			this.productIndex ++;
+
+			this.saveProduct(this.paquete);
+		}else{
+
+			if(this.editableProduct.edit_mode){
+				this.editableProduct.unidad_medida_id = this.unidad_medida["id"];
+				this.editableProduct.nombre_unidad = this.unidad_medida["nombre"];			
+
+				this.formControlDataService.updateProducto(this.editableProduct)
+				.subscribe(
+					response => {
+						console.log(response);
+						this.form_errors.edit_product = false;
+						this.editableProduct.edit_mode = false;
+						localStorage.removeItem("previousProduct");
+					},
+					error => {
+						console.log(<any>error);
+						this.form_errors.edit_product = true;
+					}
+				);	
+			}
+		}
 	}
 
 	obtenerUnidades(){
+		this.loading = true;
 		this.formControlDataService.getMeasures()
 		.subscribe(
 			response => {
-						/*let res = response.text();
-			 			let resArray = [] 
-
-			 			resArray = res.split('<br />');			 			
-			 			this.unidades = JSON.parse(resArray[2]);*/
-			 			this.unidades = response;
-			 			console.log(this.unidades);
+			 			this.unidades = response;			 			
 			},
 			error => {
 				console.log(error);
@@ -114,13 +134,6 @@ export class ServiciosProductosComponent implements OnInit {
 		this.formControlDataService.getProducts()
 		.subscribe(
 			 response  => {
-			 			/*let res = response.text();
-			 			let resArray = [] 
-
-			 			resArray = res.split('<br />');		
-
-			 			this.productos = JSON.parse(resArray[2]);*/
-
 			 			this.productos = response;			 			
 
 			 			for(let producto in this.productos){
@@ -130,8 +143,7 @@ export class ServiciosProductosComponent implements OnInit {
 			              	}
 			              }    
 			          	}	
-
-			          	console.log(this.productos);
+					 	this.loading = false;			          	
 					},
 			error =>  {
 					console.log(error)
@@ -144,19 +156,16 @@ export class ServiciosProductosComponent implements OnInit {
 		this.formControlDataService.addProducto(producto)
 		.subscribe(
 			 response  => {
-			 			/*let res = response.text();
-			 			let resArray = [] 
-			 			let finalResult:any;
-
-			 			resArray = res.split('<br />');			 			
-			 			finalResult = JSON.parse(resArray[2]);	*/		 			
-			 			//producto.id = finalResult.data;
-
 			 			this.responses.push(response);
 			 			producto.id = this.responses[0].data;
 
 			 			this.responses.splice(0, 1);	
-						this.productos.push(producto);
+						this.productos.push(producto);	
+						
+						this.precio = 0.0;
+						this.descripcion = "";
+						this.unidad_medida["id"] = 1;
+						this.unidad_medida["nombre"] = "Servicios Profesionales";
 					},
 			error =>  {
 						console.log(<any>error);
@@ -174,21 +183,20 @@ export class ServiciosProductosComponent implements OnInit {
 	editProduct(producto){		
 		this.form_errors.edit_product = false;
 		producto.edit_mode = !producto.edit_mode;
+		this.editableProduct = producto;		
 
-		if(!producto.edit_mode){			
-			producto.unidad_medida = this.unidad_medida["id"];
-			producto.nombre_unidad = this.unidad_medida["nombre"];			
-
-			this.formControlDataService.updateProducto(producto)
-			.subscribe(
-				response => {
-					console.log(response);
-				},
-				error => {
-					console.log(<any>error);
-					this.form_errors.edit_product = true;
+		if(!producto.edit_mode){
+			if(localStorage.getItem("previousProduct")){
+				producto = JSON.parse(localStorage.getItem("previousProduct"));
+				for(let prod in this.productos){
+					if(this.productos[prod].id === producto.id){
+						this.productos[prod] = producto;
+					}
 				}
-			);	
+				producto.edit_mode = !producto.edit_mode;
+			}
+		}else{
+			localStorage.setItem("previousProduct", JSON.stringify(producto));
 		}
 	}
 
@@ -199,10 +207,10 @@ export class ServiciosProductosComponent implements OnInit {
 		let removedProduct = {
 			index: 0,
 			id: null
-		}
+		}		
 
 		for(let i=0; i<this.productos.length; i++){			
-			if(this.productos[i].index === this.paquete.index){			
+			if(this.productos[i].id === this.paquete.id){			
 				removedProduct.index = i;
 				removedProduct.id = this.productos[i].id;
 			}		   	
@@ -210,7 +218,16 @@ export class ServiciosProductosComponent implements OnInit {
 
 		this.formControlDataService.deleteProducto(removedProduct.id)
 		.subscribe(
-			response => {
+			response => {				
+
+				if(response.status === 204){
+					this.form_errors.invoicedproduct = true;
+					setTimeout(() => {
+				      this.form_errors.invoicedproduct = false;					      
+				    }, 5000);	
+				    return;
+				}
+
 				this.productos.splice(removedProduct.index, 1);	
 			},
 			error => {

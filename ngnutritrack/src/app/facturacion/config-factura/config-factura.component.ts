@@ -16,6 +16,7 @@ import { CommonService } from '../../Services/common.service';
 
 export class ConfigFacturaComponent implements OnInit {
 @ViewChild("fileInput") fileInput;
+@ViewChild("fileCrypto") fileCrypto;
 
 
   mng:any;
@@ -40,7 +41,27 @@ export class ConfigFacturaComponent implements OnInit {
   filter_barrios:{ [id: string]: any; };
   ubicaciones:any;
 
+  crytoName : string ='';
+
   fileToUpload:any;
+  crytoToUpload:any;
+
+   form_errors:any = {
+    empty_id: false,
+    empty_postal: false,
+    empty_comercialName: false,
+    empty_direccion: false,
+    empty_idAtv: false,
+    empty_passAtv: false,
+    empty_pinAtv:false,
+    invalid_id: false,    
+    invalid_phone: false,
+    invalid_email: false,   
+    invalid_file: false, 
+    invalid_cryto:false,
+    successful_operation: false,
+    ajax_failure: false
+   };
 
   constructor(private formControlDataService: FormControlDataService, private commonService: CommonService) {
     this.fcData  =  this.formControlDataService.getFormControlData();
@@ -120,7 +141,7 @@ export class ConfigFacturaComponent implements OnInit {
    this.provincia	=	ubicacion.codigo_provincia;
 
 
-   //this.persona.ubicacion_id	=	ubicacion_id;
+   this.data.ubicacion_id	=	ubicacion_id;
    return ;
 /*
 
@@ -178,15 +199,14 @@ export class ConfigFacturaComponent implements OnInit {
   getDataNutricionista(){
     this.formControlDataService.getNutricionista()
     .subscribe(
-      response  =>  {
-      /*  let res = response.text();
-        let resArray = []
-
-        resArray = res.split('<br />');
-        let arreglo = JSON.parse(resArray[2]);
-        this.data = arreglo[0];*/
-        console.log(this.data);
+      response  =>  {        
         this.data = response[0];
+        for(let tipo in this.tipos){         
+          if(this.tipos[tipo].id === this.data.tipo_idenfificacion_id){
+            this.data.identification_nombre = this.tipos[tipo].nombre;
+          }
+        }
+        console.log(this.data);
       },
       error =>  {
         console.log(error);
@@ -202,31 +222,74 @@ export class ConfigFacturaComponent implements OnInit {
     console.log('entra');
     console.log(this.ubicaciones);
     console.log(this.data);
-    this.formControlDataService.updateConfiguracionFactura(this.data)
-    .subscribe(
-      response => {
-        console.log(response);
-        this.formControlDataService.uploadImagen(this.fileToUpload)
-        .subscribe(
-          response => {
-            console.log(response);
-          },
-          error => {
-            console.log(<any>error);
-          }
-        );
-      },
-      error => {
-        console.log(<any>error);
-      }
-    );
+    if( !this.form_errors.empty_id && !this.form_errors.empty_postal &&
+        !this.form_errors.empty_comercialName && !this.form_errors.empty_comercialName &&
+        !this.form_errors.empty_direccion && !this.form_errors.empty_idAtv &&
+        !this.form_errors.empty_passAtv && !this.form_errors.empty_pinAtv &&
+        !this.form_errors.invalid_id && !this.form_errors.invalid_phone && 
+        !this.form_errors.invalid_email && !this.form_errors.invalid_file){
+      this.formControlDataService.updateConfiguracionFactura(this.data)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.loading = false;           
+            if(this.fileToUpload){
+              this.formControlDataService.uploadImagen(this.fileToUpload)
+              .subscribe(
+                response => {
+                  console.log(response);
+                },
+                error => {
+                  console.log(<any>error);               
+                }
+              );              
+            }
+            if(this.crytoToUpload){
+              this.formControlDataService.uploadCrypto(this.crytoToUpload)
+              .subscribe(
+                response=>{
+                  console.log(response);
+                },
+                error=> {
+                  console.log(<any>error);
+                });
+            }
+          this.form_errors.ajax_failure = false; 
+          this.form_errors.successful_loadImage = false;
+          this.form_errors.successful_operation = true;
+          setTimeout(() => {
+            this.form_errors.successful_operation = false;
+          }, 3000);
+          
+        },
+        error => {
+          console.log(<any>error);
+        }
+      );
+    }
   }
 
   addFile(): void {
     let fi = this.fileInput.nativeElement;
+    let format = fi.files[0].type.split('/');
+    console.log(format);
     if (fi.files && fi.files[0]) {
+      if(fi.files[0].size<2097153 && format[0]==='image'){
         this.fileToUpload = fi.files[0];
         console.log(this.fileToUpload);
+        this.form_errors.invalid_file=false;
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          let v = e.target
+          console.log(reader.result);
+          this.data.imagen= reader.result;
+          this.form_errors.invalid_file=false;
+        }
+        reader.readAsDataURL(fi.files[0]);
+      }else{
+        this.form_errors.invalid_file=true;
+      }
+        
 
         // this.uploadService
         //     .upload(fileToUpload)
@@ -234,6 +297,154 @@ export class ConfigFacturaComponent implements OnInit {
         //         console.log(res);
         //     });
     }
-}
+  }
+
+  validarCedula(){
+    this.form_errors.empty_id = false;
+    let cedula = this.data.cedula+"";
+    let ced_long = cedula.split('');
+
+    switch(this.data.identification_nombre){
+      case "Cedula Fisica":
+        if(ced_long.length === 9){
+          this.form_errors.invalid_id = false;
+        } else {
+          this.form_errors.invalid_id = true;
+        }
+        break;
+      case "Cedula Juridica":
+        if(ced_long.length === 10){
+          this.form_errors.invalid_id = false;
+        } else {
+          this.form_errors.invalid_id = true;
+        }
+        break;
+      case "DIMEX":
+        if(ced_long.length === 11 || ced_long.length === 12){
+          this.form_errors.invalid_id = false;
+        } else {
+          this.form_errors.invalid_id = true;
+        }
+        break;
+      case "NITE":
+        if(ced_long.length === 10){
+          this.form_errors.invalid_id = false;
+        } else {
+          this.form_errors.invalid_id = true;
+        }
+        break;
+       case "EXTRANJERO":
+        if(ced_long.length <= 20){
+          this.form_errors.invalid_id = false;
+        } else {
+          this.form_errors.invalid_id = true;
+        }
+        break;
+    }
+  }
+
+  _keyPress(event: any) {
+      const pattern = /^[0-9._\b]/;
+      let inputChar = String.fromCharCode(event.charCode);
+
+      if (!pattern.test(inputChar)) {
+        // invalid character, prevent input
+        event.preventDefault();
+      }
+  }
+
+  validarNombreComercial(){
+    if(this.data.nombre_comercial){
+      this.form_errors.empty_comercialName = false;
+    }else{
+      this.form_errors.empty_comercialName = true;
+    }
+  }
+
+  validarApartado(){
+    if(this.data.apartado_postal){
+      this.form_errors.empty_postal = false;
+    }else{
+      this.form_errors.empty_postal = true;
+    }
+  }
+
+  validarTelefono(){
+    let telefono = this.data.telefono+"";
+    let tel_long = telefono.split('');
+
+    if(tel_long.length != 9){
+      this.form_errors.invalid_phone = true;
+    }else{
+      this.form_errors.invalid_phone = false;
+    }
+  }
+
+  validarCorreo() {
+    let email = this.data.email;
+    if (this.regexEmail(email)) {
+      this.form_errors.invalid_email = false;
+    } else {
+      this.form_errors.invalid_email = true;
+    }   
+  }
+
+  regexEmail(email) {
+    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  validarDireccion(){
+    if(this.data.detalles_direccion){
+      this.form_errors.empty_direccion = false;
+    }else{
+      this.form_errors.empty_direccion = true;
+    }
+  }
+
+  validarIdATV(){
+    if(this.data.atv_ingreso_id){
+      this.form_errors.empty_idAtv = false;
+    }else{
+      this.form_errors.empty_idAtv = true;
+    }
+  }
+
+  validarPassATV(){
+    if(this.data.atv_ingreso_contrasena){
+      this.form_errors.empty_passAtv = false;      
+    }else{
+      this.form_errors.empty_passAtv = true;
+    }
+  }
+
+  validarPinATV(){
+    if(this.data.atv_clave_llave_criptografica){
+      this.form_errors.empty_pinAtv = false;
+    }else{
+      this.form_errors.empty_pinAtv = true;
+    }
+  }
+
+  input(id){
+    document.getElementById(id).click();
+  }
+
+  addCryptograficKey(): void {
+    let fi = this.fileCrypto.nativeElement;
+    console.log(fi.files[0]);
+    let format = fi.files[0].type.split('/');
+    console.log(format);
+    if(fi.files && fi.files[0]){
+      if(format[0]==='application' && format[1]==='x-pkcs12'){
+        this.crytoToUpload = fi.files[0];  
+        this.crytoName = fi.files[0].name;
+        this.form_errors.invalid_cryto=false;
+
+      }else{
+        this.form_errors.invalid_cryto=true;
+      }
+    }    
+  }
 
 }

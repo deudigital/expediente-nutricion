@@ -344,6 +344,10 @@ export class FormControlDataService {
 		return this.http.post( this.apiURL + 'productos/'+producto+'/delete', {}).map((response: Response) => response);
 	}
 
+	deleteFactura(documento: any){
+		return this.http.post( this.apiURL + 'facturacion/delete', documento).map((response: Response) => response);
+	}
+
 	getConsultasSinFacturar(): Observable<Consulta_s_f[]>{
 		var nutricionista_id   =   this.formControlData.nutricionista_id;
 		return this.http.get( this.apiURL + 'reportes/consultas_sin_facturar/nutricionista/'+nutricionista_id).map((response: Response) => response.json());
@@ -361,5 +365,11 @@ export class FormControlDataService {
 		let form: FormData  = new FormData();
     form.append('avatar', image);
 		return this.http.post( this.apiURL + 'nutricionistas/uploadAvatar/'+nutricionista_id,form).map((response: Response) => response.json());
+	}
+	uploadCrypto(key:any){
+		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		let form: FormData  = new FormData();
+    form.append('cryptoKey', key);
+		return this.http.post( this.apiURL + 'nutricionistas/uploadCrypto/'+nutricionista_id,form).map((response: Response) => response.json());
 	}
 }

@@ -5,15 +5,19 @@
         Cargando configuración . . .
     </div>
 </div> 
+<div class="esc-modal success_ajax" *ngIf="form_errors.successful_operation" style="top:15%;">
+  <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png" />
+  <h4>Configuración guardada de manera exitosa!</h4>
+</div>
+<div class="esc-modal success_ajax" *ngIf="form_errors.ajax_failure" style="top:15%;">
+  <img src="https://cdn3.iconfinder.com/data/icons/simple-web-navigation/165/cross-512.png" style="width:35%" />
+  <h4>Imposible comunicarse con el servidor.</h4>
+</div>
 <div class="container">
 	<div class="row">
-		<div class="col-sm-12 content-form">
-			<section>
-				<header>
-					<h3 class="title">Configuración de Factura</h3>
-				</header>
-			</section>
-		</div>
+		 <div class="col-sm-offset-4 col-sm-8">
+        <h3 class="title">Configuración de Factura</h3>
+      </div>
 	</div>
 </div>
 <div class="container-fluid">
@@ -21,14 +25,17 @@
 		<div class="col-sm-12">
 			<div class="col-md-12 col-sm-12 col-xs-12 content-form">
 				<section>
-					<div class="col-md-1">
-	                         <img alt="nutritrack" src="{{data.imagen}}" style="width: 220%;">
-	                    </div>
-	                    <div class="col-md-11" style="padding:1.5% 0% 0% 0%">
-	                        <!-- <input type="file" id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" value="CARGAR"> -->
-													<input #fileInput type="file" accept="image/* " id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" (change)="addFile()"/>
-													<!-- <button id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" (click)="addFile()">CARGAR</button> -->
-	                    </div>	                
+					<div class="row">
+						<div class="col-md-2">
+        			<img alt="nutritrack" src="{{data.imagen}}" style="width: 180px;">
+            </div>
+            <div class="col-md-10" style="padding:1.5% 0% 0% 0%">	                       
+							<input #fileInput type="file" accept="image/* " id="button1" class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%; display: none;" (change)="addFile()"/>
+              <button class="btn btn-success no-border" style="margin:0.8% 0% 0% 5%" (click)="input('button1')">CARGAR</button>
+              <span style="color:red;font-size: 10px;" *ngIf="form_errors.invalid_file">El archivo tiene que tener formato de imagen y no ser mayor a 2MB.</span>							
+            </div>
+					</div>
+						                
                   	<!-- First Input Row -->
               		<div class="form-group">
                   		<div class="row">
@@ -38,24 +45,32 @@
 																	id="nombre_comercial"
 																	type="text"
 																	[(ngModel)]="data.nombre_comercial"
+																	(keyup)="validarNombreComercial()"
+																	(focusout) = "validarNombreComercial()"
 																	required>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_comercialName">Ingrese el nombre comercial.</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="id_type">Tipo de Identificación</label>
                           		<select class="form-control ng-pristine ng-valid ng-touched"
-																			[(ngModel)]="data.tipo_idenfificacion_id"
+																			[(ngModel)]="data.identification_nombre"
+																			(change)="validarCedula()"
 																			id="tipo"
 																			name="tipo">
-                          			<option *ngFor="let item of tipos" [ngValue]="item.id">{{item.nombre}}</option>
+                          			<option *ngFor="let item of tipos" 
+                          							[ngValue]="item.nombre"
+																				[selected]="item.nombre === data.identification_nombre">{{item.nombre}}</option>
                           		</select>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="id_number">Número de Identificación</label>
-                          		<input class="form-control"
-																			id="id_number"
-																			type="text"
-																			[(ngModel)]="data.cedula"
-																			required>
+                      		<input class="form-control"
+																	id="id_number"
+																	[(ngModel)]="data.cedula"
+																	(keyup)="validarCedula()"
+						   										(keypress)="_keyPress($event)"
+																	required>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="social">Razón Social</label>
@@ -73,22 +88,23 @@
 																	id="postal"
 																	type="text"
 																	[(ngModel)]="data.apartado_postal"
+																	(keyup)="validarApartado()"
+																	(focusout) = "validarApartado()"
 																	required>
-                  			</div>
-                  			<div class="col-md-3 col-sm-12 col-xs-12">
-                  				<label class="col-form-label" for="zip">Código de Área</label>
-                            	<select class="form-control" id="zip"></select>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_postal">Ingrese el apartado postal</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="phone">Teléfono</label>
-                          		<input class="form-control"
-																			id="phone"
-																			placeholder="eg. 4126-4564"
-																			type="text"
-																			[(ngModel)]="data.telefono"
-																			mask="0000-0000"
-									 								   	name="telefono"
-																			required>
+                      		<input class="form-control"
+																	id="phone"
+																	placeholder="eg. 4126-4564"
+																	type="text"
+																	[(ngModel)]="data.telefono"
+																	(keyup) = "validarTelefono()"
+																	mask="0000-0000"
+							 								   	name="telefono"
+																	required>
+													<span *ngIf="form_errors.invalid_phone" style="color:red;">Por favor, ingrese un teléfono válido.</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="email">Email</label>
@@ -96,17 +112,29 @@
 																			id="email"
 																			type="email"
 																			[(ngModel)]="data.email"
+																			(keyup)="validarCorreo()"
 																			required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="barrio">Barrio</label>
+                          		<select class="form-control"
+																			id="barrio"
+																			name="barrio"
+																			[(ngModel)]="data.ubicacion_id">
+																<option *ngFor="let bar of filter_barrios" [ngValue]="bar.codigo_barrio">
+																	{{bar.nombre_barrio}}
+																</option>
+															</select>
                   			</div>
                   		</div>
                   		<!-- Third Input Row -->
-                  		<div class="row">
+                  		<div class="row">                  			 
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="state">Provincia</label>
 						  						<select class="form-control"
 													 				id="state"
 																	[(ngModel)]="provincia"
-																	(change)="selectCantones($event)">>
+																	(change)="selectCantones($event)">
 														<option *ngFor="let item of _provincias"  [ngValue]="item.codigo_provincia">{{item.nombre_provincia}}</option>
 													</select>
                   			</div>
@@ -133,36 +161,70 @@
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="address">Dirección</label>
-              						<input class="form-control" id="address" type="text" [(ngModel)]="data.detalles_direccion" equired>
+              						<input class="form-control" 
+              										id="address" 
+              										type="text" 
+              										[(ngModel)] = "data.detalles_direccion" 
+              										(keyup) = "validarDireccion()"
+              										(focusout) = "validarDireccion()"
+              										required>
                   			</div>
                   		</div>
                   		<!-- Fourth Input Row -->
-                  		<div class="row">
+                  		<div class="row">                  	
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="access_id">Identificación de Ingreso (Generado por ATV)</label>
-                				<input class="form-control" id="access_id" type="text" [(ngModel)]="data.atv_ingreso_id" required>
+	                				<input class="form-control" 
+	                								id="access_id" 
+	                								type="text"  
+	                								[(ngModel)]="data.atv_ingreso_id"
+	                								(keyup) = "validarIdATV()"
+	              									(focusout) = "validarIdATV()"
+	              									required>
+        									<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_idAtv">Ingrese la identificación de ingreso</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
 	                  			<label class="col-form-label" for="access_password">Contraseña de Ingreso (Generado por ATV)</label>
-	                          	<input class="form-control" id="access_password" type="password" [(ngModel)]="data.atv_ingreso_contrasena" required>
+                        	<input class="form-control" 
+                        					id="access_password" 
+                        					type="password" 
+                        					[(ngModel)]="data.atv_ingreso_contrasena"
+                        					(keyup) = "validarPassATV()"
+          												(focusout) = "validarPassATV()"
+                        					required>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_passAtv">Ingrese la contraseña de ingreso</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="crypt_key">Llave Criptográfica</label>
 		                        <div style="padding:0% 0% 0% 6%;">
-	                              	<button id="button2" class="btn btn-success no-border" id="crypt_key">CARGAR</button>
+                              <input #fileCrypto type="file" 
+                                                accept=".p12" 
+                                                id="button4" 
+                                                class="btn btn-success no-border" 
+                                                (change)="addCryptograficKey()"
+                                                style="margin:0.8% 0% 0% 5%; display: none;"/>
+                              <span style="color: green;font-size: 10px" *ngIf="crytoName">{{crytoName}}</span><br>
+                              <button id="button2" class="btn btn-success no-border" id="crypt_key" (click)="input('button4')">CARGAR</button>                              	
 		                        </div>
-                  			</div>
+                  			</div>    
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="PIN">Clave o PIN de la llave criptográfica</label>
-                        		<input class="form-control" id="PIN" type="text" [(ngModel)]="data.atv_clave_llave_criptografica" required>
-                  			</div>
+                      		<input class="form-control" 
+                      						id="PIN" 
+                      						type="text" 
+                      						[(ngModel)]="data.atv_clave_llave_criptografica"
+                      						(keyup) = "validarPinATV()"
+              										(focusout) = "validarPinATV()"
+                      						required>
+              						<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_pinAtv">Ingrese el pin de la llave criptográfica</span>
+                  			</div>             			
                   		</div>
                   		<!-- Fifth Input Row -->
-                  		<div class="row">
+                  		<div class="row">                  			
 	                    	<div class="col-xs-12 col-md-offset-4 col-md-4 col-sm-12" style="margin-top:1.5%">
 	                        	<button id="button3" class="btn btn-success no-border" (click)="saveConfigData()" style="width:100%">GUARDAR</button>
-		          			</div>
-		                </div>
+		          					</div>
+		                	</div>
                   	</div>
 				</section>
 			</div>

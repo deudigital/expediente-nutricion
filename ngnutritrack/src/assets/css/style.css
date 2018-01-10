@@ -471,6 +471,69 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
 	background: #0009;
 	position: absolute;
 	height: 945px;
-	margin-top: -152px;
+	margin-top: -100px;
 	z-index: 1;
+}
+.btn-success:hover {
+    color: #fff;
+    background-color: #cf2e34 !important;
+    border-color: #cf2e34 !important;
+}
+.facturar-buttons{
+	padding: 5% 0% 0% 0%;
+    margin-left: 23%;
+    margin-right: -30%;
+}
+.invoice-resume{
+	font-size: 15px;
+}
+
+/* Overriding datepicker classes to get custom desgin */
+.mydp .selbtngroup {
+    position: relative;
+    white-space: nowrap;
+    width: 1%;
+    font-size: 0;
+    float: left;
+}
+
+.mydp .selectiongroup {
+    position: initial !important;
+    display: table;
+    border: none;
+    border-spacing: 0;
+    background-color: #FFF;
+    border-radius: 20px !important;
+}
+
+.mydp .selection {
+    width: 100%;
+    outline: 0;
+    background-color: #FFF;
+    display: table-cell;
+    position: absolute;
+    text-overflow: ellipsis;
+    padding-left: 38px !important;
+    border: none;
+    color: #555;
+    border-radius: 20px !important;
+    background-color: #E0E0E0 !important;
+    height: 37px !important;
+}
+
+.mydp, .mydp .headertodaybtn {
+    border: 1px solid #CCC;
+    border-radius: 20px !important;
+    border-color: #E0E0E0 !important;
+}
+
+.mydp .btnclearenabled, .mydp .btndecreaseenabled, .mydp .btnincreaseenabled, .mydp .btnpickerenabled, .mydp .headerbtnenabled, .mydp .headertodaybtnenabled, .mydp .yearchangebtnenabled {
+    cursor: pointer;
+    border-radius: 20px !important;
+	margin-left: 10px;
+	background: #E0E0E0 !important;
+}
+
+.mydp .icon-mydpcalendar, .mydp .icon-mydpremove {
+    font-size: 0px !important;
 }
