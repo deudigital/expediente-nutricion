@@ -137,11 +137,9 @@
 							</label>
 						</td>
 						<td>
-							<input type="number" class="form-control" name="cantidad"
+							<input type="number" class="form-control" name="porciones"
 							[(ngModel)]="item.porciones" 
-							(ngModelChange)="calculate(item)" 
-							
-							/>
+							/><!--(ngModelChange)="calculate(item)" -->
 						</td>
 						<td>{{item.carbohidratos}}</td>
 						<td>{{item.proteinas}}</td>
@@ -151,11 +149,12 @@
 				</tbody>
 			</table>
 	
-			<div class="container-form otros-alimentos">
+			<div class="container-form otros-alimentos container-fluid ">
+			
 					<div [ngClass]="{'open': nuevo }" class="actions">
 						<a [ngClass]="{'form-close':nuevo, 'form-open': !nuevo }" (click)="showFormEdit()" href="javascript:void(0)"><i></i>Añadir Otro</a>
 					</div>					
-					<div class="form-edit" *ngIf="nuevo">
+					<div class="form-edit">
 						<div class="row">
 							
 							<table class="table separate asignacion-porciones otro-alimento">

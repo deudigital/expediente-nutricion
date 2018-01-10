@@ -17,6 +17,7 @@
 
 .table.separate{border-spacing: 0 5px;border-collapse: separate;}
 .table.asignacion-porciones{border-spacing: 0 20px;}
+
 .table.asignacion-porciones > tbody > tr > td:first-child {border-radius: 30px 0 0 30px}
 .table.asignacion-porciones > tbody > tr > td:last-child {border-radius: 0 30px 30px 0;}
 .table.asignacion-porciones > tfoot > tr > td .form-control {text-align:center}
@@ -37,7 +38,18 @@
 .table.asignacion-porciones.otro-alimento tbody tr td{background-color:transparent;border:none;padding-top:0;padding-bottom:0;}
 .table.asignacion-porciones.otro-alimento tbody tr td input{text-align:center;padding:0}
 .table.asignacion-porciones.otro-alimento tbody tr td:first-child input{max-width:100%;width:100%;}
-.otros-alimentos .actions.open{position:absolute;margin-top:60px}
+
+.container-form.otros-alimentos {width: 100%;padding-right:0;overflow:hidden;padding-top:5px;margin-top:-15px;min-height:20px;}
+/*.otros-alimentos .actions.open{position:absolute;margin-top:60px}*/
+.otros-alimentos .actions.open {position: absolute;margin-top: 35px;}
+.table.separate.asignacion-porciones.otro-alimento {	border-spacing: 15px 10px;}
+
+.container-form > .actions.open > a.form-close {padding: 0;width: 20px;height: 20px;}
+/*.otros-alimentos .actions {-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
+.otros-alimentos .actions + .form-edit{-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;}*/
+.otros-alimentos .actions + .form-edit {margin-top: -100%;}
+.otros-alimentos .actions.open + .form-edit {margin-top: 0;}
+
 /*
 .table.habitos {border-spacing: 0;border-collapse: collapse;}
 .table.habitos thead tr th {background-color: #e0e0e0;}

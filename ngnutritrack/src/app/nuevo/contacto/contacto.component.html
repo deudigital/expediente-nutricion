@@ -27,11 +27,11 @@
 					<div class="col-md-6">
 						<div class="form-group with-icon correo">
 							  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico</label>
-							  <input type="text" class="form-control" id="email" name="email" placeholder="" email
+							  <input type="text" class="form-control" id="email" name="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" email
 							  [(ngModel)]="paciente.email"
 							  >
 							  <i></i>
-							   <span class="msg-validation">El Correo electronico es InV&aacute;lido</span>
+							   <span class="msg-validation">El correo electr&oacute;nico es inv&aacute;lido</span>
 						</div>
 					</div>
 				</div>

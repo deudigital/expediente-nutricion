@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { HcpOtros } from '../../../control/data/formControlData.model';
+import { FormControlDataService }     from '../../../control/data/formControlData.service';
 
 @Component({
   selector: 'app-otros',
@@ -7,14 +11,76 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OtrosComponent implements OnInit {
 
+	fcd:any;
+	mng:any;
+	paciente:any;
+	hcpOtros:any;
+	oHcpOtros=new HcpOtros();
 	body:any;
-  constructor() { }
+	btnNavigation_pressed:boolean;
+	//id 	ciclos_menstruales 	notas 	paciente_id 
+	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+		this.fcd		=	this.formControlDataService.getFormControlData();
+		this.paciente	=	this.fcd.getFormPaciente();
+		this.hcpOtros	=	this.fcd.getFormPacienteHcpOtros();
+		console.log(this.hcpOtros);
+		this.mng		=	this.fcd.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(true);
+		this.setInfoInit();
+	}
 
 	ngOnInit() {
 		this.body = document.getElementsByTagName('body')[0];
-		this.body.classList.add('menu-parent-hcp');	
+		this.body.classList.add('menu-parent-hcp');
+		this.btnNavigation_pressed	=	false;
 	}
 	ngOnDestroy(){
-		this.body.classList.remove('menu-parent-hcp');	
+		this.body.classList.remove('menu-parent-hcp');
+		if(!this.btnNavigation_pressed)
+			this.saveForm();
+	}
+	
+	setInfoInit(){
+		this.oHcpOtros.ciclos_menstruales	=	this.hcpOtros.ciclos_menstruales;
+		this.oHcpOtros.notas				=	this.hcpOtros.notas;		
+	}
+	infoEdited(){
+		return 	(
+			this.oHcpOtros.ciclos_menstruales	!==	this.hcpOtros.ciclos_menstruales || 
+			this.oHcpOtros.notas				!==	this.hcpOtros.notas
+		);
+	}
+	setHcpOtros(response){
+		this.fcd.setFormPacienteHcpOtros(response.data);
+	}
+	saveInfo(data){
+		if(!this.paciente.id){
+			console.log('sin datos de paciente id');
+			return ;
+		}
+		
+		this.formControlDataService.store('hcp_otros', data)
+		.subscribe(
+			 response  => {
+						console.log('<--Crud:hcp_otros');
+						console.log(response);
+						this.setHcpOtros(response);						
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	saveForm(){
+		if(this.infoEdited())
+			this.saveInfo(this.hcpOtros);
+	}
+	Previous(){
+		this.btnNavigation_pressed	=	true;
+		this.saveForm();
+		this.router.navigate(['/bioquimica']);
+	}
+	Next(){
+		this.btnNavigation_pressed	=	true;
+		this.saveForm();
+		this.router.navigate(['/hcf']);
 	}
 }

@@ -10,7 +10,12 @@ import { FormControlDataService }            from './control/data/formControlDat
 export class AppComponent implements OnInit {
     title = 'Nutri Track';
     @Input() formControlData;
-	info:any;
+	fcd:any;
+	consulta:any;
+	prescripcion:any;
+	rdd:any;
+	
+	information:any;
 		
     constructor(private formControlDataService: FormControlDataService) {
     }
@@ -26,12 +31,32 @@ export class AppComponent implements OnInit {
 Nutricionista ID: 4
 Consulta ID: 
 {"id":141,"fecha":"2017-12-27","notas":"","paciente_id":22,"paciente_nombre":"Juan Manuel Solano"} Logout
-*/		this.info	=	this.formControlDataService.getFormControlData().getFormConsulta();
-		var summary	=	'Nutricionista: ' + this.formControlDataService.getFormControlData().nutricionista_id;
-		if(this.info.id)
-			summary	+=	', Consulta: ' + this.info.id;
-		if(this.info.paciente_id)
-			summary	+=	', Paciente: ' + this.info.paciente_id;
-		return summary;
+*/		
+		this.fcd			=	this.formControlDataService.getFormControlData();
+		this.consulta		=	this.fcd.getFormConsulta();
+		this.prescripcion	=	this.fcd.getFormPrescripcion();
+		this.rdd			=	this.fcd.getFormRdd();
+		//console.log(this.rdd);
+		//var summary	=	'Nutricionista: ' + this.fcd.nutricionista_id;
+		var summary	=	'';
+		if(this.consulta.id){
+			//this.information['consulta']	=	this.consulta.id
+			summary	+=	'Consulta: ' + this.consulta.id;
+		}
+		if(this.prescripcion.id){
+			//this.information['Prescripcion']	=	 this.prescripcion.id;
+			summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
+		}
+		if(this.rdd.id){
+			//this.information['Prescripcion']	=	 this.prescripcion.id;
+			summary	+=	'  |  Rdd: ' + this.rdd.id;
+		}
+		if(this.consulta.paciente_id){
+			//this.information['Paciente']	=	this.consulta.paciente_id;
+			summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
+		}
+		if(summary)
+			summary	+=	'  |  ';
+		return summary + 'Nutricionista: ' + this.fcd.nutricionista_id + '  |  ';
 	}
 }

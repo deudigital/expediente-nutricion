@@ -38,9 +38,9 @@ body.open-modal .esc-modal {top:5%}
 .alimentos .warning:not(.black){color:#cc2026}
 .alimentos .success:not(.black){color:#8bc23f}
 /*	modalbox	*/
-.esc-modalbox{position:absolute;top:-100%;z-index: 10001;background-color: #fff;max-width: 100%;border-radius: 15px;
+.esc-modalbox{max-width: 90%;padding: 30px;left: 5%;
+position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
 -webkit-transition: all 0.4s ease;-moz-transition: all 1s ease;-ms-transition: all 1s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;
-padding: 30px 55px;left: 50%;
 }
 
 .esc-modalbox .modal-close{position:absolute;right:30px;top:30px;cursor:pointer;z-index:10}
@@ -142,6 +142,7 @@ body.grafico-selected-gc_recomendado .grafico-gc_recomendado > span{background-c
 .grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
 .grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
 @media (min-width:768px){
+	.esc-modalbox{max-width: 100%;padding: 30px 55px;left: 50%;}
 	.esc-modalbox{width: 660px;top: -100%;margin-left: -330px;}
 	.esc-modalbox .container-graficos{text-align:center}
 	.esc-modalbox .container-graficos .menu {	width: 100%;}

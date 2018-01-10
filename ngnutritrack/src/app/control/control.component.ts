@@ -10,17 +10,25 @@ import { Router }              from '@angular/router';
   styleUrls: []
 })
 export class ControlComponent implements OnInit {	
-	pacientes: Observable<Paciente[]>;
+	//pacientes: Observable<Paciente[]>;
+	pacientes: any[];
+	//filter_pacientes: any<any[]>;
+	_pacientes:any;
+	filter_pacientes:{ [id: string]: any; };
 	nueva_consulta: Observable<Consulta[]>;
 	selectedConsulta: Consulta;
 	selectedPaciente: Paciente;
 	tagBody:any;
 	mng:any;
 	seleccionado:boolean=false;
+	q:string;
+	showFilter:boolean=false;
 	
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
-		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
-		this.pacientes = formControlDataService.getPacientesDeNutricionista();
+		this.mng		=	this.formControlDataService.getFormControlData().getManejadorDatos();
+		//this.pacientes	=	formControlDataService.getPacientesDeNutricionista();
+		this.getPacientesDeNutricionista();
+		this.showFilter	=	false;
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -32,6 +40,30 @@ export class ControlComponent implements OnInit {
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
 		this.tagBody.classList.remove('page-control');
+	}
+	getPacientesDeNutricionista(){
+		this.formControlDataService.getPacientesDeNutricionista()
+		.subscribe(
+			 response  => {
+						console.log('<--cRud getPacientesDeNutricionista');
+						console.log(response);
+						this.pacientes	=	response;
+					},
+			error =>  console.log(<any>error)
+		);
+	}
+	onFilter(){
+		this.q	=	this.q.trim();
+		if(this.q.length==0){
+			this.showFilter	=	false;
+			return ;
+		}			
+		var search	=	this.q.toLowerCase();
+		this.filter_pacientes	=	this.pacientes.filter(function(item) {
+										var nombre = item.nombre.toString().toLowerCase();
+										return nombre.indexOf(search)>-1;
+									})
+		this.showFilter	=	this.filter_pacientes.length>0;
 	}
 	onSelect(paciente: Paciente) {
 		if(this.seleccionado)

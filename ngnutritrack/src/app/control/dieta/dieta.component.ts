@@ -220,7 +220,7 @@ export class DietaComponent implements OnInit {
 	}
 	fillHistorial(historial){
 		var data	=	[];
-		for(var i in historial){
+		for(var i in historial){console.log(historial[i]);
 			historial[i].display	=	false;;
 			data[i]		=	historial[i];
 		}
@@ -296,14 +296,8 @@ export class DietaComponent implements OnInit {
 	}
 	setOtroAlimento(item){
 		this.otrosItems.push(item);
-		
+		this.total();
 		this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
-		/*this.otroAlimento.nombre	=	'';
-		this.otroAlimento.porciones	=	'';
-		this.otroAlimento.carbohidratos	=	'';
-		this.otroAlimento.proteinas	=	'';
-		this.otroAlimento.calorias	=	'';
-		this.otroAlimento.grasas	=	'';*/
 		this.nuevo	=	false;
 	}
 	remove(otroAlimento){
@@ -324,8 +318,7 @@ export class DietaComponent implements OnInit {
 	save(data){console.log('Crud OtroAlimento-->');console.log(data);
 	
 		if(!this.prescripcion.id){
-			console.log('saving in array');
-			//this.aOtrosAlimentos.push(data);
+			//console.log('saving in array');
 			this.setOtroAlimento(data);
 			return ;
 		}
@@ -339,8 +332,9 @@ export class DietaComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	saveOtrosAlimentos(data){
-		this.formControlDataService.store('otros_alimentos_multiples', {items:this.otrosItems, prescripcion_id:data.id})
+	saveOtrosAlimentos(response){
+		console.log(response);
+		this.formControlDataService.store('otros_alimentos_multiples', {items:this.otrosItems, prescripcion_id:response.data.id})
 		.subscribe(
 			 response  => {
 						console.log('store->response...');
@@ -491,10 +485,10 @@ export class DietaComponent implements OnInit {
 		var value;
 		for(var i =0;i<this.otrosItems.length;i++){
 			value	=	this.otrosItems[i];
-			this.total_otros_carbohidratos	+=	isNaN(value.carbohidratos)? 0: value.carbohidratos;
-			this.total_otros_proteinas		+=	isNaN(value.proteinas)? 0: value.proteinas;
-			this.total_otros_grasas			+=	isNaN(value.grasas)? 0: value.grasas;
-			this.total_otros_calorias		+=	isNaN(value.calorias)? 0: value.calorias;
+			this.total_otros_carbohidratos	+=	Number(isNaN(value.carbohidratos)? 0: value.carbohidratos);
+			this.total_otros_proteinas		+=	Number(isNaN(value.proteinas)? 0: value.proteinas);
+			this.total_otros_grasas			+=	Number(isNaN(value.grasas)? 0: value.grasas);
+			this.total_otros_calorias		+=	Number(isNaN(value.calorias)? 0: value.calorias);
 		}
    }
    calculate_total_ideal(){	   

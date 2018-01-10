@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Rx';
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
-	//private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v1/';
+	//private apiURL	=	'http://127.0.0.1:8000/api/v0/';
 	private headers: Headers;
 	data:any={};
 
@@ -81,7 +81,28 @@ export class FormControlDataService {
 	saveDatosMusculo(data: any): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/musculo', data).map((response: Response) => response.json());
 	}
-	
+	upload(module:string, body:any): Observable<any[]> {
+		console.log('upload:' + module + '-->');
+		/*console.log('Name: ' + Name);
+		console.log('myFile: ' + myFile);*/
+		var serviceUrl	=	this.apiURL;
+		switch(module){
+			case 'bioquimicas':
+				serviceUrl	+=	'pacientes/hcpbioquimicas';
+				break;
+		}
+		/*let _formData = new FormData();
+		_formData.append("Name", Name);
+		_formData.append("MyFile", myFile);
+		let body = this._formData;*/
+		let headers = new Headers();
+		let options = new RequestOptions({
+			headers: headers
+		});
+		
+		return this.http.post( serviceUrl, body, options)
+				.map((response: Response) => response.json());
+	}
 	store(module:string, data:any): Observable<any[]> {
 		console.log('Crud:' + module + '-->');
 		console.log(data);
@@ -101,6 +122,9 @@ export class FormControlDataService {
 				break;
 			case 'medicamentos':
 				serviceUrl	+=	'pacientes/medicamentos';
+				break;
+			case 'hcp_otros':
+				serviceUrl	+=	'pacientes/hcpotros';
 				break;
 			case 'gustos':
 				serviceUrl	+=	'pacientes/gustos';

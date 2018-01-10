@@ -17,6 +17,7 @@ export class FormControlData {
 	paciente:Paciente			=	new Paciente();
 	consulta:Consulta			=	new Consulta();
 	gustos						=	new HabitosGusto();
+	hcpOtros					=	new HcpOtros();	
 	habitosOtro					=	new HabitosOtro();	
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
 	prescripcion:Prescripcion	=	new Prescripcion();
@@ -41,6 +42,7 @@ export class FormControlData {
 			this.patologias			=	[];
 			this.alergias			=	[];
 			this.bioquimicas		=	[];
+			this.hcpOtros			= new HcpOtros();
 			/*	HCF	*/
 			this.hcf_patologias		=	[];
 			/*	OBJETIVOS	*/
@@ -56,7 +58,13 @@ export class FormControlData {
 		this.prescripcion				=	new Prescripcion();
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
 		this.rdd						=	new Rdd();
-		this.patronmenu					=	[];		
+		this.patronmenu					=	[];
+		this.dieta_desayuno_ejemplo			=	'';
+		this.dieta_media_manana_ejemplo		=	'';
+		this.dieta_almuerzo_ejemplo			=	'';
+		this.dieta_media_tarde_ejemplo		=	'';	
+		this.dieta_cena_ejemplo				=	'';
+		this.dieta_coicion_nocturna_ejemplo	=	'';
 		this.dataFilled	=	false;
 		/*console.log('fcd:limpiado');
 		console.log(this);*/
@@ -85,7 +93,8 @@ export class FormControlData {
 		this.valoracionDieteticaEjemplo=	[];
 		this.gustos				=	new HabitosGusto();
 		this.habitosOtro		=	new HabitosOtro();	
-			
+		this.hcpOtros				= new HcpOtros();
+		this.hcpOtros.paciente_id	=	this.paciente.id;
 			
 		if(data.paciente['hcp']){
 			var hcp	=	data.paciente['hcp'];
@@ -95,6 +104,8 @@ export class FormControlData {
 				this.alergias	=	hcp['alergias'];
 			if(hcp['bioquimicas'])
 				this.bioquimicas	=	hcp['bioquimicas'];
+			if(hcp['otros'])
+				this.hcpOtros	=	hcp['otros'];
 		}
 		if(data.paciente['hcf']){
 			var hcf	=	data.paciente['hcf'];
@@ -252,6 +263,12 @@ export class FormControlData {
 	}
 	getFormPacienteHabitosGustos(){
 		return this.gustos;
+	}
+	getFormPacienteHcpOtros(){
+		return this.hcpOtros;
+	}
+	setFormPacienteHcpOtros(hcpOtros){
+		this.hcpOtros	=	hcpOtros;
 	}
 	getFormPacienteHabitosOtros(){
 		return this.habitosOtro;
@@ -712,7 +729,7 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
 	}
-	fillDataForm(data, local=false){console.log('Datos para formularios');console.log(data);
+	fillDataForm(data, local=false){//console.log('Datos para formularios');console.log(data);
 		this.hcpPatologias	=	data.hcp_patologias;
 		this.hcfPatologias	=	data.hcf_patologias;
 		this.alergias		=	data.alergias;
@@ -880,6 +897,13 @@ export class Objetivo{
 	public descripcion:string;
 	public paciente_id:number;
 	/*constructor(public id:number, public fecha:string, public descripcion:string,public paciente_id:number){}*/
+}
+export class HcpOtros{
+		public id:number;
+		public ciclos_menstruales:string='';
+		public notas:string='';
+		public paciente_id:number;
+
 }
 export class HabitosGusto{
 	public id:number;

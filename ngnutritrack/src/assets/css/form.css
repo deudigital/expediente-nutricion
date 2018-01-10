@@ -3,10 +3,10 @@
   border-left: 5px solid #42A948; /* green * /
 }*/
 /*editForm ng-untouched ng-pristine ng-invalid*/
-.form-control.ng-invalid:not(form):not(.ng-untouched) {border: 3px solid #cc2026;background-color: #fff !important;}
+.form-control.ng-invalid:not(form):not(.ng-untouched):not(:focus) {border: 3px solid #cc2026;background-color: #fff !important;}
 .dev-info {position: fixed;top: 40%;left: 0;width: 30%;min-height: 150px;background-color: rgba(0,0,0,0.75);color: #fff;word-wrap: break-word;padding: 30px 20px 20px 30px;z-index: 100;}
-.developmentInfo {position: fixed;bottom: 0;left: 0;width: 100%;background-color: rgba(0,0,0,0.5);color: #fff;word-wrap: break-word;padding: 5px 10px;z-index: 100;text-align:center;color:#eee;font-size:12px}
-.developmentInfo > a {color: #00f81d;margin-left: 20px;}
+.developmentInfo {position: fixed;bottom: 0;left: 0;width: 100%;background-color: rgba(0,0,0,0.5);color: #fff;word-wrap: break-word;padding: 5px 10px 15px;z-index: 100;text-align:center;color:#eee;font-size:12px}
+.developmentInfo > a {color: #00f81d;/*margin-left: 20px;*/}
 
 /*.container-form > .actions > a {display: block;padding-left: 15px;color: #000;font-weight: 600;position:relative;}
 .container-form > .actions > a > i{width: 20px;height: 20px;display: block;position: absolute;left: -20px;top: -3px;}
@@ -17,16 +17,19 @@
 /*.container-form > .actions > a {display: block;padding-left: 15px;color: #000;font-weight: 600;position:relative;left: -20px;top: -3px;width:20px;height:20px;}*/
 
 
+.container-form > .actions > label,
 .container-form > .actions > a {
-    display: block;
+    display: inline-block;
     padding-left: 25px;
     color: #000;
     font-weight: 600;
     position: relative;
-    left: -20px;
+    left: -5px;
     z-index: 100;
     top: -3px;
+	cursor:pointer;
 }
+.container-form > .actions > label > i,
 .container-form > .actions > a > i{width: 20px;height: 20px;display: block;position: absolute;left:0}
 .container-form > .actions > a.form-open > i {background-position: -532px -481px;}
 .container-form > .actions > a.form-close > i {background-position: -530px -445px;/*top: -4px;*/}
@@ -77,19 +80,33 @@ label.col-form-label::after {
 
 /*.form-control.ng-untouched.ng-pristine.ng-valid*/
 
-.form-control:not(.ng-untouched) ~ .msg-validation {position: absolute;width: 100%;bottom: -20px;padding-left: 50px;color:#cc2026;}
-.form-control:not(.ng-untouched) ~ .msg-validation:after {position: absolute;right: -30px;width: 25px;height: 25px;color: #cc2026;
+.form-control ~ .msg-validation {position: absolute;width: 100%;bottom: -20px;padding-left: 50px;color:#cc2026;}
+/*.form-control:not(.ng-untouched):not(:focus) ~ .msg-validation {position: absolute;width: 100%;bottom: -20px;padding-left: 50px;color:#cc2026;}*/
+/*.form-control:not(.ng-untouched):not(:focus) ~ .msg-validation:after {position: absolute;right: -30px;width: 25px;height: 25px;color: #cc2026;*/
+.form-control ~ .msg-validation:after {position: absolute;right: -30px;width: 25px;height: 25px;color: #cc2026;
 	top: -33px;border: 2px solid #cc2026;border-radius: 50%;
 	content: "!";padding: 0;line-height: 1.1em;text-align: center;font-size: 18px;
 	font-weight: 400;
 }
 
-.form-control.ng-untouched.ng-invalid ~ .msg-validation,
+/*
 .form-control.ng-untouched.ng-valid ~ .msg-validation,
 .form-control.ng-touched.ng-valid ~ .msg-validation {display:none}
-.form-control.ng-untouched.ng-invalid ~ .msg-validation:after,
+.form-control.ng-untouched.ng-invalid:not(:focus) ~ .msg-validation:after,
 .form-control.ng-untouched.ng-valid ~ .msg-validation:after,
+.form-control.ng-touched.ng-invalid:not(:focus) ~ .msg-validation:after,
 .form-control.ng-touched.ng-valid ~ .msg-validation:after {display:none}
+*/
+
+.form-control.ng-touched.ng-invalid:focus ~ .msg-validation,
+.form-control.ng-touched.ng-invalid:focus ~ .msg-validation:after,
+.form-control.ng-touched.ng-valid ~ .msg-validation,
+.form-control.ng-untouched.ng-valid ~ .msg-validation,
+.form-control.ng-untouched.ng-invalid ~ .msg-validation,
+.form-control.ng-untouched.ng-valid ~ .msg-validation:after,
+.form-control.ng-untouched.ng-invalid ~ .msg-validation:after{display:none}
+
+
 
 .form-control.fecha_nac{padding-top:0;padding-bottom:0;}
 .form-control.fecha_nac .mydp .selbtngroup {height:30px !important;width:100%}
@@ -99,10 +116,26 @@ label.col-form-label::after {
 .form-control.fecha_nac .mydp .selection{background-color:transparent;}
 .form-control.fecha_nac .mydp .icon-mydpcalendar{visibility: hidden;}
 .form-control.fecha_nac .mydp .selbtngroup .btnpicker {background-color: transparent;position: absolute;left: -37px;top: 0;z-index: 101;width: 110%;margin-left: -40px;}
-
+.loading-file{font-size:1.5em;text-align:center}
+.container-form > .actions > label.form-open > i {background-position: -532px -481px;}
 .error{ color: #f00; }
 .droparea{font-size: 24px;border: 3px dashed #bbb; padding: 20px ;background-color: #eff;color: #aaa;}
 
+
+.draggable {
+      border: 1px solid #ccc;
+      margin: 1rem;
+      padding: 1rem;
+      width: 6rem;
+      cursor: move;
+    }
+
+    .droptarget {
+      border: 1px dashed #ebebeb;
+      margin: 1rem;
+      padding: 1rem;
+      width: 6rem;
+    }
 @media(min-width:768px){
   .buttons-navigation > .btn:not(:first-child) {float: right;}
 }

@@ -128,7 +128,7 @@ export class HcfComponent implements OnInit {
 	}
 	Previous(){
 		this.saveForm();
-		this.router.navigate(['/bioquimica']);
+		this.router.navigate(['/hcp-otros']);
 	}
 	Next(){
 		this.saveForm();

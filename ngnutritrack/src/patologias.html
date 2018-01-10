@@ -21,175 +21,659 @@
 
 
 <nutri-track-app ng-version="4.4.6"><router-outlet name="pagina"></router-outlet>
-<router-outlet></router-outlet><app-hcp><app-topnav><nav class="navbar navbar-default top">
-  <div class="container-fluid">
-	  <div class="row">
-		<div class="navbar-header">
-		  <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		  </button>
+<router-outlet></router-outlet><app-hcp><app-topnav>
 
-		  <a class="navbar-brand" routerlink="/inicio" title="Inicio" ng-reflect-router-link="/inicio" href="/inicio">
-			<img alt="nutritrack" src="assets/images/logo.png" width="125">
-		</a>
+
+
+<div class="container main page-inicio content-form">
+	<figure class="container-logo">
+		<img alt="nutritrack" src="assets/images/logo.png" width="300">
+	</figure>
+	<div class="row links">
+		<div class="col-sm-offset-2 col-sm-4 box">
+			<a data-toggle="tab" routerlink="/nuevo" routerlinkactive="active" title="Nuevo Paciente" ng-reflect-router-link="/nuevo" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/nuevo">
+				<figure class="img-circle transition main-nuevo">
+					<i></i>
+				</figure>
+				<strong>Paciente Nuevo</strong>
+			</a>
 		</div>
-		<div class="navbar-collapse collapse" id="navbar">
-		  <ul class="nav navbar-nav navbar-right">
-			<li class="nuevo">			
-				<a data-toggle="tab" routerlink="/nuevo" routerlinkactive="active" title="Nuevo Paciente" ng-reflect-router-link="/nuevo" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/nuevo">
-					<i class="menu-icon nuevo"></i>Paciente Nuevo
-				</a>
-			</li>
-			<li class="control">
-				<a data-toggle="tab" routerlink="/control" routerlinkactive="active" title="Control" ng-reflect-router-link="/control" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/control">
-					<i class="menu-icon"></i>Control
-				</a>
-			</li>
-			<li class="agenda">
-				<a data-toggle="tab" routerlink="/agenda" routerlinkactive="active" title="Agenda" ng-reflect-router-link="/agenda" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/agenda">
-					<i class="menu-icon"></i>Agenda
-				</a>
-			</li>
-		  </ul>
+		<div class="col-sm-6 box">
+			<a data-toggle="tab" routerlink="/control" routerlinkactive="active" title="Control" ng-reflect-router-link="/control" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/control">
+				<figure class="img-circle transition main-control">
+					<i></i>
+				</figure>
+				<strong>Control</strong>
+			</a>
 		</div>
-	  </div>
-  </div>
-</nav>
-<div class="container">
-	<div class="row">
-		<div class="col-sm-offset-4 col-sm-8">
-			<h3 class="page-title" id="expediente_nombre">Expediente: </h3>
-		</div>
+		
 	</div>
-</div>
-<div class="info-sending">cambios detectados, enviando datos</div></app-topnav>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-3 content-nav">
-			
-			<app-navigation><div class="board-inner control" id="status-buttons">
-<!--bindings={
-  "ng-reflect-ng-if": "false"
-}-->
-	<!--bindings={
-  "ng-reflect-ng-if": "true"
-}--><div>
-			<ul class="list-group">
-				<li class="list-group-item personales">
-					<a data-toggle="tab" routerlink="/personales" routerlinkactive="active" title="Valoración Antropométrico" ng-reflect-router-link="/personales" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/personales">
-						<span>Datos Personales</span>
-						<i></i>
-					</a>
-				</li>
-				<li class="list-group-item contacto">
-					<a routerlink="/contacto" routerlinkactive="active" ng-reflect-router-link="/contacto" ng-reflect-router-link-active="active" href="/contacto">
-						<span>Contacto</span>
-						<i class="icon"></i>
-					</a>
-				</li>
-				<li class="list-group-item hcp">
-					<a routerlink="/hcp" routerlinkactive="active" ng-reflect-router-link="/hcp" ng-reflect-router-link-active="active" href="/hcp" class="active">
-						<span>Historia Clínica Personal</span>
-						<i class="icon"></i>
-					</a>
-				</li>
-				<li class="list-group-item hcf">
-					<a routerlink="/hcf" routerlinkactive="active" ng-reflect-router-link="/hcf" ng-reflect-router-link-active="active" href="/hcf">
-						<span>Historia Clínica Familiar</span>
-						<i class="icon"></i>
-					</a>
-				</li>
-				<li class="list-group-item objetivo">
-					<a routerlink="/objetivo" routerlinkactive="active" ng-reflect-router-link="/objetivo" ng-reflect-router-link-active="active" href="/objetivo">
-						<span>Objetivos del Paciente</span>
-						<i class="icon"></i>
-					</a>
-				</li>
-				<li class="list-group-item habito">
-					<a routerlink="/actividad" routerlinkactive="active" ng-reflect-router-link="/actividad" ng-reflect-router-link-active="active" href="/actividad">
-						<span>Hábitos</span>
-						<i class="icon"></i>
-					</a>
+<section class="listado consultas">
+		<div class="row">
+			<header>
+				<h2 class="title"><i></i>Consulta(s) Sin Finalizar</h2>
+			</header>			
+			<ul>
+				<!--bindings={
+  "ng-reflect-ng-for-of": "[object Object],[object Object"
+}--><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>355 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 355">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 355"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>354 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 354">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 354"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>353 - Oscar Rojas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 353">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 353"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>352 - oscar de la Hoya 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 352">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 352"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>351 - Lucia Estrada 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 351">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 351"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>350 - Melissa Arias 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 350">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 350"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 07/01/2018 <i class="fullname"></i>346 - Vinicio Aguilar 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 346">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 346"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>344 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 344">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 344"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>342 - 556 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 342">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 342"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>341 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 341">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 341"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>340 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 340">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 340"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>339 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 339">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 339"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>338 - juan perez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 338">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 338"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>337 - edgar vivar 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 337">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 337"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>336 - Adam West 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 336">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 336"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>335 - Adam West 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 335">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 335"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>327 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 327">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 327"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>326 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 326">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 326"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>325 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 325">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 325"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>324 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 324">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 324"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>323 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 323">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 323"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>322 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 322">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 322"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>321 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 321">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 321"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>320 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 320">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 320"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>319 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 319">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 319"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>318 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 318">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 318"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>317 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 317">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 317"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>316 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 316">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 316"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>315 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 315">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 315"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>314 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 314">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 314"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>313 - edgar vivar 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 313">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 313"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>312 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 312">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 312"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>311 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 311">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 311"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>310 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 310">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 310"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>309 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 309">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 309"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>308 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 308">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 308"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>307 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 307">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 307"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>306 - edgar vivar 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 306">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 306"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>305 - Adam West 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 305">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 305"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>304 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 304">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 304"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>303 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 303">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 303"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>302 - Ricardo Villalobos 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 302">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 302"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>301 - Ricardo Villalobos 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 301">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 301"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>300 - testtt 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 300">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 300"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>299 - testtt 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 299">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 299"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>298 - juan rambo 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 298">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 298"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>297 - Paloma Palomo 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 297">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 297"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>296 - Paloma Palomo 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 296">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 296"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>295 - Vinicio Smith 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 295">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 295"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>294 - Vinicio Smith 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 294">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 294"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>293 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 293">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 293"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>292 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 292">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 292"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>291 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 291">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 291"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>289 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 289">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 289"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>288 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 288">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 288"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 06/01/2018 <i class="fullname"></i>286 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 286">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 286"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>285 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 285">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 285"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>284 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 284">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 284"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>283 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 283">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 283"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>282 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 282">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 282"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>281 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 281">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 281"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>279 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 279">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 279"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>278 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 278">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 278"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>277 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 277">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 277"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>275 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 275">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 275"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>273 - Gustavo Valverde 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 273">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 273"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>259 - juan lenin 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 259">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 259"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>258 - juan lenin 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 258">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 258"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>255 - Marco Aurelio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 255">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 255"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>254 - Marco Aurelio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 254">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 254"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 05/01/2018 <i class="fullname"></i>238 - Ricardo Gareca 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 238">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 238"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 04/01/2018 <i class="fullname"></i>235 - Vinicio Ramirez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 235">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 235"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 04/01/2018 <i class="fullname"></i>234 - Vinicio Ramirez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 234">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 234"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 04/01/2018 <i class="fullname"></i>214 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 214">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 214"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 03/01/2018 <i class="fullname"></i>213 - Edgar Romero 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 213">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 213"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 02/01/2018 <i class="fullname"></i>212 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 212">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 212"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 02/01/2018 <i class="fullname"></i>210 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 210">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 210"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 02/01/2018 <i class="fullname"></i>209 - Adam West 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 209">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 209"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>204 - Kimberly Quirós 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 204">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 204"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>202 - Emilio Rodríguez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 202">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 202"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>200 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 200">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 200"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>199 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 199">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 199"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>198 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 198">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 198"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>197 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 197">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 197"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 01/01/2018 <i class="fullname"></i>196 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 196">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 196"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 31/12/2017 <i class="fullname"></i>194 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 194">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 194"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 31/12/2017 <i class="fullname"></i>193 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 193">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 193"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 31/12/2017 <i class="fullname"></i>192 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 192">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 192"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 31/12/2017 <i class="fullname"></i>191 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 191">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 191"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 31/12/2017 <i class="fullname"></i>190 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 190">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 190"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 31/12/2017 <i class="fullname"></i>189 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 189">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 189"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>188 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 188">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 188"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>187 - jaime isidro 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 187">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 187"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>186 - Carolina Vargas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 186">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 186"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>185 - Carolina Vargas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 185">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 185"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>179 - Richard Bandler 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 179">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 179"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>178 - James Bond 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 178">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 178"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>177 - James Bond 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 177">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 177"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>176 - James Bond 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 176">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 176"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>175 - Marco Rojas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 175">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 175"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>174 - Marco Rojas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 174">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 174"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>173 - Marco Rojas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 173">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 173"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 30/12/2017 <i class="fullname"></i>172 - Marco Rojas 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 172">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 172"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 29/12/2017 <i class="fullname"></i>170 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 170">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 170"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 29/12/2017 <i class="fullname"></i>169 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 169">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 169"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 29/12/2017 <i class="fullname"></i>167 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 167">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 167"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>165 - Paciene Nuevo Adan 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 165">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 165"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>164 - Nuevo paciente Juan 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 164">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 164"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>163 - ssss 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 163">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 163"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>162 - jaime paz zamora 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 162">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 162"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>161 - Vinicio Aguilar 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 161">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 161"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>160 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 160">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 160"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>156 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 156">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 156"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 28/12/2017 <i class="fullname"></i>155 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 155">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 155"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 27/12/2017 <i class="fullname"></i>146 - asdsad 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 146">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 146"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 27/12/2017 <i class="fullname"></i>145 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 145">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 145"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 27/12/2017 <i class="fullname"></i>144 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 144">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 144"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 27/12/2017 <i class="fullname"></i>143 - dads 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 143">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 143"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 27/12/2017 <i class="fullname"></i>142 - dads 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 142">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 142"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 27/12/2017 <i class="fullname"></i>139 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 139">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 139"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>137 - Mario Moreno 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 137">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 137"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>133 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 133">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 133"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>132 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 132">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 132"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>131 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 131">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 131"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>130 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 130">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 130"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>127 - purebv 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 127">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 127"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 26/12/2017 <i class="fullname"></i>126 - purebv 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 126">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 126"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>125 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 125">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 125"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>120 - AASDSD 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 120">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 120"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>119 - AASDSD 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 119">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 119"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>118 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 118">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 118"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>117 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 117">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 117"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>116 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 116">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 116"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 25/12/2017 <i class="fullname"></i>115 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 115">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 115"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 22/12/2017 <i class="fullname"></i>104 - Leonardo Di Caprio 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 104">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 104"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>87 - Lorena Ramirez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 87">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 87"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>86 - Lorena Ramirez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 86">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 86"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>84 - Mario Moreno 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 84">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 84"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>83 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 83">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 83"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>82 - Xinia Padilla 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 82">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 82"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>79 - Danilo Mata Corella 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 79">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 79"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 19/12/2017 <i class="fullname"></i>78 - Danilo Mata Corella 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 78">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 78"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 18/12/2017 <i class="fullname"></i>77 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 77">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 77"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 18/12/2017 <i class="fullname"></i>74 - Danilo Mata Corella 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 74">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 74"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 18/12/2017 <i class="fullname"></i>73 - Danilo Mata Corella 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 73">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 73"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 18/12/2017 <i class="fullname"></i>69 - Adam West 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 69">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 69"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 18/12/2017 <i class="fullname"></i>68 - Adam West 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 68">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 68"><i></i></a>
+				</li><li>
+					<i class="calendar"></i> 13/12/2017 <i class="fullname"></i>56 - Gloriana Hernandez 
+					<a class="btn btn-default action continuar" href="javascript:void(0);" title="Consulta ID: 56">CONTINUAR</a>
+					<a class="remove-item big action eliminar" href="javascript:void(0);" title="Consulta ID: 56"><i></i></a>
 				</li>
 			</ul>
-	</div>
-	<!--bindings={
-  "ng-reflect-ng-if": "false"
-}-->
+		</div>
+	</section>
 </div>
-</app-navigation>
+
+<div class="esc-modalbox prompt">
+	<a class="modal-close"><i></i></a>
+	<header class="text-center">
+		<h4>¿Está seguro de eliminar esta consulta?</h4>
+	</header>
+	<div class="body">
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block">SI</button>
 		</div>
-		<div class="col-sm-9 content-form">
-
-		<form class="editForm ng-pristine ng-invalid ng-touched" novalidate="">
-			<section>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group with-icon paciente_cedula">
-						  <label class="col-form-label" for="cedula">Cédula</label>
-						  <input class="form-control ng-pristine ng-valid ng-touched" id="cedula" maxlength="20" name="cedula" ng-reflect-maxlength="20" ng-reflect-name="cedula" ng-reflect-model="" type="text">
-						  <i></i>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group with-icon paciente_nombre">
-						  <label class="col-form-label" for="nombre">Nombre Completo</label>
-						  <input class="form-control ng-pristine ng-invalid ng-touched" id="nombre" name="nombre" required ng-reflect-required="" ng-reflect-name="nombre" ng-reflect-model="" type="text">
-						  <i></i>
-						</div>
-						
-					</div>
-					<div class="col-md-6">
-						<div class="form-group genero">
-							<label class="col-form-label" for="genero">Género</label>						
-							<div class="checkbox row">
-								<div class="col-xs-6">
-									<label class="femenino">
-										<input name="genero" required="" value="F" ng-reflect-name="genero" ng-reflect-value="F" ng-reflect-required="" ng-reflect-model="" class="ng-untouched ng-pristine ng-invalid" type="radio">
-										<span>Femenino</span>
-									</label>
-								</div>
-								<div class="col-xs-6">
-									<label class="masculino">
-										<input name="genero" value="M" ng-reflect-name="genero" ng-reflect-value="M" ng-reflect-model="" class="ng-untouched ng-pristine ng-invalid" type="radio">
-										<span>Masculino</span>
-									</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group with-icon nacimiento">
-						  <label class="col-form-label" for="nombre">Fecha de Nacimiento</label>
-						  <input class="form-control ng-pristine ng-valid ng-touched" id="fecha_nac" name="fecha_nac" placeholder="dd/mm/aaaa" ng-reflect-name="fecha_nac" ng-reflect-model="" type="text">
-						  <i></i>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!--bindings={
-  "ng-reflect-ng-if": "false"
-}-->
-
-
-			<div class="buttons-navigation">
-
-				<button class="btn btn-default previous hide" disabled="disabled"> ANTERIOR 
-				</button>
-				<button class="btn btn-success next" disabled=""> SIGUIENTE 
-				</button>
-			</div>
-
-
-		</form>
-
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block red">No</button>
 		</div>
 	</div>
-</div></app-hcp>
-<div class="developmentInfo">Nutricionista ID: 1</div></nutri-track-app>
+</div>
+<div class="overlay"></div>
+
+
+
+
+</nutri-track-app>
 
 
 <script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script>

@@ -3,7 +3,7 @@
 		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
 	</figure>
 	<div class="row links">
-		<div class="col-sm-4 box">
+		<div class="col-xs-6 col-sm-offset-2 col-sm-4 box">
 			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
 				<figure class="img-circle transition main-nuevo">
 					<i></i>
@@ -11,7 +11,7 @@
 				<strong>Paciente Nuevo</strong>
 			</a>
 		</div>
-		<div class="col-sm-4 box">
+		<div class="col-xs-6 box">
 			<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Control">
 				<figure class="img-circle transition main-control">
 					<i></i>
@@ -19,14 +19,14 @@
 				<strong>Control</strong>
 			</a>
 		</div>
-		<div class="col-sm-4 box">
+		<!--<div class="col-sm-4 box">
 			<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
 				<figure class="img-circle transition main-agenda">
 					<i></i>
 				</figure>
 				<strong>Agenda</strong>
 			</a>
-		</div>
+		</div>-->
 	</div>
 	<section *ngIf="showLoading" class="text-center">Cargando Consulta(s) Sin Finalizar...</section>
 	<section class="listado consultas" *ngIf="showBoxConsultasPendientes">
@@ -50,11 +50,11 @@
 	<header class="text-center">
 		<h4>¿Est&aacute; seguro de eliminar esta consulta?</h4>
 	</header>
-	<div class="body">
-		<div class="col-sm-6">
+	<div class="body row">
+		<div class="col-xs-6">
 			<button class="btn btn-default btn-block" (click)="promptYes()">SI</button>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-xs-6">
 			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
 		</div>
 	</div>

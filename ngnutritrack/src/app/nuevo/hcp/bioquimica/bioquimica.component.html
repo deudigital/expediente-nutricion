@@ -8,34 +8,27 @@
 		<div class="col-sm-9 content-form">
 			<section>
 				<app-hcp-nav></app-hcp-nav>
-				<ng-template [ngIf]="bioquimicas" [ngIfElse]="loading">
+				<ng-template [ngIf]="bioquimicas">
 					<ul class="lista-examen navbar">
 						<li *ngFor="let bioquimica of bioquimicas">
 							<a href="{{bioquimica.filename}}" target="_blank">
 								<i></i>
-								<span>{{bioquimica.fecha}} {{bioquimica.filename}}</span>
+								<span>{{bioquimica.fecha}}</span>
 							</a>
 						</li>
 					</ul>					
-				</ng-template>
-				<ng-template #loading>
-				</ng-template>
-				
-				
-				<div class="container-form">
-					<div class="actions">
-						<a [ngClass]="{'form-close objetivos':nuevo, 'form-open': !nuevo }" (click)="showFormEdit()" href="javascript:void(0)"><i></i>Añadir Examen</a>
-					</div>					
-					<div class="form-edit objetivo" ng-animate="'example'" *ngIf="nuevo">
-						<div class="form-group">
-							<label>Nuevo examen</label>					
-							<label class="container-file" for="nuevo-item">
-								<input type="file" name="nuevo-item" />
-								Importar archivo de examen - arrastre el archivo a este cuardro
-							</label>
-						</div>						
+				</ng-template>				
+				<div class="container-form container-fluid">
+						<div class="actions">
+							<label for="examen" class="form-open"><i></i>Añadir Examen</label>
+						</div>
+						<form #uploadForm="ngForm" (ngSubmit)="onSubmit()" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<input style="visibility:hidden" type="file" #fileupload id="examen" name="examen" (change)="fileChange($event)"/>
+								<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
+							</div>
+						</form>
 					</div>
-				</div>				
 			</section>
 			
 			<div class="buttons-navigation">
