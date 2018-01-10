@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Response;
 use App\Alimento;
 use App\CategoriaAlimento;
 use App\IndiceGlicemico;
+use DB;
+
 class AlimentoController extends Controller
 {
     /**
@@ -18,7 +20,20 @@ class AlimentoController extends Controller
     {
 		$alimentos	=	Alimento::All();
 		/*$response	=	Response::json($alimentos, 200);*/
-		$response	=	Response::json($alimentos, 200, [], JSON_NUMERIC_CHECK);
+		$registros	=	array();
+		if(count($alimentos)>0){
+			foreach($alimentos as $key=>$value){
+				$alimento	=	$value;
+				$composicion = DB::table('alimento_grupos')
+									->join('grupo_alimentos', 'grupo_alimentos.id', '=', 'alimento_grupos.grupo_alimento_id')
+									->where('alimento_grupos.alimento_id',  $value->id)
+									->get();
+
+				$alimento['composicion']	=	$composicion->toArray();
+				$registros[]	=	$alimento;
+			}
+		}
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
 
@@ -100,6 +115,33 @@ class AlimentoController extends Controller
 		return $response;
     }
     public function categoriasbyid($id){
+		$alimentos	=	Alimento::where('categoria_alimento_id', $id)
+						->get();
+
+		$registros	=	array();
+		if(count($alimentos)>0){
+			//$registros['paciente']['hcf']['patologias']	=	$hcf_patologias->toArray();
+			foreach($alimentos as $key=>$value){
+				$alimento	=	$value;
+				$composicion = DB::table('alimento_grupos')
+									->join('grupo_alimentos', 'grupo_alimentos.id', '=', 'alimento_grupos.grupo_alimento_id')
+									->where('alimento_grupos.alimento_id',  $value->id)
+									->get();
+				
+				//$alimentos['composicion']	=	$composicion->toArray();
+				$alimento['composicion']	=	$composicion->toArray();
+				$registros[]	=	$alimento;
+				
+			}
+			
+		}
+						
+						
+		/*$response	=	Response::json($alimentos, 200);*/
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+    }
+    public function categoriasbyid__old($id){
 		$registros	=	Alimento::where('categoria_alimento_id', $id)
 						->get();
 		/*$response	=	Response::json($alimentos, 200);*/

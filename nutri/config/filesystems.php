@@ -48,10 +48,17 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'public' => [
+        'logos' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('images/logo/'),
+            'url' => 'http://expediente.nutricion.co.cr/nutri/public/images/logo/',
+            'visibility' => 'public',
+        ],
+
+        'cryptoKey' => [
+            'driver' => 'local',
+            'root' => public_path('llave-criptografica/'),
+            'url' => 'http://expediente.nutricion.co.cr/nutri/public/llave-criptografica/',
             'visibility' => 'public',
         ],
 

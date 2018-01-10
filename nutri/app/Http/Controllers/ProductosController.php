@@ -98,7 +98,7 @@ class ProductosController extends Controller
             ->where('id', $request->id)
             ->update([
                 'descripcion' => $request->descripcion, 
-                'unidad_medida' => $request->unidad_medida, 
+                'unidad_medida_id' => $request->unidad_medida_id, 
                 'precio' => $request->precio
             ]);
         } catch(Illuminate\Database\QueryException $e) {
@@ -116,12 +116,23 @@ class ProductosController extends Controller
 
     public function destroy($id)
     {
-        DB::table('productos')->where('id', '=', $id)->delete();
-        $message    =   array(
-                            'code'      => '200',
-                            'message'   => 'Se ha eliminado correctamente'
-                        );
-        $response   =   Response::json($message, 201);
+        $linea = DB::table('linea_detalles')->where('producto_id', '=', $id)->get();
+
+        if(count($linea) == 0){
+            DB::table('productos')->where('id', '=', $id)->delete();
+            $message    =   array(
+                                'code'      => '200',
+                                'message'   => 'Se ha eliminado correctamente'
+                            );
+            $response   =   Response::json($message, 200);
+        }else{            
+            $message    =   array(
+                                'code'      => '204',
+                                'message'   => 'No se puede elimnar este producto, ya ha sido facturado'
+                            );
+            $response   =   Response::json($message, 204);
+        }
+
         return $response;
     }
 }

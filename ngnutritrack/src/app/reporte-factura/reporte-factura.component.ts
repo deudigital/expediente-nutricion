@@ -99,7 +99,8 @@ export class ReporteFacturaComponent implements OnInit {
 		.subscribe(
 			 response  => {                        
 
-          this.factura = response;      
+          this.factura = response;    
+          console.log(this.factura)  
           for(let doc in this.factura){
             for(let item in this.tipos){
               if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
@@ -234,20 +235,21 @@ export class ReporteFacturaComponent implements OnInit {
   exportData(Data){
   	switch(Data){
   		case 1: console.log('pdf');
-  			let doc = new jsPDF({orientation:'l', format: 'a2'});
+        console.log(this.resultArray)
+  			/*let doc = new jsPDF({orientation:'l', format: 'a2'});
   			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];
   			let rows = [];
 
-  			for(let xi=0;xi< this.factura.length;xi++){
-  				let js = this.factura[xi];
+  			for(let xi=0;xi< this.resultArray.length;xi++){
+  				let js = this.resultArray[xi];
 				let temp = [js.documento,js.receptor,js.tipo,js.fecha,js.moneda,js.monto];
         		rows.push(temp);
 		    }
   			doc.autoTable(col, rows);
-  			doc.save('Reporte de Factura.pdf');
+  			doc.save('Reporte de Factura.pdf');*/
   			break;
 		  case 2: console.log('excel');
-			  new Angular2Csv(this.factura, 'My Report');
+			  new Angular2Csv(this.resultArray, 'My Report');
   			break;
   	}
   }

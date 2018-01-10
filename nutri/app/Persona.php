@@ -9,6 +9,7 @@ class Persona extends Model
     //
 	public $timestamps	=	false;
 	 protected $fillable = [
+        'tipo_idenfificacion_id',
         'cedula',
 		'nombre',
 		'genero',

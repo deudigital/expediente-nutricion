@@ -177,7 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 		Laravel\Passport\PassportServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class
+		Barryvdh\DomPDF\ServiceProvider::class,
+        'PDF'	=>Barryvdh\DomPDF\ServiceProvider::class
     ],
 
     /*

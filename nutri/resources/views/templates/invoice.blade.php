@@ -104,10 +104,10 @@
         <div style="float:left">
             <img src="https://expediente.nutricion.co.cr/frontend/assets/images/logo.png" style="width:20%; max-width:300px;">
         </div>
-        <div style="float:right; margin-right: 2%;">
+        <div style="float:right;margin-right:50%;">
             <span style="float: right;">Fecha: {{$fecha}}</span>
             <br>
-            <span style="float: right;">Factura #: 123</span>
+            <span style="float: right;">Factura #: {{$factura_numero}}</span>
             <br>
             <span style="float: right;">Método de Pago: {{$factura['medio_nombre']}}</span>
             <br>

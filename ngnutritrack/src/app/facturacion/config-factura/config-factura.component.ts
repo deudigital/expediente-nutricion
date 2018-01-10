@@ -60,6 +60,7 @@ export class ConfigFacturaComponent implements OnInit {
     invalid_file: false, 
     invalid_cryto:false,
     successful_operation: false,
+    successful_loadImage:false,
     ajax_failure: false
    };
 
@@ -169,12 +170,11 @@ export class ConfigFacturaComponent implements OnInit {
  }
  selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);
    this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
-
-   this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
    this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
  }
  selectBarrios(event:Event):void {console.log('selectBarrios de Distrito->' + this.distrito);
    this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
+   console.log(this.data.ubicacion_id);
    //console.log(this.filter_barrios);
  }
 
@@ -206,6 +206,7 @@ export class ConfigFacturaComponent implements OnInit {
             this.data.identification_nombre = this.tipos[tipo].nombre;
           }
         }
+        this.setUbicacion(this.data.ubicacion_id);
         console.log(this.data);
       },
       error =>  {
@@ -228,11 +229,11 @@ export class ConfigFacturaComponent implements OnInit {
         !this.form_errors.empty_passAtv && !this.form_errors.empty_pinAtv &&
         !this.form_errors.invalid_id && !this.form_errors.invalid_phone && 
         !this.form_errors.invalid_email && !this.form_errors.invalid_file){
+      this.loading = true;
       this.formControlDataService.updateConfiguracionFactura(this.data)
       .subscribe(
         response => {
-          console.log(response);
-          this.loading = false;           
+          console.log(response);        
             if(this.fileToUpload){
               this.formControlDataService.uploadImagen(this.fileToUpload)
               .subscribe(
@@ -254,16 +255,23 @@ export class ConfigFacturaComponent implements OnInit {
                   console.log(<any>error);
                 });
             }
+          this.loading = true;
           this.form_errors.ajax_failure = false; 
           this.form_errors.successful_loadImage = false;
           this.form_errors.successful_operation = true;
           setTimeout(() => {
             this.form_errors.successful_operation = false;
           }, 3000);
-          
         },
         error => {
           console.log(<any>error);
+          this.loading = false;
+          this.form_errors.successful_operation = false;
+          this.form_errors.successful_loadImage = false;
+          this.form_errors.ajax_failure = true;
+          setTimeout(() => {
+            this.form_errors.ajax_failure = false;
+          }, 3000);
         }
       );
     }
@@ -271,6 +279,7 @@ export class ConfigFacturaComponent implements OnInit {
 
   addFile(): void {
     let fi = this.fileInput.nativeElement;
+    console.log(fi);
     let format = fi.files[0].type.split('/');
     console.log(format);
     if (fi.files && fi.files[0]) {
@@ -283,9 +292,12 @@ export class ConfigFacturaComponent implements OnInit {
           let v = e.target
           console.log(reader.result);
           this.data.imagen= reader.result;
-          this.form_errors.invalid_file=false;
+          /*this.data.imagen= r.target.result
+            $('#uploadForm + img').remove();
+            $('#uploadForm').after('<img src="'+e.target.result+'" width="450" height="300"/>');*/
         }
         reader.readAsDataURL(fi.files[0]);
+
       }else{
         this.form_errors.invalid_file=true;
       }
