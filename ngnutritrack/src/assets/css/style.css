@@ -485,7 +485,7 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
     margin-right: -30%;
 }
 .invoice-resume{
-	font-size: 15px;
+	font-size: 17px;
 }
 
 /* Overriding datepicker classes to get custom desgin */
@@ -536,4 +536,8 @@ body.page-inicio .container-logo {margin-bottom: 55px;}
 
 .mydp .icon-mydpcalendar, .mydp .icon-mydpremove {
     font-size: 0px !important;
+}
+table {
+    border-spacing: 0;
+    border-collapse: unset;
 }

@@ -20,7 +20,7 @@
             <header style="text-align: left !important;">
               <b>{{nutricionista.nombre}}</b><br>
   						Cedula {{nutricionista.cedula}}<span *ngIf="!nutricionista.cedula">N/A</span><br>
-  						Direccion: {{nutricionista.detalles_direccion}} 
+  						Direccion: {{nutricionista.detalles_direccion}}, {{nutricionista.barrio}}
   						<span *ngIf="!nutricionista.canton && !nutricionista.distrito && !nutricionista.provincia && !nutricionista.detalles_direccion"> N/A </span><br>
   						<span *ngIf="nutricionista.canton"> {{nutricionista.canton}},   </span>
   						<span *ngIf="nutricionista.distrito"> {{nutricionista.distrito}}, </span>
@@ -32,7 +32,7 @@
 					</div>
 					<div class="col-md-offset-4 col-md-2">
 						<a class="navbar-brand">
-					    <img alt="nutritrack" src="assets/images/logo.png" width="125">
+					    <img alt="nutritrack" src="{{nutricionista.imagen}}" width="125">
 				    </a>
 					</div>
 				</header>
@@ -201,7 +201,7 @@
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
-	                                    <tr *ngFor="let pr of productos; let i = index ">
+	                                    <tr *ngFor="let pr of productos; let i = index " style="border-collapse: unset !important;">
 	                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }">                                        
 	  	                                		<a href="javascript:void(0)" (click)="removeProduct(pr)">
 				                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
@@ -366,21 +366,18 @@
 										<textarea id="notas" class="form-control" [(ngModel)]="factura.notas"></textarea>
 								</div>
 							</div>
-							<div class="col-md-offset-6 col-md-3">
+							<div class="col-md-2" style="text-align: center; margin-left: 8%;margin-top:5%">
+								<button class="btn btn-success no-border" style="background-color:#cf2e34; border-color:#cf2e34; width:100%" id="save_product_button" (click)="facturar()"> Facturar </button>  							
+							</div>
+	  						<div class="col-md-2" style="text-align: center;margin-top:5%">
+	  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" (click) = "openModalDatos()" id="button3"> Cancelar </button>
+	  						</div>
+							<div class="col-md-offset-6 col-md-3" style="margin-left: 8% !important; margin-top: 2%;">
 								<div class="row invoice-resume">Subtotal Neto: ₡{{factura.subtotal}}</div>
 								<div class="row invoice-resume">Descuento: ₡{{factura.descuento}}</div>
 								<div class="row invoice-resume">I.V.E.: ₡{{factura.ive}}</div>
 								<div class="row invoice-resume">Monto Total: ₡{{factura.total}}</div>
 							</div>
-					</div>
-
-					<div class="row facturar-buttons">
-          				<div class="col-md-3" style="text-align: center;">
-								<button class="btn btn-success no-border" style="background-color:#cf2e34; border-color:#cf2e34; width:100%" id="save_product_button" (click)="facturar()"> Facturar </button>  								
-							</div>
-  						<div class="col-md-3" style="text-align: center;">
-  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" id="button3"> Cancelar </button>
-  						</div>
 					</div>
 					<div class="row">
 						<span style="color:red;" *ngIf="form_errors.empty_products">Debe por lo menos añadir un producto o servicio.</span>

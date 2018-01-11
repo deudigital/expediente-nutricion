@@ -46,10 +46,9 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL +'nutricionistas/' + nutricionista_id ).map((response: Response) => response.json());
 	}
 
-	/*getNutricionista() {
-		var nutricionista_id = this.formControlData.nutricionista_id;
-		return this.http.get( this.apiURL +'nutricionistas/' + nutricionista_id ).map((response: Response) => response );
-	}*/
+	getNutricionistaUbicacion(ubicacion_id): Observable<any[]> {
+		return this.http.get( this.apiURL +'nutricionistas/ubicacion/' + ubicacion_id).map((response: Response) => response.json());
+	}
 
 	//original method
 	 getReporteFactura(): Observable<Reporte[]>{

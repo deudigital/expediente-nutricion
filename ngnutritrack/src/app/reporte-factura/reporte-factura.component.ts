@@ -105,9 +105,12 @@ export class ReporteFacturaComponent implements OnInit {
             for(let item in this.tipos){
               if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
                 this.factura[doc].nombre_tipo = this.tipos[item].nombre;
-                this.factura[doc].monto = Math.round(this.factura[doc].monto * 100) / 100;
-              }
+                this.factura[doc].monto = Math.round(this.factura[doc].monto * 100) / 100;                
+              }              
             }
+            if(this.factura[doc].tipo_documento_id===3){
+                this.factura[doc].monto= '-'+this.factura[doc].monto;
+              }
           }          
 			},
 			error =>  {
@@ -235,21 +238,32 @@ export class ReporteFacturaComponent implements OnInit {
   exportData(Data){
   	switch(Data){
   		case 1: console.log('pdf');
-        console.log(this.resultArray)
-  			/*let doc = new jsPDF({orientation:'l', format: 'a2'});
+  			let doc = new jsPDF({orientation:'l', format: 'a2'});
   			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];
   			let rows = [];
 
   			for(let xi=0;xi< this.resultArray.length;xi++){
   				let js = this.resultArray[xi];
-				let temp = [js.documento,js.receptor,js.tipo,js.fecha,js.moneda,js.monto];
+				let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones',js.monto];
         		rows.push(temp);
 		    }
   			doc.autoTable(col, rows);
-  			doc.save('Reporte de Factura.pdf');*/
+  			doc.save('Reporte de Factura.pdf');
   			break;
 		  case 2: console.log('excel');
-			  new Angular2Csv(this.resultArray, 'My Report');
+        let excelArray = [];
+        for(let xi = 0;xi<this.resultArray.length-1;xi++){
+          let objecto = {
+            '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+            'Receptor' : this.resultArray[xi].nombre,
+            'Tipo' : this.resultArray[xi].nombre_tipo,
+            'Fecha' : this.resultArray[xi].fecha,
+            'Moneda' : 'Colones',
+            'Monto' : this.resultArray[xi].monto
+          }
+          excelArray.push(objecto);
+        }
+			  new Angular2Csv(excelArray, 'My Report',{ headers: Object.keys(excelArray[0]) });
   			break;
   	}
   }

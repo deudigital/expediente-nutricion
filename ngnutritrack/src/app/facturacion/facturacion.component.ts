@@ -135,7 +135,7 @@ export class FacturacionComponent implements OnInit {
 	  			}
 
 	  			this.openModalDatos();  		
-	  			this.getNutricionista();			
+	  			this.getNutricionista();		  			
 	  		}
 	  	});
 	  }
@@ -311,6 +311,21 @@ export class FacturacionComponent implements OnInit {
     }
   }
 
+  getUbicacion_Nutricionista(){
+  	this.formControlDataService.getNutricionistaUbicacion(this.nutricionista.ubicacion_id)
+  	.subscribe(
+  		response => {
+  			this.nutricionista.canton = response[0].nombre_canton;
+  			this.nutricionista.distrito = response[0].nombre_distrito;
+  			this.nutricionista.provincia = response[0].nombre_provincia;
+  			this.nutricionista.barrio = response[0].nombre_barrio;
+  		},
+  		error => {
+  			console.log(<any>error);
+  		}
+  	);
+  }
+
   getNutricionista(){
 		this.formControlDataService.getNutricionista()
 		.subscribe(
@@ -319,6 +334,11 @@ export class FacturacionComponent implements OnInit {
 				resArray = response.text().split('<br />');							
 			 	this.nutricionista = JSON.parse(resArray[2])[0];	*/		 	
 			 	this.nutricionista = response[0];			 	
+			 	this.getUbicacion_Nutricionista();	
+
+			 	if(this.nutricionista.imagen === null){
+			 		this.nutricionista.imagen = "assets/images/logo.png";
+			 	}
 			},
 			error => {
 				console.log(<any>error);

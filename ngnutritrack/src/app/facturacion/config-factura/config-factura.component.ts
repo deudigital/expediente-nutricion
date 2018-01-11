@@ -206,6 +206,8 @@ export class ConfigFacturaComponent implements OnInit {
             this.data.identification_nombre = this.tipos[tipo].nombre;
           }
         }
+        let llave = this.data.atv_llave_criptografica.split('/');
+        this.crytoName=llave[llave.length-1];
         this.setUbicacion(this.data.ubicacion_id);
         console.log(this.data);
       },
@@ -237,31 +239,33 @@ export class ConfigFacturaComponent implements OnInit {
             if(this.fileToUpload){
               this.formControlDataService.uploadImagen(this.fileToUpload)
               .subscribe(
-                response => {
-                  console.log(response);
+                res => {
+                  console.log(res);
                 },
-                error => {
-                  console.log(<any>error);               
+                err => {
+                  console.log(<any>err);               
                 }
               );              
             }
             if(this.crytoToUpload){
               this.formControlDataService.uploadCrypto(this.crytoToUpload)
               .subscribe(
-                response=>{
-                  console.log(response);
+                res=>{
+                  console.log(res);
                 },
-                error=> {
-                  console.log(<any>error);
+                err=> {
+                  console.log(<any>err);
                 });
             }
-          this.loading = true;
-          this.form_errors.ajax_failure = false; 
-          this.form_errors.successful_loadImage = false;
-          this.form_errors.successful_operation = true;
           setTimeout(() => {
-            this.form_errors.successful_operation = false;
-          }, 3000);
+            this.loading = false;
+            this.form_errors.ajax_failure = false; 
+            this.form_errors.successful_loadImage = false;
+            this.form_errors.successful_operation = true;
+              setTimeout(() => {
+              this.form_errors.successful_operation = false;
+            }, 3000);
+          }, 5000);                  
         },
         error => {
           console.log(<any>error);

@@ -149,7 +149,7 @@ export class ConsultasSinFacturarComponent implements OnInit {
         doc.autoTable(col, rows);
         doc.save('Consultas_Sin_Facturar.pdf');
         break;
-    case 2:        
+      case 2:        
         let excelArray = [];        
         let options = {
           showLabels: true
