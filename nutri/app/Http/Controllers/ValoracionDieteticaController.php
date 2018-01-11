@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Paciente;
 use App\DetalleValoracionDietetica;
 use App\DetalleValoracionDieteticaEjemplo;
 use DB;
-
 class ValoracionDieteticaController extends Controller
 {
     /**
@@ -20,7 +17,6 @@ class ValoracionDieteticaController extends Controller
     {
         //
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -30,7 +26,6 @@ class ValoracionDieteticaController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -42,25 +37,24 @@ class ValoracionDieteticaController extends Controller
 		/*$response	=	Response::json($request->all(), 200, []);
 		return $response;*/
 		$message	=	array(
-							'code'		=> '201',							
+							'code'		=> '201',
 							'message'	=> 'Se ha registrado correctamente'
 						);
 		$notas	=	$request->notas;
 		if($notas){
-			$paciente	=	Paciente::find($request->paciente_id);	
+			$paciente	=	Paciente::find($request->paciente_id);
 			$paciente->notas_valoracion_dietetica	=	$request->notas[0];
 			$paciente->save();
 		}
 		$items	=	$request->items;
 		if($items){
-			$datos	=	array();			
+			$datos	=	array();
 			$deletedRows = DetalleValoracionDietetica::where('paciente_id', $request->paciente_id)->delete();
-					
+
 			foreach($items as $key=>$item){
 				foreach($item['porciones'] as $alimento=>$porciones){
 					if(empty($porciones))
 						continue ;
-
 					$detalleValoracionDietetica	=	DetalleValoracionDietetica::create([
 										'paciente_id'						=>	$request->paciente_id,
 										'categoria_valoracion_dietetica_id'	=>	$item['tiempo_id'],
@@ -70,8 +64,26 @@ class ValoracionDieteticaController extends Controller
 					$datos[]	=	$detalleValoracionDietetica;
 					//$patronMenu->save();
 					$message['datos']	=	$datos;
-				}			
-			}	
+				}
+			}
+		}
+		$tiempos	=	$request->tiempos;
+		if($tiempos){
+			$datos	=	array();
+			$deletedRows = DetalleValoracionDieteticaEjemplo::where('paciente_id', $request->paciente_id)->delete();
+
+			foreach($tiempos as $key=>$item){
+				if($item['tiempo_id']<1)
+					continue ;
+				$detalleValoracionDieteticaEjemplo	=	DetalleValoracionDieteticaEjemplo::create([
+									'paciente_id'						=>	$request->paciente_id,
+									'categoria_valoracion_dietetica_id'	=>	$item['tiempo_id'],
+									'ejemplo'							=>	$item['ejemplo']
+								]);
+				$datos[]	=	$detalleValoracionDieteticaEjemplo;
+				$detalleValoracionDieteticaEjemplo->save();
+
+			}
 		}
 		$tiempos	=	$request->tiempos;
 		if($tiempos){
@@ -92,9 +104,8 @@ class ValoracionDieteticaController extends Controller
 			}	
 		}
 		$response	=	Response::json($message, 200, [], JSON_NUMERIC_CHECK);
-		return $response;		
+		return $response;
     }
-
     /**
      * Display the specified resource.
      *
@@ -105,7 +116,6 @@ class ValoracionDieteticaController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -116,7 +126,6 @@ class ValoracionDieteticaController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -128,7 +137,6 @@ class ValoracionDieteticaController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -149,12 +157,11 @@ class ValoracionDieteticaController extends Controller
 							->select('patron_menus.tiempo_comida_id', 'tiempo_comidas.nombre as tiempo_comida_nombre', 'patron_menus.grupo_alimento_nutricionista_id as grupo_alimento_id', 'grupo_alimento_nutricionistas.nombre as grupo_alimento_nombre', 'patron_menus.porciones', DB::Raw('IFNULL(patron_menus.ejemplo, \'\') as ejemplo'))
 							->orderBy('tiempo_comida_id', 'ASC')
 							->get();
-		
+
 		if(count($registros)>0)
 			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		else
 			$response	=	Response::json(['message' => 'Records not found'], 204);
-
 		return $response;
 	}*/
 }

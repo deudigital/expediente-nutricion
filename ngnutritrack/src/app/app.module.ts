@@ -1,9 +1,10 @@
 import { NgModule }           from '@angular/core';
 import { BrowserModule }      from '@angular/platform-browser';
-import { HttpModule} from '@angular/http';
+import { HttpModule}          from '@angular/http';
 import { FormsModule }        from '@angular/forms';
-import { MyDatePickerModule } from 'mydatepicker';
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { MyDatePickerModule } from 'mydatepicker';
+import { InputMaskModule }    from 'ng2-inputmask';
 
 /* App Root */
 import { AppComponent }       from './app.component';
@@ -12,6 +13,8 @@ import { AppComponent }       from './app.component';
 import { AppRoutingModule }   from './app-routing.module';
 
 /* Shared Service */
+import { CommonService }      from './services/common.service';
+
 import { FormControlDataService }    from './control/data/formControlData.service';
 
 import { InicioComponent } from './inicio/inicio.component';
@@ -69,20 +72,26 @@ import { AuthService } from './services/auth.service';
 import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './login/logout.component';
+import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
+import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
+import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
+import { ConfigFacturaComponent } from './facturacion/config-factura/config-factura.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
 
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import {FileService} from './services/file.service';
 
 @NgModule({
-    imports:      [ BrowserModule, 
+    imports:      [ BrowserModule,
                     FormsModule,
-					 HttpModule,
+					HttpModule,
 					DataTableModule,
                     AppRoutingModule,
                     MyDatePickerModule,
 					CurrencyMaskModule
                   ],
     providers:    [
+                   { provide: FormControlDataService, useClass: FormControlDataService },
                    { provide: FormControlDataService, useClass: FormControlDataService },
                    { provide: GoogleComboChartService, useClass: GoogleComboChartService },
                    { provide: GooglePieChartService, useClass: GooglePieChartService },
@@ -91,8 +100,52 @@ import {FileService} from './services/file.service';
                    { provide: EnsureAuthenticated, useClass: EnsureAuthenticated },
                    { provide: LoginRedirect, useClass: LoginRedirect },
                    { provide: FileService, useClass: FileService },
+                   { provide: CommonService, useClass: CommonService}
 				   ],
-    declarations: [ AppComponent, InicioComponent, ControlComponent, AgendaComponent, ControlNavComponent, ValoracionComponent, RecomendacionComponent, DietaComponent, TopnavComponent, NuevoComponent, PersonalesComponent, ContactoComponent, HcpComponent, HcfComponent, ObjetivoComponent, HabitoComponent, NuevoNavComponent, ControlNavCenterComponent, PatronmenuComponent, PrescripcionComponent, NotasComponent, DietaNavComponent, HcpNavComponent, PatologiaComponent, AlergiaComponent, MedicamentoComponent, BioquimicaComponent, OtrosComponent, ActividadFisicaComponent, ValoracionDieteticaComponent, GustosComponent, OtrosHabitosComponent, HabitoNavComponent, LoginComponent, ResetComponent, NavigationComponent, LogoutComponent, LineChartComponent, FileUploadComponent ],
+    declarations: [ AppComponent, 
+                    InicioComponent, 
+                    ControlComponent, 
+                    AgendaComponent, 
+                    ControlNavComponent, 
+                    ValoracionComponent, 
+                    RecomendacionComponent, 
+                    DietaComponent, 
+                    TopnavComponent, 
+                    NuevoComponent, 
+                    PersonalesComponent, 
+                    ContactoComponent, 
+                    HcpComponent, 
+                    HcfComponent, 
+                    ObjetivoComponent, 
+                    HabitoComponent, 
+                    NuevoNavComponent, 
+                    ControlNavCenterComponent, 
+                    PatronmenuComponent, 
+                    PrescripcionComponent, 
+                    NotasComponent, 
+                    DietaNavComponent, 
+                    HcpNavComponent, 
+                    PatologiaComponent, 
+                    AlergiaComponent, 
+                    MedicamentoComponent, 
+                    BioquimicaComponent, 
+                    OtrosComponent, 
+                    ActividadFisicaComponent, 
+                    ValoracionDieteticaComponent, 
+                    GustosComponent,
+                    OtrosHabitosComponent, 
+                    HabitoNavComponent, 
+                    LoginComponent, 
+                    ResetComponent, 
+                    NavigationComponent, 
+                    LogoutComponent, 
+                    LineChartComponent, 
+                    FileUploadComponent,
+                    ReporteFacturaComponent,
+                    ServiciosProductosComponent,
+                    ConsultasSinFacturarComponent,
+                    ConfigFacturaComponent,
+                    FacturacionComponent ],
     bootstrap:    [ AppComponent ]
 })
 

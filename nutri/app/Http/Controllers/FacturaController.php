@@ -19,7 +19,7 @@ class FacturaController extends Controller
      */
 
     public function getConsultasSinFacturar($id)
-    {        
+    {
         try{
             $consultas = DB::table('pacientes')
                         ->select('consultas.id', 'consultas.fecha', 'personas.nombre', 'pacientes.persona_id')
@@ -38,11 +38,11 @@ class FacturaController extends Controller
             }                    
 
             $documentos = DB::table('documentos')
-                          ->select('id', 'consulta_id')                          
+                          ->select('id', 'consulta_id')
                           ->where('nutricionista_id', '=', $id)->get();
 
             $documentos = $documentos->toArray();
-            
+
             for($i = 0; $i < count($documentos); $i++){
                 $documentos[$i] = json_decode(json_encode($documentos[$i]), True);
             }
@@ -59,7 +59,7 @@ class FacturaController extends Controller
                 unset($consultas[$consultas_a_eliminar[$i]]);
             }                    
 
-            $response   =   Response::json($consultas, 200, [], JSON_NUMERIC_CHECK);            
+            $response   =   Response::json($consultas, 200, [], JSON_NUMERIC_CHECK);
         }
         catch (Illuminate\Database\QueryException $e) {
             dd($e);
@@ -113,15 +113,15 @@ class FacturaController extends Controller
 
             for($i = 0; $i < count($clientes); $i++){
                 $clientes[$i] = json_decode(json_encode($clientes[$i]), True);
-            }      
+            }
 
             for($i = 0; $i<count($clientes); $i++){
                if($clientes[$i]['id'] == $persona_id){
-                    $response = Response::json($clientes[$i], 200, [], JSON_NUMERIC_CHECK);   
-                    return $response; 
+                    $response = Response::json($clientes[$i], 200, [], JSON_NUMERIC_CHECK);
+                    return $response;
                 }
-            } 
-            $response = Response::json('No existe el cliente seleccionado para el actual nutricionista', 200);                                                
+            }
+            $response = Response::json('No existe el cliente seleccionado para el actual nutricionista', 200);
         }catch (Illuminate\Database\QueryException $e) {
             dd($e);
         } catch (PDOException $e) {
@@ -138,7 +138,7 @@ class FacturaController extends Controller
             if(count($medios)>0)
                     $response   =   Response::json($medios, 200, [], JSON_NUMERIC_CHECK);
                 else
-                    $response   =   Response::json(['message' => 'Record not found'], 204);                                             
+                    $response   =   Response::json(['message' => 'Record not found'], 204);
         }catch (Illuminate\Database\QueryException $e) {
             dd($e);
         } catch (PDOException $e) {
@@ -147,68 +147,302 @@ class FacturaController extends Controller
         return $response;
     }
 
-    public function generarFactura(Request $request){
+    public function deleteFactura(Request $request){      
+
       try{
-          $client = $request->client;          
+          DB::table('documentos')                              
+          ->where('id', $request->id)
+          ->update([
+              'estado' => 0
+          ]);                   
 
-          $products = $request->productos;          
+          $factura=array("ive"=>0.0,"descuento"=>0.0,"subtotal"=>0.0, "total"=> 0.0, "notas"=>"", "medio_nombre"=>"");
 
-          $factura = $request->factura;          
+          $products = array();
 
-          $documentos = DB::table('documentos')                          
-                          ->where('nutricionista_id', '=', $request->nutricionista_id)->get();    
-          
-          $documentos = $documentos->toArray();            
+          $notas_credito = DB::table('documentos')
+                           ->select('numeracion_consecutiva')
+                           ->where('tipo_documento_id', '=', 3)
+                           ->get();
 
-          for($i = 0; $i < count($documentos); $i++){
-              $documentos[$i] = json_decode(json_encode($documentos[$i]), True);
-          }                      
+          $notas_credito = $notas_credito->toArray();
+
+          for($i = 0; $i < count($notas_credito); $i++){
+              $notas_credito[$i] = json_decode(json_encode($notas_credito[$i]), True);
+          }
 
           $nutricionista = DB::table('personas')
-                            ->select('personas.cedula', 'personas.nombre', 'personas.ubicacion_id', 'personas.detalles_direccion', 'personas.telefono', 'personas.email')                            
-                            ->where('personas.id', '=', $request->nutricionista_id)->get();
-          
-          $nutricionista = $nutricionista->toArray();           
+                           ->select('*')
+                           ->where('id', '=', $request->nutricionista_id)
+                           ->get();
+
+          $nutricionista = $nutricionista->toArray();
 
           for($i = 0; $i < count($nutricionista); $i++){
               $nutricionista[$i] = json_decode(json_encode($nutricionista[$i]), True);
-          } 
+          }            
+
+          $client =  DB::table('personas')
+                     ->select('*')
+                     ->where('id', '=', $request->persona_id)
+                     ->get();                                                                            
+
+          $client = $client->toArray();
+
+          for($i = 0; $i < count($client); $i++){
+              $client[$i] = json_decode(json_encode($client[$i]), True);
+          }          
+
+          $client_ubicacion =  DB::table('ubicacions')
+                                      ->where('ubicacions.id', '=', $client[0]['ubicacion_id'])->get();
+
+          for($i = 0; $i < count($client_ubicacion); $i++){
+              $client_ubicacion[$i] = json_decode(json_encode($client_ubicacion[$i]), True);
+          }
+
+          $nutricionista_ubicacion =  DB::table('ubicacions')
+                                      ->where('ubicacions.id', '=', $nutricionista[0]['ubicacion_id'])->get();
+
+          $nutricionista_ubicacion = $nutricionista_ubicacion->toArray();
+
+          for($i = 0; $i < count($nutricionista_ubicacion); $i++){
+              $nutricionista_ubicacion[$i] = json_decode(json_encode($nutricionista_ubicacion[$i]), True);
+          }
+
+          $lineas_detalles = DB::table('linea_detalles')
+                            ->where('documento_id', '=', $request->id)
+                            ->get();          
+
+          $lineas_detalles = $lineas_detalles->toArray();
+
+          for($i = 0; $i < count($lineas_detalles); $i++){
+              $lineas_detalles[$i] = json_decode(json_encode($lineas_detalles[$i]), True);
+          }
+
+          // Proceso para armar Numeracion Consecutiva perteneciente a la clave numérica
+          $casa_matriz = '001';
+          $terminal = '00001';
+          $tipo = '03';
+
+          if(count($notas_credito) > 0){
+            $ultimo_consecutivo = $notas_credito[count($notas_credito)-1]["numeracion_consecutiva"];
+            $consecutivo_nutricionista = $ultimo_consecutivo+1;
+          } else  {
+            $consecutivo_nutricionista = 1;
+          }          
+
+          $ceros_agregar = 10-count(str_split($consecutivo_nutricionista));
+          $ceros = "";
+
+          for($i=0; $i<$ceros_agregar; $i++){
+            $ceros .= '0';
+          }
+
+          $numeracion_consecutiva = $casa_matriz.$terminal.$tipo.$ceros.$consecutivo_nutricionista;
+
+          // Fin prceso de Numeracion Consecutiva
+
+          // Proceso para armar Clave Numérica
+          $codigo_pais = '506';
+          $fecha = date("Y-m-d");
+          $array_fecha =  explode('-', $fecha);
+          $array_year = str_split($array_fecha[0]);
+          $dia = $array_fecha[2];
+          $mes = $array_fecha[1];
+          $anno = $array_year[2].$array_year[3];
+
+          $ceros_agregar = 12-count(str_split($nutricionista[0]["cedula"]));
+          $ceros = "";
+
+          for($i=0; $i<$ceros_agregar; $i++){
+            $ceros .= '0';
+          }          
+
+          $emisor_id = $ceros.$nutricionista[0]["cedula"];
+          $situacion_comprobante = '1';
+          $codigo_seguridad = mt_rand(100000,999999);
+          $clave_numerica = $codigo_pais.$dia.$mes.$anno.$emisor_id.$numeracion_consecutiva.$situacion_comprobante.$codigo_seguridad;
+
+          // Fin de proceso de Clave Numérica
+
+          // Proceso para armar factura
+          for($j=0; $j<count($lineas_detalles); $j++){
+              $precio_u = DB::table('productos')
+                          ->select('precio')
+                          ->where('id', '=', $lineas_detalles[$j]["producto_id"])
+                          ->get();
+              $precio_u = $precio_u->toArray();
+              
+              $precio_u = json_decode(json_encode($precio_u),True);  
+              $lineas_detalles[$j]["precio"] = $precio_u[0]["precio"];              
+              $lineas_detalles[$j]["subtotal"] = $precio_u[0]["precio"] * $lineas_detalles[$j]["cantidad"];    
+              $lineas_detalles[$j]["total"] = ($precio_u[0]["precio"] * $lineas_detalles[$j]["cantidad"]) + $lineas_detalles[$j]["impuesto_venta"] - $lineas_detalles[$j]["descuento"];      
+
+              $factura["ive"] += $lineas_detalles[$j]["impuesto_venta"];
+              $factura["descuento"] += $lineas_detalles[$j]["descuento"];
+              $factura["subtotal"] += $precio_u[0]["precio"] *  $lineas_detalles[$j]["cantidad"];
+              $factura["total"] += $lineas_detalles[$j]["total"];
+
+              // Proceso para armar Productos
+              $descripcion = DB::table('productos')
+                            ->select('productos.descripcion', 'unidad_medidas.nombre')
+                            ->join('unidad_medidas', 'unidad_medidas.id', '=','productos.unidad_medida_id')
+                            ->where('productos.id', '=', $lineas_detalles[$j]["producto_id"])
+                            ->get();
+
+              $descripcion = $descripcion->toArray();
+
+              for($i = 0; $i < count($descripcion); $i++){
+                  $descripcion[$i] = json_decode(json_encode($descripcion[$i]), True);
+              }      
+
+              $lineas_detalles[$j]["descripcion"] = $descripcion[0]['descripcion'];
+              $lineas_detalles[$j]["unidad_nombre"] = $descripcion[0]['nombre'];
+              $lineas_detalles[$j]["impuesto"] = $lineas_detalles[$j]["impuesto_venta"];
+
+              $products[$j] = $lineas_detalles[$j];              
+
+              $medio_nombre = DB::table('medio_pagos')
+                              ->select('nombre')
+                              ->where('id', '=', $request->medio_pago_id)
+                              ->get();                          
+
+              $medio_nombre = $medio_nombre->toArray();
+
+              for($i = 0; $i < count($medio_nombre); $i++){
+                  $medio_nombre[$i] = json_decode(json_encode($medio_nombre[$i]), True);
+              }
+
+              $factura["medio_nombre"] = $medio_nombre[0]["nombre"];
+              // Fin proceso 
+          }
+           
+          $factura["notas"] = "Factura Anulada";
+         // Fin proceso
+
+          view()->share('factura_numero', $numeracion_consecutiva);
+          view()->share('nutricionista', $nutricionista[0]);
+          view()->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);
+          view()->share('client_ubicacion', $client_ubicacion[0]);
+          view()->share('client', $client[0]);
+          view()->share('factura', $factura);        
+          view()->share('productos', $products);
+          view()->share('fecha', date("d/m/Y"));
+
+          //$local_env_route = "C:/Users/Jesus Soto/Dropbox/Freelance/Expediente Nutricion (320$)/expediente-nutricion/nutri";
+          $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
+
+          \PDF::loadView('templates.invoice')->save($staging_env_route."/public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+                                             ->stream('download.pdf');
+          $PDF_ = $staging_env_route."/public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
+
+
+          $nota_credito_id = DB::table('documentos')->insertGetId(
+                  [
+                   'clave'                     => $clave_numerica,
+                   'numeracion_consecutiva'    => $consecutivo_nutricionista,
+                   'fecha'                     => date("Y-m-d"),
+                   'tipo_documento_id'         => 3,
+                   'medio_pago_id'             => $request->medio_pago_id,
+                   'persona_id'                => $request->persona_id,
+                   'nutricionista_id'          => $request->nutricionista_id,
+                   'consulta_id'               => $request->consulta_id,
+                   'notas'                     => 'Factura Anulada',
+                   'pdf'                       => $PDF_,
+                   'estado'                    => 1,
+                   'referencia'                => $request->id
+                  ]
+          );
+
+          for($i=0; $i<count($lineas_detalles); $i++){
+            $result = DB::table('linea_detalles')->insert(
+                ['documento_id'     => $nota_credito_id,
+                 'numero_linea'     => $lineas_detalles[$i]['numero_linea'],
+                 'producto_id'      => $lineas_detalles[$i]['producto_id'],
+                 'cantidad'         => $lineas_detalles[$i]['cantidad'],
+                 'descuento'        => $lineas_detalles[$i]["descuento"],
+                 'impuesto_venta'   => $lineas_detalles[$i]["impuesto_venta"]
+                ]
+            );
+          }                  
+        } catch(Illuminate\Database\QueryException $e) {
+            dd($e);
+        } catch(PDOException $e) {
+            dd($e);
+        }
+
+        $message    =   'Su factura ha sido anulada con exito';
+        $response   =   Response::json([
+            'message'   =>  $message
+        ], 201);
+        return $response;
+    }
+
+    public function generarFactura(Request $request){
+      try{
+          $client = $request->client;
+
+          $products = $request->productos;
+
+          $factura = $request->factura;
+
+          $documentos = DB::table('documentos')
+                          ->where('nutricionista_id', '=', $request->nutricionista_id)->get();
+
+          $documentos = $documentos->toArray();
+
+          for($i = 0; $i < count($documentos); $i++){
+              $documentos[$i] = json_decode(json_encode($documentos[$i]), True);
+          }
+
+          $nutricionista = DB::table('personas')
+                            ->select('personas.cedula', 'personas.nombre', 'personas.ubicacion_id', 'personas.detalles_direccion', 'personas.telefono', 'personas.email')
+                            ->where('personas.id', '=', $request->nutricionista_id)->get();
+
+          $nutricionista = $nutricionista->toArray();
+
+          for($i = 0; $i < count($nutricionista); $i++){
+              $nutricionista[$i] = json_decode(json_encode($nutricionista[$i]), True);
+          }
 
           $nutricionista_ATV = DB::table('nutricionistas')
-                                ->select('atv_ingreso_id', "atv_ingreso_contrasena")                            
+                                ->select('atv_ingreso_id', "atv_ingreso_contrasena")
                                 ->where('persona_id', '=', $request->nutricionista_id)->get();
 
-          $nutricionista_ATV = $nutricionista_ATV->toArray();           
+          $nutricionista_ATV = $nutricionista_ATV->toArray();
 
           for($i = 0; $i < count($nutricionista_ATV); $i++){
               $nutricionista_ATV[$i] = json_decode(json_encode($nutricionista_ATV[$i]), True);
-          }                                
+          }
 
           $nutricionista_ubicacion =  DB::table('ubicacions')
-                                      ->where('ubicacions.id', '=', $nutricionista[0]['ubicacion_id'])->get();  
+                                      ->where('ubicacions.id', '=', $nutricionista[0]['ubicacion_id'])->get();
 
-          $nutricionista_ubicacion = $nutricionista_ubicacion->toArray();           
+          $nutricionista_ubicacion = $nutricionista_ubicacion->toArray();          
 
           for($i = 0; $i < count($nutricionista_ubicacion); $i++){
               $nutricionista_ubicacion[$i] = json_decode(json_encode($nutricionista_ubicacion[$i]), True);
           }
 
           $client_ubicacion =  DB::table('ubicacions')
-                                      ->where('ubicacions.id', '=', $client['ubicacion_id'])->get();                
+
+                                      ->where('ubicacions.id', '=', $client['ubicacion_id'])->get();
 
           for($i = 0; $i < count($client_ubicacion); $i++){
               $client_ubicacion[$i] = json_decode(json_encode($client_ubicacion[$i]), True);
-          } 
-
+          }
 
           // Proceso para armar Numeracion Consecutiva perteneciente a la clave numérica
           $casa_matriz = '001';
           $terminal = '00001';
           $tipo = '01';
-          $ultimo_consecutivo = $documentos[count($documentos)-1]["numeracion_consecutiva"];
-          $array_ultimo_consecutivo = str_split($ultimo_consecutivo);
-          $ultimo_digito_consecutivo = $array_ultimo_consecutivo[count($array_ultimo_consecutivo)-1];          
-          $consecutivo_nutricionista = $ultimo_consecutivo.$ultimo_digito_consecutivo+1;
+
+          if(count($documentos) > 0){
+          	$ultimo_consecutivo = $documentos[count($documentos)-1]["numeracion_consecutiva"];
+          	$consecutivo_nutricionista = $ultimo_consecutivo+1;
+          } else  {
+          	$consecutivo_nutricionista = 1;
+          }          
 
           $ceros_agregar = 10-count(str_split($consecutivo_nutricionista));
           $ceros = "";
@@ -240,28 +474,28 @@ class FacturaController extends Controller
           $emisor_id = $ceros.$nutricionista[0]["cedula"];
           $situacion_comprobante = '1';
           $codigo_seguridad = mt_rand(100000,999999);
-          $clave_numerica = $codigo_pais.$dia.$mes.$anno.$emisor_id.$numeracion_consecutiva.$situacion_comprobante.$codigo_seguridad;         
+          $clave_numerica = $codigo_pais.$dia.$mes.$anno.$emisor_id.$numeracion_consecutiva.$situacion_comprobante.$codigo_seguridad;
 
           // Fin de proceso de Clave Numérica
 
           // Verificación de existencia de Productos
           for($j=0; $j<count($products); $j++){
             if(!isset($products[$j]["id"])){
-              $new_product = $products[$j];                
+              $new_product = $products[$j];
             }
           }
           // Fin de Verificación de existencia de Productos
 
-          // Verificar existencia de usuario en API externo antes de guardar datos en DB            
+          // Verificar existencia de usuario en API externo antes de guardar datos en DB
             /*if(!isset($nutricionista_ATV[0]['atv_ingreso_id']) || !isset($nutricionista_ATV[0]['atv_ingreso_contrasena'])){
-              $response   =   Response::json(['message' => 'No se puede validar, por favor configure su usuario'], 200); 
+              $response   =   Response::json(['message' => 'No se puede validar, por favor configure su usuario'], 200);
               return $response;
             }
 
             $verificationResult = self::verifyUser($nutricionista_ATV[0]['atv_ingreso_id'], $nutricionista_ATV[0]['atv_ingreso_contrasena']);
 
             if(!$verificationResult){
-              $response   =   Response::json(['message' => 'No se puede validar, por favor configure su usuario'], 200); 
+              $response   =   Response::json(['message' => 'No se puede validar, por favor configure su usuario'], 200);
               return $response;
             }*/
           // Fin verificacion
@@ -270,11 +504,11 @@ class FacturaController extends Controller
           if(isset($new_product)){
             $new_product["nutricionista_id"] = $request->nutricionista_id;
 
-            try{            
+            try{
               $result = DB::table('productos')->insert(
                         [
-                         'descripcion'      => $new_product["descripcion"], 
-                         'unidad_medida'    => $new_product["unidad_medida"], 
+                         'descripcion'      => $new_product["descripcion"],
+                         'unidad_medida'    => $new_product["unidad_medida"],
                          'precio'           => $new_product["precio"],
                          'nutricionista_id' => $new_product["nutricionista_id"]
                         ]
@@ -283,9 +517,9 @@ class FacturaController extends Controller
                 dd($e);
             } catch(PDOException $e) {
                 dd($e);
-            }                 
-          }       
-          // Fin de guardado                                                     
+            }
+          }
+          // Fin de guardado
         }catch (Illuminate\Database\QueryException $e) {
             dd($e);
         } catch (PDOException $e) {
@@ -296,29 +530,28 @@ class FacturaController extends Controller
           $factura['notas']="";
         }
 
-        view()->share('nutricionista', $nutricionista[0]);  
-        //local
-        //view(-)->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);  
-        //production
-        view(-)->share('nutricionista_ubicacion', $nutricionista_ubicacion);  
+        view()->share('factura_numero', $numeracion_consecutiva);
+        view()->share('nutricionista', $nutricionista[0]);
+        view()->share('nutricionista_ubicacion', $nutricionista_ubicacion[0]);
         view()->share('client_ubicacion', $client_ubicacion[0]);
         view()->share('client', $client);
         view()->share('factura', $factura);
         view()->share('productos', $products);
         view()->share('fecha', date("d/m/Y"));
 
-        $env_route = "C:/Users/Jesus Soto/Dropbox/Freelance/Expediente Nutricion (320$)/expediente-nutricion/nutri";
+        //$local_env_route = "C:/Users/Jesus Soto/Dropbox/Freelance/Expediente Nutricion (320$)/expediente-nutricion/nutri";
+        $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
 
-        \PDF::loadView('templates.invoice')->save($env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+        \PDF::loadView('templates.invoice')->save($staging_env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');
-        $PDF_ = $env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
+        $PDF_ = $staging_env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
 
         // Proceso de almacenamiento de factura en la BD
-          try{            
+          try{
               $documento_id = DB::table('documentos')->insertGetId(
                         [
-                         'clave'                     => $clave_numerica, 
-                         'numeracion_consecutiva'    => $consecutivo_nutricionista, 
+                         'clave'                     => $clave_numerica,
+                         'numeracion_consecutiva'    => $consecutivo_nutricionista,
                          'fecha'                     => date("Y-m-d"),
                          'tipo_documento_id'         => 1,
                          'medio_pago_id'             => $factura['medio'],
@@ -334,32 +567,31 @@ class FacturaController extends Controller
                 dd($e);
             } catch(PDOException $e) {
                 dd($e);
-            } 
-        // Fin del proceso del almacenamiento de factura en la BD                
+            }
+        // Fin del proceso del almacenamiento de factura en la BD
 
         // Proceso creacion de lineas de detalle
           for($i=0; $i<count($products); $i++)  {
-            try{            
+            try{
                 $result = DB::table('linea_detalles')->insertGetId(
                           [
-                           'documento_id'   => $documento_id, 
-                           'numero_linea'   => $i,
+                           'documento_id'   => $documento_id,
+                           'numero_linea'   => $i+1,
                            'producto_id'    => $products[$i]['id'],
                            'cantidad'       => $products[$i]['cantidad'],
                            'descuento'      => $products[$i]['descuento'],
                            'impuesto_venta' => $products[$i]['impuesto']
-                           
                           ]
                         );
               } catch(Illuminate\Database\QueryException $e) {
                   dd($e);
               } catch(PDOException $e) {
                   dd($e);
-              } 
+              }
           }
         // Fin de proceso de creacion de lineas de detalle
 
-       $response   =   Response::json(['message' => 'Proceso de facturacion finalizado exitosamente.'], 200); 
+       $response   =   Response::json(['message' => 'Proceso de facturacion finalizado exitosamente.'], 200);
        return $response;
     }
 
@@ -391,7 +623,7 @@ class FacturaController extends Controller
 
     print_r($result);
 
-    if ($result === FALSE) { 
+    if ($result === FALSE) {
       return false;
     }
     return false;

@@ -1,4 +1,11 @@
 <app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -16,7 +23,7 @@
 					<tbody>
 					<ng-template ngFor let-objetivo [ngForOf]= "objetivos" let-i="index">
 						<tr>
-							<td><a href="javascript:void(0);" class="remove-item" (click)="remove(objetivo)"><i></i></a>{{objetivo.fecha}}</td>
+							<td><a class="remove-item" (click)="remove(objetivo)"><i></i></a>{{objetivo.fecha}}</td>
 							<td>{{objetivo.descripcion}}</td>
 						</tr>
 					</ng-template>

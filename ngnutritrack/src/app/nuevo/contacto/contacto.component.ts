@@ -60,6 +60,11 @@ export class ContactoComponent implements OnInit {
 		if(this.ubicaciones)
 			this.setUbicacion();
 	}
+/*
+	constructor(private formControlDataService: FormControlDataService) {
+		this.model	=	formControlDataService.getFormControlData().getFormPaciente();
+	}*/
+
 	ngOnInit() {
 		this.btnNavigation_pressed	=	false;
 		this.goToPrevious	=	false;
@@ -123,7 +128,6 @@ export class ContactoComponent implements OnInit {
 		this.oPaciente.detalles_direccion	=	this.paciente.detalles_direccion;
 		this.oPaciente.responsable_telefono	=	this.paciente.responsable_telefono;
 		this.oPaciente.responsable_email	=	this.paciente.responsable_email;
-		this.oPaciente.ubicacion_id			=	this.paciente.ubicacion_id;
 	}
 	
 	infoEdited(){
@@ -136,8 +140,7 @@ export class ContactoComponent implements OnInit {
 			this.oPaciente.distrito				!==	this.paciente.distrito || 
 			this.oPaciente.detalles_direccion	!==	this.paciente.detalles_direccion || 
 			this.oPaciente.responsable_telefono	!==	this.paciente.responsable_telefono || 
-			this.oPaciente.responsable_email	!==	this.paciente.responsable_email	|| 
-			this.oPaciente.ubicacion_id			!==	this.paciente.ubicacion_id
+			this.oPaciente.responsable_email	!==	this.paciente.responsable_email
 		);
 
 	}

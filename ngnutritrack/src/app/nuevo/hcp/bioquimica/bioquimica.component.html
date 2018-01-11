@@ -1,4 +1,11 @@
 <app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -11,7 +18,7 @@
 				<ng-template [ngIf]="bioquimicas">
 					<ul class="lista-examen navbar">
 						<li *ngFor="let bioquimica of bioquimicas">
-							<a href="{{bioquimica.filename}}" target="_blank">
+							<a href="{{bioquimica.filename}}">
 								<i></i>
 								<span>{{bioquimica.fecha}}</span>
 							</a>

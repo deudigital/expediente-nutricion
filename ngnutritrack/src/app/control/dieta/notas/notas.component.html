@@ -1,4 +1,12 @@
 <app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>
+<router-outlet name="historialPopup"></router-outlet>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -33,6 +41,26 @@
 					</button>
 			</div>
 			
+		</div>
+	</div>
+</div>
+<!-- Modal Factura -->
+<div class="overlay" (click)="openModalFactura()"></div>
+<div class="esc-modal" *ngIf="showModalFactura">
+	<div class="box">
+		<a class="modal-close" (click)="openModalFactura()">X</a>
+		<header>
+			¿Desea crear factura electrónica para esta consulta? 			
+		</header>
+		<div class="body content-form">
+			<div class="buttons-navigation">
+            	<div class="col-md-5">
+					<button class="btn btn-success no-border" style="width: 100%; background-color:#8BC23F" id="button2">Si</button>
+				</div>
+				<div class="col-md-offset-2 col-md-5">
+					<button class="btn btn-success no-border" style="width: 100%" id="button3">No</button>
+				</div>
+          	</div>
 		</div>
 	</div>
 </div>

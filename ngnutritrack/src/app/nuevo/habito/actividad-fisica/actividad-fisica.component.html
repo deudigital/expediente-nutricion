@@ -1,4 +1,11 @@
 <app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -40,12 +47,10 @@
 					</div>					
 					<div class="form-edit objetivo" ng-animate="'example'" *ngIf="nuevo">
 						<div class="form-group">
-							<label for="ejercicio" class="col-form-label">¿Qu&eacute; ejercicio realiza?</label>
+							<label for="ejercicio" class="col-form-label">¿Que ejercicio realiza?</label>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
-							<div class="form-group">
-								<label for="ejercicio">Ejercicio</label>
+							<div class="col-md-6">								  
 								  <select 
 									class="form-control" 
 									id="ejercicio" 
@@ -55,10 +60,7 @@
 										<option *ngFor="let ejercicio of ejercicios" [ngValue]="ejercicio">{{ejercicio.nombre}}</option>
 								  </select>
 							</div>
-							</div>
 							<div class="col-md-6">
-							<div class="form-group">							
-								<label for="tiempo_semana">Tiempo por semana</label>
 								<input type="text" class="form-control" 
 									id="tiempo_semana" 
 									name="tiempo_semana" 
@@ -67,7 +69,6 @@
 									[(ngModel)]="newHabitosEjercicio.horas_semanales"
 									
 									>
-							</div>
 							</div>
 						</div>
 						<div class="actions text-center">

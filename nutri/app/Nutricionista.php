@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nutricionista extends Model
 {
+	protected $primaryKey='persona_id';
 	protected $fillable	=	[
 		'persona_id',
 		'nombre_comercial',

@@ -1,4 +1,11 @@
 <app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>
 <div class="container-fluid">
 
 	<div class="row">
@@ -7,13 +14,13 @@
 		</div>
 		<div class="col-sm-9 content-form">
 
-		<form #personalForm="ngForm" class="editForm" novalidate>
+				<form #personalForm="ngForm" class="editForm" novalidate>
 			<section>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group with-icon paciente_cedula">
 						  <label for="cedula" class="col-form-label">C&eacute;dula</label>
-						  <input type="text" class="form-control" id="cedula" name="cedula" maxlength="20" 
+						  <input type="text" class="form-control" id="cedula" name="cedula"  
 						  [(ngModel)]="paciente.cedula"
 						  >
 						  <i></i>
@@ -76,7 +83,7 @@
 					<div class="col-md-6">
 						<div class="form-group with-icon responsable_cedula">
 						  <label for="inputCity" class="col-form-label">Cédula del responsable</label>
-						  <input type="text" class="form-control" id="responsable_cedula" name="responsable_cedula"
+						  <input type="text" class="form-control" id="responsable_cedula" id="responsable_cedula"
 						  [(ngModel)]="paciente.responsable_cedula"
 						  >
 						  <i></i>
@@ -107,7 +114,6 @@
 
 
 			<div class="buttons-navigation">
-
 				<button 
 					class="btn btn-default previous hide" 
 					disabled="disabled"

@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Rdd;
 use App\ValoracionAntropometrica;
-
 use DB;
 class RddController extends Controller
 {
@@ -18,12 +15,9 @@ class RddController extends Controller
      */
     public function store(Request $request)
     {
-		
-		
 		$rdd	=	Rdd::where('consulta_id', $request->consulta_id)
 						->get()
 						->first();
-
 		if(count($rdd)>0){
 			/*return $rdd;*/
 			/*$va->id	=	 1,*/
@@ -33,29 +27,27 @@ class RddController extends Controller
 			$rdd->promedio_gc_diario			=	$request->promedio_gc_diario;
 			$rdd->variacion_calorica			=	$request->variacion_calorica;
 			/*"consulta_id": 1*/
-			
+
 		}else{
 			$rdd	=	new Rdd(
 						array(
-							'metodo_calculo_gc'				=>	$request->metodo_calculo_gc, 
-							'peso_calculo'					=>	$request->peso_calculo, 
-							'factor_actividad_sedentaria'	=>	$request->factor_actividad_sedentaria, 
-							'promedio_gc_diario'			=>	$request->promedio_gc_diario, 
-							'variacion_calorica'			=>	$request->variacion_calorica, 
+							'metodo_calculo_gc'				=>	$request->metodo_calculo_gc,
+							'peso_calculo'					=>	$request->peso_calculo,
+							'factor_actividad_sedentaria'	=>	$request->factor_actividad_sedentaria,
+							'promedio_gc_diario'			=>	$request->promedio_gc_diario,
+							'variacion_calorica'			=>	$request->variacion_calorica,
 							'consulta_id'					=>	$request->consulta_id
 						)
 					);
 			//return $rdd;
 		}
 		$rdd->save();
-		$message	=	'Su Consulta ha sido aÃ±adida de modo correcto';
+		$message	=	'Su Consulta ha sido añadida de modo correcto';
 		$response	=	Response::json([
 			'message'	=>	$message,
 			'data'		=>	$rdd
 		], 201);
 		return $response;
-		
-		/**/
     }
     public function belongsToPaciente($id)
     {
@@ -71,5 +63,4 @@ class RddController extends Controller
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
-
 }

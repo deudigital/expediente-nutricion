@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\ValoracionAntropometrica;
 use DB;
-
 class ValoracionAntropometricaController extends Controller
 {
     public function store(Request $request)
@@ -19,11 +16,13 @@ class ValoracionAntropometricaController extends Controller
 			], 200);
 			return $response;
 		}
+
 		$action	=	'editado';	
+
 		$va	=	ValoracionAntropometrica::where('consulta_id', $request->consulta_id)
 						->get()
 						->first();
-		
+
 		if($va){
 			/*$va->id	=	 1,*/
 			$va->estatura				=	$request->estatura;
@@ -38,21 +37,21 @@ class ValoracionAntropometricaController extends Controller
 			$va->circunferencia_cintura	=	$request->circunferencia_cintura;
 			$va->circunferencia_cadera	=	$request->circunferencia_cadera;
 			/*"consulta_id": 1*/
-			
+
 		}else{$action	=	'registrado';
 			$va	=	new ValoracionAntropometrica(
 						array(
-							'estatura'	=>	$request->estatura, 
-							'circunferencia_muneca'	=>	$request->circunferencia_muneca, 
-							'peso'	=>	$request->peso, 
-							'grasa'	=>	$request->grasa, 
-							'musculo'	=>	$request->musculo, 
-							'agua'	=>	$request->agua, 
-							'grasa_viceral'	=>	$request->grasa_viceral, 
-							'hueso'	=>	$request->hueso, 
-							'edad_metabolica'	=>	$request->edad_metabolica, 
-							'circunferencia_cintura'	=>	$request->circunferencia_cintura, 
-							'circunferencia_cadera'	=>	$request->circunferencia_cadera, 
+							'estatura'	=>	$request->estatura,
+							'circunferencia_muneca'	=>	$request->circunferencia_muneca,
+							'peso'	=>	$request->peso,
+							'grasa'	=>	$request->grasa,
+							'musculo'	=>	$request->musculo,
+							'agua'	=>	$request->agua,
+							'grasa_viceral'	=>	$request->grasa_viceral,
+							'hueso'	=>	$request->hueso,
+							'edad_metabolica'	=>	$request->edad_metabolica,
+							'circunferencia_cintura'	=>	$request->circunferencia_cintura,
+							'circunferencia_cadera'	=>	$request->circunferencia_cadera,
 							'consulta_id'	=>	$request->consulta_id
 						)
 					);

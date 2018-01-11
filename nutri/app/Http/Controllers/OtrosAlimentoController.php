@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -52,9 +51,11 @@ class OtrosAlimentoController extends Controller
     }
     public function storemultiple(Request $request)
     {
-		$response	=	Response::json($request->all(), 200);
-		return $response;
 		if($request->items){
+
+		/*$response	=	Response::json($request->all(), 200);
+		return $response;*/
+		if(!$request->items){
 			$response	=	Response::json([
 				'code'		=>	204,
 				'message'	=>	'Sin datos para registrar',
@@ -78,6 +79,23 @@ class OtrosAlimentoController extends Controller
 										)
 									);
 		$otrosAlimento->save();
+
+		$array= Array();
+		foreach($request->items as $item){
+			$otrosAlimento	=	new OtrosAlimento(
+										array(
+											'nombre'		=>	$item['nombre'],
+											'porciones'		=>	$item['porciones'],
+											'carbohidratos'	=>	$item['carbohidratos'],
+											'proteinas'		=>	$item['proteinas'],
+											'grasas'		=>	$item['grasas'],
+											'calorias'		=>	$item['calorias'],
+											'prescripcion_id'	=>	$request->prescripcion_id
+										)
+									);
+			$otrosAlimento->save();
+			$array[]	=	$otrosAlimento;	
+		}
 		$message	=	'Los Datos han sido almacenados correctamente';
 		$response	=	Response::json([
 			'message'	=>	$message,

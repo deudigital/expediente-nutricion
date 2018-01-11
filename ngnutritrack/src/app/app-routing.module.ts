@@ -31,11 +31,15 @@ import { GustosComponent } from './nuevo/habito/gustos/gustos.component';
 import { OtrosHabitosComponent } from './nuevo/habito/otros-habitos/otros-habitos.component';
 
 import { LoginComponent } from './login/login.component';
-import { ResetComponent } from './login/reset.component';
 import { LogoutComponent } from './login/logout.component';
+import { ResetComponent } from './login/reset.component';
 
 
 import { AgendaComponent }      from './agenda/agenda.component';
+import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
+import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
+import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
+import { ConfigFacturaComponent } from './facturacion/config-factura/config-factura.component';
 
 import { AuthService } from './services/auth.service';
 import { EnsureAuthenticated } from './services/ensure-authenticated.service';
@@ -74,19 +78,18 @@ export const appRoutes: Routes = [
     { path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
 	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 	{ path: '',   redirectTo: '/login', pathMatch: 'full' },
+	{ path: 'reportes', component: ReporteFacturaComponent },
+    { path: 'servicios-productos', component: ServiciosProductosComponent },
+    { path: 'sinfacturar', component: ConsultasSinFacturarComponent },
+    { path: 'config-factura', component: ConfigFacturaComponent },
     // 6th Route
-    { path: '**',  component: InicioComponent},
+    { path: '**', component: InicioComponent }
 ];
 /*, { useHash: true}*/
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes )],
   exports: [RouterModule],
   //providers: [WorkflowGuard]
-  providers: [
-    AuthService,
-    EnsureAuthenticated,
-    LoginRedirect
-  ]
 })
 
 export class AppRoutingModule {}

@@ -1,4 +1,11 @@
 <app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-8">
+			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
+		</div>
+	</div>
+</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -8,9 +15,11 @@
 			<section>
 				<app-hcp-nav></app-hcp-nav>
 
-					<div class="wrap-patologias">
-						<div class="checkbox">
-							<div class="row">
+						<div class="row wrap-patologias">
+						
+							<div class="checkbox">
+							
+							
 							<ng-template [ngIf]="alergias" [ngIfElse]="loading">
 							
 								<div class="col-sm-4" *ngFor="let alergia of alergias">
@@ -91,13 +100,12 @@
 								
 							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label>Notas</label>
-						<textarea name="notas_alergias" class="form-control" placeholder="Notas"  rows="7"
+						<div class="form-group">
+							<label>Notas</label>
+							<textarea name="notas_alergias" class="form-control" placeholder="Notas"  rows="7"
 							[(ngModel)]="paciente.notas_alergias"
 							></textarea>
-					</div>
+						</div>
 			</section>
 			
 			<div class="buttons-navigation">

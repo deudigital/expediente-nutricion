@@ -12,17 +12,36 @@ export class FormControlData {
 	lastEstatura:number=0;
 	lastCircunferencia_muneca:number=0;
 
+	imc: number 				=	0;
+	pesoIdeal: number = 0;
+	pesoIdealAjustado: number = 0;	
+	diferenciaPeso: number = 0;	
+	adecuacion: number = 0;	
+	relacionCinturaCadera: number = 0;
+	gradoSobrepeso: number = 0;
+	pesoMetaMaximo: number = 0;
+	pesoMetaMinimo: number = 0;
+	porcentajePeso: number = 0;
+
 	helpers						=	new Helpers();
 	manejadorDatos				=	new ManejadorDatos();
 	paciente:Paciente			=	new Paciente();
 	consulta:Consulta			=	new Consulta();
 	gustos						=	new HabitosGusto();
-	hcpOtros					=	new HcpOtros();	
-	habitosOtro					=	new HabitosOtro();	
+	habitosOtro					=	new HabitosOtro();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
 	prescripcion:Prescripcion	=	new Prescripcion();
 	rdd:Rdd						=	new Rdd();
-	
+
+	consulta_s_f:Consulta_s_f   =   new Consulta_s_f();
+	producto:Producto           =   new Producto();
+	reporte:Reporte 			=	new Reporte();
+	tipo:Tipo                   =	new Tipo();
+	tipo_id:Tipo_ID             = 	new Tipo_ID();
+	medida:Medida 				= 	new Medida();
+	medio:Medio                 =	new Medio();
+	hcpOtros: HcpOtros          =   new HcpOtros();
+
 	bioquimicas:any[]			=	[];
 	patologias:any[]			=	[];
 	alergias:any[]				=	[];
@@ -77,8 +96,7 @@ export class FormControlData {
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
-		
-		
+				
 		/*	HCP	*/
 		this.patologias			=	[];
 		this.alergias			=	[];
@@ -95,7 +113,7 @@ export class FormControlData {
 		this.habitosOtro		=	new HabitosOtro();	
 		this.hcpOtros				= new HcpOtros();
 		this.hcpOtros.paciente_id	=	this.paciente.id;
-			
+
 		if(data.paciente['hcp']){
 			var hcp	=	data.paciente['hcp'];
 			if(hcp['patologias'])
@@ -111,33 +129,32 @@ export class FormControlData {
 			var hcf	=	data.paciente['hcf'];
 			if(hcf['patologias'])
 				this.hcf_patologias	=	hcf['patologias'];
-			
+
 		}
 		if(data.paciente['objetivos'])
-			this.objetivos	=	data.paciente['objetivos'];			
-		
+			this.objetivos	=	data.paciente['objetivos'];
+
 		if(data.paciente['habitos']){
 			var habitos	=	data.paciente['habitos'];
 			if(habitos['ejercicios'])
 				this.ejercicios	=	habitos['ejercicios'];
-			
+
 			if(habitos['gustos'])
 				this.gustos	=	habitos['gustos'];
 			else
 				this.gustos.paciente_id	=	this.paciente.id;
-			
+
 
 			if(habitos['valoracionDietetica'])
 				this.valoracionDietetica	=	habitos['valoracionDietetica'];
 			
 			if(habitos['valoracionDieteticaEjemplo'])
 				this.valoracionDieteticaEjemplo	=	habitos['valoracionDieteticaEjemplo'];
-			
+
 			if(habitos['otros'])
 				this.habitosOtro	=	habitos['otros'];
 			else
 				this.habitosOtro.paciente_id	=	this.paciente.id;
-			
 		}
 		/*	VA	*/
 		this.valoracionAntropometrica.consulta_id	=	this.consulta.id;
@@ -155,6 +172,7 @@ export class FormControlData {
 		this.prescripcion.consulta_id	=	this.consulta.id;
 		this.prescripcion.items			=	[];
 		//this.prescripcion.otros			=	[];
+
 		if(data.dieta){
 			if(data.dieta.prescripcion){
 /*		Prescripcion */
@@ -193,7 +211,7 @@ export class FormControlData {
 			var item	=	patologias[i];
 			if(!item.checked)
 				continue;
-			
+
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
@@ -215,7 +233,7 @@ export class FormControlData {
 			var item	=	alergias[i];
 			if(!item.checked)
 				continue;
-			
+
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
@@ -240,7 +258,7 @@ export class FormControlData {
 			var item	=	patologias[i];
 			if(!item.checked)
 				continue;
-			
+
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
@@ -276,6 +294,7 @@ export class FormControlData {
 	getFormValoracionAntropometrica(){
 		return this.valoracionAntropometrica;
 	}
+
 	setLastValuesFormValoracionAntropometrica(va){
 /*		this.valoracionAntropometrica.estatura				=	va.estatura;
 		this.valoracionAntropometrica.circunferencia_muneca	=	va.circunferencia_muneca;
@@ -318,10 +337,9 @@ export class FormControlData {
 		this.paciente.distrito			=	data.distrito;
 		this.paciente.detalles_direccion=	data.detalles_direccion;
 		this.paciente.ubicacion_id		=	data.ubicacion_id;
-		
+
 		this.paciente.edad				=	data.edad;
 		this.paciente.esMayor			=	data.edad>17;
-		
 		localStorage.setItem('paciente_id', String(this.paciente.persona_id));
 	}
 	getFormRdd():Rdd{
@@ -432,10 +450,9 @@ export class Paciente extends Persona{
 		this.distrito			=	data.distrito;
 		this.detalles_direccion	=	data.detalles_direccion;
 		this.ubicacion_id		=	data.ubicacion_id;
-		
+
 		this.edad				=	data.edad;
 		this.esMayor			=	data.esMayor;
-		
 		this.setEdad();
 	}
 }
@@ -454,8 +471,7 @@ export class ValoracionAntropometrica {
 	circunferencia_cadera: number = 0;
 	consulta_id: number = 0;
 	pesoIdeal: number = 0;
-	pesoIdealAjustado: number = 0;
-	
+	pesoIdealAjustado: number = 0;	
 	detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
 	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();
 	
@@ -477,7 +493,7 @@ export class ValoracionAntropometrica {
 		this.circunferencia_cintura	=	data.circunferencia_cintura;
 		this.circunferencia_cadera	= 	data.circunferencia_cadera;
 		this.consulta_id			= 	data.consulta_id;
-		
+
 		if(data.detalleGrasa)
 			this.detalleGrasa	=	data.detalleGrasa;
 		if(data.detalleMusculo)
@@ -524,7 +540,7 @@ export class Rdd{
 	promedio_gc_diario:number=0;
 	variacion_calorica:number=0;
 	consulta_id:number;
-	
+
 	tmb:number=0;
 	gcr:number=0;
 	icr:number=0;
@@ -532,7 +548,7 @@ export class Rdd{
 	set(rdd:Rdd){
 		this.id							=	rdd.id;
 		this.metodo_calculo_gc			=	rdd.metodo_calculo_gc;
-		this.peso_calculo				=	rdd.peso_calculo;		
+		this.peso_calculo				=	rdd.peso_calculo;
 		this.factor_actividad_sedentaria=	rdd.factor_actividad_sedentaria;
 		this.promedio_gc_diario			=	rdd.promedio_gc_diario;
 		this.variacion_calorica			=	rdd.variacion_calorica;
@@ -566,7 +582,7 @@ export class Consulta {
 	set(data:Consulta){
 		this.id				=	data.id;
 		this.fecha			=	data.fecha;
-		this.notas			=	data.notas;	
+		this.notas			=	data.notas;
 		this.paciente_id	=	data.paciente_id;
 	}
 }
@@ -656,16 +672,14 @@ export class ManejadorDatos{
 	paciente_id:number=0;
 	lastStatusMenuPaciente:boolean=false;
 	enableLink:boolean=false;
-	extraInfoAlimentos:any[];
-	
-	dataStored:boolean=false;
-	
+	extraInfoAlimentos:any[];	
+	dataStored:boolean=false;	
 	hcpPatologias:any;
 	hcfPatologias:any;
 	alergias:any;
 	ejercicios:any;
 	tiempo_comidas:any;
-	ubicaciones:any;
+	ubicaciones:any[]=[];
 	provincias:any[]=[];
 	cantones:any[]=[];
 	distritos:any[]=[];
@@ -679,7 +693,7 @@ export class ManejadorDatos{
 		return this.enableLink;
 	}	
 	setOperacion(operacion:string){
-		this.operacion	=	operacion;		
+		this.operacion	=	operacion;
 	}
 	setMenuPacienteStatus(status){
 		this.lastStatusMenuPaciente	=	status;
@@ -729,6 +743,7 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
 	}
+
 	fillDataForm(data, local=false){//console.log('Datos para formularios');console.log(data);
 		this.hcpPatologias	=	data.hcp_patologias;
 		this.hcfPatologias	=	data.hcf_patologias;
@@ -736,11 +751,14 @@ export class ManejadorDatos{
 		this.ejercicios		=	data.ejercicios;
 		this.tiempo_comidas	=	data.tiempo_comidas;
 		this.ubicaciones	=	data.ubicaciones;
+
 		this.createInfoUbicacion();
 		if(!local)
 			this.storeLocal();
 	}
+
 	storeLocal(){//console.log('storeLocal');
+
 		var data	=	{};
 		data['hcp_patologias']	=	this.hcpPatologias;
 		data['hcf_patologias']	=	this.hcfPatologias;
@@ -766,7 +784,7 @@ export class ManejadorDatos{
 		}
 		for(var i in this.ubicaciones){
 			ubicacion	=	this.ubicaciones[i];
-			
+
 			var item = this.provincias.find(item => item.codigo_provincia === ubicacion.codigo_provincia);
 			if(!item){
 				prov	=	new Object();
@@ -845,10 +863,10 @@ export class PatronMenuEjemplo{
 	dieta_desayuno_ejemplo:string='';
 	dieta_media_manana_ejemplo:string='';
 	dieta_almuerzo_ejemplo:string='';
-	dieta_media_tarde_ejemplo:string='';	
+	dieta_media_tarde_ejemplo:string='';
 	dieta_cena_ejemplo:string='';
 	dieta_coicion_nocturna_ejemplo:string='';
-	
+
 	arrayMenuDesayuno:{ [id: string]: any; };
 	arrayMenuMediaManana:{ [id: string]: any; };
 	arrayMenuAlmuerzo:{ [id: string]: any; };
@@ -864,12 +882,12 @@ export class DetalleGrasa{
 	piernaDerecha:number=0;
 	brazoIzquierdo:number=0;
 	brazoDerecho:number=0;
-	
+
 	tricipital:number=0;
 	bicipital:number=0;
 	subescapular:number=0;
 	suprailiaco:number=0;
-	
+
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
 }
@@ -927,7 +945,7 @@ export class HabitosOtro{
 	public alcohol_cantidad:number;
 	public alcohol_frecuencia:string;
 	public notas:string;
-	public paciente_id:number; 
+	public paciente_id:number;
 }
 export class HabitosEjercicio{
 	public paciente_id:number;
@@ -935,7 +953,6 @@ export class HabitosEjercicio{
 	public horas_semanales:number;
 	public nombre:string;
 	public mets:number;
-	
 }
 export class Provincia{
 	constructor(public codigo_provincia, public nombre_provincia){}
@@ -964,4 +981,46 @@ export class DetalleValoracionDieteticaTexto{
 export class OtroAlimento{
 	//constructor( public nombre:string, public prescripcion_id:number, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public calorias:number=0){}
 	constructor( public nombre:string, public prescripcion_id:number){}
+}
+export class Reporte{
+	id:number=0;
+	documento:number=0;
+	receptor:string='';
+	tipo:string='';
+	fecha:string='';
+	moneda:string='';
+	monto:string='';
+}
+export class Producto{
+	public descripcion:string;
+	public id:number;
+	public nutricionista_id:number;
+	public precio:number;
+	public unidad_medida:number;
+}
+
+export class Consulta_s_f{
+	public id: number;
+	public paciente: string;
+	public fecha: string;
+}
+
+export class Tipo{
+	public id: number;
+	public name: string;
+}
+
+export class Medida{
+	public id: number;
+	public name: string;
+}
+
+export class Tipo_ID{
+	public id: number;
+	public name: string;
+}
+
+export class Medio{
+	public id: number;
+	public name: string;
 }
