@@ -206,8 +206,10 @@ export class ConfigFacturaComponent implements OnInit {
             this.data.identification_nombre = this.tipos[tipo].nombre;
           }
         }
-        let llave = this.data.atv_llave_criptografica.split('/');
-        this.crytoName=llave[llave.length-1];
+        if(this.data.atv_llave_criptografica){
+          let llave = this.data.atv_llave_criptografica.split('/');
+          this.crytoName=llave[llave.length-1];
+        }        
         this.setUbicacion(this.data.ubicacion_id);
         console.log(this.data);
       },
@@ -232,6 +234,23 @@ export class ConfigFacturaComponent implements OnInit {
         !this.form_errors.invalid_id && !this.form_errors.invalid_phone && 
         !this.form_errors.invalid_email && !this.form_errors.invalid_file){
       this.loading = true;
+      switch(this.data.identification_nombre){
+      case "Cedula Fisica":
+        this.data.tipo_idenfificacion_id=1;
+        break;
+      case "Cedula Juridica":
+        this.data.tipo_idenfificacion_id=2;
+        break;
+      case "DIMEX":
+        this.data.tipo_idenfificacion_id=3;
+        break;
+      case "NITE":
+        this.data.tipo_idenfificacion_id=4;
+        break;
+       case "EXTRANJERO":
+        this.data.tipo_idenfificacion_id=5;
+        break;
+    }
       this.formControlDataService.updateConfiguracionFactura(this.data)
       .subscribe(
         response => {
@@ -323,6 +342,7 @@ export class ConfigFacturaComponent implements OnInit {
     switch(this.data.identification_nombre){
       case "Cedula Fisica":
         if(ced_long.length === 9){
+          this.data.
           this.form_errors.invalid_id = false;
         } else {
           this.form_errors.invalid_id = true;

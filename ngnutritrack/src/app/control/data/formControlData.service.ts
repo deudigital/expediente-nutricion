@@ -441,4 +441,7 @@ export class FormControlDataService {
     form.append('cryptoKey', key);
 		return this.http.post( this.apiURL + 'nutricionistas/uploadCrypto/'+nutricionista_id,form).map((response: Response) => response.json());
 	}
+	guardarPaciente(paciente){
+		return this.http.post( this.apiURL + 'facturacion/guardarPaciente',paciente).map((response: Response) => response.json());
+	}
 }

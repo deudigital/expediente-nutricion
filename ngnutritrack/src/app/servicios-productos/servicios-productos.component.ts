@@ -80,7 +80,7 @@ export class ServiciosProductosComponent implements OnInit {
 				}
 			}		
 
-			var nutricionista_id	=	this.formControlData.nutricionista_id;		
+			var nutricionista_id = localStorage.getItem("nutricionista_id");		
 
 			this.paquete = {
 				precio: this.precio,
@@ -152,7 +152,6 @@ export class ServiciosProductosComponent implements OnInit {
 	}
 
 	saveProduct(producto){		
-
 		this.formControlDataService.addProducto(producto)
 		.subscribe(
 			 response  => {

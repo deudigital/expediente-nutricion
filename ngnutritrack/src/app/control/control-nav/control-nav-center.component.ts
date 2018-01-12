@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../../services/common.service';
+
 
 @Component({
   selector: 'app-control-nav-center',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ControlNavCenterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commonService: CommonService) { }
 
   ngOnInit() {
   }
@@ -19,5 +21,9 @@ export class ControlNavCenterComponent implements OnInit {
   mouseOver(){
     document.getElementById("invoice-menu-div").className = "dropdown open";
   }
+
+  openFactura(){
+    this.commonService.notifyOther({option: 'openModalDatos'});
+  }  
 
 }

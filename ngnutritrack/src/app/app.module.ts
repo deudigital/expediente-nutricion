@@ -80,6 +80,7 @@ import { FacturacionComponent } from './facturacion/facturacion.component';
 
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import {FileService} from './services/file.service';
+import { FacturaVaciaComponent } from './factura-vacia/factura-vacia.component';
 
 @NgModule({
     imports:      [ BrowserModule,
@@ -146,7 +147,8 @@ import {FileService} from './services/file.service';
                     ServiciosProductosComponent,
                     ConsultasSinFacturarComponent,
                     ConfigFacturaComponent,
-                    FacturacionComponent ],
+                    FacturacionComponent,
+                    FacturaVaciaComponent ],
     bootstrap:    [ AppComponent ]
 })
 

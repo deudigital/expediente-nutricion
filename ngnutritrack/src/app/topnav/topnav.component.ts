@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }              from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { FormControlDataService }     from '../control/data/formControlData.service';
 import { Consulta } from '../control/data/formControlData.model';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-topnav',
@@ -13,13 +15,9 @@ export class TopnavComponent implements OnInit {
 	title_control:string='TOP NAV COMPONENT';
 	model:any;
 	items:any;
-
-	showTitle:boolean;
-
-	constructor( private router: Router, private formControlDataService: FormControlDataService ) {
+	constructor( private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.items	=	this.model.getManejadorDatos();
-		this.displayTitle();
 	}		
 	ngOnInit() {
 		this.title_control	=	this.model.getFormPaciente().nombre;
@@ -27,19 +25,6 @@ export class TopnavComponent implements OnInit {
 			setInterval(() => {
 				this.title_control	=	this.model.getFormPaciente().nombre;
 			  }, 1000); 
-		}
-	}
-	displayTitle(){
-		console.log(this.router.url);
-		switch(this.router.url){
-			case '/reportes':
-			case '/servicios-productos':
-			case '/sinfacturar':
-			case '/config-factura':
-				this.showTitle	=	false;
-				break;
-			default:
-				this.showTitle	=	true;
 		}
 	}
 	action_nuevo(){
@@ -54,4 +39,8 @@ export class TopnavComponent implements OnInit {
 	  mouseOver(){
 	    document.getElementById("invoice-menu-div").className = "dropdown open";
 	  }
+
+	openFactura(){
+		this.commonService.notifyOther({option: 'openModalDatos'});
+	}	  
 }
