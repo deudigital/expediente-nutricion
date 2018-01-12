@@ -13,6 +13,7 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
 export class PersonalesComponent implements OnInit {
 	fcData:any;
 	mng:any;
+	helpers:any;
 	paciente=new Paciente();
 	oPaciente=new Paciente();
 	esMenor:boolean=false;
@@ -34,6 +35,8 @@ export class PersonalesComponent implements OnInit {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
+		
+		this.helpers	=	this.fcData.getHelpers();
 		//console.log(this.paciente);
 		this.setInfoInit();
 		

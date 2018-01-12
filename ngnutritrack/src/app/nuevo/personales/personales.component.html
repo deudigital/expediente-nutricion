@@ -15,7 +15,8 @@
 						<div class="form-group with-icon paciente_cedula">
 						  <label for="cedula" class="col-form-label">C&eacute;dula</label>
 						  <input type="text" class="form-control" id="cedula" name="cedula" maxlength="20" 
-						  [(ngModel)]="paciente.cedula"
+						  (keypress)="helpers.onKeyPress($event)"
+						  [(ngModel)]="paciente.cedula"						  
 						  >
 						  <i></i>
 						</div>
