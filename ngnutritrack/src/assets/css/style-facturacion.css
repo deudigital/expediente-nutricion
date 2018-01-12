@@ -18,6 +18,20 @@
 .invoice-resume{font-size: 17px;}
 
 #product_editor_column {line-height: 2.2em;padding-left: 2%;margin-top: 3%;}
+
+.main .links .box a figure:before {
+    background-color: transparent;
+    content: "";
+    display: block;
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    border-radius: 50%;
+    top: 5%;
+    left: 5%;
+    z-index: -1;
+}
+
 /* Overriding datepicker classes to get custom desgin */
 /*
 .mydp .selbtngroup {

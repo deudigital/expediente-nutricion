@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: []
 })
 export class InicioComponent implements OnInit {
+	factura_pic: string = "assets/images/factura-off.png";
 	consultas: any;
 	selectedConsulta: Consulta;
 	showBoxConsultasPendientes:boolean=false;
@@ -73,6 +74,15 @@ export class InicioComponent implements OnInit {
 	setConsultas(consultas){
 		this.consultas = consultas;
 	}
+
+	focusOut(){
+		this.factura_pic =  "assets/images/factura-on.png";
+	}
+
+	onHover(){
+		this.factura_pic =  "assets/images/factura-off.png";	
+	}
+
 	getConsultasPendientes() {
 		//console.log('get Consultas Pendientes');
 		this.formControlDataService.getConsultasPendientes()
