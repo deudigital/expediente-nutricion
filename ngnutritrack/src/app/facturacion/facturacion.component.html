@@ -72,7 +72,7 @@
 								  *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>	   
 						</div>
 						<div class="col-md-4 col-sm-4">
-							<label id="row-margin" for="nombre">Ing</label>
+							<label id="row-margin" for="nombre">Ingrese nombre del cliente.</label>
 							<input id="row-margin" 
 								   type="text" 
 								   placeholder="Nombre Completo"
@@ -365,10 +365,10 @@
 										<textarea id="notas" class="form-control" [(ngModel)]="factura.notas"></textarea>
 								</div>
 							</div>
-							<div class="col-md-2" style="text-align: center; margin-left: 8%;margin-top:5%">
+							<div class="col-md-2" style="text-align: center; margin-left: 8%;margin-top:20%">
 								<button class="btn btn-default red" id="save_product_button" (click)="facturar()"> Facturar </button>  							
 							</div>
-	  						<div class="col-md-2" style="text-align: center;margin-top:5%">
+	  						<div class="col-md-2" style="text-align: center;margin-top:20%">
 	  							<button class="btn btn-default" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" (click) = "openModalDatos()" id="button3"> Cancelar </button>
 	  						</div>
 							<div class="col-md-offset-6 col-md-3" style="margin-left: 8% !important; margin-top: 2%;">
