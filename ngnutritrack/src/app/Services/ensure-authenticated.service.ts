@@ -12,7 +12,7 @@ export class EnsureAuthenticated implements CanActivate {
 			this.router.navigateByUrl('/login');
 			return false;
 		}
-		
+		//console.log(this.router.currentRouterState.snapshot.url);
 		if (localStorage.getItem('token') && localStorage.getItem('nutricionista_id')) {
 			this.formControlDataService.setSession(localStorage.getItem('nutricionista_id'), localStorage.getItem('token'));
 			

@@ -13,9 +13,13 @@ export class TopnavComponent implements OnInit {
 	title_control:string='TOP NAV COMPONENT';
 	model:any;
 	items:any;
+
+	showTitle:boolean;
+
 	constructor( private router: Router, private formControlDataService: FormControlDataService ) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.items	=	this.model.getManejadorDatos();
+		this.displayTitle();
 	}		
 	ngOnInit() {
 		this.title_control	=	this.model.getFormPaciente().nombre;
@@ -23,6 +27,19 @@ export class TopnavComponent implements OnInit {
 			setInterval(() => {
 				this.title_control	=	this.model.getFormPaciente().nombre;
 			  }, 1000); 
+		}
+	}
+	displayTitle(){
+		console.log(this.router.url);
+		switch(this.router.url){
+			case '/reportes':
+			case '/servicios-productos':
+			case '/sinfacturar':
+			case '/config-factura':
+				this.showTitle	=	false;
+				break;
+			default:
+				this.showTitle	=	true;
 		}
 	}
 	action_nuevo(){

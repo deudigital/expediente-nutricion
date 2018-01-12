@@ -16,7 +16,7 @@ export class NotasComponent implements OnInit {
 	tagBody:any;
 	finalizar:boolean=false;
 	data:{ [id: string]: any; } = {'0':''};
-
+	
 	showModalFactura : boolean=false;
 	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
@@ -93,7 +93,6 @@ export class NotasComponent implements OnInit {
 		this.finalizar	=	true;
 		this.saveForm();
 		this.openModalFactura();
-		
 	}
 	openModalFactura(){
 		this.showModalFactura = !this.showModalFactura;

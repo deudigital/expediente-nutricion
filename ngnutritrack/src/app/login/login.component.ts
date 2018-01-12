@@ -11,7 +11,6 @@ import {Observable} from 'rxjs/Observable';
   templateUrl: './login.component.html',
   styles: []
 })
-
 export class LoginComponent {
 	showFormReminder:boolean=false;
 	showFormLogin:boolean=true;
@@ -146,5 +145,4 @@ export class LoginComponent {
     // Mostramos el objeto usuario
     console.log(this.usuario);
   }
-
 }

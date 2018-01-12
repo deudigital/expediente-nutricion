@@ -141,6 +141,7 @@ body.grafico-selected-gc_recomendado .grafico-gc_recomendado > span{background-c
 
 .grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
 .grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
+
 @media (min-width:768px){
 	.esc-modalbox{max-width: 100%;padding: 30px 55px;left: 50%;}
 	.esc-modalbox{width: 660px;top: -100%;margin-left: -330px;}

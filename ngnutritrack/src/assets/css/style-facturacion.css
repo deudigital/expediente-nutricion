@@ -1,1 +1,75 @@
 .navbar.top .navbar-nav > li.facturacion > a > i{background-position: -208px -69px;width: 30px;height: 22px;}
+
+.form-errors{color: red;font-size: smaller;}
+.autocomplete-div{top: 65%;position: absolute;z-index: 1000;min-width: 160px;padding: 5px 0;
+    margin: 2px 0 0;text-align: left;list-style: none;background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+}
+.dropdown-autocomplete{display: list-item;position: unset;}
+.loading-modal{width: 12%; margin: 5% 0% 0% -3%;}
+.success_ajax{width: 29%;margin: 5% 0% 0% -15%;box-shadow: 3px 2px grey;}
+.loading-div{width: 100%;background: #0009;position: absolute;height: 945px;margin-top: -100px;z-index: 1;}
+.btn-success:hover {color: #fff;background-color: #cf2e34 !important;border-color: #cf2e34 !important;}
+.facturar-buttons{padding: 5% 0% 0% 0%;margin-left: 23%;margin-right: -30%;}
+.invoice-resume{font-size: 17px;}
+
+#product_editor_column {line-height: 2.2em;padding-left: 2%;margin-top: 3%;}
+/* Overriding datepicker classes to get custom desgin */
+/*
+.mydp .selbtngroup {
+    position: relative;
+    white-space: nowrap;
+    width: 1%;
+    font-size: 0;
+    float: left;
+}
+
+.mydp .selectiongroup {
+    position: initial !important;
+    display: table;
+    border: none;
+    border-spacing: 0;
+    background-color: #FFF;
+    border-radius: 20px !important;
+}
+
+.mydp .selection {
+    width: 100%;
+    outline: 0;
+    background-color: #FFF;
+    display: table-cell;
+    position: absolute;
+    text-overflow: ellipsis;
+    padding-left: 38px !important;
+    border: none;
+    color: #555;
+    border-radius: 20px !important;
+    background-color: #E0E0E0 !important;
+    height: 37px !important;
+}
+
+.mydp, .mydp .headertodaybtn {
+    border: 1px solid #CCC;
+    border-radius: 20px !important;
+    border-color: #E0E0E0 !important;
+}
+
+.mydp .btnclearenabled, .mydp .btndecreaseenabled, .mydp .btnincreaseenabled, .mydp .btnpickerenabled, .mydp .headerbtnenabled, .mydp .headertodaybtnenabled, .mydp .yearchangebtnenabled {
+    cursor: pointer;
+    border-radius: 20px !important;
+	margin-left: 10px;
+	background: #E0E0E0 !important;
+}
+
+.mydp .icon-mydpcalendar, .mydp .icon-mydpremove {
+    font-size: 0px !important;
+}
+table {
+    border-spacing: 0;
+    border-collapse: unset;
+}
+*/

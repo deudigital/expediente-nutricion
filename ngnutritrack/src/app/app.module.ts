@@ -88,7 +88,8 @@ import {FileService} from './services/file.service';
 					DataTableModule,
                     AppRoutingModule,
                     MyDatePickerModule,
-					CurrencyMaskModule
+					CurrencyMaskModule,
+					InputMaskModule
                   ],
     providers:    [
                    { provide: FormControlDataService, useClass: FormControlDataService },

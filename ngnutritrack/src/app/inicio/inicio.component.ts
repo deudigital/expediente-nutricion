@@ -81,8 +81,11 @@ export class InicioComponent implements OnInit {
 						/*console.log('Consultas Pendientes');
 						console.log(response);*/
 						this.showLoading	=	false;
-						this.showBoxConsultasPendientes	=	true;						
-						/*console.log(response);*/
+							if(response){
+								this.setConsultas(response);
+								this.showBoxConsultasPendientes	=	true;
+							}
+						
 						},
 			error =>  {
 					this.showLoading	=	false;

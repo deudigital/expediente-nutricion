@@ -55,7 +55,6 @@ export class DietaComponent implements OnInit {
 	showModalDatos:boolean=false;
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
-
 	showModalFactura:boolean=false;
 	
 	navitation:boolean=false;
@@ -179,7 +178,14 @@ export class DietaComponent implements OnInit {
 		else
 			body.classList.remove('open-modal');
 	}*/
-	
+	openModalFactura(){
+		this.showModalFactura = !this.showModalFactura;
+		let body = document.getElementsByTagName('body')[0];
+		if(this.showModalFactura)
+			body.classList.add('open-modal');
+		else
+			body.classList.remove('open-modal');
+	}
    tabSelected(tab:string){
       if(tab=='graficos'){
         this.showModalTabDatos = false;

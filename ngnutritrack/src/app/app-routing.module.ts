@@ -75,13 +75,13 @@ export const appRoutes: Routes = [
 			{ path: 'patron-menu',  component: PatronmenuComponent, canActivate: [EnsureAuthenticated] },	
 			{ path: 'notas',  component: NotasComponent, canActivate: [EnsureAuthenticated] },	
 	
-    { path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
+    //{ path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
 	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
+	{ path: 'reportes', component: ReporteFacturaComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'servicios-productos', component: ServiciosProductosComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'sinfacturar', component: ConsultasSinFacturarComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'config-factura', component: ConfigFacturaComponent, canActivate: [EnsureAuthenticated] },
 	{ path: '',   redirectTo: '/login', pathMatch: 'full' },
-	{ path: 'reportes', component: ReporteFacturaComponent },
-    { path: 'servicios-productos', component: ServiciosProductosComponent },
-    { path: 'sinfacturar', component: ConsultasSinFacturarComponent },
-    { path: 'config-factura', component: ConfigFacturaComponent },
     // 6th Route
     { path: '**', component: InicioComponent }
 ];

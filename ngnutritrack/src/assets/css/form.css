@@ -107,15 +107,18 @@ label.col-form-label::after {
 .form-control.ng-untouched.ng-invalid ~ .msg-validation:after{display:none}
 
 
+/*.form-control.esc-dp{padding-top:0;padding-bottom:0;}*/
+.form-control.esc-dp {padding-top: 0;padding-bottom: 0;padding-left: 10px !important;}
+.form-control.esc-dp .mydp .selbtngroup {height:30px !important;width:100%}
+.form-control.esc-dp .mydp, 
+.form-control.esc-dp .mydp .headertodaybtn{border:none;}
+.form-control.esc-dp .mydp .selectiongroup {background-color: transparent;width:100%}
+/*.form-control.esc-dp .mydp .selection{background-color:transparent;}*/
+.form-control.esc-dp .mydp .selection {background-color: transparent;padding-left: 40px;}
+.form-control.esc-dp .mydp .icon-mydpcalendar{visibility: hidden;}
+/*.form-control.esc-dp .mydp .selbtngroup .btnpicker {background-color: transparent;position: absolute;left: -37px;top: 0;z-index: 101;width: 110%;margin-left: -40px;}*/
+.form-control.esc-dp .mydp .selbtngroup .btnpicker {background-color: transparent;position: absolute;left: 0;top: 0;z-index: 101;width: 100%;}
 
-.form-control.fecha_nac{padding-top:0;padding-bottom:0;}
-.form-control.fecha_nac .mydp .selbtngroup {height:30px !important;width:100%}
-.form-control.fecha_nac .mydp, 
-.form-control.fecha_nac .mydp .headertodaybtn{border:none;}
-.form-control.fecha_nac .mydp .selectiongroup {background-color: transparent;width:100%}
-.form-control.fecha_nac .mydp .selection{background-color:transparent;}
-.form-control.fecha_nac .mydp .icon-mydpcalendar{visibility: hidden;}
-.form-control.fecha_nac .mydp .selbtngroup .btnpicker {background-color: transparent;position: absolute;left: -37px;top: 0;z-index: 101;width: 110%;margin-left: -40px;}
 .loading-file{font-size:1.5em;text-align:center}
 .container-form > .actions > label.form-open > i {background-position: -532px -481px;}
 .error{ color: #f00; }

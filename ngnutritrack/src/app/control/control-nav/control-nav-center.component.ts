@@ -11,8 +11,8 @@ export class ControlNavCenterComponent implements OnInit {
 
   ngOnInit() {
   }
-  
-   mouseOut(){
+
+  mouseOut(){
     document.getElementById("invoice-menu-div").className = "dropdown";
   }	
 

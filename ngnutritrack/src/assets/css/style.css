@@ -2,6 +2,7 @@ body{font-family: 'Montserrat', sans-serif;color:#000;font-weight:500;padding-bo
 textarea,select,input,table {max-width: 100%;}
 img,iframe,figure{max-width:100%}
 img{height:auto}
+
 body.main{padding-top:50px}
 body.with-bg:before,
 body.with-bg:after {content: "";display: block;height: 100%;width: 100%;top: 0;position: absolute;z-index:-1}
@@ -22,15 +23,28 @@ i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-
 .form-control::-moz-placeholder {font-size:10px}
 .form-control:-ms-input-placeholder {font-size:10px}
 .form-control:-moz-placeholder {font-size:10px}
-.btn {-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius: 25px;-khtml-border-radius: 25px;background-color: #8bc23f;color: #fff;padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:none !important}
+.btn {-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius: 25px;-khtml-border-radius: 25px;
+padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:none !important}
+.btn-default.active, 
+.btn-default:active,
+.btn {background-color: #8bc23f;color: #fff;border-color:#8bc23f}
+
+
+.btn.red,
+.btn-default.active.focus, 
+.btn-default.active:focus, 
+.btn-default.active:hover, 
+.btn-default:active.focus, 
+.btn-default:active:focus, 
+.btn-default:active:hover, 
 .btn-default:hover,
-.btn-default.focus, .btn-default:focus {color: #fff;background-color: #cc2026;border-color: #cc2026;}
-.btn.red {background-color: #cc2026;padding-left: 45px;padding-right: 45px;}
+.btn-default.focus, 
+.btn-default:focus {color: #fff;background-color: #cc2026;border-color: #cc2026;}
+.btn.red {padding-left: 45px;padding-right: 45px;}
 /*******************/
 .transition{-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;}
 /*********/
 /*******************/
-.container-logo{text-align:center;}
 .main .navbar-brand {position: absolute;float: none;left: 50%;margin-left: -150px !important;margin-top:-50px}
 .main .navbar {margin-bottom: 120px;}
 .navbar-default {background-color: transparent;border-color: transparent;}
@@ -90,6 +104,13 @@ body.menu-parent-dieta .content-nav .list-group > li.dieta > a > i,
 .content-nav .list-group > li.objetivo > a > i {background-position: -254px -183px;width: 45px;height: 46px;}
 .content-nav .list-group > li.habito > a > i {background-position: -310px -183px;width: 45px;height: 47px;}
 
+
+.content-nav .list-group-item.hcp > a {margin-top: 6px;}
+.content-nav .list-group-item.hcp > a > i {	margin-top: -29px !important;}
+
+.content-nav .list-group-item.hcf > a{margin-top: 3px;}
+.content-nav .list-group-item.hcf > a > i {	margin-top: -26px !important;}
+
 .content-nav .list-group > li.personales > a:hover > i,
 .content-nav .list-group > li.personales > a.active > i {background-position: 0 -241px;width: 44px;height: 46px;}
 .content-nav .list-group > li.contacto > a:hover > i,
@@ -133,10 +154,10 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .checkbox label {position: relative;padding-left:0;width:100%;cursor:pointer;}
 .content-form .radio label input, .content-form .checkbox label input {position: absolute;margin-left:0;visibility:hidden;}
 .content-form .radio label input:checked + span, .content-form .checkbox label input:checked + span{background-color: #8bc23f;color:#f3f3f3}
-.content-form .radio label span, .content-form .checkbox label span {background-color: #e0e0e0;padding: 5px;width:100%;display:block;cursor:pointer;border-radius: 15px;text-align:center;line-height:2em;font-weight:500;}
+.content-form .radio label span, .content-form .checkbox label span {background-color: #e0e0e0;padding: 5px;width:100%;display:block;cursor:pointer;border-radius: 15px;text-align:center;line-height:26px;font-weight:500;font-size:14px}
 .content-form h3{font-weight:500}
 .content-form .wrap-patologias {margin-bottom:15px}
-.content-form .wrap-patologias .radio label, .content-form .wrap-patologias .checkbox label {margin:5px}
+.content-form .wrap-patologias .radio label, .content-form .wrap-patologias .checkbox label {margin:6px 0}
 /********************/
 .fill-data-valoracion {text-align: center;background-color: #dedede;border-radius: 15px;color: rgba(0,0,0,0.5);min-height: 105px;line-height: 8em;margin-left: -10px;margin-right: -10px;}
 /********************/
@@ -150,24 +171,6 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form  small{font-size:9px;color:#999;}
 .content-form  .link{color:#030303;}
 .content-form  .factores{font-size:11px;}
-/********************/
-/*.table{border-spacing: 0 5px;border-collapse: separate;}*/
-
-.table{border-radius:15px;}
-.table > thead > tr > th {border-bottom: none;background-color:#e0e0e0;}
-.table > thead > tr > th:first-child {border-radius: 15px 0 0 0;}
-.table > thead > tr > th:last-child {border-radius: 0 15px 0 0;}
-.table tr th, .table tr td{border-color: transparent;}
-.table > tbody {background-color:#e0e0e0;}
-.table > tbody > tr > td{padding:10px}
-.table > tbody > tr:nth-child(odd) > td{background-color:#ccc;border-radius:0}
-.table > tbody > tr:nth-child(odd) > td:first-child{border-radius:0 0 0 15px}
-.table > tbody > tr:nth-child(odd) > td:last-child{border-radius:0 0 15px 0}
-
-.table.listado thead tr th:first-child {padding-left:25px}
-
-/*.table tbody tr > td:first-child{border-radius:15px 0 0 15px}
-.table tbody tr > td:last-child{border-radius: 0 15px 15px 0;}*/
 /********************/
 .content-form .asignacion-porciones{font-size:12px;font-weight:normal;text-align:center;border-spacing:0 15px}
 .content-form .asignacion-porciones > thead > tr > th{font-weight:500;text-align:center;border:none;padding:0;}
@@ -199,31 +202,18 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .asignacion-porciones i.frutas {background-position: -99px -142px;width: 22px;height: 23px;}
 .content-form .asignacion-porciones i.item-6,
 .content-form .asignacion-porciones i.harinas {background-position: -129px -145px;width: 25px;height: 29px;}
-.content-form .asignacion-porciones i.item-9,
-.content-form .asignacion-porciones i.carne-magra {background-position: -162px -142px;width: 40px;height: 24px;}
-.content-form .asignacion-porciones i.item-10,
-.content-form .asignacion-porciones i.carne-intermedia {background-position: -206px -142px;width: 40px;height: 21px;}
-.content-form .asignacion-porciones i.item-11,
-.content-form .asignacion-porciones i.carne-grasa {background-position: -253px -142px;width: 32px;height: 26px;}
-.content-form .asignacion-porciones i.item-8,
-.content-form .asignacion-porciones i.azucares {background-position: -291px -142px;width: 37px;height: 20px;}
 .content-form .asignacion-porciones i.item-7,
+.content-form .asignacion-porciones i.carne-magra {background-position: -162px -142px;width: 40px;height: 24px;}
+.content-form .asignacion-porciones i.item-8,
+.content-form .asignacion-porciones i.carne-intermedia {background-position: -206px -142px;width: 40px;height: 21px;}
+.content-form .asignacion-porciones i.item-9,
+.content-form .asignacion-porciones i.carne-grasa {background-position: -253px -142px;width: 32px;height: 26px;}
+.content-form .asignacion-porciones i.item-10,
+.content-form .asignacion-porciones i.azucares {background-position: -291px -142px;width: 37px;height: 20px;}
+.content-form .asignacion-porciones i.item-11,
 .content-form .asignacion-porciones i.grasas {background-position: -333px -142px;width: 19px;height: 27px;}
 .content-form .asignacion-porciones i.item-12,
 .content-form .asignacion-porciones i.vaso-agua{background-position: -360px -142px;width: 19px;height: 23px;}
-
-.esc-modal .alimentos i.leche-descremada {background-position: 0 -688px;width: 30px;height: 53px;}
-.esc-modal .alimentos i.leche-2 {background-position: -42px -688px;width: 30px;height: 53px;}
-.esc-modal .alimentos i.leche-entera {background-position: -84px -688px;width: 30px;height: 53px;}
-.esc-modal .alimentos i.vegetales {background-position: -127px -688px;width: 50px;height: 53px;}
-.esc-modal .alimentos i.frutas {background-position: -185px -688px;width: 46px;height: 53px;}
-.esc-modal .alimentos i.harinas {background-position: -245px -688px;width: 50px;height: 55px;}
-.esc-modal .alimentos i.carne-magra {background-position: -311px -688px;width: 65px;height: 40px;margin-top: 10px;}
-.esc-modal .alimentos i.carne-intermedia {background-position: -388px -685px;width: 66px;height: 50px;}
-.esc-modal .alimentos i.carne-grasa {background-position: -467px -686px;width: 63px;height: 54px;}
-.esc-modal .alimentos i.azucares {background-position: 1px -756px;width: 60px;height: 65px;}
-.esc-modal .alimentos i.grasas {background-position: -64px -758px;width: 40px;height: 60px;}
-.esc-modal .alimentos i.vaso-agua {background-position: -119px -759px;width: 41px;height: 52px;}
 
 .patron-menu .alimentos > div {min-height: 130px;}
 .patron-menu .alimentos i.leche-descremada {background-position: 0 -688px;width: 30px;height: 53px;}
@@ -248,7 +238,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
 .content-form .resumen tbody tr td:last-child {padding-right: 30px;}
 /********************/
-.content-form > .form-patron-menu input.form-control {font-size: 10px;line-height: 1em;padding-right: 35px;height: auto;word-break: break-all;min-height:34px}
+.content-form > .form-patron-menu input.form-control {/*font-size: 10px;*/line-height: 1em;padding-right: 35px;/*height: auto;*/word-break: break-all;min-height:37px}
 /********************/
 .main .links{margin:5% 0}
 .main.page-inicio .links{margin:5% -15px}
@@ -306,43 +296,9 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .listado.pacientes ul li {cursor:pointer;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
 .main .listado.pacientes ul li:hover {background-color:#7fb831;color:#fff;border-radius:25px;}
 
-body.open-modal .overlay {display:block}
-.overlay { background-color:rgba(0, 0, 0, 0.33); position: fixed;left: 0;top: 0;z-index: 1000;width: 100%;height: 100%;display:none; /*-webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease;*/ }
-.esc-modal a.modal-close { position: absolute; right: 25px; top: 10px; font-weight: 300; font-size: 25px; cursor: pointer; text-decoration: none; text-indent: 0; z-index:500; }
-.esc-modal { position: absolute; z-index: 10001; width: 665px; max-width: 100%; background-color: #fff;top: -150%; left: 50%; padding: 30px 55px; margin-left: -333px; border-radius: 15px; -webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease; overflow: hidden; }
-.esc-modal header {text-align: center;margin-bottom: 15px;}
-.esc-modal header h3 {margin: 0;font-size: 20px;font-weight:600;}
-.esc-modal .label-modal-porciones {font-size: 14px;margin-bottom:15px}
-.esc-modal .alimentos > div {min-height: 150px;/* border: 1px solid; */}
-body.open-modal .esc-modal  {top:5%}
-.esc-modal #modal-text {font-size: 12px;font-weight: 300;}
-/*.esc-modal .body table thead tr th{background-color: #ccc;}
-*/ a.active{color:red}
-.esc-modal .table {font-weight:500;}
-.esc-modal .table th {background-color: #646464;color: #fff;font-weight:normal;text-align:center;}
-.esc-modal .table thead tr > th:first-child{border-radius:15px 0 0 0}
-.esc-modal .table thead tr > th:last-child{border-radius: 0 15px 0 0;}
-.esc-modal .table tbody tr > td{text-align:center;}
-.esc-modal .table tbody tr:nth-child(even) > td{background-color:#cfcfcf;border-left: 1px solid #e7e7e7;}
-.esc-modal .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
-.esc-modal .table tbody tr > td:first-child){border-left: none;}
-.esc-modal .navigation-dieta {border-bottom: 1px solid #dcdcdc;/*margin-bottom: 0;*/}
-.esc-modal .navigation-dieta a{display:block;padding-bottom:10px;}
-.esc-modal .navigation-dieta a.active{border-bottom-width:5px;}
-.esc-modal .navigation-dieta a i.datos {background-position: -499px -114px;width: 32px;height: 25px;}
-.esc-modal .navigation-dieta a i.grafico {background-position: -465px -114px;width: 31px;height: 26px;}
-.esc-modal .navigation-dieta a.active i.datos {background-position: -499px -144px;}
-.esc-modal .navigation-dieta a.active i.grafico {background-position: -465px -144px;}
-
-.table.habitos {border-spacing: 0;border-collapse: collapse;}
-.table.habitos thead tr th {background-color: #e0e0e0;}
-.table.habitos tbody tr td {background-color: #ccc;}
-.table.habitos thead tr:first-child th:first-child {border-radius: 10px 0 0 0;}
-.table.habitos thead tr:first-child th:last-child {border-radius: 0 10px 0 0;}
-.table.habitos tbody tr:last-child td:first-child {border-radius: 0 0 0 10px;}
-.table.habitos tbody tr:last-child td:last-child {border-radius: 0 0 10px 0;}
 
 a.active{color:red}
+
 .lista-examen {list-style: none;font-size: 10px;min-height:auto;/*margin-top:50px;*/}
 .lista-examen > li {float: left;width: 20%;text-align: center;min-height: 150px;position: relative;}
 .lista-examen > li:before {border-left: 1px solid #b7b7b7;content: "";position: absolute;left: 0;width: 1px;height: 23%;top: 14%;}
@@ -354,16 +310,14 @@ a.active{color:red}
 .info-sending { background-color: rgba(0,0,0,0.75); color: white; text-align: center; width: 250px; padding: 10px 5px; position: absolute; left: 50%; z-index: 1; border-radius: 0 5px 5px 0; top: -250px; transition: all 0.4s cubic-bezier(1,0,0,1) 0.4s; }
 body.sending .info-sending{display:block;top:50px}
 
-/*.navigation-hcp.esfemenino > div:last-child {float:right;width:18%}*/
-.table tfoot .form-group label{padding-left:0}
-.table tfoot .form-group .form-control::-moz-placeholder {font-size: 10px;}
+
 .distribucion {text-align:center;}
 .distribucion .carbohidratos {color: #0aa4d8;}
 .distribucion .proteinas {color: #d8b80a;}
 .distribucion .grasas {color: #f34026;}
 
 .distribucion h5 {font-size: 12px;}
-.distribucion .form-control {width: 80px;border-radius: 10px;margin: 0 auto;text-align: center;}
+.distribucion .form-control {width: 65%;/*80px;*/border-radius: 10px;margin: 0 auto;text-align: center;}
 
 /*body.page-inicio .main{padding-top:45px}
 body.page-inicio .container-logo {margin-bottom: 55px;}*/
@@ -371,19 +325,19 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 .calculo-calorico {font-weight: 600;text-align: center;}
 
+.wrap-patologias > .checkbox > .row > div:nth-child(6n+7), 
+.wrap-patologias > .checkbox > .row > div:nth-child(6n+8), 
+.wrap-patologias > .checkbox > .row > div:nth-child(6n+9){margin-top: 13px;}
+.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
+.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before, 
+.wrap-patologias .checkbox > .row > div:nth-child(6n+9) > label:before {background-color: #e0e0e0;height: 1px;width: 100%;content: "";position: absolute;display: block;top: -12px;}
+.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
+.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
 
-
-.wrap-patologias .checkbox > div:nth-child(6n+1),
-.wrap-patologias .checkbox > div:nth-child(6n+2),
-.wrap-patologias .checkbox > div:nth-child(6n+3){margin-top: 10px;padding-top: 10px;border-top: 1px solid #f00;/*e0e0e0;*/}
-/*
-.wrap-patologias .checkbox > div:nth-child(6n+1):before,
-.wrap-patologias .checkbox > div:nth-child(6n+2):before,
-.wrap-patologias .checkbox > div:nth-child(6n+3):before {position: absolute;content: "";border-top: 1px solid #f00;height: 1px;width: 100%;}
-*/
 .wrap-patologias .separator {width: 97%;display: inline-block;}
 .container-file {display: block;background: #dedede;padding: 20px;border-radius: 20px;line-height: 2em;text-align: center;min-height: 70px;color: rgba(0,0,0,0.5);}
 .container-file > input[type="file"] {visibility: hidden;position: absolute;color: #e0e0e0;}
+
 
 .esc-modal .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
 
@@ -406,6 +360,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 .esc-grafico-boxes > div:not(.active) {display: none;}
 
+
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
 	body.page-inicio .container-logo {margin-bottom: 55px;}
@@ -422,7 +377,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.form-group {margin-bottom: 30px;}
 	.navbar.top:not(.logo-center) .navbar-brand {width: 100%;text-align: right;padding-right: 50px;}
 	.navbar.top:not(.logo-center) .navbar-brand > img {display: inline-block;}
-	.navbar.top:not(.logo-center) .navbar-header {	width: 25%;margin-left: -15px;text-align: right;}
+	.navbar.top:not(.logo-center) .navbar-header {	width: 25%;margin-left: -8px;text-align: right;}
 	.navbar.top .navbar-nav > li > a {font-size:12px;margin-top:-4px}
 	.content-form .analisis > .box{width:25%;min-height: 110px}
 	.navbar.top.logo-center .navbar-brand {margin-top: -25px;position: absolute;left: 50%;margin-left: -120px;}
@@ -440,16 +395,17 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.np-section > div:not(:first-child) {padding-left: 5px;padding-right: 0;}
 	.row.dif {margin-bottom: 30px;}
 	.row.dif > div:first-child {margin-left: 0;}
-	.row.dif > div {width: 46%;margin-left: 8%;}	
+	.row.dif > div {width: 46%;margin-left: 8%;}
 	
+	.calculo-calorico > .row > div {padding: 0;}
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}
 	.content-form .analisis > .box .glyphicon{font-size:3em}
 }
-@media (min-width:1060px){ .content-nav .list-group {margin-right: 31px;}
-	.content-form > section{padding: 25px 50px;}
-	.container-fluid{width:90%;}
+@media (min-width:1060px){
+	.content-nav .list-group {margin-right: 31px;}
+	
 }
 @media (min-width:1200px){
 	.content-nav .list-group {margin-right: 31px;}
@@ -457,137 +413,14 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 @media (min-width:1370px){
 	.container-fluid{width:90%;}
 	.content-form  section{padding: 25px 50px;}
-	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}
 }
 @media (max-width:767px){
 	body > [class*="col-"] .row > [class*="col-"] {margin-top:3%;margin-bottom:3%;}
 	
 }
-
 @media(max-width:600px){
 	body.page-inicio .container-logo img{max-width:50%}
 	body.page-inicio .main .listado.consultas > .row{margin:0}
 	body.page-inicio .main .listado.consultas ul li .action.continuar {position: relative;margin-top: 10px;width: 100%;}
 	body.page-inicio .main .listado.consultas ul li .eliminar {right: 15px;left: inherit;}
-}
-.table-button-header {
-	opacity: 0;
-	width: 5%;
-}
-.form-errors{
-	color: red;
-	font-size: smaller;
-}
-.table-with-icons{
-	background-color: #F3F3F3 !important; 
-	border-top: 0px !important;
-	padding-top:0px !important;
-	padding-bottom:16px !important;
-}
-.table-edition-input{
-	width: 215px;
-    height: 30px;
-}
-.autocomplete-div{   
-    top: 65%;
-    position: absolute;
-    z-index: 1000;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;    
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 4px;
-}
-.dropdown-autocomplete{
-	display: list-item;
-	position: unset;
-}
-.loading-modal{
-	width: 12%; margin: 5% 0% 0% -3%;
-}
-.success_ajax{
-	width: 29%;
-    margin: 5% 0% 0% -15%;
-    box-shadow: 3px 2px grey;
-}
-.loading-div{
-	width: 100%;
-	background: #0009;
-	position: absolute;
-	height: 945px;
-	margin-top: -100px;
-	z-index: 1;
-}
-.btn-success:hover {
-    color: #fff;
-    background-color: #cf2e34 !important;
-    border-color: #cf2e34 !important;
-}
-.facturar-buttons{
-	padding: 5% 0% 0% 0%;
-    margin-left: 23%;
-    margin-right: -30%;
-}
-.invoice-resume{
-	font-size: 17px;
-}
-
-/* Overriding datepicker classes to get custom desgin */
-.mydp .selbtngroup {
-    position: relative;
-    white-space: nowrap;
-    width: 1%;
-    font-size: 0;
-    float: left;
-}
-
-.mydp .selectiongroup {
-    position: initial !important;
-    display: table;
-    border: none;
-    border-spacing: 0;
-    background-color: #FFF;
-    border-radius: 20px !important;
-}
-
-.mydp .selection {
-    width: 100%;
-    outline: 0;
-    background-color: #FFF;
-    display: table-cell;
-    position: absolute;
-    text-overflow: ellipsis;
-    padding-left: 38px !important;
-    border: none;
-    color: #555;
-    border-radius: 20px !important;
-    background-color: #E0E0E0 !important;
-    height: 37px !important;
-}
-
-.mydp, .mydp .headertodaybtn {
-    border: 1px solid #CCC;
-    border-radius: 20px !important;
-    border-color: #E0E0E0 !important;
-}
-
-.mydp .btnclearenabled, .mydp .btndecreaseenabled, .mydp .btnincreaseenabled, .mydp .btnpickerenabled, .mydp .headerbtnenabled, .mydp .headertodaybtnenabled, .mydp .yearchangebtnenabled {
-    cursor: pointer;
-    border-radius: 20px !important;
-	margin-left: 10px;
-	background: #E0E0E0 !important;
-}
-
-.mydp .icon-mydpcalendar, .mydp .icon-mydpremove {
-    font-size: 0px !important;
-}
-table {
-    border-spacing: 0;
-    border-collapse: unset;
 }

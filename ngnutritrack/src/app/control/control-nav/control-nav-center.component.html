@@ -29,7 +29,7 @@
 			</li>-->
 			<li class="facturacion">				
 				<a  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda" data-toggle="dropdown"  (mouseenter) = "mouseOver()" (mouseleave) = "mouseOut()">                  
-                	<i class="menu-icon"></i>Facturación
+                	<i class="menu-icon"></i>Facturación x
                 	<div class="dropdown" style="margin:10% 0% 0% 0%" id="invoice-menu-div">									
 	                    <ul class="dropdown-menu" style="margin:0% 0% 0% 19%;">
 	                    	<li>
@@ -37,7 +37,7 @@
 		                      		<i class="menu-icon"></i>Facturar
 		                      	</a>
 	                      	</li>
-	                      	<li class="reportes">
+	                      	<li>
 	                      		<a routerLink="/reportes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Reportes">
 	                      			<i class="menu-icon"></i>Reportes
 	                      		</a>
@@ -60,8 +60,10 @@
 	                    </ul>
 					</div>
                 </a>
+			</li>
+			
 		  </ul>
-		</div><!--/.nav-collapse -->
+		</div>
 	  </div>
   </div>
 </nav>

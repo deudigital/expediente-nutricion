@@ -5,6 +5,8 @@
 			<app-navigation></app-navigation>
 		</div>
 		<div class="col-sm-9 content-form">
+		
+		<form #contactForm="ngForm" class="editForm" novalidate>
 			<section>
 				<div class="row">
 					<div class="col-md-6">					  
@@ -38,22 +40,22 @@
 						<label for="genero" class="col-form-label">Dirección</label>
 						<div class="row select-ubicacion">
 							<div class="col-md-6">
-								<select [(ngModel)]="provincia" class="form-control" (change)="selectCantones($event)" name="provincia"><!-- {{o.codigo_provincia}} -  -->
+								<select [(ngModel)]="provincia" class="form-control" (change)="selectCantones($event)" name="provincia">
 									<option *ngFor="let o of _provincias" [ngValue]="o.codigo_provincia">{{o.nombre_provincia}}</option>
 								</select>
 							</div>
 							<div class="col-md-6">
-								 <select [(ngModel)]="canton" class="form-control" (change)="selectDistritos($event)" name="canton"><!--{{o.codigo_provincia}}-{{o.codigo_canton}}-->
+								 <select [(ngModel)]="canton" class="form-control" (change)="selectDistritos($event)" name="canton">
 									<option *ngFor="let o of filter_cantones" [ngValue]="o.codigo_canton">{{o.nombre_canton}}</option>
 								</select>
 							</div>
 							<div class="col-md-6">
-								 <select [(ngModel)]="distrito" class="form-control" (change)="selectBarrios($event)" name="distrito"><!--{{o.codigo_provincia}}--{{o.codigo_canton}}-{{o.codigo_distrito}}--->
+								 <select [(ngModel)]="distrito" class="form-control" (change)="selectBarrios($event)" name="distrito">
 									<option *ngFor="let o of filter_distritos" [ngValue]="o.codigo_distrito">{{o.nombre_distrito}}</option>
 								</select>
 							</div>
 							<div class="col-md-6">
-								 <select [(ngModel)]="paciente.ubicacion_id" class="form-control" name="barrio"><!--{{o.codigo_provincia}}-{{o.codigo_canton}}-{{o.codigo_distrito}}-{{o.codigo_barrio}}--->
+								 <select [(ngModel)]="paciente.ubicacion_id" class="form-control" name="barrio">
 									<option *ngFor="let o of filter_barrios" [ngValue]="o.id">{{o.nombre_barrio}}</option>
 								</select>
 							</div>
@@ -108,6 +110,8 @@
 						</button>
 				</div>
 
+
+		</form>
 		</div>
 	</div>
 </div>

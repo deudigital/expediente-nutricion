@@ -1,12 +1,4 @@
 <app-topnav></app-topnav>
-<div class="container">
-	<div class="row">
-		<div class="col-sm-offset-4 col-sm-8">
-			<h3 id="expediente_nombre" class="page-title">Expediente: {{title_control}}</h3>
-		</div>
-	</div>
-</div>
-<router-outlet name="historialPopup"></router-outlet>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 content-nav">
@@ -16,27 +8,6 @@
 
 			<section>
 				<div class="row">
-				
-					
-<div class="col-md-12">
-<app-file-upload 
-  projectId="100" 
-  sectionId="107" 
-  maxFiles="4"
-  maxSize="2"
-  fileExt="JPG, GIF, PNG"
-  (uploadStatus)="refreshImages($event)" >
-</app-file-upload>
-</div>
-<br>
-
-<div class="well">
-  <img *ngFor="let img of images"
-	   [src]="'http://localhost:33699' + img.thumbPath"
-	  class="img-thumbnail"
-	  alt="">
-</div>
-				
 					<div class="fill-data-valoracion">
 						Importar datos - arrastre archivo en formato csv a este cuadro
 					</div>
@@ -286,6 +257,7 @@
 				</tbody>
 			</table>
 		</div>
+
 		<div *ngIf="showModalTabGrafico" class="container-graficos">
 			<nav class="clearfix">
 				<ul class="nav navbar-nav menu grafico">
