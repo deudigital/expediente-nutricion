@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { CommonService } from '../services/common.service';
@@ -69,7 +70,7 @@ export class FacturacionComponent implements OnInit {
     productIndex = 0;
     consulta_id: number = 0;
 
-  constructor( private commonService: CommonService, private formControlDataService: FormControlDataService ) { 
+  constructor( private router: Router, private commonService: CommonService, private formControlDataService: FormControlDataService ) { 
 
 	this.fcData  =  this.formControlDataService.getFormControlData();
   	this.mng     =	this.fcData.getManejadorDatos(); 
@@ -614,6 +615,9 @@ export class FacturacionComponent implements OnInit {
 					   setTimeout(() => {
 					      this.form_errors.successful_operation = false;
 					      this.openModalDatos();
+					      if(this.router.url==='/notas'){
+					      	this.router.navigate(['/inicio']);
+					      }
 					      this.commonService.notifyOther({option: 'removeConsulta', consulta: this.consulta_id});
 					    }, 3000);					   					   					 
 					},
@@ -644,7 +648,10 @@ export class FacturacionComponent implements OnInit {
 			window.scrollTo(0, 0);
 			body.classList.add('open-modal');			
 			modal.item(0).setAttribute("style","margin-top: -10%");			
-		} else{			
+		} else{		
+			if(this.router.url==='/notas'){
+				this.router.navigate(['/inicio']);
+			}	
 			modal.item(0).setAttribute("style","margin-top: -500%");
 			body.classList.remove('open-modal');
 		}
