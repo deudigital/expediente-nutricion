@@ -1,8 +1,13 @@
+<div class="container-fluid" style="position: relative; top: 155px;">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
 <div class="container main page-inicio content-form">
 	<figure class="container-logo">
 		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
 	</figure>
-	<app-factura-vacia></app-factura-vacia>
+	<h1>testing jenkins 3</h1>
 	<div class="row links">
 		<div class="col-xs-4 col-sm-4 box">
 			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
@@ -25,7 +30,7 @@
 				<figure (mouseenter)="onHover()" (mouseleave)="focusOut()">
 					<img src="{{factura_pic}}" style="width:50%;">
 				</figure>
-				<strong>Facturación</strong>
+				<strong (mouseenter)="onHover()" (mouseleave)="focusOut()">Facturación</strong>
 			</a>
 		</div>
 		<!--<div class="col-sm-4 box">
@@ -54,7 +59,7 @@
 	</section>
 </div>
 
-<div class="esc-modalbox prompt">
+<div class="esc-modalbox prompt" *ngIf="!hidePrompt">
 	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
 	<header class="text-center">
 		<h4>¿Est&aacute; seguro de eliminar esta consulta?</h4>
@@ -69,4 +74,3 @@
 	</div>
 </div>
 <div class="overlay" (click)="promptCancelar()"></div>
-

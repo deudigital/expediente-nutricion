@@ -50,13 +50,13 @@ export class FormControlDataService {
 	}*/
 
 	getPacientesDeNutricionista(): Observable<Paciente[]> {
-		var nutricionista_id	=	this.formControlData.nutricionista_id;
+		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL + 'pacientes/nutricionista/' + nutricionista_id ).map((response: Response) => response.json());
 	}
 
 	//original method
 	getNutricionista(): Observable<any[]> {
-		var nutricionista_id = this.formControlData.nutricionista_id;
+		var nutricionista_id = localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL +'nutricionistas/' + nutricionista_id ).map((response: Response) => response.json());
 	}
 
@@ -66,7 +66,7 @@ export class FormControlDataService {
 
 	//original method
 	 getReporteFactura(): Observable<Reporte[]>{
-	 	var nutricionista_id= this.formControlData.nutricionista_id;
+	 	var nutricionista_id= localStorage.getItem('nutricionista_id');
 	 	return this.http.get( this.apiURL+'reportes/nutricionista/'+nutricionista_id)
 	 	.map((response:Response)=>response.json());
 	 }
@@ -121,19 +121,19 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL + 'ejercicios').map((response: Response) => response.json());
 	}
 	getConsultasPendientes(): Observable<Consulta[]> {
-		var nutricionista_id	=	this.formControlData.nutricionista_id;
+		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/')
 		.map((response: Response) => response.json());
 	}
 	getPacientes(): Observable<Consulta[]> {
-		var nutricionista_id	=	this.formControlData.nutricionista_id;
+		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id)
 		.map((response: Response) => response.json());
 	}
 
 	//Original method
 	getPaciente(id): Observable<Persona> {
-		var nutricionista_id = this.formControlData.nutricionista_id;
+		var nutricionista_id = localStorage.getItem('nutricionista_id');
 		return this.http.get(this.apiURL + 'nutricionista/'+nutricionista_id+'/cliente/'+id).map((response: Response) => response.json());
 	}
 
@@ -144,7 +144,7 @@ export class FormControlDataService {
 
 	//original method
 	getProducts(): Observable<Producto[]> {
-		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		var nutricionista_id   =   localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL + 'productos/nutricionista/' + nutricionista_id)
 		.map((response: Response) => response.json());
 	}
@@ -418,7 +418,7 @@ export class FormControlDataService {
 	}
 
 	getConsultasSinFacturar(): Observable<Consulta_s_f[]>{
-		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		var nutricionista_id   =   localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL + 'reportes/consultas_sin_facturar/nutricionista/'+nutricionista_id).map((response: Response) => response.json());
 	}
 
@@ -430,13 +430,13 @@ export class FormControlDataService {
 		return this.http.post( this.apiURL + 'nutricionistas/configFactura',nutri).map((response: Response) => response.json());
 	}
 	uploadImagen(image:any){
-		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		var nutricionista_id   =   localStorage.getItem('nutricionista_id');
 		let form: FormData  = new FormData();
     form.append('avatar', image);
 		return this.http.post( this.apiURL + 'nutricionistas/uploadAvatar/'+nutricionista_id,form).map((response: Response) => response.json());
 	}
 	uploadCrypto(key:any){
-		var nutricionista_id   =   this.formControlData.nutricionista_id;
+		var nutricionista_id   =   localStorage.getItem('nutricionista_id');
 		let form: FormData  = new FormData();
     form.append('cryptoKey', key);
 		return this.http.post( this.apiURL + 'nutricionistas/uploadCrypto/'+nutricionista_id,form).map((response: Response) => response.json());

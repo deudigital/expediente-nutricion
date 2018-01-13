@@ -13,22 +13,31 @@ import { CommonService } from '../services/common.service';
   styleUrls: []
 })
 export class InicioComponent implements OnInit {
-	factura_pic: string = "assets/images/factura-off.png";
+	factura_pic_on:string = "assets/images/factura-on.png";
+	factura_pic_off:string =  "assets/images/factura-off.png";
+	factura_pic:string;	
 	consultas: any;
 	selectedConsulta: Consulta;
 	showBoxConsultasPendientes:boolean=false;
 	showLoading:boolean=true;
 	tagBody:any;
 	mng:any;
+
+	hidePrompt : boolean=false;
+	hidenFactura: boolean =false;
+
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
 	ngOnInit() {
+		this.factura_pic = this.factura_pic_off;
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.className = '';
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
+		this.hidePrompt	=	false;
 		this.getConsultasPendientes();
+
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
@@ -50,6 +59,7 @@ export class InicioComponent implements OnInit {
 	}
 	onDelete(consulta){
 		this.selectedConsulta = consulta;
+		this.hidePrompt	=	false;
 		this.tagBody.classList.add('open-modal');
 		/*this.remove(consulta)*/
 	}
@@ -66,6 +76,7 @@ export class InicioComponent implements OnInit {
 		);
 	}
 	promptYes(){
+		this.hidePrompt	=	true;
 		this.remove( this.selectedConsulta );
 		this.promptCancelar();
 	}
@@ -76,14 +87,15 @@ export class InicioComponent implements OnInit {
 		this.consultas = consultas;
 	}
 	focusOut(){
-		this.factura_pic =  "assets/images/factura-off.png";
+		this.factura_pic = this.factura_pic_off;
 	}
 
 	onHover(){
-		this.factura_pic =  "assets/images/factura-on.png";	
+		this.factura_pic = this.factura_pic_on;
 	}
 
-	openFactura(){
+	openFactura(){ 
+		this.hidePrompt = true;
 		this.commonService.notifyOther({option: 'openModalDatos'});
 	}
 
