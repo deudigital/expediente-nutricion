@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
+import { FormControlDataService }     from '../data/formControlData.service';
 
 
 @Component({
@@ -9,9 +10,12 @@ import { CommonService } from '../../services/common.service';
 })
 export class ControlNavCenterComponent implements OnInit {
 
-  constructor(private commonService: CommonService) { }
+  agregadoAPI:number;
+
+  constructor(private commonService: CommonService, private formControlDataService: FormControlDataService) { }
 
   ngOnInit() {
+    this.getAgregadoAPI();
   }
 
   mouseOut(){
@@ -20,6 +24,20 @@ export class ControlNavCenterComponent implements OnInit {
 
   mouseOver(){
     document.getElementById("invoice-menu-div").className = "dropdown open";
+  }
+
+
+  getAgregadoAPI(){
+    this.formControlDataService.getNutricionista()
+    .subscribe(
+      response => {
+        localStorage.setItem("agregadoAPI", response[0].agregadoAPI);
+        this.agregadoAPI = response[0].agregadoAPI;
+      }, 
+      error => {
+        console.log(<any>error);
+      }
+    );
   }
 
   openFactura(){

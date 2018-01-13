@@ -32,7 +32,7 @@
                 	<i class="menu-icon"></i>Facturación
                 	<div class="dropdown" style="margin:10% 0% 0% 0%" id="invoice-menu-div">									
 	                    <ul class="dropdown-menu" style="margin:0% 0% 0% 19%;">
-	                    	<li>
+	                    	<li *ngIf="agregadoAPI===1">
 		                      	<a (click)="openFactura()" href="javascript:void(0)" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true}" data-toggle="tab" title="Facturar">
 		                      		<i class="menu-icon"></i>Facturar
 		                      	</a>
