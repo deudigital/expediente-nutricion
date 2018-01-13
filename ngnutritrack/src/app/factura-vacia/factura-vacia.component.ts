@@ -14,7 +14,7 @@ export class FacturaVaciaComponent implements OnInit {
 	loading:boolean = false;
 
 	private subscription: Subscription;
-	showModalDatosFactura:boolean = false;
+	showModalDatos:boolean = false;
 
 	model: any;
 	fcData: any;
@@ -102,7 +102,7 @@ export class FacturaVaciaComponent implements OnInit {
 
   	ngOnInit() {
   		this.subscription= this.commonService.notifyObservable$.subscribe((res)=>{
-	  		if(res.hasOwnProperty('option') && res.option === 'openModalDatos') {
+	  		if(res.hasOwnProperty('option') && res.option === 'openModalDatosVacia') {
 	  			if(res.consulta_id)
 	  				this.consulta_id = res.consulta_id;
 	  			else
@@ -246,7 +246,11 @@ export class FacturaVaciaComponent implements OnInit {
   	closeModal(){
 		let body = document.getElementsByTagName('body')[0];
 		body.classList.remove('open-modal');
-		this.showModalDatosFactura		=	false;
+		this.producto={};
+		this.productos=[];
+		this.productosDB=[];
+		this.persona={}
+		this.showModalDatos		=	false;
 	}
 
 	obtenerProductos(){
@@ -377,7 +381,7 @@ export class FacturaVaciaComponent implements OnInit {
 	}
 
 	suggestPersona(){
-		this.queryPerson	=	this.queryPerson.trim();
+		this.queryPerson	=	this.queryPerson;
 		if(this.queryPerson.length==0){
 			this.showFilter	=	false;
 			return ;
@@ -728,16 +732,21 @@ export class FacturaVaciaComponent implements OnInit {
 	}
 
  	openModalDatos() {
- 		this.form_errors.successful_operation = false; 		
+ 		this.form_errors.successful_operation = false;
+ 		this.form_errors.successful_operation = false;	
 		let modal = document.getElementsByClassName('esc-modal');		
-		this.showModalDatosFactura	=	!this.showModalDatosFactura;
+		this.showModalDatos	=	!this.showModalDatos;
 		let body = document.getElementsByTagName('body')[0];
-		if (this.showModalDatosFactura){
+		if (this.showModalDatos){
 			window.scrollTo(0, 0);
 			body.classList.add('open-modal');			
 			modal.item(0).setAttribute("style","margin-top: -10%");			
 		} else{			
 			modal.item(0).setAttribute("style","margin-top: -500%");
+			this.factura= {};
+			this.producto = {};
+			this.persona = {};	
+			this.queryPerson= '';
 			body.classList.remove('open-modal');
 		}
 	}

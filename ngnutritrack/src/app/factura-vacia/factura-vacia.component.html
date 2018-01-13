@@ -73,7 +73,8 @@
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="nombre">Ingresar Nombre</label>
-							<input id="row-margin" 
+							<input id="row-margin"
+								   autocomplete="off" 
 								   type="text" 
 								   placeholder="Nombre Completo"
 								   class="form-control" 
@@ -85,8 +86,8 @@
 							<span style="color:red;font-size: 10px;" 
 								  *ngIf="form_errors.empty_name">Ingrese el nombre del cliente.</span>
 						</div>
-						<div class="autocomplete-div-personas" *ngIf="showFilter">
-							<ul>
+						<div class="autocomplete-div" *ngIf="showFilter" style="top: 280px; left: 68%;">
+							<ul class="dropdown-menu dropdown-autocomplete">
 							<li  *ngFor="let paciente of filteredListPerson" (click)="onSelect(paciente)">
 								<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.cedula}}</span>
 							</li>
@@ -315,7 +316,7 @@
 								El descuento no debe ser mayor al subtotal.
 							</span>							   
 						</div>
-						<div class="col-md-2 col-sm-6" style="margin-top:-0.3%;width: 15.5%;margin-right: -3%;">
+						<div class="col-md-2 col-sm-6" style="margin-top:-0.7%;width: 15.5%;margin-right: -3%;">
               				<label id="row-margin" for="impuesto">
               					<input type="checkbox" [checked]="impuesto" (change)="aplicarImpuestoProducto()"/>Impuesto (13%)
               				</label>
