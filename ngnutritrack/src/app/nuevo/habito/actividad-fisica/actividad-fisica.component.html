@@ -62,11 +62,11 @@
 								<input type="text" class="form-control" 
 									id="tiempo_semana" 
 									name="tiempo_semana" 
-									placeholder="horas" 									
-									(keypress)="helpers.onKeyPress($event)" 
+									placeholder="horas" 
 									[(ngModel)]="newHabitosEjercicio.horas_semanales"
-									
-									>
+									currencyMask 
+									[options]="{ prefix: '' }"/>   
+									><!-- (keypress)="helpers.onKeyPress($event)"  -->
 							</div>
 							</div>
 						</div>
