@@ -26,7 +26,9 @@ export class InicioComponent implements OnInit {
 	hidePrompt : boolean=false;
 	hidenFactura: boolean =false;
 	agregadoAPI:number;
-
+	hidePrompt : boolean=false;
+	hidenFactura: boolean =false;
+	
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
@@ -95,9 +97,9 @@ export class InicioComponent implements OnInit {
 		this.factura_pic = this.factura_pic_on;
 	}
 
-	openFactura(){ 
+	openFactura(){
 		this.hidePrompt = true;
-		this.commonService.notifyOther({option: 'openModalDatos'});
+		this.commonService.notifyOther({option: 'openModalDatosVacia'});
 	}
 
 	getAgregadoAPI(){
@@ -134,3 +136,4 @@ export class InicioComponent implements OnInit {
 		);
 	}
 }
+
