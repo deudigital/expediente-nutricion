@@ -2,6 +2,7 @@
 	<figure class="container-logo">
 		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
 	</figure>
+	<app-factura-vacia></app-factura-vacia>
 	<div class="row links">
 		<div class="col-xs-4 col-sm-4 box">
 			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
@@ -20,7 +21,7 @@
 			</a>
 		</div>
 		<div class="col-xs-4 box">
-			<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Facturacion">
+			<a href="javascript:void(0)" (click)="openFactura()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Facturacion">
 				<figure (mouseon)="onHover()" (mouseleave)="focusOut()">
 					<img src="{{factura_pic}}" style="width:50%;">
 				</figure>
