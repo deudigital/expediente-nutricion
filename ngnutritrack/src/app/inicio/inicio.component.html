@@ -21,8 +21,8 @@
 			</a>
 		</div>
 		<div class="col-xs-4 box">
-			<a href="javascript:void(0)" (click)="openFactura()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Facturacion">
-				<figure (mouseon)="onHover()" (mouseleave)="focusOut()">
+			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
+				<figure (mouseenter)="onHover()" (mouseleave)="focusOut()">
 					<img src="{{factura_pic}}" style="width:50%;">
 				</figure>
 				<strong>Facturación</strong>

@@ -76,11 +76,11 @@ export class InicioComponent implements OnInit {
 		this.consultas = consultas;
 	}
 	focusOut(){
-		this.factura_pic =  "assets/images/factura-on.png";
+		this.factura_pic =  "assets/images/factura-off.png";
 	}
 
 	onHover(){
-		this.factura_pic =  "assets/images/factura-off.png";	
+		this.factura_pic =  "assets/images/factura-on.png";	
 	}
 
 	openFactura(){
