@@ -381,6 +381,7 @@ export class ValoracionComponent implements OnInit {
 		}
 		this.tagBody.classList.add('open-modal');
 		this.currentModal	=	modal;
+		window.scrollTo(0, 0);
 	}
 	hideModal(modal=''){
 		if(modal.length==0)

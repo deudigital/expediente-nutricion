@@ -265,7 +265,8 @@ export class RecomendacionComponent implements OnInit {
 				this.hideModalDatos	=	false;
 				break;
 		}
-		this.tagBody.classList.add('open-modal');		
+		this.tagBody.classList.add('open-modal');
+		window.scrollTo(0, 0);
 	}
 	hideModal(modal){
 		switch(modal){

@@ -89,7 +89,7 @@ position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius:
 .esc-modalbox .result i {background-position: -421px -758px;width: 60px;height: 60px;}
 
 body.open-modal .esc-modalbox {top:10%}
-body.open-modal .esc-modalbox.prompt {top:30%}
+body.open-modal .esc-modalbox.prompt {top:30%;position:fixed}
 /*	prompt	*/
 .esc-modalbox.prompt{padding-top:50px;}
 .esc-modalbox.prompt > .body {padding-top: 15px;text-align: center;}

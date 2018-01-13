@@ -556,6 +556,7 @@ proteinas: 32
 	   let body = document.getElementsByTagName('body')[0];
 		body.classList.add('open-modal');
 		this.concatenar(aMenu);
+		window.scrollTo(0, 0);
    }
    closeModalPorciones(){
 		let body = document.getElementsByTagName('body')[0];

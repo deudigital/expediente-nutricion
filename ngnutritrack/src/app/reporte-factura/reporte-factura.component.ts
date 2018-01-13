@@ -124,8 +124,10 @@ export class ReporteFacturaComponent implements OnInit {
     this.deleted_document = documento;
     this.show_deleteConfirmation = !this.show_deleteConfirmation;
     let body = document.getElementsByTagName('body')[0];
-    if(this.show_deleteConfirmation)
+    if(this.show_deleteConfirmation){
       body.classList.add('open-modal');
+	  window.scrollTo(0, 0);
+	}
     else
       body.classList.remove('open-modal');    
   }
