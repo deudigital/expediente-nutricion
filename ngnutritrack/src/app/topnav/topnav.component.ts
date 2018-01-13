@@ -16,6 +16,7 @@ export class TopnavComponent implements OnInit {
 	model:any;
 	items:any;
 	showTitle:boolean;
+	agregadoAPI:number;
 	
 	constructor( private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -23,6 +24,7 @@ export class TopnavComponent implements OnInit {
 		this.displayTitle();
 	}		
 	ngOnInit() {
+		this.agregadoAPI = parseInt(localStorage.getItem("agregadoAPI"));
 		this.title_control	=	this.model.getFormPaciente().nombre;
 		if(!this.title_control){
 			setInterval(() => {

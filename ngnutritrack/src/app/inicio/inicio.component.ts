@@ -20,6 +20,7 @@ export class InicioComponent implements OnInit {
 	showLoading:boolean=true;
 	tagBody:any;
 	mng:any;
+	agregadoAPI:number;
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
@@ -29,6 +30,7 @@ export class InicioComponent implements OnInit {
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
 		this.getConsultasPendientes();
+		this.getAgregadoAPI();
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
@@ -85,6 +87,19 @@ export class InicioComponent implements OnInit {
 
 	openFactura(){
 		this.commonService.notifyOther({option: 'openModalDatos'});
+	}
+
+	getAgregadoAPI(){
+		this.formControlDataService.getNutricionista()
+		.subscribe(
+			response => {
+				localStorage.setItem("agregadoAPI", response[0].agregadoAPI);
+				this.agregadoAPI = response[0].agregadoAPI;
+			}, 
+			error => {
+				console.log(<any>error);
+			}
+		);
 	}
 
 	getConsultasPendientes() {
