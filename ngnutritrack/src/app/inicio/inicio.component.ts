@@ -21,6 +21,8 @@ export class InicioComponent implements OnInit {
 	tagBody:any;
 	mng:any;
 	agregadoAPI:number;
+	hidePrompt : boolean=false;
+	hidenFactura: boolean =false;
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
@@ -29,6 +31,7 @@ export class InicioComponent implements OnInit {
 		this.tagBody.className = '';
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
+		this.hidePrompt	=	false;
 		this.getConsultasPendientes();
 		this.getAgregadoAPI();
 	}
@@ -52,6 +55,7 @@ export class InicioComponent implements OnInit {
 	}
 	onDelete(consulta){
 		this.selectedConsulta = consulta;
+		this.hidePrompt	=	false;
 		this.tagBody.classList.add('open-modal');
 		/*this.remove(consulta)*/
 	}
@@ -68,6 +72,7 @@ export class InicioComponent implements OnInit {
 		);
 	}
 	promptYes(){
+		this.hidePrompt	=	true;
 		this.remove( this.selectedConsulta );
 		this.promptCancelar();
 	}
@@ -86,7 +91,8 @@ export class InicioComponent implements OnInit {
 	}
 
 	openFactura(){
-		this.commonService.notifyOther({option: 'openModalDatos'});
+		this.hidePrompt = true;
+		this.commonService.notifyOther({option: 'openModalDatosVacia'});
 	}
 
 	getAgregadoAPI(){
@@ -123,3 +129,4 @@ export class InicioComponent implements OnInit {
 		);
 	}
 }
+
