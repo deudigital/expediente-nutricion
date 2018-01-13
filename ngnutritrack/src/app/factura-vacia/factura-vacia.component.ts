@@ -14,7 +14,7 @@ export class FacturaVaciaComponent implements OnInit {
 	loading:boolean = false;
 
 	private subscription: Subscription;
-	showModalDatos:boolean = false;
+	showModalDatosFactura:boolean = false;
 
 	model: any;
 	fcData: any;
@@ -246,7 +246,7 @@ export class FacturaVaciaComponent implements OnInit {
   	closeModal(){
 		let body = document.getElementsByTagName('body')[0];
 		body.classList.remove('open-modal');
-		this.showModalDatos		=	false;
+		this.showModalDatosFactura		=	false;
 	}
 
 	obtenerProductos(){
@@ -728,12 +728,11 @@ export class FacturaVaciaComponent implements OnInit {
 	}
 
  	openModalDatos() {
- 		this.form_errors.successful_operation = false;
- 		this.form_errors.successful_operation = false;	
+ 		this.form_errors.successful_operation = false; 		
 		let modal = document.getElementsByClassName('esc-modal');		
-		this.showModalDatos	=	!this.showModalDatos;
+		this.showModalDatosFactura	=	!this.showModalDatosFactura;
 		let body = document.getElementsByTagName('body')[0];
-		if (this.showModalDatos){
+		if (this.showModalDatosFactura){
 			window.scrollTo(0, 0);
 			body.classList.add('open-modal');			
 			modal.item(0).setAttribute("style","margin-top: -10%");			
