@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
-/*	get developmentInfo (){
+	get developmentInfo (){
 	
 		this.fcd			=	this.formControlDataService.getFormControlData();
 		this.consulta		=	this.fcd.getFormConsulta();
@@ -55,5 +55,5 @@ export class AppComponent implements OnInit {
 			summary	+=	'  |  ';
 		return summary + 'Nutricionista: ' + this.fcd.nutricionista_id + '  |  ';
 	}
-*/
+
 }
