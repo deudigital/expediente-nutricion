@@ -8,7 +8,7 @@
 		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
 	</figure>
 	<div class="row links">
-		<div class="col-xs-4 col-sm-4 box">
+		<div [ngClass]="{'col-xs-4': agregadoAPI, 'col-xs-6': !agregadoAPI }" class="box">
 			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
 				<figure class="img-circle transition main-nuevo">
 					<i></i>
@@ -16,7 +16,7 @@
 				<strong>Paciente Nuevo</strong>
 			</a>
 		</div>
-		<div class="col-xs-4 box">
+		<div [ngClass]="{'col-xs-4': agregadoAPI, 'col-xs-6': !agregadoAPI }" class="box">
 			<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Control">
 				<figure class="img-circle transition main-control">
 					<i></i>
