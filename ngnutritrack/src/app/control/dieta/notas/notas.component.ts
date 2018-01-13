@@ -18,6 +18,8 @@ export class NotasComponent implements OnInit {
 	data:{ [id: string]: any; } = {'0':''};
 	
 	showModalFactura : boolean=false;
+	showModalPrompt : boolean=false;
+	hidePrompt : boolean=false;
 	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	  this.model	=	formControlDataService.getFormControlData();
@@ -29,6 +31,7 @@ export class NotasComponent implements OnInit {
 	  this.tagBody = document.getElementsByTagName('body')[0];
 	  this.tagBody.classList.add('menu-parent-dieta');
 	  this.finalizar	=	false;
+	  this.hidePrompt	=	false;
 	  this.data			=	{'0':''};
 	  this.data['id']	=	this.consulta.id;
   }
@@ -66,7 +69,10 @@ export class NotasComponent implements OnInit {
 						if(this.finalizar){
 							this.formControlDataService.resetFormControlData();
 							this.finalizar	=	false;
-							this.router.navigate(['/inicio']);
+							//this.openModalFactura();
+							this.modalPrompt(response);
+							
+							//this.router.navigate(['/inicio']);
 						}
 						this.tagBody.classList.remove('sending');
 						},
@@ -86,20 +92,43 @@ export class NotasComponent implements OnInit {
 			
 	}
 	Previous(){
-		//this.saveForm();
+		this.saveForm();
 		this.router.navigate(['/patron-menu']);
 	}
 	Next(){
 		this.finalizar	=	true;
 		this.saveForm();
-		this.openModalFactura();
+//		this.openModalFactura();
+	}
+	
+	modalPrompt(data){		
+		if(!data || !data.nutricionista.agregadoAPI){
+			this.router.navigate(['/inicio']);
+			return ;
+		}
+		
+		this.hidePrompt	=	false;
+		this.tagBody.classList.add('open-modal');
+		/*this.remove(consulta)*/
 	}
 	openModalFactura(){
 		this.showModalFactura = !this.showModalFactura;
 		let body = document.getElementsByTagName('body')[0];
 		if(this.showModalFactura)
 			body.classList.add('open-modal');
-		else
+		else{
 			body.classList.remove('open-modal');
+			this.router.navigate(['/inicio']);
+		}
+	}
+		
+	promptYes(){
+		this.hidePrompt	=	true;
+		this.openModalFactura()
+		//this.promptCancelar();
+	}
+	promptCancelar(){
+		this.tagBody.classList.remove('open-modal');
+		this.router.navigate(['/inicio']);
 	}
 }

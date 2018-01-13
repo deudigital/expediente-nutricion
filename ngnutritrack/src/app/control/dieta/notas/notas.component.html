@@ -36,23 +36,40 @@
 		</div>
 	</div>
 </div>
+<!-- Modal Prompt -->
+<div class="esc-modalbox prompt" *ngIf="!hidePrompt">
+	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
+	<header class="text-center">
+		<h4>¿Desea crear factura electr&oacute;nica para esta consulta?</h4>
+	</header>
+	<div class="body row">
+		<div class="col-xs-6">
+			<button class="btn btn-default btn-block" (click)="promptYes()">SI</button>
+		</div>
+		<div class="col-xs-6">
+			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
+		</div>
+	</div>
+</div>
+<div class="overlay" (click)="promptCancelar()"></div>
+
 <!-- Modal Factura -->
 <div class="overlay" (click)="openModalFactura()"></div>
 <div class="esc-modal" *ngIf="showModalFactura">
 	<div class="box">
 		<a class="modal-close" (click)="openModalFactura()">X</a>
 		<header>
-			¿Desea crear factura electrónica para esta consulta? 			
+			FORMULARIO FACTURA
 		</header>
 		<div class="body content-form">
-			<div class="buttons-navigation">
+			<!--<div class="buttons-navigation">
             	<div class="col-md-5">
 					<button class="btn btn-success no-border" style="width: 100%; background-color:#8BC23F" id="button2">Si</button>
 				</div>
 				<div class="col-md-offset-2 col-md-5">
 					<button class="btn btn-success no-border" style="width: 100%" id="button3">No</button>
 				</div>
-          	</div>
+          	</div>-->
 		</div>
 	</div>
 </div>

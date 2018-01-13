@@ -31,59 +31,18 @@
     left: 5%;
     z-index: -1;
 }
+/*	servicios-productos	*/
+.table.crud tbody tr td:first-child {padding-left: 100px;position:relative}
+.table.crud.productos tbody tr td .actions {position: absolute;left: 15px;top: 0;}
+.table.crud tbody tr td .actions > a:not(:first-child){margin-left:10px}
 
-/* Overriding datepicker classes to get custom desgin */
-/*
-.mydp .selbtngroup {
-    position: relative;
-    white-space: nowrap;
-    width: 1%;
-    font-size: 0;
-    float: left;
+/*	icons	*/
+.edit-item > i {height: 20px;width: 20px;background-position: -28px -35px;display: inline-block;position: relative;top: 7px;}
+/*	consultas-sin-facturar	*/
+.consultas-sin-facturar .filtros .esc-dp{}
+@media(min-width:992px){
+	.table.crud.productos {width: 90%;margin-left:5%}
 }
-
-.mydp .selectiongroup {
-    position: initial !important;
-    display: table;
-    border: none;
-    border-spacing: 0;
-    background-color: #FFF;
-    border-radius: 20px !important;
+@media(min-width:1200px){
+	.table.crud.productos {width: 70%;margin-left:15%}
 }
-
-.mydp .selection {
-    width: 100%;
-    outline: 0;
-    background-color: #FFF;
-    display: table-cell;
-    position: absolute;
-    text-overflow: ellipsis;
-    padding-left: 38px !important;
-    border: none;
-    color: #555;
-    border-radius: 20px !important;
-    background-color: #E0E0E0 !important;
-    height: 37px !important;
-}
-
-.mydp, .mydp .headertodaybtn {
-    border: 1px solid #CCC;
-    border-radius: 20px !important;
-    border-color: #E0E0E0 !important;
-}
-
-.mydp .btnclearenabled, .mydp .btndecreaseenabled, .mydp .btnincreaseenabled, .mydp .btnpickerenabled, .mydp .headerbtnenabled, .mydp .headertodaybtnenabled, .mydp .yearchangebtnenabled {
-    cursor: pointer;
-    border-radius: 20px !important;
-	margin-left: 10px;
-	background: #E0E0E0 !important;
-}
-
-.mydp .icon-mydpcalendar, .mydp .icon-mydpremove {
-    font-size: 0px !important;
-}
-table {
-    border-spacing: 0;
-    border-collapse: unset;
-}
-*/

@@ -36,10 +36,10 @@
 .with-icon.viceral i {background-position: -184px -35px;width: 24px;height: 22px;}
 .with-icon.hueso i {background-position: -213px -35px;width: 25px;height: 25px;}
 .with-icon.edad_metabolica i {background-position: -248px -35px;width: 21px;height: 22px;}
-.with-icon.cadera i{background-position: -519px -70px;width: 40px;height: 20px;}
+.with-icon.cadera i{background-position: -519px -70px;width: 40px;height: 20px;left:10px;}
 .with-icon.cintura i {background-position: -277px -35px;width: 27px;height: 20px;}
 
-.with-icon.factor-actividad i {background-position: -311px -35px;width: 18px;height: 18px;}
+.with-icon.factor-actividad i {background-position: -311px -35px;width: 18px;height: 18px;bottom:11px;}
 .with-icon.promedio-gc i {background-position: -336px -35px;width: 19px;height: 19px;}
 .with-icon.variacion-calorica i {background-position: -364px -35px;width: 17px;height: 19px;}
 
@@ -77,6 +77,7 @@
 .with-icon.dieta_embutidos i {background-position: -298px -800px;height: 21px;width: 21px;	display: block;}
 
 
+.division-nutricional .distribucion .with-cicle {font-size:14px;}
 .division-nutricional .distribucion .with-cicle .inner{display:inline-block;}
 .division-nutricional .distribucion .with-cicle i strong {top:0;}
 .division-nutricional .distribucion .with-cicle i span {font-size: 0.7em;position: inherit;text-align: inherit;}
@@ -111,6 +112,15 @@
 .content-form.vd .division-nutricional.s-75 .inner + span {width: 70px;margin: 10px auto;border-radius: 12px;}
 
 
+.link-modal {}
+.with-icon a.link-modal > i {background-position: -495px 0;width: 16px;height: 16px;position: absolute;left: inherit;right: 15px;bottom: 9px;-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;cursor:pointer;}
+.with-icon a.link-modal.pen > i {background-position: -27px -30px;width: 21px;height: 25px;right: 30px;bottom: 7px;}
+.with-icon a.link-modal:hover > i {transform:scale(1.3)}
+
+.submenu{margin-bottom:20px;font-weight:500;}
+.submenu > li > a{color:#727272;position:relative;border-bottom:2px solid transparent;text-decoration:none;}
+.submenu > li > a:focus, 
+.submenu > li > a:hover,
 .submenu > li > a.active{color:#8bc23f !important;border-color:#8bc23f;background-color:transparent;}
 .submenu > li > a > i {display: inline-block;margin-right:10px;position:relative;top:5px;}
 .submenu > li > a > span {position:relative;top:-7px;white-space:nowrap;}
@@ -184,7 +194,6 @@
 .add-item:focus,
 .add-item:hover{text-decoration:none;color:inherit}
 .add-item > i {height: 20px;width: 20px;background-position: -532px -481px;display: inline-block;position: relative;top: 7px;	margin-right: 10px;}
-.edit-item > i {height: 20px;width: 20px;background-position: -28px -35px;display: inline-block;position: relative;top: 7px;	margin-right: 10px;}
 .remove-item > i {height: 20px;width: 20px;background-position: -532px -425px;display: inline-block;position: relative;top: 8px;margin-right: 5px;}
 .remove-item.big > i {height: 20px;width: 20px;background-position: -531px -446px;display: inline-block;position: relative;top: 5px;margin-right: 5px;}
 
@@ -197,7 +206,7 @@
 
 @media(min-width:768px){
 	.navigation-hcp > div {padding: 0;margin: 0;}
-	.navigation-hcp.esfemenino > div {width: 20%;}
+	.navigation-hcp.esfemenino > li {width: 20%;}
 	.submenu{text-align:center;}
 	.submenu > li > a{font-size:12px;display:inline-block;padding-left:0;padding-right:0;}
 }
@@ -205,4 +214,5 @@
 	.division-nutricional > div{margin:30px 0 0;padding:0}
 	.division-nutricional .with-cicle{padding:0;}
 	.distribucion > div{padding:0}
+
 }

@@ -15,9 +15,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <div class="col-xs-12 col-md-12 col-sm-12 content-form">
+            <div class="col-xs-12 col-md-12 col-sm-12 content-form consultas-sin-facturar">
                 <section>
-                 <div class="row">
+                 <div class="row filtros">
                     <app-factura-vacia></app-factura-vacia>
                     <app-facturacion></app-facturacion>
                     <div class="col-md-3 col-sm-3 col-xs-12">
@@ -31,12 +31,13 @@
                         <div class="form-group with-icon nacimiento">
                         <label class="col-form-label" for="desde">Desde</label>
                         <my-date-picker name="desde" 
+										class="form-control esc-dp"
                                         [options]="fromOptions"
                                         [(ngModel)]="fromDate" 
                                         (dateChanged)="refreshDateFromLimits($event)"
                                         required>                    
                         </my-date-picker>  
-                        <i style="margin-left: -2%;margin-bottom: 1%;"></i>                         
+                        <i></i>                         
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12">
@@ -44,16 +45,17 @@
                           <label class="col-form-label" for="desde">Hasta</label>
                           <my-date-picker name="hasta" 
                                           id="fecha_nac"
+										class="form-control esc-dp"
                                           [options]="untilOptions"
                                           [(ngModel)]="untilDate" 
                                           (dateChanged)="refreshUntilDateLimits($event)"
                                           required>                                                                                    
                             </my-date-picker>      
-                            <i style="margin-left: -2%;margin-bottom: 1%;"></i>                       
+                            <i></i>                       
                         </div>
                     </div>
                     <div class="col-xs-3 col-md-3 col-sm-12" style="margin-top:20px;">
-                        <button class="btn btn-success no-border" id="search_button" (click)="filterQuery()"> BUSCAR </button>
+                        <button class="btn btn-default" id="search_button" (click)="filterQuery()"> BUSCAR </button>
                     </div>
                  </div>
                 </section>

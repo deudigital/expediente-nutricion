@@ -71,9 +71,10 @@
                  <div class="row">                 		
                         <div class="col-md-12" style="margin-left:-2%;">
                             <div class="table-responsive">
-                                <table class="table asignacion-porciones">
+                                <table class="table crud productos">
                                     <thead>
                                         <tr>
+                                            <th>&nbsp;</th>
                                             <th>Descripción</th>
                                             <th>Unidad</th>
                                             <th>Precio</th>
@@ -82,12 +83,16 @@
                                     <tbody>
                                         <tr *ngFor="let pr of productos">
                                         	<td>
-                                            <a class="edit-item" href="javascript:void(0)" (click)="editProduct(pr)">
-                          <i style="top: 5px !important; left: 10px !important"></i>
-                        </a>
-                        <a class="remove-item" href="javascript:void(0)" (click)="confirmDeleteItem(pr)">
-                          <i style="top: -8px !important; left: 40px !important"></i>
-                        </a>
+<div *ngIf="!pr.edit_mode" class="actions">
+	<a class="edit-item" href="javascript:void(0)" (click)="editProduct(pr)">
+		<i></i>
+	</a>
+	<a class="remove-item" href="javascript:void(0)" (click)="confirmDeleteItem(pr)">
+		<i></i>
+	</a>
+</div>
+											</td>
+											<td>
                                         		<span *ngIf="!pr.edit_mode">{{pr.descripcion}}</span>
                                         	    <input class="form-control"
                                         	    	     style="background-color: white"	 
