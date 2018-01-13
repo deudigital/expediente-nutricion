@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Analisis, Consulta } from '../../data/formControlData.model';
 import { FormControlDataService }     from '../../data/formControlData.service';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-notas',
@@ -21,7 +22,7 @@ export class NotasComponent implements OnInit {
 	showModalPrompt : boolean=false;
 	hidePrompt : boolean=false;
 	
-  constructor(private router: Router, private formControlDataService: FormControlDataService) {
+  constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService) {
 	  this.model	=	formControlDataService.getFormControlData();
 	  this.consulta	=	this.model.getFormConsulta();
 	  this.setInfoInit();
@@ -112,14 +113,7 @@ export class NotasComponent implements OnInit {
 		/*this.remove(consulta)*/
 	}
 	openModalFactura(){
-		this.showModalFactura = !this.showModalFactura;
-		let body = document.getElementsByTagName('body')[0];
-		if(this.showModalFactura)
-			body.classList.add('open-modal');
-		else{
-			body.classList.remove('open-modal');
-			this.router.navigate(['/inicio']);
-		}
+		this.commonService.notifyOther({option: 'openModalDatos', persona_id:this.consulta.paciente_id, consulta_id: this.consulta.id});
 	}
 		
 	promptYes(){

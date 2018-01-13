@@ -8,6 +8,7 @@
 			<section>
 				<app-dieta-nav></app-dieta-nav>
 				<div class="form-group">
+					<app-facturacion></app-facturacion>
 					<label for="dieta_notas">Notas finales de la consulta</label>
 					<textarea 
 						id="dieta_notas"
@@ -52,24 +53,3 @@
 	</div>
 </div>
 <div class="overlay" (click)="promptCancelar()"></div>
-
-<!-- Modal Factura -->
-<div class="overlay" (click)="openModalFactura()"></div>
-<div class="esc-modal" *ngIf="showModalFactura">
-	<div class="box">
-		<a class="modal-close" (click)="openModalFactura()">X</a>
-		<header>
-			FORMULARIO FACTURA
-		</header>
-		<div class="body content-form">
-			<!--<div class="buttons-navigation">
-            	<div class="col-md-5">
-					<button class="btn btn-success no-border" style="width: 100%; background-color:#8BC23F" id="button2">Si</button>
-				</div>
-				<div class="col-md-offset-2 col-md-5">
-					<button class="btn btn-success no-border" style="width: 100%" id="button3">No</button>
-				</div>
-          	</div>-->
-		</div>
-	</div>
-</div>
