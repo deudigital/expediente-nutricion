@@ -10,6 +10,7 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
 })
 export class ContactoComponent implements OnInit {
 	model:any;
+	helpers:any;
 
 	fcData:any;
 	paciente=new Paciente();
@@ -46,6 +47,7 @@ export class ContactoComponent implements OnInit {
 	
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcData.getHelpers();
 		this.paciente	=	this.fcData.getFormPaciente();
 		/*console.log(this.paciente);*/
 		this.mng		=	this.fcData.getManejadorDatos();

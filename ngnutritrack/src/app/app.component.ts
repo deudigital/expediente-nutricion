@@ -26,12 +26,8 @@ export class AppComponent implements OnInit {
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
-	get developmentInfo (){
-/*
-Nutricionista ID: 4
-Consulta ID: 
-{"id":141,"fecha":"2017-12-27","notas":"","paciente_id":22,"paciente_nombre":"Juan Manuel Solano"} Logout
-*/		
+/*	get developmentInfo (){
+	
 		this.fcd			=	this.formControlDataService.getFormControlData();
 		this.consulta		=	this.fcd.getFormConsulta();
 		this.prescripcion	=	this.fcd.getFormPrescripcion();
@@ -59,4 +55,5 @@ Consulta ID:
 			summary	+=	'  |  ';
 		return summary + 'Nutricionista: ' + this.fcd.nutricionista_id + '  |  ';
 	}
+*/
 }
