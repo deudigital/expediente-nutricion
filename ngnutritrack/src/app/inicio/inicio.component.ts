@@ -3,7 +3,8 @@ import { Router }              from '@angular/router';
 
 import { Consulta } from '../control/data/formControlData.model';
 import { FormControlDataService }     from '../control/data/formControlData.service';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
+import { CommonService } from '../services/common.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class InicioComponent implements OnInit {
 	showLoading:boolean=true;
 	tagBody:any;
 	mng:any;
-	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+	constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
 	ngOnInit() {
@@ -74,13 +75,16 @@ export class InicioComponent implements OnInit {
 	setConsultas(consultas){
 		this.consultas = consultas;
 	}
-
 	focusOut(){
 		this.factura_pic =  "assets/images/factura-on.png";
 	}
 
 	onHover(){
 		this.factura_pic =  "assets/images/factura-off.png";	
+	}
+
+	openFactura(){
+		this.commonService.notifyOther({option: 'openModalDatos'});
 	}
 
 	getConsultasPendientes() {
