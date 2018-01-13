@@ -13,7 +13,9 @@ import { CommonService } from '../services/common.service';
   styleUrls: []
 })
 export class InicioComponent implements OnInit {
-	factura_pic: string = "assets/images/factura-off.png";
+	factura_pic_on:string = "assets/images/factura-on.png";
+	factura_pic_off:string =  "assets/images/factura-off.png";
+	factura_pic:string;	
 	consultas: any;
 	selectedConsulta: Consulta;
 	showBoxConsultasPendientes:boolean=false;
@@ -24,11 +26,13 @@ export class InicioComponent implements OnInit {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
 	ngOnInit() {
+		this.factura_pic = this.factura_pic_off;
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.className = '';
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
 		this.getConsultasPendientes();
+
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
@@ -76,11 +80,11 @@ export class InicioComponent implements OnInit {
 		this.consultas = consultas;
 	}
 	focusOut(){
-		this.factura_pic =  "assets/images/factura-off.png";
+		this.factura_pic = this.factura_pic_off;
 	}
 
 	onHover(){
-		this.factura_pic =  "assets/images/factura-on.png";	
+		this.factura_pic = this.factura_pic_on;
 	}
 
 	openFactura(){
