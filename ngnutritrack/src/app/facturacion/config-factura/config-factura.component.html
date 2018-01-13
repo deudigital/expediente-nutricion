@@ -70,8 +70,9 @@
 																	id="id_number"
 																	[(ngModel)]="data.cedula"
 																	(keyup)="validarCedula()"
-						   										(keypress)="_keyPress($event)"
-																	required>
+																	(keypress)="helpers.onKeyPress($event)" 
+																	maxlength="20" 
+																	required><!-- (keypress)="_keyPress($event)" -->
 													<span style="color:red;font-size: 10px;" *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">

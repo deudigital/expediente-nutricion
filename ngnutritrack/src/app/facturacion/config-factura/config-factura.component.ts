@@ -20,7 +20,8 @@ export class ConfigFacturaComponent implements OnInit {
 
 
   mng:any;
-  fcData: any;
+  fcData: any;  
+  helpers:any;
   loading: boolean = false;
 
   tipos: any =[];
@@ -67,6 +68,7 @@ export class ConfigFacturaComponent implements OnInit {
   constructor(private formControlDataService: FormControlDataService, private commonService: CommonService) {
     this.fcData  =  this.formControlDataService.getFormControlData();
     this.mng  =  this.fcData.getManejadorDatos();
+	this.helpers	=	this.fcData.getHelpers();
 
     // this.ubicaciones	=	this.mng.getUbicaciones();
     // this._provincias	=	this.mng.getProvincias();
@@ -77,15 +79,12 @@ export class ConfigFacturaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.loadDataForm();
-
+    this.data.imagen='assets/images/logo-placeholder.jpg';
+	this.loadDataForm();
     this.optenerTipoIdentificacion();
     //this.optenerProvincia();    
   //--------------------------------------//
-
-
   }
-
   // Comentar para subir
   loadDataForm(){
     this.loading = true;
@@ -199,7 +198,7 @@ export class ConfigFacturaComponent implements OnInit {
   getDataNutricionista(){
     this.formControlDataService.getNutricionista()
     .subscribe(
-      response  =>  {        
+      response  =>  {
         this.data = response[0];
         for(let tipo in this.tipos){         
           if(this.tipos[tipo].id === this.data.tipo_idenfificacion_id){
@@ -217,16 +216,16 @@ export class ConfigFacturaComponent implements OnInit {
         console.log(error);
       }      
     )
-    if(this.data.imagen=='' && this.data.imagen==null ){
+    /*if(this.data.imagen=='' && this.data.imagen==null ){
       this.data.imagen='assets/images/logo-placeholder.jpg';
-    }
+    }*/
     this.setUbicacion(this.data.ubicacion_id);
   }
 
   saveConfigData(){
     console.log('entra');
     console.log(this.ubicaciones);
-    console.log(this.data);
+    //console.log(this.data);
     if( !this.form_errors.empty_id && !this.form_errors.empty_postal &&
         !this.form_errors.empty_comercialName && !this.form_errors.empty_comercialName &&
         !this.form_errors.empty_direccion && !this.form_errors.empty_idAtv &&
@@ -251,6 +250,7 @@ export class ConfigFacturaComponent implements OnInit {
         this.data.tipo_idenfificacion_id=5;
         break;
     }
+	 console.log(this.data);
       this.formControlDataService.updateConfiguracionFactura(this.data)
       .subscribe(
         response => {
