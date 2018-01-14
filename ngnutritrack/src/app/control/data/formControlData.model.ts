@@ -843,6 +843,8 @@ Modo de Uso
 		//console.log(e.which + ' -> ' + input);		
 		return !!/[\d\s]/.test(input);
 	}
+	
+
 	in_array(data, ele){
 		return data.indexOf(ele)>-1;
 	}

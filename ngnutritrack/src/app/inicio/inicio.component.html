@@ -24,7 +24,7 @@
 				<strong>Control</strong>
 			</a>
 		</div>
-		<div [ngClass]="{'col-xs-4': agregadoAPI, 'col-xs-6': !agregadoAPI }" class="box">
+		<div class="box col-xs-4" *ngIf="agregadoAPI">
 			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
 				<figure class="img-circle transition main-facturacion">
 					<i></i>
@@ -32,22 +32,6 @@
 				<strong>Facturaci&oacute;n</strong>
 			</a>
 		</div>
-		<!--<div class="col-xs-4 box" *ngIf="agregadoAPI===1">
-			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
-				<figure (mouseenter)="onHover()" (mouseleave)="focusOut()">
-					<img src="{{factura_pic}}" style="width:50%;">
-				</figure>
-				<strong (mouseenter)="onHover()" (mouseleave)="focusOut()">Facturación</strong>
-			</a>
-		</div>-->
-		<!--<div class="col-sm-4 box">
-			<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
-				<figure class="img-circle transition main-agenda">
-					<i></i>
-				</figure>
-				<strong>Agenda</strong>
-			</a>
-		</div>-->
 	</div>
 	<section *ngIf="showLoading" class="text-center">Cargando Consulta(s) Sin Finalizar...</section>
 	<section class="listado consultas" *ngIf="showBoxConsultasPendientes">
@@ -57,7 +41,7 @@
 			</header>			
 			<ul>
 				<li *ngFor="let consulta of consultas">
-					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.id}} - {{consulta.paciente_nombre}} 
+					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.paciente_nombre}} 
 					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="btn btn-default action continuar" (click)="onSelect(consulta)">CONTINUAR</a>
 					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="remove-item big action eliminar" (click)="onDelete(consulta)"><i></i></a>
 				</li>

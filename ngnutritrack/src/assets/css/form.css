@@ -139,6 +139,7 @@ label.col-form-label::after {
       padding: 1rem;
       width: 6rem;
     }
+.np{padding:0 !important}
 @media(min-width:768px){
   .buttons-navigation > .btn:not(:first-child) {float: right;}
 }

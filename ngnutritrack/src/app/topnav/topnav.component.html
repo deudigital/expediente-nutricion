@@ -30,12 +30,12 @@
 					<i class="menu-icon"></i>Agenda
 				</a>
 			</li>-->
-			<li class="facturacion">				
+			<li class="facturacion" *ngIf="agregadoAPI">
 				<a  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda" data-toggle="dropdown"  (mouseenter) = "mouseOver()" (mouseleave) = "mouseOut()">                  
                 	<i class="menu-icon"></i>Facturación
                 	<div class="dropdown" style="margin:10% 0% 0% 0%" id="invoice-menu-div">									
 	                    <ul class="dropdown-menu" style="margin:0% 0% 0% 19%;">
-	                    	<li *ngIf="agregadoAPI===1">
+	                    	<li>
 		                      	<a (click)="openFactura()" href="javascript:void(0)" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true}" data-toggle="tab" title="Facturar">
 		                      		<i class="menu-icon"></i>Facturar
 		                      	</a>

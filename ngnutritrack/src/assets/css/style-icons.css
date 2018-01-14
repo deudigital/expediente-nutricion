@@ -102,7 +102,7 @@
 .content-form.vd .division-nutricional .grasas .inner + span {background-color:#f34026;}
 
 
-.division-nutricional.s-75 .with-cicle i {background-size: 855px 1365px;}
+.division-nutricional.s-75 .with-cicle i {background-size: 855px 1575px;}
 .division-nutricional.s-75 .with-cicle.carbohidratos i {background-position: -138px -680px;width: 120px;height: 120px;}
 .division-nutricional.s-75 .with-cicle.proteinas i {background-position: -276px -680px;width: 120px;height: 120px;}
 .division-nutricional.s-75 .with-cicle.grasas i {background-position: -413px -680px;width: 120px;height: 120px;}
@@ -206,7 +206,7 @@
 
 @media(min-width:768px){
 	.navigation-hcp > div {padding: 0;margin: 0;}
-	.navigation-hcp.esfemenino > li {width: 20%;}
+	.navigation-hcp.esfemenino > li {width: 20%;padding:0}
 	.submenu{text-align:center;}
 	.submenu > li > a{font-size:12px;display:inline-block;padding-left:0;padding-right:0;}
 }

@@ -64,9 +64,8 @@
 									name="tiempo_semana" 
 									placeholder="horas" 
 									[(ngModel)]="newHabitosEjercicio.horas_semanales"
-									currencyMask 
-									[options]="{ prefix: '' }"/>   
-									><!-- (keypress)="helpers.onKeyPress($event)"  -->
+									(keypress)="isNumberKey($event)" 
+									/>
 							</div>
 							</div>
 						</div>

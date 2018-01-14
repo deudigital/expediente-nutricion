@@ -91,4 +91,21 @@ export class ActividadFisicaComponent implements OnInit {
 	Next(){
 		this.router.navigate(['/valoracion-dietetica']);
 	}
+	isNumberKey(evt) {
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		if (charCode == 46) {
+			//Check if the text already contains the . character
+			var txt 	=	String(this.newHabitosEjercicio.horas_semanales)
+			if (txt.indexOf('.') === -1) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (charCode > 31
+				 && (charCode < 48 || charCode > 57))
+				return false;
+		}
+		return true;
+	}
 }
