@@ -103,6 +103,7 @@ export class FacturaVaciaComponent implements OnInit {
   	ngOnInit() {
   		this.subscription= this.commonService.notifyObservable$.subscribe((res)=>{
 	  		if(res.hasOwnProperty('option') && res.option === 'openModalDatosVacia') {
+	  			this.productos = [];
 	  			if(res.consulta_id)
 	  				this.consulta_id = res.consulta_id;
 	  			else
@@ -123,14 +124,6 @@ export class FacturaVaciaComponent implements OnInit {
 				this.getTipo_ID();
 				this.getMediosPagos();
 	  			this.getPaciente();  
-
-	  			if(localStorage.getItem("productos")){
-	  				this.productos = JSON.parse(localStorage.getItem("productos"));
-	  			}
-
-	  			if(localStorage.getItem("datos_factura")){
-	  				this.factura = JSON.parse(localStorage.getItem("datos_factura"));
-	  			}
 
 	  			this.openModalDatos();  		
 	  			this.getNutricionista();		  			
@@ -244,7 +237,7 @@ export class FacturaVaciaComponent implements OnInit {
 		//console.log(this.filter_barrios);
 	}
 
-  	closeModal(){
+  	closeModal(){  		
 		let body = document.getElementsByTagName('body')[0];
 		body.classList.remove('open-modal');
 		this.producto={};
@@ -501,9 +494,6 @@ export class FacturaVaciaComponent implements OnInit {
 			this.query = "";
 			this.impuesto = false;
 			this.producto = {};
-
-			localStorage.setItem("productos", JSON.stringify(this.productos));
-			localStorage.setItem("datos_factura", JSON.stringify(this.factura));
 			
 			this.producto = {
 				descripcion: "",
@@ -527,13 +517,6 @@ export class FacturaVaciaComponent implements OnInit {
 
 		this.productIndex = this.productos.length;
 		this.calcularFactura(false);
-
-		//Refresh Local Storage
-		localStorage.removeItem("productos");
-		localStorage.removeItem("datos_factura");
-
-		localStorage.setItem("productos", JSON.stringify(this.productos));
-		localStorage.setItem("datos_factura", JSON.stringify(this.factura));
 	}
 
 	adjustAutoCompletePosition(number_products){
@@ -647,9 +630,7 @@ export class FacturaVaciaComponent implements OnInit {
 
 				this.formControlDataService.generarFactura(data)
 				.subscribe(
-					response => {			
-					   localStorage.removeItem("datos_factura");
-					   localStorage.removeItem("productos");		   
+					response => {					   
 					   let number = 0;	
 					   this.loading = false;
 					   this.form_errors.ajax_failure = false;	

@@ -110,6 +110,8 @@ export class FacturacionComponent implements OnInit {
 	  	this.subscription= this.commonService.notifyObservable$.subscribe((res)=>{
 	  		if(res.hasOwnProperty('option') && res.option === 'openModalDatos') {
 
+	  			this.productos = [];
+
 	  			this.consulta_id = res.consulta_id;
 	  			this.obtenerProductos();
 	  		// Comentar para subir
@@ -126,14 +128,6 @@ export class FacturacionComponent implements OnInit {
 				this.getTipo_ID();
 				this.getMediosPagos();
 	  			this.getPaciente(res.persona_id);  
-
-	  			if(localStorage.getItem("productos")){
-	  				this.productos = JSON.parse(localStorage.getItem("productos"));
-	  			}
-
-	  			if(localStorage.getItem("datos_factura")){
-	  				this.factura = JSON.parse(localStorage.getItem("datos_factura"));
-	  			}
 
 	  			this.openModalDatos();  		
 	  			this.getNutricionista();		  			
@@ -468,9 +462,6 @@ export class FacturacionComponent implements OnInit {
 			this.query = "";
 			this.impuesto = false;
 			this.producto = {};
-
-			localStorage.setItem("productos", JSON.stringify(this.productos));
-			localStorage.setItem("datos_factura", JSON.stringify(this.factura));
 			
 			this.producto = {
 				descripcion: "",
@@ -494,13 +485,6 @@ export class FacturacionComponent implements OnInit {
 
 		this.productIndex = this.productos.length;
 		this.calcularFactura(false);
-
-		//Refresh Local Storage
-		localStorage.removeItem("productos");
-		localStorage.removeItem("datos_factura");
-
-		localStorage.setItem("productos", JSON.stringify(this.productos));
-		localStorage.setItem("datos_factura", JSON.stringify(this.factura));
 	}
 
 	adjustAutoCompletePosition(number_products){
@@ -590,12 +574,7 @@ export class FacturacionComponent implements OnInit {
 
 				this.formControlDataService.generarFactura(data)
 				.subscribe(
-					response => {			
-
-					   console.log(response);
-
-					   localStorage.removeItem("datos_factura");
-					   localStorage.removeItem("productos");		   
+					response => {					   
 					   let number = 0;	
 					   this.loading = false;
 					   this.form_errors.ajax_failure = false;	
