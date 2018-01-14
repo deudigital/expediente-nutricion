@@ -45,7 +45,6 @@
 							<select class="form-control" 
 									id="tipo_indentificacion" 
 									[(ngModel)]="persona.identification_nombre"
-									(change)="validarCedula()"
 									name="tipo_indentificacion">
 								<option *ngFor = "let option of tipos_ID" 
 										[ngValue]="option.nombre"
@@ -61,7 +60,6 @@
 								   class="form-control" 
 								   id="cedula" 
 								   name="cedula" 
-								   (keyup)="validarCedula()"
 								   (keypress)="_keyPress($event)"
 								   [(ngModel)] = "persona.cedula"
 								   placeholder="Cédula"
@@ -156,7 +154,6 @@
 								   class="form-control" 
 								   id="telefono" 
 								   [(ngModel)] = "persona.telefono"
-								   (keyup) = "validarTelefono()"
 								   mask="00000000"
 								   name="telefono"
 								   required>
@@ -172,7 +169,6 @@
 								   class="form-control" 
 								   id="email" 
 								   [(ngModel)] = "persona.email"
-								   (keyup)="validarCorreo()"
 								   name="email"
 								   required>
 							<span *ngIf = "form_errors.invalid_email" style="color:red;">Por favor, ingrese un e-mail válido.</span>	   
