@@ -406,9 +406,9 @@ export class FacturaVaciaComponent implements OnInit {
 
 			 // Validar carga de datos
 	  			this.validarNombre();
-				this.validarCorreo();
+				/*this.validarCorreo();
 				this.validarTelefono();
-				this.validarCedula();
+				this.validarCedula();*/
 
 				if(!this.persona.cedula){
 					this.form_errors.empty_id = true;
@@ -612,11 +612,6 @@ export class FacturaVaciaComponent implements OnInit {
 					}
 				}
 
-				
-
-				
-							
-
 			setTimeout(()=>{
 				let data = {
 					client: this.persona,
@@ -624,8 +619,6 @@ export class FacturaVaciaComponent implements OnInit {
 					factura: this.factura,
 					consulta: this.consulta_id
 				}
-					console.log(data);
-
 				
 
 				this.formControlDataService.generarFactura(data)
@@ -671,14 +664,6 @@ export class FacturaVaciaComponent implements OnInit {
 				this.form_errors.empty_products = true;
 			}
 		}
-		console.log('falta');
-		console.log(this.persona.cedula);
-		console.log(this.persona.nombre);
-		console.log(this.persona.telefono);
-		console.log(this.form_errors.invalid_id);
-		console.log(this.form_errors.invalid_phone);
-		console.log(this.form_errors.invalid_email);
-
 	}	
 
 	procesoAgregado(){

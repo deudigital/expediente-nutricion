@@ -357,9 +357,9 @@ export class FacturacionComponent implements OnInit {
 
 			 // Validar carga de datos
 	  			this.validarNombre();
-				this.validarCorreo();
+			/*	this.validarCorreo();
 				this.validarTelefono();
-				this.validarCedula();
+				this.validarCedula();*/
 
 				if(!this.persona.cedula){
 					this.form_errors.empty_id = true;
