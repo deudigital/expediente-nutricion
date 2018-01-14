@@ -14,9 +14,10 @@ body.page-control {padding-top: 40px;}
 body.with-bg.page-control:before{background: url(../images/bg-ctrl-lt@2x.png) no-repeat 0 0 transparent;background-size: 288px 169px;left:0;}
 body.with-bg.page-control:after {background: url(../images/bg-ctrl-br@2x.png) no-repeat bottom right transparent;background-size: 196px 227px;right: 0;}
 
-/*	1140x1400	-	570x700	*/ /*	1140x1660	-	570x830	*/ 
-/*	1140x1400	-	570x700	*/ /*	1140x1660	-	570x830		1140x1820 570px 910px;*/ 
-i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 910px;font-style:normal}
+/*	1140x2100	-	570x1050	*/
+.page-title:before,
+.genero span:before,
+i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 1050px;font-style:normal}
 /*******************/
 
 .form-control::-webkit-input-placeholder {font-size:10px}
@@ -131,7 +132,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 /*.content-nav .list-group > li.current-step-consulta ~ li > a{pointer-events: none;}*/
 /********************/
 .page-title {position: relative;padding-left: 30px;font-size:18px;}
-.page-title:before {background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 910px;content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}
+.page-title:before {content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}
 /*********************/
 /*
 .content-form > section

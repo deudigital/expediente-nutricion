@@ -15,7 +15,7 @@
 .with-icon.nacimiento i {background-position: -223px 0px;width: 26px;height: 21px;}
 
 .genero span {position:relative}
-.genero span:before {background: url(../images/sprite@2x.png) no-repeat left top transparent;background-size: 570px 910px;position: absolute;content: "";display: inline-block;z-index: 100;height: 25px;width: 20px;margin-left: -30px;}
+.genero span:before {position: absolute;content: "";display: inline-block;z-index: 100;height: 25px;width: 20px;margin-left: -30px;}
 .genero .femenino span:before {background-position: -423px -70px;}
 .genero .femenino input:checked + span:before {background-position: -423px -105px;}
 .genero .masculino span:before {background-position: -442px -70px;}

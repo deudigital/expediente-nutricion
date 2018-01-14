@@ -1,15 +1,13 @@
 <div class="overlay" (click)="closeModal()"></div>
 
-<div class="esc-modal loading-modal" *ngIf="loading" style="top:15%;">
+<div class="esc-modal transparent loading-modal" *ngIf="loading">
 	<img src="assets/images/loading-bars.svg" style="width:75px;" />
 </div>
-<div class="esc-modal success_ajax" *ngIf="form_errors.successful_operation" style="top:15%;">
-	<img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png" />
-	<h4>¡Factura generada de manera exitosa!</h4>
+<div class="esc-modal transparent success_ajax" *ngIf="form_errors.successful_operation">
+	<img src="assets/images/success.png" width="75" />
 </div>
-<div class="esc-modal success_ajax" *ngIf="form_errors.ajax_failure" style="top:15%;">
-	<img src="https://cdn3.iconfinder.com/data/icons/simple-web-navigation/165/cross-512.png" style="width:35%" />
-	<h4>Imposible comunicarse con el servidor.</h4>
+<div class="esc-modal transparent success_ajax" *ngIf="form_errors.ajax_failure">
+	<img src="assets/images/error.png" width="75" />
 </div>
 
 <div class="esc-modal wide" style="margin-top: -500%" *ngIf="!loading">
@@ -162,12 +160,12 @@
 							<label id="row-margin" for="telefono">Teléfono</label>
 							<input id="row-margin" 
 								   type="text" 
-								   placeholder="eg. 4126-4564" 
+								   placeholder="eg. 41264564" 
 								   class="form-control" 
 								   id="telefono" 
 								   [(ngModel)] = "persona.telefono"
 								   (keyup) = "validarTelefono()"
-								   mask="0000-0000"
+								   mask="00000000"
 								   name="telefono"
 								   required>
 							<span *ngIf="form_errors.invalid_phone" style="color:red;">Por favor, ingrese un teléfono válido.</span>	   
@@ -243,6 +241,104 @@
 	                    </div>    
 	                </div>  
 					<div id="linea_detalle" class="row">
+						<div class="">
+			              <label id="row-margin" for="descripcion">Descripción</label>
+						   <input type="text" 
+						   		  id="descripcion" 
+						   		  class="form-control" 
+						   		  name="proteina" 
+						   		  placeholder="Ingrese descripción"
+						   		  [(ngModel)]="query"
+						   		  (keyup)="suggest()">
+							<div class="autocomplete-div" *ngIf="filteredList.length > 0">
+								<ul class="dropdown-menu dropdown-autocomplete">
+									<li *ngFor="let item of filteredList">
+										<a href="javascript:void(0)" (click)="select(item)">							
+											{{item.descripcion}}
+											<span>Costo: ₡ {{item.precio}}</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="">
+              				<label id="row-margin" for="unidad">Unidad</label>
+							<select class="form-control" [(ngModel)]="unidad_medida">
+	                            <option *ngFor="let unidad_medida of unidades" 
+	                            		[attr.value]="unidad_medida.nombre" 
+										[attr.selected]="unidad_medida.nombre == 'Servicios Profesionales' ? true : null">
+									{{unidad_medida.nombre}}
+								</option>
+	                        </select>
+						</div>
+						<div class="">
+              				<label id="row-margin" for="precio">Precio</label>
+							<input type="text" 
+								   id="precio" 
+								   class="form-control" 
+								   placeholder="₡16,500" 
+								   name="precio"
+								   (keyup)="calcularSubtotalProducto()"
+								   [(ngModel)]="producto.precio"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
+								   required>
+						</div>
+            			<div class="">
+             			    <label id="row-margin" for="cantidad">Cantidad</label>
+							<input type="number" 
+								   id="cantidad" 
+								   class="form-control text-center" 
+								   [(ngModel)]="producto.cantidad" 
+								   (keyup)="calcularSubtotalProducto()"
+								   (change)="calcularSubtotalProducto()"
+								   name="cantidad" 
+								   min="1" 
+								   placeholder="Cantidad">
+						</div>
+						<div class="">
+             			    <label id="row-margin" for="descuento">Descuento</label>
+							<input type="text" 
+								   id="descuento" 
+								   class="form-control" 
+								   placeholder="₡0" 
+								   (keyup)="calcularSubtotalProducto()"
+								   name="descuento"
+								   [(ngModel)]="producto.descuento"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }">	
+							<span style="color:red;font-size: 10px;" *ngIf="form_errors.negativeSubtotal_product">
+								El descuento no debe ser mayor al subtotal.
+							</span>							   
+						</div>
+						<div class="">
+              				<label id="row-margin" for="impuesto">
+              					<input type="checkbox" [checked]="impuesto" (change)="aplicarImpuestoProducto()"/>Impuesto (13%)
+              				</label>
+							<input type="text" 
+								   id="impuesto" 
+								   class="form-control" 
+								   placeholder="₡2,145" 
+								   name="impuesto"
+								   disabled="true" 
+								   [(ngModel)]="producto.impuesto"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
+								   required>
+						</div>
+						<div class="">
+              				<label id="row-margin" for="subtotal">Subtotal</label>
+							<input id="subtotal" 
+								   class="form-control" 
+								   placeholder="₡18,645"
+								   disabled="true" 
+								   [(ngModel)]="producto.subtotal"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
+								   required>
+						</div>
+					</div>
+<!--					<div id="linea_detalle" class="row">
 						<div class="col-md-2 col-sm-12">
 			              <label id="row-margin" for="descripcion">Descripción</label>
 						   <input type="text" 
@@ -344,7 +440,7 @@
 								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
 								   required>
 						</div>
-					</div>
+					</div>-->
 					<div class="row">
         				<div class="col-md-12" style="text-align: center; width:33%; margin: 3% 0% 0% 33%;">
   							<button class="btn btn-success no-border"

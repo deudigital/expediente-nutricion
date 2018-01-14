@@ -136,7 +136,8 @@ export class FacturaVaciaComponent implements OnInit {
 	  			this.getNutricionista();		  			
 	  		}
 	  	});
-  	}
+		this.unidad_medida = 'Servicios Profesionales';
+	}
 
   	// Autocomplete 
   	suggest(){
@@ -479,6 +480,8 @@ export class FacturaVaciaComponent implements OnInit {
 
 			this.producto.unidad_nombre = this.unidad_medida;
 
+			this.producto.unidad_medida = 'Servicios Profesionales';
+
 			for(let u in this.unidades){
 				if(this.unidades[u].nombre === this.unidad_medida){
 					this.producto.unidad_medida = this.unidades[u].id;
@@ -504,7 +507,7 @@ export class FacturaVaciaComponent implements OnInit {
 			
 			this.producto = {
 				descripcion: "",
-				unidad_nombre: "",
+				unidad_nombre: 'Servicios Profesionales',
 				unidad_medida: 1,
 				precio: 0.00,
 				cantidad: 1,
@@ -786,7 +789,7 @@ export class FacturaVaciaComponent implements OnInit {
 		let telefono = this.persona.telefono+"";
 		let tel_long = telefono.split('');
 
-		if(tel_long.length != 9){
+		if(tel_long.length != 8){
 			this.form_errors.invalid_phone = true;
 		}else{
 			this.form_errors.invalid_phone = false;

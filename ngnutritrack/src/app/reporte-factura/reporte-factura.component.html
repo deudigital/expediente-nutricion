@@ -1,14 +1,12 @@
 <app-topnav></app-topnav>
-<div class="esc-modal loading-modal" *ngIf="form_errors.loading" style="top:15%;">
-	<img src="assets/images/loading-bars.svg" style="width:75px;" />
+<div class="esc-modal transparent loading-modal" *ngIf="form_errors.loading">
+	<img src="assets/images/loading-bars.svg" width="75" />
 </div>
-<div class="esc-modal success_ajax" *ngIf="form_errors.successful_operation" style="top:15%;">
-	<img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-128.png" />
-	<h4>¡Factura anulada de manera exitosa!</h4>
+<div class="esc-modal transparent success_ajax" *ngIf="form_errors.successful_operation">
+	<img src="assets/images/success.png" width="75" />
 </div>
-<div class="esc-modal success_ajax" *ngIf="form_errors.ajax_failure" style="top:15%;">
-	<img src="https://cdn3.iconfinder.com/data/icons/simple-web-navigation/165/cross-512.png" style="width:35%" />
-	<h4>Imposible comunicarse con el servidor.</h4>
+<div class="esc-modal transparent success_ajax" *ngIf="form_errors.ajax_failure">
+	<img src="assets/images/error.png" width="75" />
 </div>
 
 <!-- Modal Confirmacion Borrado de Item -->

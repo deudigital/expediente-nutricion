@@ -24,14 +24,22 @@
 				<strong>Control</strong>
 			</a>
 		</div>
-		<div class="col-xs-4 box" *ngIf="agregadoAPI===1">
+		<div [ngClass]="{'col-xs-4': agregadoAPI, 'col-xs-6': !agregadoAPI }" class="box">
+			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
+				<figure class="img-circle transition main-facturacion">
+					<i></i>
+				</figure>
+				<strong>Facturaci&oacute;n</strong>
+			</a>
+		</div>
+		<!--<div class="col-xs-4 box" *ngIf="agregadoAPI===1">
 			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
 				<figure (mouseenter)="onHover()" (mouseleave)="focusOut()">
 					<img src="{{factura_pic}}" style="width:50%;">
 				</figure>
 				<strong (mouseenter)="onHover()" (mouseleave)="focusOut()">Facturación</strong>
 			</a>
-		</div>
+		</div>-->
 		<!--<div class="col-sm-4 box">
 			<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
 				<figure class="img-circle transition main-agenda">

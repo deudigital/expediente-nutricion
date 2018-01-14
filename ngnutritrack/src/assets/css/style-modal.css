@@ -1,6 +1,6 @@
 .overlay { background-color:rgba(0, 0, 0, 0.33); position: fixed;left: 0;top: 0;z-index: 1000;width: 100%;height: 100%;display:none; /*-webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease;*/ }
 
-.esc-modal { position: absolute; z-index: 10001; width: 665px; max-width: 100%; background-color: #fff;top: -150%; left: 50%; padding: 30px 55px; margin-left: -333px; border-radius: 15px; -webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease; overflow: hidden; }
+.esc-modal { position: absolute; z-index: 10001;max-width: 100%; background-color: #fff;top: -150%; padding: 30px; border-radius: 15px; -webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease; overflow: hidden;width:90%;left:5% }
 .esc-modal a.modal-close { position: absolute; right: 25px; top: 10px; font-weight: 300; font-size: 25px; cursor: pointer; text-decoration: none; text-indent: 0; z-index:500;}
 .esc-modal a.modal-close i{background-position:0 350px}
 
@@ -38,7 +38,7 @@ body.open-modal .esc-modal {top:5%}
 .alimentos .warning:not(.black){color:#cc2026}
 .alimentos .success:not(.black){color:#8bc23f}
 /*	modalbox	*/
-.esc-modalbox{max-width: 90%;padding: 30px;left: 5%;
+.esc-modalbox{max-width: 100%;padding: 30px;left: 5%;width:90%;
 position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
 -webkit-transition: all 0.4s ease;-moz-transition: all 1s ease;-ms-transition: all 1s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;
 }
@@ -142,17 +142,23 @@ body.grafico-selected-gc_recomendado .grafico-gc_recomendado > span{background-c
 .grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
 .grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
 
+/*.esc-modal.loading-modal.transparent {padding: 0;width: 75px;margin-left: -38px;background-color: transparent;}*/
+.esc-modal.transparent {padding: 0;width: 75px;margin-left: -38px;background-color: transparent;top:40%;}
 @media (min-width:768px){
-	.esc-modalbox{max-width: 100%;padding: 30px 55px;left: 50%;}
-	.esc-modalbox{width: 660px;top: -100%;margin-left: -330px;}
+	
 	.esc-modalbox .container-graficos{text-align:center}
 	.esc-modalbox .container-graficos .menu {	width: 100%;}
 	.esc-modalbox .container-graficos .menu > li {float: none;display: inline-block;}
-}
-@media (min-width:1200px){	
-	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}
-	.esc-modalbox.wide{width: 1200px;margin-left: -600px;}
-}
-@media(max-width:600px){
 	
 }
+@media (min-width:1440px){
+	
+	.esc-modal {width: 665px;left: 50%;padding: 30px 55px;margin-left: -333px; }
+	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}
+	.esc-modalbox.wide{width: 1200px;margin-left: -600px;}
+	.esc-modalbox{max-width: 100%;padding: 30px 55px;left: 50%;}
+	.esc-modalbox{width: 660px;top: -100%;margin-left: -330px;}
+}
+/*@media(max-width:1339px){
+	.esc-modal.wide {width:90%;left: 5%;}
+}*/
