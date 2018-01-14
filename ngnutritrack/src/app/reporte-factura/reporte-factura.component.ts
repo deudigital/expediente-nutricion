@@ -137,8 +137,9 @@ export class ReporteFacturaComponent implements OnInit {
     this.form_errors.loading = true;
     this.formControlDataService.deleteFactura(this.deleted_document)
     .subscribe(
-      response => {        
-        if(response.status === 201){          
+      response => {     
+           console.log(response);
+        if(response.status === 200){          
           this.form_errors.loading = false;
           this.form_errors.successful_operation = true;
           setTimeout(() => {
