@@ -193,7 +193,43 @@ export class ReporteFacturaComponent implements OnInit {
     }
   }
 
-  filterQuery(){
+	filterQuery(){
+		this.resultArray = [];
+		console.log(this.fromDate.date);
+		var fromDate	=	new Date(this.fromDate.date.year, this.fromDate.date.month-1, this.fromDate.date.day);
+		fromDate	=	new Date(fromDate.getTime());
+		var uDate	=	new Date(this.untilDate.date.year, this.untilDate.date.month, this.untilDate.date.day);    
+		uDate.setSeconds(86400);
+		uDate	=	new Date(uDate.getTime());
+		var _fromDate	=	fromDate.getTime();
+		var _uDate		=	uDate.getTime();
+		for(let consulta in this.factura){			
+			let queryDate	=	new Date(this.factura[consulta].fecha);
+			let _queryDate	=	queryDate.getTime();
+			var sw	=	String(this.factura[consulta].nombre).toLowerCase().includes(this.nombre.toLowerCase());
+			if(_queryDate > _fromDate && _queryDate < _uDate && sw){			
+				var factura	=	Object.create(this.factura[consulta]);
+				let dia		=	this.fillWithZero(queryDate.getDate());
+				let mes		=	this.fillWithZero(queryDate.getMonth()+1);
+				let hora	=	this.fillWithZero(queryDate.getHours());
+				let minuto	=	this.fillWithZero(queryDate.getMinutes());
+				let _fecha	=	dia + '/' + mes + '/' + queryDate.getFullYear() + ' ' + hora + ':' + minuto + ':' + queryDate.getSeconds();
+				factura.fecha	=	_fecha;
+				if(this.tipo === this.factura[consulta].nombre_tipo)
+					this.resultArray.push(factura);
+				else if(this.tipo === "Todos")
+					this.resultArray.push(factura);
+
+			}
+		}
+  }
+  fillWithZero(valor){
+	  /*console.log(valor);
+	  console.log(String(valor).length);*/
+	  valor	=	((String(valor).length==1)? '0':'' ) + valor;	  
+	  return valor;
+  }
+  filterQuery__original(){
 
     this.resultArray = [];
 
