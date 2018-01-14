@@ -85,7 +85,7 @@ export class FacturaVaciaComponent implements OnInit {
 			ive: 0.00,
 			total: 0.00,
 			medio: 1,
-			medio_nombre: 'Efectivo'
+			medio_nombre: 'Tarjeta'
 		};  
 
 		this.producto = {
