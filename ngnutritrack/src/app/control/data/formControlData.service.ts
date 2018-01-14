@@ -176,7 +176,7 @@ export class FormControlDataService {
 
 	generarFactura(data: any){
 		data.nutricionista_id = this.formControlData.nutricionista_id;
-		return this.http.post( this.apiURL + 'facturacion/generar_factura', data).map((response:Response) => response.json());
+		return this.http.post( this.apiURL + 'facturacion/generar_factura', data).map((response:Response) => response);
 	}
 
 	/*generarFactura(data: any){

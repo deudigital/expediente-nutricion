@@ -591,6 +591,9 @@ export class FacturacionComponent implements OnInit {
 				this.formControlDataService.generarFactura(data)
 				.subscribe(
 					response => {			
+
+					   console.log(response);
+
 					   localStorage.removeItem("datos_factura");
 					   localStorage.removeItem("productos");		   
 					   let number = 0;	
