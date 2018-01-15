@@ -69,6 +69,7 @@ export class FacturacionComponent implements OnInit {
     public elementRef;
     productIndex = 0;
     consulta_id: number = 0;
+    margin:boolean = false;
 
   constructor( private router: Router, private commonService: CommonService, private formControlDataService: FormControlDataService ) { 
 
@@ -111,7 +112,7 @@ export class FacturacionComponent implements OnInit {
 	  		if(res.hasOwnProperty('option') && res.option === 'openModalDatos') {
 
 	  			this.productos = [];
-
+	  			this.margin = res.margin;
 	  			this.consulta_id = res.consulta_id;
 	  			this.obtenerProductos();
 	  		// Comentar para subir
@@ -630,8 +631,12 @@ export class FacturacionComponent implements OnInit {
 		let body = document.getElementsByTagName('body')[0];
 		if (this.showModalDatos){
 			window.scrollTo(0, 0);
-			body.classList.add('open-modal');			
-			modal.item(0).setAttribute("style","margin-top: -10%");			
+			body.classList.add('open-modal');	
+			if(this.margin){
+				modal.item(0).setAttribute("style","margin-top: 0%");	
+			}else{
+				modal.item(0).setAttribute("style","margin-top: -10%");	
+			}
 		} else{		
 			if(this.router.url==='/notas'){
 				this.router.navigate(['/inicio']);

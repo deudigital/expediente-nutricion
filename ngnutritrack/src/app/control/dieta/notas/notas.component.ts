@@ -113,7 +113,7 @@ export class NotasComponent implements OnInit {
 		/*this.remove(consulta)*/
 	}
 	openModalFactura(){
-		this.commonService.notifyOther({option: 'openModalDatos', persona_id:this.consulta.paciente_id, consulta_id: this.consulta.id});
+		this.commonService.notifyOther({option: 'openModalDatos', persona_id:this.consulta.paciente_id, consulta_id: this.consulta.id, margin: true});
 	}
 		
 	promptYes(){
