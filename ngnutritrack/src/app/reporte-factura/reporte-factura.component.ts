@@ -215,10 +215,11 @@ export class ReporteFacturaComponent implements OnInit {
 				let minuto	=	this.fillWithZero(queryDate.getMinutes());
 				let _fecha	=	dia + '/' + mes + '/' + queryDate.getFullYear() + ' ' + hora + ':' + minuto + ':' + queryDate.getSeconds();
 				factura.fecha	=	_fecha;
+				this.factura[consulta].fecha_processed	=	_fecha;
 				if(this.tipo === this.factura[consulta].nombre_tipo)
-					this.resultArray.push(factura);
+					this.resultArray.push(this.factura[consulta]);
 				else if(this.tipo === "Todos")
-					this.resultArray.push(factura);
+					this.resultArray.push(this.factura[consulta]);
 
 			}
 		}

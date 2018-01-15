@@ -90,30 +90,18 @@
                         </div>
 					</div>
                     <div class="col-xs-2 col-md-2 col-sm-12" style="margin-top:20px;">
-                        <button class="btn btn-default" id="search_button" (click)="filterQuery()"> BUSCAR </button>
+                        <button class="btn btn-default btn-block" id="search_button" (click)="filterQuery()"> BUSCAR </button>
                     </div>
                  </div>
 			</section>
 			<section *ngIf="resultArray.length > 0">
             	<div class="row">
-            		<!-- iconos de modificado y agregado -->
-					<div class="col-md-1" id="product_editor_column" style="margin-top: 3.1%">
-            			<div class="row" *ngFor="let item of resultArray">
-                            <a href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
-                                <i class="fa fa-file-pdf-o" style="font-size:24px;color:darkgreen;background:none;"></i>
-                            </a>
-                            <a routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.tipo_documento_id != 3">
-                                <i class="fa fa-close" style="font-size:30px;color:red;background:none;"></i>
-                            </a>
-                            <div style="height: 9px"></div>
-                        </div>
-                    </div>
-                    <!---->
-                    <div class="col-md-11">
+                    <div class="container-fluid">
                     	<div class="table-responsive">
-	                        <table class="table">
+	                        <table class="table reporte-factura">
 	                            <thead>
 	                                <tr>
+	                                    <th width="100">&nbsp;</th>
 	                                    <th># Documento</th>
 	                                    <th>Receptor</th>
 	                                    <th>Tipo</th>
@@ -124,10 +112,21 @@
 	                            </thead>
 	                            <tbody>
 	                                <tr *ngFor="let item of resultArray; let i = index ">
+										<td>
+<div class="actions reporte">
+	<a class="edit-item" href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
+		<i class="fa fa-file-pdf-o"></i>
+	</a>
+	<a class="remove-item" href="javascript:void(0)" routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.tipo_documento_id != 3">
+		<i></i>
+	</a>
+</div>
+										
+										</td>
 	                                    <td [ngStyle]="{ 'border-radius': setLeftBorder(i) }">{{item.numeracion_consecutiva}}</td>
 	                                    <td>{{item.nombre}}</td>
 	                                    <td>{{item.nombre_tipo}}</td>
-	                                    <td>{{item.fecha}}</td>
+	                                    <td>{{item.fecha_processed}}</td>
 	                                    <td>Colones</td>
 	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">₡{{item.monto}}</td>
 	                                </tr>
@@ -147,12 +146,12 @@
                             </h4>
                         </div>
                         <div class="col-md-1">
-                            <a routerLinkActive="active" (click)='exportData(1)'>
-                                <i class="fa fa-file-pdf-o" style="font-size:48px;color:red;background:none;"></i>
+                            <a routerLinkActive="active" (click)='exportData(1)' class="export-pdf" href="javascript:void(0)">
+                                <i></i>
                             </a>
                         </div>
                         <div class="col-md-1">
-                            <a routerLinkActive="active" (click)='exportData(2)'>
+                            <a routerLinkActive="active" (click)='exportData(2)' href="javascript:void(0)">
                                 <i class="fa fa-file-excel-o" style="font-size:48px;color:green;background:none;"></i>
                             </a>
                         </div>
