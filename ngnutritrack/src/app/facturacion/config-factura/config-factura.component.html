@@ -1,14 +1,14 @@
 <app-topnav></app-topnav>
-<div class="loading-div" *ngIf="loading">
-    <div class="esc-modal transparent loading-modal">
+<div class="loading-div" *ngIf="showOverlay">
+    <div class="esc-modal transparent loading-modal" *ngIf="loading">
         <img src="assets/images/loading-bars.svg" width="75" />
-    </div>
-</div> 
-<div class="esc-modal transparent success_ajax_" *ngIf="form_errors.successful_operation">
-	<img src="assets/images/success.png" width="75" />
-</div>
-<div class="esc-modal transparent success_ajax_" *ngIf="form_errors.ajax_failure">
-	<img src="assets/images/error.png" width="75" />
+	</div> 
+	<div class="esc-modal transparent success_ajax_" *ngIf="form_errors.successful_operation">
+		<img src="assets/images/success.png" width="75" />
+	</div>
+	<div class="esc-modal transparent success_ajax_" *ngIf="form_errors.ajax_failure">
+		<img src="assets/images/error.png" width="75" />
+	</div>
 </div>
 <div class="container">
 	<div class="row">

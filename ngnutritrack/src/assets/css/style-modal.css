@@ -141,9 +141,17 @@ body.grafico-selected-gc_recomendado .grafico-gc_recomendado > span{background-c
 
 .grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
 .grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
-
-/*.esc-modal.loading-modal.transparent {padding: 0;width: 75px;margin-left: -38px;background-color: transparent;}*/
-.esc-modal.transparent {padding: 0;width: 75px;margin-left: -38px;background-color: transparent;top:40%;}
+body.open-modal .esc-modal.transparent {top: 50%;}
+.esc-modal.transparent {
+	padding: 0;
+	width: 115px;
+	margin-left: -50px;
+	top: 50%;
+	margin-top: -50px;
+	text-align: center;
+	height: 115px;
+	padding-top: 20px;
+}
 @media (min-width:768px){
 	
 	.esc-modalbox .container-graficos{text-align:center}

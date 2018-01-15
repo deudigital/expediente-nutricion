@@ -22,6 +22,7 @@ export class ConfigFacturaComponent implements OnInit {
   mng:any;
   fcData: any;  
   helpers:any;
+  showOverlay: boolean = false;
   loading: boolean = false;
 
   tipos: any =[];
@@ -87,6 +88,7 @@ export class ConfigFacturaComponent implements OnInit {
   }
   // Comentar para subir
   loadDataForm(){
+    this.showOverlay = true;
     this.loading = true;
     this.formControlDataService.getDataForm()
     .subscribe(
@@ -105,9 +107,11 @@ export class ConfigFacturaComponent implements OnInit {
 
             this.getDataNutricionista();  
             this.loading = false;        
+            this.showOverlay = false;        
             },
       error => { 
         this.loading = false;
+        this.showOverlay = false;
         console.log(<any>error)
       }
     );
@@ -232,6 +236,7 @@ export class ConfigFacturaComponent implements OnInit {
         !this.form_errors.empty_passAtv && !this.form_errors.empty_pinAtv &&
         !this.form_errors.invalid_id && !this.form_errors.invalid_phone && 
         !this.form_errors.invalid_email && !this.form_errors.invalid_file){
+      this.showOverlay	=	true;
       this.loading = true;
       switch(this.data.identification_nombre){
       case "Cedula Fisica":
@@ -276,24 +281,28 @@ export class ConfigFacturaComponent implements OnInit {
                   console.log(<any>err);
                 });
             }
+		//this.showOverlay	=	true;
           setTimeout(() => {
             this.loading = false;
             this.form_errors.ajax_failure = false; 
             this.form_errors.successful_loadImage = false;
             this.form_errors.successful_operation = true;
               setTimeout(() => {
+				this.showOverlay	=	false;
               this.form_errors.successful_operation = false;
             }, 3000);
           }, 5000);                  
         },
         error => {
           console.log(<any>error);
+		  
           this.loading = false;
           this.form_errors.successful_operation = false;
           this.form_errors.successful_loadImage = false;
           this.form_errors.ajax_failure = true;
           setTimeout(() => {
             this.form_errors.ajax_failure = false;
+			  this.showOverlay	=	false;
           }, 3000);
         }
       );
