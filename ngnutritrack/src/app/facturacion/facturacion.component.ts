@@ -537,12 +537,14 @@ export class FacturacionComponent implements OnInit {
 
 	facturar(){
 
-		if(!this.persona.cedula){
+		/*if(!this.persona.cedula){
 			this.form_errors.empty_id = true;
-		}
+		}*/
 
-		if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
-			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){			
+	/*	if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
+			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
+
+		if(this.persona.nombre){		
 
 			if(this.productos.length > 0){
 				let telefono = this.persona.telefono+"";			
