@@ -63,13 +63,15 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="col-xs-12 col-md-12 col-sm-12 content-form">
+
+            <div class="content-form">
                 <section>
                  <div class="row">                 		
-                        <div class="col-md-12" style="margin-left:-2%;">
-                            <div class="table-responsive">
+                        <div class="col-lg-8 col-lg-offset-2">
+							<div class="row">
+                            
+							
+							<div class="table-responsive">
                                 <table class="table crud productos">
                                     <thead>
                                         <tr>
@@ -129,9 +131,12 @@
                                  	No se pudo <b>editar</b> el producto. Imposible conectarse con el servidor. Verifique su conexión.
                                  </span>
                                  <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.invoicedproduct">No se puede eliminar este producto, ya que el mismo ha sido facturado.</span>
-                            </div>                            
+                            </div>
+							
+							
+							</div>
                             <div class="row" *ngIf="nuevo">
-                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">                              
                                       <input class="form-control" 
                                       		 placeholder="Descripcion" 
@@ -140,7 +145,7 @@
                                       <span class="form-errors" *ngIf="form_errors.null_description">Por favor, escriba una descripción.</span>                             
                                     </div>
                                 </div>
-                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="col-md-5 col-sm-5">
                                     <div class="form-group">                              
                                       <select class="form-control"  (change)="cleanError('unidad')"  [(ngModel)]="unidad_medida">
                                       	  <option [ngValue]="null">
@@ -151,7 +156,7 @@
                                       <span class="form-errors" *ngIf="form_errors.null_unity">Por favor, seleccione una unidad.</span>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="col-sm-3">
                                     <div class="form-group">                              	                                      
                                       <input class="form-control" 
                                       		 placeholder="₡ Precio" 
@@ -167,7 +172,7 @@
                             </div>
                             <div class="actions">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-sm-6">
                                         <a (click)="showNewProductForm()" href="javascript:void(0)" *ngIf="!nuevo">
                                             <h5 class="form-open">
                                                 <span class="glyphicon glyphicon-plus-sign"></span>
@@ -184,19 +189,18 @@
                                 </div>
                                 
                                 </div>
-                            </div> 
-                            <div class="row">
+
                                 <div class="buttons">
                                   <a class="btn btn-default no-border" 
                                       href="javascript:void(0)"
                                       id="save_product_button"
                                       (click)="agregarProducto()"> GUARDAR </a>
-                                  <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.save_product">Imposible conectarse con el servidor. Por favor, verifique su conexión</span> 
+                                  <span style="color: red;font-size: smaller;margin: 10px;" *ngIf="form_errors.save_product">Imposible conectarse con el servidor. Por favor, verifique su conexión</span>
                                 </div>                                     
                             </div>
                     </div>
                 </section>
-            </div>
+
         </div>
-    </div>
+
 </div>

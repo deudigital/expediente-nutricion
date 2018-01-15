@@ -106,10 +106,10 @@
 
 }
 @media(min-width:992px){
-	.table.crud.productos {width: 90%;margin-left:5%}
+	/*.table.crud.productos {width: 90%;margin-left:5%}*/
 }
 @media(min-width:1200px){
-	.table.crud.productos {width: 70%;margin-left:15%}
+	/*.table.crud.productos {width: 70%;margin-left:15%}*/
 	#linea_detalle > div{width:13%; float:left;padding-left: 3px;padding-right: 3px;text-align:center}
 	#linea_detalle > div:first-child{width:20%;padding-left: 0}
 	#linea_detalle > div:nth-child(2){width:20%}
