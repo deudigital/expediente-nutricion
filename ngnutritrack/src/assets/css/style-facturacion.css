@@ -71,6 +71,23 @@
 	width: 99%;
 	z-index:1;
 }
+
+#paciente .dropdown-menu {
+    max-height: 300px;
+    overflow: auto;
+    height: auto;
+}
+#paciente .dropdown-autocomplete {
+    width: 100%;
+    background-color: #e6e6e6;
+    box-shadow: none;
+    border: none;
+    padding: 20px 0 0;
+    top: 100%;
+    margin-top: -15px;
+}
+
+
 #linea_detalle .dropdown-menu {max-height:300px;overflow:auto;height:auto;}
 #linea_detalle .dropdown-menu > li > a {padding: 5px 15px 8px 25px;font-weight:500}
 #linea_detalle .dropdown-menu > li > a:focus, 
