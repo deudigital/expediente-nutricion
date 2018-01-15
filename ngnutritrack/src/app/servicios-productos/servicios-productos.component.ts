@@ -133,16 +133,18 @@ export class ServiciosProductosComponent implements OnInit {
 	obtenerProductos(){
 		this.formControlDataService.getProducts()
 		.subscribe(
-			 response  => {
-			 			this.productos = response;			 			
+			 response  => {console.log('<-- getProducts');console.log(response);
+						if(response){
+							this.productos = response;
 
-			 			for(let producto in this.productos){
-			              for(let item in this.unidades){			            			               
-			              	if(this.productos[producto].unidad_medida_id === this.unidades[item].id){
-			                	this.productos[producto].nombre_unidad = this.unidades[item].nombre;
-			              	}
-			              }    
-			          	}	
+							for(let producto in this.productos){
+							  for(let item in this.unidades){			            			               
+								if(this.productos[producto].unidad_medida_id === this.unidades[item].id){
+									this.productos[producto].nombre_unidad = this.unidades[item].nombre;
+								}
+							  }    
+							}
+						}
 					 	this.loading = false;			          	
 					},
 			error =>  {

@@ -46,14 +46,14 @@
 		<div class="col-sm-12 col-xs-12 col-md-12 content-form">
 			<section>
 				<div class="row">
-                    <div class="col-md-3 col-sm-2 col-xs-12">
+                    <div class="col-md-3 col-sm-3">
 						<div class="form-group with-icon paciente_nombre">
 						  <label class="col-form-label" for="cliente">Cliente</label>
 						  <input class="form-control" [(ngModel)]="nombre" id="cliente" name="cliente" type="text">
 						  <i></i>
 						</div>
 				    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-12">
+                    <div class="col-md-2 col-sm-3">
                         <div class="form-group with-icon nacimiento">
                           <label class="col-form-label" for="desde">Desde</label>
 							<my-date-picker name="desde"
@@ -66,7 +66,7 @@
 	                        <i style="margin-left: -2%;margin-bottom: 1%;"></i>       
                         </div>
 					</div>
-                    <div class="col-md-2 col-sm-2 col-xs-12">
+                    <div class="col-md-2 col-sm-3">
                         <div class="form-group with-icon nacimiento">
                           <label class="col-form-label" for="hasta">Hasta</label>
 							<my-date-picker name="hasta"
@@ -79,7 +79,7 @@
 	                        <i id="icon-from" style="margin-left: -2%;margin-bottom: 1%;" (click) = "openPicker()"></i>       
                         </div>
 					</div>
-					<div class="col-md-3 col-sm- col-xs-12">
+					<div class="col-md-3 col-sm-3">
                         <div class="form-group with-icon parentezco">
                           <label class="col-form-label" for="tipo">Tipo</label>
                           <select class="form-control ng-pristine ng-valid ng-touched" [(ngModel)]="tipo" id="tipo" name="tipo">
@@ -89,7 +89,7 @@
                           <i></i>
                         </div>
 					</div>
-                    <div class="col-xs-2 col-md-2 col-sm-12" style="margin-top:20px;">
+                    <div class="col-md-2" style="margin-top:20px;">
                         <button class="btn btn-default btn-block" id="search_button" (click)="filterQuery()"> BUSCAR </button>
                     </div>
                  </div>
@@ -117,7 +117,7 @@
 	<a class="edit-item" href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
 		<i class="fa fa-file-pdf-o"></i>
 	</a>
-	<a class="remove-item" href="javascript:void(0)" routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.tipo_documento_id != 3">
+	<a class="remove-item" href="javascript:void(0)" routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.showDelete">
 		<i></i>
 	</a>
 </div>

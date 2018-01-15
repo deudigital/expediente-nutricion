@@ -232,7 +232,10 @@ proteinas: 32
 		return myArray;
 	}
 	infoEdited(){
-		var result	=	this.infoEditedEjemplos() || this.infoEditedPorciones();
+		//var result	=	this.infoEditedEjemplos() || this.infoEditedPorciones();
+		var result1	=	this.infoEditedEjemplos();
+		var result2	=	this.infoEditedPorciones();
+		var result	=	result1 || result2;
 		return result;
 	}
 	infoEditedEjemplos(){
@@ -288,7 +291,7 @@ proteinas: 32
 		return false;		
 	}
 	
-	chechChangesItems(){
+	chechChangesItems(){console.log(this.oMenu);console.log(this.menus);
 		var obj2	=	{};
 		for(var i in this.oMenu){
 			if(Number(i)>0){
@@ -313,8 +316,9 @@ proteinas: 32
 						obj2	=	this.arrayMenuCoicionNocturna;
 						break;
 				}
+				console.log(JSON.stringify(oItem) + '!==' + JSON.stringify(obj2));
 				if(JSON.stringify(oItem) !== JSON.stringify(obj2)){
-					/*console.log('diferentes');console.log(oItem);console.log(obj2);*/
+					console.log('diferentes');console.log(oItem);console.log(obj2);
 					return true;
 				}
 			}

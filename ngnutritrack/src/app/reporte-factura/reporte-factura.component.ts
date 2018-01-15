@@ -216,6 +216,12 @@ export class ReporteFacturaComponent implements OnInit {
 				let _fecha	=	dia + '/' + mes + '/' + queryDate.getFullYear() + ' ' + hora + ':' + minuto + ':' + queryDate.getSeconds();
 				factura.fecha	=	_fecha;
 				this.factura[consulta].fecha_processed	=	_fecha;
+
+				this.factura[consulta].showDelete		=	true;
+				if(this.factura[consulta].tipo_documento_id==3 || !this.factura[consulta].estado){
+					this.factura[consulta].showDelete		=	false;
+				}				
+				
 				if(this.tipo === this.factura[consulta].nombre_tipo)
 					this.resultArray.push(this.factura[consulta]);
 				else if(this.tipo === "Todos")

@@ -418,7 +418,7 @@ export class ConfigFacturaComponent implements OnInit {
     let telefono = this.data.telefono+"";
     let tel_long = telefono.split('');
 
-    if(tel_long.length != 9){
+    if(tel_long.length != 8){
       this.form_errors.invalid_phone = true;
     }else{
       this.form_errors.invalid_phone = false;

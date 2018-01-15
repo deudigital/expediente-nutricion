@@ -154,9 +154,9 @@
 								   class="form-control" 
 								   id="telefono" 
 								   [(ngModel)] = "persona.telefono"
-								   mask="00000000"
+								   
 								   name="telefono"
-								   required>
+								   required><!--mask="00000000"-->
 							<span *ngIf="form_errors.invalid_phone" style="color:red;">Por favor, ingrese un teléfono válido.</span>	   
 						</div>
 					</div> 
