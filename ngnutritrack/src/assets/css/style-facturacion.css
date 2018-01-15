@@ -44,7 +44,6 @@
 /*	consultas-sin-facturar	*/
 .consultas-sin-facturar .filtros .esc-dp{}
 /*	Factura	*/
-/*	Factura	*/
 #linea_detalle {/*background-color:#ccc*/}
 #linea_detalle > div label{padding-left: 0}
 #linea_detalle > div input[type=checkbox]{padding: 0;margin: 3px 0 0 -17px;position: absolute;cursor:pointer;}
@@ -93,6 +92,11 @@
 #linea_detalle .dropdown-menu > li > a:focus, 
 #linea_detalle .dropdown-menu > li > a:hover {background-color: #7fb831;color: #fff;border-radius: 25px;}
 #linea_detalle .dropdown-menu > li > a span {font-size:10px;display:block}
+/*	Report	*/
+.actions.reporte {padding-left: 15px;height: auto;margin-top: -10px;}
+.actions.reporte > a.edit-item > i{font-size: 24px;color: darkgreen;background: none;}
+.actions a.export-pdf > i {background-position: -219px -622px;width: 51px;height: 63px;display: inline-block;margin-bottom: 15px;}
+.actions.reporte .remove-item {margin-left: 15px;}
 
 @media(min-width:768px){  
   
