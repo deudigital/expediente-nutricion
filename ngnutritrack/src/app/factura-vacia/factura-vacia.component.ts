@@ -135,11 +135,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.unidad_medida = 'Servicios Profesionales';
 	}
 
-	ngAfterViewInit(){
-		let overlay = document.getElementsByClassName('overlay');		
-		console.log(overlay.item(0).setAttribute("(click)","openModalDatos()"));
-	}
-
   	// Autocomplete 
   	suggest(){
 	 	if(this.query !== ""){
