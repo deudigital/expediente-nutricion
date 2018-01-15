@@ -65,6 +65,7 @@ export class FacturaVaciaComponent implements OnInit {
 	seleccionado:boolean=false;
 	public queryPerson = '';
 	public filteredListPerson = [];
+	hidePrompt:boolean = false;
 
 
 // Autocomplete variables
@@ -126,10 +127,17 @@ export class FacturaVaciaComponent implements OnInit {
 	  			this.getPaciente();  
 
 	  			this.openModalDatos();  		
-	  			this.getNutricionista();		  			
+	  			this.getNutricionista();	
+
+	  			this.hidePrompt = res.prompt;
 	  		}
 	  	});
 		this.unidad_medida = 'Servicios Profesionales';
+	}
+
+	ngAfterViewInit(){
+		let overlay = document.getElementsByClassName('overlay');		
+		console.log(overlay.item(0).setAttribute("(click)","openModalDatos()"));
 	}
 
   	// Autocomplete 
@@ -700,23 +708,26 @@ export class FacturaVaciaComponent implements OnInit {
 		
 	}
 
- 	openModalDatos() {
- 		this.form_errors.successful_operation = false;
- 		this.form_errors.successful_operation = false;	
-		let modal = document.getElementsByClassName('esc-modal');		
-		this.showModalDatos	=	!this.showModalDatos;
-		let body = document.getElementsByTagName('body')[0];
-		if (this.showModalDatos){
-			window.scrollTo(0, 0);
-			body.classList.add('open-modal');			
-			modal.item(0).setAttribute("style","margin-top: -10%");			
-		} else{			
-			modal.item(0).setAttribute("style","margin-top: -500%");
-			this.factura= {};
-			this.producto = {};
-			this.persona = {};	
-			this.queryPerson= '';
-			body.classList.remove('open-modal');
+ 	openModalDatos() { 		
+ 		if(this.hidePrompt){
+	 		this.form_errors.successful_operation = false;
+	 		this.form_errors.successful_operation = false;	
+			let modal = document.getElementsByClassName('esc-modal');		
+
+			this.showModalDatos	=	!this.showModalDatos;
+			let body = document.getElementsByTagName('body')[0];
+			if (this.showModalDatos){
+				window.scrollTo(0, 0);
+				body.classList.add('open-modal');			
+				modal.item(0).setAttribute("style","margin-top: -10%");			
+			} else{			
+				modal.item(0).setAttribute("style","margin-top: -500%");
+				this.factura= {};
+				this.producto = {};
+				this.persona = {};	
+				this.queryPerson= '';
+				body.classList.remove('open-modal');
+			}
 		}
 	}
 

@@ -97,7 +97,7 @@ export class InicioComponent implements OnInit {
 
 	openFactura(){
 		this.hidePrompt = true;
-		this.commonService.notifyOther({option: 'openModalDatosVacia'});
+		this.commonService.notifyOther({option: 'openModalDatosVacia', prompt: this.hidePrompt});
 	}
 
 	getAgregadoAPI(){
