@@ -104,8 +104,8 @@ export class InicioComponent implements OnInit {
 		this.formControlDataService.getNutricionista()
 		.subscribe(
 			response => {
-				localStorage.setItem("agregadoAPI", response[0].agregadoAPI);
-				this.agregadoAPI = response[0].agregadoAPI;
+				localStorage.setItem("agregadoAPI", "0");
+				this.agregadoAPI = 0;
 			}, 
 			error => {
 				console.log(<any>error);
