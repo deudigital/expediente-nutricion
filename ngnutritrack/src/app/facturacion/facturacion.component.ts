@@ -632,6 +632,7 @@ export class FacturacionComponent implements OnInit {
 		if (this.showModalDatos){
 			window.scrollTo(0, 0);
 			body.classList.add('open-modal');	
+			modal.item(0).setAttribute("style","display: inline");
 			if(this.margin){
 				modal.item(0).setAttribute("style","margin-top: 0%");	
 			}else{
@@ -641,7 +642,7 @@ export class FacturacionComponent implements OnInit {
 			if(this.router.url==='/notas'){
 				this.router.navigate(['/inicio']);
 			}	
-			modal.item(0).setAttribute("style","margin-top: -500%");
+			modal.item(0).setAttribute("style","display: none");
 			body.classList.remove('open-modal');
 		}
 	}

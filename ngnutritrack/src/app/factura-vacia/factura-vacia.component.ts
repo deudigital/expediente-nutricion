@@ -717,9 +717,11 @@ export class FacturaVaciaComponent implements OnInit {
 			if (this.showModalDatos){
 				window.scrollTo(0, 0);
 				body.classList.add('open-modal');			
+				modal.item(0).setAttribute("style","display: inline");
 				modal.item(0).setAttribute("style","margin-top: -10%");			
 			} else{			
 				modal.item(0).setAttribute("style","margin-top: -500%");
+				modal.item(0).setAttribute("style","display: none");
 				this.factura= {};
 				this.producto = {};
 				this.persona = {};	
