@@ -21,6 +21,8 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::post('login/reminder', 'LoginController@reminder');
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
+	//Route::get('facturacion/notificaciones/{id}', 'FacturaController@notificarPorCorreo');
+	Route::get('facturacion/consecutivo/{nutricionista_id}/{tipo_documento_id}', 'FacturaController@getLastNumberConsecutive');
 	Route::post('external/nutricionistas', 'externalController@store');
 	Route::get('recordatorios', 'RecordatorioController@index');
 	Route::get('mensajes', 'MensajeController@index');
@@ -69,7 +71,6 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('consultas/{id}/delete', 'ConsultaController@destroy');
 	Route::post('otrosalimentos/{id}/delete', 'OtrosAlimentoController@destroy');
 
-
 	Route::get('pacientes/{id}/patologiashcp', 'PacienteController@patologiashcp');
 
 	Route::post('pacientes/cambiarcontrasena', 'PacienteController@updateContrasena');
@@ -82,6 +83,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('nutricionistas/configFactura','ReportesFacturasController@configFactura');
 	Route::post('nutricionistas/uploadAvatar/{id}','ReportesFacturasController@uploadAvatar');
 	Route::post('nutricionistas/uploadCrypto/{id}','ReportesFacturasController@uploadCrypto');
+	Route::get('nutricionistas/ubicacion/{ubicacion_id}','FacturaController@getUbicacion');
 	/*Route::resource('pacientes', 'PacienteController');*/
 	Route::post('objetivos/{id}/delete', 'ObjetivoController@destroy');
 	Route::resource('objetivos', 'ObjetivoController');
@@ -93,7 +95,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 
 	Route::get('alimentos/categorias', 'AlimentoController@categorias');
 	Route::get('alimentos/categorias/{id}', 'AlimentoController@categoriasbyid');
-	
+
 	/* Rutas para manejar los productos */
 	Route::get('productos/medidas', 'ProductosController@getMeasures');
 	Route::get('productos/nutricionista/{id}', 'ProductosController@getProducts');
@@ -101,7 +103,6 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('productos/nuevoproducto', 'ProductosController@storeProducts');
 	Route::post('productos/{id}/delete', 'ProductosController@destroy');
 	Route::post('productos/editarproducto', 'ProductosController@updateProduct');
-
 	/* Manejo de Facturas */
 	Route::get('reportes/tipos_documento', 'ReportesFacturasController@getTipo_Documento');
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
@@ -110,9 +111,9 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('facturacion/tipos_identification', 'FacturaController@getTiposIdentificacion');
 	Route::get('facturacion/medios_pagos', 'FacturaController@getMediosPagos');
 	Route::post('facturacion/generar_factura', 'FacturaController@generarFactura');
-	
-	
 	Route::post('facturacion/delete', 'FacturaController@deleteFactura');
+	Route::post('facturacion/guardarPaciente', 'FacturaController@guardarPaciente');
+
 
 /*
 	Route::get('alimentos/indices', 'AlimentoController@indices');
@@ -130,7 +131,6 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::get('form/data', 'FormController@dataform');
 	/*	consultas pendientes del nutricionista X	*/
 	Route::get('consultas/nutricionista/{id}/pendientes/', 'ConsultaController@pendientes');
-	
 
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 	Route::post('pacientes/cambiarcontrasena', 'PacienteController@updateContrasena');

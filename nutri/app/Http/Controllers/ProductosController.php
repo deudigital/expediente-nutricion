@@ -70,7 +70,7 @@ class ProductosController extends Controller
 
     public function storeProducts(Request $request)
     {
-        try{
+        try{            
             $id= DB::table('productos')->insertGetId([
                  'descripcion' => $request->descripcion, 
                  'unidad_medida_id' => $request->unidad_medida, 
@@ -98,9 +98,7 @@ class ProductosController extends Controller
             ->where('id', $request->id)
             ->update([
                 'descripcion' => $request->descripcion, 
-                'unidad_medida' => $request->unidad_medida, 
                 'unidad_medida_id' => $request->unidad_medida_id, 
-
                 'precio' => $request->precio
             ]);
         } catch(Illuminate\Database\QueryException $e) {
@@ -118,12 +116,6 @@ class ProductosController extends Controller
 
     public function destroy($id)
     {
-        DB::table('productos')->where('id', '=', $id)->delete();
-        $message    =   array(
-                            'code'      => '200',
-                            'message'   => 'Se ha eliminado correctamente'
-                        );
-        $response   =   Response::json($message, 201);
         $linea = DB::table('linea_detalles')->where('producto_id', '=', $id)->get();
 
         if(count($linea) == 0){
@@ -140,6 +132,7 @@ class ProductosController extends Controller
                             );
             $response   =   Response::json($message, 204);
         }
+
         return $response;
     }
 }

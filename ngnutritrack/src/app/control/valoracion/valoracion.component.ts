@@ -13,6 +13,7 @@ import { FileService } from '../../services/file.service';
 })
 export class ValoracionComponent implements OnInit {
 	model:any;
+	helpers:any;
 	analisis	=	new Analisis();
 	valoracion	=	new ValoracionAntropometrica();
 	oValoracion	=	new ValoracionAntropometrica();
@@ -86,6 +87,7 @@ export class ValoracionComponent implements OnInit {
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model	=	formControlDataService.getFormControlData();
+		this.helpers	=	this.model.getHelpers();
 		var mng	=	this.model.getManejadorDatos();
 		mng.setMenuPacienteStatus(false);
 		this.nuevaConsulta	=	false;

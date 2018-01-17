@@ -85,24 +85,6 @@ class ValoracionDieteticaController extends Controller
 
 			}
 		}
-		$tiempos	=	$request->tiempos;
-		if($tiempos){
-			$datos	=	array();			
-			$deletedRows = DetalleValoracionDieteticaEjemplo::where('paciente_id', $request->paciente_id)->delete();
-			
-			foreach($tiempos as $key=>$item){
-				if($item['tiempo_id']<1)
-					continue ;
-				$detalleValoracionDieteticaEjemplo	=	DetalleValoracionDieteticaEjemplo::create([
-									'paciente_id'						=>	$request->paciente_id,
-									'categoria_valoracion_dietetica_id'	=>	$item['tiempo_id'],
-									'ejemplo'							=>	$item['ejemplo']
-								]);
-				$datos[]	=	$detalleValoracionDieteticaEjemplo;
-				$detalleValoracionDieteticaEjemplo->save();
-						
-			}	
-		}
 		$response	=	Response::json($message, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }

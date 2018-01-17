@@ -19,47 +19,81 @@
 					<div class="col-sm-6 with-icon estatura">
 						<div class="form-group with-icon estatura">
 							<label class="col-form-label" for="estatura">Estatura</label>
-
-								<input 
-								class="form-control" 
+							<input 
 								id="estatura" 
 								name="estatura" 
-								placeholder="En metros" 
 								type="text" 
-								[(ngModel)]="valoracion.estatura">
+								class="form-control" 
+								placeholder="En metros" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.estatura"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon muneca">
 							<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
-							<input class="form-control" id="muneca" name="muneca" placeholder="En centímetros" type="text"
-							[(ngModel)]="valoracion.circunferencia_muneca">
+							<input 
+								id="muneca" 
+								name="muneca" 
+								type="text" 
+								class="form-control" 
+								placeholder="En centímetros" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.circunferencia_muneca"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon peso">
 							<label class="col-form-label" for="peso">Peso</label>
-							<input class="form-control" id="peso" name="peso" placeholder="Kilogramos" type="text"
-							[(ngModel)]="valoracion.peso">
+							<input 
+								id="peso" 
+								name="peso" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.peso"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon grasa">
 							<label class="col-form-label" for="grasa">Grasa</label>						
-								<input class="form-control" id="grasa" name="grasa" placeholder="Porcentaje" type="text"
-								[(ngModel)]="valoracion.grasa">
-								<i></i>
-								<a (click)="showModal('grasa')" class="link-modal pen"><i></i></a>
+							<input 
+								id="grasa" 
+								name="grasa" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.grasa"
+								>
+							<i></i>
+							<a (click)="showModal('grasa')" class="link-modal pen"><i></i></a>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon musculo">
 							<label class="col-form-label" for="musculo">Músculo</label>
-							<input class="form-control" id="musculo" name="musculo" placeholder="Porcentaje" type="text"
-							[(ngModel)]="valoracion.musculo">
+							<input 
+								id="musculo" 
+								name="musculo" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.musculo"
+								>
 							<i></i>
 							<a (click)="showModal('musculo')" class="link-modal pen"><i></i></a>
 						</div>
@@ -67,48 +101,95 @@
 					<div class="col-sm-6">
 						<div class="form-group with-icon agua">
 							<label class="col-form-label" for="agua">Agua</label>
-							<input class="form-control" id="agua" name="agua" placeholder="Porcentaje" type="text"
-							[(ngModel)]="valoracion.agua">
+							<input 
+								id="agua" 
+								name="agua" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.agua"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon viceral">
 							<label class="col-form-label" for="viceral">Grasa Viceral</label>
-							<input class="form-control" id="viceral" name="viceral" placeholder="Porcentaje" type="text"
-							[(ngModel)]="valoracion.grasa_viceral">
+							<input 
+								id="viceral" 
+								name="viceral" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.grasa_viceral"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon hueso">
 							<label class="col-form-label" for="hueso">Hueso</label>
-							<input class="form-control" id="hueso" name="hueso" placeholder="Kilogramos" type="text"
-							[(ngModel)]="valoracion.hueso">
+							<input 
+								id="hueso" 
+								name="hueso" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.hueso"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon edad_metabolica">
 							<label class="col-form-label" for="edad_metabolica">Edad Metabólica</label>
-							<input class="form-control" id="edad_metabolica" name="edad_metabolica" placeholder="Años" type="text"
-							[(ngModel)]="valoracion.edad_metabolica">
+							<input 
+								id="edad_metabolica" 
+								name="edad_metabolica" 
+								type="text"
+								class="form-control" 
+								placeholder="Años" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.edad_metabolica"
+								>
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon cintura">
 							<label class="col-form-label" for="cintura">Circunferencia Cintura</label>
-							<input class="form-control" id="cintura" name="cintura" placeholder="En centímetros" type="text"
-							[(ngModel)]="valoracion.circunferencia_cintura">
+							<input 
+								id="cintura" 
+								name="cintura" 
+								type="text"
+								class="form-control" 
+								placeholder="En centímetros" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.circunferencia_cintura">
 							<i></i>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon cadera">
 							<label class="col-form-label" for="cadera">Circunferencia Cadera</label>
-							<input class="form-control" id="cadera" name="cadera" placeholder="En centímetros" type="text"
-							[(ngModel)]="valoracion.circunferencia_cadera">
+							<input 
+								id="cadera" 
+								name="cadera" 
+								type="text"
+								class="form-control" 
+								placeholder="En centímetros" 
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.circunferencia_cadera"
+								>
 							<i></i>
 						</div>
 					</div>
@@ -315,8 +396,13 @@
 		<div *ngIf="showModalGrasaTabSegmentado">
 			<div class="form-group">
 				<label>Abdominal</label>
-				<input type="text" class="form-control" 
-				[(ngModel)]="grasa.abdominal"
+				<input 
+					name="grasa_abdominal" 
+					type="text" 
+					class="form-control"  
+					maxlength="6" 
+					(keypress)="helpers.soloNumeros($event)"
+					[(ngModel)]="grasa.abdominal"
 				>
 			</div>
 			<div class="row">
@@ -324,17 +410,23 @@
 					<div class="form-group">
 						<label>Piernas</label>
 						<input 
+							name="grasa_piernaDerecha" 
 							type="text" 
 							class="form-control" 
-							placeholder="Derecha"		
+							placeholder="Derecha" 
+							maxlength="6" 
+							(keypress)="helpers.soloNumeros($event)"
 							[(ngModel)]="grasa.piernaDerecha"
 						>
 					</div>
 					<div class="form-group">
 						<input 
+							name="grasa_piernaIzquierda" 
 							type="text" 
 							class="form-control" 
 							placeholder="Izquierda"		
+							maxlength="6" 
+							(keypress)="helpers.soloNumeros($event)"
 							[(ngModel)]="grasa.piernaIzquierda"
 						>
 					</div>
@@ -343,17 +435,23 @@
 					<div class="form-group">
 						<label>Brazos</label>
 						<input 
+							name="grasa_brazoDerecho" 
 							type="text" 
 							class="form-control" 
 							placeholder="Derecha"	
+							maxlength="6" 
+							(keypress)="helpers.soloNumeros($event)"
 							[(ngModel)]="grasa.brazoDerecho"
 						>
 					</div>
 					<div class="form-group">
 						<input 
+							name="grasa_brazoIzquierdo" 
 							type="text" 
 							class="form-control" 
-							placeholder="Izquierda"			
+							placeholder="Izquierda"		
+							maxlength="6" 
+							(keypress)="helpers.soloNumeros($event)"	
 							[(ngModel)]="grasa.brazoIzquierdo"								
 						>
 					</div>
@@ -369,36 +467,42 @@
 				<div class="form-group col-sm-6">
 					<label>Tricipital</label>						
 					<input 
+						name="pliegue_tricipital"
 						type="text" 
 						class="form-control" 
-						name="pliegue_tricipital"
 						[(ngModel)]="grasa.tricipital"
 					>
 				</div>
 				<div class="form-group col-sm-6">
 					<label>Bicipital</label>						
 					<input 
+						name="pliegue_bicipital"
 						type="text" 
 						class="form-control" 
-						name="pliegue_bicipital"
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="grasa.bicipital"
 					>
 				</div>
 				<div class="form-group col-sm-6">
 					<label>Subescapular</label>						
 					<input 
+						name="pliegue_subescapular"
 						type="text" 
 						class="form-control"  
-						name="pliegue_subescapular"
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="grasa.subescapular"
 					>
 				</div>
 				<div class="form-group col-sm-6">
 					<label>Suprailiaco</label>						
 					<input 
+						name="pliegue_suprailiaco"
 						type="text" 
 						class="form-control" 
-						name="pliegue_suprailiaco"
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="grasa.suprailiaco"
 					>
 				</div>
@@ -417,32 +521,40 @@
 	<div class="body content-form">
 		<div class="form-group">
 			<label>Tronco</label>
-			<input type="text" class="form-control" 
-			id="musculo_tronco"
-			name="musculo_tronco"
-			[(ngModel)]="detalleMusculo.tronco"
-			>
+			<input 
+				id="musculo_tronco"
+				name="musculo_tronco"
+				type="text" 
+				class="form-control" 
+				maxlength="6" 
+				(keypress)="helpers.soloNumeros($event)"
+				[(ngModel)]="detalleMusculo.tronco"
+				>
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<label>Piernas</label>
 				<div class="form-group">
 					<input 
+						id="musculo_pierna_derecha"
+						name="musculo_pierna_derecha"
 						type="text" 
 						class="form-control" 
 						placeholder="Derecha"		
-						id="musculo_pierna_derecha"
-						name="musculo_pierna_derecha"
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="detalleMusculo.pierna_derecha"
 					>
 				</div>
 				<div class="form-group">
 					<input 
+						id="musculo_pierna_izquierda"
+						name="musculo_pierna_izquierda"
 						type="text" 
 						class="form-control" 
 						placeholder="Izquierda"		
-						id="musculo_pierna_izquierda"
-						name="musculo_pierna_izquierda"
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="detalleMusculo.pierna_izquierda"
 					>
 				</div>
@@ -451,21 +563,25 @@
 				<label>Brazos</label>
 				<div class="form-group">
 					<input 
+						id="musculo_brazo_derecho"
+						name="musculo_brazo_derecho"
 						type="text" 
 						class="form-control" 
 						placeholder="Derecha"	
-						id="musculo_brazo_derecho"
-						name="musculo_brazo_derecho"
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="detalleMusculo.brazo_derecho"
 					>
 				</div>
 				<div class="form-group">
 					<input 
+						id="musculo_brazo_izquierdo"								
+						name="musculo_brazo_izquierdo"		
 						type="text" 
 						class="form-control" 
 						placeholder="Izquierda"			
-						id="musculo_brazo_izquierdo"								
-						name="musculo_brazo_izquierdo"								
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"						
 						[(ngModel)]="detalleMusculo.brazo_izquierdo"								
 					>
 				</div>

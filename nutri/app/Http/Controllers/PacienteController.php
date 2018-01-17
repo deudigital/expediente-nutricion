@@ -186,7 +186,7 @@ from `hcf_patologias_pacientes`
 			return $response;
 		}
 		$action	=	'editado';
-
+		$persona	=	false;
 		if($request->input('id') && $request->id!=0){
 			$persona	=	Persona::find($request->id);
 			$persona->cedula	=	$request->cedula;
@@ -215,9 +215,9 @@ from `hcf_patologias_pacientes`
 			if($request->input('fecha_nac')){
 				$fecha	=	explode('/', $request->input('fecha_nac'));
 				$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
-				$aPersona['fecha_nac']	=	$fecha_nac;			
-			}			
+				$aPersona['fecha_nac']	=	$fecha_nac;
 
+			}
 			$persona	=	Persona::create($aPersona);
 			$persona->save();
 			if($persona->id){
@@ -236,9 +236,8 @@ from `hcf_patologias_pacientes`
 												'tipo_identificacion_id'=>	1
 											]);
 				$cliente->save();
-
-			}			
-		}	
+			}
+		}
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $persona->id,
@@ -280,9 +279,7 @@ from `hcf_patologias_pacientes`
 							'distrito'			=>	$request->input('distrito'),
 							'detalles_direccion'=>	$request->input('detalles_direccion')
 						);
-
-			$new['ubicacion_id']	=	$request->input('ubicacion_id');			
-
+			$new['ubicacion_id']	=	$request->input('ubicacion_id');
 			$persona	=	Persona::create($new);
 			$persona->save();
 			$paciente	=	Paciente::create([
@@ -338,7 +335,7 @@ from `hcf_patologias_pacientes`
 		$ejerciciosPaciente	=	EjerciciosPaciente::create([
 											'ejercicio_id'		=>	$ejercicio['id'],
 											'horas_semanales'	=>	$horas_semanales,
-											'paciente_id'		=>	$request->paciente_id					
+											'paciente_id'		=>	$request->paciente_id
 										]);
 		$ejerciciosPaciente->save();
 		$ejerciciosPaciente->nombre	=	$ejercicio['nombre'];

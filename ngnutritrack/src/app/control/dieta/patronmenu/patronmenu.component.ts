@@ -14,6 +14,7 @@ export class PatronmenuComponent implements OnInit {
   asignacionPorciones: {};
   asignacionEjemplos: {};
   model:any;
+  helpers:any;
   showmodal:boolean=false;
   showmodalgraficos:boolean=false;
   inputModal:any;
@@ -80,7 +81,8 @@ export class PatronmenuComponent implements OnInit {
 	prescritos:Object[]=[];
 	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
-    this.model	=	formControlDataService.getFormControlData();
+	this.model	=	formControlDataService.getFormControlData();
+	this.helpers	=	this.model.getHelpers();
 	/*
 	this.menus	=	formControlDataService.getFormControlData().patronmenu;	
 	

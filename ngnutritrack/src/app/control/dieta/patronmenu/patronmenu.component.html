@@ -12,9 +12,10 @@
 					<div class="col-sm-6">
 						<div class="form-group with-icon dieta_desayuno">
 							<label for="dieta_desayuno">Desayuno</label>
-							<input type="text" 
+							<input 
 								id="dieta_desayuno"
 								name="dieta_desayuno"
+								type="text" 
 								class="form-control" 
 								readonly="readonly" 
 								value="{{summary_desayuno}}"								
@@ -24,21 +25,22 @@
 						</div>
 						<div class="form-group dieta_desayuno_ejemplo">
 							<textarea 
-							id="dieta_desayuno_ejemplo"
-							name="dieta_desayuno_ejemplo"
-							class="form-control" 
-							placeholder="Ejemplo"
-							[(ngModel)]="model.dieta_desayuno_ejemplo"
-						></textarea>
-							
+								id="dieta_desayuno_ejemplo"
+								name="dieta_desayuno_ejemplo"
+								class="form-control" 
+								placeholder="Ejemplo" 
+								maxlength="1000" 
+								[(ngModel)]="model.dieta_desayuno_ejemplo"
+							></textarea>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group with-icon dieta_media_manana">
 							<label for="dieta_media_manana">Media Mañana</label>
-							<input type="text" 
+							<input 
 								id="dieta_media_manana"
 								name="dieta_media_manana"
+								type="text" 
 								class="form-control" 
 								readonly="readonly" 
 								value="{{summary_media_manana}}"
@@ -51,7 +53,8 @@
 								id="dieta_media_manana_ejemplo"
 								name="dieta_media_manana_ejemplo"
 								class="form-control"  
-								placeholder="Ejemplo"
+								placeholder="Ejemplo" 
+								maxlength="1000" 
 								[(ngModel)]="model.dieta_media_manana_ejemplo"
 							></textarea>
 						</div>
@@ -61,9 +64,10 @@
 					<div class="col-sm-6">
 						<div class="form-group with-icon dieta_almuerzo">
 							<label for="dieta_almuerzo">Almuerzo</label>
-							<input type="text" 
+							<input 
 								id="dieta_almuerzo"
 								name="dieta_almuerzo"
+								type="text" 
 								class="form-control" 
 								readonly="readonly" 
 								value="{{summary_almuerzo}}"
@@ -76,7 +80,8 @@
 								id="dieta_almuerzo_ejemplo"
 								name="dieta_almuerzo_ejemplo"
 								class="form-control"  
-								placeholder="Ejemplo"
+								placeholder="Ejemplo" 
+								maxlength="1000" 
 								[(ngModel)]="model.dieta_almuerzo_ejemplo"
 							></textarea>
 						</div>
@@ -84,9 +89,10 @@
 					<div class="col-sm-6">
 						<div class="form-group with-icon dieta_media_tarde">
 							<label for="dieta_media_tarde">Media Tarde</label>
-							<input type="text" 
+							<input 
 								id="dieta_media_tarde"
 								name="dieta_media_tarde"
+								type="text" 
 								class="form-control" 
 								readonly="readonly" 
 								value="{{summary_media_tarde}}"
@@ -99,7 +105,8 @@
 								id="dieta_media_tarde_ejemplo"
 								name="dieta_media_tarde_ejemplo"
 								class="form-control"  
-								placeholder="Ejemplo"
+								placeholder="Ejemplo"								 
+								maxlength="1000" 
 								[(ngModel)]="model.dieta_media_tarde_ejemplo"
 							></textarea>
 						</div>
@@ -109,9 +116,10 @@
 					<div class="col-sm-6">
 						<div class="form-group with-icon dieta_cena">
 							<label for="dieta_cena">Cena</label>
-							<input type="text" 
+							<input 
 								id="dieta_cena"
 								name="dieta_cena"
+								type="text" 
 								class="form-control" 
 								readonly="readonly" 
 								value="{{summary_cena}}"
@@ -125,7 +133,8 @@
 								id="dieta_cena_ejemplo"
 								name="dieta_cena_ejemplo"
 								class="form-control"  
-								placeholder="Ejemplo"
+								placeholder="Ejemplo" 
+								maxlength="1000" 
 								[(ngModel)]="model.dieta_cena_ejemplo"
 							></textarea>
 						</div>
@@ -134,9 +143,10 @@
 						
 						<div class="form-group with-icon dieta_coicion_nocturna">
 							<label for="dieta_coicion_nocturna">Colaci&oacute;n Nocturna</label>
-							<input type="text" 
+							<input 
 								id="dieta_coicion_nocturna"
 								name="dieta_coicion_nocturna"
+								type="text" 
 								class="form-control" 
 								readonly="readonly" 
 								value="{{summary_coicion_nocturna}}"
@@ -149,7 +159,8 @@
 								id="dieta_coicion_nocturna_ejemplo"
 								name="dieta_coicion_nocturna_ejemplo"
 								class="form-control"  
-								placeholder="Ejemplo"
+								placeholder="Ejemplo" 
+								maxlength="1000" 
 								[(ngModel)]="model.dieta_coicion_nocturna_ejemplo"
 							></textarea>
 						</div>
@@ -423,9 +434,16 @@
 
 			<div class="form-group">
 			  <label class="label-modal-porciones">{{label_modal_porciones}}</label>
-			  <input type="text" class="form-control" name="leche_descremada" id="modal-text" value=""  
-			  [(ngModel)]="inputModal"
-			  >			  
+				<input 
+				id="modal-text" 
+				name="leche_descremada" 
+				type="text" 
+				class="form-control" 
+				value=""   
+				maxlength="3" 
+				(keypress)="helpers.soloEnteros($event)"
+				[(ngModel)]="inputModal"
+				>			  
 			</div>
 	  
 			<div class="alimentos">
@@ -433,9 +451,13 @@
 				<figure>
 				  <i class="leche-descremada"></i>
 				  <label>Leche Descremada</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				  [(ngModel)]="porciones_leche_descremada"
-					(change)="porciones('leche_descremada', 1)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 
+						[(ngModel)]="porciones_leche_descremada"
+						(change)="porciones('leche_descremada', 1)"
 				  >
 				</figure>
 			  </div>
@@ -443,9 +465,15 @@
 				<figure>
 				  <i class="leche-2"></i>
 				  <label>Leche 2%</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				  [(ngModel)]="porciones_leche_2"
-				  (change)="porciones('leche_2', 2)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+					  [(ngModel)]="porciones_leche_2"
+					  (change)="porciones('leche_2', 2)"
 				  >
 				</figure>
 			  </div>
@@ -453,9 +481,15 @@
 				<figure>
 				  <i class="leche-entera"></i>
 				  <label>Leche Entera</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				  [(ngModel)]="porciones_leche_entera"
-				  (change)="porciones('leche_entera', 3)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_leche_entera"
+						(change)="porciones('leche_entera', 3)"
 				  >
 				</figure>
 			  </div>
@@ -463,9 +497,15 @@
 				<figure>
 				  <i class="vegetales"></i>
 				  <label>vegetales</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				  [(ngModel)]="porciones_vegetales"
-				  (change)="porciones('vegetales', 4)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_vegetales"
+						(change)="porciones('vegetales', 4)"
 				  >
 				</figure>
 			  </div>
@@ -483,9 +523,15 @@
 				<figure>
 				  <i class="harinas"></i>
 				  <label>Harinas</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				   [(ngModel)]="porciones_harinas"
-				  (change)="porciones('harinas', 6)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_harinas"
+						(change)="porciones('harinas', 6)"
 				  >
 				</figure>
 			  </div>
@@ -493,9 +539,15 @@
 				<figure>
 				  <i class="carne-magra"></i>
 				  <label>Carne Magra</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				   [(ngModel)]="porciones_carne_magra"
-				  (change)="porciones('carne_magra', 7)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+					   [(ngModel)]="porciones_carne_magra"
+					  (change)="porciones('carne_magra', 7)"
 				  >
 				</figure>
 			  </div>
@@ -503,9 +555,15 @@
 				<figure>
 				  <i class="carne-intermedia "></i>
 				  <label>Carne Intermedia </label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				   [(ngModel)]="porciones_carne_intermedia"
-				  (change)="porciones('carne_intermedia', 8)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_carne_intermedia"
+						(change)="porciones('carne_intermedia', 8)"
 				  >
 				</figure>
 			  </div>
@@ -513,9 +571,15 @@
 				<figure>
 				  <i class="carne-grasa"></i>
 				  <label>Carne Grasa</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				   [(ngModel)]="porciones_carne_grasa"
-				  (change)="porciones('carne_grasa', 9)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_carne_grasa"
+						(change)="porciones('carne_grasa', 9)"
 				  >
 				</figure>
 			  </div>
@@ -523,9 +587,15 @@
 				<figure>
 				  <i class="azucares"></i>
 				  <label>Az&uacute;cares</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				   [(ngModel)]="porciones_azucares"
-				  (change)="porciones('azucares', 10)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_azucares"
+						(change)="porciones('azucares', 10)"
 				  >
 				</figure>
 			  </div>
@@ -533,9 +603,15 @@
 				<figure>
 				  <i class="grasas"></i>
 				  <label>Grasas</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				  [(ngModel)]="porciones_grasas"
-				  (change)="porciones('grasas', 11)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_grasas"
+						(change)="porciones('grasas', 11)"
 				  >
 				</figure>
 			  </div>
@@ -543,9 +619,15 @@
 				<figure>
 				  <i class="vaso-agua"></i>
 				  <label>Vasos con Agua</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				  [(ngModel)]="porciones_vaso_agua"
-				  (change)="porciones('vaso_agua', 12)"
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloEnteros($event)"
+						[(ngModel)]="porciones_vaso_agua"
+						(change)="porciones('vaso_agua', 12)"
 				  >
 				</figure>
 			  </div>

@@ -60,6 +60,7 @@ export class DietaComponent implements OnInit {
 	navitation:boolean=false;
 	
 	model:any;
+	helpers:any;
 	kcalCarb:any;
 	kcalProt:any;
 	kcalGrasas:any;
@@ -71,8 +72,7 @@ export class DietaComponent implements OnInit {
 	showAdicionarOtro:boolean=false;
 	nuevo:boolean=false;
 	addOtrosItems:boolean=false;
-	helpers:any;
-	
+
 	errors:any = {
 		nombre: false,
 		porciones: false

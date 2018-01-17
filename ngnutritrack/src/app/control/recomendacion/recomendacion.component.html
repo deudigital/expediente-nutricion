@@ -12,9 +12,11 @@
 				<div class="radio clearfix">
 					<div class="col-sm-4">
 						<label>
-							<input name="metodo-calculo-calorico" value="benedict" 
-							 type="radio"
-							 [(ngModel)]="recomendacion.metodo_calculo_gc"
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"
+								value="benedict" 
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
 							>
 							<span>Harris Benedict</span>
 						</label>
@@ -22,10 +24,10 @@
 					<div class="col-sm-4">
 						<label>
 							<input 
-									name="metodo-calculo-calorico" 
-									value="mifflin" 
-									type="radio"	
-									[(ngModel)]="recomendacion.metodo_calculo_gc"							
+								name="metodo-calculo-calorico" 
+								type="radio"	
+								value="mifflin" 
+								[(ngModel)]="recomendacion.metodo_calculo_gc"							
 							>
 							<span>Mifflin-St Jeor</span>
 						</label>
@@ -33,11 +35,11 @@
 					<div class="col-sm-4">
 						<label>
 							<input 
-									name="metodo-calculo-calorico" 
-									value="promedio" 
-									type="radio" 
-									[(ngModel)]="recomendacion.metodo_calculo_gc"
-									>
+								name="metodo-calculo-calorico" 
+								type="radio" 
+								value="promedio" 
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
 							<span>Promedio de Ambas</span>
 						</label>
 					</div>
@@ -50,9 +52,9 @@
 						<label>
 							<input 
 								name="peso-calculo-calorico" 
+								type="radio"
 								value="actual" 
 								checked 
-								type="radio"
 								[(ngModel)]="recomendacion.peso_calculo"															
 								>
 							<span>Peso Actual</span>
@@ -62,8 +64,8 @@
 						<label>
 							<input 
 								name="peso-calculo-calorico" 
-								value="ideal" 
 								type="radio"	
+								value="ideal" 
 								[(ngModel)]="recomendacion.peso_calculo"							
 								>
 							<span>Peso Ideal</span>
@@ -73,8 +75,8 @@
 						<label>
 							<input 
 								name="peso-calculo-calorico" 
-								value="ideal-ajustado" 
 								type="radio"
+								value="ideal-ajustado" 
 								[(ngModel)]="recomendacion.peso_calculo"								
 								>
 							<span>Peso Ideal Ajustado</span>
@@ -88,11 +90,12 @@
 				<div class="form-group with-icon factor-actividad">
 					<label for="cedula" class="col-form-label">Factor de actividad sedentaria y t&eacute;rmico de los alimentos</label>
 					<input 
-						type="number" 
-						class="form-control" 
 						id="factor-actividad" 
 						name="factor-actividad" 
-						placeholder=""
+						type="number" 
+						class="form-control"  
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="recomendacion.factor_actividad_sedentaria"
 						>
 					<i></i>
@@ -102,11 +105,12 @@
 				<div class="form-group with-icon promedio-gc">
 					<label for="cedula" class="col-form-label">Promedio de gasto cal&oacute;rico diario por actividad F&iacute;sica</label>
 					<input 
-						type="number" 
-						class="form-control" 
 						id="promedio-gc" 
 						name="promedio-gc" 
-						placeholder=""					
+						type="number" 
+						class="form-control"  
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="recomendacion.promedio_gc_diario"
 						>
 					<i></i>
@@ -179,8 +183,15 @@
 			<div class="col-md-5">
 				<div class="form-group with-icon variacion-calorica">
 					<label for="variacion-calorica" class="col-form-label">Variación Calórica</label>
-					<input type="number" class="form-control" id="variacion-calorica" name="variacion-calorica" placeholder="En centímetros"
-					[(ngModel)]="recomendacion.variacion_calorica"
+					<input 
+						id="variacion-calorica" 
+						name="variacion-calorica" 
+						type="number" 
+						class="form-control" 
+						placeholder="En centímetros" 
+						maxlength="6" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="recomendacion.variacion_calorica"
 					>
 					<i></i>				
 				</div>

@@ -51,8 +51,6 @@ class OtrosAlimentoController extends Controller
     }
     public function storemultiple(Request $request)
     {
-		if($request->items){
-
 		/*$response	=	Response::json($request->all(), 200);
 		return $response;*/
 		if(!$request->items){
@@ -62,23 +60,6 @@ class OtrosAlimentoController extends Controller
 			], 200);
 			return $response;
 		}
-        
-		$array= Array();
-		foreach($request->items as $item){
-			
-		}
-		$otrosAlimento	=	new OtrosAlimento(
-										array(
-											'nombre'		=>	$request->nombre,
-											'porciones'		=>	$request->porciones,
-											'carbohidratos'	=>	$request->carbohidratos,
-											'proteinas'		=>	$request->proteinas,
-											'grasas'		=>	$request->grasas,
-											'calorias'		=>	$request->calorias,
-											'prescripcion_id'	=>	$request->prescripcion_id
-										)
-									);
-		$otrosAlimento->save();
 
 		$array= Array();
 		foreach($request->items as $item){
@@ -100,7 +81,7 @@ class OtrosAlimentoController extends Controller
 		$response	=	Response::json([
 			'message'	=>	$message,
 			'code'		=> '201',
-			'data'		=>	$otrosAlimento
+			'data'		=>	$array
 		], 201);
 		return $response;
 		

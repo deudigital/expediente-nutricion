@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { FormControlData,
 		 Analisis, Consulta,
 		 ValoracionAntropometrica,
@@ -22,8 +23,9 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
-	private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
+	//private apiURL	=	'https://expediente.nutricion.co.cr/nutri/public/api/v0/';
 	//private apiURL	=	'http://127.0.0.1:8000/api/v0/';
+	private apiURL	=	environment.apiUrl;
 	private headers: Headers;
 	data:any={};
 

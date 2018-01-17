@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Persona;
+use App\Nutricionista;
 use App\ReportesFacturas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -106,13 +108,6 @@ class ReportesFacturasController extends Controller
     public function getDocumentos($id)
     {
         try{
-
-        $facturas = DB::table('documentos')
-          ->join('personas', 'personas.id', '=', 'documentos.persona_id')
-          ->leftjoin('productos','productos.id', '=', 'documentos.consulta_id')
-          ->where('documentos.nutricionista_id', $id)       
-          ->get();
-
           $result = [];
           $facturas = DB::table('documentos')  
             ->select('personas.nombre',
@@ -186,6 +181,35 @@ class ReportesFacturasController extends Controller
 
     public function configFactura(Request $request)
     {
+		$response   =   array(
+			'message'   =>  'No se pudo actualizar la onfiguración, intente de nuevo',
+		);
+		if($request->input('id')){
+			$nutricionista									=	Nutricionista::find($request->id);
+			$nutricionista->nombre_comercial				=	$request->nombre_comercial;
+			$nutricionista->atv_ingreso_id					=	$request->atv_ingreso_id;
+			$nutricionista->atv_ingreso_contrasena			=	$request->atv_ingreso_contrasena;
+			$nutricionista->atv_clave_llave_criptografica	=	$request->atv_clave_llave_criptografica;
+			$nutricionista->save();
+			
+			$persona							=	Persona::find($request->id);
+			$persona->tipo_idenfificacion_id	=	$request->tipo_idenfificacion_id;
+			$persona->cedula					=	$request->cedula;
+			$persona->nombre					=	$request->nombre;
+			$persona->apartado_postal			=	$request->apartado_postal;
+			$persona->telefono					=	$request->telefono;
+			$persona->email						=	$request->email;
+			$persona->ubicacion_id	=	$request->ubicacion_id;
+			$persona->detalles_direccion	=	$request->detalles_direccion;
+			$persona->save();
+			$response['message']	=	'Su configuraciónd ha sido actualizado con exito';
+			$response['persona']	=	$persona;
+		}		
+		$response	=	Response::json($response, 201);
+		return $response;
+    }
+    public function configFactura__original(Request $request)
+    {
       try {
         DB::table('nutricionistas')
           ->where('persona_id',$request->id)
@@ -221,11 +245,12 @@ class ReportesFacturasController extends Controller
           dd($e);
       }
 
-
+	$persona	=	Persona::find($request->id);
 
       $message    =   'Su configuraciónd ha sido actualizado con exito';
       $response   =   Response::json([
-          'message'   =>  $message
+          'message'   =>  $message,
+          'persona'   =>  $persona
       ], 201);
       return $response;
     }
@@ -279,7 +304,7 @@ class ReportesFacturasController extends Controller
     public function uploadCrypto($id, Request $request){
         if ($request->hasFile("cryptoKey")) {
             $cryptoKey = $request->file('cryptoKey');
-            $filename = "key_". $id .".". $cryptoKey->getClientOriginalExtension();
+            $filename = $cryptoKey->getClientOriginalName();
             \Storage::disk('cryptoKey')->put($filename,\File::get($cryptoKey));
             try {
                 DB::table('nutricionistas')

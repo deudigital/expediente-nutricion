@@ -16,9 +16,7 @@ class ValoracionAntropometricaController extends Controller
 			], 200);
 			return $response;
 		}
-
-		$action	=	'editado';	
-
+		$action	=	'editado';
 		$va	=	ValoracionAntropometrica::where('consulta_id', $request->consulta_id)
 						->get()
 						->first();

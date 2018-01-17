@@ -843,8 +843,44 @@ Modo de Uso
 		//console.log(e.which + ' -> ' + input);		
 		return !!/[\d\s]/.test(input);
 	}
-	
+	soloEnteros(e: any):boolean {
+		let input;
+		if (e.metaKey || e.ctrlKey)
+			return true;
 
+		if (e.which === 32)
+			return false;
+
+		if (e.which === 0)
+			return true;
+
+		if (e.which < 33)
+			return true;
+
+		input = String.fromCharCode(e.which);		
+		//console.log(e.which + ' -> ' + input);		
+		return !!/[\d\s]/.test(input);
+	}
+/*
+Modo de Uso
+<input (keypress)="helpers.soloNumeros($event)"> 
+*/
+	soloNumeros(evt) {
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		if (charCode == 46) {
+			var txt 	=	evt.target.value;
+			if (txt.indexOf('.') === -1) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (charCode > 31
+				 && (charCode < 48 || charCode > 57))
+				return false;
+		}
+		return true;
+	}
 	in_array(data, ele){
 		return data.indexOf(ele)>-1;
 	}

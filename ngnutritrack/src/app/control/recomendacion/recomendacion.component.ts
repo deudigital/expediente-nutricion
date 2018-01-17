@@ -15,7 +15,7 @@ export class RecomendacionComponent implements OnInit {
 	recomendacion=new Rdd();
 	model:any;
 	mng:any;
-	jarvis:any;
+	helpers:any;
 	va:any;
 	paciente:any;
 	showModalRdds:boolean=false;
@@ -38,7 +38,7 @@ export class RecomendacionComponent implements OnInit {
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.mng	=	this.model.getManejadorDatos();
-		this.jarvis	=	this.model.getHelpers();
+		this.helpers	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
@@ -131,7 +131,7 @@ export class RecomendacionComponent implements OnInit {
 		
 		var _va	=	this.historial[0];
 		for(var i in _va) {
-			if(!this.jarvis.in_array(_h, i))
+			if(!this.helpers.in_array(_h, i))
 				continue ;
 				
 			data	=	[];			

@@ -39,8 +39,13 @@
 								</i>
 							</div>
 							<h5>Carbohidratos</h5>
-							<input   class="form-control" 
-									id="carbohidratos" name="carbohidratos" placeholder="Porcentaje" 
+							<input 
+								id="carbohidratos" 
+								name="carbohidratos" 
+								type="text" 
+								class="form-control" 
+								placeholder="Porcentaje"  
+								maxlength="5" 
 								 currencyMask 
 								 [options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
 								 [(ngModel)]="prescripcion.carbohidratos"
@@ -58,10 +63,17 @@
 								</i>
 							</div>
 							<h5>Proteínas</h5>
-							<input type="text" class="form-control" id="proteinas" name="proteinas" placeholder="Porcentaje" 
-							currencyMask 
-							[options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
-							[(ngModel)]="prescripcion.proteinas"
+							<input 
+								id="proteinas" 
+								name="proteinas" 
+								type="text" 
+								class="form-control" 
+								placeholder="Porcentaje"  
+								maxlength="5"
+
+								currencyMask 
+								[options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
+								[(ngModel)]="prescripcion.proteinas"
 							/>
 						</div>
 					</div>
@@ -76,10 +88,16 @@
 								</i>
 							</div>
 							<h5>Grasas</h5>
-							<input type="text" class="form-control" id="grasas" name="grasas" placeholder="Porcentaje" 
-							currencyMask 
-							[options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
-							[(ngModel)]="prescripcion.grasas"
+							<input 
+								id="grasas" 
+								name="grasas" 
+								type="text" 
+								class="form-control" 
+								placeholder="Porcentaje"  
+								maxlength="5" 
+								currencyMask 
+								[options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
+								[(ngModel)]="prescripcion.grasas"
 							/>
 						</div>
 					</div>
@@ -94,7 +112,7 @@
 			<h3 class="title">Asignaci&oacute;n de Porciones</h3>
 		</header>
 		
-			<table class="table separate asignacion-porciones">
+			<table class="table table-responsive separate asignacion-porciones">
 				<thead>
 					<tr>
 						<th>&nbsp;</th>
@@ -114,10 +132,17 @@
 							</label>
 						</td>
 						<td>
-							<input type="number" class="form-control" name="cantidad"
-							[(ngModel)]="item.porciones" 
-							(ngModelChange)="calculate(item)" 
-							
+							<input 
+								name="cantidad"
+								type="number" 
+								class="form-control"  
+								maxlength="6" 
+								min="0" 
+								max="99" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="item.porciones" 
+								(ngModelChange)="calculate(item)" 		
+								(click)="$event.target.select()"								
 							/>
 						</td>
 						<td>{{item.carbohidratos}}</td>
@@ -137,9 +162,14 @@
 							</label>
 						</td>
 						<td>
-							<input type="number" class="form-control" name="porciones"
-							[(ngModel)]="item.porciones" 
-							/><!--(ngModelChange)="calculate(item)" -->
+							<input 
+								name="porciones"
+								type="number" 
+								class="form-control"  
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="item.porciones" 
+							/>
 						</td>
 						<td>{{item.carbohidratos}}</td>
 						<td>{{item.proteinas}}</td>
@@ -171,30 +201,63 @@
 								<tbody>
 									<tr>
 										<td colspan="2" scope="row">
-												<input type="text" class="form-control" id="nombre" name="nombre"
+											<input 
+												id="nombre" 
+												name="nombre"
+												type="text" 
+												class="form-control" 
+												maxlength="191" 							
 												[(ngModel)]	=	"otroAlimento.nombre"
-												>
-												<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.nombre">Escriba Nombre</span>
+											>
+											<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.nombre">Escriba Nombre</span>
 										</td>
 										<td>
-												<input type="text" class="form-control" id="porciones" name="porciones" 
+											<input 
+												id="porciones" 
+												name="porciones" 
+												type="text" 
+												class="form-control"  
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
 												[(ngModel)]	=	"otroAlimento.porciones"
-												>
-												<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.porciones">Escriba la cantidad</span>
-												
+											>
+											<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.porciones">Escriba la cantidad</span>
 										</td>
 										<td>
-												<input type="text" class="form-control" id="carbohidratos" name="carbohidratos" placeholder="gramos"
+											<input 
+												id="carbohidratos" 
+												name="carbohidratos" 
+												type="text" 
+												class="form-control" 
+												placeholder="gramos" 
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
 												[(ngModel)]	=	"otroAlimento.carbohidratos"
-												>
+											>
 										</td>
 										<td>
-												<input type="text" class="form-control" id="proteinas" name="proteinas" placeholder="gramos"
-												[(ngModel)]	=	"otroAlimento.proteinas">
+											<input 
+												id="proteinas" 
+												name="proteinas" 
+												type="text" 
+												class="form-control" 
+												placeholder="gramos" 
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
+												[(ngModel)]	=	"otroAlimento.proteinas"
+											>
 										</td>
 										<td>
-												<input type="text" class="form-control" id="grasas" name="grasas" placeholder="gramos"
-												[(ngModel)]	=	"otroAlimento.grasas">
+											<input 
+												id="grasas" 
+												name="grasas" 
+												type="text" 
+												class="form-control" 
+												placeholder="gramos" 
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
+												[(ngModel)]	=	"otroAlimento.grasas"
+											>
 										</td>
 										<td>
 												<input type="text" class="form-control" id="calorias" name="calorias" placeholder=""
