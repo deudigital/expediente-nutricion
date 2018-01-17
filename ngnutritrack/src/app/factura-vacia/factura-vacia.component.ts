@@ -722,11 +722,11 @@ export class FacturaVaciaComponent implements OnInit {
 			} else{			
 				modal.item(0).setAttribute("style","margin-top: -500%");
 				modal.item(0).setAttribute("style","display: none");
+				body.classList.remove('open-modal');
 				this.factura= {};
 				this.producto = {};
 				this.persona = {};	
-				this.queryPerson= '';
-				body.classList.remove('open-modal');
+				this.queryPerson= '';				
 			}
 		}
 	}

@@ -31,8 +31,8 @@ export class ControlNavCenterComponent implements OnInit {
     this.formControlDataService.getNutricionista()
     .subscribe(
       response => {
-        localStorage.setItem("agregadoAPI", "0");
-        this.agregadoAPI = 0;
+        localStorage.setItem("agregadoAPI", response[0].agregadoAPI);
+        this.agregadoAPI = response[0].agregadoAPI;
       }, 
       error => {
         console.log(<any>error);
@@ -41,7 +41,7 @@ export class ControlNavCenterComponent implements OnInit {
   }
 
   openFactura(){
-    this.commonService.notifyOther({option: 'openModalDatos'});
+    this.commonService.notifyOther({option: 'openModalDatosVacia', prompt: true});
   }  
 
 }

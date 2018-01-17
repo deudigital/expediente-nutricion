@@ -59,6 +59,6 @@ export class TopnavComponent implements OnInit {
 	  }
 
 	openFactura(){
-		this.commonService.notifyOther({option: 'openModalDatos'});
+		this.commonService.notifyOther({option: 'openModalDatosVacia', prompt: true});
 	}	  
 }
