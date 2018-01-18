@@ -20,16 +20,13 @@ define('LARAVEL_START', microtime(true));
 | loading any of our classes later on. It feels great to relax.
 |
 */
-/*$allowedOrigins = array(
-    '*',
-    'http://localhost',
+$allowedOrigins = array(
     'http://localhost:4200',
-    'http://127.0.0.1:8000',
 );
 
 if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] != '') {
     foreach ($allowedOrigins as $allowedOrigin) {
-        if (preg_match('#' . $allowedOrigin . '#', $_SERVER['HTTP_ORIGIN'])) {
+        if (@preg_match('#' . $allowedOrigin . '#', $_SERVER['HTTP_ORIGIN'])) {
             header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
             header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
             header('Access-Control-Max-Age: 1000');
@@ -37,7 +34,7 @@ if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] != '') {
             break;
         }
     }
-}*/
+}
 require __DIR__.'/../vendor/autoload.php';
 
 /*
