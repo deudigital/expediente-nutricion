@@ -362,7 +362,7 @@ class FacturaController extends Controller
 */
 	$imagen_nutri = $nutricionista[0]["imagen"];
 	if(empty($imagen_nutri)){
-		$imagen_nutri = "https://expediente.nutricion.co.cr/images/logo.png";
+		$imagen_nutri	=	env('APP_URL') . '/images/logo.png';
 	}
 	view()->share('imagen', $imagen_nutri);
 /*	*/
@@ -423,7 +423,7 @@ class FacturaController extends Controller
             dd($e);
         }
 
-        $result = self::makeXML($codigo_seguridad, $nota_credito_id, $nutricionista, $client[0]["nombre"], $nutricionista_ubicacion[0], $products, $factura, $request->id, "03");
+        //$result = self::makeXML($codigo_seguridad, $nota_credito_id, $nutricionista, $client[0]["nombre"], $nutricionista_ubicacion[0], $products, $factura, $request->id, "03");
 
         $message    =   'Su factura ha sido anulada con exito';
         $response   =   Response::json([
@@ -451,7 +451,7 @@ class FacturaController extends Controller
           }
 */
           $nutricionista = DB::table('personas')
-                            ->select('personas.cedula', 'personas.nombre', 'personas.ubicacion_id', 'personas.detalles_direccion', 'personas.telefono', 'personas.tipo_idenfificacion_id', 'personas.email', 'nutricionistas.imagen', 'nutricionistas.nombre_comercial')
+                            ->select('personas.cedula', 'personas.nombre', 'personas.ubicacion_id', 'personas.detalles_direccion', 'personas.telefono', 'personas.tipo_idenfificacion_id', 'personas.email', 'nutricionistas.imagen', 'nutricionistas.nombre_comercial','nutricionistas.token')
                             ->join('nutricionistas', 'personas.id', '=', 'nutricionistas.persona_id')
                             ->where('personas.id', '=', $request->nutricionista_id)->get();
 
@@ -585,7 +585,7 @@ class FacturaController extends Controller
         $imagen_nutri = $nutricionista[0]["imagen"];        
 
         if(empty($imagen_nutri)){
-          $imagen_nutri = "https://expediente.nutricion.co.cr/images/logo.png";
+          $imagen_nutri	=	env('APP_URL') . '/images/logo.png';
         }
 
         view()->share('imagen', $imagen_nutri);
@@ -802,7 +802,7 @@ class FacturaController extends Controller
       	$json_data["referencia"] = $datos_referencia;
       }
       
-      $json_data["api_key"] = "-dYSrMCCTX0";
+      $json_data["api_key"] = $nutricionista[0]['token'];
       $json_data["clave"] = $clave;
       $json_data["encabezado"] = $encabezado;
       $json_data["emisor"] = $emisor;
@@ -950,6 +950,7 @@ class FacturaController extends Controller
 
 	public function getLastNumberConsecutive($nutricionista_id, $tipo_documento_id){
 		//echo '<pre>' . print_r(func_get_args(), true) . '</pre>';
+		//echo env('APP_URL');
 		$return	=	1;
 		$response	=	DB::table('documentos')
 							->where('nutricionista_id', '=', $nutricionista_id)

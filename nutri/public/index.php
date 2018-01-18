@@ -21,6 +21,7 @@ define('LARAVEL_START', microtime(true));
 |
 */
 $allowedOrigins = array(
+    '*',
     'http://localhost',
     'http://localhost:4200',
     'http://127.0.0.1:8000',
