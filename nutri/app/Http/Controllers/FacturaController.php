@@ -763,12 +763,23 @@ class FacturaController extends Controller
 
       	$detalle[$i]["subtotal"] = "".($detalle[$i]["monto_total"] - $productos[$i]["descuento"]); 
 
-      	$impuesto["codigo"] = "01";
+        if ($productos[$i]["impuesto"] > 0) {
+          $impuesto["codigo"] = "01";
+          $impuesto["tarifa"] = "13.00";
+          $impuesto["monto"] = "".$productos[$i]["impuesto"];
+
+          $detalle[$i]["impuestos"][0] = $impuesto;
+          $detalle[$i]["montototallinea"] ="". ($productos[$i]["subtotal"] + $detalle[$i]["impuestos"][0]['monto']);
+        }else{
+          $detalle[$i]["montototallinea"] ="". $productos[$i]["subtotal"];
+        }
+
+      	/*$impuesto["codigo"] = "01";
       	$impuesto["tarifa"] = "0.13";
       	$impuesto["monto"] = "".$productos[$i]["impuesto"];
 
       	$detalle[$i]["impuestos"][0] = $impuesto;
-      	$detalle[$i]["montototallinea"] ="". $productos[$i]["subtotal"];
+      	$detalle[$i]["montototallinea"] ="". $productos[$i]["subtotal"];*/
       }     
 
       $resumen = [];
