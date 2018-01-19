@@ -445,8 +445,9 @@ export class FacturaVaciaComponent implements OnInit {
 		let precio_cantidad = this.producto.precio * this.producto.cantidad;
 
 		if(this.impuesto){						
-			this.producto.impuesto = precio_cantidad * 0.13;			
-			this.producto.subtotal = (precio_cantidad + this.producto.impuesto) - this.producto.descuento;			
+			this.producto.subtotal = precio_cantidad - this.producto.descuento;	
+			this.producto.impuesto = this.producto.subtotal * 0.13;			
+					
 		}else{
 			this.producto.subtotal = precio_cantidad - this.producto.descuento;		
 			this.producto.impuesto = 0.00;		
@@ -555,7 +556,8 @@ export class FacturaVaciaComponent implements OnInit {
 				this.factura.subtotal += subtotal;
 				this.factura.descuento += this.productos[prod].descuento;
 				this.factura.ive += this.productos[prod].impuesto;
-				this.factura.total += this.productos[prod].subtotal;
+				let total = this.productos[prod].subtotal + this.productos[prod].impuesto;
+				this.factura.total += total;
 
 				this.factura.subtotal = Math.round(this.factura.subtotal * 100) / 100;
 				this.factura.descuento = Math.round(this.factura.descuento * 100) / 100;
@@ -573,7 +575,8 @@ export class FacturaVaciaComponent implements OnInit {
 				this.factura.subtotal += subtotal;
 				this.factura.descuento += this.productos[prod].descuento;
 				this.factura.ive += this.productos[prod].impuesto;
-				this.factura.total += this.productos[prod].subtotal;
+				let total = this.productos[prod].subtotal + this.productos[prod].impuesto;
+				this.factura.total += total;
 
 				this.factura.subtotal = Math.round(this.factura.subtotal * 100) / 100;
 				this.factura.descuento = Math.round(this.factura.descuento * 100) / 100;
@@ -723,8 +726,25 @@ export class FacturaVaciaComponent implements OnInit {
 				modal.item(0).setAttribute("style","margin-top: -500%");
 				modal.item(0).setAttribute("style","display: none");
 				body.classList.remove('open-modal');
-				this.factura= {};
-				this.producto = {};
+				this.factura = {
+					subtotal: 0.00,
+					descuento: 0.00,
+					ive: 0.00,
+					total: 0.00,
+					medio: 1,
+					medio_nombre: 'Tarjeta'
+				};  
+
+				this.producto = {
+					descripcion: "",
+					unidad_nombre: "",
+					unidad_medida: 1,
+					precio: 0.00,
+					cantidad: 1,
+					descuento: 0.00,
+					impuesto: 0.00,
+					subtotal: 0.00
+				}
 				this.persona = {};	
 				this.queryPerson= '';				
 			}

@@ -673,8 +673,8 @@ class FacturaController extends Controller
       for($i = 0; $i < count($documento); $i++){
         $documento[$i] = json_decode(json_encode($documento[$i]), True);
       }    
-      //$url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42';
-      $url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
+      $url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42';
+      //$url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
       $date = date("Y-m-d");
       $hora = date("H:i:s");
 
@@ -708,10 +708,10 @@ class FacturaController extends Controller
 
       $emisor["ubicacion"] = [];
       $emisor["ubicacion"]["provincia"] = $ubicacion["codigo_provincia"];
-      $emisor["ubicacion"]["canton"] = $ubicacion["codigo_provincia"];
-      $emisor["ubicacion"]["distrito"] = $ubicacion["codigo_provincia"];
-      $emisor["ubicacion"]["barrio"] = $ubicacion["codigo_provincia"];
-      $emisor["ubicacion"]["sennas"] = $ubicacion["codigo_provincia"];
+      $emisor["ubicacion"]["canton"] = $ubicacion["codigo_canton"];
+      $emisor["ubicacion"]["distrito"] = $ubicacion["codigo_distrito"];
+      $emisor["ubicacion"]["barrio"] = $ubicacion["codigo_barrio"];
+      $emisor["ubicacion"]["sennas"] = $nutricionista[0]["detalles_direccion"];
 
       $emisor["telefono"] = [];
       $emisor["telefono"]["cod_pais"] = "506"; 
@@ -747,7 +747,12 @@ class FacturaController extends Controller
       	$detalle[$i]["detalle"] = $productos[$i]["descripcion"];
       	$detalle[$i]["precio_unitario"] = "".$productos[$i]["precio"];
       	$detalle[$i]["monto_total"] = "".($productos[$i]["precio"] * $productos[$i]["cantidad"]);
-      	$detalle[$i]["descuento"] = "".$productos[$i]["descuento"];
+
+      	if ($productos[$i]["descuento"] > 0) {
+          $detalle[$i]["descuento"] = "".$productos[$i]["descuento"];
+        }else{
+          $detalle[$i]["descuento"] = "";
+        }
 
       	if($productos[$i]["impuesto"] > 0){
       		$total_servicio_gravado += $detalle[$i]["monto_total"];
@@ -821,6 +826,8 @@ class FacturaController extends Controller
       $json_data["detalle"] = $detalle;
       $json_data["resumen"] = $resumen;
       $json_data["otros"] = $otros;
+
+      print_r($json_data);
 
       $options = array(
           'http' => array(
@@ -968,6 +975,7 @@ class FacturaController extends Controller
 							->where('tipo_documento_id', '=', $tipo_documento_id)
 							->orderBy('numeracion_consecutiva', 'DESC')
 							->first();
+     print_r($response);
 		/*echo '<pre>' . print_r($response, true) . '</pre>';*/
 		if(count($response)>0)
 			$return	=	$response->numeracion_consecutiva + 1;
