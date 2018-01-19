@@ -69,6 +69,5 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file 
-.env
+.envv
 
-nutri/app/Http/Controllers/FacturaController.php__15012018
