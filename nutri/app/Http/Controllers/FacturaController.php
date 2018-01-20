@@ -423,7 +423,7 @@ class FacturaController extends Controller
             dd($e);
         }
 
-        //$result = self::makeXML($codigo_seguridad, $nota_credito_id, $nutricionista, $client[0]["nombre"], $nutricionista_ubicacion[0], $products, $factura, $request->id, "03");
+        $result = self::makeXML($codigo_seguridad, $nota_credito_id, $nutricionista, $client[0]["nombre"], $nutricionista_ubicacion[0], $products, $factura, $request->id, "03");
 
         $message    =   'Su factura ha sido anulada con exito';
         $response   =   Response::json([
@@ -645,7 +645,7 @@ class FacturaController extends Controller
                   dd($e);
               }
           }
-		//$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
+		$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
         // Fin de proceso de creacion de lineas de detalle
 
 	   $result = self::makeXML($codigo_seguridad, $documento_id, $nutricionista, $client["nombre"], $nutricionista_ubicacion[0], $products, $factura, "", "01");
