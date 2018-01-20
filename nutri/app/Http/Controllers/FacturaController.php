@@ -375,7 +375,7 @@ class FacturaController extends Controller
           view()->share('productos', $products);
           view()->share('fecha', date("d/m/Y"));
 
-          //$local_env_route = "C:/Users/Jesus Soto/Dropbox/Freelance/Expediente Nutricion (320$)/expediente-nutricion/nutri";
+          //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri";
           $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
 
           \PDF::loadView('templates.invoice')->save($staging_env_route."/public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
@@ -450,8 +450,7 @@ class FacturaController extends Controller
               $documentos[$i] = json_decode(json_encode($documentos[$i]), True);
           }
 */
-          $nutricionista = DB::table('personas')
-                            ->select('personas.cedula', 'personas.nombre', 'personas.ubicacion_id', 'personas.detalles_direccion', 'personas.telefono', 'personas.tipo_idenfificacion_id', 'personas.email', 'nutricionistas.imagen', 'nutricionistas.nombre_comercial','nutricionistas.token')
+          $nutricionista = DB::table('personas')                            
                             ->join('nutricionistas', 'personas.id', '=', 'nutricionistas.persona_id')
                             ->where('personas.id', '=', $request->nutricionista_id)->get();
 
@@ -461,15 +460,6 @@ class FacturaController extends Controller
               $nutricionista[$i] = json_decode(json_encode($nutricionista[$i]), True);
           }
 
-          $nutricionista_ATV = DB::table('nutricionistas')
-                                ->select('atv_ingreso_id', "atv_ingreso_contrasena")
-                                ->where('persona_id', '=', $request->nutricionista_id)->get();
-
-          $nutricionista_ATV = $nutricionista_ATV->toArray();
-
-          for($i = 0; $i < count($nutricionista_ATV); $i++){
-              $nutricionista_ATV[$i] = json_decode(json_encode($nutricionista_ATV[$i]), True);
-          }
 
           $nutricionista_ubicacion =  DB::table('ubicacions')
                                       ->where('ubicacions.id', '=', $nutricionista[0]['ubicacion_id'])->get();
@@ -599,10 +589,11 @@ class FacturaController extends Controller
         view()->share('fecha', date("d/m/Y"));
 
         $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
+        //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri/";
 
-        \PDF::loadView('templates.invoice')->save($staging_env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+        \PDF::loadView('templates.invoice')->save($staging_env_route."public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');
-        $PDF_ = $staging_env_route."/public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
+        $PDF_ = $staging_env_route."public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
 
         // Proceso de almacenamiento de factura en la BD
 
@@ -654,7 +645,7 @@ class FacturaController extends Controller
                   dd($e);
               }
           }
-		$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
+		//$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
         // Fin de proceso de creacion de lineas de detalle
 
 	   $result = self::makeXML($codigo_seguridad, $documento_id, $nutricionista, $client["nombre"], $nutricionista_ubicacion[0], $products, $factura, "", "01");
@@ -974,10 +965,9 @@ class FacturaController extends Controller
 							->where('nutricionista_id', '=', $nutricionista_id)
 							->where('tipo_documento_id', '=', $tipo_documento_id)
 							->orderBy('numeracion_consecutiva', 'DESC')
-							->first();
-     print_r($response);
-		/*echo '<pre>' . print_r($response, true) . '</pre>';*/
-		if(count($response)>0)
+							->first();     
+		//echo '<pre>' . print_r($response, true) . '</pre>';
+		if($response)
 			$return	=	$response->numeracion_consecutiva + 1;
 		
 		/*echo '<pre>' . print_r($return, true) . '</pre>';*/
