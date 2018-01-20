@@ -16,10 +16,11 @@ class DetalleGrasa extends Model
 		'pliegue_supraliaco',
 		'pliegue_bicipital',
 		'pliegue_tricipital',
-		'pliegue_abdominal',
+		'valoracion_antropometrica_id'
+		
+		/*'pliegue_abdominal',
 		'pliegue_cuadricipital',
-		'pliegue_peroneal',
-		'valor_antropometrica_id'
+		'pliegue_peroneal',*/
     ];
 	public $timestamps = false;
 }

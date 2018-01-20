@@ -228,11 +228,12 @@ export class FormControlDataService {
 	saveDatosMusculo(data: any): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/musculo', data).map((response: Response) => response.json());
 	}
+	saveDatosGrasa(data: any): Observable<Consulta[]> {
+		return this.http.post( this.apiURL + 'consultas/grasa', data).map((response: Response) => response.json());
+	}
 
 	upload(module:string, body:any): Observable<any[]> {
 		console.log('upload:' + module + '-->');
-		/*console.log('Name: ' + Name);
-		console.log('myFile: ' + myFile);*/
 		var serviceUrl	=	this.apiURL;
 		switch(module){
 			case 'bioquimicas':

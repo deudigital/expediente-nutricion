@@ -57,6 +57,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('valoraciondietetica', 'ValoracionDieteticaController@store');
 
 	Route::post('consultas/musculo', 'ConsultaController@storeMusculo');
+	Route::post('consultas/grasa', 'ConsultaController@storeGrasa');
 	Route::post('consultas/notas', 'ConsultaController@storeNotas');
 	Route::post('consultas/valoracion', 'ValoracionAntropometricaController@store');
 	Route::get('rdds/paciente/{id}', 'RddController@belongsToPaciente');

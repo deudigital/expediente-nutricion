@@ -400,25 +400,25 @@ Enviar usuario y contrasena?????? por ahora si...
 		if(count($detalleValoracionDieteticaEjemplo)>0){
 			$registros['paciente']['habitos']['valoracionDieteticaEjemplo']	=	$detalleValoracionDieteticaEjemplo->toArray();
 		}
-
-
-
-
-
-
+/*	CONTROL	*/
 
 		$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $id)
 										->get()
 										->first();
 		if(count($valoracionAntropometrica)>0){
 			$registros['va']	=	$valoracionAntropometrica->toArray();
-			//$registros['va']	=	(array)$valoracionAntropometrica;
+
 			$detalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
 											->get()
 											->first();
 			if(count($detalleMusculo)>0){
 				$registros['va']['detalleMusculo']	=	$detalleMusculo->toArray();
-				//$registros['va']	=	(array)$valoracionAntropometrica;
+			}
+			$detalleGrasa	=	DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+											->get()
+											->first();
+			if(count($detalleGrasa)>0){
+				$registros['va']['detalleGrasa']	=	$detalleGrasa->toArray();
 			}
 		}
 
@@ -490,6 +490,14 @@ Enviar usuario y contrasena?????? por ahora si...
 	function storeMusculo(Request $request){
 		/*$response	=	Response::json($request->all(), 200, [], JSON_NUMERIC_CHECK);
 		return $response;*/
+		if(!$request->input('valoracion_antropometrica_id')){
+			$response	=	Response::json([
+				'code'		=>	422,
+				'message'	=>	'Datos de Valoracion Antropometrica son requeridos, intente de nuevo',
+				'data'		=>	$request->all()
+			], 200);
+			return $response;
+		}		
 		if($request->input('id')){
 			$detalleMusculo									=	DetalleMusculo::where('valoracion_antropometrica_id', $request->valoracion_antropometrica_id)
 																					->get()
@@ -515,6 +523,55 @@ Enviar usuario y contrasena?????? por ahora si...
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $detalleMusculo->id,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+
+	}
+	function storeGrasa(Request $request){
+		/*$response	=	Response::json($request->all(), 200, [], JSON_NUMERIC_CHECK);
+		return $response;*/
+		if(!$request->input('valoracion_antropometrica_id')){
+			$response	=	Response::json([
+				'code'		=>	422,
+				'message'	=>	'Datos de Valoracion Antropometrica son requeridos, intente de nuevo',
+				'data'		=>	$request->all()
+			], 200);
+			return $response;
+		}		
+		if($request->input('id')){
+			$detalleGrasa									=	DetalleGrasa::find($request->id);
+
+			$detalleGrasa->segmentado_abdominal			=	$request->segmentado_abdominal;
+			$detalleGrasa->segmentado_brazo_derecho		=	$request->segmentado_brazo_derecho;
+			$detalleGrasa->segmentado_brazo_izquierdo	=	$request->segmentado_brazo_izquierdo;
+			$detalleGrasa->segmentado_pierna_derecha	=	$request->segmentado_pierna_derecha;
+			$detalleGrasa->segmentado_pierna_izquierda	=	$request->segmentado_pierna_izquierda;
+			$detalleGrasa->pliegue_bicipital			=	$request->pliegue_bicipital;
+			$detalleGrasa->pliegue_subescapular			=	$request->pliegue_subescapular;
+			$detalleGrasa->pliegue_supraliaco			=	$request->pliegue_supraliaco;
+			$detalleGrasa->pliegue_tricipital			=	$request->pliegue_tricipital;
+			$detalleGrasa->valoracion_antropometrica_id	=	$request->valoracion_antropometrica_id;
+		}else{
+			$detalleGrasa	=	array(
+								'segmentado_abdominal'			=>	$request->segmentado_abdominal,
+								'segmentado_brazo_derecho'		=>	$request->segmentado_brazo_derecho,
+								'segmentado_brazo_izquierdo'	=>	$request->segmentado_brazo_izquierdo,
+								'segmentado_pierna_derecha'		=>	$request->segmentado_pierna_derecha,
+								'segmentado_pierna_izquierda'	=>	$request->segmentado_pierna_izquierda,
+								'pliegue_bicipital'				=>	$request->pliegue_bicipital,
+								'pliegue_subescapular'			=>	$request->pliegue_subescapular,
+								'pliegue_supraliaco'			=>	$request->pliegue_supraliaco,
+								'pliegue_tricipital'			=>	$request->pliegue_tricipital,
+								'valoracion_antropometrica_id'	=>	$request->valoracion_antropometrica_id
+							);
+			$detalleGrasa	=	DetalleGrasa::create($detalleGrasa);
+		}
+		$detalleGrasa->save();
+		$message	=	array(
+							'code'		=> '201',
+							'id'		=> $detalleGrasa->id,
 							'message'	=> 'Se ha registrado correctamente'
 						);
 		$response	=	Response::json($message, 201);
@@ -657,6 +714,94 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		if(count($paciente)>0){
 			$registros['paciente']	=	(array)$paciente;
 		}
+		$_info_va['estatura']				=	array(
+													'titulo'=>	'Estatura',
+													'unidad'=>	'm'
+													);
+		$_info_va['circunferencia_muneca']	=	array(
+													'titulo'=>	'Mu&ntilde;eca',
+													'unidad'=>	'cm'
+													);
+		$_info_va['peso']					=	array(
+													'titulo'=>	'Peso',
+													'unidad'=>	'Kg'
+													);
+		$_info_va['grasa']					=	array(
+													'titulo'=>	'Grasa',
+													'unidad'=>	'%'
+													);
+		$_info_va['musculo']				=	array(
+													'titulo'=>	'M&uacute;sculo',
+													'unidad'=>	'Kg'
+													);
+		$_info_va['agua']					=	array(
+													'titulo'=>	'Agua',
+													'unidad'=>	'%'
+													);
+		$_info_va['grasa_viceral']			=	array(
+													'titulo'=>	'Grasa Visceral',
+													'unidad'=>	''
+													);
+		$_info_va['hueso']					=	array(
+													'titulo'=>	'Hueso',
+													'unidad'=>	'Kg'
+													);
+		$_info_va['edad_metabolica']		=	array(
+													'titulo'=>	'Edad Metab&oacute;lica',
+													'unidad'=>	'años'
+													);
+		$_info_va['circunferencia_cintura']	=	array(
+													'titulo'=>	'Circunferencia Cintura',
+													'unidad'=>	'cm'
+													);
+		$_info_va['circunferencia_cadera']	=	array(
+													'titulo'=>	'Circunferencia Cadera',
+													'unidad'=>	'cm'
+													);
+		
+		$_info_va['segmentado_abdominal']		=	array(
+														'titulo'=>	'Abdominal',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_brazo_izquierdo']	=	array(
+														'titulo'=>	'Brazo Izquierdo',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_brazo_derecho']	=	array(
+														'titulo'=>	'Brazo Derecho',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_pierna_izquierda']=	array(
+														'titulo'=>	'Pierna Izquierda',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_pierna_derecha']	=	array(
+														'titulo'=>	'Pierna Derecha',
+														'unidad'=>	'%'
+														);
+
+		$_info_va['tronco']				=	array(
+												'titulo'=>	'Tronco',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['brazo_izquierdo']	=	array(
+												'titulo'=>	'Brazo Izquierdo',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['brazo_derecho']		=	array(
+												'titulo'=>	'Brazo Derecho',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['pierna_izquierda']	=	array(
+												'titulo'=>	'Pierna Izquierda',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['pierna_derecha']		=	array(
+												'titulo'=>	'Pierna Derecha',
+												'unidad'=>	'Kg'
+												);
+
+
 		$_resumen['va']	=	'';
 		$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $id)
 										->get()
@@ -664,6 +809,14 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	=	'';
 		if(count($valoracionAntropometrica)>0){
 			$aValoracionAntropometrica	=	$valoracionAntropometrica->toArray();
+			
+			$aDetalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+						->get()
+						->first();
+			$aDetalleGrasa		=	DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+						->get()
+						->first();
+
 			$contentLeft	=	'';
 			$contentRight	=	'';
 			$item			=	'';
@@ -671,32 +824,64 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 			foreach($aValoracionAntropometrica as $key=>$value){
 				if(in_array($key,['id','consulta_id']) || floatval($value)==0)
 					continue;
-				
+				/*
 				$key	=	str_replace('_',' ', $key);
 				$key	=	str_replace('uneca','u&ntilde;eca', $key);
 				$key	=	str_replace('usculo','&uacute;sculo', $key);
-/*	*/
 				$key	=	str_replace('viceral','visceral', $key);
 				$key	=	str_replace('metabolica','metab&oacute;lica', $key);
-
-				$item	.=	'<li style="text-transform:capitalize;text-align:left">' . $key . ': ' . $value . '</li>';
-/*				$item	=	'<li style="text-transform:capitalize;text-align:left">' . $key . ': ' . $value . '</li>';
-				if($i%2==0)					
-					$contentLeft	.=	$item;
-				else
-					$contentRight	.=	$item;
-
-				$i++;
-*/
+				*/
+				$value	=	$_info_va[$key]['titulo'] . ': ' . $value . ' ' . $_info_va[$key]['unidad'];
+				$item	.=	'<li style="text-align:left">' . $value;				
+				if($key=='grasa' && $aDetalleGrasa){
+					$aDetalleGrasa	=	$aDetalleGrasa->toArray();
+					$item2	=	'';
+					foreach($aDetalleGrasa as $a=>$value1){
+						if(in_array($a,['id','valoracion_antropometrica_id']) || 
+							floatval($value1)==0 ||
+							strpos($a,'pliegue_')>-1
+							)
+							continue;
+						$value1	=	$_info_va[$a]['titulo'] . ': ' . $value1 . ' ' . $_info_va[$a]['unidad'];
+						$item2	.=	'<li style="text-align:left">' . $value1 . '</li>';
+					}
+					$item	.=	'<ul style="margin:0;">' . $item2 . '</ul>';					
+				}
+				if($key=='musculo' && $aDetalleMusculo){
+					$aDetalleMusculo	=	$aDetalleMusculo->toArray();
+					$item2	=	'';
+					foreach($aDetalleMusculo as $a=>$value1){
+						if(in_array($a,['id','valoracion_antropometrica_id']) || floatval($value1)==0)
+							continue;
+						$value1	=	$_info_va[$a]['titulo'] . ': ' . $value1 . ' ' . $_info_va[$a]['unidad'];
+						$item2	.=	'<li style="text-align:left">' . $value1 . '</li>';
+					}					
+					$item	.=	'<ul style="margin:0;">' . $item2 . '</ul>';
+				}
+				$item	.=	'</li>';
+				if($key=='peso'){
+					$imc	=	round($valoracionAntropometrica->peso/($valoracionAntropometrica->estatura*$valoracionAntropometrica->estatura), 2);
+					$value1	=	$imc;
+					if($imc<18)
+						$value1	.=	' (BAJO PESO)';
+					else{
+						if($imc<24)
+							$value1	.=	' (NORMAL)';
+						else{
+							if($imc<30)
+								$value1	.=	' (SOBREPESO 1)';
+							else{
+								if($imc<40)
+									$value1	.=	' (SOBREPESO 2)';
+								else
+									$value1	.=	' (SOBREPESO 2)';
+							}
+							
+						}
+					}
+					$item	.=	'<li>IMC: ' . $value1 . '</li>';
+				}
 			}
-/*
-			if($contentLeft)
-				$contentLeft	=	'<ul style="list-style:none;margin:0;">' . $contentLeft . '</ul>';
-			if($contentRight)
-				$contentRight	=	'<ul style="list-style:none;margin:0;">' . $contentRight . '</ul>';
-
-			$html	=	$this->htmlTwoColumns($contentLeft, $contentRight);
-*/
 			$html	=	'<ul style="list-style:none;margin:0;">' . $item . '</ul>';
 			$_resumen['va']	=	$html;
 		}
@@ -732,38 +917,12 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 							$array[$value->nombre]	=	$value->porciones;
 					}
 				}				
-				/*$html	=	'<table style="width:50%">';
-				$html	.=	'<tr>';*/
-/*				$contentLeft	=	'';
-				$contentRight	=	'';
-*/
 				$item	=	'';
 				$i	=	0;
 				foreach($array as $nombre=>$valor){						
-					/*$item	=	'<li style="text-transform:capitalize;text-align:left">' . $valor . ' ' . ($nombre=='Lacteos'? 'L&aacute;cteos':$nombre) . '</li>';*/
-					$item	.=	'<li style="text-transform:capitalize;text-align:left">' . $valor . ' ' . ($nombre=='Lacteos'? 'L&aacute;cteos':$nombre) . '</li>';
-/*					if($i%2==0)					
-						$contentLeft	.=	$item;
-					else
-						$contentRight	.=	$item;
-*/
-					/*if($i>0 && $i%2==0)
-						$html	.=	'</tr><tr>';
-
-					$html	.=	'<td style="text-transform:capitalize;text-align:left">' . $valor . ' ' . ($nombre=='Lacteos'? 'L&aacute;cteos':$nombre) . '</td>';
-					*/
-					
+					$item	.=	'<li style="text-transform:capitalize;text-align:left">' . $valor . ' ' . ($nombre=='Lacteos'? 'L&aacute;cteos':$nombre) . '</li>';				
 					$i++;
 				}
-				/*$html	.=	'</tr>';
-				$html	.=	'</table>';*/
-/*
-				if($contentLeft)
-					$contentLeft	=	'<ul style="list-style:none;margin:0;">' . $contentLeft . '</ul>';
-				if($contentRight)
-					$contentRight	=	'<ul style="list-style:none;margin:0;">' . $contentRight . '</ul>';
-				$html	=	$this->htmlTwoColumns($contentLeft, $contentRight);
-*/
 				$html	=	'<ul style="list-style:none;margin:0;">' . $item . '</ul>';
 			}
 			/*$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
@@ -778,7 +937,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 			$aTiempoComidas	=	$tiempoComidas->toArray();
 			$_tiempo_comidas	=	array();
 			foreach($aTiempoComidas as $key=>$value){
-				$_tiempo_comidas[$value['id']]['nombre']	=	$value['nombre'];
+				$_tiempo_comidas[$value['id']]['nombre']	=	htmlentities($value['nombre']);
 				$_tiempo_comidas[$value['id']]['ejemplo']	=	'';
 				$_tiempo_comidas[$value['id']]['menu']		=	array();
 			}
@@ -803,8 +962,6 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 			foreach($aPatronMenu as $key=>$value)
 				$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	$value->porciones . ' ' . $value->alimento;
 		}
-		/*echo '<pre>' . print_r($_tiempo_comidas, true) . '</pre>';
-		exit;*/
 		$html='';
 		foreach($_tiempo_comidas as $key=>$value){
 			$html	.=	'<h4>' . $value['nombre'] . '</h4>';
@@ -815,7 +972,8 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		}
 		$_resumen['patronMenu']	=	$html;
 
-		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
+		//$images	=	'https://expediente.nutricion.co.cr/mail/images/';
+		$images	=	env('APP_URL') . '/mail/images/';
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
 		$html	.=	'<img src="' . $images . 'logo.png" width="180" title="Consulta:' . $consulta-> id . '"/>';
 		$html	.=	'</div>';
@@ -839,7 +997,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
 		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
 */
-		/*echo utf8_decode($html);*/
+		//echo utf8_decode($html);exit;
 		$nutricionista	=	Persona::find($paciente->nutricionista_id);	
 		$to			=	$paciente->email;
 		//$to			=	'jaime_isidro@hotmail.com';

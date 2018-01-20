@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\ValoracionAntropometrica;
+use App\DetalleGrasa;
+use App\DetalleMusculo;
 use DB;
 class ValoracionAntropometricaController extends Controller
 {
@@ -55,6 +57,37 @@ class ValoracionAntropometricaController extends Controller
 					);
 		}
 		$va->save();
+
+		if($request->detalleGrasa){
+			$aDetalleGrasa	=	array(
+								'segmentado_abdominal'			=>	$request->detalleGrasa['segmentado_abdominal'],
+								'segmentado_brazo_derecho'		=>	$request->detalleGrasa['segmentado_brazo_derecho'],
+								'segmentado_brazo_izquierdo'	=>	$request->detalleGrasa['segmentado_brazo_izquierdo'],
+								'segmentado_pierna_derecha'		=>	$request->detalleGrasa['segmentado_pierna_derecha'],
+								'segmentado_pierna_izquierda'	=>	$request->detalleGrasa['segmentado_pierna_izquierda'],
+								'pliegue_bicipital'				=>	$request->detalleGrasa['pliegue_bicipital'],
+								'pliegue_subescapular'			=>	$request->detalleGrasa['pliegue_subescapular'],
+								'pliegue_supraliaco'			=>	$request->detalleGrasa['pliegue_supraliaco'],
+								'pliegue_tricipital'			=>	$request->detalleGrasa['pliegue_tricipital'],
+								'valoracion_antropometrica_id'	=>	$va->id
+
+							);
+
+			$detalleGrasa	=	DetalleGrasa::create($aDetalleGrasa);
+		}
+		if($request->detalleMusculo){
+			$aDetalleMusculo	=	array(
+								'tronco'						=>	$request->detalleMusculo['tronco'],
+								'brazo_izquierdo'				=>	$request->detalleMusculo['brazo_izquierdo'],
+								'brazo_derecho'					=>	$request->detalleMusculo['brazo_derecho'],
+								'pierna_izquierda'				=>	$request->detalleMusculo['pierna_izquierda'],
+								'pierna_derecha'				=>	$request->detalleMusculo['pierna_derecha'],
+								'valoracion_antropometrica_id'	=>	$va->id
+
+							);
+
+			$detalleMusculo	=	DetalleMusculo::create($aDetalleMusculo);
+		}
 		$response	=	Response::json([
 			'message'	=> 'Valoracion Antropometrica ' . $action . ' correctamente',
 			'data'		=>	$va

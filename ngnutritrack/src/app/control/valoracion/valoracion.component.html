@@ -402,7 +402,7 @@
 					class="form-control"  
 					maxlength="6" 
 					(keypress)="helpers.soloNumeros($event)"
-					[(ngModel)]="grasa.abdominal"
+					[(ngModel)]="grasa.segmentado_abdominal"
 				>
 			</div>
 			<div class="row">
@@ -416,7 +416,7 @@
 							placeholder="Derecha" 
 							maxlength="6" 
 							(keypress)="helpers.soloNumeros($event)"
-							[(ngModel)]="grasa.piernaDerecha"
+							[(ngModel)]="grasa.segmentado_pierna_derecha"
 						>
 					</div>
 					<div class="form-group">
@@ -427,7 +427,7 @@
 							placeholder="Izquierda"		
 							maxlength="6" 
 							(keypress)="helpers.soloNumeros($event)"
-							[(ngModel)]="grasa.piernaIzquierda"
+							[(ngModel)]="grasa.segmentado_pierna_izquierda"
 						>
 					</div>
 				</div>
@@ -441,7 +441,7 @@
 							placeholder="Derecha"	
 							maxlength="6" 
 							(keypress)="helpers.soloNumeros($event)"
-							[(ngModel)]="grasa.brazoDerecho"
+							[(ngModel)]="grasa.segmentado_brazo_derecho"
 						>
 					</div>
 					<div class="form-group">
@@ -452,14 +452,14 @@
 							placeholder="Izquierda"		
 							maxlength="6" 
 							(keypress)="helpers.soloNumeros($event)"	
-							[(ngModel)]="grasa.brazoIzquierdo"								
+							[(ngModel)]="grasa.segmentado_brazo_izquierdo"								
 						>
 					</div>
 				</div>
 			</div>
 
 			<div class="row result">
-				<i></i>{{grasaSegmentado}} %
+				<i></i><!--{{grasaSegmentado}} %-->
 			</div>
 		</div>
 		<div *ngIf="showModalGrasaTabPliegues">
@@ -470,7 +470,7 @@
 						name="pliegue_tricipital"
 						type="text" 
 						class="form-control" 
-						[(ngModel)]="grasa.tricipital"
+						[(ngModel)]="grasa.pliegue_tricipital"
 					>
 				</div>
 				<div class="form-group col-sm-6">
@@ -481,7 +481,7 @@
 						class="form-control" 
 						maxlength="6" 
 						(keypress)="helpers.soloNumeros($event)"
-						[(ngModel)]="grasa.bicipital"
+						[(ngModel)]="grasa.pliegue_bicipital"
 					>
 				</div>
 				<div class="form-group col-sm-6">
@@ -492,7 +492,7 @@
 						class="form-control"  
 						maxlength="6" 
 						(keypress)="helpers.soloNumeros($event)"
-						[(ngModel)]="grasa.subescapular"
+						[(ngModel)]="grasa.pliegue_subescapular"
 					>
 				</div>
 				<div class="form-group col-sm-6">
@@ -503,7 +503,7 @@
 						class="form-control" 
 						maxlength="6" 
 						(keypress)="helpers.soloNumeros($event)"
-						[(ngModel)]="grasa.suprailiaco"
+						[(ngModel)]="grasa.pliegue_supraliaco"
 					>
 				</div>
 			</div>
@@ -588,7 +588,7 @@
 			</div>
 		</div>
 		 <div class="row result">
-				<i></i>{{musculoSegmentado}} %
+				<i></i><!--{{musculoSegmentado}} %-->
 			</div>
 	</div>
 </div>

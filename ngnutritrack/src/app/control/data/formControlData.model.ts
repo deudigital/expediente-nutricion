@@ -494,6 +494,8 @@ export class ValoracionAntropometrica {
 		this.circunferencia_cadera	= 	data.circunferencia_cadera;
 		this.consulta_id			= 	data.consulta_id;
 
+		this.detalleGrasa.valoracion_antropometrica_id	=	data.id;
+		this.detalleMusculo.valoracion_antropometrica_id	=	data.id;
 		if(data.detalleGrasa)
 			this.detalleGrasa	=	data.detalleGrasa;
 		if(data.detalleMusculo)
@@ -884,6 +886,12 @@ Modo de Uso
 	in_array(data, ele){
 		return data.indexOf(ele)>-1;
 	}
+	clone(obj){//console.log(obj);
+		return (JSON.parse(JSON.stringify(obj)));
+	}
+	equals(obj1, obj2){//console.log(obj1);console.log(obj2);
+		return (JSON.stringify(obj1)==JSON.stringify(obj2));
+	}
 }
 export class Ejercicio{
 	id:number;
@@ -915,6 +923,7 @@ export class PatronMenuEjemplo{
 
 }
 export class DetalleGrasa{
+	id:number=0;
 	abdominal:number=0;
 	piernaIzquierda:number=0;
 	piernaDerecha:number=0;
@@ -928,6 +937,7 @@ export class DetalleGrasa{
 
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
+ 	valoracion_antropometrica_id:number=0;
 }
 export class DetalleMusculo{
 	id:number=0;
