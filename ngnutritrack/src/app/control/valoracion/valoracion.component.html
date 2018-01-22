@@ -12,7 +12,10 @@
 						Importar datos - arrastre archivo en formato csv a este cuadro
 					</div>-->
 					<div class="buttons">
-						<a class="btn btn-default" (click)="showModal('datos')">Ver Historial Antropom&eacute;trico</a>
+						<button class="btn btn-default" 
+							[disabled]="disableButtonHistorial"
+							(click)="showModal('datos')" 
+							>Ver Historial Antropom&eacute;trico</button>
 					</div>
 				</div>
 				<div class="row">

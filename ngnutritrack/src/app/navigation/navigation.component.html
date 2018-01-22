@@ -1,15 +1,23 @@
 <div class="board-inner control" id="status-buttons">
-<div *ngIf="isConsulta">
+<div *ngIf="isConsulta" class="sidebar-toggle-button">
 	<ul class="list-group">
 		<li class="list-group-item datos-paciente{{class_toggle}}">			
-			<a href="javascript:void(0)" (click)="toggleDatosPaciente()">
+			<a href="javascript:void(0)" (click)="toggleDatosPaciente()">				
 				<span>Datos del Paciente</span>
-				<i></i>
+				<!--<i></i>-->
+				<div id="nav-icon2" [ngClass]="{'open': showMenuPaciente }">
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				</div>
 			</a>
 		</li>
 	</ul>
-</div>
-	<div *ngIf="showMenuPaciente" [ngClass]="{'show-menu-paciente': showMenuPaciente }">
+</div><!--*ngIf="showMenuPaciente"-->
+	<div [ngClass]="{'open': showMenuPaciente }" class="sidebar-left transition">
 			<ul class="list-group">
 				<li class="list-group-item personales">
 					<a routerLink="/personales" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">

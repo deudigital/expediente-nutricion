@@ -87,20 +87,24 @@ export class ValoracionComponent implements OnInit {
   
 	btnNavigation_pressed:boolean;
 	page:string;
-  aPendientes:any[];
-  
-  valorGrasaPliegues:number;
+	aPendientes:any[];
+
+	valorGrasaPliegues:number;
+	disableButtonHistorial:boolean;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
-		this.model	=	formControlDataService.getFormControlData();
+		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
+		this.paciente	=	this.model.getFormPaciente();
+		console.log(this.paciente);
+		
 		var mng	=	this.model.getManejadorDatos();
 		mng.setMenuPacienteStatus(false);
 		this.nuevaConsulta	=	false;
 		if(mng.operacion=='nueva-consulta')
 			this.nuevaConsulta	=	true;			
 		
-		//console.log(this.model);
+		this.disableButtonHistorial	=	true;
 		this.aPendientes	=	[];
 		this.getDatosDeConsulta(this.model.consulta.id);
     }
@@ -130,16 +134,7 @@ export class ValoracionComponent implements OnInit {
 		}		
 	}
 	infoEdited(){
-		/*console.log(JSON.stringify(this.oDetalleMusculo) + '!==' + JSON.stringify(this.detalleMusculo));
-		if(JSON.stringify(this.oDetalleMusculo) !== JSON.stringify(this.detalleMusculo)){
-			return true;
-		}
-		console.log(JSON.stringify(this.oDetalleGrasa) + '!==' + JSON.stringify(this.detalleGrasa));
-		if(JSON.stringify(this.oDetalleGrasa) !== JSON.stringify(this.detalleGrasa)){
-			return true;
-		}*/
 		if(!this.valoracion.id && this.aPendientes.length>0){
-		//	this.valoracion.detalles	=	this.aPendientes;
 			return true;
 		}
 		console.log(this.oValoracion.estatura + '!==' + Number(this.valoracion.estatura));
@@ -174,7 +169,7 @@ export class ValoracionComponent implements OnInit {
 		
 		this.allowCalculate	=	false;
 		this.formControlDataService.getConsultaSelected(consulta_id).subscribe(
-			data => {//console.log('<!--cRud getConsultaSelected(' + consulta_id + ')');console.log(data);console.log('-->');
+			data => {
 				this.model.fill(data);
 				this.valoracion		=	this.model.getFormValoracionAntropometrica();
 				
@@ -189,14 +184,16 @@ export class ValoracionComponent implements OnInit {
 			error => console.log(<any>error)
 		);
 	}
-	getHistorial(){//console.log('getHistorial()');
-		var paciente_id	=	this.model.consulta.paciente_id;//console.log('paciente_id: ' + paciente_id);
+	getHistorial(){
+		var paciente_id	=	this.model.consulta.paciente_id;
 		this.formControlDataService.select('valoracionAntropometrica', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('<!--cRud Historial valoracionAntropometrica');
+						console.log('<-- cRud Historial VA');
 						console.log(response);
 						this.historial	=	response;
+						console.log(this.historial.length);
+						this.disableButtonHistorial	=	this.historial.length==0;
 						this.createGraphs();
 						},
 			error =>  console.log(<any>error)
@@ -205,7 +202,7 @@ export class ValoracionComponent implements OnInit {
 	createGraphs(){
 		if(this.historial.length==0)
 			return ;
-		//console.log('processing graphics');
+
 		var toGraph = '';
 		var date;
 		var new_date;
@@ -243,12 +240,6 @@ export class ValoracionComponent implements OnInit {
 
 			data	=	[];
 			for(var j in this.historial){
-				/*date = new Date(0);
-				date.setUTCSeconds(this.historial[j].date);
-				new_date	=	new Date( date.getFullYear(), date.getMonth(), date.getDate())
-				value	=	this.historial[j][i];
-				data.push([new_date,parseInt(value)]);
-				*/
 				var d	= this.historial[j].fecha.split('-');
 				var anho	=	d[0];
 				var mes		=	d[1];
@@ -302,7 +293,7 @@ export class ValoracionComponent implements OnInit {
 		this.graficos	=	items;
 		this.tagBody.classList.add('grafico-selected-imc');
 	}
-	graficoSelected(header){//console.log(header);
+	graficoSelected(header){
 		this.tagBody.classList.remove('grafico-selected-imc');
 		this.tagBody.classList.remove('grafico-selected-peso');
 		this.tagBody.classList.remove('grafico-selected-estatura');
@@ -335,36 +326,6 @@ export class ValoracionComponent implements OnInit {
 		
 		
 	}
-	
-	createGraphs__old(){
-		var toGraph = "peso";
-		var date;
-		var data	=	[];
-		for(var i in this.historial) {
-			date = new Date(0);
-			date.setUTCSeconds(this.historial[i].date);
-			data.push([new Date( date.getFullYear(), date.getMonth(), date.getDate()),parseInt(this.historial[i][toGraph])])
-		}
-		this.data4 =data;
-		var options = {
-			'height':500,
-			pointShape: 'circle', pointSize: 15,
-			hAxis: {
-				title: 'Fecha'
-			},
-			vAxis: {
-				title: toGraph
-			},
-			colors: ['#cc1f25']
-		};
-		var columns	= [
-						{label: 'date', type: 'date'},
-						{label: toGraph, type: 'number'},
-					];
-
-		this.config4 = new LineChartConfig('peso estatura', options, columns);
-		this.elementId4 = 'myLineChart4';
-	}
 /*	createValoracionAntropometrica(valoracionAntropometrica) {
 		this.tagBody.classList.add('sending');
 		this.formControlDataService.addValoracionAntropometrica(valoracionAntropometrica)
@@ -378,9 +339,7 @@ export class ValoracionComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}*/
-	createValoracionAntropometrica(valoracionAntropometrica) {/*console.log(valoracionAntropometrica);*/
-		//this.tagBody.classList.add('sending');
-		//this.formControlDataService.addValoracionAntropometrica(valoracionAntropometrica)
+	createValoracionAntropometrica(valoracionAntropometrica){
 		var data	=	valoracionAntropometrica;
 		if(!this.valoracion.id && this.aPendientes.length>0){
 			this.aPendientes['va']	=	valoracionAntropometrica;
@@ -410,7 +369,6 @@ export class ValoracionComponent implements OnInit {
 		switch(modal){
 			case 'datos':
 				this.hideModalDatos	=	false;
-				//this.showModalDatos	=	true;
 				break;
 			case 'grasa':
 				this.hideModalGrasa	=	false;
@@ -439,15 +397,12 @@ export class ValoracionComponent implements OnInit {
 				
 				if(this.showModalGrasaTabPliegues)
 					this.valoracion.grasa	=	this.valorGrasaPliegues;
-					//this.valoracion.grasa	=	this.grasa.valorGrasaPliegues;
 
 				/*if(this.showModalGrasaTabSegmentado)
 					this.valoracion.grasa	=	this.grasa.valorGrasaSegmentado;
 				else
 					this.valoracion.grasa	=	this.grasa.valorGrasaPliegues;
 				*/
-				
-				
 				break;
 			case 'musculo':
 				/*this.valoracion.musculo	=	this.calcularMusculoSegmentado()*/
@@ -559,8 +514,7 @@ export class ValoracionComponent implements OnInit {
 		
 		if(!this.grasa.tricipital && !this.grasa.bicipital && !this.grasa.subescapular && !this.grasa.suprailiaco)
 			return '';
-		
-		
+
 		/*	pliegues	*/
 		//this.grasa.valorGrasaPliegues	=	0;
 		this.valorGrasaPliegues	=	0;
@@ -659,9 +613,6 @@ export class ValoracionComponent implements OnInit {
 				
 			}
 		}
-		//console.log('this.analisis.imc: ' + this.analisis.imc + ' -> ' + _print);
-		/*return this.analisis.imc;*/
-		//_print	=	this.analisis.imc + ' ' +  _print;
 		return _print;
 	}
 	get	pesoIdeal(){

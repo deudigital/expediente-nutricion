@@ -33,7 +33,7 @@ export class TopnavComponent implements OnInit {
 		}
 	}
 	displayTitle(){
-		console.log(this.router.url);
+		//console.log(this.router.url);
 		switch(this.router.url){
 			case '/reportes':
 			case '/servicios-productos':

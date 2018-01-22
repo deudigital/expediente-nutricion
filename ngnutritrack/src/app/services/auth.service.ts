@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 import { Headers, Http } from '@angular/http';
 import { User } from '../models/user';
@@ -6,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {
-  private BASE_URL: string = 'https://expediente.nutricion.co.cr/nutri/public/api/web/';
+  private BASE_URL: string = environment.baseUrl + '/nutri/public/api/web/';
   private headers: Headers = new Headers({'Content-Type': 'application/json'});
   constructor(private http: Http) {}
   login(user: User): Promise<any> {

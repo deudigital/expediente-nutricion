@@ -38,7 +38,7 @@ export class NavigationComponent implements OnInit {
 	ngOnDestroy(){
 		this.mng.setMenuPacienteStatus(this.showMenuPaciente);
 	}
-	setMenuControl(currentStep){console.log('currentStep-> ' + currentStep);
+	setMenuControl(currentStep){//console.log('currentStep-> ' + currentStep);
 		this.control_va		=	false;
 		this.control_rdd	=	false;
 		this.control_dieta	=	false;

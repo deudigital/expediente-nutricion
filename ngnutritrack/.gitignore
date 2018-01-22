@@ -8,6 +8,8 @@
 # dependencies
 /node_modules
 /src/environments
+src/environments/
+src/environments/*
 
 
 # IDEs and editors
