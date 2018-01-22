@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://dev.expediente.nutricion.co.cr',
+  baseUrl: 'https://expediente.nutricion.co.cr',
   apiUrl: 'http://dev.expediente.nutricion.co.cr/nutri/public/api/v0/' 
 };
