@@ -145,6 +145,6 @@ body {
 
 .content-nav .list-group > li > a:hover #nav-icon2 span {background-color: #8bc23f !important;}
 .board-inner.control{overflow:hidden;}
-.sidebar-toggle-button{background-color:#fff;z-index:1001;position:relative;}
+.sidebar-toggle-button{background-color:#fff;z-index:101;position:relative;}
 .sidebar-left.open{margin-top:0}
 .sidebar-left{margin-top:-140%}
