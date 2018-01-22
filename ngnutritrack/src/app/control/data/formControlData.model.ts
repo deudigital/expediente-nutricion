@@ -85,14 +85,12 @@ export class FormControlData {
 		this.dieta_cena_ejemplo				=	'';
 		this.dieta_coicion_nocturna_ejemplo	=	'';
 		this.dataFilled	=	false;
-		/*console.log('fcd:limpiado');
-		console.log(this);*/
 	}
 	setNutricionistaId(nutricionista_id){
 		this.nutricionista_id	=	nutricionista_id;
 	}
 	fill(data){
-		console.log('cargando Datos...');console.log(data);
+		console.log('fcd::fill(data)...');console.log(data);
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
@@ -621,7 +619,7 @@ export class Prescripcion{
 		this.items	=	[];
 		this.otros	=	[];
 	}
-	set(prescripcion:Prescripcion){console.log('set:prescripcion');console.log(prescripcion);
+	set(prescripcion:Prescripcion){//console.log('set:prescripcion');console.log(prescripcion);
 		this.id				=	prescripcion.id;
 		this.carbohidratos	=	prescripcion.carbohidratos;
 		this.proteinas		=	prescripcion.proteinas;

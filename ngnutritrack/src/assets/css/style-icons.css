@@ -216,3 +216,18 @@
 	.distribucion > div{padding:0}
 
 }
+@media (max-width:549px){
+	.main .links .box a figure {width: 140px;height: 140px;}
+	.main .links .box {padding: 0;}
+	.main .links .box a figure i{background-size:399px 735px}
+	.main .links .box a figure.main-nuevo i {background-position: 0 -385px;width: 34px;height: 42px;}
+	.main .links .box a figure.main-control i {background-position: -87px -385px;width: 52px;height: 40px;}
+	.main .links .box a figure.main-facturacion i {background-size: 285px 525px;background-position: 0 -459px;width: 53px;height: 54px;}
+	
+	.main .links .box a:hover figure.main-nuevo i {background-position: 0 -437px;}
+	.main .links .box a:hover figure.main-control i {background-position: -86px -437px;}
+	.main .links .box a:hover figure.main-facturacion i {background-position: -62px -460px;}
+}
+@media (max-width:479px){
+	.main .links .box a figure {width: 100px;height: 100px;}
+}

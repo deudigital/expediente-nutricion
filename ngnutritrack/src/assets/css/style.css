@@ -94,8 +94,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a,
 
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a > i,
 .content-nav .list-group > li.dieta > a.active > i {background-position: -482px -238px;	width: 45px;height: 46px;}
-.content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;}
-.content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;right: -5px;}
+.content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;right: -5px;}
+.content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;}
 /*.content-nav .paciente .list-group > li:not(:first-child){margin-top:30px}
 */ .content-nav .list-group > li:not(:first-child){margin-top:30px}
 .content-nav .list-group > li.personales > a > i {background-position: 0 -183px;width: 44px;height: 46px;}
@@ -249,7 +249,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .links .box a figure {border-radius: 50%;max-width: 100%;width: 163px;height: 163px;display: table-cell;position: relative;border: 5px solid #e8e8e8;vertical-align: middle;}
 .main .links .box a figure:before {background-color: transparent;content: "";display: block;width: 90%;height: 90%;position: absolute;border-radius: 50%;top: 5%;left: 5%;}
 .main .links .box a:hover figure {border: 5px dotted #7fb831;}
-.main .links .box a > strong {margin-top: 20px;display: block;font-size: 17px;font-weight: 500;}
+.main .links .box a > strong {margin-top: 10px;display: block;font-weight: 500;}
 .main .links .box a figure i {position: relative;display: inline-block;}
 .main .links .box a:hover figure:before {background-color: #7fb831;}
 .main .links .box a figure.main-nuevo{}
@@ -375,6 +375,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 }
 @media(min-width:768px){
 	body{font-size:12px;}
+	.main .links .box a > strong {margin-top: 20px;font-size: 17px;}
 	.form-group {margin-bottom: 30px;}
 	.navbar.top:not(.logo-center) .navbar-brand {width: 100%;text-align: right;padding-right: 50px;}
 	.navbar.top:not(.logo-center) .navbar-brand > img {display: inline-block;}

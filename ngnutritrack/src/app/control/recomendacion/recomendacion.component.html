@@ -134,7 +134,11 @@
 			</div>
 		</div>
 		<div class="row text-center">
-			<a class="btn btn-default"  (click)="showModal('datos')">Ver Historial RDDs</a>
+			<button 
+				class="btn btn-default" 
+				(click)="showModal('datos')"
+				[disabled]="disableButtonHistorial"
+			>Ver Historial RDDs</button>
 		</div>
 	</section>
 	<section>

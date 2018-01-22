@@ -34,6 +34,7 @@ export class RecomendacionComponent implements OnInit {
 	tagBody:any;
 	hideModalDatos:boolean=true;
 	habitosEjercicios:any[];
+	disableButtonHistorial:boolean;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -43,6 +44,7 @@ export class RecomendacionComponent implements OnInit {
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
+		this.disableButtonHistorial	=	false;
 		this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
 		console.log(this.va);
 	}
@@ -103,6 +105,7 @@ export class RecomendacionComponent implements OnInit {
 			_rdds.push(item);
 		}
 		this.historial	=	_rdds;
+		this.disableButtonHistorial	=	this.historial.length==0;
 	}
 	createGraphs(){//console.log('processing graphics');
 		var toGraph = '';

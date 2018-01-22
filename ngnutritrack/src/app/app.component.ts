@@ -1,5 +1,4 @@
 import { Component, OnInit, Input }   from '@angular/core';
-
 import { FormControlDataService }            from './control/data/formControlData.service';
 
 @Component ({
@@ -12,6 +11,7 @@ export class AppComponent implements OnInit {
     @Input() formControlData;
 	fcd:any;
 	consulta:any;
+	valoracion:any;
 	prescripcion:any;
 	rdd:any;
 	
@@ -26,29 +26,27 @@ export class AppComponent implements OnInit {
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
-	get developmentInfo (){
-	
+	get developmentInfo(){	
 		this.fcd			=	this.formControlDataService.getFormControlData();
 		this.consulta		=	this.fcd.getFormConsulta();
+		this.valoracion		=	this.fcd.getFormValoracionAntropometrica();
 		this.prescripcion	=	this.fcd.getFormPrescripcion();
 		this.rdd			=	this.fcd.getFormRdd();
-		//console.log(this.rdd);
-		//var summary	=	'Nutricionista: ' + this.fcd.nutricionista_id;
+
 		var summary	=	'';
 		if(this.consulta.id){
-			//this.information['consulta']	=	this.consulta.id
 			summary	+=	'Consulta: ' + this.consulta.id;
 		}
 		if(this.prescripcion.id){
-			//this.information['Prescripcion']	=	 this.prescripcion.id;
 			summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
 		}
+		if(this.valoracion.id){
+			summary	+=	'  |  VA: ' + this.valoracion.id;
+		}
 		if(this.rdd.id){
-			//this.information['Prescripcion']	=	 this.prescripcion.id;
 			summary	+=	'  |  Rdd: ' + this.rdd.id;
 		}
 		if(this.consulta.paciente_id){
-			//this.information['Paciente']	=	this.consulta.paciente_id;
 			summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
 		}
 		if(summary)
