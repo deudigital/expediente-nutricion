@@ -10,7 +10,15 @@ class ValoracionAntropometricaController extends Controller
 {
     public function store(Request $request)
     {
-		if(!$request->input('consulta_id')){
+		$consulta_id	=	false;
+		if($request->input('va'))
+			$consulta_id	=	$request->input('va')['consulta_id'];
+		else
+			$consulta_id	=	$request->input('consulta_id');
+		/*$response	=	Response::json($consulta_id, 201);
+		return $response;*/
+		//if(!$request->input('consulta_id')){
+		if(!$consulta_id){
 			$response	=	Response::json([
 				'code'		=>	422,
 				'message'	=>	'Datos de consulta es requerido, intente de nuevo',
@@ -18,8 +26,24 @@ class ValoracionAntropometricaController extends Controller
 			], 200);
 			return $response;
 		}
+		
+		$_detalle_grasa		=	false;
+		$_detalle_musculo	=	false;
+
+		if($request->input('detalle_grasa'))
+			$_detalle_grasa		=	$request->input('detalle_grasa');
+
+		if($request->input('detalle_musculo'))
+			$_detalle_musculo	=	$request->input('detalle_musculo');		
+		
+		if($request->input('va'))
+			$request	=	(Object)$request->input('va');		
+		
+		
+		
 		$action	=	'editado';
-		$va	=	ValoracionAntropometrica::where('consulta_id', $request->consulta_id)
+		/*$va	=	ValoracionAntropometrica::where('consulta_id', $request->consulta_id)*/
+		$va	=	ValoracionAntropometrica::where('consulta_id', $consulta_id)
 						->get()
 						->first();
 
@@ -37,51 +61,66 @@ class ValoracionAntropometricaController extends Controller
 			$va->circunferencia_cintura	=	$request->circunferencia_cintura;
 			$va->circunferencia_cadera	=	$request->circunferencia_cadera;
 			/*"consulta_id": 1*/
-
+			$va->save();
 		}else{$action	=	'registrado';
-			$va	=	new ValoracionAntropometrica(
+			/*$va	=	new ValoracionAntropometrica(
 						array(
-							'estatura'	=>	$request->estatura,
+							'estatura'				=>	$request->estatura,
 							'circunferencia_muneca'	=>	$request->circunferencia_muneca,
-							'peso'	=>	$request->peso,
-							'grasa'	=>	$request->grasa,
-							'musculo'	=>	$request->musculo,
-							'agua'	=>	$request->agua,
-							'grasa_viceral'	=>	$request->grasa_viceral,
-							'hueso'	=>	$request->hueso,
-							'edad_metabolica'	=>	$request->edad_metabolica,
-							'circunferencia_cintura'	=>	$request->circunferencia_cintura,
+							'peso'					=>	$request->peso,
+							'grasa'					=>	$request->grasa,
+							'musculo'				=>	$request->musculo,
+							'agua'					=>	$request->agua,
+							'grasa_viceral'			=>	$request->grasa_viceral,
+							'hueso'					=>	$request->hueso,
+							'edad_metabolica'		=>	$request->edad_metabolica,
+							'circunferencia_cintura'=>	$request->circunferencia_cintura,
 							'circunferencia_cadera'	=>	$request->circunferencia_cadera,
-							'consulta_id'	=>	$request->consulta_id
+							'consulta_id'			=>	$request->consulta_id
 						)
-					);
+					);*/
+			$aVa	=	array(
+							'estatura'				=>	$request->estatura,
+							'circunferencia_muneca'	=>	$request->circunferencia_muneca,
+							'peso'					=>	$request->peso,
+							'grasa'					=>	$request->grasa,
+							'musculo'				=>	$request->musculo,
+							'agua'					=>	$request->agua,
+							'grasa_viceral'			=>	$request->grasa_viceral,
+							'hueso'					=>	$request->hueso,
+							'edad_metabolica'		=>	$request->edad_metabolica,
+							'circunferencia_cintura'=>	$request->circunferencia_cintura,
+							'circunferencia_cadera'	=>	$request->circunferencia_cadera,
+							'consulta_id'			=>	$request->consulta_id
+						);
+			$va		=	ValoracionAntropometrica::create($aVa);
 		}
-		$va->save();
 
-		if($request->detalleGrasa){
+		//if($_detalle_grasa){
+		if($_detalle_grasa){
 			$aDetalleGrasa	=	array(
-								'segmentado_abdominal'			=>	$request->detalleGrasa['segmentado_abdominal'],
-								'segmentado_brazo_derecho'		=>	$request->detalleGrasa['segmentado_brazo_derecho'],
-								'segmentado_brazo_izquierdo'	=>	$request->detalleGrasa['segmentado_brazo_izquierdo'],
-								'segmentado_pierna_derecha'		=>	$request->detalleGrasa['segmentado_pierna_derecha'],
-								'segmentado_pierna_izquierda'	=>	$request->detalleGrasa['segmentado_pierna_izquierda'],
-								'pliegue_bicipital'				=>	$request->detalleGrasa['pliegue_bicipital'],
-								'pliegue_subescapular'			=>	$request->detalleGrasa['pliegue_subescapular'],
-								'pliegue_supraliaco'			=>	$request->detalleGrasa['pliegue_supraliaco'],
-								'pliegue_tricipital'			=>	$request->detalleGrasa['pliegue_tricipital'],
+								'segmentado_abdominal'			=>	$_detalle_grasa['segmentado_abdominal'],
+								'segmentado_brazo_derecho'		=>	$_detalle_grasa['segmentado_brazo_derecho'],
+								'segmentado_brazo_izquierdo'	=>	$_detalle_grasa['segmentado_brazo_izquierdo'],
+								'segmentado_pierna_derecha'		=>	$_detalle_grasa['segmentado_pierna_derecha'],
+								'segmentado_pierna_izquierda'	=>	$_detalle_grasa['segmentado_pierna_izquierda'],
+								'pliegue_bicipital'				=>	$_detalle_grasa['pliegue_bicipital'],
+								'pliegue_subescapular'			=>	$_detalle_grasa['pliegue_subescapular'],
+								'pliegue_supraliaco'			=>	$_detalle_grasa['pliegue_supraliaco'],
+								'pliegue_tricipital'			=>	$_detalle_grasa['pliegue_tricipital'],
 								'valoracion_antropometrica_id'	=>	$va->id
 
 							);
 
 			$detalleGrasa	=	DetalleGrasa::create($aDetalleGrasa);
 		}
-		if($request->detalleMusculo){
+		if($_detalle_musculo){
 			$aDetalleMusculo	=	array(
-								'tronco'						=>	$request->detalleMusculo['tronco'],
-								'brazo_izquierdo'				=>	$request->detalleMusculo['brazo_izquierdo'],
-								'brazo_derecho'					=>	$request->detalleMusculo['brazo_derecho'],
-								'pierna_izquierda'				=>	$request->detalleMusculo['pierna_izquierda'],
-								'pierna_derecha'				=>	$request->detalleMusculo['pierna_derecha'],
+								'tronco'						=>	$_detalle_musculo['tronco'],
+								'brazo_izquierdo'				=>	$_detalle_musculo['brazo_izquierdo'],
+								'brazo_derecho'					=>	$_detalle_musculo['brazo_derecho'],
+								'pierna_izquierda'				=>	$_detalle_musculo['pierna_izquierda'],
+								'pierna_derecha'				=>	$_detalle_musculo['pierna_derecha'],
 								'valoracion_antropometrica_id'	=>	$va->id
 
 							);

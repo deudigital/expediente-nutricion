@@ -1062,7 +1062,8 @@ this.			=	this.menusEjemplo.textoDesayuno;
 
 		this.displayModalPorciones=true;
 	   let body = document.getElementsByTagName('body')[0];
-		body.classList.add('open-modal');
+		body.classList.add('open-modal');		
+		window.scrollTo(0, 0);
 		this.concatenar(aMenu);
    }
 	closeModalPorciones(){

@@ -135,16 +135,48 @@ body {
   -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+/*
 #nav-icon2.open {width:30px;right: -5px;}
 #nav-icon2.open span:nth-child(1) {left: 0;top: 0;}
 #nav-icon2.open span:nth-child(2) {left: calc(50%);top: 0;}
-#nav-icon2.open span:nth-child(3) {left: -50%;opacity: 0;}
-#nav-icon2.open span:nth-child(4) {left: 100%;opacity: 0;}
 #nav-icon2.open span:nth-child(5) {top: 15px;left: 0;}
 #nav-icon2.open span:nth-child(6) {top: 15px;left: calc(50%);}
+*/
+
+#nav-icon2.open {width: 25px;right: -5px;}
+#nav-icon2.open span:nth-child(1) {left: 2px;top: 2px;}
+#nav-icon2.open span:nth-child(2) {left: calc(50% - 2px);top: 2px;}
+#nav-icon2.open span:nth-child(3) {left: -50%;opacity: 0;}
+#nav-icon2.open span:nth-child(4) {left: 100%;opacity: 0;}
+#nav-icon2.open span:nth-child(5) {top: 11px;left: 2px;}
+#nav-icon2.open span:nth-child(6) {top: 11px;left: calc(50% - 2px);}
 
 .content-nav .list-group > li > a:hover #nav-icon2 span {background-color: #8bc23f !important;}
 .board-inner.control{overflow:hidden;}
 .sidebar-toggle-button{background-color:#fff;z-index:101;position:relative;}
-.sidebar-left.open{margin-top:0}
-.sidebar-left{margin-top:-140%}
+/*.sidebar-left.open{margin-top:0}
+.sidebar-left{margin-top:-100%}*/
+
+
+
+
+/* Acordeon styles */
+.esc-nav .tab {position: relative;margin-bottom: 1px;width: 100%;color: #fff; overflow: hidden;}
+.esc-nav input {position: absolute;opacity: 0;z-index: -1;}
+.esc-nav label {position: relative;display: block;padding: 0 0 0 1em;background: #16a085;font-weight: bold;  line-height: 3;  cursor: pointer;}
+/*.esc-nav .blue label {background: #2980b9;}*/
+.esc-nav  .tab-content {max-height: 0;overflow: hidden;/*background: #1abc9c;*/-webkit-transition: max-height .35s;  -o-transition: max-height .35s;  transition: max-height .35s;}
+.esc-nav  .blue .tab-content { /*background: #3498db;*/}
+.esc-nav .tab-content p {margin: 1em;}
+/* :checked */
+/*.esc-nav input:checked ~ .tab-content { max-height: 50em;}*/
+.open  .tab-content { max-height: 50em;}
+/* Icon */
+/*.esc-nav label::after {position: absolute;right: 0;top: 0;display: block;
+  width: 3em;height: 3em;line-height: 3;text-align: center;
+  -webkit-transition: all .35s;-o-transition: all .35s;transition: all .35s;
+}
+.esc-nav input[type=checkbox] + label::after {content: "+";}
+.esc-nav input[type=radio] + label::after {content: "\25BC";}
+.esc-nav input[type=checkbox]:checked + label::after {transform: rotate(315deg);}
+.esc-nav input[type=radio]:checked + label::after {transform: rotateX(180deg);}*/

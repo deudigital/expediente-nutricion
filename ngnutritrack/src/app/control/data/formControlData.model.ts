@@ -30,6 +30,10 @@ export class FormControlData {
 	gustos						=	new HabitosGusto();
 	habitosOtro					=	new HabitosOtro();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
+	
+	detalleGrasa				= 	new DetalleGrasa();
+	detalleMusculo				= 	new DetalleMusculo();	
+	
 	prescripcion:Prescripcion	=	new Prescripcion();
 	rdd:Rdd						=	new Rdd();
 
@@ -76,6 +80,8 @@ export class FormControlData {
 		this.consulta					=	new Consulta();			
 		this.prescripcion				=	new Prescripcion();
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
+		this.detalleGrasa				= 	new DetalleGrasa();
+		this.detalleMusculo				= 	new DetalleMusculo();
 		this.rdd						=	new Rdd();
 		this.patronmenu					=	[];
 		this.dieta_desayuno_ejemplo			=	'';
@@ -159,6 +165,14 @@ export class FormControlData {
 		if(data.va){
 			var va			=	data.va;
 			this.valoracionAntropometrica.set(va);
+			
+			this.detalleGrasa.valoracion_antropometrica_id	=	va.id;
+			this.detalleMusculo.valoracion_antropometrica_id=	va.id;
+			
+			if(va.detalleGrasa)
+				this.detalleGrasa	=	va.detalleGrasa;
+			if(va.detalleMusculo)
+				this.detalleMusculo	=	va.detalleMusculo;			
 		}
 		this.rdd.consulta_id	=	this.consulta.id;
 		if(data.rdd){
@@ -292,11 +306,14 @@ export class FormControlData {
 	getFormValoracionAntropometrica(){
 		return this.valoracionAntropometrica;
 	}
+	getFormDetalleGrasa(){
+		return this.detalleGrasa;
+	}
+	getFormDetalleMusculo(){
+		return this.detalleMusculo;
+	}
 
 	setLastValuesFormValoracionAntropometrica(va){
-/*		this.valoracionAntropometrica.estatura				=	va.estatura;
-		this.valoracionAntropometrica.circunferencia_muneca	=	va.circunferencia_muneca;
-	*/
 		this.valoracionAntropometrica.lastEstatura				=	va.estatura;
 		this.valoracionAntropometrica.lastCircunferencia_muneca	=	va.circunferencia_muneca;
 	}
@@ -470,8 +487,8 @@ export class ValoracionAntropometrica {
 	consulta_id: number = 0;
 	pesoIdeal: number = 0;
 	pesoIdealAjustado: number = 0;	
-	detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
-	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();
+	/*detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
+	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();*/
 	
 	lastEstatura:number=0;
 	lastCircunferencia_muneca:number=0;
@@ -492,20 +509,21 @@ export class ValoracionAntropometrica {
 		this.circunferencia_cadera	= 	data.circunferencia_cadera;
 		this.consulta_id			= 	data.consulta_id;
 
-		this.detalleGrasa.valoracion_antropometrica_id	=	data.id;
+		
+/*		this.detalleGrasa.valoracion_antropometrica_id	=	data.id;
 		this.detalleMusculo.valoracion_antropometrica_id	=	data.id;
 		if(data.detalleGrasa)
 			this.detalleGrasa	=	data.detalleGrasa;
 		if(data.detalleMusculo)
 			this.detalleMusculo	=	data.detalleMusculo;
-
+		*/
 	}
-	getDetalleMusculo(){
+	/*getDetalleMusculo(){
 		return this.detalleMusculo;
 	}
 	getDetalleGrasa(){
 		return this.detalleGrasa;
-	}
+	}*/
 	setPesos(peso, estatura, genero){
 		var pesoIdeal	=	this.getPesoIdeal(estatura, genero);
 		this.getPesoIdealAjustado(peso, pesoIdeal);
@@ -881,6 +899,37 @@ Modo de Uso
 		}
 		return true;
 	}
+	soloNumerosRange(evt, min=0, max=999.99) {
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		console.log('charCode: ' + charCode);
+
+		if (charCode == 8 || (charCode>36 && charCode<41)) 
+			return true;
+		if (charCode == 46) {
+			var txt 	=	evt.target.value;
+			if (txt.indexOf('.') === -1) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (charCode > 31
+				 && (charCode < 48 || charCode > 57))
+				return false;
+		}
+		var numero	=	evt.target.value;
+		//console.log(numero);
+		numero	=	numero.substring(0, numero.length-1); 
+		var _value 	=	Number(evt.target.value);
+		console.log(_value);
+		
+		if(_value > max){
+			evt.target.value	=	numero;
+			return false;
+		}
+			
+		return true;
+	}
 	in_array(data, ele){
 		return data.indexOf(ele)>-1;
 	}
@@ -922,16 +971,16 @@ export class PatronMenuEjemplo{
 }
 export class DetalleGrasa{
 	id:number=0;
-	abdominal:number=0;
-	piernaIzquierda:number=0;
-	piernaDerecha:number=0;
-	brazoIzquierdo:number=0;
-	brazoDerecho:number=0;
+	segmentado_abdominal:number=0;
+	segmentado_pierna_izquierda:number=0;
+	segmentado_pierna_derecha:number=0;
+	segmentado_brazo_izquierdo:number=0;
+	segmentado_brazo_derecho:number=0;
 
-	tricipital:number=0;
-	bicipital:number=0;
-	subescapular:number=0;
-	suprailiaco:number=0;
+	pliegue_tricipital:number=0;
+	pliegue_bicipital:number=0;
+	pliegue_subescapular:number=0;
+	pliegue_supraliaco:number=0;
 
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
