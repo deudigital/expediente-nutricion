@@ -404,7 +404,7 @@
 					type="text" 
 					class="form-control"  
 					maxlength="6" 
-					(keypress)="helpers.soloNumeros($event)"
+					(keypress)="helpers.soloNumerosRange($event)"
 					[(ngModel)]="grasa.segmentado_abdominal"
 				>
 			</div>
@@ -418,7 +418,7 @@
 							class="form-control" 
 							placeholder="Derecha" 
 							maxlength="6" 
-							(keypress)="helpers.soloNumeros($event)"
+							(keypress)="helpers.soloNumerosRange($event)"
 							[(ngModel)]="grasa.segmentado_pierna_derecha"
 						>
 					</div>
@@ -429,7 +429,7 @@
 							class="form-control" 
 							placeholder="Izquierda"		
 							maxlength="6" 
-							(keypress)="helpers.soloNumeros($event)"
+							(keypress)="helpers.soloNumerosRange($event)"
 							[(ngModel)]="grasa.segmentado_pierna_izquierda"
 						>
 					</div>
@@ -443,7 +443,7 @@
 							class="form-control" 
 							placeholder="Derecha"	
 							maxlength="6" 
-							(keypress)="helpers.soloNumeros($event)"
+							(keypress)="helpers.soloNumerosRange($event)"
 							[(ngModel)]="grasa.segmentado_brazo_derecho"
 						>
 					</div>
@@ -454,7 +454,7 @@
 							class="form-control" 
 							placeholder="Izquierda"		
 							maxlength="6" 
-							(keypress)="helpers.soloNumeros($event)"	
+							(keypress)="helpers.soloNumerosRange($event)"	
 							[(ngModel)]="grasa.segmentado_brazo_izquierdo"								
 						>
 					</div>
@@ -472,7 +472,9 @@
 					<input 
 						name="pliegue_tricipital"
 						type="text" 
-						class="form-control" 
+						class="form-control"  
+						maxlength="6" 
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_tricipital"
 					>
 				</div>
@@ -483,7 +485,7 @@
 						type="text" 
 						class="form-control" 
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_bicipital"
 					>
 				</div>
@@ -494,7 +496,7 @@
 						type="text" 
 						class="form-control"  
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_subescapular"
 					>
 				</div>
@@ -505,7 +507,7 @@
 						type="text" 
 						class="form-control" 
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_supraliaco"
 					>
 				</div>
@@ -530,7 +532,7 @@
 				type="text" 
 				class="form-control" 
 				maxlength="6" 
-				(keypress)="helpers.soloNumeros($event)"
+				(keypress)="helpers.soloNumerosRange($event)"
 				[(ngModel)]="detalleMusculo.tronco"
 				>
 		</div>
@@ -545,7 +547,7 @@
 						class="form-control" 
 						placeholder="Derecha"		
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="detalleMusculo.pierna_derecha"
 					>
 				</div>
@@ -557,7 +559,7 @@
 						class="form-control" 
 						placeholder="Izquierda"		
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="detalleMusculo.pierna_izquierda"
 					>
 				</div>
@@ -572,7 +574,7 @@
 						class="form-control" 
 						placeholder="Derecha"	
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="detalleMusculo.brazo_derecho"
 					>
 				</div>
@@ -584,7 +586,7 @@
 						class="form-control" 
 						placeholder="Izquierda"			
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"						
+						(keypress)="helpers.soloNumerosRange($event)"						
 						[(ngModel)]="detalleMusculo.brazo_izquierdo"								
 					>
 				</div>

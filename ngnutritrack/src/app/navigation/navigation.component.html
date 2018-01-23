@@ -1,23 +1,27 @@
 <div class="board-inner control" id="status-buttons">
-<div *ngIf="isConsulta" class="sidebar-toggle-button">
-	<ul class="list-group">
-		<li class="list-group-item datos-paciente{{class_toggle}}">			
-			<a href="javascript:void(0)" (click)="toggleDatosPaciente()">				
-				<span>Datos del Paciente</span>
-				<!--<i></i>-->
-				<div id="nav-icon2" [ngClass]="{'open': showMenuPaciente }">
-				  <span></span>
-				  <span></span>
-				  <span></span>
-				  <span></span>
-				  <span></span>
-				  <span></span>
-				</div>
-			</a>
-		</li>
-	</ul>
-</div><!--*ngIf="showMenuPaciente"-->
-	<div [ngClass]="{'open': showMenuPaciente }" class="sidebar-left transition">
+
+<div class="half esc-nav ">
+    <div class="tab">
+     <div *ngIf="isConsulta" class="sidebar-toggle-button">
+		<ul class="list-group">
+			<li class="list-group-item datos-paciente{{class_toggle}}">			
+				<a href="javascript:void(0)" (click)="toggleDatosPaciente()">				
+					<span>Datos del Paciente</span>
+					<div id="nav-icon2" [ngClass]="{'open': showMenuPaciente }">
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div [ngClass]="{'open': showMenuPaciente }" class="sidebar-left">	
+		<div class="tab-content">
+        
 			<ul class="list-group">
 				<li class="list-group-item personales">
 					<a routerLink="/personales" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
@@ -56,7 +60,11 @@
 					</a>
 				</li>
 			</ul>
-	</div>
+		</div>
+     </div>
+    </div>
+  </div>
+
 	<div *ngIf="isConsulta">
 		<h3 class="current-menu">Consulta en Curso</h3>
 		<ul class="list-group">

@@ -73,7 +73,7 @@ padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:
 .genero .checkbox > label{width:48%;}
 /********************/ /********************/
 .content-nav{}
-.content-nav h3 {font-weight: 700;font-size: 16px;text-align: right;margin-right: 35px;margin-top: 35px;	margin-bottom: 30px;}
+.content-nav h3 {font-weight: 700;font-size: 16px;text-align: right;margin-right: 35px;/*margin-top: 35px;*/	margin-bottom: 30px;}
 .content-nav .list-group {text-align: right;font-weight:600}
 .content-nav .list-group > li {background-color: transparent;border: none;position:relative;}
 .content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
