@@ -375,12 +375,12 @@ class FacturaController extends Controller
           view()->share('productos', $products);
           view()->share('fecha', date("d/m/Y"));
 
-          //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri";
+          //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri/";
           $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
 
-          \PDF::loadView('templates.invoice')->save($staging_env_route."/public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+          \PDF::loadView('templates.invoice')->save($staging_env_route."public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                              ->stream('download.pdf');
-          $PDF_ = $staging_env_route."/public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
+          $PDF_ = $staging_env_route."public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
 
          date_default_timezone_set("America/Chicago");
          $hoy = date("Y-m-d H:i:s");   
@@ -832,9 +832,10 @@ class FacturaController extends Controller
       $context  = stream_context_create($options);
       $result = file_get_contents($url, false, $context);
 
-      print_r($result);
       
-      $result= json_decode($result);                
+      
+      $result= json_decode($result);   
+      print_r($result);             
 
        try{
 	      DB::table('documentos')

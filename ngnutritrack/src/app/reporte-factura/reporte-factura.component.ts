@@ -127,9 +127,10 @@ export class ReporteFacturaComponent implements OnInit {
     if(this.show_deleteConfirmation){
       body.classList.add('open-modal');
 	  window.scrollTo(0, 0);
-	}
-    else
-      body.classList.remove('open-modal');    
+	}else{
+    body.classList.remove('open-modal');    
+  }
+      
   }
 
   anularFactura(){
@@ -141,13 +142,13 @@ export class ReporteFacturaComponent implements OnInit {
            console.log(response);
         if(response.status === 200){          
           this.form_errors.loading = false;
-          this.form_errors.successful_operation = true;
-
+          this.form_errors.successful_operation = true;          
           setTimeout(() => {
             this.form_errors.successful_operation = false;  
             this.deleted_document.nombre_tipo = "Nota de crédito";
             this.deleted_document.tipo_documento_id = 3;
             this.resultArray.push(this.deleted_document);
+            this.show_deleteConfirmation = true;
             this.confirmDeleteFactura(this.deleted_document);
           }, 3000); 
         }
