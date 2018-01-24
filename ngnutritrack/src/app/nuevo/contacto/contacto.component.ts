@@ -157,8 +157,12 @@ export class ContactoComponent implements OnInit {
 						console.log(response);
 						this.mng.setEnableLink(true);
 						this.goTo(this.page);
+						this.btnNavigation_pressed	=	false;
 					},
-			error =>  console.log(<any>error)
+			error =>  {
+				console.log(<any>error)
+				this.btnNavigation_pressed	=	false;
+			}
 		);
 	}
 	saveForm(){

@@ -9,8 +9,17 @@
 		<app-dieta-nav></app-dieta-nav>		
 	
 		<header>
-			<h3 class="title">Divisi&oacute;n Nutricional </h3>
+			<h3 class="title">Distribuci&oacute;n de Macronutrientes</h3>
 		</header>
+		
+		<div class="buttons">
+			<button 
+				class="btn btn-default" 
+				[disabled]="disableButtonHistorial"
+				(click)="showModal('datos')"
+				>Ver Historial Prescripciones</button>
+		</div>
+		
 		<div class="row division-nutricional s-75">
 		
 				<div class="col-md-5">
@@ -76,6 +85,8 @@
 								[(ngModel)]="prescripcion.proteinas"
 							/>
 						</div>
+						
+						<div [ngClass]="{'red': sumatoria_distribucion>100 }" class="sumatoria-distribucion">{{sumatoria_distribucion}}</div>
 					</div>
 					<div class="col-sm-4">						
 						<div class="grasas with-cicle">						
@@ -103,13 +114,10 @@
 					</div>
 				</div>			
 		</div>	
-		<div class="buttons">
-			<a class="btn btn-default" href="javascript:void(0);" (click)="showModal('datos')">Ver Historial Prescripciones</a>
-		</div>
 	</section>
 	<section>
 		<header>
-			<h3 class="title">Asignaci&oacute;n de Porciones</h3>
+			<h3 class="title">Distribuci&oacute;n de Porciones</h3>
 		</header>
 		
 			<table class="table table-responsive separate asignacion-porciones">

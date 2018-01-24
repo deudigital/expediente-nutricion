@@ -9,15 +9,18 @@ use DB;
 class ValoracionAntropometricaController extends Controller
 {
     public function store(Request $request)
-    {
+    {/*$response	=	Response::json($request->all(), 201);
+		return $response;*/
 		$consulta_id	=	false;
-		if($request->input('va'))
+		if($request->va)
+			$consulta_id	=	$request->va['consulta_id'];
+		else
+			$consulta_id	=	$request->consulta_id;
+		/*if($request->input('va'))
 			$consulta_id	=	$request->input('va')['consulta_id'];
 		else
-			$consulta_id	=	$request->input('consulta_id');
-		/*$response	=	Response::json($consulta_id, 201);
-		return $response;*/
-		//if(!$request->input('consulta_id')){
+			$consulta_id	=	$request->input('consulta_id');*/
+		
 		if(!$consulta_id){
 			$response	=	Response::json([
 				'code'		=>	422,
@@ -39,7 +42,8 @@ class ValoracionAntropometricaController extends Controller
 		if($request->input('va'))
 			$request	=	(Object)$request->input('va');		
 		
-		
+		/*$response	=	Response::json($request, 201);
+		return $response;*/
 		
 		$action	=	'editado';
 		/*$va	=	ValoracionAntropometrica::where('consulta_id', $request->consulta_id)*/

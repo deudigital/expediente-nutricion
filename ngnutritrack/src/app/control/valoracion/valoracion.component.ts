@@ -88,11 +88,12 @@ export class ValoracionComponent implements OnInit {
 	btnNavigation_pressed:boolean;
 	page:string;
 	aPendientes:any[];
-	aPendientess:{ [id: string]: any; }	=	{};
+	aPendientess:{ [id: string]: any; }	=	{'0':''};
 	countPendientes:number=0;
 
 	valorGrasaPliegues:number;
 	disableButtonHistorial:boolean;
+	loading_data_form:boolean;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
@@ -107,12 +108,13 @@ export class ValoracionComponent implements OnInit {
 			this.nuevaConsulta	=	true;			
 		
 		this.disableButtonHistorial	=	true;
+		this.loading_data_form	=	true;
 		this.getDatosDeConsulta(this.model.consulta.id);
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
-		this.aPendientes		=	[];
-		this.aPendientess		=	[];
+		/*this.aPendientes		=	[];
+		this.aPendientess		=	[];*/
 		this.countPendientes	=	0;
 	}
 	ngOnDestroy() {
@@ -185,6 +187,7 @@ export class ValoracionComponent implements OnInit {
 				this.grasa			=	this.model.getFormDetalleGrasa();
 				//console.log(this.grasa);
 				this.setInfoInit();
+				this.loading_data_form	=	false;
 				this.getHistorial();
 				setTimeout(() => {
 					      this.allowCalculate	=	true;
@@ -199,8 +202,7 @@ export class ValoracionComponent implements OnInit {
 		this.formControlDataService.select('valoracionAntropometrica', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('<-- cRud Historial VA');
-						console.log(response);
+						/*console.log('<-- cRud Historial VA');console.log(response);*/
 						this.historial	=	response;
 						console.log(this.historial.length);
 						this.disableButtonHistorial	=	this.historial.length==0;
@@ -356,6 +358,7 @@ export class ValoracionComponent implements OnInit {
 		//if(!this.valoracion.id && this.aPendientes.length>0){
 		if(!this.valoracion.id && this.countPendientes>0){
 			this.aPendientess['va']		=	valoracionAntropometrica;
+			//this.aPendientess.push(valoracionAntropometrica);
 			data	=	this.aPendientess;
 		}
 		console.log('-->Crud va');
@@ -464,7 +467,7 @@ export class ValoracionComponent implements OnInit {
 			this.aPendientess['detalle_grasa']	=	data;
 			this.countPendientes++;
 			console.log('saveInfoGrasa');
-			console.log(this.aPendientess);
+			//console.log(this.aPendientess);
 			return ;
 		}
 
@@ -484,7 +487,7 @@ export class ValoracionComponent implements OnInit {
 			this.aPendientess['detalle_musculo']	=	data;
 			this.countPendientes++;
 			console.log('saveInfoMusculo');
-			console.log(this.aPendientess);
+			//console.log(this.aPendientess);
 			return ;
 		}
 		console.log('-->Crud Musculo...');	console.log(data);
@@ -597,7 +600,7 @@ export class ValoracionComponent implements OnInit {
 		
 		
 		//this.grasa.valorGrasaPliegues	=	(495/D)-450;
-		this.valorGrasaPliegues	=	(495/D)-450;
+		this.valorGrasaPliegues	=	Math.round((495/D)-450);
 		return this.valorGrasaPliegues;
 	}
 	get	imc(){
@@ -681,7 +684,7 @@ export class ValoracionComponent implements OnInit {
 /*
 =PESO/PESO_IDEAL_AJUSTADO
 */
-		this.model.adecuacion	=this.valoracion.peso/this.analisis.pesoIdealAjustado
+		this.model.adecuacion	=	(this.valoracion.peso/this.analisis.pesoIdealAjustado) * 100;
 		return this.model.adecuacion;
 	}
 	get relacionCinturaCadera(){
@@ -735,7 +738,7 @@ NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB ME
 104%	=PESO/PESO_IDEAL
 Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCENTAJE_PESO<90%;"DN LEVE";SI(
 */
-		this.analisis.porcentajePeso	=	this.valoracion.peso/this.analisis.pesoIdeal;
+		this.analisis.porcentajePeso	=	(this.valoracion.peso/this.analisis.pesoIdeal) * 100;
 		return this.analisis.porcentajePeso;
 	}
 	get pesoMetaMaximo(){
