@@ -376,7 +376,8 @@ class FacturaController extends Controller
           view()->share('fecha', date("d/m/Y"));
 
           //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri/";
-          $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
+          //$staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
+          $staging_env_route = "../../../";
 
           \PDF::loadView('templates.invoice')->save($staging_env_route."public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                              ->stream('download.pdf');
@@ -587,13 +588,11 @@ class FacturaController extends Controller
         view()->share('factura', $factura);
         view()->share('productos', $products);
         view()->share('fecha', date("d/m/Y"));
+        
 
-        $staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
-        //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri/";
-
-        \PDF::loadView('templates.invoice')->save($staging_env_route."public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+        \PDF::loadView('templates.invoice')->save(\Storage::disk('pdf')->getDriver()->getAdapter()->getPathPrefix().$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');
-        $PDF_ = $staging_env_route."public/invoices/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
+        $PDF_ = \Storage::disk('pdf')->url($consecutivo_nutricionista."-".$request->nutricionista_id.".pdf");
 
         // Proceso de almacenamiento de factura en la BD
 
@@ -645,7 +644,7 @@ class FacturaController extends Controller
                   dd($e);
               }
           }
-		$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
+		//$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
         // Fin de proceso de creacion de lineas de detalle
 
 	   $result = self::makeXML($codigo_seguridad, $documento_id, $nutricionista, $client["nombre"], $nutricionista_ubicacion[0], $products, $factura, "", "01");

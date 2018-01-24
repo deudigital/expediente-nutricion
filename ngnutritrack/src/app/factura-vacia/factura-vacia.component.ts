@@ -118,7 +118,7 @@ export class FacturaVaciaComponent implements OnInit {
 				this._distritos	=	this.mng.getDistritos();				
 
 				if(this.ubicaciones)
-						this.setUbicacion(6345);
+						this.setUbicacion(1);
 			//--------------------------------------//		
 
 				this.obtenerUnidades();				
@@ -133,6 +133,7 @@ export class FacturaVaciaComponent implements OnInit {
 	  		}
 	  	});
 		this.unidad_medida = 'Servicios Profesionales';
+		this.persona.identification_nombre="Cedula Fisica";
 	}
 
   	// Autocomplete 
@@ -588,12 +589,12 @@ export class FacturaVaciaComponent implements OnInit {
 
 	facturar(){
 
-		/*if(!this.persona.cedula){
+		if(!this.persona.cedula){
 			this.form_errors.empty_id = true;
-		}*/
+		}
 
-	/*	if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
-			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
+		if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
+			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	
 
 		if(this.persona.nombre){
 
@@ -668,10 +669,11 @@ export class FacturaVaciaComponent implements OnInit {
 					      this.openModalDatos();
 					    }, 3000);											
 					}
-				);	},2000)						;
+				);	},2000);
 			}else{
 				this.form_errors.empty_products = true;
 			}
+		}
 		}
 	}	
 

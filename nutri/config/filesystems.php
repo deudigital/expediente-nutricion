@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'pdf' => [
+            'driver'    => 'local',
+            'root'      => public_path("invoices/"),
+            'url'       => env('APP_URL').'/public/invoices/',
+            'visibility'=> 'public'
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

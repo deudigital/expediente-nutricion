@@ -49,9 +49,7 @@
 								<option *ngFor = "let option of tipos_ID" 
 										[ngValue]="option.nombre"
 										[selected]="option.nombre === persona.identification_nombre">{{option.nombre}}</option>
-							</select>
-							<span style="color:red;font-size: 10px;" 
-								  *ngIf="form_errors.empty_id">Por favor, seleccione un tipo de identificación.</span>	
+							</select>	
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="cedula">Cédula</label>
@@ -65,7 +63,7 @@
 								   placeholder="Cédula"
 								   required>
 							<span style="color:red;font-size: 10px;" 
-								  *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>	   
+								  *ngIf="form_errors.invalid_id || form_errors.empty_id">El número de documento ingresado es inválido.</span>  
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="nombre">Ingresar Nombre</label>
@@ -76,7 +74,7 @@
 								   class="form-control" 
 								   id="nombre" 
 								   [(ngModel)] = "queryPerson"
-								   (keyup) = "suggestPersona()"
+								   (keyup) = "	()"
 								   name="nombre"
 								   required>
 							<span style="color:red;font-size: 10px;" 
