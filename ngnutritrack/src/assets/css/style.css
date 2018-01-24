@@ -375,6 +375,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 }
 @media(min-width:768px){
 	body{font-size:12px;}
+	.content-nav .list-group:first-of-type{margin-top:5px}
 	.main .links .box a > strong {margin-top: 20px;font-size: 17px;}
 	.form-group {margin-bottom: 30px;}
 	.navbar.top:not(.logo-center) .navbar-brand {width: 100%;text-align: right;padding-right: 50px;}
