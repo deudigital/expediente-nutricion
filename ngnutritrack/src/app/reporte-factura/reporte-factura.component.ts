@@ -127,9 +127,10 @@ export class ReporteFacturaComponent implements OnInit {
     if(this.show_deleteConfirmation){
       body.classList.add('open-modal');
 	  window.scrollTo(0, 0);
-	}
-    else
-      body.classList.remove('open-modal');    
+	}else{
+    body.classList.remove('open-modal');    
+  }
+      
   }
 
   anularFactura(){
@@ -141,11 +142,14 @@ export class ReporteFacturaComponent implements OnInit {
            console.log(response);
         if(response.status === 200){          
           this.form_errors.loading = false;
-          this.form_errors.successful_operation = true;
+          this.form_errors.successful_operation = true;          
           setTimeout(() => {
             this.form_errors.successful_operation = false;  
             this.deleted_document.nombre_tipo = "Nota de crédito";
             this.deleted_document.tipo_documento_id = 3;
+            this.resultArray.push(this.deleted_document);
+            this.show_deleteConfirmation = true;
+            this.confirmDeleteFactura(this.deleted_document);
           }, 3000); 
         }
       },
@@ -193,7 +197,7 @@ export class ReporteFacturaComponent implements OnInit {
     }
   }
 
-	filterQuery(){
+	/*filterQuery(){
 		this.resultArray = [];
 		console.log(this.fromDate.date);
 		var fromDate	=	new Date(this.fromDate.date.year, this.fromDate.date.month-1, this.fromDate.date.day);
@@ -229,14 +233,14 @@ export class ReporteFacturaComponent implements OnInit {
 
 			}
 		}
-  }
+  }*/
   fillWithZero(valor){
 	  /*console.log(valor);
 	  console.log(String(valor).length);*/
 	  valor	=	((String(valor).length==1)? '0':'' ) + valor;	  
 	  return valor;
   }
-  filterQuery__original(){
+  filterQuery(){
 
     this.resultArray = [];
 
@@ -255,15 +259,19 @@ export class ReporteFacturaComponent implements OnInit {
     if(this.nombre === ""){
       for(let consulta in this.factura){
         let queryDate =  new Date(this.factura[consulta].fecha);
-        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
+        //queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
 
-        if(queryDate >= fromDate && queryDate <= uDate){
+        //if(queryDate >= fromDate && queryDate <= uDate){
+          this.factura[consulta].showDelete    =  true;
+          if(this.factura[consulta].tipo_documento_id==3 || !this.factura[consulta].estado){
+            this.factura[consulta].showDelete    =  false;
+          }
           if(this.tipo === this.factura[consulta].nombre_tipo){
             this.resultArray.push(this.factura[consulta]);
           } else if(this.tipo === "Todos"){
             this.resultArray.push(this.factura[consulta]);
           }
-        }
+        //}
       }
     }else{
       for(let consulta in this.factura){
