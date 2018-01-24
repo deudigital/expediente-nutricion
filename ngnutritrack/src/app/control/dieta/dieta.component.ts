@@ -78,6 +78,8 @@ export class DietaComponent implements OnInit {
 		porciones: false
 	};
 
+	disableButtonHistorial:boolean;
+
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
 	console.log('this.model');
@@ -96,6 +98,7 @@ export class DietaComponent implements OnInit {
   }
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
+	  this.disableButtonHistorial	=	true;
 	  this.getHistorial();
 	  this.navitation	=	false;
 	  this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
@@ -227,7 +230,7 @@ export class DietaComponent implements OnInit {
 		/*console.log('listo para el historial');
 		console.log(data);*/
 		this.historial	=	data;
-		
+		this.disableButtonHistorial	=	this.historial.length==0;
 	}
 	displayDetails(item){
 		item.display	=	!item.display;
@@ -385,6 +388,22 @@ export class DietaComponent implements OnInit {
 	get gramos_grasas(){
 		return this.getCalculoKcalGrasas()/9;
 	}
+	
+	get sumatoria_distribucion(){
+		var total	=	0;
+
+		if(this.prescripcion.carbohidratos)
+			total	+=	this.prescripcion.carbohidratos;
+
+		if(this.prescripcion.proteinas)
+			total	+=	this.prescripcion.proteinas;
+
+		if(this.prescripcion.grasas)
+			total	+=	this.prescripcion.grasas;
+
+		return total;
+	}
+	
 	calculateItems(){
 		if(this.items.length==0)
 			return ;

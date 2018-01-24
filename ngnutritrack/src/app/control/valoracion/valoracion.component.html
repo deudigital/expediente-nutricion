@@ -81,7 +81,11 @@
 								[(ngModel)]="valoracion.grasa"
 								>
 							<i></i>
-							<a (click)="showModal('grasa')" class="link-modal pen"><i></i></a>
+							<a 
+								class="link-modal pen"
+								[ngClass]="{'awaiting-delivery': loading_data_form }" 
+								(click)="showModal('grasa')" 
+								><i></i></a>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -98,7 +102,11 @@
 								[(ngModel)]="valoracion.musculo"
 								>
 							<i></i>
-							<a (click)="showModal('musculo')" class="link-modal pen"><i></i></a>
+							<a 
+								class="link-modal pen" 
+								[ngClass]="{'awaiting-delivery': loading_data_form }"
+								(click)="showModal('musculo')" 
+								><i></i></a>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -237,7 +245,7 @@
 						<i></i>
 						<br>
 						Relación Cintura-Cadera
-						<strong>{{ relacionCinturaCadera | number : '1.2-2'}} %</strong>
+						<strong>{{ relacionCinturaCadera | number : '1.2-2'}}</strong>
 					</div>
 					<div class="box porcentaje-sobrepeso">
 						<i></i>

@@ -93,6 +93,7 @@ export class ValoracionComponent implements OnInit {
 
 	valorGrasaPliegues:number;
 	disableButtonHistorial:boolean;
+	loading_data_form:boolean;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
@@ -107,6 +108,7 @@ export class ValoracionComponent implements OnInit {
 			this.nuevaConsulta	=	true;			
 		
 		this.disableButtonHistorial	=	true;
+		this.loading_data_form	=	true;
 		this.getDatosDeConsulta(this.model.consulta.id);
     }
 	ngOnInit() {
@@ -185,6 +187,7 @@ export class ValoracionComponent implements OnInit {
 				this.grasa			=	this.model.getFormDetalleGrasa();
 				//console.log(this.grasa);
 				this.setInfoInit();
+				this.loading_data_form	=	false;
 				this.getHistorial();
 				setTimeout(() => {
 					      this.allowCalculate	=	true;
@@ -597,7 +600,7 @@ export class ValoracionComponent implements OnInit {
 		
 		
 		//this.grasa.valorGrasaPliegues	=	(495/D)-450;
-		this.valorGrasaPliegues	=	(495/D)-450;
+		this.valorGrasaPliegues	=	Math.round((495/D)-450);
 		return this.valorGrasaPliegues;
 	}
 	get	imc(){
@@ -681,7 +684,7 @@ export class ValoracionComponent implements OnInit {
 /*
 =PESO/PESO_IDEAL_AJUSTADO
 */
-		this.model.adecuacion	=this.valoracion.peso/this.analisis.pesoIdealAjustado
+		this.model.adecuacion	=	(this.valoracion.peso/this.analisis.pesoIdealAjustado) * 100;
 		return this.model.adecuacion;
 	}
 	get relacionCinturaCadera(){
@@ -735,7 +738,7 @@ NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB ME
 104%	=PESO/PESO_IDEAL
 Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCENTAJE_PESO<90%;"DN LEVE";SI(
 */
-		this.analisis.porcentajePeso	=	this.valoracion.peso/this.analisis.pesoIdeal;
+		this.analisis.porcentajePeso	=	(this.valoracion.peso/this.analisis.pesoIdeal) * 100;
 		return this.analisis.porcentajePeso;
 	}
 	get pesoMetaMaximo(){
