@@ -32,12 +32,12 @@ export class PersonalesComponent implements OnInit {
   
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
-		this.fcData		=	formControlDataService.getFormControlData();
+		this.fcData		=	formControlDataService.getFormControlData();console.log(this.fcData);
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
 		
 		this.helpers	=	this.fcData.getHelpers();
-		//console.log(this.paciente);
+		console.log(this.paciente);
 		this.setInfoInit();
 		
 		this.mng.setMenuPacienteStatus(true);
@@ -55,6 +55,9 @@ export class PersonalesComponent implements OnInit {
 			this.saveForm();
 	}
 	setInfoInit(){
+		if(!this.paciente.nutricionista_id)
+			this.paciente.nutricionista_id	=	this.fcData.nutricionista_id;
+		
 		if(this.paciente.fecha_nac){
 			var current_fecha = this.paciente.fecha_nac.split('/');
 			console.log(current_fecha);
@@ -105,9 +108,12 @@ export class PersonalesComponent implements OnInit {
 						//this.mng.setEnableLink(true);
 						//this.router.navigate(['/contacto']);
 						this.goTo(this.page);
-						
+						this.btnNavigation_pressed	=	false;
 					},
-			error =>  console.log(<any>error)
+			error =>  {
+				console.log(<any>error)
+				this.btnNavigation_pressed	=	false;
+			}
 		);
 	}
 	saveForm(){

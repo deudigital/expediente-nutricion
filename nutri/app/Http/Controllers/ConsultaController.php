@@ -748,7 +748,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 													);
 		$_info_va['edad_metabolica']		=	array(
 													'titulo'=>	'Edad Metab&oacute;lica',
-													'unidad'=>	'años'
+													'unidad'=>	'a&ntilde;os'
 													);
 		$_info_va['circunferencia_cintura']	=	array(
 													'titulo'=>	'Circunferencia Cintura',

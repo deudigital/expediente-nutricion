@@ -115,10 +115,10 @@
 				> ANTERIOR 
 				</button>
 				<button class="btn btn-success next" 
-				[disabled]="!personalForm.valid"
+				[disabled]="!personalForm.valid || btnNavigation_pressed"
 				(click)="Next()"
 					
-				> SIGUIENTE 
+				> SIGUIENTE <span *ngIf="btnNavigation_pressed" class="fa fa-spinner fa-spin"></span>
 				</button>
 			</div>
 

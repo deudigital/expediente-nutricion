@@ -88,7 +88,7 @@ export class ValoracionComponent implements OnInit {
 	btnNavigation_pressed:boolean;
 	page:string;
 	aPendientes:any[];
-	aPendientess:{ [id: string]: any; }	=	{};
+	aPendientess:{ [id: string]: any; }	=	{'0':''};
 	countPendientes:number=0;
 
 	valorGrasaPliegues:number;
@@ -111,8 +111,8 @@ export class ValoracionComponent implements OnInit {
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
-		this.aPendientes		=	[];
-		this.aPendientess		=	[];
+		/*this.aPendientes		=	[];
+		this.aPendientess		=	[];*/
 		this.countPendientes	=	0;
 	}
 	ngOnDestroy() {
@@ -199,8 +199,7 @@ export class ValoracionComponent implements OnInit {
 		this.formControlDataService.select('valoracionAntropometrica', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('<-- cRud Historial VA');
-						console.log(response);
+						/*console.log('<-- cRud Historial VA');console.log(response);*/
 						this.historial	=	response;
 						console.log(this.historial.length);
 						this.disableButtonHistorial	=	this.historial.length==0;
@@ -356,6 +355,7 @@ export class ValoracionComponent implements OnInit {
 		//if(!this.valoracion.id && this.aPendientes.length>0){
 		if(!this.valoracion.id && this.countPendientes>0){
 			this.aPendientess['va']		=	valoracionAntropometrica;
+			//this.aPendientess.push(valoracionAntropometrica);
 			data	=	this.aPendientess;
 		}
 		console.log('-->Crud va');
@@ -464,7 +464,7 @@ export class ValoracionComponent implements OnInit {
 			this.aPendientess['detalle_grasa']	=	data;
 			this.countPendientes++;
 			console.log('saveInfoGrasa');
-			console.log(this.aPendientess);
+			//console.log(this.aPendientess);
 			return ;
 		}
 
@@ -484,7 +484,7 @@ export class ValoracionComponent implements OnInit {
 			this.aPendientess['detalle_musculo']	=	data;
 			this.countPendientes++;
 			console.log('saveInfoMusculo');
-			console.log(this.aPendientess);
+			//console.log(this.aPendientess);
 			return ;
 		}
 		console.log('-->Crud Musculo...');	console.log(data);

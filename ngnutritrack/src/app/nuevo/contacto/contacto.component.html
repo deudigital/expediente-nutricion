@@ -110,9 +110,9 @@
 					> ANTERIOR 
 					</button>
 					<button class="btn btn-success next" 
-						[disabled]="!contactForm.valid"
+						[disabled]="!contactForm.valid || btnNavigation_pressed"
 						(click)="Next()"
-						> SIGUIENTE 
+						> SIGUIENTE <span *ngIf="btnNavigation_pressed" class="fa fa-spinner fa-spin"></span>
 						</button>
 				</div>
 
