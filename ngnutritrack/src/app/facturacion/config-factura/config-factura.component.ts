@@ -212,6 +212,9 @@ export class ConfigFacturaComponent implements OnInit {
         if(this.data.atv_llave_criptografica){
           let llave = this.data.atv_llave_criptografica.split('/');
           this.crytoName=llave[llave.length-1];
+        }
+        if(this.data.imagen=='' && this.data.imagen==null ){
+          this.data.imagen='assets/images/logo-placeholder.jpg';
         }        
         this.setUbicacion(this.data.ubicacion_id);
         console.log(this.data);
@@ -220,9 +223,7 @@ export class ConfigFacturaComponent implements OnInit {
         console.log(error);
       }      
     )
-    /*if(this.data.imagen=='' && this.data.imagen==null ){
-      this.data.imagen='assets/images/logo-placeholder.jpg';
-    }*/
+    
     this.setUbicacion(this.data.ubicacion_id);
   }
 
