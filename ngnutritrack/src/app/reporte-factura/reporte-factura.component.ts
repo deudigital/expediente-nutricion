@@ -191,9 +191,9 @@ export class ReporteFacturaComponent implements OnInit {
     let pdf = item.pdf.split('/');    
 
     if(item.tipo_documento_id != 3){
-      window.open("http://"+item.pdf, "_blank");
+      window.open(item.pdf, "_blank");
     }else{
-      window.open("http://"+item.pdf, "_blank");
+      window.open(item.pdf, "_blank");
     }
   }
 
