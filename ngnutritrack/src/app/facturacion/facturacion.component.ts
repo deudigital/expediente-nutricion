@@ -94,6 +94,15 @@ export class FacturacionComponent implements OnInit {
 		subtotal: 0.00
 	}
 
+	this.persona = {
+			cedula : "",
+			celular: "",
+			detalles_direccion:"",
+			nombre:"",
+			telefono:"",
+			email:""
+	}
+
   	// Descomentar para subir
 
   /*	this.ubicaciones	=	this.mng.getUbicaciones();
