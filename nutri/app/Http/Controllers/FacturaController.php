@@ -447,6 +447,7 @@ class FacturaController extends Controller
               $documentos[$i] = json_decode(json_encode($documentos[$i]), True);
           }
 */
+          echo public_path("invoices/");
           $nutricionista = DB::table('personas')                            
                             ->join('nutricionistas', 'personas.id', '=', 'nutricionistas.persona_id')
                             ->where('personas.id', '=', $request->nutricionista_id)->get();
