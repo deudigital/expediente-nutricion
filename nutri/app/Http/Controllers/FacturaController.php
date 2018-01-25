@@ -375,13 +375,9 @@ class FacturaController extends Controller
           view()->share('productos', $products);
           view()->share('fecha', date("d/m/Y"));
 
-          //$local_env_route = "C:/Users/Pedro Flores/Desktop/nutritrack/nutri/";
-          //$staging_env_route = "/home/deudigit/expediente.nutricion.co.cr/nutri/";
-          $staging_env_route = "../../../";
-
-          \PDF::loadView('templates.invoice')->save($staging_env_route."public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
-                                             ->stream('download.pdf');
-          $PDF_ = $staging_env_route."public/invoices/deleted/".$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf";
+          \PDF::loadView('templates.invoice')->save(\Storage::disk('deletePdf')->getDriver()->getAdapter()->getPathPrefix().$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+                                           ->stream('download.pdf');
+          $PDF_ = \Storage::disk('deletePdf')->url($consecutivo_nutricionista."-".$request->nutricionista_id.".pdf");
 
          date_default_timezone_set("America/Chicago");
          $hoy = date("Y-m-d H:i:s");   
@@ -416,7 +412,7 @@ class FacturaController extends Controller
             );
           }
 
-		  $this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
+		  //$this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
 
         } catch(Illuminate\Database\QueryException $e) {
             dd($e);
@@ -590,9 +586,9 @@ class FacturaController extends Controller
         view()->share('fecha', date("d/m/Y"));
         
 
-        \PDF::loadView('templates.invoice')->save(\Storage::disk('pdf')->getDriver()->getAdapter()->getPathPrefix().$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
+        \PDF::loadView('templates.invoice')->save(\Storage::disk('makePdf')->getDriver()->getAdapter()->getPathPrefix().$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');
-        $PDF_ = \Storage::disk('pdf')->url($consecutivo_nutricionista."-".$request->nutricionista_id.".pdf");
+        $PDF_ = \Storage::disk('makePdf')->url($consecutivo_nutricionista."-".$request->nutricionista_id.".pdf");
 
         // Proceso de almacenamiento de factura en la BD
 

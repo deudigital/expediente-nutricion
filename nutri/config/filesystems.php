@@ -62,10 +62,17 @@ return [
             'visibility' => 'public',
         ],
 
-        'pdf' => [
+        'makePdf' => [
             'driver'    => 'local',
             'root'      => public_path("invoices/"),
-            'url'       => env('APP_URL').'/public/invoices/',
+            'url'       => env('APP_URL').'/nutri/public/invoices/',
+            'visibility'=> 'public'
+        ],
+
+        'deletePdf' => [
+            'driver'    => 'local',
+            'root'      => public_path("invoices/deleted/"),
+            'url'       => env('APP_URL').'/nutri/public/invoices/deleted/',
             'visibility'=> 'public'
         ],
 

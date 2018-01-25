@@ -8,8 +8,7 @@ import { FormControlDataService }     from '../control/data/formControlData.serv
 
 @Component({
   selector: 'app-facturacion',
-  templateUrl: './facturacion.component.html',
-  styleUrls: ['./facturacion.component.css']
+  templateUrl: './facturacion.component.html'
 })
 export class FacturacionComponent implements OnInit {
 
@@ -51,7 +50,6 @@ export class FacturacionComponent implements OnInit {
   impuesto:boolean = false;
 
  form_errors:any = {
- 	empty_id: false,
  	empty_name: false,
 	invalid_id: false,
 	negativeSubtotal_product: false,

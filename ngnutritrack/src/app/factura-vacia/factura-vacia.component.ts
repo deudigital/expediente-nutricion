@@ -50,7 +50,6 @@ export class FacturaVaciaComponent implements OnInit {
 	impuesto:boolean = false;
 
 	form_errors:any = {
-		empty_id: false,
 		empty_name: false,
 		invalid_id: false,
 		negativeSubtotal_product: false,
@@ -98,6 +97,15 @@ export class FacturaVaciaComponent implements OnInit {
 			descuento: 0.00,
 			impuesto: 0.00,
 			subtotal: 0.00
+		}
+
+		this.persona = {
+			cedula : "",
+			celular: "",
+			detalles_direccion:"",
+			nombre:"",
+			telefono:"",
+			email:""
 		}
   	}
 
@@ -589,12 +597,12 @@ export class FacturaVaciaComponent implements OnInit {
 
 	facturar(){
 
-		if(!this.persona.cedula){
+	/*	if(!this.persona.cedula){
 			this.form_errors.empty_id = true;
 		}
 
 		if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
-			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	
+			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
 
 		if(this.persona.nombre){
 
@@ -629,6 +637,8 @@ export class FacturaVaciaComponent implements OnInit {
 					factura: this.factura,
 					consulta: this.consulta_id
 				}
+
+				console.log(this.persona);
 				
 
 				this.formControlDataService.generarFactura(data)
@@ -673,8 +683,7 @@ export class FacturaVaciaComponent implements OnInit {
 			}else{
 				this.form_errors.empty_products = true;
 			}
-		}
-		}
+		}		
 	}	
 
 	procesoAgregado(){
