@@ -132,6 +132,8 @@ export class FacturacionComponent implements OnInit {
 	  			this.getNutricionista();		  			
 	  		}
 	  	});
+	  	this.unidad_medida = 'Servicios Profesionales';
+		this.persona.identification_nombre="Cedula Fisica";
 	  }
 
 	 // Autocomplete 

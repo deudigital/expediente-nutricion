@@ -140,8 +140,7 @@ export class FacturaVaciaComponent implements OnInit {
 	  			this.hidePrompt = res.prompt;
 	  		}
 	  	});
-		this.unidad_medida = 'Servicios Profesionales';
-		this.persona.identification_nombre="Cedula Fisica";
+		this.unidad_medida = 'Servicios Profesionales';		
 	}
 
   	// Autocomplete 
@@ -379,6 +378,7 @@ export class FacturaVaciaComponent implements OnInit {
 				resArray = response.text().split('<br />');							
 			 	this.tipos_ID = JSON.parse(resArray[2]);*/	
 				this.tipos_ID = response;
+				this.persona.identification_nombre="Cedula Fisica";
 			},
 			error => {
 				console.log(<any>error);
