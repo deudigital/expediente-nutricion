@@ -98,15 +98,6 @@ export class FacturaVaciaComponent implements OnInit {
 			impuesto: 0.00,
 			subtotal: 0.00
 		}
-
-		this.persona = {
-			cedula : "",
-			celular: "",
-			detalles_direccion:"",
-			nombre:"",
-			telefono:"",
-			email:""
-		}
   	}
 
   	ngOnInit() {
@@ -361,8 +352,7 @@ export class FacturaVaciaComponent implements OnInit {
 				resArray = response.text().split('<br />');							
 			 	this.persona = JSON.parse(resArray[2]);		*/	 				 	
 			 	this.resultArray = response;	
-			 	console.log(this.resultArray);
-			 	this.showFilter=false;		 		 			 
+			 	this.showFilter=false;				 		 		 			
 			},
 			error => {
 				console.log(<any>error);
@@ -378,7 +368,7 @@ export class FacturaVaciaComponent implements OnInit {
 				resArray = response.text().split('<br />');							
 			 	this.tipos_ID = JSON.parse(resArray[2]);*/	
 				this.tipos_ID = response;
-				this.persona.identification_nombre="Cedula Fisica";
+				this.persona.identification_nombre="Cedula Fisica";				
 			},
 			error => {
 				console.log(<any>error);
@@ -597,14 +587,14 @@ export class FacturaVaciaComponent implements OnInit {
 
 	facturar(){
 
-	/*	if(!this.persona.cedula){
-			this.form_errors.empty_id = true;
+		if(this.productos.length===0){
+			this.form_errors.empty_products = true;
 		}
 
-		if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
+		/*if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
 			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
 
-		if(this.persona.nombre){
+		if(this.persona.nombre && !this.form_errors.empty_products){
 
 			this.loading = true;
 			if(!this.seleccionado){	
@@ -756,7 +746,15 @@ export class FacturaVaciaComponent implements OnInit {
 					impuesto: 0.00,
 					subtotal: 0.00
 				}
-				this.persona = {};	
+				this.persona = {
+					cedula : "",
+					tipo_identificacion_id: 1,
+					celular: "",
+					detalles_direccion:"",
+					nombre:"",
+					telefono:"",
+					email:""
+				}	
 				this.queryPerson= '';				
 			}
 		}
