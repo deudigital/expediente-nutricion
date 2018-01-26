@@ -972,10 +972,27 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		}
 		$_resumen['patronMenu']	=	$html;
 
-		//$images	=	'https://expediente.nutricion.co.cr/mail/images/';
-		$images	=	env('APP_URL') . '/mail/images/';
+		
+		$nutricionista	=	Persona::find($paciente->nutricionista_id);
+		
+		
+		$nutricionista = DB::table('nutricionistas')
+            ->join('personas', 'personas.id', 'nutricionistas.persona_id')
+            ->where('nutricionistas.persona_id', $paciente->nutricionista_id)
+			->get()
+			->first();
+		
+//echo '<pre>' .print_r($nutricionista, true) . '</pre>';
+		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
+		//$images	=	env('APP_URL') . '/mail/images/';
+		
+		$image	=	$images . 'logo.png';
+		if($nutricionista->imagen)
+			$image	=	$nutricionista->imagen;
+		
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
-		$html	.=	'<img src="' . $images . 'logo.png" width="180" title="Consulta:' . $consulta-> id . '"/>';
+		
+		$html	.=	'<img src="' . $image . '" width="180" title="Consulta:' . $consulta-> id . '"/>';
 		$html	.=	'</div>';
 
 		$html	.=	'<p>' . $paciente->nombre . ', a continuaci&oacute;n, un resumen de las medidas en esta consulta:</p>';
@@ -997,8 +1014,8 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
 		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
 */
-		//echo utf8_decode($html);exit;
-		$nutricionista	=	Persona::find($paciente->nutricionista_id);	
+		echo utf8_decode($html);exit;
+		/*$nutricionista	=	Persona::find($paciente->nutricionista_id);*/
 		$to			=	$paciente->email;
 		//$to			=	'jaime_isidro@hotmail.com';
 		$subject 	=	'Resumen consulta nutricional ' . date('d/m/Y', strtotime( $consulta['fecha'] ));
