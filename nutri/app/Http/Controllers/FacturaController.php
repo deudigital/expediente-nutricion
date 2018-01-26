@@ -412,7 +412,7 @@ class FacturaController extends Controller
             );
           }
 
-		  $this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
+		  //$this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
 
         } catch(Illuminate\Database\QueryException $e) {
             dd($e);
@@ -425,7 +425,7 @@ class FacturaController extends Controller
         $message    =   'Su factura ha sido anulada con exito';
         $response   =   Response::json([
             'message'   =>  $message,
-            'data'		=> $result
+            'data'		=> $nota_credito_id
         ], 200);
         return $response;
     }
@@ -814,7 +814,7 @@ class FacturaController extends Controller
       $json_data["resumen"] = $resumen;
       $json_data["otros"] = $otros;
 
-      print_r($json_data);
+
 
       $options = array(
           'http' => array(
@@ -830,8 +830,7 @@ class FacturaController extends Controller
 
       
       
-      $result= json_decode($result);   
-      print_r($result);             
+      $result= json_decode($result);            
 
        try{
 	      DB::table('documentos')
@@ -868,7 +867,7 @@ class FacturaController extends Controller
 		$html	.=	'</div>';
 		$html	.=	'<p>' . $nota_credito->nombre_persona . ', </p>';
 		
-		$nota_credito->pdf	=	$url . str_replace('/home/deudigit/expediente.nutricion.co.cr/','',$nota_credito->pdf);
+		//$nota_credito->pdf	=	$url . str_replace('/home/deudigit/expediente.nutricion.co.cr/','',$nota_credito->pdf);
 		
 		switch($nota_credito->tipo_documento_id){
 			case 1:

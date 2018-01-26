@@ -139,13 +139,11 @@ export class ReporteFacturaComponent implements OnInit {
     this.formControlDataService.deleteFactura(this.deleted_document)
     .subscribe(
       response => {     
-           console.log(response);
         if(response.status === 200){          
           this.form_errors.loading = false;
           this.form_errors.successful_operation = true;          
           setTimeout(() => {
             this.form_errors.successful_operation = false;  
-            this.deleted_document.nombre_tipo = "Nota de crédito";
             this.deleted_document.tipo_documento_id = 3;
             this.resultArray.push(this.deleted_document);
             this.show_deleteConfirmation = true;
