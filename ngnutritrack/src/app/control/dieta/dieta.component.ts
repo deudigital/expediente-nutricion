@@ -224,7 +224,7 @@ export class DietaComponent implements OnInit {
 	fillHistorial(historial){
 		var data	=	[];
 		for(var i in historial){console.log(historial[i]);
-			historial[i].display	=	false;;
+			historial[i].display	=	false;
 			data[i]		=	historial[i];
 		}
 		/*console.log('listo para el historial');

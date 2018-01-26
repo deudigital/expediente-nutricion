@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\PatronMenu;
 use App\PatronMenuEjemplo;
+use App\TiempoComida;
+use App\Consulta;
 use DB;
 
 class DietaController extends Controller
@@ -129,7 +131,70 @@ class DietaController extends Controller
     {
         //
     }
-	function belongsToPaciente($id){
+	function belongsToPaciente($id){				
+		$consulta	=	Consulta::where('paciente_id', $id)
+								->where('estado', '1')
+								->orderBy('fecha', 'DESC')
+								->get()
+								->first();		
+		if(!$consulta)
+			return	Response::json(['message' => 'Records not exist'], 204);
+		
+		
+		/*
+		$tiempoComidas	=	TiempoComida::all();
+		if(count($tiempoComidas)>0){
+			$aTiempoComidas	=	$tiempoComidas->toArray();
+			$_tiempo_comidas	=	array();
+			foreach($aTiempoComidas as $key=>$value){
+				$_tiempo_comidas[$value['id']]['nombre']	=	htmlentities($value['nombre']);
+				$_tiempo_comidas[$value['id']]['ejemplo']	=	'';
+				$_tiempo_comidas[$value['id']]['menu']		=	array();
+			}
+		}*/
+		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta->id)
+									->get();
+		$response	=	Response::json($patronMenuEjemplo, 200);
+		return $response;
+		if(count($patronMenuEjemplo)>0){
+			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
+			foreach($aPatronMenuEjemplo as $key=>$value)
+				$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+		}
+
+		$patronMenu	=	DB::table('patron_menus')
+							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
+							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
+							->where('patron_menus.consulta_id', $consulta->id)
+							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
+							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
+							->get();
+		if(count($patronMenu)>0){
+			$aPatronMenu	=	$patronMenu->toArray();
+			foreach($aPatronMenu as $key=>$value)
+				$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+		}
+		$html='';
+		foreach($_tiempo_comidas as $key=>$value){
+			$html	.=	'<h4>' . $value['nombre'] . '</h4>';
+			if($value['menu'])
+				$html	.=	'<p>' . implode(', ', $value['menu']) . '</p>';
+			if($value['ejemplo'])
+				$html	.=	'<p>Ejemplo: <i>' . $value['ejemplo'] . '</i></p>';
+		}
+		$_resumen['patronMenu']	=	$html;
+		
+		
+		
+		
+		if(count($registros)>0)
+			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		else
+			$response	=	Response::json(['message' => 'Records not found'], 204);
+
+		return $response;
+	}
+	function belongsToPaciente__old($id){
 		$registros	=	DB::table('patron_menus')
 							->join('consultas', 'consultas.id', '=', 'patron_menus.consulta_id')
 							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
