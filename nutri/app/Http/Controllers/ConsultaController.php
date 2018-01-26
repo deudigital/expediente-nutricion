@@ -1014,7 +1014,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
 		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
 */
-		echo utf8_decode($html);exit;
+		/*echo utf8_decode($html);exit;*/
 		/*$nutricionista	=	Persona::find($paciente->nutricionista_id);*/
 		$to			=	$paciente->email;
 		//$to			=	'jaime_isidro@hotmail.com';
