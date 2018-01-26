@@ -472,7 +472,7 @@ export class Paciente extends Persona{
 	}
 }
 export class ValoracionAntropometrica {
-    id: number = 0;
+/*    id: number = 0;
     estatura: number = 0;
     circunferencia_muneca: number = 0;
     peso: number = 0;
@@ -486,9 +486,27 @@ export class ValoracionAntropometrica {
 	circunferencia_cadera: number = 0;
 	consulta_id: number = 0;
 	pesoIdeal: number = 0;
-	pesoIdealAjustado: number = 0;	
+	pesoIdealAjustado: number = 0;*/
 	/*detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
 	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();*/
+	
+	
+    id: number = 0;
+    estatura:string='';
+    circunferencia_muneca:string='';
+    peso:string='';
+    grasa:string='';
+    musculo:string='';
+    agua:string='';
+    grasa_viceral:string='';
+    hueso:string='';
+    edad_metabolica:string='';
+    circunferencia_cintura:string='';
+	circunferencia_cadera:string='';
+	consulta_id: number = 0;
+	pesoIdeal:string='';
+	pesoIdealAjustado:string='';
+	
 	
 	lastEstatura:number=0;
 	lastCircunferencia_muneca:number=0;
@@ -497,7 +515,7 @@ export class ValoracionAntropometrica {
 		this.id						=	data.id;
 		this.estatura				=	data.estatura;
 		this.circunferencia_muneca	=	data.circunferencia_muneca;
-		this.estatura				=	data.estatura;
+	//	this.estatura				=	data.estatura;
 		this.peso					=	data.peso;
 		this.grasa					=	data.grasa;
 		this.musculo				=	data.musculo;
@@ -539,7 +557,7 @@ export class ValoracionAntropometrica {
 			factor_1	=	47.7;
 			factor_2	=	2.72;
 		}
-		this.pesoIdeal	=	(estatura*100-152)*factor_2/2.5+factor_1;
+		this.pesoIdeal	=	String((estatura*100-152)*factor_2/2.5+factor_1);
 		return this.pesoIdeal;
 	}
 	getPesoIdealAjustado(peso, pesoIdeal){
@@ -901,7 +919,7 @@ Modo de Uso
 	}
 	soloNumerosRange(evt, min=0, max=999.99) {
 		var charCode = (evt.which) ? evt.which : evt.keyCode;
-		console.log('charCode: ' + charCode);
+		/*console.log('charCode: ' + charCode);*/
 
 		if (charCode == 8 || (charCode>36 && charCode<41)) 
 			return true;
@@ -921,7 +939,7 @@ Modo de Uso
 		//console.log(numero);
 		numero	=	numero.substring(0, numero.length-1); 
 		var _value 	=	Number(evt.target.value);
-		console.log(_value);
+		/*console.log(_value);*/
 		
 		if(_value > max){
 			evt.target.value	=	numero;
@@ -971,7 +989,7 @@ export class PatronMenuEjemplo{
 }
 export class DetalleGrasa{
 	id:number=0;
-	segmentado_abdominal:number=0;
+/*	segmentado_abdominal:number=0;
 	segmentado_pierna_izquierda:number=0;
 	segmentado_pierna_derecha:number=0;
 	segmentado_brazo_izquierdo:number=0;
@@ -980,20 +998,40 @@ export class DetalleGrasa{
 	pliegue_tricipital:number=0;
 	pliegue_bicipital:number=0;
 	pliegue_subescapular:number=0;
-	pliegue_supraliaco:number=0;
+	pliegue_supraliaco:number=0;*/
 
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
  	valoracion_antropometrica_id:number=0;
+
+	segmentado_abdominal:string='';
+	segmentado_pierna_izquierda:string='';
+	segmentado_pierna_derecha:string='';
+	segmentado_brazo_izquierdo:string='';
+	segmentado_brazo_derecho:string='';
+
+	pliegue_tricipital:string='';
+	pliegue_bicipital:string='';
+	pliegue_subescapular:string='';
+	pliegue_supraliaco:string='';
+
 }
 export class DetalleMusculo{
 	id:number=0;
-	tronco:number=0;
+/*	tronco:number=0;
 	pierna_izquierda:number=0;
 	pierna_derecha:number=0;
 	brazo_izquierdo:number=0;
-	brazo_derecho:number=0;
+	brazo_derecho:number=0;*/
  	valoracion_antropometrica_id:number=0;
+	
+	
+	tronco:String='';
+	pierna_izquierda:String='';
+	pierna_derecha:String='';
+	brazo_izquierdo:String='';
+	brazo_derecho:String='';
+
 }
 export class Patologia{
 	constructor(public id:number, public nombre:string, public checked:boolean){}

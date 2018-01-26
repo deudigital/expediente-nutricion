@@ -122,7 +122,7 @@ export class ValoracionComponent implements OnInit {
 			this.saveForm();
 	}
 	setInfoInit(){
-		this.oValoracion.estatura				=	Number(this.valoracion.estatura);
+/*		this.oValoracion.estatura				=	Number(this.valoracion.estatura);
 		this.oValoracion.circunferencia_muneca	=	Number(this.valoracion.circunferencia_muneca);
 		this.oValoracion.peso					=	Number(this.valoracion.peso);
 		this.oValoracion.grasa					=	Number(this.valoracion.grasa);
@@ -132,11 +132,25 @@ export class ValoracionComponent implements OnInit {
 		this.oValoracion.hueso					=	Number(this.valoracion.hueso);
 		this.oValoracion.edad_metabolica		=	Number(this.valoracion.edad_metabolica);
 		this.oValoracion.circunferencia_cintura	=	Number(this.valoracion.circunferencia_cintura);
-		this.oValoracion.circunferencia_cadera	=	Number(this.valoracion.circunferencia_cadera);
+		this.oValoracion.circunferencia_cadera	=	Number(this.valoracion.circunferencia_cadera);*/
+		
+		this.oValoracion.estatura				=	this.valoracion.estatura;
+		this.oValoracion.circunferencia_muneca	=	this.valoracion.circunferencia_muneca;
+		this.oValoracion.peso					=	this.valoracion.peso;
+		this.oValoracion.grasa					=	this.valoracion.grasa;
+		this.oValoracion.musculo				=	this.valoracion.musculo;
+		this.oValoracion.agua					=	this.valoracion.agua;
+		this.oValoracion.grasa_viceral			=	this.valoracion.grasa_viceral;
+		this.oValoracion.hueso					=	this.valoracion.hueso;
+		this.oValoracion.edad_metabolica		=	this.valoracion.edad_metabolica;
+		this.oValoracion.circunferencia_cintura	=	this.valoracion.circunferencia_cintura;
+		this.oValoracion.circunferencia_cadera	=	this.valoracion.circunferencia_cadera;
 		
 		if(this.nuevaConsulta && !this.valoracion.id){
-			this.valoracion.estatura				=	Number(this.valoracion.lastEstatura);
-			this.valoracion.circunferencia_muneca	=	Number(this.valoracion.lastCircunferencia_muneca);
+			/*this.valoracion.estatura				=	Number(this.valoracion.lastEstatura);
+			this.valoracion.circunferencia_muneca	=	Number(this.valoracion.lastCircunferencia_muneca);*/
+			this.valoracion.estatura				=	String(this.valoracion.lastEstatura);
+			this.valoracion.circunferencia_muneca	=	String(this.valoracion.lastCircunferencia_muneca);
 		}		
 	}
 	infoEdited(){
@@ -159,7 +173,7 @@ export class ValoracionComponent implements OnInit {
 		console.log(this.oValoracion.edad_metabolica	 + '!==' + Number(this.valoracion.edad_metabolica));
 		console.log(this.oValoracion.circunferencia_cintura + '!==' + Number(this.valoracion.circunferencia_cintura));
 		console.log(this.oValoracion.circunferencia_cadera + '!==' + Number(this.valoracion.circunferencia_cadera));*/
-		return 	(
+		/*return 	(
 			this.oValoracion.estatura				!==	Number(this.valoracion.estatura) || 
 			this.oValoracion.circunferencia_muneca	!==	Number(this.valoracion.circunferencia_muneca) || 
 			this.oValoracion.peso					!==	Number(this.valoracion.peso) || 
@@ -171,6 +185,19 @@ export class ValoracionComponent implements OnInit {
 			this.oValoracion.edad_metabolica		!==	Number(this.valoracion.edad_metabolica) || 
 			this.oValoracion.circunferencia_cintura	!==	Number(this.valoracion.circunferencia_cintura) || 
 			this.oValoracion.circunferencia_cadera	!==	Number(this.valoracion.circunferencia_cadera)
+		);*/
+		return 	(
+			Number(this.oValoracion.estatura)				!==	Number(this.valoracion.estatura) || 
+			Number(this.oValoracion.circunferencia_muneca)	!==	Number(this.valoracion.circunferencia_muneca) || 
+			Number(this.oValoracion.peso)					!==	Number(this.valoracion.peso) || 
+			Number(this.oValoracion.grasa)					!==	Number(this.valoracion.grasa) || 
+			Number(this.oValoracion.musculo)				!==	Number(this.valoracion.musculo) || 
+			Number(this.oValoracion.agua)					!==	Number(this.valoracion.agua) || 
+			Number(this.oValoracion.grasa_viceral)			!==	Number(this.valoracion.grasa_viceral) || 
+			Number(this.oValoracion.hueso)					!==	Number(this.valoracion.hueso) || 
+			Number(this.oValoracion.edad_metabolica)		!==	Number(this.valoracion.edad_metabolica) || 
+			Number(this.oValoracion.circunferencia_cintura)	!==	Number(this.valoracion.circunferencia_cintura) || 
+			Number(this.oValoracion.circunferencia_cadera)	!==	Number(this.valoracion.circunferencia_cadera)
 		);
 
 	}
@@ -411,8 +438,15 @@ export class ValoracionComponent implements OnInit {
 				if(!this.helpers.equals(this.oDetalleGrasa, this.grasa))
 					this.saveInfoGrasa(this.grasa);
 				
-				if(this.showModalGrasaTabPliegues)
-					this.valoracion.grasa	=	this.valorGrasaPliegues;
+				if(this.showModalGrasaTabPliegues){
+					console.log('this.valoracion.grasa-> ' + this.valoracion.grasa);
+					console.log('this.valorGrasaPliegues-> ' + this.valorGrasaPliegues);
+					if(this.valorGrasaPliegues)
+						this.valoracion.grasa	=	String(this.valorGrasaPliegues);
+					else
+						this.valoracion.grasa	=	'';
+						
+				}
 
 				/*if(this.showModalGrasaTabSegmentado)
 					this.valoracion.grasa	=	this.grasa.valorGrasaSegmentado;
@@ -460,7 +494,7 @@ export class ValoracionComponent implements OnInit {
 	
 	setInfoMusculo(){
 		var valor	=	Number(this.detalleMusculo.tronco) + Number(this.detalleMusculo.pierna_derecha) + Number(this.detalleMusculo.pierna_izquierda) + Number(this.detalleMusculo.brazo_derecho) + Number(this.detalleMusculo.brazo_izquierdo);
-		this.valoracion.musculo	=	valor/5;
+		this.valoracion.musculo	=	String(valor/5);
 	}
 	saveInfoGrasa(data){
 		if(!this.valoracion.id){
@@ -508,6 +542,57 @@ export class ValoracionComponent implements OnInit {
 		//return this.valoracion.musculo;
 		return valor/5;
 	}
+	calcularAlgo(){
+/*
+=SI(GENERO="M";SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
+*/
+		var valor	=	0;
+		var estructura_osea	=	this.calcularEstructuraOsea();
+
+/*
+
+
+=SI(GENERO="M";
+	SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
+
+
+
+
+
+		if(this.sexo=='M'){
+			if(estructura_osea>10,4)
+				"PEQUEÑA"
+			else{
+				if(estructura_osea>9,6)
+					"MEDIANA"
+				else
+					"GRANDE"
+				);
+				
+				SI(estructura_osea>11;"PEQUEÑA";SI(estructura_osea>10,1;"MEDIANA";"GRANDE")))
+			}
+				
+		}
+			
+*/		
+		
+		
+		return valor;
+	}
+	calcularEstructuraOsea(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.circunferencia_muneca)
+			return 0;
+/*
+=ESTATURA*100/MUÑECA
+*/
+		var valor	=	0;
+		
+		valor	=	Math.round( Number(this.valoracion.estatura) *100/Number(this.valoracion.circunferencia_muneca) );
+		
+		return valor;
+	}
 	get musculoSegmentado(){
 		return this.calcularMusculoSegmentado();
 	}
@@ -533,13 +618,12 @@ export class ValoracionComponent implements OnInit {
 		return this.grasa.valorGrasaSegmentado;
 	}
 	get grasaPiegues(){
-		
+		this.valorGrasaPliegues	=	0;
 		if(!this.grasa.pliegue_tricipital && !this.grasa.pliegue_bicipital && !this.grasa.pliegue_subescapular && !this.grasa.pliegue_supraliaco)
 			return '';
 
 		/*	pliegues	*/
 		//this.grasa.valorGrasaPliegues	=	0;
-		this.valorGrasaPliegues	=	0;
 		var edad	=	31;//this.paciente.edad;
 		var esMasculino	=	true;//this.paciente.genero=='M';
 /*
@@ -615,7 +699,7 @@ export class ValoracionComponent implements OnInit {
 =SI(B10<18,5;"BAJO PESO";SI(B10<24,9;"NORMAL";SI(B10<30;"SOBREPESO 1";SI(B10<40;"SOBREPESO 2";"SOBREPESO 3"))))
 
 */
-		this.analisis.imc	=	this.valoracion.peso / ( this.valoracion.estatura *  this.valoracion.estatura );
+		this.analisis.imc	=	Number(this.valoracion.peso) / ( Number(this.valoracion.estatura) * Number(this.valoracion.estatura) );
 		
 		var _print	=	'';
 		if(this.analisis.imc<18)
@@ -651,7 +735,7 @@ export class ValoracionComponent implements OnInit {
 			factor_1	=	47.7;
 			factor_2	=	2.72;
 		}
-		this.analisis.pesoIdeal	=	(this.valoracion.estatura*100-152)*factor_2/2.5+factor_1;
+		this.analisis.pesoIdeal	=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
 		return this.analisis.pesoIdeal;
 	}
 	get pesoIdealAjustado(){
@@ -662,7 +746,7 @@ export class ValoracionComponent implements OnInit {
 /*
 =(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
 */
-		this.analisis.pesoIdealAjustado	=(this.valoracion.peso-this.analisis.pesoIdeal)/(4)+(this.analisis.pesoIdeal);
+		this.analisis.pesoIdealAjustado	=(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/(4)+(this.analisis.pesoIdeal);
 		return this.analisis.pesoIdealAjustado;
 	}
 	get diferenciaPeso(){
@@ -673,7 +757,7 @@ export class ValoracionComponent implements OnInit {
 /*
 =PESO-PESO_IDEAL_AJUSTADO
 */
-		this.analisis.diferenciaPeso	=	this.valoracion.peso - this.analisis.pesoIdealAjustado;
+		this.analisis.diferenciaPeso	=	Number(this.valoracion.peso) - Number(this.analisis.pesoIdealAjustado);
 		return this.analisis.diferenciaPeso;
 	}
 	get adecuacion(){
@@ -684,18 +768,18 @@ export class ValoracionComponent implements OnInit {
 /*
 =PESO/PESO_IDEAL_AJUSTADO
 */
-		this.model.adecuacion	=	(this.valoracion.peso/this.analisis.pesoIdealAjustado) * 100;
+		this.model.adecuacion	=	(Number(this.valoracion.peso)/this.analisis.pesoIdealAjustado) * 100;
 		return this.model.adecuacion;
 	}
 	get relacionCinturaCadera(){
 		if(!this.allowCalculate)
 			return 0;
-		if(!this.valoracion.circunferencia_cintura || !this.valoracion.circunferencia_cadera)
+		if(!Number(this.valoracion.circunferencia_cintura) || !Number(this.valoracion.circunferencia_cadera))
 			return 0;		
 /*
 =CINTURA/CADERA
 */
-		this.model.relacionCinturaCadera	=	this.valoracion.circunferencia_cintura/this.valoracion.circunferencia_cadera;
+		this.model.relacionCinturaCadera	=	Number(this.valoracion.circunferencia_cintura)/Number(this.valoracion.circunferencia_cadera);
 		var perc	=	this.model.relacionCinturaCadera*100;
 		/*return this.model.relacionCinturaCadera;*/
 		return perc;
@@ -712,7 +796,7 @@ export class ValoracionComponent implements OnInit {
 NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB MEDIA";SI(GRADO_SOBREPESO_VALOR>10;"SOBREP";"NP")))	
 3,793658207		=(PESO-PESO_IDEAL)/PESO_IDEAL*100
 */
-		this.model.gradoSobrepeso	=	(this.valoracion.peso-this.analisis.pesoIdeal)/this.analisis.pesoIdeal*100;
+		this.model.gradoSobrepeso	=	(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/this.analisis.pesoIdeal*100;
 		var _print	=	'NP';
 		if(this.model.gradoSobrepeso>40)
 			_print	=	'OB GRAVE';
@@ -738,7 +822,7 @@ NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB ME
 104%	=PESO/PESO_IDEAL
 Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCENTAJE_PESO<90%;"DN LEVE";SI(
 */
-		this.analisis.porcentajePeso	=	(this.valoracion.peso/this.analisis.pesoIdeal) * 100;
+		this.analisis.porcentajePeso	=	(Number(this.valoracion.peso)/this.analisis.pesoIdeal) * 100;
 		return this.analisis.porcentajePeso;
 	}
 	get pesoMetaMaximo(){
@@ -749,7 +833,7 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 /*
 80,1025		=(PESO*25)/IMC
 */
-		this.analisis.pesoMetaMaximo	=	(this.valoracion.peso*25)/this.analisis.imc;
+		this.analisis.pesoMetaMaximo	=	(Number(this.valoracion.peso)*25)/this.analisis.imc;
 		if(isNaN(this.analisis.pesoMetaMaximo))
 			this.analisis.pesoMetaMaximo	=	0;
 		return this.analisis.pesoMetaMaximo;
@@ -762,7 +846,7 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 /*
 =(PESO*18,9)/IMC
 */
-		this.analisis.pesoMetaMinimo	=	(this.valoracion.peso*18.9)/this.analisis.imc;
+		this.analisis.pesoMetaMinimo	=	(Number(this.valoracion.peso)*18.9)/this.analisis.imc;
 		if(isNaN(this.analisis.pesoMetaMinimo))
 			this.analisis.pesoMetaMinimo	=	0;
 		return this.analisis.pesoMetaMinimo;

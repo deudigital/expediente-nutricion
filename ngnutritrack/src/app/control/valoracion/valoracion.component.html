@@ -28,7 +28,7 @@
 								type="text" 
 								class="form-control" 
 								placeholder="En metros" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.estatura"
 								>
@@ -44,7 +44,7 @@
 								type="text" 
 								class="form-control" 
 								placeholder="En centímetros" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.circunferencia_muneca"
 								>
@@ -60,7 +60,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="Kilogramos" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.peso"
 								>
@@ -76,7 +76,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="Porcentaje" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.grasa"
 								>
@@ -96,8 +96,8 @@
 								name="musculo" 
 								type="text"
 								class="form-control" 
-								placeholder="Porcentaje" 
-								maxlength="6" 
+								placeholder="Kilogramos" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.musculo"
 								>
@@ -118,7 +118,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="Porcentaje" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.agua"
 								>
@@ -134,7 +134,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="Porcentaje" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.grasa_viceral"
 								>
@@ -150,7 +150,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="Kilogramos" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.hueso"
 								>
@@ -166,7 +166,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="Años" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.edad_metabolica"
 								>
@@ -182,7 +182,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="En centímetros" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.circunferencia_cintura">
 							<i></i>
@@ -197,7 +197,7 @@
 								type="text"
 								class="form-control" 
 								placeholder="En centímetros" 
-								maxlength="6" 
+								maxlength="5" 
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.circunferencia_cadera"
 								>
@@ -411,7 +411,7 @@
 					name="grasa_abdominal" 
 					type="text" 
 					class="form-control"  
-					maxlength="6" 
+					maxlength="5" 
 					(keypress)="helpers.soloNumerosRange($event)"
 					[(ngModel)]="grasa.segmentado_abdominal"
 				>
@@ -425,7 +425,7 @@
 							type="text" 
 							class="form-control" 
 							placeholder="Derecha" 
-							maxlength="6" 
+							maxlength="5" 
 							(keypress)="helpers.soloNumerosRange($event)"
 							[(ngModel)]="grasa.segmentado_pierna_derecha"
 						>
@@ -436,7 +436,7 @@
 							type="text" 
 							class="form-control" 
 							placeholder="Izquierda"		
-							maxlength="6" 
+							maxlength="5" 
 							(keypress)="helpers.soloNumerosRange($event)"
 							[(ngModel)]="grasa.segmentado_pierna_izquierda"
 						>
@@ -450,7 +450,7 @@
 							type="text" 
 							class="form-control" 
 							placeholder="Derecha"	
-							maxlength="6" 
+							maxlength="5" 
 							(keypress)="helpers.soloNumerosRange($event)"
 							[(ngModel)]="grasa.segmentado_brazo_derecho"
 						>
@@ -461,7 +461,7 @@
 							type="text" 
 							class="form-control" 
 							placeholder="Izquierda"		
-							maxlength="6" 
+							maxlength="5" 
 							(keypress)="helpers.soloNumerosRange($event)"	
 							[(ngModel)]="grasa.segmentado_brazo_izquierdo"								
 						>
@@ -481,7 +481,7 @@
 						name="pliegue_tricipital"
 						type="text" 
 						class="form-control"  
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_tricipital"
 					>
@@ -492,7 +492,7 @@
 						name="pliegue_bicipital"
 						type="text" 
 						class="form-control" 
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_bicipital"
 					>
@@ -503,7 +503,7 @@
 						name="pliegue_subescapular"
 						type="text" 
 						class="form-control"  
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_subescapular"
 					>
@@ -514,7 +514,7 @@
 						name="pliegue_suprailiaco"
 						type="text" 
 						class="form-control" 
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="grasa.pliegue_supraliaco"
 					>
@@ -539,7 +539,7 @@
 				name="musculo_tronco"
 				type="text" 
 				class="form-control" 
-				maxlength="6" 
+				maxlength="5" 
 				(keypress)="helpers.soloNumerosRange($event)"
 				[(ngModel)]="detalleMusculo.tronco"
 				>
@@ -554,7 +554,7 @@
 						type="text" 
 						class="form-control" 
 						placeholder="Derecha"		
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="detalleMusculo.pierna_derecha"
 					>
@@ -566,7 +566,7 @@
 						type="text" 
 						class="form-control" 
 						placeholder="Izquierda"		
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="detalleMusculo.pierna_izquierda"
 					>
@@ -581,7 +581,7 @@
 						type="text" 
 						class="form-control" 
 						placeholder="Derecha"	
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="detalleMusculo.brazo_derecho"
 					>
@@ -593,7 +593,7 @@
 						type="text" 
 						class="form-control" 
 						placeholder="Izquierda"			
-						maxlength="6" 
+						maxlength="5" 
 						(keypress)="helpers.soloNumerosRange($event)"						
 						[(ngModel)]="detalleMusculo.brazo_izquierdo"								
 					>
