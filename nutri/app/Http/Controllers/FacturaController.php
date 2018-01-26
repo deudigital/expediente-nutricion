@@ -412,7 +412,7 @@ class FacturaController extends Controller
             );
           }
 
-		  //$this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
+		  $this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
 
         } catch(Illuminate\Database\QueryException $e) {
             dd($e);
@@ -641,7 +641,7 @@ class FacturaController extends Controller
                   dd($e);
               }
           }
-		//$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
+		$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
         // Fin de proceso de creacion de lineas de detalle
 
 	   $result = self::makeXML($codigo_seguridad, $documento_id, $nutricionista, $client["nombre"], $nutricionista_ubicacion[0], $products, $factura, "", "01");
