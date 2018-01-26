@@ -13,6 +13,7 @@ import { FileService } from '../../services/file.service';
 })
 export class ValoracionComponent implements OnInit {
 	model:any;
+	mng:any;
 	helpers:any;
 	analisis	=	new Analisis();
 	valoracion	=	new ValoracionAntropometrica();
@@ -35,6 +36,7 @@ export class ValoracionComponent implements OnInit {
 	historial:any[];
 	
 	sexo:string='M';
+	genero:string='M';
 	titulo_pagina:string='Expediente: Jorge Lpez';
 	
 	hideModalDatos:boolean=true;
@@ -98,14 +100,13 @@ export class ValoracionComponent implements OnInit {
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
-		this.paciente	=	this.model.getFormPaciente();
-		/*console.log(this.paciente);*/
-		
-		var mng	=	this.model.getManejadorDatos();
-		mng.setMenuPacienteStatus(false);
+		/*this.paciente	=	this.model.getFormPaciente();
+		console.log(this.paciente);*/		
+		this.mng	=	this.model.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(false);
 		this.nuevaConsulta	=	false;
-		if(mng.operacion=='nueva-consulta')
-			this.nuevaConsulta	=	true;			
+		/*if(mng.operacion=='nueva-consulta')
+			this.nuevaConsulta	=	true;*/
 		
 		this.disableButtonHistorial	=	true;
 		this.loading_data_form	=	true;
@@ -116,6 +117,7 @@ export class ValoracionComponent implements OnInit {
 		/*this.aPendientes		=	[];
 		this.aPendientess		=	[];*/
 		this.countPendientes	=	0;
+		this.btnNavigation_pressed	=	false;
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
@@ -146,7 +148,9 @@ export class ValoracionComponent implements OnInit {
 		this.oValoracion.circunferencia_cintura	=	this.valoracion.circunferencia_cintura;
 		this.oValoracion.circunferencia_cadera	=	this.valoracion.circunferencia_cadera;
 		
-		if(this.nuevaConsulta && !this.valoracion.id){
+		
+		if(this.mng.operacion=='nueva-consulta' && !this.valoracion.id){
+			this.nuevaConsulta	=	true;
 			/*this.valoracion.estatura				=	Number(this.valoracion.lastEstatura);
 			this.valoracion.circunferencia_muneca	=	Number(this.valoracion.lastCircunferencia_muneca);*/
 			this.valoracion.estatura				=	String(this.valoracion.lastEstatura);
@@ -212,7 +216,7 @@ export class ValoracionComponent implements OnInit {
 				this.valoracion		=	this.model.getFormValoracionAntropometrica();				
 				this.detalleMusculo	=	this.model.getFormDetalleMusculo();
 				this.grasa			=	this.model.getFormDetalleGrasa();
-				//console.log(this.grasa);
+				this.paciente		=	this.model.getFormPaciente();
 				this.setInfoInit();
 				this.loading_data_form	=	false;
 				this.getHistorial();
@@ -381,22 +385,23 @@ export class ValoracionComponent implements OnInit {
 	createValoracionAntropometrica(valoracionAntropometrica){
 		var data	=	valoracionAntropometrica;
 		
-		console.log('this.countPendientes: ' + this.countPendientes);
+		/*console.log('this.countPendientes: ' + this.countPendientes);*/
 		//if(!this.valoracion.id && this.aPendientes.length>0){
 		if(!this.valoracion.id && this.countPendientes>0){
 			this.aPendientess['va']		=	valoracionAntropometrica;
 			//this.aPendientess.push(valoracionAntropometrica);
 			data	=	this.aPendientess;
 		}
-		console.log('-->Crud va');
+		console.log('-->Crud VA');
 		console.log(data);
 		this.formControlDataService.addValoracionAntropometrica(data)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud va');
+						console.log('<--Crud VA');
 						console.log(response);
 						this.tagBody.classList.remove('sending');
 						this.goTo(this.page);
+						this.btnNavigation_pressed	=	false;
 						},
 			error =>  console.log(<any>error)
 		);
@@ -439,8 +444,8 @@ export class ValoracionComponent implements OnInit {
 					this.saveInfoGrasa(this.grasa);
 				
 				if(this.showModalGrasaTabPliegues){
-					console.log('this.valoracion.grasa-> ' + this.valoracion.grasa);
-					console.log('this.valorGrasaPliegues-> ' + this.valorGrasaPliegues);
+					/*console.log('this.valoracion.grasa-> ' + this.valoracion.grasa);
+					console.log('this.valorGrasaPliegues-> ' + this.valorGrasaPliegues);*/
 					if(this.valorGrasaPliegues)
 						this.valoracion.grasa	=	String(this.valorGrasaPliegues);
 					else
@@ -501,16 +506,15 @@ export class ValoracionComponent implements OnInit {
 			this.aPendientess['detalle_grasa']	=	data;
 			this.countPendientes++;
 			console.log('saveInfoGrasa');
-			//console.log(this.aPendientess);
 			return ;
 		}
 
-		console.log('-->Crud Grasa');	console.log(data);
+		console.log('-->Crud Grasa');/*console.log(data);*/
 		this.formControlDataService.saveDatosGrasa(data)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud Grasa');
-						console.log(response);
+						console.log('<--Crud Grasa');
+						/*console.log(response);*/
 						this.grasa.id	=	response['id'];
 						},
 			error =>  console.log(<any>error)
@@ -520,16 +524,14 @@ export class ValoracionComponent implements OnInit {
 		if(!this.valoracion.id){
 			this.aPendientess['detalle_musculo']	=	data;
 			this.countPendientes++;
-			console.log('saveInfoMusculo');
-			//console.log(this.aPendientess);
 			return ;
 		}
-		console.log('-->Crud Musculo...');	console.log(data);
+		console.log('-->Crud Musculo...');/*console.log(data);*/
 		this.formControlDataService.saveDatosMusculo(data)
 		.subscribe(
 			 response  => {
 						console.log('<!--Crud Musculo');
-						console.log(response);
+						/*console.log(response);*/
 						this.detalleMusculo.id	=	response['id'];
 						this.tagBody.classList.remove('sending');
 						},
@@ -542,42 +544,56 @@ export class ValoracionComponent implements OnInit {
 		//return this.valoracion.musculo;
 		return valor/5;
 	}
-	calcularAlgo(){
+	restarSumarAlPesoIdeal(pesoIdeal, esMasculino){//console.log('restarSumarAlPesoIdeal: ' + pesoIdeal);
 /*
 =SI(GENERO="M";SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
 */
-		var valor	=	0;
+		var valor	=	'';
+		var valor_porcentaje_10	=	pesoIdeal*0.10;/*	10%	*/
 		var estructura_osea	=	this.calcularEstructuraOsea();
-
 /*
+=	SI(GENERO="M";SI_GENERO_M;SINO_GENERO_M)
 
+SI_GENERO_M->	SI(ESTRUCTURA_OSEA>10,4;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 
-=SI(GENERO="M";
-	SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
+			SI_ESTRUCTURA_OSEA		->	"PEQUEÑA"
+			SINO_ESTRUCTURA_OSEA	->	SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE")
 
+SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 
-
-
-
-		if(this.sexo=='M'){
-			if(estructura_osea>10,4)
-				"PEQUEÑA"
-			else{
-				if(estructura_osea>9,6)
-					"MEDIANA"
-				else
-					"GRANDE"
-				);
-				
-				SI(estructura_osea>11;"PEQUEÑA";SI(estructura_osea>10,1;"MEDIANA";"GRANDE")))
+			SI_ESTRUCTURA_OSEA		->	"PEQUEÑA"
+			SINO_ESTRUCTURA_OSEA	->	SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")
+*/
+		if( esMasculino ){
+//			SI(ESTRUCTURA_OSEA>10,4;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
+			if(estructura_osea>10.4){
+				valor	=	'PEQUEÑA';
+				pesoIdeal	-=	valor_porcentaje_10;
+			}else{
+//				SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE")
+				if(estructura_osea>9.6)
+					valor	=	'MEDIANA';
+				else{
+					valor	=	'GRANDE';
+					pesoIdeal	+=	valor_porcentaje_10;
+				}
 			}
-				
-		}
-			
-*/		
-		
-		
-		return valor;
+		}else{
+//			SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
+			if(estructura_osea>11){
+				valor	=	'PEQUEÑA';
+				pesoIdeal	-=	valor_porcentaje_10;
+			}else{
+//				SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")
+				if(estructura_osea>10.1)
+					valor	=	'MEDIANA';
+				else{
+					valor	=	'GRANDE';
+					pesoIdeal	+=	valor_porcentaje_10;
+				}
+			}			
+		}//console.log('valor: ' + valor + ', pesoIdeal: ' + pesoIdeal);
+		return pesoIdeal;
 	}
 	calcularEstructuraOsea(){
 		if(!this.allowCalculate)
@@ -624,8 +640,8 @@ export class ValoracionComponent implements OnInit {
 
 		/*	pliegues	*/
 		//this.grasa.valorGrasaPliegues	=	0;
-		var edad	=	31;//this.paciente.edad;
-		var esMasculino	=	true;//this.paciente.genero=='M';
+		var edad	=	this.paciente.edad;/*	31;	*/
+		var esMasculino	=	this.paciente.genero=='M';/*	true;	*/
 /*
 	D= Densidad del cuerpo; 
 	L= Suma de pliegues cutáneos
@@ -726,16 +742,20 @@ export class ValoracionComponent implements OnInit {
 			return 0;
 		if(!this.valoracion.peso)
 			return 0;
+		var esMasculino	=	this.paciente.genero=='M';
+		//var	esMasculino	=	this.sexo=='M';
 /*
 =SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
 */
 		var factor_1	=	45.5;
 		var factor_2	=	2.27;
-		if(this.sexo=='M'){
+		if( esMasculino ){
 			factor_1	=	47.7;
 			factor_2	=	2.72;
 		}
-		this.analisis.pesoIdeal	=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
+		var pesoIdeal			=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
+		this.analisis.pesoIdeal	=	this.restarSumarAlPesoIdeal( pesoIdeal, esMasculino );
+		
 		return this.analisis.pesoIdeal;
 	}
 	get pesoIdealAjustado(){
@@ -860,6 +880,8 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		this.model.getFormValoracionAntropometrica().set(this.valoracion);
 		if(this.infoEdited())
 			this.createValoracionAntropometrica(this.valoracion);
+		else
+			this.goTo(this.page);		
 	}
 /*	Previous(){
 		this.saveForm();
@@ -870,7 +892,7 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		this.router.navigate(['/recomendacion']);
 	}*/
 	Next(){
-		this.btnNavigation_pressed	=	true;		
+		this.btnNavigation_pressed	=	true;
 		if(this.nuevaConsulta){
 			this.page	=	'/recomendacion';
 			this.saveForm();
@@ -882,4 +904,13 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		if(this.btnNavigation_pressed)
 			this.router.navigate([page]);
 	}
+	
+	/*get devInfo(){
+		var info	=	'';
+		info	+=	'Navigation_pressed=' + this.btnNavigation_pressed + "\n";
+		info	+=	' - operacion=' + this.mng.operacion + "\n";
+		info	+=	' - nueva-consulta=' + this.nuevaConsulta;
+		
+		return info;
+	}*/
 }

@@ -51,7 +51,7 @@ export class RecomendacionComponent implements OnInit {
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
-		console.log(this.habitosEjercicios);
+		/*console.log(this.habitosEjercicios);*/
 		this.setGastoCaloricoActividadFisica();
 		this.getHistorial();
 	}
@@ -69,9 +69,9 @@ export class RecomendacionComponent implements OnInit {
 			ejercicio	=	this.habitosEjercicios[i];
 			gasto_calorico_total_semanal		+=	(ejercicio.mets*0.0175*this.va.peso)*(ejercicio.horas_semanales*60);
 		}
-		console.log('gasto_calorico_total_semanal: ' + gasto_calorico_total_semanal);
+		//console.log('gasto_calorico_total_semanal: ' + gasto_calorico_total_semanal);
 		gasto_calorico_total_semanal	=	gasto_calorico_total_semanal / 7;
-		console.log('gasto_calorico_total_semanal / 7: ' + gasto_calorico_total_semanal);
+		//console.log('gasto_calorico_total_semanal / 7: ' + gasto_calorico_total_semanal);
 		this.recomendacion.promedio_gc_diario	=	Math.round(gasto_calorico_total_semanal);
 	}
 	getHistorial(){
@@ -79,8 +79,8 @@ export class RecomendacionComponent implements OnInit {
 		this.formControlDataService.select('rdds', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('GET rdds response');
-						console.log(response);
+						console.log('<-- cRud RDDs');
+						/*console.log(response);*/
 						this.processHistorial(response);
 						this.createGraphs();
 						},
@@ -227,7 +227,7 @@ export class RecomendacionComponent implements OnInit {
 		);
 	}
 	createRdds(recomendacion) {
-		console.log('save rdds...');
+		console.log('-->Crud RDDs');
 		console.log(recomendacion);
 
 		this.formControlDataService.addRdds(recomendacion)

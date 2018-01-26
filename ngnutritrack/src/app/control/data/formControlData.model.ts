@@ -9,8 +9,10 @@ export class FormControlData {
 	dieta_media_tarde_ejemplo:string		=	'';	
 	dieta_cena_ejemplo:string				=	'';
 	dieta_coicion_nocturna_ejemplo:string	=	'';
-	lastEstatura:number=0;
-	lastCircunferencia_muneca:number=0;
+	/*lastEstatura:number=0;
+	lastCircunferencia_muneca:number=0;*/
+	lastEstatura:string='';
+	lastCircunferencia_muneca:string='';
 
 	imc: number 				=	0;
 	pesoIdeal: number = 0;
@@ -508,8 +510,10 @@ export class ValoracionAntropometrica {
 	pesoIdealAjustado:string='';
 	
 	
-	lastEstatura:number=0;
-	lastCircunferencia_muneca:number=0;
+	/*lastEstatura:number=0;
+	lastCircunferencia_muneca:number=0;*/
+	lastEstatura:string='';
+	lastCircunferencia_muneca:string='';
 	
 	set(data:ValoracionAntropometrica){
 		this.id						=	data.id;
