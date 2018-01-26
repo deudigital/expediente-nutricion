@@ -120,14 +120,15 @@ export class PersonalesComponent implements OnInit {
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
 		if(this.infoEdited())
 			this.saveInfo(this.paciente);
+		else
+			this.goTo(this.page);
 	}
 	
 	Next(){
 		this.btnNavigation_pressed	=	true;
-		if(this.pacienteNuevo){
-			this.page	=	'/contacto';
-			this.saveForm();
-		}else
+		this.page	=	'/contacto';
+		this.saveForm();
+		if(!this.pacienteNuevo)
 			this.router.navigate(['/contacto']);
 	}
 	goTo(page){

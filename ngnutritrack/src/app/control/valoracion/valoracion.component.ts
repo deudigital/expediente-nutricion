@@ -101,7 +101,7 @@ export class ValoracionComponent implements OnInit {
 		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
 		/*this.paciente	=	this.model.getFormPaciente();
-		console.log(this.paciente);*/		
+		console.log(this.paciente);*/
 		this.mng	=	this.model.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(false);
 		this.nuevaConsulta	=	false;
@@ -217,6 +217,7 @@ export class ValoracionComponent implements OnInit {
 				this.detalleMusculo	=	this.model.getFormDetalleMusculo();
 				this.grasa			=	this.model.getFormDetalleGrasa();
 				this.paciente		=	this.model.getFormPaciente();
+				console.log(this.paciente);
 				this.setInfoInit();
 				this.loading_data_form	=	false;
 				this.getHistorial();
@@ -592,7 +593,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 					pesoIdeal	+=	valor_porcentaje_10;
 				}
 			}			
-		}//console.log('valor: ' + valor + ', pesoIdeal: ' + pesoIdeal);
+		}//console.log('estructura_osea: ' + estructura_osea + ', valor: ' + valor + ', pesoIdeal: ' + pesoIdeal);
 		return pesoIdeal;
 	}
 	calcularEstructuraOsea(){
@@ -754,6 +755,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 			factor_2	=	2.72;
 		}
 		var pesoIdeal			=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
+		console.log(pesoIdeal)
 		this.analisis.pesoIdeal	=	this.restarSumarAlPesoIdeal( pesoIdeal, esMasculino );
 		
 		return this.analisis.pesoIdeal;
