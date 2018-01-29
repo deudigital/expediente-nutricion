@@ -412,7 +412,7 @@ class FacturaController extends Controller
             );
           }
 
-		  //$this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
+		  $this->notificarPorCorreo($nota_credito_id, $numeracion_consecutiva);
 
         } catch(Illuminate\Database\QueryException $e) {
             dd($e);

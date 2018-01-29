@@ -98,21 +98,21 @@ export class ReporteFacturaComponent implements OnInit {
   obtenerFacturas(){
 		this.formControlDataService.getReporteFactura()
 		.subscribe(
-			 response  => {                        
+			 response  => {
 
-          this.factura = response;    
-          console.log(this.factura)  
+          this.factura = response;
+          console.log(this.factura)
           for(let doc in this.factura){
             for(let item in this.tipos){
               if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
                 this.factura[doc].nombre_tipo = this.tipos[item].nombre;
-                this.factura[doc].monto = Math.round(this.factura[doc].monto * 100) / 100;                
-              }              
+                this.factura[doc].monto = Math.round(this.factura[doc].monto * 100) / 100;
+              }
             }
             if(this.factura[doc].tipo_documento_id===3){
                 this.factura[doc].monto= '-'+this.factura[doc].monto;
               }
-          }          
+          }
 			},
 			error =>  {
 					console.log(error)
@@ -128,9 +128,9 @@ export class ReporteFacturaComponent implements OnInit {
       body.classList.add('open-modal');
 	  window.scrollTo(0, 0);
 	}else{
-    body.classList.remove('open-modal');    
+    body.classList.remove('open-modal');
   }
-      
+
   }
 
   anularFactura(){
@@ -138,35 +138,36 @@ export class ReporteFacturaComponent implements OnInit {
     this.form_errors.loading = true;
     this.formControlDataService.deleteFactura(this.deleted_document)
     .subscribe(
-      response => {     
-        if(response.status === 200){          
+      response => {
+        if(response.status === 200){
           this.form_errors.loading = false;
-          this.form_errors.successful_operation = true;          
+          this.form_errors.successful_operation = true;
+          this.obtenerFacturas();
           setTimeout(() => {
-            this.form_errors.successful_operation = false;  
-            this.deleted_document.tipo_documento_id = 3;
-            this.resultArray.push(this.deleted_document);
+            this.form_errors.successful_operation = false;            
+            this.filterQuery();
             this.show_deleteConfirmation = true;
             this.confirmDeleteFactura(this.deleted_document);
-          }, 3000); 
+          }, 3000);
         }
       },
       error => {
-        console.log(error);        
+        console.log(error);
         this.form_errors.loading = false;
         this.form_errors.ajax_failure = true;
         setTimeout(() => {
-            this.form_errors.ajax_failure = false;            
-          }, 3000); 
+            this.form_errors.ajax_failure = false;
+          }, 3000);
       }
     );
   }
+
 
   setLeftBorder(index){
     let value = "";
     let maxPosition = this.resultArray.length-1;
 
-    if(index === maxPosition){      
+    if(index === maxPosition){
       return value = '0 0 0 15px';
     }else{
       return value = '0px';
@@ -178,7 +179,7 @@ export class ReporteFacturaComponent implements OnInit {
     let value = "";
     let maxPosition = this.resultArray.length-1;
 
-    if(index === maxPosition){      
+    if(index === maxPosition){
       return value = '0 0 15px 0';
     }else{
       return value = '0px';
@@ -186,7 +187,7 @@ export class ReporteFacturaComponent implements OnInit {
   }
 
   showPDF(item){
-    let pdf = item.pdf.split('/');    
+    let pdf = item.pdf.split('/');
 
     if(item.tipo_documento_id != 3){
       window.open(item.pdf, "_blank");
@@ -200,16 +201,16 @@ export class ReporteFacturaComponent implements OnInit {
 		console.log(this.fromDate.date);
 		var fromDate	=	new Date(this.fromDate.date.year, this.fromDate.date.month-1, this.fromDate.date.day);
 		fromDate	=	new Date(fromDate.getTime());
-		var uDate	=	new Date(this.untilDate.date.year, this.untilDate.date.month, this.untilDate.date.day);    
+		var uDate	=	new Date(this.untilDate.date.year, this.untilDate.date.month, this.untilDate.date.day);
 		uDate.setSeconds(86400);
 		uDate	=	new Date(uDate.getTime());
 		var _fromDate	=	fromDate.getTime();
 		var _uDate		=	uDate.getTime();
-		for(let consulta in this.factura){			
+		for(let consulta in this.factura){
 			let queryDate	=	new Date(this.factura[consulta].fecha);
 			let _queryDate	=	queryDate.getTime();
 			var sw	=	String(this.factura[consulta].nombre).toLowerCase().includes(this.nombre.toLowerCase());
-			if(_queryDate > _fromDate && _queryDate < _uDate && sw){			
+			if(_queryDate > _fromDate && _queryDate < _uDate && sw){
 				var factura	=	Object.create(this.factura[consulta]);
 				let dia		=	this.fillWithZero(queryDate.getDate());
 				let mes		=	this.fillWithZero(queryDate.getMonth()+1);
@@ -222,8 +223,8 @@ export class ReporteFacturaComponent implements OnInit {
 				this.factura[consulta].showDelete		=	true;
 				if(this.factura[consulta].tipo_documento_id==3 || !this.factura[consulta].estado){
 					this.factura[consulta].showDelete		=	false;
-				}				
-				
+				}
+
 				if(this.tipo === this.factura[consulta].nombre_tipo)
 					this.resultArray.push(this.factura[consulta]);
 				else if(this.tipo === "Todos")
@@ -235,7 +236,7 @@ export class ReporteFacturaComponent implements OnInit {
   fillWithZero(valor){
 	  /*console.log(valor);
 	  console.log(String(valor).length);*/
-	  valor	=	((String(valor).length==1)? '0':'' ) + valor;	  
+	  valor	=	((String(valor).length==1)? '0':'' ) + valor;
 	  return valor;
   }
   filterQuery(){
