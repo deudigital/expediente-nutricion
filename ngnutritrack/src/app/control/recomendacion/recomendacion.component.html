@@ -95,7 +95,7 @@
 						type="number" 
 						class="form-control"  
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="recomendacion.factor_actividad_sedentaria"
 						>
 					<i></i>
@@ -110,7 +110,7 @@
 						type="number" 
 						class="form-control"  
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="recomendacion.promedio_gc_diario"
 						>
 					<i></i>
@@ -188,13 +188,13 @@
 				<div class="form-group with-icon variacion-calorica">
 					<label for="variacion-calorica" class="col-form-label">Variación Calórica</label>
 					<input 
-						id="variacion-calorica" 
-						name="variacion-calorica" 
+						id="variacion_calorica" 
+						name="variacion_calorica" 
 						type="number" 
 						class="form-control" 
 						placeholder="En centímetros" 
 						maxlength="6" 
-						(keypress)="helpers.soloNumeros($event)"
+						(keypress)="helpers.onlyIntNegPos($event)"
 						[(ngModel)]="recomendacion.variacion_calorica"
 					>
 					<i></i>				

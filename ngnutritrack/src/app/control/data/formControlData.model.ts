@@ -865,6 +865,15 @@ export class Helpers{
 Modo de Uso
 <input (keypress)="helpers.onKeyPress($event)"> 
 */
+	validateKey(evt, charCode){		
+		if (charCode == 8 || (charCode > 34 && charCode < 41 ))
+			return true;
+
+		if(charCode < 45 || charCode > 57 )
+			return false;
+
+		return true;
+	}
 	onKeyPress(e: any):boolean {
 		let input;
 		if (e.metaKey || e.ctrlKey)
@@ -952,6 +961,93 @@ Modo de Uso
 			
 		return true;
 	}
+	
+	//soloNumerosNegativePositiveDecimal(e: any):boolean {
+	soloNumerosNegativePositiveDecimal(event: KeyboardEvent, text: string):boolean {
+		//var charCode = (e.which) ? e.which : e.keyCode;
+		var charCode = (event.which) ? event.which : event.keyCode;
+		console.log('charCode-> ' + charCode);
+		let input;
+		if(charCode==45 || charCode==46){
+			//var txt 	=	String(e.target.value);
+			var txt 	=	(<HTMLInputElement>event.target).value;
+			console.log('txt: ' + txt + ', charCode: ' + charCode);
+			console.log('text: ' + text + ', charCode: ' + charCode);
+			//input = String.fromCharCode(e.which);			
+			let index	=	txt.indexOf('.');
+			let indexx	=	text.indexOf('.');
+			console.log('index: ' + index);
+			console.log('indexx: ' + indexx);
+			return index==-1;
+		}
+/*		
+		if (event.metaKey || event.ctrlKey)
+			return true;
+*/
+		if (event.which === 32)
+			return false;
+
+		if (event.which === 0)
+			return true;
+
+		if (event.which < 33)
+			return true;
+
+		/*input = String.fromCharCode(e.which);
+		*/
+		input = String.fromCharCode(event.which);
+		var keyCode = [8,9,37,39,45,46,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105,110];
+		
+		/*var charCode = (e.which) ? e.which : e.keyCode;*/
+		var charCode = (event.which) ? event.which : event.keyCode;
+		
+		var index = keyCode.indexOf( charCode );
+		if(index<0)
+			return false;
+	
+		//return input.replace(/(?!^-)[^0-9\.]/g, '');
+		
+		var re = /^-?\d*\.?\d{0,6}$/;
+		return (input.match(re) !== null);	
+		
+	}	
+	
+	onlyIntNegPos(evt){
+		if (evt.key=='Delete')
+			return true;
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		
+		if (charCode == 8 || (charCode > 34 && charCode < 41 ))
+			return true;
+
+		if(charCode < 45 || charCode > 57 )
+			return false;
+	
+		/*if(!this.validateKey(evt, charCode))
+			return false;*/
+
+		if(charCode == 46 )
+			return false;
+
+		var value 	=	String(evt.target.value);
+		
+		var index	=	-100;
+		
+		if(charCode==45){
+			index	=	value.indexOf( '-' );
+			console.log('index-> ' + index);
+			if(index>-1)
+				return false;		
+
+			evt.target.value	=	'-' + evt.target.value;
+			value	=	evt.target.value;
+			return false;
+		}
+		var re = /^-?\d{0,3}$/;
+		return (value.match(re) !== null);
+	}
+	
+	
 	in_array(data, ele){
 		return data.indexOf(ele)>-1;
 	}
