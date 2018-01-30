@@ -98,6 +98,16 @@ export class FacturaVaciaComponent implements OnInit {
 			impuesto: 0.00,
 			subtotal: 0.00
 		}
+		this.persona = {
+					cedula : "",
+					tipo_identificacion_id: 1,
+					celular: "",
+					detalles_direccion:"",
+					nombre:"",
+					telefono:"",
+					email:""
+				}	
+		this.queryPerson= '';
   	}
 
   	ngOnInit() {
