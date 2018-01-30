@@ -213,11 +213,10 @@ export class ConfigFacturaComponent implements OnInit {
           let llave = this.data.atv_llave_criptografica.split('/');
           this.crytoName=llave[llave.length-1];
         }
-        if(this.data.imagen=='' && this.data.imagen==null ){
-          this.data.imagen='assets/images/logo-placeholder.jpg';
+        if(this.data.imagen=='' || this.data.imagen==null ){
+          this.data.imagen='assets/images/logo.png';
         }        
         this.setUbicacion(this.data.ubicacion_id);
-        console.log(this.data);
       },
       error =>  {
         console.log(error);
