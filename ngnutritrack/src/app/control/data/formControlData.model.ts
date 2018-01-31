@@ -1034,14 +1034,16 @@ Modo de Uso
 		var index	=	-100;
 		
 		if(charCode==45){
+			/*if(value.length==0)
+				return true;*/
 			index	=	value.indexOf( '-' );
 			console.log('index-> ' + index);
 			if(index>-1)
-				return false;		
+				return false;
 
 			evt.target.value	=	'-' + evt.target.value;
 			value	=	evt.target.value;
-			return false;
+			/*return false;*/
 		}
 		var re = /^-?\d{0,3}$/;
 		return (value.match(re) !== null);
