@@ -660,12 +660,8 @@ class FacturaController extends Controller
       for($i = 0; $i < count($documento); $i++){
         $documento[$i] = json_decode(json_encode($documento[$i]), True);
       }    
-      if (env('APP_URL')=="http://expediente.nutricion.co.cr") {
-        $url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
-      }else{
-        $url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42'
-      }
-      //$url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42';
+      $url = env('API_URL_FE');
+      //   'https://www.facturaenlineacr.com/api/makeXML.stag.42';
       //$url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
       $date = date("Y-m-d");
       $hora = date("H:i:s");
