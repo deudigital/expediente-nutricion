@@ -447,7 +447,7 @@ class FacturaController extends Controller
               $documentos[$i] = json_decode(json_encode($documentos[$i]), True);
           }
 */
-          echo public_path("invoices/");
+          //echo public_path("invoices/");
           $nutricionista = DB::table('personas')                            
                             ->join('nutricionistas', 'personas.id', '=', 'nutricionistas.persona_id')
                             ->where('personas.id', '=', $request->nutricionista_id)->get();
@@ -660,7 +660,12 @@ class FacturaController extends Controller
       for($i = 0; $i < count($documento); $i++){
         $documento[$i] = json_decode(json_encode($documento[$i]), True);
       }    
-      $url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42';
+      if (env('APP_URL')=="http://expediente.nutricion.co.cr") {
+        $url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
+      }else{
+        $url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42'
+      }
+      //$url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42';
       //$url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
       $date = date("Y-m-d");
       $hora = date("H:i:s");
