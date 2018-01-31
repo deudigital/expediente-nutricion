@@ -80,6 +80,8 @@ export class PatronmenuComponent implements OnInit {
 	
 	prescritos:Object[]=[];
 	
+	navitation:boolean=false;
+	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model	=	formControlDataService.getFormControlData();
 	this.helpers	=	this.model.getHelpers();
@@ -116,6 +118,7 @@ export class PatronmenuComponent implements OnInit {
 	
 	this.tagBody = document.getElementsByTagName('body')[0];
 	this.tagBody.classList.add('menu-parent-dieta');
+	this.navitation	=	false;
 	
 	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
 	//console.log('cargando Patron Menu');
@@ -155,7 +158,8 @@ proteinas: 32
 
   }
 	ngOnDestroy() {
-		this.saveForm();
+		if(!this.navitation)
+			this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');
 	}
 	setInfoInit(){
@@ -637,6 +641,7 @@ proteinas: 32
 		this.router.navigate(['/dieta']);
 	}
 	Next(){
+		this.navitation	=	true;
 		this.saveForm();
 		this.router.navigate(['/notas']);
 	}
