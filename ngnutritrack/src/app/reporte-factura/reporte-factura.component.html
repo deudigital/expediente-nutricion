@@ -1,17 +1,22 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>
+</div>		
 <app-topnav></app-topnav>
-<div class="esc-modal transparent loading-modal" *ngIf="form_errors.loading">
+<div class="esc-modal transparent loading-modal" style="position: fixed;top: 50%" *ngIf="form_errors.loading">
 	<img src="assets/images/loading-bars.svg" width="75" />
 </div>
-<div class="esc-modal transparent success_ajax" *ngIf="form_errors.successful_operation">
+<div class="esc-modal transparent success_ajax" style="position: fixed;top: 50%" *ngIf="form_errors.successful_operation">
 	<img src="assets/images/success.png" width="75" />
 </div>
-<div class="esc-modal transparent success_ajax" *ngIf="form_errors.ajax_failure">
+<div class="esc-modal transparent success_ajax" style="position: fixed;top: 50%" *ngIf="form_errors.ajax_failure">
 	<img src="assets/images/error.png" width="75" />
 </div>
 
 <!-- Modal Confirmacion Borrado de Item -->
 <div class="overlay" *ngIf="show_deleteConfirmation || form_errors.loading || form_errors.successful_operation || form_errors.ajax_failure"></div>
-<div class="esc-modal" *ngIf="show_deleteConfirmation">
+<div class="esc-modal" style="position: fixed;top: 50%" *ngIf="show_deleteConfirmation">
 	<div class="box">
 		<a class="modal-close" (click)="confirmDeleteFactura()">X</a>
 		<header>
@@ -44,7 +49,6 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 col-xs-12 col-md-12 content-form">
-			<app-factura-vacia></app-factura-vacia>
 			<section>
 				<div class="row">
                     <div class="col-md-3 col-sm-3">

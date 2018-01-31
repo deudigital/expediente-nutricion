@@ -38,7 +38,7 @@
 
 <!-- Modal Confirmacion Borrado de Item -->
 <div class="overlay" (click)="confirmDeleteItem()"></div>
-<div class="esc-modal" *ngIf="show_deleteConfirmation">
+<div class="esc-modal" style="position: fixed;top: 50%" *ngIf="show_deleteConfirmation">
 	<div class="box">
 		<a class="modal-close" (click)="confirmDeleteItem()">X</a>
 		<header>
