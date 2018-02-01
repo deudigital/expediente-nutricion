@@ -7,6 +7,7 @@ use App\Documento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use QRCode;
 use App\Persona;
 
 class FacturaController extends Controller
@@ -374,6 +375,7 @@ class FacturaController extends Controller
           view()->share('factura', $factura);        
           view()->share('productos', $products);
           view()->share('fecha', date("d/m/Y"));
+          view()->share('code',urlencode(\Storage::disk('deletePdf')->url($consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")) );
 
           \PDF::loadView('templates.invoice')->save(\Storage::disk('deletePdf')->getDriver()->getAdapter()->getPathPrefix().$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');
@@ -419,6 +421,7 @@ class FacturaController extends Controller
         } catch(PDOException $e) {
             dd($e);
         }
+
 
         $result = self::makeXML($codigo_seguridad, $nota_credito_id, $nutricionista, $client[0]["nombre"], $nutricionista_ubicacion[0], $products, $factura, $request->id, "03");
 
@@ -585,7 +588,8 @@ class FacturaController extends Controller
         view()->share('factura', $factura);
         view()->share('productos', $products);
         view()->share('fecha', date("d/m/Y"));
-        
+        view()->share('code',urlencode(\Storage::disk('makePdf')->url($consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")) );
+
 
         \PDF::loadView('templates.invoice')->save(\Storage::disk('makePdf')->getDriver()->getAdapter()->getPathPrefix().$consecutivo_nutricionista."-".$request->nutricionista_id.".pdf")
                                            ->stream('download.pdf');
@@ -661,7 +665,7 @@ class FacturaController extends Controller
         $documento[$i] = json_decode(json_encode($documento[$i]), True);
       }    
       $url = env('API_URL_FE');
-      //   'https://www.facturaenlineacr.com/api/makeXML.stag.42';
+      // url = 'https://www.facturaenlineacr.com/api/makeXML.stag.42';
       //$url = 'https://www.facturaenlineacr.com/api/makeXML.prod.42';
       $date = date("Y-m-d");
       $hora = date("H:i:s");

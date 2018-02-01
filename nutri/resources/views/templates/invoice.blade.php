@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -103,6 +104,7 @@
     <div class="invoice-box">
         <div style="float:left">
             <img src="{{$imagen}}" style="width:20%; max-width:300px;">
+            <img src="http://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{$code}}">
         </div>
         <div style="float:right; margin-top: -2%; margin-bottom: -18%; margin-left: -18%;">
             <span style="float: right;">Fecha: {{$fecha}}</span>
