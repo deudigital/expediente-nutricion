@@ -104,7 +104,6 @@
     <div class="invoice-box">
         <div style="float:left">
             <img src="{{$imagen}}" style="width:20%; max-width:300px;">
-            <img src="http://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{$code}}">
         </div>
         <div style="float:right; margin-top: -2%; margin-bottom: -18%; margin-left: -18%;">
             <span style="float: right;">Fecha: {{$fecha}}</span>
@@ -206,6 +205,9 @@
             <br>
             <br>
             <span style="font-size: 18px;"><b>Total Factura:</b> ¢ {{$factura["total"]}}</span>
+            <br>
+            <br>
+            <img style="width: 100px; height: 100px" src="http://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{$code}}">
         </div>  
         <div style="float:left;text-align: left">
             <span style="font-size: 16px;">Notas</span>
@@ -220,15 +222,5 @@
             <p style="text-align: center">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° GT-R-48-2016 siete de octubre de dos mil dieciséis de la Dirección General de Tributación</p>            
         </div>    
     </div>
-    <script type="text/javascript">    
-        new QRCode("qrcode", {
-            text: "http://jindo.dev.naver.com/collie",
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-    </script>
 </body>
 </html>
