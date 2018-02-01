@@ -10,6 +10,7 @@ class Nutricionista extends Model
 	protected $fillable	=	[
 		'persona_id',
 		'nombre_comercial',
+		'imagen',
 		'usuario',
 		'contrasena',
 		'carne_cpn',

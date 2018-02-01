@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Response;
 use DB;
 use QRCode;
 use App\Persona;
+use App\Nutricionista;
 
 class FacturaController extends Controller
 {
@@ -575,7 +576,7 @@ class FacturaController extends Controller
 
         $imagen_nutri = $nutricionista[0]["imagen"];        
 
-        if(empty($imagen_nutri)){
+        if(empty($imagen_nutri)|| $imagen_nutri==null){
           $imagen_nutri	=	env('APP_URL') . '/images/logo.png';
         }
 
@@ -862,9 +863,10 @@ class FacturaController extends Controller
 						->select('personas.nombre as nombre_persona', 'personas.email', 'documentos.*')
 						->first();
 //echo '<pre>' . print_r($nota_credito, true).  '</pre>';exit;
-		$nutricionista	=	Persona::find($nota_credito->nutricionista_id);		  
+		$nutricionista	=	Persona::find($nota_credito->nutricionista_id);	
+    $nutricionista2	= Nutricionista::find($nota_credito->nutricionista_id);
 		$url	=	'https://expediente.nutricion.co.cr/';
-    if (empty($nutricionista->imagen)) {
+    if (empty($nutricionista2->imagen)) {
       $images  = $url . 'mail/images/';
     }else{
       $images = $nutricionista->imagen;
