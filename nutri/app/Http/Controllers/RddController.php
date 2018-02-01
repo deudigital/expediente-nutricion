@@ -15,37 +15,37 @@ class RddController extends Controller
      */
     public function store(Request $request)
     {
+		$action	=	'editado';
 		$rdd	=	Rdd::where('consulta_id', $request->consulta_id)
 						->get()
 						->first();
+
 		if(count($rdd)>0){
-			/*return $rdd;*/
-			/*$va->id	=	 1,*/
 			$rdd->metodo_calculo_gc				=	$request->metodo_calculo_gc;
 			$rdd->peso_calculo					=	$request->peso_calculo;
 			$rdd->factor_actividad_sedentaria	=	$request->factor_actividad_sedentaria;
 			$rdd->promedio_gc_diario			=	$request->promedio_gc_diario;
 			$rdd->variacion_calorica			=	$request->variacion_calorica;
 			/*"consulta_id": 1*/
-
-		}else{
-			$rdd	=	new Rdd(
-						array(
+			
+		}else{$action	=	'registrado';
+			$rdd	=	array(
 							'metodo_calculo_gc'				=>	$request->metodo_calculo_gc,
 							'peso_calculo'					=>	$request->peso_calculo,
 							'factor_actividad_sedentaria'	=>	$request->factor_actividad_sedentaria,
 							'promedio_gc_diario'			=>	$request->promedio_gc_diario,
 							'variacion_calorica'			=>	$request->variacion_calorica,
 							'consulta_id'					=>	$request->consulta_id
-						)
 					);
-			//return $rdd;
+			$rdd	=	Rdd::create($rdd);
 		}
 		$rdd->save();
-		$message	=	'Su Consulta ha sido añadida de modo correcto';
+		/*$response	=	Response::json($rdd, 200, []);
+		return $response;*/
 		$response	=	Response::json([
-			'message'	=>	$message,
+			'message'	=> 'RDD ' . $action . ' correctamente',
 			'data'		=>	$rdd
+			
 		], 201);
 		return $response;
     }
