@@ -323,7 +323,7 @@ export class FormControlDataService {
 	}
 	select(module:string, data:any): Observable<any[]> {
 		console.log('cRud ' + module + '-->');
-		console.log(data);
+		/*console.log(data);*/
 		var serviceUrl	=	this.apiURL;
 		switch(module){
 			case 'valoracionAntropometrica':

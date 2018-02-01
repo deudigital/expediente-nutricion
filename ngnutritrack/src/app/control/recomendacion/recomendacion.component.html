@@ -15,6 +15,7 @@
 			<div class="form-group">
 				<label for="cedula" class="col-form-label">¿Como desea calcular gasto cal&oacute;rico?</label>
 				<div class="radio clearfix">
+			<ng-template [ngIf]="esAdulto">
 					<div class="col-sm-4">
 						<label>
 							<input 
@@ -48,6 +49,45 @@
 							<span>Promedio de Ambas</span>
 						</label>
 					</div>
+			</ng-template>
+			<ng-template [ngIf]="esMenor">
+					<div class="col-sm-4" *ngIf="displayBenedict">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"
+								value="benedict-child" 
+								(change)="changeMethod()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>Harris Benedict(niños)</span>
+						</label>
+					</div>
+					<div class="col-sm-4" *ngIf="displaySchofield">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"	
+								value="schofield" 
+								(change)="changeMethod()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"							
+							>
+							<span>Schofield</span>
+						</label>
+					</div>
+					<div class="col-sm-4" *ngIf="displayRDA">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio" 
+								value="rda" 
+								(change)="changeMethod()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>RDA</span>
+						</label>
+					</div>
+			</ng-template>
 				</div>
 			</div>
 			<div class="form-group">
@@ -76,7 +116,7 @@
 							<span>Peso Ideal</span>
 						</label>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-4" *ngIf="esAdulto">
 						<label>
 							<input 
 								name="peso-calculo-calorico" 
@@ -91,7 +131,7 @@
 			</div>
 		</div>
 		<div class="row factores">
-			<div class="col-sm-6">
+			<div class="col-sm-6" *ngIf="displayFactor">
 				<div class="form-group with-icon factor-actividad">
 					<label for="cedula" class="col-form-label">Factor de actividad sedentaria y t&eacute;rmico de los alimentos</label>
 					<input 

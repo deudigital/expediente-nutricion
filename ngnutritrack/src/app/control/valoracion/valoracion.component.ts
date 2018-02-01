@@ -96,20 +96,23 @@ export class ValoracionComponent implements OnInit {
 	valorGrasaPliegues:number;
 	disableButtonHistorial:boolean;
 	loading_data_form:boolean;
+	
+	esAdulto:boolean;
+	displayoptionsForMenor:boolean;
+	esMenor:boolean;
+	displayOms:boolean;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
-		/*this.paciente	=	this.model.getFormPaciente();
-		console.log(this.paciente);*/
 		this.mng	=	this.model.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(false);
 		this.nuevaConsulta	=	false;
-		/*if(mng.operacion=='nueva-consulta')
-			this.nuevaConsulta	=	true;*/
-		
 		this.disableButtonHistorial	=	true;
 		this.loading_data_form	=	true;
+		this.esAdulto			=	false;
+		this.esMenor			=	false;
+		this.displayoptionsForMenor		=	false;
 		this.getDatosDeConsulta(this.model.consulta.id);
     }
 	ngOnInit() {
@@ -122,6 +125,10 @@ export class ValoracionComponent implements OnInit {
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
+	}
+	changeMethod(){
+		this.esAdulto	=	this.valoracion.metodo_valoracion=='adulto';
+		this.esMenor	=	!this.esAdulto;
 	}
 	setInfoInit(){
 /*		this.oValoracion.estatura				=	Number(this.valoracion.estatura);
@@ -147,6 +154,9 @@ export class ValoracionComponent implements OnInit {
 		this.oValoracion.edad_metabolica		=	this.valoracion.edad_metabolica;
 		this.oValoracion.circunferencia_cintura	=	this.valoracion.circunferencia_cintura;
 		this.oValoracion.circunferencia_cadera	=	this.valoracion.circunferencia_cadera;
+
+		this.oValoracion.metodo_valoracion	=	this.valoracion.metodo_valoracion;
+		this.oValoracion.percentil_analisis	=	this.valoracion.percentil_analisis;
 		
 		
 		if(this.mng.operacion=='nueva-consulta' && !this.valoracion.id){
@@ -158,38 +168,22 @@ export class ValoracionComponent implements OnInit {
 		}		
 	}
 	infoEdited(){
-		/*console.log('infoEdited');
-		console.log('this.valoracion.id: ' + this.valoracion.id);
-		console.log('this.aPendientes.length: ' + this.aPendientes.length);
-		console.log('this.aPendientess.length: ' + this.aPendientess.length);*/
-		//if(!this.valoracion.id && this.aPendientess.length>0){
 		if(!this.valoracion.id && this.countPendientes>0){
 			return true;
 		}
-		/*console.log(this.oValoracion.estatura + '!==' + Number(this.valoracion.estatura));
-		console.log(this.oValoracion.circunferencia_muneca + '!==' + Number(this.valoracion.circunferencia_muneca));
-		console.log(this.oValoracion.peso	 + '!==' + Number(this.valoracion.peso));
-		console.log(this.oValoracion.grasa	 + '!==' + Number(this.valoracion.grasa));
-		console.log(this.oValoracion.musculo + '!==' + Number(this.valoracion.musculo));
-		console.log(this.oValoracion.agua	 + '!==' + Number(this.valoracion.agua));
-		console.log(this.oValoracion.grasa_viceral + '!==' + Number(this.valoracion.grasa_viceral));
-		console.log(this.oValoracion.hueso	 + '!==' + Number(this.valoracion.hueso));
-		console.log(this.oValoracion.edad_metabolica	 + '!==' + Number(this.valoracion.edad_metabolica));
-		console.log(this.oValoracion.circunferencia_cintura + '!==' + Number(this.valoracion.circunferencia_cintura));
-		console.log(this.oValoracion.circunferencia_cadera + '!==' + Number(this.valoracion.circunferencia_cadera));*/
-		/*return 	(
-			this.oValoracion.estatura				!==	Number(this.valoracion.estatura) || 
-			this.oValoracion.circunferencia_muneca	!==	Number(this.valoracion.circunferencia_muneca) || 
-			this.oValoracion.peso					!==	Number(this.valoracion.peso) || 
-			this.oValoracion.grasa					!==	Number(isNaN(this.valoracion.grasa) ? 0:this.valoracion.grasa) || 
-			this.oValoracion.musculo				!==	Number(this.valoracion.musculo) || 
-			this.oValoracion.agua					!==	Number(this.valoracion.agua) || 
-			this.oValoracion.grasa_viceral			!==	Number(this.valoracion.grasa_viceral) || 
-			this.oValoracion.hueso					!==	Number(this.valoracion.hueso) || 
-			this.oValoracion.edad_metabolica		!==	Number(this.valoracion.edad_metabolica) || 
-			this.oValoracion.circunferencia_cintura	!==	Number(this.valoracion.circunferencia_cintura) || 
-			this.oValoracion.circunferencia_cadera	!==	Number(this.valoracion.circunferencia_cadera)
-		);*/
+		console.log(Number(this.oValoracion.estatura) + '!==' + Number(this.valoracion.estatura));
+		console.log(Number(this.oValoracion.circunferencia_muneca) + '!==' + Number(this.valoracion.circunferencia_muneca));
+		console.log(Number(this.oValoracion.peso)	 + '!==' + Number(this.valoracion.peso));
+		console.log(Number(this.oValoracion.grasa)	 + '!==' + Number(this.valoracion.grasa));
+		console.log(Number(this.oValoracion.musculo) + '!==' + Number(this.valoracion.musculo));
+		console.log(Number(this.oValoracion.agua)	 + '!==' + Number(this.valoracion.agua));
+		console.log(Number(this.oValoracion.grasa_viceral) + '!==' + Number(this.valoracion.grasa_viceral));
+		console.log(Number(this.oValoracion.hueso)	 + '!==' + Number(this.valoracion.hueso));
+		console.log(Number(this.oValoracion.edad_metabolica)	 + '!==' + Number(this.valoracion.edad_metabolica));
+		console.log(Number(this.oValoracion.circunferencia_cintura) + '!==' + Number(this.valoracion.circunferencia_cintura));
+		console.log(Number(this.oValoracion.circunferencia_cadera) + '!==' + Number(this.valoracion.circunferencia_cadera));
+		console.log(String(this.oValoracion.metodo_valoracion) + '!==' + String(this.valoracion.metodo_valoracion));
+		console.log(Number(this.oValoracion.percentil_analisis) + '!==' + Number(this.valoracion.percentil_analisis));
 		return 	(
 			Number(this.oValoracion.estatura)				!==	Number(this.valoracion.estatura) || 
 			Number(this.oValoracion.circunferencia_muneca)	!==	Number(this.valoracion.circunferencia_muneca) || 
@@ -201,9 +195,10 @@ export class ValoracionComponent implements OnInit {
 			Number(this.oValoracion.hueso)					!==	Number(this.valoracion.hueso) || 
 			Number(this.oValoracion.edad_metabolica)		!==	Number(this.valoracion.edad_metabolica) || 
 			Number(this.oValoracion.circunferencia_cintura)	!==	Number(this.valoracion.circunferencia_cintura) || 
-			Number(this.oValoracion.circunferencia_cadera)	!==	Number(this.valoracion.circunferencia_cadera)
+			Number(this.oValoracion.circunferencia_cadera)	!==	Number(this.valoracion.circunferencia_cadera) || 
+			String(this.oValoracion.metodo_valoracion)		!==	String(this.valoracion.metodo_valoracion) || 
+			Number(this.oValoracion.percentil_analisis)		!==	Number(this.valoracion.percentil_analisis)
 		);
-
 	}
 	getDatosDeConsulta(consulta_id){
 		if(!consulta_id)
@@ -217,7 +212,16 @@ export class ValoracionComponent implements OnInit {
 				this.detalleMusculo	=	this.model.getFormDetalleMusculo();
 				this.grasa			=	this.model.getFormDetalleGrasa();
 				this.paciente		=	this.model.getFormPaciente();
-				console.log(this.paciente);
+				console.log(this.valoracion);
+				this.esAdulto	=	this.paciente.edad>20;
+				this.esMenor	=	!this.esAdulto;
+				if(this.esMenor){
+					this.displayoptionsForMenor	=	true;
+				
+					this.displayOms	=	this.paciente.edad<19;
+					if(!this.valoracion.metodo_valoracion)
+						this.valoracion.metodo_valoracion	=	this.displayOms? 'oms':'cdc';
+				}
 				this.setInfoInit();
 				this.loading_data_form	=	false;
 				this.getHistorial();
@@ -234,9 +238,7 @@ export class ValoracionComponent implements OnInit {
 		this.formControlDataService.select('valoracionAntropometrica', paciente_id)
 		.subscribe(
 			 response  => {
-						/*console.log('<-- cRud Historial VA');console.log(response);*/
 						this.historial	=	response;
-						console.log(this.historial.length);
 						this.disableButtonHistorial	=	this.historial.length==0;
 						this.createGraphs();
 						},
@@ -370,27 +372,10 @@ export class ValoracionComponent implements OnInit {
 		
 		
 	}
-/*	createValoracionAntropometrica(valoracionAntropometrica) {
-		this.tagBody.classList.add('sending');
-		this.formControlDataService.addValoracionAntropometrica(valoracionAntropometrica)
-		.subscribe(
-			 response  => {
-						console.log('<!--Crud va');
-						console.log(response);
-						this.tagBody.classList.remove('sending');
-						this.goTo(this.page);
-						},
-			error =>  console.log(<any>error)
-		);
-	}*/
 	createValoracionAntropometrica(valoracionAntropometrica){
 		var data	=	valoracionAntropometrica;
-		
-		/*console.log('this.countPendientes: ' + this.countPendientes);*/
-		//if(!this.valoracion.id && this.aPendientes.length>0){
 		if(!this.valoracion.id && this.countPendientes>0){
 			this.aPendientess['va']		=	valoracionAntropometrica;
-			//this.aPendientess.push(valoracionAntropometrica);
 			data	=	this.aPendientess;
 		}
 		console.log('-->Crud VA');
@@ -400,7 +385,6 @@ export class ValoracionComponent implements OnInit {
 			 response  => {
 						console.log('<--Crud VA');
 						console.log(response);
-						this.tagBody.classList.remove('sending');
 						this.goTo(this.page);
 						this.btnNavigation_pressed	=	false;
 						},
@@ -445,15 +429,12 @@ export class ValoracionComponent implements OnInit {
 					this.saveInfoGrasa(this.grasa);
 				
 				if(this.showModalGrasaTabPliegues){
-					/*console.log('this.valoracion.grasa-> ' + this.valoracion.grasa);
-					console.log('this.valorGrasaPliegues-> ' + this.valorGrasaPliegues);*/
 					if(this.valorGrasaPliegues)
 						this.valoracion.grasa	=	String(this.valorGrasaPliegues);
 					else
 						this.valoracion.grasa	=	'';
 						
 				}
-
 				/*if(this.showModalGrasaTabSegmentado)
 					this.valoracion.grasa	=	this.grasa.valorGrasaSegmentado;
 				else
@@ -506,16 +487,13 @@ export class ValoracionComponent implements OnInit {
 		if(!this.valoracion.id){
 			this.aPendientess['detalle_grasa']	=	data;
 			this.countPendientes++;
-			console.log('saveInfoGrasa');
 			return ;
 		}
-
-		console.log('-->Crud Grasa');/*console.log(data);*/
+		console.log('-->Crud Grasa');
 		this.formControlDataService.saveDatosGrasa(data)
 		.subscribe(
 			 response  => {
 						console.log('<--Crud Grasa');
-						/*console.log(response);*/
 						this.grasa.id	=	response['id'];
 						},
 			error =>  console.log(<any>error)
@@ -527,14 +505,12 @@ export class ValoracionComponent implements OnInit {
 			this.countPendientes++;
 			return ;
 		}
-		console.log('-->Crud Musculo...');/*console.log(data);*/
+		console.log('-->Crud Musculo');
 		this.formControlDataService.saveDatosMusculo(data)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud Musculo');
-						/*console.log(response);*/
+						console.log('<--Crud Musculo');
 						this.detalleMusculo.id	=	response['id'];
-						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
 		);
@@ -545,7 +521,7 @@ export class ValoracionComponent implements OnInit {
 		//return this.valoracion.musculo;
 		return valor/5;
 	}
-	restarSumarAlPesoIdeal(pesoIdeal, esMasculino){//console.log('restarSumarAlPesoIdeal: ' + pesoIdeal);
+	restarSumarAlPesoIdeal(pesoIdeal, esMasculino){
 /*
 =SI(GENERO="M";SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
 */
@@ -593,7 +569,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 					pesoIdeal	+=	valor_porcentaje_10;
 				}
 			}			
-		}//console.log('estructura_osea: ' + estructura_osea + ', valor: ' + valor + ', pesoIdeal: ' + pesoIdeal);
+		}
 		return pesoIdeal;
 	}
 	calcularEstructuraOsea(){
@@ -696,11 +672,6 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 						}
 		/*console.log(D);*/
 /*	Porcentage de grasa (%) = (495 / D) – 450	*/
-		/*console.log('(495' + '/' + D + ')-450');*/
-		
-		
-		
-		//this.grasa.valorGrasaPliegues	=	(495/D)-450;
 		this.valorGrasaPliegues	=	Math.round((495/D)-450);
 		return this.valorGrasaPliegues;
 	}
@@ -755,7 +726,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 			factor_2	=	2.72;
 		}
 		var pesoIdeal			=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
-		console.log(pesoIdeal)
+		/*console.log(pesoIdeal)*/
 		this.analisis.pesoIdeal	=	this.restarSumarAlPesoIdeal( pesoIdeal, esMasculino );
 		
 		return this.analisis.pesoIdeal;
@@ -894,8 +865,8 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		this.router.navigate(['/recomendacion']);
 	}*/
 	Next(){
-		this.btnNavigation_pressed	=	true;
 		if(this.nuevaConsulta){
+			this.btnNavigation_pressed	=	true;
 			this.page	=	'/recomendacion';
 			this.saveForm();
 		}else

@@ -22,6 +22,50 @@
 							>Ver Historial Antropom&eacute;trico</button>
 					</div>
 				</div>
+<ng-template [ngIf]="displayoptionsForMenor">
+			<div class="form-group">
+				<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{paciente.edad}} años, indique como desea hacer la valoracion</label>
+				<div class="radio clearfix">
+					<div class="col-sm-4" *ngIf="displayOms">
+						<label>
+							<input 
+								name="metodo-valoracion" 
+								type="radio"
+								value="oms" 
+								(change)="changeMethod()"
+								[(ngModel)]="valoracion.metodo_valoracion"
+							>
+							<span>OMS</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="metodo-valoracion" 
+								type="radio"	
+								value="cdc" 
+								(change)="changeMethod()"
+								[(ngModel)]="valoracion.metodo_valoracion"							
+							>
+							<span>CDC</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="metodo-valoracion" 
+								type="radio" 
+								value="adulto" 
+								(change)="changeMethod()"
+								[(ngModel)]="valoracion.metodo_valoracion"
+							>
+							<span>Adulto</span>
+						</label>
+					</div>
+				</div>
+			</div>
+</ng-template>
+<ng-template [ngIf]="esAdulto">
 				<div class="row">
 					<div class="col-sm-6 with-icon estatura">
 						<div class="form-group with-icon estatura">
@@ -209,12 +253,113 @@
 						</div>
 					</div>
 				</div>
+</ng-template>
+<ng-template [ngIf]="esMenor">
+			
+			<div class="form-group ">
+				<label for="percentil-analisis" class="col-form-label">¿con cual percentil desea hacer el analisis?</label>
+				<div class="radio clearfix percentiles">
+					<div class="col-sm-2">
+						<label>
+							<input 
+								name="percentil-analisis" 
+								type="radio"
+								value="3" 
+								checked 
+								[(ngModel)]="valoracion.percentil_analisis"
+								>
+							<span>3%</span>
+						</label>
+					</div>
+					<div class="col-sm-2">
+						<label>
+							<input 
+								name="percentil-analisis" 
+								type="radio"	
+								value="15" 
+								[(ngModel)]="valoracion.percentil_analisis"
+								>
+							<span>15%</span>
+						</label>
+					</div>
+					<div class="col-sm-2">
+						<label>
+							<input 
+								name="percentil-analisis" 
+								type="radio"
+								value="50" 
+								[(ngModel)]="valoracion.percentil_analisis"
+								>
+							<span>50%</span>
+						</label>
+					</div>
+					<div class="col-sm-2">
+						<label>
+							<input 
+								name="percentil-analisis" 
+								type="radio"
+								value="85" 
+								[(ngModel)]="valoracion.percentil_analisis"
+								>
+							<span>85%</span>
+						</label>
+					</div>
+					<div class="col-sm-2">
+						<label>
+							<input 
+								name="percentil-analisis" 
+								type="radio"
+								value="97" 
+								[(ngModel)]="valoracion.percentil_analisis"
+								>
+							<span>97%</span>
+						</label>
+					</div>
+				</div>
+			</div>
+<div class="row">
+			<div class="col-sm-6 with-icon estatura">
+				<div class="form-group with-icon estatura">
+					<label class="col-form-label" for="estatura">Estatura</label>
+					<input 
+						id="estatura" 
+						name="estatura" 
+						type="text" 
+						class="form-control" 
+						placeholder="En metros" 
+						maxlength="5" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="valoracion.estatura"
+						>
+					<i></i>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group with-icon peso">
+					<label class="col-form-label" for="peso">Peso</label>
+					<input 
+						id="peso" 
+						name="peso" 
+						type="text"
+						class="form-control" 
+						placeholder="Kilogramos" 
+						maxlength="5" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="valoracion.peso"
+						>
+					<i></i>
+				</div>
+			</div>
+</div>
+</ng-template>	
 			</section>
+
 			<section>
 				<header>
 					<h3 class="title">An&aacute;lisis</h3>
 				</header>
-				<div class="row analisis">					
+				<div class="row analisis" [ngClass]="{'menores': esMenor }">
+	<ng-template [ngIf]="esAdulto || esMenor">
 					<div class="box imc">
 						<i></i>
 						<br>
@@ -227,6 +372,8 @@
 						Peso Ideal
 						<strong>{{ pesoIdeal | number : '1.2-2'}} kg</strong>
 					</div>
+	</ng-template>
+	<ng-template [ngIf]="esAdulto">
 					<div class="box peso-ideal-ajustado">
 						<i></i>
 						<br>
@@ -275,9 +422,35 @@
 						Peso Meta M&iacute;nimo
 						<strong>{{ pesoMetaMinimo | number : '1.2-2'}} kg</strong>
 					</div>
+	</ng-template>
+	<ng-template [ngIf]="esMenor">
+					<div class="box peso-ideal estatura-ideal">
+						<i></i>
+						<br>
+						Estatura Ideal
+						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+					<div class="box peso-ideal indicador-estatura-para-edad">
+						<i></i>
+						<br>
+						Indicador Estatura para Edad
+						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+					<div class="box peso-ideal indicador-peso-para-edad">
+						<i></i>
+						<br>
+						Indicador Peso para Edad
+						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+					<div class="box peso-ideal indicador-peso-para-estatura">
+						<i></i>
+						<br>
+						Indicador Peso para Estatura
+						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+	</ng-template>
 				</div>
 			</section>
-
 			<div class="buttons-navigation">
 				<button 
 					class="btn btn-default previous invisible" 

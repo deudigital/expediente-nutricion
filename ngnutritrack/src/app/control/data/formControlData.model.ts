@@ -515,6 +515,10 @@ export class ValoracionAntropometrica {
 	lastEstatura:string='';
 	lastCircunferencia_muneca:string='';
 	
+	metodo_valoracion:string='oms';
+	percentil_analisis:string='50';
+
+	
 	set(data:ValoracionAntropometrica){
 		this.id						=	data.id;
 		this.estatura				=	data.estatura;
@@ -530,8 +534,13 @@ export class ValoracionAntropometrica {
 		this.circunferencia_cintura	=	data.circunferencia_cintura;
 		this.circunferencia_cadera	= 	data.circunferencia_cadera;
 		this.consulta_id			= 	data.consulta_id;
-
-		
+		if(this.id){
+			this.metodo_valoracion		= 	data.metodo_valoracion;
+			console.log('data.percentil_analisis:' + data.percentil_analisis);
+			if(data.percentil_analisis)
+				this.percentil_analisis	=	String(data.percentil_analisis);
+		}
+			
 /*		this.detalleGrasa.valoracion_antropometrica_id	=	data.id;
 		this.detalleMusculo.valoracion_antropometrica_id	=	data.id;
 		if(data.detalleGrasa)

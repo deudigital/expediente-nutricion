@@ -64,6 +64,9 @@ class ValoracionAntropometricaController extends Controller
 			$va->edad_metabolica		=	$request->edad_metabolica;
 			$va->circunferencia_cintura	=	$request->circunferencia_cintura;
 			$va->circunferencia_cadera	=	$request->circunferencia_cadera;
+			
+			$va->metodo_valoracion	=	$request->metodo_valoracion;
+			$va->percentil_analisis	=	$request->percentil_analisis;
 			/*"consulta_id": 1*/
 			$va->save();
 		}else{$action	=	'registrado';
@@ -95,6 +98,8 @@ class ValoracionAntropometricaController extends Controller
 							'edad_metabolica'		=>	$request->edad_metabolica,
 							'circunferencia_cintura'=>	$request->circunferencia_cintura,
 							'circunferencia_cadera'	=>	$request->circunferencia_cadera,
+							'metodo_valoracion'		=>	$request->metodo_valoracion,
+							'percentil_analisis'	=>	$request->percentil_analisis,
 							'consulta_id'			=>	$request->consulta_id
 						);
 			$va		=	ValoracionAntropometrica::create($aVa);

@@ -35,6 +35,13 @@ export class RecomendacionComponent implements OnInit {
 	hideModalDatos:boolean=true;
 	habitosEjercicios:any[];
 	disableButtonHistorial:boolean;
+	
+	esAdulto:boolean;
+	esMenor:boolean;
+	displaySchofield:boolean;
+	displayBenedict:boolean;
+	displayRDA:boolean;
+	displayFactor:boolean;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -50,6 +57,15 @@ export class RecomendacionComponent implements OnInit {
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
+		this.esAdulto	=	this.paciente.edad>20;
+		this.esMenor	=	!this.esAdulto;
+		
+		this.displaySchofield	=	(this.paciente.edad>2) && (this.paciente.edad<19);
+		this.displayBenedict	=	(this.paciente.edad>9);
+		this.displayRDA			=	(this.paciente.edad<19);
+		this.displayFactor		=	this.recomendacion.metodo_calculo_gc!='rda';
+		
+		
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
 		/*console.log(this.habitosEjercicios);*/
 		this.setGastoCaloricoActividadFisica();
@@ -57,6 +73,12 @@ export class RecomendacionComponent implements OnInit {
 	}
 	ngOnDestroy() {
 		this.saveForm();
+	}
+	
+	changeMethod(){
+		this.displayFactor	=	this.recomendacion.metodo_calculo_gc!='rda';
+		if(!this.displayFactor)
+			this.recomendacion.factor_actividad_sedentaria	=	0;
 	}
 	setGastoCaloricoActividadFisica(){
 		//if(this.recomendacion.promedio_gc_diario>0)

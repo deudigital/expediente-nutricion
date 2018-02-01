@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
 	valoracion:any;
 	prescripcion:any;
 	rdd:any;
+	paciente:any;
 	
 	information:any;
 		
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
 		this.valoracion		=	this.fcd.getFormValoracionAntropometrica();
 		this.prescripcion	=	this.fcd.getFormPrescripcion();
 		this.rdd			=	this.fcd.getFormRdd();
+		this.paciente			=	this.fcd.getFormPaciente();
 
 		var summary	=	'';
 		if(this.consulta.id){
@@ -48,6 +50,7 @@ export class AppComponent implements OnInit {
 		}
 		if(this.consulta.paciente_id){
 			summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
+			summary	+=	' (' + this.paciente.genero + ', ' + this.paciente.edad + ' años )';
 		}
 		if(summary)
 			summary	+=	'  |  ';
