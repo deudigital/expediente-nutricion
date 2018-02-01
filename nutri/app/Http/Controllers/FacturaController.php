@@ -867,14 +867,14 @@ class FacturaController extends Controller
     $nutricionista2	= Nutricionista::find($nota_credito->nutricionista_id);
 		$url	=	'https://expediente.nutricion.co.cr/';
     if (empty($nutricionista2->imagen)) {
-      $images  = $url . 'mail/images/';
+      $images  = $url . 'mail/images/logo.png';
     }else{
       $images = $nutricionista2->imagen;
     }
 		$pdf	=	$url;  
 
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
-		$html	.=	'<img src="' . $images . 'logo.png" width="180" />';
+		$html	.=	'<img src="' . $images . '" width="180" />';
 		$html	.=	'</div>';
 		$html	.=	'<p>' . $nota_credito->nombre_persona . ', </p>';
 		
