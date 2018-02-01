@@ -51,14 +51,14 @@ return [
         'logos' => [
             'driver' => 'local',
             'root' => public_path('images/logo/'),
-            'url' => 'http://expediente.nutricion.co.cr/nutri/public/images/logo/',
+            'url' => env('APP_URL').'/nutri/public/images/logo/',
             'visibility' => 'public',
         ],
 
         'cryptoKey' => [
             'driver' => 'local',
             'root' => public_path('llave-criptografica/'),
-            'url' => 'http://expediente.nutricion.co.cr/nutri/public/llave-criptografica/',
+            'url' => env('APP_URL').'/nutri/public/llave-criptografica/',
             'visibility' => 'public',
         ],
 
