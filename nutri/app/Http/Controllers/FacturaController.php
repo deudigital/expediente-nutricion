@@ -869,9 +869,9 @@ class FacturaController extends Controller
     if (empty($nutricionista2->imagen)) {
       $images  = $url . 'mail/images/';
     }else{
-      $images = $nutricionista->imagen;
+      $images = $nutricionista2->imagen;
     }
-		$pdf	=	$url;
+		$pdf	=	$url;  
 
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
 		$html	.=	'<img src="' . $images . 'logo.png" width="180" />';
