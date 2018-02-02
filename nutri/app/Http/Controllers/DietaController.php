@@ -139,9 +139,7 @@ class DietaController extends Controller
 								->first();		
 		if(!$consulta)
 			return	Response::json(['message' => 'Records not exist'], 204);
-		
-		
-		
+
 		$tiempoComidas	=	TiempoComida::all();
 		$_tiempo_comidas	=	array();
 		if(count($tiempoComidas)>0){
@@ -150,16 +148,11 @@ class DietaController extends Controller
 				$_tiempo_comidas[$value['id']]['tiempo_comida_id']		=	$value['id'];
 				$_tiempo_comidas[$value['id']]['tiempo_comida_nombre']	=	$value['nombre'];
 				$_tiempo_comidas[$value['id']]['ejemplo']				=	'';
-				$_tiempo_comidas[$value['id']]['alimentos']					=	array();
+				$_tiempo_comidas[$value['id']]['alimentos']				=	array();
 			}
 		}
 		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta->id)
 									->get();
-/*
-	tiempo_comida_id	1
-	consulta_id	534
-	ejemplo	"e1"
-*/
 		
 		if(count($patronMenuEjemplo)>0){
 			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
@@ -174,43 +167,21 @@ class DietaController extends Controller
 							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
 							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
 							->get();
-		/*$response	=	Response::json($patronMenu, 200);
-		return $response;*/
 		if(count($patronMenu)>0){
 			$aPatronMenu	=	$patronMenu->toArray();
 			foreach($aPatronMenu as $key=>$value){
-/*
-grupo_alimento_nutricionista_id	1
-tiempo_comida_id	1
-consulta_id	534
-porciones	2
-ejemplo	null
-alimento	"Leche Descremada"
-*/
 				$_tiempo_comidas[$value->tiempo_comida_id]['alimentos'][]	=	array(
 																					'grupo_alimento_id'		=>	$value->grupo_alimento_nutricionista_id,
 																					'grupo_alimento_nombre'	=>	$value->alimento,
 																					'porciones'				=>	$value->porciones
 																				);
-				//$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	$value->porciones . ' ' . $value->alimento;
 			}
 		}
-		
-		/*
-		$html='';
-		foreach($_tiempo_comidas as $key=>$value){
-			$html	.=	'<h4>' . $value['nombre'] . '</h4>';
-			if($value['menu'])
-				$html	.=	'<p>' . implode(', ', $value['menu']) . '</p>';
-			if($value['ejemplo'])
-				$html	.=	'<p>Ejemplo: <i>' . $value['ejemplo'] . '</i></p>';
+		$registros	=	array();
+		if($_tiempo_comidas){			
+			foreach($_tiempo_comidas as $tiempo=>$value)
+				$registros[]	=	$value;
 		}
-		$_resumen['patronMenu']	=	$html;
-		
-		*/
-		$response	=	Response::json($_tiempo_comidas, 200);
-		return $response;
-		
 		if(count($registros)>0)
 			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		else
