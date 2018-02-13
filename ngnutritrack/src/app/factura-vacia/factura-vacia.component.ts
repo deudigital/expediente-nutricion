@@ -234,19 +234,24 @@ export class FacturaVaciaComponent implements OnInit {
 
 	selectCantones(event:Event):void {console.log('selectCantones de provincia->' + this.provincia);
 		//this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia.codigo_provincia);
+
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
+		this.canton=1;
+		this.distrito = 1;
+		this.persona.ubicacion_id = this.filter_barrios[0].id;
 	}
-	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);
-		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
-		
-		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
+	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);		
+		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);	
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
+		this.distrito = 1;
+		this.persona.ubicacion_id = this.filter_barrios[0].id;
 	}
 	selectBarrios(event:Event):void {console.log('selectBarrios de Distrito->' + this.distrito);
 		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
-		//console.log(this.filter_barrios);
+		this.persona.ubicacion_id = this.filter_barrios[0].id;
+		console.log(this.filter_barrios);
 	}
 
   	closeModal(){  		
