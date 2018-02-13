@@ -252,10 +252,37 @@ export class FacturaVaciaComponent implements OnInit {
   	closeModal(){  		
 		let body = document.getElementsByTagName('body')[0];
 		body.classList.remove('open-modal');
-		this.producto={};
 		this.productos=[];
-		this.productosDB=[];
-		this.persona={}
+		this.productosDB=[];		
+		this.factura = {
+			subtotal: 0.00,
+			descuento: 0.00,
+			ive: 0.00,
+			total: 0.00,
+			medio: 1,
+			medio_nombre: 'Tarjeta'
+		};  
+
+		this.producto = {
+			descripcion: "",
+			unidad_nombre: "",
+			unidad_medida: 1,
+			precio: 0.00,
+			cantidad: 1,
+			descuento: 0.00,
+			impuesto: 0.00,
+			subtotal: 0.00
+		}
+		this.persona = {
+			cedula : "",
+			tipo_identificacion_id: 1,
+			celular: "",
+			detalles_direccion:"",
+			nombre:"",
+			telefono:"",
+			email:""
+		}	
+		this.queryPerson= '';
 		this.showModalDatos		=	false;
 	}
 
