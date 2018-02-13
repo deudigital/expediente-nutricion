@@ -629,18 +629,20 @@ export class FacturaVaciaComponent implements OnInit {
 
 	facturar(){
 
+		if(this.queryPerson || this.queryPerson.length===0){
+			this.form_errors.empty_name= true;
+		}
+
 		if(this.productos.length===0){
 			this.form_errors.empty_products = true;
 		}
 
-		if(this.persona.queryPerson && this.persona.queryPerson===""){
-			this.form_errors.empty_name= true;
-		}
+		
 
 		/*if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
 			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
 
-		if(this.persona.nombre && !this.form_errors.empty_products && !this.form_errors.empty_name){
+		if(this.persona.nombre || !this.form_errors.empty_products || !this.form_errors.empty_name){
 
 			this.loading = true;
 			if(!this.seleccionado){	

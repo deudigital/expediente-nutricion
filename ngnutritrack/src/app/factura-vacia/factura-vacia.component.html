@@ -53,32 +53,31 @@
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="cedula">Cédula</label>
-							<input id="row-margin" 
+							<input id="row-margin cedula" 
 								   type="text" 
 								   class="form-control" 
-								   id="cedula" 
 								   name="cedula" 								   
 								   (keypress)="_keyPress($event)"
 								   [(ngModel)] = "persona.cedula"
 								   placeholder="Cédula"
-								   required>
+								   >
 							<span style="color:red;font-size: 10px;" 
 								  *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>  
 						</div>
 						<div class="col-md-4 col-sm-4">
 							<label id="row-margin" for="nombre">Ingresar Nombre</label>
-							<input id="row-margin"
+							<input id="row-margin nombre"
 								   autocomplete="off" 
 								   type="text" 
 								   placeholder="Nombre Completo"
 								   class="form-control" 
-								   id="nombre" 
 								   [(ngModel)] = "queryPerson"
 								   (keyup) = "suggestPersona()"
 								   name="nombre"
 								   required>
-							<span style="color:red;font-size: 10px;" 
+								   <span style="color:red;font-size: 10px;" 
 								  *ngIf="form_errors.empty_name">Ingrese el nombre del cliente.</span>
+							
 						</div>
 						<div class="autocomplete-div" *ngIf="showFilter" style="top: 280px; left: 68%;">
 							<ul class="dropdown-menu dropdown-autocomplete">
@@ -165,7 +164,7 @@
 								   [(ngModel)] = "persona.telefono"								   
 								   mask="00000000"
 								   name="telefono"
-								   required>
+								   >
 							<span *ngIf="form_errors.invalid_phone" style="color:red;">Por favor, ingrese un teléfono válido.</span>	   
 						</div>
 					</div> 
@@ -179,7 +178,7 @@
 								   id="email" 
 								   [(ngModel)] = "persona.email"								   
 								   name="email"
-								   required>
+								   >
 							<span *ngIf = "form_errors.invalid_email" style="color:red;">Por favor, ingrese un e-mail válido.</span>	   
 						</div>
 					</div>
