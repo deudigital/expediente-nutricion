@@ -1,5 +1,5 @@
 <app-topnav></app-topnav>
-<div class="loading-div" *ngIf="loading" >
+<div class="loading-div" *ngIf="loading" style="z-index: 100">
     <div class="esc-modal transparent loading-modal">
 		<img src="assets/images/loading-bars.svg" width="75" />
     </div>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12">
-                        <div class="form-group with-icon nacimiento">
+                        <div class="form-group with-icon nacimiento" style="z-index: 1">
                         <label class="col-form-label" for="desde">Desde</label>
                         <my-date-picker name="desde" 
 										class="form-control esc-dp"
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12">
-                        <div class="form-group with-icon nacimiento">
+                        <div class="form-group with-icon nacimiento" style="z-index: 1">
                           <label class="col-form-label" for="desde">Hasta</label>
                           <my-date-picker name="hasta" 
                                           id="fecha_nac"
