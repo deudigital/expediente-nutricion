@@ -187,7 +187,7 @@ export class FacturaVaciaComponent implements OnInit {
 	setUbicacion(ubicacion_id){	 	
 
 	 	if(!this.persona.ubicacion_id)
-	 		ubicacion_id = 6435;
+	 		ubicacion_id = 1;
 
 		if(this.persona.ubicacion_id>0)
 			ubicacion_id	=	this.persona.ubicacion_id;
