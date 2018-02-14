@@ -204,7 +204,7 @@
 	                                </thead>
 	                                <tbody>
 	                                    <tr *ngFor="let pr of productos; let i = index " style="border-collapse: unset !important;">
-	                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }">                                        
+	                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }" style="border-left: none">                                        
 	  	                                		<a href="javascript:void(0)" (click)="removeProduct(pr)">
 				                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
 				                                </a>
