@@ -10,7 +10,7 @@
         max-width: 800px;
         margin: auto;
         padding: 30px;
-        border: 1px solid #eee;
+        /*border: 1px solid #eee;*/
         box-shadow: 0 0 10px rgba(0, 0, 0, .15);
         font-size: 16px;
         line-height: 24px;
@@ -22,6 +22,16 @@
         width: 100%;
         line-height: inherit;
         text-align: left;
+    }
+
+    .footer {
+       position:absolute;
+       bottom:0;
+       width:100%;
+       height:60px;   /* Height of the footer */
+       border-spacing: 10px;
+       width: 100%;
+       text-align: center;
     }
     
      .heading td, .item td{
@@ -146,27 +156,27 @@
             <br>
             <span style="font-size: 12px;">E-mail: {{$client['email']}}</span>
         </div>   
-        <div style="margin-top:40%">
+        <div style="margin-top:37.5%">
             <div style="display: table; width: 100%; table-layout: fixed; border-spacing: 10px;margin-left:-5%;margin-right:5%;">
-                <div style="display: table-cell;background-color: #eee; padding-left:8%; width:10%">
+                <div style="display: table-cell;background-color: #eee; padding-left:8%; width:10%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>Cantidad</b></span>
                 </div>
-                <div style="display: table-cell;background-color: #eee; padding-left:5%; width:20%">
+                <div style="display: table-cell;background-color: #eee; padding-left:5%; width:20%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>Unidad de Medida</b></span>
                 </div>
-                <div style="display: table-cell;background-color: #eee; padding-left:5%">
+                <div style="display: table-cell;background-color: #eee; padding-left:5%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>Descripción</b></span>
                 </div>
-                <div style="display: table-cell;background-color: #eee; padding-left:5%">
+                <div style="display: table-cell;background-color: #eee; padding-left:5%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>Precio Unitario</b></span>
                 </div>
-                <div style="display: table-cell;background-color: #eee; padding-left:5%">
+                <div style="display: table-cell;background-color: #eee; padding-left:5%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>Descuento</b></span>
                 </div>
-                <div style="display: table-cell;background-color: #eee; padding-left:5%">
+                <div style="display: table-cell;background-color: #eee; padding-left:5%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>Impuesto</b></span>
                 </div>
-                <div style="display: table-cell;background-color: #eee; padding-left:5%">
+                <div style="display: table-cell;background-color: #eee; padding-left:5%; line-height: 1; padding-top: 5px">
                     <span style="font-size: 12px;"><b>SubTotal</b></span>
                 </div>
             </div>  
@@ -216,11 +226,11 @@
         </div>
         <div style="float: right"> 
             <div id="qrcode" style="display:block;text-align: right;"></div>
-        </div>
-        <div style="display: table; width: 100%; table-layout: fixed; border-spacing: 10px;padding-top: 25%; text-align:center;">        
+        </div>        
+    </div>
+    <div class="footer">        
             <hr style="margin-top:-6%">
             <p style="text-align: center">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° GT-R-48-2016 siete de octubre de dos mil dieciséis de la Dirección General de Tributación</p>            
-        </div>    
     </div>
 </body>
 </html>

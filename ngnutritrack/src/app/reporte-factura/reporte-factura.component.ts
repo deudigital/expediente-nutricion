@@ -32,7 +32,7 @@ export class ReporteFacturaComponent implements OnInit {
   };
 
   public fromDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate() } };
-  public untilDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate() } };
+  public untilDate: any = { date: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day:this.today.getDate()+1 } };
   public fromOptions: IMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
     disableSince: {year: this.untilDate.date.year,
@@ -109,9 +109,6 @@ export class ReporteFacturaComponent implements OnInit {
                 this.factura[doc].monto = Math.round(this.factura[doc].monto * 100) / 100;
               }
             }
-            if(this.factura[doc].tipo_documento_id===3){
-                this.factura[doc].monto= '-'+this.factura[doc].monto;
-              }
           }
 			},
 			error =>  {
@@ -260,7 +257,7 @@ export class ReporteFacturaComponent implements OnInit {
         let queryDate =  new Date(this.factura[consulta].fecha);
         //queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
 
-        //if(queryDate >= fromDate && queryDate <= uDate){
+        if(queryDate >= fromDate && queryDate <= uDate){
           this.factura[consulta].showDelete    =  true;
           if(this.factura[consulta].tipo_documento_id==3 || !this.factura[consulta].estado){
             this.factura[consulta].showDelete    =  false;
@@ -270,7 +267,7 @@ export class ReporteFacturaComponent implements OnInit {
           } else if(this.tipo === "Todos"){
             this.resultArray.push(this.factura[consulta]);
           }
-        //}
+        }
       }
     }else{
       for(let consulta in this.factura){

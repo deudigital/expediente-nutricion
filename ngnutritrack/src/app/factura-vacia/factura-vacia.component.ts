@@ -440,7 +440,11 @@ export class FacturaVaciaComponent implements OnInit {
 	 	this.showFilter= false;
 	 		 	
 	 	this.persona = paciente;
-	 	this.seleccionado = true;	 	
+	 	this.seleccionado = true;	
+
+	 	if (this.persona.tipo_idenfificacion_id===null) {
+	 		this.persona.tipo_idenfificacion_id=1;
+	 	} 	
 
 	 	for(let tipo in this.tipos_ID){			 		
 			 		if(this.tipos_ID[tipo].id === this.persona.tipo_idenfificacion_id){

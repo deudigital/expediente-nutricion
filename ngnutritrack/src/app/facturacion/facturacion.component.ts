@@ -363,7 +363,7 @@ export class FacturacionComponent implements OnInit {
 				resArray = response.text().split('<br />');							
 			 	this.persona = JSON.parse(resArray[2]);		*/	 				 	
 			 	this.persona = response;
-			 	if (this.persona.tipo_idenfificacion_id===null) {
+			 	if (this.persona.tipo_idenfificacion_id==null) {
 			 		this.persona.tipo_idenfificacion_id=1;
 			 	}
 			 	for(let tipo in this.tipos_ID){			 		
