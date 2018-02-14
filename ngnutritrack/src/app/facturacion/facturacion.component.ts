@@ -363,6 +363,9 @@ export class FacturacionComponent implements OnInit {
 				resArray = response.text().split('<br />');							
 			 	this.persona = JSON.parse(resArray[2]);		*/	 				 	
 			 	this.persona = response;
+			 	if (this.persona.tipo_idenfificacion_id===null) {
+			 		this.persona.tipo_idenfificacion_id=1;
+			 	}
 			 	for(let tipo in this.tipos_ID){			 		
 			 		if(this.tipos_ID[tipo].id === this.persona.tipo_idenfificacion_id){
 			 			this.persona.identification_nombre = this.tipos_ID[tipo].nombre;
