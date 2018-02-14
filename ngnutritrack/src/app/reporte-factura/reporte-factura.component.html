@@ -128,12 +128,12 @@
 </div>
 										
 										</td>
-	                                    <td [ngStyle]="{ 'border-radius': setLeftBorder(i) }">{{item.numeracion_consecutiva}}</td>
+	                                    <td>{{item.numeracion_consecutiva}}</td>
 	                                    <td>{{item.nombre}}</td>
 	                                    <td>{{item.nombre_tipo}}</td>
 	                                    <td>{{item.fecha}}</td>
 	                                    <td>Colones</td>
-	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">₡{{item.monto}}</td>
+	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }"><span *ngIf="item.tipo_documento_id==3">-</span>₡{{item.monto}}</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>
@@ -151,8 +151,8 @@
                             </h4>
                         </div>
                         <div class="col-md-1">
-                            <a routerLinkActive="active" (click)='exportData(1)' class="export-pdf" href="javascript:void(0)">
-                                <i></i>
+                            <a routerLinkActive="active" (click)='exportData(1)'  href="javascript:void(0)">
+                                <i class="fa fa-file-pdf-o" style="font-size:48px;color:red;background:none;"></i>
                             </a>
                         </div>
                         <div class="col-md-1">
