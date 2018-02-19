@@ -133,7 +133,7 @@
 	                                    <td>{{item.nombre_tipo}}</td>
 	                                    <td>{{item.fecha}}</td>
 	                                    <td>Colones</td>
-	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }"><span *ngIf="item.tipo_documento_id==3">-</span>₡{{item.monto}}</td>
+	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }"><span *ngIf="item.tipo_documento_id==3">-</span>₡{{item.monto | thousandsPipe}}</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>

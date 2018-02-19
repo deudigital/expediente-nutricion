@@ -208,19 +208,19 @@
 	                                    		<span>{{pr.unidad_nombre}}</span>
 	                                    	</td>
 	                                    	<td>
-	                                    		<span>₡ {{pr.precio}}</span>
+	                                    		<span>₡ {{pr.precio | thousandsPipe}}</span>
 	                                    	</td>
 	                                    	<td>
 	                                    		<span>{{pr.cantidad}}</span>
 	                                    	</td>
 	                                    	<td>
-	                                    		<span>₡ {{pr.descuento}}</span>
+	                                    		<span>₡ {{pr.descuento | thousandsPipe}}</span>
 	                                    	</td>
 	                                    	<td>
-	                                    		<span>₡ {{pr.impuesto}}</span>
+	                                    		<span>₡ {{pr.impuesto | thousandsPipe}}</span>
 	                                    	</td>
 	                                    	<td [ngStyle]="{ 'border-radius': setRightBorder(i) }"> 
-	                                    		<span>₡ {{pr.subtotal}}</span>
+	                                    		<span>₡ {{pr.subtotal | thousandsPipe }}</span>
 	                                    	</td>
 	                                    </tr>
 	                                </tbody>

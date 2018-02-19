@@ -110,21 +110,24 @@
                                         	<td>
                                         		<span *ngIf=!pr.edit_mode>{{pr.nombre_unidad}}</span>
                                     		    <select class="form-control"  
-                                    		    		    [(ngModel)]="unidad_medida"
+                                    		    		    [(ngModel)]="pr.nombre_unidad"
                                     		    		    style="background-color: white"	 
                                     		    		    *ngIf="pr.edit_mode">                                            
-		                                          <option *ngFor="let unidad_medida of unidades" [ngValue]="unidad_medida">{{unidad_medida.nombre}}</option>
+		                                          <option *ngFor="let unidad_medida of unidades"
+                                                      [ngValue]="unidad_medida.nombre"
+                                                      [selected]="unidad_medida.nombre === pr.nombre_unidad">
+                                             {{unidad_medida.nombre}}</option>
 		                                        </select>
                                         	</td>
                                         	<td>
-                                        		<span *ngIf="!pr.edit_mode">₡ {{pr.precio}}</span>
+                                        		<span *ngIf="!pr.edit_mode">₡ {{pr.precio | thousandsPipe }}</span>
                                         		<input   class="form-control" 
 			                                      		 placeholder="₡ Precio" 
 			                                      		 style="background-color: white"	 
 			                                      		 currencyMask 
 			                                      		 [(ngModel)]="pr.precio" 
 			                                      		 *ngIf="pr.edit_mode"
-			                                      		 [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"/>   
+			                                      		 [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"/>   
                                         	</td>
                                         </tr>
                                     </tbody>

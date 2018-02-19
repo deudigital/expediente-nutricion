@@ -77,6 +77,7 @@ import { ServiciosProductosComponent } from './servicios-productos/servicios-pro
 import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
 import { ConfigFacturaComponent } from './facturacion/config-factura/config-factura.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
+import { ThousandsPipe } from './pipes/ThousandsPipe';
 
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import {FileService} from './services/file.service';
@@ -148,7 +149,8 @@ import { FacturaVaciaComponent } from './factura-vacia/factura-vacia.component';
                     ConsultasSinFacturarComponent,
                     ConfigFacturaComponent,
                     FacturacionComponent,
-                    FacturaVaciaComponent ],
+                    FacturaVaciaComponent,
+                    ThousandsPipe ],
     bootstrap:    [ AppComponent ]
 })
 

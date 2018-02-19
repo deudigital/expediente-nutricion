@@ -189,9 +189,10 @@ export class ServiciosProductosComponent implements OnInit {
 		if(!producto.edit_mode){
 			if(localStorage.getItem("previousProduct")){
 				producto = JSON.parse(localStorage.getItem("previousProduct"));
-				for(let prod in this.productos){
+				for(let prod in this.productos){					
 					if(this.productos[prod].id === producto.id){
 						this.productos[prod] = producto;
+						console.log(this.productos[prod]);
 					}
 				}
 				producto.edit_mode = !producto.edit_mode;
