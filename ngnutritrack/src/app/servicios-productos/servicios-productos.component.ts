@@ -97,8 +97,14 @@ export class ServiciosProductosComponent implements OnInit {
 		}else{
 
 			if(this.editableProduct.edit_mode){
-				this.editableProduct.unidad_medida_id = this.unidad_medida["id"];
-				this.editableProduct.nombre_unidad = this.unidad_medida["nombre"];			
+
+				for(let tipo in this.unidades){
+					if(this.editableProduct.nombre_unidad === this.unidades[tipo].nombre){
+						this.editableProduct.unidad_medida_id = this.unidades[tipo].id;
+					}
+				}
+				//this.editableProduct.unidad_medida_id = this.unidad_medida["id"];
+				//this.editableProduct. = this.unidad_medida["nombre"];			
 
 				this.formControlDataService.updateProducto(this.editableProduct)
 				.subscribe(
