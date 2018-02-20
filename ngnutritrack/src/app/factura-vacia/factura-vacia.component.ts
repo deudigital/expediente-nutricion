@@ -440,6 +440,7 @@ export class FacturaVaciaComponent implements OnInit {
 	 	this.showFilter= false;
 	 		 	
 	 	this.persona = paciente;
+	 	console.log(paciente);
 	 	this.seleccionado = true;	
 
 	 	if (this.persona.tipo_idenfificacion_id===null) {
@@ -763,7 +764,7 @@ export class FacturaVaciaComponent implements OnInit {
 	}
 
  	openModalDatos() { 		
- 		if(this.hidePrompt){
+ 		if(this.hidePrompt && !this.loading){
 	 		this.form_errors.successful_operation = false;
 	 		this.form_errors.successful_operation = false;	
 			let modal = document.getElementsByClassName('esc-modal');		
@@ -800,6 +801,7 @@ export class FacturaVaciaComponent implements OnInit {
 				}
 				this.persona = {
 					cedula : "",
+					ubicacion_id : 1,
 					tipo_identificacion_id: 1,
 					celular: "",
 					detalles_direccion:"",

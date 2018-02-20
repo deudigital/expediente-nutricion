@@ -1,4 +1,4 @@
-<div class="overlay" (click)="closeModal()"></div>
+<div class="overlay" (click)="openModalDatos()"></div>
 
 <div class="esc-modal transparent loading-modal" style="position: fixed;top: 50%" *ngIf="loading">
 	<img src="assets/images/loading-bars.svg" style="width:75px;" />
@@ -277,7 +277,7 @@
 								   (keyup)="calcularSubtotalProducto()"
 								   [(ngModel)]="producto.precio"
 								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"
 								   required>
 						</div>
             			<div class="">
@@ -302,7 +302,7 @@
 								   name="descuento"
 								   [(ngModel)]="producto.descuento"
 								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }">	
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }">	
 							<span style="color:red;font-size: 10px;" *ngIf="form_errors.negativeSubtotal_product">
 								El descuento no debe ser mayor al subtotal.
 							</span>							   
@@ -319,7 +319,7 @@
 								   disabled="true" 
 								   [(ngModel)]="producto.impuesto"
 								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"
 								   required>
 						</div>
 						<div class="">
@@ -330,7 +330,7 @@
 								   disabled="true" 
 								   [(ngModel)]="producto.subtotal"
 								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"
 								   required>
 						</div>
 					</div>
@@ -473,10 +473,10 @@
 	  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" (click) = "openModalDatos()" id="button3"> Cancelar </button>
 	  						</div>
 							<div class="col-md-offset-6 col-md-3" style="margin-left: 8% !important; margin-top: 2%;">
-								<div class="row invoice-resume">Subtotal Neto: ₡{{factura.subtotal}}</div>
-								<div class="row invoice-resume">Descuento: ₡{{factura.descuento}}</div>
-								<div class="row invoice-resume">I.V.E.: ₡{{factura.ive}}</div>
-								<div class="row invoice-resume">Monto Total: ₡{{factura.total}}</div>
+								<div class="row invoice-resume">Subtotal Neto: ₡{{factura.subtotal|thousandsPipe}}</div>
+								<div class="row invoice-resume">Descuento: ₡{{factura.descuento|thousandsPipe}}</div>
+								<div class="row invoice-resume">I.V.E.: ₡{{factura.ive|thousandsPipe}}</div>
+								<div class="row invoice-resume">Monto Total: ₡{{factura.total|thousandsPipe}}</div>
 							</div>
 					</div>
 					<div class="row">

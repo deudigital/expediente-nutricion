@@ -642,27 +642,29 @@ export class FacturacionComponent implements OnInit {
 	}	
 
  	openModalDatos() {
- 		this.form_errors.successful_operation = false;
- 		this.form_errors.successful_operation = false;	
-		let modal = document.getElementsByClassName('esc-modal');		
-		this.showModalDatos	=	!this.showModalDatos;
-		let body = document.getElementsByTagName('body')[0];
-		if (this.showModalDatos){
-			window.scrollTo(0, 0);
-			body.classList.add('open-modal');	
-			modal.item(0).setAttribute("style","display: inline");
-			if(this.margin){
-				modal.item(0).setAttribute("style","margin-top: 0%");	
-			}else{
-				modal.item(0).setAttribute("style","margin-top: -10%");	
+ 		if (!this.loading) {
+ 			this.form_errors.successful_operation = false;
+	 		this.form_errors.successful_operation = false;	
+			let modal = document.getElementsByClassName('esc-modal');		
+			this.showModalDatos	=	!this.showModalDatos;
+			let body = document.getElementsByTagName('body')[0];
+			if (this.showModalDatos){
+				window.scrollTo(0, 0);
+				body.classList.add('open-modal');	
+				modal.item(0).setAttribute("style","display: inline");
+				if(this.margin){
+					modal.item(0).setAttribute("style","margin-top: 0%");	
+				}else{
+					modal.item(0).setAttribute("style","margin-top: -10%");	
+				}
+			} else{		
+				if(this.router.url==='/notas'){
+					this.router.navigate(['/inicio']);
+				}	
+				modal.item(0).setAttribute("style","display: none");
+				body.classList.remove('open-modal');
 			}
-		} else{		
-			if(this.router.url==='/notas'){
-				this.router.navigate(['/inicio']);
-			}	
-			modal.item(0).setAttribute("style","display: none");
-			body.classList.remove('open-modal');
-		}
+ 		} 		
 	}
 
 	regexEmail(email) {
