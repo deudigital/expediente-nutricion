@@ -295,24 +295,42 @@ export class ReporteFacturaComponent implements OnInit {
 
   			for(let xi=0;xi< this.resultArray.length;xi++){
   				let js = this.resultArray[xi];
-				let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones',js.monto];
-        		rows.push(temp);
+          if (js.tipo_documento_id===3){
+            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones','-'+js.monto];
+            rows.push(temp);  
+          }else{
+            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones',js.monto];
+            rows.push(temp);  
+          }				  
 		    }
   			doc.autoTable(col, rows);
   			doc.save('Reporte de Factura.pdf');
   			break;
 		  case 2: console.log('excel');
         let excelArray = [];
-        for(let xi = 0;xi<this.resultArray.length-1;xi++){
-          let objecto = {
-            '# Documento' : this.resultArray[xi].numeracion_consecutiva,
-            'Receptor' : this.resultArray[xi].nombre,
-            'Tipo' : this.resultArray[xi].nombre_tipo,
-            'Fecha' : this.resultArray[xi].fecha,
-            'Moneda' : 'Colones',
-            'Monto' : this.resultArray[xi].monto
+        for(let xi = 0;xi<this.resultArray.length;xi++){
+          if (this.resultArray[xi].tipo_documento_id===3){
+            let objecto = {
+              '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+              'Receptor' : this.resultArray[xi].nombre,
+              'Tipo' : this.resultArray[xi].nombre_tipo,
+              'Fecha' : this.resultArray[xi].fecha,
+              'Moneda' : 'Colones',
+              'Monto' : '-'+this.resultArray[xi].monto
+            }
+            excelArray.push(objecto)
+          }else{
+            let objecto = {
+              '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+              'Receptor' : this.resultArray[xi].nombre,
+              'Tipo' : this.resultArray[xi].nombre_tipo,
+              'Fecha' : this.resultArray[xi].fecha,
+              'Moneda' : 'Colones',
+              'Monto' : this.resultArray[xi].monto
+            }
+            excelArray.push(objecto);
           }
-          excelArray.push(objecto);
+          
         }
 			  new Angular2Csv(excelArray, 'My Report',{ headers: Object.keys(excelArray[0]) });
   			break;
