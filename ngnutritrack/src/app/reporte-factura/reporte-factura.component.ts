@@ -288,7 +288,7 @@ export class ReporteFacturaComponent implements OnInit {
 
   exportData(Data){
   	switch(Data){
-  		case 1: console.log('pdf');
+  		case 1: console.log('pdf build');
   			let doc = new jsPDF({orientation:'l', format: 'a2'});
   			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];
   			let rows = [];
@@ -306,7 +306,7 @@ export class ReporteFacturaComponent implements OnInit {
   			doc.autoTable(col, rows);
   			doc.save('Reporte de Factura.pdf');
   			break;
-		  case 2: console.log('excel');
+		  case 2: console.log('excel build');
         let excelArray = [];
         for(let xi = 0;xi<this.resultArray.length;xi++){
           if (this.resultArray[xi].tipo_documento_id===3){
