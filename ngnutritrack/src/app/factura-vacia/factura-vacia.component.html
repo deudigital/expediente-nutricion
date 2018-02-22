@@ -13,25 +13,25 @@
 <div class="esc-modal wide" style="display: none" *ngIf="!loading">
 			<div class="box">
 				<a class="modal-close" (click)="openModalDatos()">X</a>
-				<header style="height: 70px;">
-					<div class="col-md-6 ">
-            <header style="text-align: left !important;">
-              <b>{{nutricionista.nombre}}</b><br>
-  						Cedula {{nutricionista.cedula}}<span *ngIf="!nutricionista.cedula">N/A</span><br>
-  						Direccion: {{nutricionista.detalles_direccion}}, {{nutricionista.barrio}}
-  						<span *ngIf="!nutricionista.canton && !nutricionista.distrito && !nutricionista.provincia && !nutricionista.detalles_direccion"> N/A </span><br>
-  						<span *ngIf="nutricionista.canton"> {{nutricionista.canton}},   </span>
-  						<span *ngIf="nutricionista.distrito"> {{nutricionista.distrito}}, </span>
-  						<span *ngIf="nutricionista.provincia"> {{nutricionista.provincia}} </span>
-  						<br>
-  						Tel: {{nutricionista.telefono}} <span *ngIf="!nutricionista.telefono">N/A</span><br>
-  						Correo: {{nutricionista.email}} <span *ngIf="!nutricionista.email">N/A</span><br>
-            </header>
+				<header class="header" style="height: 70px;">				
+					<div class="col-md-6 col-sm-12 col-xs-12 first_header">
+	            		<header style="text-align: left !important;">
+	              			<b>{{nutricionista.nombre}}</b><br>
+	  						Cedula {{nutricionista.cedula}}<span *ngIf="!nutricionista.cedula">N/A</span><br>
+	  						Direccion: {{nutricionista.detalles_direccion}}, {{nutricionista.barrio}}
+	  						<span *ngIf="!nutricionista.canton && !nutricionista.distrito && !nutricionista.provincia && !nutricionista.detalles_direccion"> N/A </span><br>
+	  						<span *ngIf="nutricionista.canton"> {{nutricionista.canton}},   </span>
+	  						<span *ngIf="nutricionista.distrito"> {{nutricionista.distrito}}, </span>
+	  						<span *ngIf="nutricionista.provincia"> {{nutricionista.provincia}} </span>
+	  						<br>
+	  						Tel: {{nutricionista.telefono}} <span *ngIf="!nutricionista.telefono">N/A</span><br>
+	  						Correo: {{nutricionista.email}} <span *ngIf="!nutricionista.email">N/A</span><br>
+	            		</header>
 					</div>
-					<div class="col-md-offset-4 col-md-2">
+					<div class="col-md-offset-4 col-md-2 col-sm-12 col-xs-12 second_header">
 						<a class="navbar-brand">
-					    <img alt="nutritrack" src="{{nutricionista.imagen}}" width="125">
-				    </a>
+					    	<img alt="nutritrack" class="img_header" src="{{nutricionista.imagen}}" width="125">
+				    	</a>
 					</div>
 				</header>
 				<div class="content-form">
@@ -187,53 +187,51 @@
 						<div clas="col-md-12 col-sm-12 col-xs-12" style="text-align: center;"><h3>Detalle</h3></div>
 					</div>
 					<div class="row" *ngIf="productos.length > 0">
-						<div class="col-md-12 col-sm-2">
-							<div class="table-responsive">
-	                            <table class="table">
-	                                <thead>
-	                                    <tr>
-	                                    	<th></th>
-	                                        <th>Descripción</th>
-	                                        <th>Unidad</th>
-	                                        <th>Precio</th>
-	                                        <th>Cantidad</th>
-	                                        <th>Descuento</th>
-	                                        <th>Impuesto</th>
-	                                        <th>Subtotal</th>
-	                                    </tr>
-	                                </thead>
-	                                <tbody>
-	                                    <tr *ngFor="let pr of productos; let i = index " style="border-collapse: unset !important;">
-	                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }" style="border-left: none">                                        
-	  	                                		<a href="javascript:void(0)" (click)="removeProduct(pr)">
-				                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
-				                                </a>
-	                                		</td>
-	                                    	<td>
-	                                    		<span>{{pr.descripcion}}</span>
-	                                    	</td>
-	                                    	<td>
-	                                    		<span>{{pr.unidad_nombre}}</span>
-	                                    	</td>
-	                                    	<td>
-	                                    		<span>₡ {{pr.precio | thousandsPipe}}</span>
-	                                    	</td>
-	                                    	<td>
-	                                    		<span>{{pr.cantidad}}</span>
-	                                    	</td>
-	                                    	<td>
-	                                    		<span>₡ {{pr.descuento | thousandsPipe}}</span>
-	                                    	</td>
-	                                    	<td>
-	                                    		<span>₡ {{pr.impuesto | thousandsPipe}}</span>
-	                                    	</td>
-	                                    	<td [ngStyle]="{ 'border-radius': setRightBorder(i) }"> 
-	                                    		<span>₡ {{pr.subtotal | thousandsPipe }}</span>
-	                                    	</td>
-	                                    </tr>
-	                                </tbody>
-	                            </table>
-	                        </div>  
+						<div class="col-md-12 col-sm-12">
+                            <table class="table table-responsive asignacion-linea_detalle">
+                                <thead>
+                                    <tr>
+                                    	<th></th>
+                                        <th>Descripción</th>
+                                        <th>Unidad</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Descuento</th>
+                                        <th>Impuesto</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let pr of productos; let i = index " style="border-collapse: unset !important;">
+                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }" style="border-left: none">                                        
+  	                                		<a href="javascript:void(0)" (click)="removeProduct(pr)">
+			                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
+			                                </a>
+                                		</td>
+                                    	<td>
+                                    		<span>{{pr.descripcion}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>{{pr.unidad_nombre}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>₡ {{pr.precio | thousandsPipe}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>{{pr.cantidad}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>₡ {{pr.descuento | thousandsPipe}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>₡ {{pr.impuesto | thousandsPipe}}</span>
+                                    	</td>
+                                    	<td [ngStyle]="{ 'border-radius': setRightBorder(i) }"> 
+                                    		<span>₡ {{pr.subtotal | thousandsPipe }}</span>
+                                    	</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 	                    </div>    
 	                </div>  
 					<div id="linea_detalle" class="row">
@@ -438,7 +436,7 @@
 						</div>
 					</div>-->
 					<div class="row">
-        				<div class="col-md-12" style="text-align: center; width:33%; margin: 3% 0% 0% 33%;">
+        				<div class="col-md-offset-4 col-md-4" style="margin-top: 2%;">
   							<button class="btn btn-success no-border"
   									style="width:100%; border-color: #8bc23f !important;" 
   									(click)="addProducto()"
@@ -447,40 +445,42 @@
 					</div>
 					<hr style="border-color:#d7dbdd">
 					<div class="row">
-							<div class="col-md-3">
-								<div id="row-margin" class="row" style="margin-bottom: 20px;">
-									<label id="row-margin" for="metodo"> Medio de Pago</label>							
-									<select id="metodo" 
-											class="form-control"
-											name="medio"
-											[(ngModel)]="factura.medio_nombre">
-										<option *ngFor="let medio of medios_pagos" 
-												[attr.value]="medio.nombre" 
-												[attr.selected]="medio.nombre == 'Tarjeta' ? true : null">
-											{{medio.nombre}}
-										</option>
-									</select>
-								</div>
-								<div id="row-margin" class="row">
-									<div class="col-md-12">Notas</div>
-										<textarea id="notas" class="form-control" [(ngModel)]="factura.notas"></textarea>
-								</div>
+						<div class="col-md-3">
+							<div id="row-margin" class="row" style="margin-bottom: 20px;">
+								<label id="row-margin" for="metodo"> Medio de Pago</label>							
+								<select id="metodo" 
+										class="form-control"
+										name="medio"
+										[(ngModel)]="factura.medio_nombre">
+									<option *ngFor="let medio of medios_pagos" 
+											[attr.value]="medio.nombre" 
+											[attr.selected]="medio.nombre == 'Tarjeta' ? true : null">
+										{{medio.nombre}}
+									</option>
+								</select>
 							</div>
-							<div class="col-md-2" style="text-align: center; margin-left: 8%;margin-top:20%">
-								<button class="btn btn-success no-border" style="background-color:#cf2e34; border-color:#cf2e34; width:100%" id="save_product_button" (click)="facturar()"> Facturar </button>  							
+							<div id="row-margin" class="row">
+								<div class="col-md-12">Notas</div>
+								<textarea id="notas" class="form-control" [(ngModel)]="factura.notas"></textarea>
 							</div>
-	  						<div class="col-md-2" style="text-align: center;margin-top:20%">
-	  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" (click) = "openModalDatos()" id="button3"> Cancelar </button>
-	  						</div>
-							<div class="col-md-offset-6 col-md-3" style="margin-left: 8% !important; margin-top: 2%;">
-								<div class="row invoice-resume">Subtotal Neto: ₡{{factura.subtotal|thousandsPipe}}</div>
-								<div class="row invoice-resume">Descuento: ₡{{factura.descuento|thousandsPipe}}</div>
-								<div class="row invoice-resume">I.V.E.: ₡{{factura.ive|thousandsPipe}}</div>
-								<div class="row invoice-resume">Monto Total: ₡{{factura.total|thousandsPipe}}</div>
-							</div>
+						</div>
+						
+						<div class="col-md-offset-6 col-md-3" style="margin-top: 2%;">
+							<div class="row invoice-resume">Subtotal Neto: ₡{{factura.subtotal|thousandsPipe}}</div>
+							<div class="row invoice-resume">Descuento: ₡{{factura.descuento|thousandsPipe}}</div>
+							<div class="row invoice-resume">I.V.E.: ₡{{factura.ive|thousandsPipe}}</div>
+							<div class="row invoice-resume">Monto Total: ₡{{factura.total|thousandsPipe}}</div>
+						</div>
 					</div>
 					<div class="row">
-						<span style="color:red;" *ngIf="form_errors.empty_products">Debe por lo menos añadir un producto o servicio.</span>
+						
+						<div class="col-md-offset-4 col-md-2" style="margin-top:5%">
+							<button class="btn btn-success no-border" style="background-color:#cf2e34; border-color:#cf2e34; width:100%" id="save_product_button" (click)="facturar()"> Facturar </button>  							
+						</div>
+  						<div class="col-md-2" style="margin-top:5%">
+  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" (click) = "openModalDatos()" id="button3"> Cancelar </button>
+  						</div>
+  						<span style="color:red;" *ngIf="form_errors.empty_products">Debe por lo menos añadir un producto o servicio.</span>
 					</div>
 			</section>
 		</div>

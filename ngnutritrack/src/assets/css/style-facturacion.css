@@ -17,6 +17,16 @@
 .facturar-buttons{padding: 5% 0% 0% 0%;margin-left: 23%;margin-right: -30%;}
 .invoice-resume{font-size: 17px;}
 
+.table.asignacion-linea_detalle{border-spacing: 0 20px;}
+
+.table.asignacion-linea_detalle > tbody > tr > td:first-child {border-radius: 30px 0 0 30px}
+.table.asignacion-linea_detalle > tbody > tr > td:last-child {border-radius: 0 30px 30px 0;}
+.table.asignacion-linea_detalle.resumen{border-spacing: 0 5px;}
+
+
+.table.asignacion-linea_detalle tbody tr td{position:relative;}
+.table.asignacion-linea_detalle tbody tr td .remove-item {position: absolute;top: 50%;left: -5px;margin-top: 0;}
+
 #product_editor_column {line-height: 2.2em;padding-left: 2%;margin-top: 3%;}
 
 .main .links .box a figure:before {
@@ -122,5 +132,33 @@
 @media(max-width:767px){
 	#linea_detalle > div {margin: 3% 1%;}
 	#linea_detalle > div:nth-child(2) ~ div {width: 48%;float: left;}
-	#linea_detalle > div label {padding-left: 15px;}	
+	#linea_detalle > div label {padding-left: 15px;}
+	.row > div{padding-bottom: 10px;}	
+	.header { 
+		height: 270px !important;
+	 }
+
+	.first_header{
+		top: 100px;
+	}
+	.second_header{
+		top: -180px;
+	}
+	.img_header{
+		margin-left: 50%
+	}
+
+
+	.table-responsive.asignacion-linea_detalle td:first-child {padding-left: 15px !important;}
+	.table-responsive.table.asignacion-linea_detalle > tbody > tr > td:first-child {border-radius: 0;}
+	.table-responsive.table.asignacion-linea_detalle > tbody > tr > td:last-child {border-radius: 0;}
+	.table-responsive.table.asignacion-linea_detalle > tbody > tr > td > label {padding-left: 30px;}
+	.table-responsive.table.asignacion-linea_detalle td:before{text-align:left;}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(2):before{content: 'Descripción';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(3):before{content: 'Unidad';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(4):before{content: 'Precio';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(5):before{content: 'Cantidad';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(6):before{content: 'Descuento';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(7):before{content: 'Impuesto';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(8):before{content: 'Subtotal';}
 }

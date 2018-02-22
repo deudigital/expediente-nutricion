@@ -646,8 +646,9 @@ export class FacturaVaciaComponent implements OnInit {
 
 		/*if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
 			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
+		console.log(this.form_errors.empty_name)
 
-		if(this.persona.nombre || !this.form_errors.empty_products || !this.form_errors.empty_name){
+		if(this.persona.nombre && !this.form_errors.empty_products && !this.form_errors.empty_name){
 
 			this.loading = true;
 			if(!this.seleccionado){	
