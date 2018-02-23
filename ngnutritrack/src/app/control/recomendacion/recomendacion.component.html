@@ -10,6 +10,9 @@
 			<app-control-nav></app-control-nav>
 		</div>
 		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Recomendacion Diet&eacute;tica Diaria</h4>
+			</header>
 				<section>
 		<div class="row">
 			<div class="form-group">
@@ -198,12 +201,14 @@
 						Tasa Metab&oacute;lica<br>Basal
 					</div>
 					<div class="tasa-metabolica-value with-cicle col-sm-6">
-						<i>
-							<strong>
-								{{ tasa_basal | number : '1.0-0'}}
-								<span>Kcal</span>							
-							</strong>
-						</i>
+						<div class="inner">
+							<i>
+								<strong>
+									{{ tasa_basal | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
 					</div>
 				</div>
 				<div class="form-group col-lg-4 col-md-6">
@@ -212,12 +217,14 @@
 						Gasto Cal&oacute;rico<br>Real
 					</div>
 					<div class="gasto-calorico-real-value with-cicle col-sm-6">
-						<i>
-							<strong>
-								{{ gasto_calorico_real | number : '1.0-0'}}
-								<span>Kcal</span>							
-							</strong>
-						</i>
+						<div class="inner">
+							<i>
+								<strong>
+									{{ gasto_calorico_real | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -251,12 +258,14 @@
 					Ingesta Cal&oacute;rica Recomendada
 				</div>
 				<div class="ingesta-calorica-recomendada with-cicle col-sm-6">
-					<i>
-						<strong>
-							{{ ingesta_calorica_recomendada | number : '1.0-0'}}
-							<span>Kcal</span>							
-						</strong>						
-					</i>
+					<div class="inner">
+						<i>
+							<strong>
+								{{ ingesta_calorica_recomendada | number : '1.0-0'}}
+								<span>Kcal</span>							
+							</strong>						
+						</i>
+					</div>
 				</div>
 			</div>
 		  </div>
@@ -287,48 +296,56 @@
 	<div class="body">
 		<nav>
 			<ul class="nav nabvar menu">
-				<li class="col-sm-6">
+				<li class="col-xs-6">
 					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
 						<i class="datos"></i>
-						Datos Generales
+						<span>Datos Generales</span>
 					</a>
 				</li>
-				<li class="col-sm-6">
+				<li class="col-xs-6">
 					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
 						<i class="grafico"></i>
-						Gr&aacute;ficos
+						<span>Gr&aacute;ficos</span>
 					</a>
 				</li>
 			</ul>
 		</nav>
 			
 		<div *ngIf="showModalTabDatos" class="container-datos">
-			<table class="table separate">
-				<thead>
-					<tr>
-						<th>Fecha</th>
-						<th>Gasto Cal&oacute;rico Actividad F&iacute;sica</th>
-						<th>TMB</th>
-						<th>Gasto Cal&oacute;rico Real</th>
-						<th>Variaci&oacute;n Cal&oacute;rica</th>
-						<th>Gasto Cal&oacute;rico Recomendado</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let historia of historial">
-						<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
-						<td>{{historia.promedio_gc_diario | number : '1.0-0'}} Kcal</td>
-						<td>{{historia.tmb | number : '1.0-0'}} Kcal</td>
-						<td>{{historia.gc_real | number : '1.0-0'}}</td>
-						<td>{{historia.variacion_calorica | number : '1.0-0'}} Kcal</td>
-						<td>{{historia.gc_recomendado | number : '1.0-0'}} Kcal</td>
-					</tr>
-					
-				</tbody>
-			</table>
+			<header class="visible-xs">
+				<h4>Datos Generales</h4>
+			</header>
+			<div class="table-responsive">
+				<table class="table separate">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Gasto Cal&oacute;rico Actividad F&iacute;sica</th>
+							<th>TMB</th>
+							<th>Gasto Cal&oacute;rico Real</th>
+							<th>Variaci&oacute;n Cal&oacute;rica</th>
+							<th>Gasto Cal&oacute;rico Recomendado</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let historia of historial">
+							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+							<td>{{historia.promedio_gc_diario | number : '1.0-0'}} Kcal</td>
+							<td>{{historia.tmb | number : '1.0-0'}} Kcal</td>
+							<td>{{historia.gc_real | number : '1.0-0'}}</td>
+							<td>{{historia.variacion_calorica | number : '1.0-0'}} Kcal</td>
+							<td>{{historia.gc_recomendado | number : '1.0-0'}} Kcal</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 		<div *ngIf="showModalTabGrafico" class="container-graficos">
+			<header class="visible-xs">
+				<h4>Gr&aacute;ficos</h4>
+			</header>
 			<nav class="clearfix">
 				<ul class="nav navbar-nav menu grafico">
 					<li *ngFor="let header of graficosH">

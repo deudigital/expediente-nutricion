@@ -9,7 +9,10 @@
 		<div class="col-sm-3 content-nav">
 			<app-navigation></app-navigation>
 		</div>
-		<div class="col-sm-9 content-form">
+		<div class="col-sm-9 content-form">	
+			<header class="visible-xs text-center">
+				<h4>Valoraci&oacute;n Antropom&eacute;trico</h4>
+			</header>
 			<section>
 				<div class="row">
 					<!--<div class="fill-data-valoracion">
@@ -473,61 +476,69 @@
 	<div class="body">
 		<nav>
 			<ul class="nav nabvar menu">
-				<li class="col-sm-6">
+				<li class="col-xs-6">
 					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
 						<i class="datos"></i>
-						Datos Generales
+						<span>Datos Generales</span>
 					</a>
 				</li>
-				<li class="col-sm-6">
+				<li class="col-xs-6">
 					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
 						<i class="grafico"></i>
-						Gr&aacute;ficos
+						<span>Gr&aacute;ficos</span>
 					</a>
 				</li>
 			</ul>
 		</nav>
 			
 		<div *ngIf="showModalTabDatos" class="container-datos">
-			<table class="table separate">
-				<thead>
-					<tr>
-						<th>Fecha</th>
-						<th>IMC</th>
-						<th>Peso</th>
-						<th>Estatura</th>
-						<th>Grasa</th>
-						<th>Grasa Viceral</th>
-						<th>M&uacute;sculo</th>
-						<th>Agua</th>
-						<th>Hueso</th>
-						<th>Edad Metabolica</th>
-						<th>Cintura</th>
-						<th>Cadera</th>
-						<th>Muñeca</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let historia of historial">
-						<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
-						<td>{{historia.imc}}</td>
-						<td>{{historia.peso}}Kg</td>
-						<td>{{historia.estatura}}m</td>
-						<td>{{historia.grasa}}%</td>
-						<td>{{historia.grasa_viceral}}</td>
-						<td>{{historia.musculo}}</td>
-						<td>{{historia.agua}}</td>
-						<td>{{historia.hueso}}</td>
-						<td>{{historia.edad_metabolica}} años</td>
-						<td>{{historia.circunferencia_cintura}}</td>
-						<td>{{historia.circunferencia_cadera}}</td>
-						<td>{{historia.circunferencia_muneca}}</td>
-					</tr>
-				</tbody>
-			</table>
+			<header class="visible-xs">
+				<h4>Datos Generales</h4>
+			</header>
+			<div class="table-responsive">
+				<table class="table separate">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>IMC</th>
+							<th>Peso</th>
+							<th>Estatura</th>
+							<th>Grasa</th>
+							<th>Grasa Viceral</th>
+							<th>M&uacute;sculo</th>
+							<th>Agua</th>
+							<th>Hueso</th>
+							<th>Edad Metabolica</th>
+							<th>Cintura</th>
+							<th>Cadera</th>
+							<th>Muñeca</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let historia of historial">
+							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+							<td>{{historia.imc}}</td>
+							<td>{{historia.peso}}Kg</td>
+							<td>{{historia.estatura}}m</td>
+							<td>{{historia.grasa}}%</td>
+							<td>{{historia.grasa_viceral}}</td>
+							<td>{{historia.musculo}}</td>
+							<td>{{historia.agua}}</td>
+							<td>{{historia.hueso}}</td>
+							<td>{{historia.edad_metabolica}} años</td>
+							<td>{{historia.circunferencia_cintura}}</td>
+							<td>{{historia.circunferencia_cadera}}</td>
+							<td>{{historia.circunferencia_muneca}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 		<div *ngIf="showModalTabGrafico" class="container-graficos">
+			<header class="visible-xs">
+				<h4>Gr&aacute;ficos</h4>
+			</header>
 			<nav class="clearfix">
 				<ul class="nav navbar-nav menu grafico">
 					<li *ngFor="let header of graficosH">

@@ -83,13 +83,13 @@
 
 @media (max-width:767px){
 	body > [class*="col-"] .row > [class*="col-"] {margin-top:3%;margin-bottom:3%;}	
-	table.table-responsive, .table-responsive thead, .table-responsive tbody, .table-responsive th, .table-responsive td, .table-responsive tr {display: block;}
-	.table-responsive thead tr {position: absolute;top: -9999px;left: -9999px;}
-	.table-responsive tr { border: 1px solid #ccc; }
-	.table-responsive td {border: none;border-bottom: 1px solid #eee;position: relative;padding-left: 50% !important;}
-	.table-responsive tr:nth-child(even),
-	.table-responsive tr:nth-child(odd) { height:auto; }
-	.table-responsive td:before {position: absolute;top: 6px;left: 6px;width: 45%;padding-right: 10px;/*white-space: nowrap;*/}
+	.table-responsive.table.asignacion-porciones, .table-responsive.table.asignacion-porciones thead, .table-responsive.table.asignacion-porciones tbody, .table-responsive.table.asignacion-porciones th, .table-responsive.table.asignacion-porciones td, .table-responsive.table.asignacion-porciones tr {display: block;}
+	.table-responsive.table.asignacion-porciones thead tr {position: absolute;top: -9999px;left: -9999px;}
+	.table-responsive.table.asignacion-porciones tr { border: 1px solid #ccc; }
+	.table-responsive.table.asignacion-porciones td {border: none;border-bottom: 1px solid #eee;position: relative;padding-left: 50% !important;}
+	.table-responsive.table.asignacion-porciones tr:nth-child(even),
+	.table-responsive.table.asignacion-porciones tr:nth-child(odd) { height:auto; }
+	.table-responsive.table.asignacion-porciones td:before {position: absolute;top: 6px;left: 6px;width: 45%;padding-right: 10px;/*white-space: nowrap;*/}
 	/*	Label the data	*/
 	.table-responsive.asignacion-porciones td:first-child {padding-left: 15px !important;}
 	.table-responsive.table.asignacion-porciones > tbody > tr > td:first-child {border-radius: 0;}

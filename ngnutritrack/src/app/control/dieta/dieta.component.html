@@ -10,8 +10,14 @@
 			<app-control-nav></app-control-nav>
 		</div>
 		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Dieta</h4>
+			</header>
 	<section>
-		<app-dieta-nav></app-dieta-nav>		
+		<app-dieta-nav></app-dieta-nav>	
+		<header class="visible-xs">
+			<h4>Prescripci&oacute;n</h4>
+		</header>	
 	
 		<div class="buttons">
 			<button 
@@ -33,12 +39,14 @@
 						Ingesta Cal&oacute;rica<br>Recomendada
 					</div>
 					<div class="ingesta-calorica-recomendada-value with-cicle col-sm-6">
-						<i>
-							<strong>
-								{{ rdd.icr | number : '1.0-0'}}
-								<span>Kcal</span>							
-							</strong>
-						</i>
+						<div class="inner">
+							<i>
+								<strong>
+									{{ rdd.icr | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-7 distribucion">

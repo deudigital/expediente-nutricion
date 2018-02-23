@@ -83,7 +83,7 @@
 }
 
 body {
-	padding-top:70px;
+	padding-top:15px;
 }
 
 #leftside .navbar-header {float: none;}
@@ -180,3 +180,6 @@ body {
 .esc-nav input[type=radio] + label::after {content: "\25BC";}
 .esc-nav input[type=checkbox]:checked + label::after {transform: rotate(315deg);}
 .esc-nav input[type=radio]:checked + label::after {transform: rotateX(180deg);}*/
+@media(min-width:768px){
+	body {padding-top:70px;}
+}

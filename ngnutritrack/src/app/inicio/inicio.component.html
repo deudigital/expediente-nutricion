@@ -8,7 +8,7 @@
 		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
 	</figure>
 	<div class="row links">
-		<div [ngClass]="{'col-xs-4': agregadoAPI, 'col-xs-6': !agregadoAPI }" class="box">
+		<div [ngClass]="{'col-sm-4': agregadoAPI, 'col-sm-6': !agregadoAPI }" class="box">
 			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
 				<figure class="img-circle transition main-nuevo">
 					<i></i>
@@ -16,7 +16,7 @@
 				<strong>Paciente Nuevo</strong>
 			</a>
 		</div>
-		<div [ngClass]="{'col-xs-4': agregadoAPI, 'col-xs-6': !agregadoAPI }" class="box">
+		<div [ngClass]="{'col-sm-4': agregadoAPI, 'col-sm-6': !agregadoAPI }" class="box">
 			<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Control">
 				<figure class="img-circle transition main-control">
 					<i></i>
@@ -24,7 +24,7 @@
 				<strong>Control</strong>
 			</a>
 		</div>
-		<div class="box col-xs-4" *ngIf="agregadoAPI">
+		<div class="box col-sm-4" *ngIf="agregadoAPI">
 			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
 				<figure class="img-circle transition main-facturacion">
 					<i></i>
@@ -55,10 +55,10 @@
 		<h4>¿Est&aacute; seguro de eliminar esta consulta?</h4>
 	</header>
 	<div class="body row">
-		<div class="col-xs-6">
+		<div class="col-sm-6">
 			<button class="btn btn-default btn-block" (click)="promptYes()">SI</button>
 		</div>
-		<div class="col-xs-6">
+		<div class="col-sm-6">
 			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
 		</div>
 	</div>

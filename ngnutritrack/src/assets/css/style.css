@@ -76,7 +76,7 @@ padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:
 .content-nav h3 {font-weight: 700;font-size: 16px;text-align: right;margin-right: 35px;/*margin-top: 35px;*/	margin-bottom: 30px;}
 .content-nav .list-group {text-align: right;font-weight:600}
 .content-nav .list-group > li {background-color: transparent;border: none;position:relative;}
-.content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
+.content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";}
 .content-nav .list-group > li > a {padding-right: 50px;position: relative;display: block;outline:0;text-decoration:none;color:#000;}
 body.menu-parent-hcp .content-nav .list-group > li.hcp > a, 
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a, 
@@ -326,15 +326,6 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 .calculo-calorico {font-weight: 600;text-align: center;}
 
-.wrap-patologias > .checkbox > .row > div:nth-child(6n+7), 
-.wrap-patologias > .checkbox > .row > div:nth-child(6n+8), 
-.wrap-patologias > .checkbox > .row > div:nth-child(6n+9){margin-top: 13px;}
-.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
-.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before, 
-.wrap-patologias .checkbox > .row > div:nth-child(6n+9) > label:before {background-color: #e0e0e0;height: 1px;width: 100%;content: "";position: absolute;display: block;top: -12px;}
-.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
-.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
-
 .wrap-patologias .separator {width: 97%;display: inline-block;}
 .container-file {display: block;background: #dedede;padding: 20px;border-radius: 20px;line-height: 2em;text-align: center;min-height: 70px;color: rgba(0,0,0,0.5);}
 .container-file > input[type="file"] {visibility: hidden;position: absolute;color: #e0e0e0;}
@@ -361,7 +352,9 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 .esc-grafico-boxes > div:not(.active) {display: none;}
 
+.content-form .analisis > .box{width:50%;}
 
+.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
 	body.page-inicio .container-logo {margin-bottom: 55px;}
@@ -375,6 +368,8 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 }
 @media(min-width:768px){
 	body{font-size:12px;}
+	
+	
 	.content-nav .list-group:first-of-type{margin-top:5px}
 	.main .links .box a > strong {margin-top: 20px;font-size: 17px;}
 	.form-group {margin-bottom: 30px;}
@@ -401,6 +396,15 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.row.dif > div {width: 46%;margin-left: 8%;}
 	
 	.calculo-calorico > .row > div {padding: 0;}
+	
+	.wrap-patologias > .checkbox > .row > div:nth-child(6n+7), 
+	.wrap-patologias > .checkbox > .row > div:nth-child(6n+8), 
+	.wrap-patologias > .checkbox > .row > div:nth-child(6n+9){margin-top: 13px;}
+	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
+	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before, 
+	.wrap-patologias .checkbox > .row > div:nth-child(6n+9) > label:before {background-color: #e0e0e0;height: 1px;width: 100%;content: "";position: absolute;display: block;top: -12px;}
+	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
+	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}
@@ -419,7 +423,23 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 }
 @media (max-width:767px){
 	body > [class*="col-"] .row > [class*="col-"] {margin-top:3%;margin-bottom:3%;}
+	.radio > [class*="col-"]{margin-top:15px;}
+	.division-nutricional,
+	.calculo-calorico-recomendadas{text-align:center;}
+	.division-nutricional .inner,
+	.calculo-calorico .inner,
+	.calculo-calorico-recomendadas .inner {display: inline-block;margin-top: 15px;}
+	.lista-examen {padding:0}
+	.lista-examen > li {width:33.33%;}
 	
+	/*.esc-modal {padding: 40px 15px;}*/
+	.content-nav h3 {text-align: center;margin-right: 0;}
+	.content-nav .list-group.consulta{text-align:center;}
+	.content-nav .list-group.consulta > li {width: 32%;display: inline-block;text-align: center;padding:0;}
+	.content-nav .list-group.consulta > li > a {display: inline-block;}
+	.content-nav .list-group.consulta > li > a > i{right:0}
+	.content-nav .list-group.consulta > li > a > span {display: none;}
+	.content-nav .list-group.consulta > li:not(:last-child) > a:after {	width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 }
 @media(max-width:600px){
 	body.page-inicio .container-logo img{max-width:50%}

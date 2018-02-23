@@ -12,10 +12,10 @@
 .container-form > .actions > a.form-close {text-indent: -1000px;/*position: absolute;*/margin-bottom: -17px;}
 
 .form-valoracion-dietetica.content-form .form-control:not(textarea){font-size:10px;}
-.buttons-navigation {padding: 0 5%;/*40px;*/margin-top: 20px;}
+.buttons-navigation {/*padding: 0 5%;/*40px;*/margin-top: 20px;}
 .buttons-navigation .btn{background-color: #acacac;color: #fff;border:none;box-shadow:none;border-radius:25px;}
 .buttons-navigation .next{background-color: #8bc23f;}
-
+.buttons-navigation > .btn:not(:first-child) {float: right;}
 .form-control ~ .msg-validation {position: absolute;width: 100%;bottom: -20px;padding-left: 50px;color:#cc2026;}
 .form-control ~ .msg-validation:after {position: absolute;right: -30px;width: 25px;height: 25px;color: #cc2026;top: -33px;border: 2px solid #cc2026;border-radius: 50%;content: "!";padding: 0;line-height: 1.1em;text-align: center;font-size: 18px;font-weight: 400;}
 
@@ -49,10 +49,12 @@
 .np{padding:0 !important}
 
 @media(min-width:768px){
-	.buttons-navigation > .btn:not(:first-child) {float: right;}
+	.buttons-navigation {padding: 0 5%;}
 	.percentiles [class*="col-"] {width: 19%;padding: 0;}
 	.percentiles [class*="col-"]:not(:first-child) {margin-left: 1.25%;}
 	.content-form .analisis.menores {padding-left: 15%;padding-right: 15%;}
 	.content-form .analisis.menores  > .box {width: 33.33%;}
 }
-
+@media(max-width:767px){
+	textarea.form-control:focus {min-height: 200px;}
+}
