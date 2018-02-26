@@ -432,6 +432,8 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.lista-examen {padding:0}
 	.lista-examen > li {width:33.33%;}
 	
+	.content-form .analisis > .box{min-height:170px}
+	
 	/*.esc-modal {padding: 40px 15px;}*/
 	.content-nav h3 {text-align: center;margin-right: 0;}
 	.content-nav .list-group.consulta{text-align:center;}
