@@ -633,13 +633,17 @@ export class FacturaVaciaComponent implements OnInit {
 	}
 
 	facturar(){
-
-		if(this.queryPerson || this.queryPerson.length===0){
+		console.log(this.form_errors.empty_name)
+		if(this.queryPerson.length===0){
 			this.form_errors.empty_name= true;
+		}else{
+			this.form_errors.empty_name= false;
 		}
 
 		if(this.productos.length===0){
 			this.form_errors.empty_products = true;
+		}else{
+			this.form_errors.empty_products = false;
 		}
 
 		
