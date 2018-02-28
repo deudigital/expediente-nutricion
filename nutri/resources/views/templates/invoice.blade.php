@@ -115,14 +115,14 @@
         <div style="float:left">
             <img src="{{$imagen}}" style="width:20%; max-width:300px;">
         </div>
-        <div style="float:right; margin-top: -2%; margin-bottom: -18%; margin-left: -18%;">
+        <div style="float: right; margin-top: -2%; margin-bottom: -18%; margin-left: -18%; margin-right: 1%">
             <span style="float: right;">Fecha: {{$fecha}}</span>
             <br>
             <span style="float: right;">Factura #: {{$factura_numero}}</span>
             <br>
-            <span style="float: right;">Método de Pago: {{$factura['medio_nombre']}}</span>
+            <span style="float: right;">Condición de Venta: Contado</span>            
             <br>
-            <span style="float: right;">Condición de Venta: Contado</span>
+            <span style="float: right; width: 190px; text-align: right;">Método de Pago: {{$factura['medio_nombre']}}</span>
         </div> 
         <div style="float:left; margin-top:15.1%;">
             <span style="font-size: 16px;"><b>Emisor</b></span>
