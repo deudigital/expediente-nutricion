@@ -335,6 +335,9 @@ export class FormControlDataService {
 			case 'prescripcion':
 				serviceUrl	+=	'prescripcion/paciente/' + data;
 				break;
+			case 'graphic':
+				serviceUrl	+=	'graphics/' + data;
+				break;
 		}
 		return this.http.get( serviceUrl )
 				.map((response: Response) => response.json());

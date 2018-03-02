@@ -354,6 +354,36 @@
 				</div>
 			</div>
 </div>
+{{graficos_by_x_H}}
+<nav class="clearfix">
+		<ul class="nav navbar-nav menu grafico">
+			<li *ngFor="let header_x of graficos_by_x_H">
+				<a class="{{header_x.class}}" href="javascript:void(0)" (click)="graficoSelected(header_x)">
+					<span>{{header_x.nombre}}	</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	
+<div>
+
+	
+
+<ng-template [ngIf]="graficos_by_x" [ngIfElse]="loading">
+	<ng-template ngFor let-grafico_by_x [ngForOf]= "graficos_by_x">
+		<div id="{{grafico_by_x.key}}" class="{{grafico_by_x.class}}">
+			<line-chart 
+				[data]="grafico_by_x.data" 
+				[config]="grafico_by_x.config" 
+				[elementId]="grafico_by_x.elementId"
+			></line-chart>
+		</div>
+	</ng-template>
+	<ng-template #loading>
+		processing...
+	</ng-template>
+</ng-template>
+</div>
 </ng-template>	
 			</section>
 

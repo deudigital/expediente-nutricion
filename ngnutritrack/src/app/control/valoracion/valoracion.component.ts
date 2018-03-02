@@ -63,6 +63,8 @@ export class ValoracionComponent implements OnInit {
 	tab_grasa_class_segmentado:string='active';
 	tab_grasa_class_pliegues:string='';
 
+	graficos_by_x: any;
+	graficos_by_x_H: any;
 	graficos: any;
 	graficosH: any;
 	data4: any[];
@@ -121,6 +123,7 @@ export class ValoracionComponent implements OnInit {
 		this.aPendientess		=	[];*/
 		this.countPendientes	=	0;
 		this.btnNavigation_pressed	=	false;
+		
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
@@ -225,6 +228,7 @@ export class ValoracionComponent implements OnInit {
 				this.setInfoInit();
 				this.loading_data_form	=	false;
 				this.getHistorial();
+				this.getGraphic();
 				setTimeout(() => {
 					      this.allowCalculate	=	true;
 					    }, 500);
@@ -339,6 +343,207 @@ export class ValoracionComponent implements OnInit {
 		this.graficos	=	items;
 		this.tagBody.classList.add('grafico-selected-imc');
 	}
+	
+	
+	getGraphic(){
+		/*var paciente_id	=	this.model.consulta.paciente_id;*/
+		this.formControlDataService.select('graphic', '')
+		.subscribe(
+			 response  => {
+						console.log(response);
+						this.processGraphic(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	processGraphic( chartData ){
+		var toGraph = '';
+		var toolTipHtml;
+		var data;
+		var item;
+		var items	=	[];
+		var headers	=	[];
+		var headerGraficos	=	[];
+		var config;
+		var options:any;
+		var columns;
+		
+		headerGraficos['estatura_x_edad']	=	'Estatura para Edad';
+		headerGraficos['peso_x_edad']		=	'Peso para Edad';
+		headerGraficos['peso_x_estatura']	=	'Peso para Estatura';
+		headerGraficos['imc_x_edad']		=	'IMC para Edad';
+		
+		var indicador		=	'peso-edad';
+		
+		var tablaUtilizada	=	this.valoracion.metodo_valoracion;
+		if(this.valoracion.metodo_valoracion=='adulto')
+			tablaUtilizada	=	'oms';
+		
+		var genero			=	'mujer';
+		if(this.paciente.genero=='M')
+			genero			=	'hombre';
+		
+		var rangoEdad		=	'0-5';
+		if(this.paciente.edad>5)
+			rangoEdad		=	'5-19';
+		
+/*
+oms-peso-edad-0-5-mujer
+oms-peso-edad-5-19-mujer
+
+oms-imc-edad-0-5-mujer
+oms-imc-edad-5-19-mujer
+
+oms-estatura-peso-0-2-mujer
+oms-estatura-peso-2-5-mujer
+
+oms-estatura-edad-0-5-mujer
+oms-estatura-edad-5-19-mujer
+
+*/
+		
+		
+		
+		
+		
+		var x_label			=	'Edad';
+		var y_label			=	'Peso';
+			
+		var alturaPaciente:number	=	0;
+		var pesoPaciente:number		=	0;
+		var edadPaciente:number		=	0;
+		
+		
+
+		alturaPaciente	=	Number(this.valoracion.estatura)*100;/*115;*/
+		pesoPaciente	=	Number(this.valoracion.peso);/*25;*/
+		edadPaciente	=	Number(this.paciente.edad);/*2;*/
+		
+		/*alturaPaciente	=	115;
+		pesoPaciente	=	35;
+		edadPaciente	=	2;*/
+		
+		console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente);
+		var _data_first:any	=	chartData[0];
+		var _data_last:any	=	chartData[chartData.length-1];
+		var x:number	=	Math.ceil((_data_last.X - _data_first.X)/14);;
+		var y:number	=	Math.ceil((_data_last.P90 - _data_first.P10)/10);;
+		var _text:string='';
+		var _data_i:any;
+		data	=	[];
+		columns	=	[];
+		for(var key in _data_first) {
+			columns.push({label: key, type: 'number'});
+			if(key!='X')
+				columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
+		}
+		columns.push({label: 'Paciente', type: 'number'});
+		columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
+		
+		for(var i=0; i<chartData.length; i++) {
+			var chartWithToolTips = new Array();
+			for(var key in chartData[i]) {
+				_data_i	=	chartData[i];
+				chartWithToolTips.push(parseFloat(_data_i[key]));
+				if (key!="X"){
+					_text	=	'<strong>' + key + '</strong>';
+					_text	+=	'</br>';
+					_text	+=	'Peso: ' + _data_i[key] + ' kg';
+					_text	+=	' | ';
+					_text	+=	'Altura: ' + _data_i.X + ' cm';
+
+					chartWithToolTips.push( _text );
+				}
+			}			
+			_text	=	'<strong>Paciente</strong>';
+			_text	+=	'</br>';
+			_text	+=	'Peso: ' + pesoPaciente + ' kg';
+			_text	+=	' | ';
+			_text	+=	'Altura: ' + alturaPaciente + ' cm';
+			
+			chartWithToolTips.push(chartData[i].X == alturaPaciente ? pesoPaciente : null);
+			chartWithToolTips.push( _text );
+			data.push( chartWithToolTips );
+		}	
+		
+		var _x_2:number=	0;
+		var _value:number=	0;
+		var _value_last:number=	0;
+		_value		=	Math.floor (parseFloat( _data_first.X ));
+		_value_last	=	Math.floor (parseFloat( _data_last.X ));
+		_x_2	=	x*2;
+
+/*
+		var _min_hAxis:number	=	alturaPaciente <= ( _value + _x_2 ) ? _value: alturaPaciente - _x_2;
+		var _max_hAxis:number	=	alturaPaciente >= ( _value_last - _x_2 ) ? _value_last: alturaPaciente + _x_2;
+
+		var _min_vAxis:number	=	pesoPaciente <= ( _data_first.P10 + y) ? Math.floor ( _data_first.P10) : pesoPaciente - y;
+		var _max_vAxis:number	=	pesoPaciente >= ( _data_last.P90 - y ) ? Math.ceil ( _data_last.P90) : pesoPaciente + y;
+*/
+		
+		var _min_hAxis:number	=	Math.floor(_data_first.X);
+		var _max_hAxis:number	=	Math.ceil(_data_last.X);
+
+		var _min_vAxis:number	=	Math.floor(_data_first.P10);
+		var _max_vAxis:number	=	Math.ceil(_data_last.P90);
+		
+		
+		
+		
+		options = {
+				height:350,
+			title: 'Peso para Estatura',
+			
+			animation: {
+				duration: 1000,
+				easing: 'out'
+			},
+			tooltip: {isHtml: true},
+			titleTextStyle: {
+				color: 'red',
+				fontName: 'Verdana',
+				fontSize: 16, 
+				bold: true,   
+				italic: false
+			},
+			series: {5:{pointShape: 'circle', pointSize: 15}},
+			hAxis: {
+				title: 'Estatura(cm)',
+				viewWindow: { min: _min_hAxis, max: _max_hAxis},
+				ticks: this.calcRange( _value, x, 14 )
+			},
+			vAxis: {
+				title: 'Peso (kg)',			
+				viewWindow: {min: _min_vAxis ,max: _max_vAxis},
+				ticks: this.calcRange( _data_first.P10, y, 50 )
+			},
+
+			colors: ['#868684', '#90c445','#cc1f25', '#90c445','#868684', '#DAA520'],
+			crosshair: {
+				color: '#dadada',
+				trigger: 'selection'
+			}
+		};
+	
+		config	=	new LineChartConfig('title ' + toGraph, options, columns);
+		item	=	{'data':data, 'config': config, 'elementId':'element_' + i, 'key': 'container_' + i, 'class':''};
+		items.push(item);
+
+		headers.push({'id':i, 'nombre':toGraph, 'class': 'grafico-' + i});		
+		this.graficos_by_x		=	items;
+		this.graficos_by_x_H	=	headers;
+		console.log(this.graficos_by_x_H);
+	}
+	calcRange(ini, periodicity, fractions){
+		var range = new Array();
+		range.push (Math.floor(ini));
+		for (var i = 1; i <= fractions; i++){
+			ini = parseInt(ini)+parseInt(periodicity); 
+			range.push(ini);
+		}
+		return range;
+	}
+	
 	graficoSelected(header){
 		this.tagBody.classList.remove('grafico-selected-imc');
 		this.tagBody.classList.remove('grafico-selected-peso');
