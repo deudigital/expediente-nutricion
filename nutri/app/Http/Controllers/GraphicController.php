@@ -24,6 +24,27 @@ class GraphicController extends Controller
 		$genero			=	'mujer';
 		if($paciente->genero=='M')
 			$genero			=	'hombre';
+
+		$_indicators	=	array(
+								'estatura-edad'	=>	'', 
+								'estatura-peso'	=>	'', 
+								'imc-edad'		=>	'', 
+								'peso-edad'		=>	''
+							);
+/*echo $paciente->edad;*/
+		if($method=='oms'){
+			if($paciente->edad > 5){
+				unset($_indicators['estatura-peso']);
+				if($paciente->edad > 10)
+					unset($_indicators['peso-edad']);
+			}
+		}							
+		$rangoEdad	=	'';
+		foreach($_indicators as $key=>$value){
+			$path	=	$method;
+			$path	.=	'-' . $key;
+			switch($method){
+				case 'oms':
 /*
 Indicadores OMS
     Paciente de 0 a 5 años (la edad en los JSON esta en días)
@@ -35,6 +56,94 @@ Indicadores OMS
         Estatura / Edad
         IMC / Edad
         Peso / Edad
+*/
+					if($key=='estatura-peso'){
+						$rangoEdad	=	'0-2';
+						if($paciente->edad > 2)
+							$rangoEdad	=	'2-5';
+					}else{
+						$rangoEdad		=	'0-5';
+						if($paciente->edad > 5){
+/*							unset($_indicators['estatura-peso']);
+							if($paciente->edad > 10)
+								unset($_indicators['peso-edad']);
+*/
+							$rangoEdad		=	'5-19';
+						}
+					}
+					break;
+				case 'cdc':
+/*
+Indicadores CDC
+	Paciente de 0 a 2 años (la edad en los JSON esta en meses)
+		Estatura / Edad
+		Estatura / Peso
+		IMC / Edad
+		Peso / Edad
+	Paciente de 3 a 20 años (la edad en los JSON esta en meses)
+		Estatura / Edad
+		Estatura / Peso
+		IMC / Edad
+		Peso / Edad
+*/
+					$rangoEdad		=	'0-2';
+					if($paciente->edad > 2)
+						$rangoEdad		=	'2-20';
+
+					break;				
+			}
+			
+			$path	.=	'-' . $rangoEdad;			
+			$path	.=	'-' . $genero;
+			$path	.=	'.json';
+			
+			$path	=	'json-data/' . $path;
+		
+			$jsonURL	=	public_path( $path );
+			$jsonFile	=	file_get_contents($jsonURL);
+			
+			$_indicators[$key]	=	$jsonFile;
+		}
+		/*echo '<pre>' . print_r($_indicators, true) . '</pre>';exit;*/
+		return $_indicators;
+    }
+	public function getIndicators__oms($method, $indicator, $paciente_id)
+    {
+		$paciente	=	Persona::find($paciente_id);
+		$paciente->edad		=	0;
+		if($paciente->fecha_nac){
+			$fecha_nac = explode('-', $paciente->fecha_nac);
+			$edad	=	Carbon::createFromDate($fecha_nac[0], $fecha_nac[1], $fecha_nac[2])->age;          // int(41) calculated vs now in the same tz
+			$paciente->fecha_nac=	$fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
+			$paciente->edad		=	$edad;
+		}	
+		$genero			=	'mujer';
+		if($paciente->genero=='M')
+			$genero			=	'hombre';
+
+/*
+Indicadores OMS
+    Paciente de 0 a 5 años (la edad en los JSON esta en días)
+        Estatura / Edad
+        Estatura / Peso (2 diferentes graficas si esta entre 0 y 2 años o 2 y 5 - usar el respectivo)
+        IMC / Edad
+        Peso / Edad
+    Paciente de 5 a 19 años (la edad en los JSON esta en meses)
+        Estatura / Edad
+        IMC / Edad
+        Peso / Edad
+
+Indicadores CDC
+	Paciente de 0 a 2 años (la edad en los JSON esta en meses)
+		Estatura / Edad
+		Estatura / Peso
+		IMC / Edad
+		Peso / Edad
+	Paciente de 3 a 20 años (la edad en los JSON esta en meses)
+		Estatura / Edad
+		Estatura / Peso
+		IMC / Edad
+		Peso / Edad
 */
 		$_indicators	=	array(
 								'estatura-edad'	=>	'', 

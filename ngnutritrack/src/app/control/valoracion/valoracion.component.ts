@@ -388,11 +388,32 @@ for(var indicador in response) {
 		var edadPaciente:number		=	Number(this.paciente.edad);
 		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
 		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
+//console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);		
+		if(this.paciente.fecha_nac){
+			var current_fecha = this.paciente.fecha_nac.split('/');
+			console.log(current_fecha);
+			var year	=	Number(current_fecha[2]);
+			var month	=	Number(current_fecha[1]);
+			var day		=	Number(current_fecha[0]);			
+			console.log('-------------------------');
+				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
+				var fechaFin    = new Date().getTime();
+				console.log(fechaFin + ' - ' + fechaInicio);
+				var diff = fechaFin - fechaInicio;
+				console.log('diff->' + diff);
+				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
+				console.log( 'edadPaciente_dias:' + edadPaciente_dias );
+				edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );
+				console.log( 'edadPaciente_meses:' + edadPaciente_meses );
+			console.log('-------------------------');
+		}
+		
+		
 		var x_label			=	'';
 		var y_label			=	'';
 		var graph_title		=	'';
 		/*alturaPaciente	=	115;pesoPaciente	=	35;edadPaciente	=	2;*/
-		console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);
+//		console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);
 		var _row_first:any;
 		var _row_first_keys:any;
 		var _row_first_fk:any;/*	X, Age	*/
@@ -432,9 +453,23 @@ for(var indicador in response) {
 
 		for(var indicador in aChartData) {
 			chartData	=	JSON.parse(aChartData[indicador])
-				rangoEdad		=	'0-5';
-				if(this.paciente.edad>5)
-					rangoEdad		=	'5-19';
+			
+				switch(this.valoracion.metodo_valoracion){
+					case 'cdc':
+						rangoEdad		=	'0-2';
+						if(this.paciente.edad>2)
+							rangoEdad		=	'2-20';
+						break;
+					case 'oms':
+					default:
+						rangoEdad		=	'0-5';
+						if(this.paciente.edad>5)
+							rangoEdad		=	'5-19';
+				}
+				
+				
+				
+				
 				switch(indicador){
 					case 'estatura-peso':
 						x_label		=	'Estatura (cm)';
@@ -443,22 +478,26 @@ for(var indicador in response) {
 						break;
 					case 'estatura-edad':
 						x_label		=	'Edad (días)';
-						if(this.paciente.edad>5)
+						if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 							x_label		=	'Edad (Meses)';
 						
 						y_label		=	'Estatura (cm)';
 						graph_title	=	'Edad para Estatura';
+						if(this.valoracion.metodo_valoracion=='oms'){
+							if(this.paciente.edad>2)
+								rangoEdad		=	'2-5';
+						}						
 						break;
 					case 'imc-edad':
 						x_label		=	'Edad';						
-						if(this.paciente.edad>5)
+						if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 							x_label		=	'Edad (Meses)';
 						y_label		=	'IMC';
 						graph_title	=	'Edad para Imc';
 						break;
 					case 'peso-edad':
 						x_label		=	'Edad (días)';
-						if(this.paciente.edad>5)
+						if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 							x_label		=	'Edad (Meses)';
 						y_label		=	'Peso (Kg)';
 						graph_title	=	'Edad para Peso';				
