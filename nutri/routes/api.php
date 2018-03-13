@@ -24,7 +24,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	//Route::get('facturacion/notificaciones/{id}', 'FacturaController@notificarPorCorreo');
 	
 	
-	Route::get('graphics', 'GraphicController@index');
+	Route::get('graphics/{method}/{indicator}/{id}', 'GraphicController@getIndicators');
 	Route::get('facturacion/consecutivo/{nutricionista_id}/{tipo_documento_id}', 'FacturaController@getLastNumberConsecutive');
 	Route::post('external/nutricionistas', 'externalController@store');
 	Route::get('recordatorios', 'RecordatorioController@index');

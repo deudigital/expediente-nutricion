@@ -351,6 +351,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 .select-ubicacion select {margin-bottom: 15px;}
 
 .esc-grafico-boxes > div:not(.active) {display: none;}
+.esc-grafico-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
 
 .content-form .analisis > .box{width:50%;}
 

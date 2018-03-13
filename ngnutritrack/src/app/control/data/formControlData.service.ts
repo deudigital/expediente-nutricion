@@ -336,7 +336,7 @@ export class FormControlDataService {
 				serviceUrl	+=	'prescripcion/paciente/' + data;
 				break;
 			case 'graphic':
-				serviceUrl	+=	'graphics/' + data;
+				serviceUrl	+=	'graphics/' + data.method + '/' + data.indicator + '/' + data.paciente_id;
 				break;
 		}
 		return this.http.get( serviceUrl )

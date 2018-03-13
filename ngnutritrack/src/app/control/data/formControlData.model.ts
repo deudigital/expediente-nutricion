@@ -1268,3 +1268,12 @@ export class Medio{
 	public id: number;
 	public name: string;
 }
+export class Graphic{
+	public genero:string='';
+	public metodo:string='';
+	public label_x:string='';
+	public label_y:string='';
+	public edad:number=0;
+	public peso:number=0;
+	public altura:number=0;
+}
