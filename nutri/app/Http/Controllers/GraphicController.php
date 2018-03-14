@@ -38,7 +38,12 @@ class GraphicController extends Controller
 				if($paciente->edad > 10)
 					unset($_indicators['peso-edad']);
 			}
-		}							
+		}
+		if($method=='cdc'){
+			if($paciente->edad < 3){
+				unset($_indicators['imc-edad']);				
+			}
+		}
 		$rangoEdad	=	'';
 		foreach($_indicators as $key=>$value){
 			$path	=	$method;

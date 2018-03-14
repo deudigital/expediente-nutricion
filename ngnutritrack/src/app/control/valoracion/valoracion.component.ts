@@ -542,6 +542,11 @@ for(var indicador in response) {
 
 							_text	=	'<ul class="grafico-lista">';
 							_text	+=	'	<li><strong>' + key + '</strong></li>';
+							
+							
+							_data_i[key]	=	Number(_data_i[key]).toFixed(2)
+							_data_i[_data_i_fk]	=	Number(_data_i[_data_i_fk]).toFixed(2)
+							
 							switch(indicador){
 								case 'estatura-peso':
 									_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
@@ -552,7 +557,7 @@ for(var indicador in response) {
 									_text	+=	'<li>Estatura: ' + _data_i[key] + ' (cm)';
 									_text	+=	' | ';
 									_text	+=	'Edad: ' + _data_i[_data_i_fk];
-									if(this.paciente.edad>5)
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 										_text	+=	' meses';
 									else
 										_text	+=	' dias';
@@ -562,7 +567,7 @@ for(var indicador in response) {
 								case 'imc-edad':
 									_text	+=	'<li>Edad: ' + _data_i[_data_i_fk];
 									
-									if(this.paciente.edad>5)
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 										_text	+=	' meses';
 									else
 										_text	+=	' dias';
@@ -574,7 +579,7 @@ for(var indicador in response) {
 									_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
 									_text	+=	' | ';
 									_text	+=	'Edad: ' + _data_i[_data_i_fk];
-									if(this.paciente.edad>5)
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 										_text	+=	' meses';
 									else
 										_text	+=	' dias';
@@ -601,7 +606,7 @@ for(var indicador in response) {
 							break;
 						case 'estatura-edad':													
 							_text	+=	'	<li>Edad: ';
-							if(this.paciente.edad>5)
+							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 								_text	+=	edadPaciente_meses + ' meses';
 							else
 								_text	+=	edadPaciente_dias + ' dias';
@@ -609,14 +614,14 @@ for(var indicador in response) {
 							_text	+=	' | ';
 							_text	+=	'Estatura: ' + alturaPaciente + ' (cm)</li>';					
 
-							if(this.paciente.edad>5)
+							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? alturaPaciente : null;
 							else
 								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? alturaPaciente : null;
 							break;
 						case 'imc-edad':													
 							_text	+=	'	<li>Edad: ';
-							if(this.paciente.edad>5)
+							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 								_text	+=	edadPaciente_meses + ' meses';
 							else
 								_text	+=	edadPaciente_dias + ' dias';
@@ -624,7 +629,7 @@ for(var indicador in response) {
 							_text	+=	' | ';
 							_text	+=	'Imc: ' + this.analisis.imc + ' </li>';					
 							
-							if(this.paciente.edad>5)
+							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? this.analisis.imc : null;
 							else
 								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? this.analisis.imc : null;
@@ -634,20 +639,22 @@ for(var indicador in response) {
 							_text	+=	'	<li>Peso: ' + pesoPaciente + ' kg';
 							_text	+=	' | ';
 							_text	+=	'Edad: ';
-							if(this.paciente.edad>5)
+							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 								_text	+=	edadPaciente_meses + ' meses';
 							else
 								_text	+=	edadPaciente_dias + ' días';
 							_text	+=	'</li>';
 								
-							if(this.paciente.edad>5)
+							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? pesoPaciente : null;
 							else
 								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? pesoPaciente : null;
 							break;
 					}
 					_text	+=	'</ul>';
-
+					if(_push_data)
+						console.log( indicador + ': _push_data -> ' + _push_data );
+					
 					chartWithToolTips.push( _push_data );
 					chartWithToolTips.push( _text );
 					data.push( chartWithToolTips );
