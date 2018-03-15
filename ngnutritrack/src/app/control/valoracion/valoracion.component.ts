@@ -431,6 +431,9 @@ for(var indicador in response) {
 
 		var _push_data:any	=	null;
 		var _aux:any	=	0;
+		var _aux_altura:any	=	0;
+		var _aux_peso:any	=	0;
+		var _aux_imc:any	=	0;
 
 		var _data_i:any;
 		var _data_i_keys:any;
@@ -449,6 +452,7 @@ for(var indicador in response) {
 		var _max_hAxis:number;
 		var _min_vAxis:number;
 		var _max_vAxis:number;
+		var _round_paciente_printed	=	false;
 		
 
 		for(var indicador in aChartData) {
@@ -528,8 +532,14 @@ for(var indicador in response) {
 				}
 				columns.push({label: 'Paciente', type: 'number'});
 				columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
-				_push_data	=	null;
+				
 				_aux		=	0;
+				
+				_aux_altura	=	0;
+				_aux_peso	=	0;
+				_aux_imc	=	0;
+				
+				_round_paciente_printed	=	false;
 				for(var i=0; i<chartData.length; i++) {
 					chartWithToolTips = new Array();
 					for(var key in chartData[i]) {
@@ -591,70 +601,107 @@ for(var indicador in response) {
 							chartWithToolTips.push( _text );
 						}
 					}
-					
-					_chartData_i_keys	=	Object.keys(chartData[i]);
-					_chartData_i_fk		=	_chartData_i_keys[0];
-					
-					_text	=	'<ul class="grafico-lista">';
-					_text	+=	'	<li><strong>Paciente</strong></li>';
-					switch(indicador){
-						case 'estatura-peso':				
-							_text	+=	'	<li>Peso: ' + pesoPaciente + ' kg';
-							_text	+=	' | ';
-							_text	+=	'Estatura: ' + alturaPaciente + ' (cm)</li>';					
-							_push_data	=	chartData[i][_chartData_i_fk] == alturaPaciente ? pesoPaciente : null;
-							break;
-						case 'estatura-edad':													
-							_text	+=	'	<li>Edad: ';
-							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-								_text	+=	edadPaciente_meses + ' meses';
-							else
-								_text	+=	edadPaciente_dias + ' dias';
-							
-							_text	+=	' | ';
-							_text	+=	'Estatura: ' + alturaPaciente + ' (cm)</li>';					
-
-							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? alturaPaciente : null;
-							else
-								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? alturaPaciente : null;
-							break;
-						case 'imc-edad':													
-							_text	+=	'	<li>Edad: ';
-							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-								_text	+=	edadPaciente_meses + ' meses';
-							else
-								_text	+=	edadPaciente_dias + ' dias';
-
-							_text	+=	' | ';
-							_text	+=	'Imc: ' + this.analisis.imc + ' </li>';					
-							
-							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? this.analisis.imc : null;
-							else
-								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? this.analisis.imc : null;
-
-							break;
-						case 'peso-edad':
-							_text	+=	'	<li>Peso: ' + pesoPaciente + ' kg';
-							_text	+=	' | ';
-							_text	+=	'Edad: ';
-							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-								_text	+=	edadPaciente_meses + ' meses';
-							else
-								_text	+=	edadPaciente_dias + ' días';
-							_text	+=	'</li>';
+					_text		=	'';
+					_push_data	=	null;
+					if(!_round_paciente_printed){
+						_chartData_i_keys	=	Object.keys(chartData[i]);
+						_chartData_i_fk		=	_chartData_i_keys[0];
+						switch(indicador){
+							case 'estatura-peso':				
+								_push_data	=	chartData[i][_chartData_i_fk] >= alturaPaciente ? pesoPaciente : null;
+								if(_push_data){
+									_text	+=	'	<li>Peso: ' + pesoPaciente + ' kg';
+									_text	+=	' | ';
+									_text	+=	'Estatura: ' + alturaPaciente + ' (cm)</li>';
+								}
+								/*_push_data	=	chartData[i][_chartData_i_fk] == alturaPaciente ? pesoPaciente : null;*/
+								break;
+							case 'estatura-edad':
 								
-							if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? pesoPaciente : null;
-							else
-								_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? pesoPaciente : null;
-							break;
+								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+									_push_data	=	chartData[i][_chartData_i_fk] >= edadPaciente_meses ? alturaPaciente : null;
+								else
+									_push_data	=	chartData[i][_chartData_i_fk] >= edadPaciente_dias ? alturaPaciente : null;
+								if(_push_data){
+									_text	+=	'	<li>Edad: ';
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+										_text	+=	edadPaciente_meses + ' meses';
+									else
+										_text	+=	edadPaciente_dias + ' dias';
+									
+									_text	+=	' | ';
+									_text	+=	'Estatura: ' + alturaPaciente + ' (cm)</li>';					
+		/*
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+										_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? alturaPaciente : null;
+									else
+										_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? alturaPaciente : null;
+									*/
+								}
+								
+								break;
+							case 'imc-edad':
+								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+									_push_data	=	chartData[i][_chartData_i_fk] >= edadPaciente_meses ? this.analisis.imc : null;
+								else
+									_push_data	=	chartData[i][_chartData_i_fk] >= edadPaciente_dias ? this.analisis.imc : null;
+								
+								if(_push_data){
+									_text	+=	'	<li>Edad: ';
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+										_text	+=	edadPaciente_meses + ' meses';
+									else
+										_text	+=	edadPaciente_dias + ' dias';
+
+									_text	+=	' | ';
+									_text	+=	'Imc: ' + this.analisis.imc + ' </li>';					
+		/*							
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+										_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? this.analisis.imc : null;
+									else
+										_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? this.analisis.imc : null;
+		*/
+								
+
+								}
+								
+								break;
+							case 'peso-edad':
+								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+									_push_data	=	chartData[i][_chartData_i_fk] >= edadPaciente_meses ? pesoPaciente : null;
+								else
+									_push_data	=	chartData[i][_chartData_i_fk] >= edadPaciente_dias ? pesoPaciente : null;
+								
+								if(_push_data){
+									_text	+=	'	<li>Peso: ' + pesoPaciente + ' kg';
+									_text	+=	' | ';
+									_text	+=	'Edad: ';
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+										_text	+=	edadPaciente_meses + ' meses';
+									else
+										_text	+=	edadPaciente_dias + ' días';
+									_text	+=	'</li>';
+		/*
+									if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
+										_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_meses ? pesoPaciente : null;
+									else
+										_push_data	=	chartData[i][_chartData_i_fk] == edadPaciente_dias ? pesoPaciente : null;
+		*/
+									
+								}
+								
+								break;
+						}
+						
+						if(_push_data){
+							console.log( indicador + ': _push_data -> ' + _push_data );							
+							_text	=	'	<li><strong>Paciente</strong></li>' + _text;
+							_text	=	'<ul class="grafico-lista">' + _text + '</ul>';
+							_round_paciente_printed	=	true;
+						}
+						/*chartWithToolTips.push( _push_data );
+						chartWithToolTips.push( _text );*/						
 					}
-					_text	+=	'</ul>';
-					if(_push_data)
-						console.log( indicador + ': _push_data -> ' + _push_data );
-					
 					chartWithToolTips.push( _push_data );
 					chartWithToolTips.push( _text );
 					data.push( chartWithToolTips );
