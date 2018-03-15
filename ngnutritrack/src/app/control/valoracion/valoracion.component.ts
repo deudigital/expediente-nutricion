@@ -403,7 +403,13 @@ for(var indicador in response) {
 				console.log('diff->' + diff);
 				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
 				console.log( 'edadPaciente_dias:' + edadPaciente_dias );
-				edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );
+				/*edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );*/
+				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
+				edadPaciente_meses	=	_anhos * 12;
+				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
+				if(_anhos>30)
+					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
+
 				console.log( 'edadPaciente_meses:' + edadPaciente_meses );
 			console.log('-------------------------');
 		}
