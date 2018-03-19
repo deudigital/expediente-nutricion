@@ -40,6 +40,7 @@ class GraphicController extends Controller
 			}
 		}
 		if($method=='cdc'){
+			unset($_indicators['estatura-peso']);
 			if($paciente->edad < 3){
 				unset($_indicators['imc-edad']);				
 			}

@@ -333,8 +333,10 @@
 						maxlength="5" 
 						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="valoracion.estatura"
+						required
 						>
 					<i></i>
+					<span *ngIf="mostrarErrorEstatura" class="error">Dato Requerido</span>
 				</div>
 			</div>
 			<div class="col-sm-6">
@@ -349,13 +351,20 @@
 						maxlength="5" 
 						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="valoracion.peso"
+						required
 						>
 					<i></i>
+					<span *ngIf="mostrarErrorPeso" class="error required">Dato Requerido</span>
 				</div>
 			</div>
 </div>
-<div class="row text-center">
-	<button href="javascript:void()" (click)="graficar()" class="btn btn-default">Graficar</button>
+<div class="buttons">
+	<button 
+		href="javascript:void()" 
+		(click)="graficar()" 
+		class="btn btn-default"
+		[disabled]="!valoracion.peso || !valoracion.estatura"
+		>Graficar</button>
 </div>
 <nav class="clearfix">
 	<ul class="nav navbar-nav menu grafico by-indicator">

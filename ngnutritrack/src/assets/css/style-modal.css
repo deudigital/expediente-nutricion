@@ -128,16 +128,17 @@ body.grafico-selected-gc_recomendado .grafico-gc_recomendado > span{background-c
 body.grafico-by-selected-estatura-edad .active > span{background-color: #8bc23f;color: #fff !important;}
 .esc-grafico-by-indicator > div {max-width: 100%;overflow: hidden;width: 100%;}
 
-.menu.grafico.by-indicator {margin-bottom:30px;}
+.menu.grafico.by-indicator {margin-bottom:30px;margin-top:30px;}
 .menu.grafico.by-indicator > li:before {border:none}
 .menu.grafico.by-indicator > li > a{padding:0;}
 .menu.grafico.by-indicator > li > a:hover{background-color:transparent;}
 .menu.grafico.by-indicator > li > a > span {display: block;padding: 3px 15px;border-radius: 15px;font-size: 14px;border:none;color:#6c6c6c}
-
 .menu.grafico.by-indicator > li > a.active > span{background-color: #8bc23f;color: #fff !important;}
-
 .esc-grafico-by-indicator{position: relative;}
 .esc-grafico-by-indicator:before{position: absolute;content: "procesando...";top: 49%;text-align: center;width: 100%;}
+
+.esc-grafico-by-indicator rect{fill:#f3f3f3;}
+
 .grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
 .grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
 body.open-modal .esc-modal.transparent {top: 50%;}

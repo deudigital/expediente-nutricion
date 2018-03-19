@@ -103,6 +103,9 @@ export class ValoracionComponent implements OnInit {
 	displayoptionsForMenor:boolean;
 	esMenor:boolean;
 	displayOms:boolean;
+	
+	mostrarErrorEstatura:boolean;
+	mostrarErrorPeso:boolean;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
@@ -115,6 +118,10 @@ export class ValoracionComponent implements OnInit {
 		this.esAdulto			=	false;
 		this.esMenor			=	false;
 		this.displayoptionsForMenor		=	false;
+		
+		this.mostrarErrorEstatura	=	false;
+		this.mostrarErrorPeso		=	false;
+	
 		this.getDatosDeConsulta(this.model.consulta.id);
     }
 	ngOnInit() {
@@ -345,6 +352,11 @@ export class ValoracionComponent implements OnInit {
 	}
 
 	graficar(){
+		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
+				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
+				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;		
+			return ;
+		}
 		console.log('graficando');
 		this.formControlDataService.addValoracionAntropometrica(this.valoracion)
 		.subscribe(
@@ -735,7 +747,8 @@ for(var indicador in response) {
 				_max_hAxis	=	Math.ceil(_row_last[_row_last_fk]);
 				_min_vAxis	=	Math.floor(_row_first[_row_first_sk]);
 				_max_vAxis	=	Math.ceil(_row_last[_row_last_lk]);
-				graph_title	+=	' (' + this.valoracion.metodo_valoracion + '-' + indicador + '-' + rangoEdad + '-' + (this.paciente.genero=='F'? 'mujer':'hombre') + '):' + _row_first_fk;
+				/*graph_title	+=	' (' + this.valoracion.metodo_valoracion + '-' + indicador + '-' + rangoEdad + '-' + (this.paciente.genero=='F'? 'mujer':'hombre') + '):' + _row_first_fk;*/
+				
 				options	=	this.getOptionsGraphChildren(graph_title, x, y, x_label, y_label, _min_hAxis, _max_hAxis, _value, _min_vAxis, _max_vAxis, _row_first[_row_first_sk]);
 				config	=	new LineChartConfig('title ' + toGraph, options, columns);
 				item	=	{'data':data, 'config': config, 'elementId':'element_' + indicador, 'key': 'container_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
@@ -1201,7 +1214,6 @@ for(var indicador in response) {
 		console.log(this.graficos_by_x_H);
 	}
 	getOptionsGraphChildren(graph_title, x, y, x_label, y_label, _min_hAxis, _max_hAxis, _hAxis_value, _min_vAxis, _max_vAxis, _vAxis_value){
-		
 		var options = {
 			height:350,
 			title: graph_title,
@@ -1213,22 +1225,21 @@ for(var indicador in response) {
 			titleTextStyle: {
 				color: 'red',
 				fontName: 'Verdana',
-				fontSize: 12, 
+				fontSize: 14, 
 				bold: true,   
 				italic: false
 			},
 			series: {5:{pointShape: 'circle', pointSize: 15}},
 			hAxis: {
-				title: x_label,/*'Estatura(cm)'*/
+				title: x_label,
 				viewWindow: { min: _min_hAxis, max: _max_hAxis},
 				ticks: this.calcRange( _hAxis_value, x, 14 )
 			},
 			vAxis: {
-				title: y_label,/*'Peso (kg)'*/
+				title: y_label,
 				viewWindow: {min: _min_vAxis ,max: _max_vAxis},
 				ticks: this.calcRange( _vAxis_value, y, 50 )
 			},
-
 			colors: ['#868684', '#90c445','#cc1f25', '#90c445','#868684', '#DAA520'],
 			crosshair: {
 				color: '#dadada',
