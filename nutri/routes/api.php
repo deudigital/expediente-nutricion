@@ -159,4 +159,5 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::resource('tiempocomidas', 'TiempoComidaController', ['only' => ['index']]);
 	Route::get('registroconsumos/paciente/{id}', 'RegistroConsumoController@belongsToPaciente');
 	Route::resource('registroconsumos', 'RegistroConsumoController');
+	Route::get('valoracionantropometrica/paciente/{id}', 'ValoracionAntropometricaController@belongsToPaciente');
 });
