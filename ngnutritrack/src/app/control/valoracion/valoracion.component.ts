@@ -228,7 +228,7 @@ export class ValoracionComponent implements OnInit {
 				this.setInfoInit();
 				this.loading_data_form	=	false;
 				this.getHistorial();
-				this.getGraphic();
+				/*this.getGraphic();*/
 				setTimeout(() => {
 					      this.allowCalculate	=	true;
 					    }, 500);
@@ -344,6 +344,17 @@ export class ValoracionComponent implements OnInit {
 		this.tagBody.classList.add('grafico-selected-imc');
 	}
 
+	graficar(){
+		console.log('graficando');
+		this.formControlDataService.addValoracionAntropometrica(this.valoracion)
+		.subscribe(
+			 response  => {
+						this.cleanGraficoChildren();
+						this.getGraphic();
+					},
+			error =>  console.log(<any>error)
+		);
+	}
 	getGraphic(){
 		var data		=	Object();
 		data.method		=	this.valoracion.metodo_valoracion;
@@ -1238,12 +1249,48 @@ for(var indicador in response) {
 	
 	graficoxSelected(header, event){console.log(header);
 		try {
+			this.cleanGraficoChildren();
+/*
+				this.tagBody.classList.remove('grafico-by-selected-estatura-edad');
+				this.tagBody.classList.remove('grafico-by-selected-imc-edad');
+				this.tagBody.classList.remove('grafico-by-selected-peso-edad');
+				this.tagBody.classList.remove('grafico-by-selected-estatura-peso');
+*/
+				this.tagBody.classList.add('grafico-by-selected-' + header.id + '');
+/*
+				if(document.getElementById('container_estatura-edad') !== null)
+					document.getElementById('container_estatura-edad').className = '';;
+				if(document.getElementById('container_imc-edad') !== null)
+					document.getElementById('container_imc-edad').className = '';;
+				if(document.getElementById('container_peso-edad') !== null)
+					document.getElementById('container_peso-edad').className = '';;
+				if(document.getElementById('container_estatura-peso') !== null)
+					document.getElementById('container_estatura-peso').className = '';;
+				if(document.getElementById('estatura-edad') !== null)
+					document.getElementById('estatura-edad').className = '';
+				if(document.getElementById('imc-edad') !== null)
+					document.getElementById('imc-edad').className = '';
+				if(document.getElementById('peso-edad') !== null)
+					document.getElementById('peso-edad').className = '';
+				if(document.getElementById('estatura-peso') !== null)
+					document.getElementById('estatura-peso').className = '';
+*/
+				document.getElementById(header.id).className = 'active';
+				document.getElementById('container_' + header.id).className = 'active';
+		}
+		catch(err) {
+				console.log( err.message );
+		}
+		
+	}
+	cleanGraficoChildren(){
+		try {
 				this.tagBody.classList.remove('grafico-by-selected-estatura-edad');
 				this.tagBody.classList.remove('grafico-by-selected-imc-edad');
 				this.tagBody.classList.remove('grafico-by-selected-peso-edad');
 				this.tagBody.classList.remove('grafico-by-selected-estatura-peso');
 				
-				this.tagBody.classList.add('grafico-by-selected-' + header.id + '');
+				/*this.tagBody.classList.add('grafico-by-selected-' + header.id + '');*/
 
 				if(document.getElementById('container_estatura-edad') !== null)
 					document.getElementById('container_estatura-edad').className = '';;
@@ -1261,15 +1308,11 @@ for(var indicador in response) {
 				if(document.getElementById('peso-edad') !== null)
 					document.getElementById('peso-edad').className = '';
 				if(document.getElementById('estatura-peso') !== null)
-					document.getElementById('estatura-peso').className = '';
-				/*(<HTMLInputElement>event.target).parentElement.className='active';*/
-				document.getElementById(header.id).className = 'active';
-				document.getElementById('container_' + header.id).className = 'active';
+					document.getElementById('estatura-peso').className = '';				
 		}
 		catch(err) {
 				console.log( err.message );
 		}
-		
 	}
 	graficoSelected(header){
 		this.tagBody.classList.remove('grafico-selected-imc');
