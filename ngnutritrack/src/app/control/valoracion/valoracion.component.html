@@ -320,83 +320,79 @@
 					</div>
 				</div>
 			</div>
-<div class="row">
-			<div class="col-sm-6 with-icon estatura">
-				<div class="form-group with-icon estatura">
-					<label class="col-form-label" for="estatura">Estatura</label>
-					<input 
-						id="estatura" 
-						name="estatura" 
-						type="text" 
-						class="form-control" 
-						placeholder="En metros" 
-						maxlength="5" 
-						(keypress)="helpers.soloNumeros($event)"
-						[(ngModel)]="valoracion.estatura"
-						required
-						>
-					<i></i>
-					<span *ngIf="mostrarErrorEstatura" class="error">Dato Requerido</span>
+			<div class="row">
+				<div class="col-sm-6 with-icon estatura">
+					<div class="form-group with-icon estatura">
+						<label class="col-form-label" for="estatura">Estatura</label>
+						<input 
+							id="estatura" 
+							name="estatura" 
+							type="text" 
+							class="form-control" 
+							placeholder="En metros" 
+							maxlength="5" 
+							(keypress)="helpers.soloNumeros($event)"
+							[(ngModel)]="valoracion.estatura"
+							required
+							>
+						<i></i>
+						<span *ngIf="mostrarErrorEstatura" class="error">Dato Requerido</span>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group with-icon peso">
+						<label class="col-form-label" for="peso">Peso</label>
+						<input 
+							id="peso" 
+							name="peso" 
+							type="text"
+							class="form-control" 
+							placeholder="Kilogramos" 
+							maxlength="5" 
+							(keypress)="helpers.soloNumeros($event)"
+							[(ngModel)]="valoracion.peso"
+							required
+							>
+						<i></i>
+						<span *ngIf="mostrarErrorPeso" class="error required">Dato Requerido</span>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
-				<div class="form-group with-icon peso">
-					<label class="col-form-label" for="peso">Peso</label>
-					<input 
-						id="peso" 
-						name="peso" 
-						type="text"
-						class="form-control" 
-						placeholder="Kilogramos" 
-						maxlength="5" 
-						(keypress)="helpers.soloNumeros($event)"
-						[(ngModel)]="valoracion.peso"
-						required
-						>
-					<i></i>
-					<span *ngIf="mostrarErrorPeso" class="error required">Dato Requerido</span>
-				</div>
+			<div class="buttons">
+				<button 
+					href="javascript:void()" 
+					(click)="graficar()" 
+					class="btn btn-default"
+					[disabled]="!valoracion.peso || !valoracion.estatura"
+					>Graficar</button>
 			</div>
-</div>
-<div class="buttons">
-	<button 
-		href="javascript:void()" 
-		(click)="graficar()" 
-		class="btn btn-default"
-		[disabled]="!valoracion.peso || !valoracion.estatura"
-		>Graficar</button>
-</div>
-<nav class="clearfix">
-	<ul class="nav navbar-nav menu grafico by-indicator">
-		<li *ngFor="let header_x of graficos_by_x_H">
-			<a id="{{header_x.id}}" class="{{header_x.class}}" href="javascript:void(0)" (click)="graficoxSelected(header_x, $event)">
-				<span>{{header_x.nombre}}	</span>
-			</a>
-		</li>
-	</ul>
-</nav>
-	
-<div id="container-children-graphics">
-
-	
-
-<ng-template [ngIf]="graficos_by_x" [ngIfElse]="loading">
-<div class="esc-grafico-by-indicator">
-	<ng-template ngFor let-grafico_by_x [ngForOf]= "graficos_by_x">
-		<div id="{{grafico_by_x.key}}" class="{{grafico_by_x.class}}">
-			<line-chart 
-				[data]="grafico_by_x.data" 
-				[config]="grafico_by_x.config" 
-				[elementId]="grafico_by_x.elementId"
-			></line-chart>
-		</div>
-	</ng-template>
-	<ng-template #loading>
-		processing...
-	</ng-template>
-</div>
-</ng-template>
-</div>
+			<nav class="clearfix">
+				<ul class="nav navbar-nav menu grafico by-indicator">
+					<li *ngFor="let header_x of graficos_by_x_H">
+						<a id="{{header_x.id}}" class="{{header_x.class}}" href="javascript:void(0)" (click)="graficoxSelected(header_x, $event)">
+							<span>{{header_x.nombre}}	</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<div id="container_children_graphics">
+				<ng-template [ngIf]="graficos_by_x" [ngIfElse]="loading">
+				<div class="esc-grafico-by-indicator">
+					<ng-template ngFor let-grafico_by_x [ngForOf]= "graficos_by_x">
+						<div id="{{grafico_by_x.key}}" class="{{grafico_by_x.class}}">
+							<line-chart 
+								[data]="grafico_by_x.data" 
+								[config]="grafico_by_x.config" 
+								[elementId]="grafico_by_x.elementId"
+							></line-chart>
+						</div>
+					</ng-template>
+					<ng-template #loading>
+						processing...
+					</ng-template>
+				</div>
+				</ng-template>
+			</div>
 </ng-template>	
 			</section>
 
