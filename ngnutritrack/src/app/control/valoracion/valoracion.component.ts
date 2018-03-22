@@ -139,6 +139,8 @@ export class ValoracionComponent implements OnInit {
 		this.countPendientes	=	0;
 		this.btnNavigation_pressed	=	false;
 		this.graficando				=	false;
+		this.getWidthContainerChildrenGraph();
+		
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
@@ -243,7 +245,7 @@ export class ValoracionComponent implements OnInit {
 				this.setInfoInit();
 				this.loading_data_form	=	false;
 				this.getHistorial();
-				/*this.getGraphic();*/
+				this.graficarInit();
 				setTimeout(() => {
 					      this.allowCalculate	=	true;
 					    }, 500);
@@ -360,17 +362,47 @@ export class ValoracionComponent implements OnInit {
 	}
 	getWidthContainerChildrenGraph(){
 		try {
-			this.parentWidth	=	document.getElementById('container-children-graphics').offsetWidth;
+			this.parentWidth	=	document.getElementById('container_children_graphics').offsetWidth;
 			console.log('this.parentWidth-> ' +  this.parentWidth );
 		}
 		catch(err) {
 				console.log( err.message );
 		}
 	}
+	puedeGraficar(){
+		if(this.graficando)
+			return false;
+		
+		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
+				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
+				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
+				this.graficando				=	false;
+			return false;
+		}
+		return true;
+	}
+	graficarInit(){
+		/*if(this.graficando)
+			return ;
+		
+		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
+				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
+				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
+				this.graficando				=	false;
+			return ;
+		}*/
+		if(!this.puedeGraficar())
+			return ;
+		this.graficando	=	true;
+		console.log('graficando');
+		/*this.getWidthContainerChildrenGraph();*/
+		this.cleanGraficoChildren();
+		this.getGraphic();
+	}
 	graficar(){
 		if(this.graficando)
 			return ;
-		this.getWidthContainerChildrenGraph();
+		
 		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
 				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
 				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
@@ -379,6 +411,7 @@ export class ValoracionComponent implements OnInit {
 		}
 		this.graficando	=	true;
 		console.log('graficando');
+		/*this.getWidthContainerChildrenGraph();*/
 		this.formControlDataService.addValoracionAntropometrica(this.valoracion)
 		.subscribe(
 			 response  => {
@@ -505,7 +538,7 @@ for(var indicador in response) {
 		var _max_vAxis:number;
 		var _round_paciente_printed	=	false;
 		
-
+this.getWidthContainerChildrenGraph();
 		for(var indicador in aChartData) {
 			chartData	=	JSON.parse(aChartData[indicador])
 			
