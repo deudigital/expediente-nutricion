@@ -104,8 +104,10 @@ export class ValoracionComponent implements OnInit {
 	esMenor:boolean;
 	displayOms:boolean;
 	
+	graficando:boolean;
 	mostrarErrorEstatura:boolean;
 	mostrarErrorPeso:boolean;
+	parentWidth:Number;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
@@ -123,6 +125,12 @@ export class ValoracionComponent implements OnInit {
 		this.mostrarErrorPeso		=	false;
 	
 		this.getDatosDeConsulta(this.model.consulta.id);
+		
+		/*this.getWidthContainerChildrenGraph();*/
+		window.onresize = ( e ) => {
+			this.getWidthContainerChildrenGraph();
+			this.graficar();
+		}
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -130,7 +138,7 @@ export class ValoracionComponent implements OnInit {
 		this.aPendientess		=	[];*/
 		this.countPendientes	=	0;
 		this.btnNavigation_pressed	=	false;
-		
+		this.graficando				=	false;
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
@@ -350,13 +358,26 @@ export class ValoracionComponent implements OnInit {
 		this.graficos	=	items;
 		this.tagBody.classList.add('grafico-selected-imc');
 	}
-
+	getWidthContainerChildrenGraph(){
+		try {
+			this.parentWidth	=	document.getElementById('container-children-graphics').offsetWidth;
+			console.log('this.parentWidth-> ' +  this.parentWidth );
+		}
+		catch(err) {
+				console.log( err.message );
+		}
+	}
 	graficar(){
+		if(this.graficando)
+			return ;
+		this.getWidthContainerChildrenGraph();
 		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
 				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
-				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;		
+				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
+				this.graficando				=	false;
 			return ;
 		}
+		this.graficando	=	true;
 		console.log('graficando');
 		this.formControlDataService.addValoracionAntropometrica(this.valoracion)
 		.subscribe(
@@ -384,6 +405,7 @@ export class ValoracionComponent implements OnInit {
 			 response  => {
 						/*console.log(response);*/
 						this.processGraphic(response);
+						this.graficando	=	false;
 /*
 for(var indicador in response) {
 	console.log('indicador');
@@ -537,7 +559,7 @@ for(var indicador in response) {
 						break;
 				}
 				headerGraficos.push({'id': indicador, 'nombre':graph_title, 'class': 'grafico-' + indicador + (indicador=='estatura-edad'? ' active':'')})		
-
+				graph_title	=	'';
 				_row_first		=	chartData[0];
 				_row_first_keys	=	Object.keys(_row_first);
 				_row_first_fk	=	_row_first_keys[0];/*	X, Age	*/
@@ -1215,7 +1237,8 @@ for(var indicador in response) {
 	}
 	getOptionsGraphChildren(graph_title, x, y, x_label, y_label, _min_hAxis, _max_hAxis, _hAxis_value, _min_vAxis, _max_vAxis, _vAxis_value){
 		var options = {
-			height:350,
+			width:this.parentWidth,
+			/*height:500,*/
 			title: graph_title,
 			animation: {
 				duration: 1000,

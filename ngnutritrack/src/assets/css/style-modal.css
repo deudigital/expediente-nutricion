@@ -137,7 +137,7 @@ body.grafico-by-selected-estatura-edad .active > span{background-color: #8bc23f;
 .esc-grafico-by-indicator{position: relative;}
 .esc-grafico-by-indicator:before{position: absolute;content: "procesando...";top: 49%;text-align: center;width: 100%;}
 
-.esc-grafico-by-indicator rect{fill:#f3f3f3;}
+.esc-grafico-by-indicator rect:first-of-type{fill:#f3f3f3;}
 
 .grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
 .grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
