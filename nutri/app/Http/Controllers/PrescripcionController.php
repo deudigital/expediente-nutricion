@@ -93,7 +93,7 @@ class PrescripcionController extends Controller
 			->get();
 
 		if(count($prescripcions)>0){
-			$registros['prescripcions']	=	$prescripcions;
+			/*$registros['prescripcions']	=	$prescripcions;*/
 			foreach($prescripcions as $prescripcion){
 			
 				$detalle_prescripcion	=	DB::table('detalle_prescripcion')

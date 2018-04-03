@@ -388,6 +388,8 @@ export class Persona{
 	ubicacion_id:number=1;
 	
 	edad:number=0;
+	edad_dias:number=0;
+	edad_meses:number=0;
 	esMayor:boolean=true;
 	
 	setEdad(){
@@ -403,17 +405,41 @@ export class Persona{
 		this.edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);		
 		this.esMayor	=	this.edad>17;	
 		
-/*
-		this.fecha_nac	=	this.fecha_nac.date.day + '/' + this.fecha_nac.date.month + '/' + this.fecha_nac.date.year;;
-		var fecha	=	new Date(this.fecha_nac.date.year, this.fecha_nac.date.month, this.fecha_nac.date.day).getTime();
-		var timeDiff = Math.abs(Date.now() - fecha);
-		var edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);		
-		this.paciente.esMayor	=	edad>17;	
-*/
+		var edadPaciente:number		=	Number(this.edad);
+		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
+		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
+//console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);		
+		if(this.fecha_nac){
+			var current_fecha = this.fecha_nac.split('/');
+			console.log(current_fecha);
+			var year	=	Number(current_fecha[2]);
+			var month	=	Number(current_fecha[1]);
+			var day		=	Number(current_fecha[0]);			
+			console.log('-------------------------');
+				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
+				var fechaFin    = new Date().getTime();
+				console.log(fechaFin + ' - ' + fechaInicio);
+				var diff = fechaFin - fechaInicio;
+				console.log('diff->' + diff);
+				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
+				console.log( 'edadPaciente_dias:' + edadPaciente_dias );
+				/*edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );*/
+				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
+				edadPaciente_meses	=	_anhos * 12;
+				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
+				if(_anhos>30)
+					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
+
+				console.log( 'edadPaciente_meses:' + edadPaciente_meses );
+			console.log('-------------------------');
+		}
+		this.edad_dias	=	edadPaciente_dias;
+		this.edad_meses	=	edadPaciente_meses;
 	}
 	getEdad(){
 		return this.edad;
 	}
+
 }
 export class Paciente extends Persona{
 	id:number=0;

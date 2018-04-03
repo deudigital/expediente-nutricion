@@ -59,12 +59,15 @@ export class RecomendacionComponent implements OnInit {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.esAdulto	=	this.paciente.edad>20;
 		this.esMenor	=	!this.esAdulto;
-		
+		console.log(this.recomendacion.metodo_calculo_gc);
 		this.displaySchofield	=	(this.paciente.edad>2) && (this.paciente.edad<19);
 		this.displayBenedict	=	(this.paciente.edad>9);
 		this.displayRDA			=	(this.paciente.edad<19);
 		this.displayFactor		=	this.recomendacion.metodo_calculo_gc!='rda';
+		if(this.displayBenedict && !this.displaySchofield && !this.displayRDA)
+			this.recomendacion.metodo_calculo_gc	=	'benedict-child';
 		
+		console.log(this.recomendacion.metodo_calculo_gc);
 		
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
 		/*console.log(this.habitosEjercicios);*/
@@ -331,6 +334,7 @@ export class RecomendacionComponent implements OnInit {
 */		
 		var result	=	0;
 		switch(this.recomendacion.metodo_calculo_gc){
+			case 'benedict-child':
 			case 'benedict':
 				result	=	this.tmbBenedict()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
 				break;
@@ -339,6 +343,13 @@ export class RecomendacionComponent implements OnInit {
 				break;
 			case 'promedio':
 				result	=	this.tmbPromedio()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				break;
+			case 'rda':
+				this.recomendacion.factor_actividad_sedentaria	=	0;
+				result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				break;
+			case 'schofield':
+				result	=	this.tmbSchofield()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
 				break;
 			default:
 				result	=	0;
@@ -513,9 +524,90 @@ export class RecomendacionComponent implements OnInit {
 		return result;
 			
 	}
+	tmbRda(){
+		var value	=	0;
+
+/* 
+Infantes	0 - 0.5	108
+			0.5 - 1	98
+Niños		1 - 3	102
+			4 - 6	90
+			7 - 10	70
+Hombres		11 - 14	55
+			15 -18	45
+Mujeres		11 - 14	47
+			15 -18	40
+*/
+		if(this.paciente.edad>1){
+			if(this.paciente.edad<11){
+				value	=	70;
+				if(this.paciente.edad<4)
+					value	=	102;
+				else{
+					if(this.paciente.edad<7)
+						value	=	90;					
+				}
+			}else{
+				if(this.paciente.edad<15){
+					value	=	55;
+					if(this.paciente.genero=='F')
+						value	=	47;
+				}else{
+					value	=	45;
+					if(this.paciente.genero=='F')
+						value	=	40;
+				}
+			}
+		}else{
+			value	=	108;
+			if(this.paciente.edad_meses >6)
+				value	=	98;
+		}
+		
+		
+		return value;
+	}
+	tmbSchofield(){
+		var value	=	0;
+		this.current_peso	=	0;
+		switch(this.recomendacion.peso_calculo){
+			case 'actual':
+				this.current_peso	=	this.va.peso;
+				break;
+			case 'ideal':
+				this.current_peso	=	this.va.pesoIdeal;
+				break;
+			case 'ideal-ajustado':
+				this.current_peso	=	this.va.pesoIdealAjustado;
+				break;
+		}
+/*
+		Edad	Formula
+Hombres	3-10	(19.6 x Peso) + (130.3 x Estatura) + 414.9
+		10-18	(16.25 x Peso) + (137.2 x Estatura) + 515.5
+
+Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
+		10-18	(19.6 x Peso) + (130.3 x Estatura) + 414.12
+*/
+		//var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.paciente.edad)+variable_msj;
+		if(this.paciente.edad<11){
+			if(this.paciente.genero=='M')
+				value	=	(19.6*this.current_peso) + (130.3*this.va.estatura) + 414.9;
+			else
+				value	=	(8.365*this.current_peso) + (130.3*this.va.estatura) + 414.11;
+		}else{
+			if(this.paciente.genero=='M')
+				value	=	(16.25*this.current_peso) + (137.2*this.va.estatura) + 515.5;
+			else
+				value	=	(19.6*this.current_peso) + (130.3 *this.va.estatura) + 414.12;
+			
+		}		
+		return value;
+	}
 	get tasa_basal(){
 		var result	=	0;
 		switch(this.recomendacion.metodo_calculo_gc){
+			case 'benedict-child':
 			case 'benedict':
 				result	=	this.tmbBenedict();
 				break;
@@ -524,6 +616,12 @@ export class RecomendacionComponent implements OnInit {
 				break;
 			case 'promedio':
 				result	=	this.tmbPromedio();
+				break;
+			case 'rda':
+				result	=	this.tmbRda();
+				break;
+			case 'schofield':
+				result	=	this.tmbSchofield();
 				break;
 			default:
 				result	=	0;
