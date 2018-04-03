@@ -47,7 +47,8 @@
 .sumatoria-distribucion::after {content: "%";position: absolute;}
 .awaiting-delivery{pointer-events: none;opacity:0.5}
 .np{padding:0 !important}
-
+.listado.pacientes > .row > div{padding-bottom: 0;}
+.mydp table.header {height: 30px !important;}
 @media(min-width:768px){
 	.buttons-navigation {padding: 0 5%;}
 	.percentiles [class*="col-"] {width: 19%;padding: 0;}

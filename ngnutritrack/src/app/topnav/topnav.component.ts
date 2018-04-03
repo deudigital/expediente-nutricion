@@ -18,10 +18,13 @@ export class TopnavComponent implements OnInit {
 	showTitle:boolean;
 	agregadoAPI:number;
 	
+	toggle:boolean;
+	
 	constructor( private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.items	=	this.model.getManejadorDatos();
 		this.displayTitle();
+		this.toggle	=	false;
 	}		
 	ngOnInit() {
 		this.agregadoAPI = parseInt(localStorage.getItem("agregadoAPI"));
@@ -31,6 +34,9 @@ export class TopnavComponent implements OnInit {
 				this.title_control	=	this.model.getFormPaciente().nombre;
 			  }, 1000); 
 		}
+	}
+	toggle_menu(){
+		this.toggle	=	!this.toggle;
 	}
 	displayTitle(){
 		//console.log(this.router.url);
