@@ -192,6 +192,13 @@
 .analisis .box.peso-meta-maximo i {background-position: -191px -374px;width: 63px;height: 70px;}
 .analisis .box.peso-meta-minimo i {background-position: -268px -374px;width: 64px;height: 70px;}
 
+/**/
+.analisis .box.estatura-ideal i {background-position: -526px -758px;height: 46px;width: 44px;margin-top:14px;}
+.analisis .box.indicador-estatura-para-edad i {background-position: -374px -836px;height: 58px;width: 63px;}
+.analisis .box.indicador-peso-para-edad i {background-position: -454px -836px;height: 57px;width: 62px;}
+.analisis .box.indicador-peso-para-estatura i {background-position: -256px -919px;height: 58px;width: 68px;}
+
+
 .add-item {color: #000;font-weight: 500;}
 .add-item:active,
 .add-item:focus,
