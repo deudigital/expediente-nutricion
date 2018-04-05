@@ -174,23 +174,28 @@ porciones	5
 				$items	=	[];
 				$leches	=	0;
 				$carnes	=	0;
-				foreach($detalle_prescripcion as $item){
-					
-					if( in_array( $item->grupo_alimento_nutricionista_id, array(1,2.3, 7,8,9) ) ){
+				foreach($detalle_prescripcion as $item){					
+					if( in_array( $item->grupo_alimento_nutricionista_id, array( 1,2,3,7,8,9) ) ){
 						if( in_array( $item->grupo_alimento_nutricionista_id, array(1,2.3) ) )
 							$leches	+=	$item->porciones;
 						else
 							$carnes	+=	$item->porciones;
-					}
-						$row['grupo_alimento_id']	=	$item->grupo_alimento_nutricionista_id;
+					}else{
+						/*$row['grupo_alimento_id']	=	$item->grupo_alimento_nutricionista_id;*/
 						$row['nombre']				=	$item->nombre;
 						$row['porciones']			=	$item->porciones;
 						$items[]					=	$row;
-					
-					$items[]			=	$item;
+					}
+						/*$items[]					=	$item;*/
 				}
-				$prescripcion->leches	=	$leches;
-				$prescripcion->carnes	=	$carnes;
+				/*$prescripcion->leches	=	$leches;
+				$prescripcion->carnes	=	$carnes;*/
+				$row['nombre']			=	'Lacteos';
+				$row['porciones']		=	$leches;
+				$items[]				=	$row;
+				$row['nombre']			=	'Carnes';
+				$row['porciones']		=	$carnes;
+				$items[]				=	$row;
 				$prescripcion->items	=	$items;
 			}
 			$registros[]	=	$prescripcion;
