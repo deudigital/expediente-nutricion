@@ -69,6 +69,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 
 	Route::resource('dietas', 'DietaController');
 	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
+	Route::get('consultas/prescripcion/paciente/{id}', 'PrescripcionController@lastBelongsToPaciente');
 	Route::post('consultas/prescripcion', 'PrescripcionController@store');
 	Route::post('consultas/otros', 'OtrosAlimentoController@store');
 	Route::post('consultas/otrosmultiple', 'OtrosAlimentoController@storemultiple');
