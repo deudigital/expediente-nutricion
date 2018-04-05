@@ -152,15 +152,6 @@ porciones	5
     }
 	public function lastBelongsToPaciente($id)
     {
-		/*$registros = DB::table('detalle_prescripcion')
-            ->join('prescripcions', 'prescripcions.id', '=', 'detalle_prescripcion.prescripcion_id')
-            ->join('consultas', 'consultas.id', '=', 'prescripcions.consulta_id')
-            ->where('consultas.paciente_id', $id)
-            ->where('consultas.estado', 1)
-            ->select('prescripcions.id', 'consultas.fecha', 'prescripcions.carbohidratos', 'prescripcions.proteinas', 'prescripcions.grasas', 'detalle_prescripcion.*')
-			->orderBy('consultas.fecha', 'DESC')
-			->get();
-		*/
 		$registros = [];
 		$prescripcions = DB::table('prescripcions')
             ->join('consultas', 'consultas.id', '=', 'prescripcions.consulta_id')
@@ -170,37 +161,41 @@ porciones	5
 			->orderBy('consultas.fecha', 'DESC')
 			->get()
 			->first();
-		
-
 
 		if(count($prescripcions)>0){
 			$prescripcion	=	$prescripcions;
-/*			foreach($prescripcions as $prescripcion){*/
-			
-				$detalle_prescripcion	=	DB::table('detalle_prescripcion')
-												->join('prescripcions', 'prescripcions.id', '=', 'detalle_prescripcion.prescripcion_id')
-												->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
-												->where('prescripcions.id', $prescripcion->id)
-												->get();				
+			$detalle_prescripcion	=	DB::table('detalle_prescripcion')
+											->join('prescripcions', 'prescripcions.id', '=', 'detalle_prescripcion.prescripcion_id')
+											->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+											->where('prescripcions.id', $prescripcion->id)
+											->get();
+
+			if(count($detalle_prescripcion)>0){
+				$items	=	[];
+				$leches	=	0;
+				$carnes	=	0;
+				foreach($detalle_prescripcion as $item){
 					
-				if(count($detalle_prescripcion)>0){
-					$items	=	[];
-/*
-					for($i=0;$i<13;$i++)
-						$items[]	=	'';*/
-					foreach($detalle_prescripcion as $item){
-						$row['grupo_alimento_id']	=	$item->grupo_alimento_nutricionista_id;
-						$row['nombre']	=	$item->nombre;
-						$row['porciones']	=	$item->porciones;
-						$items[]	=	$row;
+					if( in_array( $item->grupo_alimento_nutricionista_id, array(1,2.3, 7,8,9) ) ){
+						if( in_array( $item->grupo_alimento_nutricionista_id, array(1,2.3) ) )
+							$leches	+=	$item->porciones;
+						else
+							$carnes	+=	$item->porciones;
 					}
-					$prescripcion->items	=	$items;
+						$row['grupo_alimento_id']	=	$item->grupo_alimento_nutricionista_id;
+						$row['nombre']				=	$item->nombre;
+						$row['porciones']			=	$item->porciones;
+						$items[]					=	$row;
+					
+					$items[]			=	$item;
 				}
-				$registros[]	=	$prescripcion;
-			/*}*/
+				$prescripcion->leches	=	$leches;
+				$prescripcion->carnes	=	$carnes;
+				$prescripcion->items	=	$items;
+			}
+			$registros[]	=	$prescripcion;
 		}
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
-	
 }
