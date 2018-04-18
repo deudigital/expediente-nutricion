@@ -315,8 +315,10 @@ export class FormControlData {
 		return this.detalleMusculo;
 	}
 
-	setLastValuesFormValoracionAntropometrica(va){
+	setLastValuesFormValoracionAntropometrica(va){console.log('setLastValuesFormValoracionAntropometrica');console.log(va);
 		this.valoracionAntropometrica.lastEstatura				=	va.estatura;
+		if(va.circunferencia_muneca==null)
+			va.circunferencia_muneca	=	'';
 		this.valoracionAntropometrica.lastCircunferencia_muneca	=	va.circunferencia_muneca;
 	}
 	setPatronMenu(patron_menu){
@@ -411,18 +413,18 @@ export class Persona{
 //console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);		
 		if(this.fecha_nac){
 			var current_fecha = this.fecha_nac.split('/');
-			console.log(current_fecha);
+			/*console.log(current_fecha);*/
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
 			var day		=	Number(current_fecha[0]);			
-			console.log('-------------------------');
+			/*console.log('-------------------------');*/
 				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
 				var fechaFin    = new Date().getTime();
-				console.log(fechaFin + ' - ' + fechaInicio);
+				/*console.log(fechaFin + ' - ' + fechaInicio);*/
 				var diff = fechaFin - fechaInicio;
-				console.log('diff->' + diff);
+				/*console.log('diff->' + diff);*/
 				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
-				console.log( 'edadPaciente_dias:' + edadPaciente_dias );
+				/*console.log( 'edadPaciente_dias:' + edadPaciente_dias );*/
 				/*edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );*/
 				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
 				edadPaciente_meses	=	_anhos * 12;
@@ -430,8 +432,8 @@ export class Persona{
 				if(_anhos>30)
 					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
 
-				console.log( 'edadPaciente_meses:' + edadPaciente_meses );
-			console.log('-------------------------');
+			/*	console.log( 'edadPaciente_meses:' + edadPaciente_meses );
+			console.log('-------------------------');*/
 		}
 		this.edad_dias	=	edadPaciente_dias;
 		this.edad_meses	=	edadPaciente_meses;
@@ -543,6 +545,7 @@ export class ValoracionAntropometrica {
 	
 	metodo_valoracion:string='oms';
 	percentil_analisis:string='50';
+	graficando:boolean=false;
 
 	
 	set(data:ValoracionAntropometrica){
@@ -562,7 +565,7 @@ export class ValoracionAntropometrica {
 		this.consulta_id			= 	data.consulta_id;
 		if(this.id){
 			this.metodo_valoracion		= 	data.metodo_valoracion;
-			console.log('data.percentil_analisis:' + data.percentil_analisis);
+			/*console.log('data.percentil_analisis:' + data.percentil_analisis);*/
 			if(data.percentil_analisis)
 				this.percentil_analisis	=	String(data.percentil_analisis);
 		}

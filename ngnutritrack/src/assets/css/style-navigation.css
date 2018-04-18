@@ -183,3 +183,9 @@ body {
 @media(min-width:768px){
 	body {padding-top:70px;}
 }
+@media(max-width:767px){
+	.content-nav .list-group.menu-datos-paciente {text-align: left;}
+	.content-nav .list-group.menu-datos-paciente > li {display: inline-block;}
+	.content-nav .list-group.menu-datos-paciente > li > a {display: inline-block;}
+	.content-nav .list-group.menu-datos-paciente > li > a > span {position: absolute;overflow: hidden;text-indent: -999px;}
+}

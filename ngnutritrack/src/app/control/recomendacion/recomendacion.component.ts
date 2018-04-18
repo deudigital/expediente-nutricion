@@ -57,6 +57,31 @@ export class RecomendacionComponent implements OnInit {
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
+		
+		if(this.va.metodo_valoracion=='adulto')
+			this.esAdulto	=	true;
+		else
+			this.esAdulto	=	this.paciente.edad>18;/*20;*/
+		
+		if(!this.esAdulto){
+			this.esMenor	=	true;
+			console.log(this.recomendacion.metodo_calculo_gc);
+			this.displaySchofield	=	(this.paciente.edad>2) && (this.paciente.edad<19);
+			this.displayBenedict	=	(this.paciente.edad>9);
+			this.displayRDA			=	(this.paciente.edad<19);
+			this.displayFactor		=	this.recomendacion.metodo_calculo_gc!='rda';
+			if(this.displayBenedict && !this.displaySchofield && !this.displayRDA)
+				this.recomendacion.metodo_calculo_gc	=	'benedict-child';
+			
+			console.log(this.recomendacion.metodo_calculo_gc);
+		}
+		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
+		/*console.log(this.habitosEjercicios);*/
+		this.setGastoCaloricoActividadFisica();
+		this.getHistorial();
+	}
+	ngOnInit__old() {
+		this.tagBody = document.getElementsByTagName('body')[0];
 		this.esAdulto	=	this.paciente.edad>20;
 		this.esMenor	=	!this.esAdulto;
 		console.log(this.recomendacion.metodo_calculo_gc);

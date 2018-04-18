@@ -9,7 +9,7 @@ use DB;
 class ValoracionAntropometricaController extends Controller
 {
     public function store(Request $request)
-    {/*$response	=	Response::json($request->all(), 201);
+    {/*$response	=	Response::json($request->circunferencia_muneca, 201);
 		return $response;*/
 		$consulta_id	=	false;
 		if($request->va)
@@ -51,22 +51,28 @@ class ValoracionAntropometricaController extends Controller
 						->get()
 						->first();
 
+
+		
 		if($va){
 			/*$va->id	=	 1,*/
-			$va->estatura				=	$request->estatura;
-			$va->circunferencia_muneca	=	$request->circunferencia_muneca;
-			$va->peso					=	$request->peso;
-			$va->grasa					=	$request->grasa;
-			$va->musculo				=	$request->musculo;
-			$va->agua					=	$request->agua;
-			$va->grasa_viceral			=	$request->grasa_viceral;
-			$va->hueso					=	$request->hueso;
-			$va->edad_metabolica		=	$request->edad_metabolica;
-			$va->circunferencia_cintura	=	$request->circunferencia_cintura;
-			$va->circunferencia_cadera	=	$request->circunferencia_cadera;
 			
-			$va->metodo_valoracion	=	$request->metodo_valoracion;
-			$va->percentil_analisis	=	$request->percentil_analisis;
+			$va->estatura				=	$request->estatura;
+			$va->peso					=	$request->peso;
+			if(!$va->graficando){
+				$va->circunferencia_muneca	=	$request->circunferencia_muneca;
+				$va->grasa					=	$request->grasa;
+				$va->musculo				=	$request->musculo;
+				$va->agua					=	$request->agua;
+				$va->grasa_viceral			=	$request->grasa_viceral;
+				$va->hueso					=	$request->hueso;
+				$va->edad_metabolica		=	$request->edad_metabolica;
+				$va->circunferencia_cintura	=	$request->circunferencia_cintura;
+				$va->circunferencia_cadera	=	$request->circunferencia_cadera;
+				
+				$va->metodo_valoracion	=	$request->metodo_valoracion;
+				$va->percentil_analisis	=	$request->percentil_analisis;
+			}
+
 			/*"consulta_id": 1*/
 			$va->save();
 		}else{$action	=	'registrado';
@@ -86,7 +92,7 @@ class ValoracionAntropometricaController extends Controller
 							'consulta_id'			=>	$request->consulta_id
 						)
 					);*/
-			$aVa	=	array(
+			/*$aVa	=	array(
 							'estatura'				=>	$request->estatura,
 							'circunferencia_muneca'	=>	$request->circunferencia_muneca,
 							'peso'					=>	$request->peso,
@@ -101,7 +107,49 @@ class ValoracionAntropometricaController extends Controller
 							'metodo_valoracion'		=>	$request->metodo_valoracion,
 							'percentil_analisis'	=>	$request->percentil_analisis,
 							'consulta_id'			=>	$request->consulta_id
-						);
+						);*/
+			
+			$aVa	=	array('consulta_id'	=>	$request->consulta_id);
+
+			if(!empty($request->estatura))
+				$aVa['estatura']			=	$request->estatura;
+
+			if(!empty($request->circunferencia_muneca) && $request->circunferencia_muneca!='null')
+				$aVa['circunferencia_muneca']=	$request->circunferencia_muneca;
+
+			if(!empty($request->peso))
+				$aVa['peso']				=	$request->peso;
+
+			if(!empty($request->grasa))
+				$aVa['grasa']				=	$request->grasa;
+
+			if(!empty($request->musculo))
+				$aVa['musculo']				=	$request->musculo;
+
+			if(!empty($request->agua))
+				$aVa['agua']				=	$request->agua;
+
+			if(!empty($request->grasa_viceral))
+				$aVa['grasa_viceral']		=	$request->grasa_viceral;
+
+			if(!empty($request->hueso))
+				$aVa['hueso']				=	$request->hueso;
+
+			if(!empty($request->edad_metabolica))
+				$aVa['edad_metabolica']		=	$request->edad_metabolica;
+
+			if(!empty($request->circunferencia_cintura))
+				$aVa['circunferencia_cintura']=	$request->circunferencia_cintura;
+
+			if(!empty($request->circunferencia_cadera))
+				$aVa['circunferencia_cadera']=	$request->circunferencia_cadera;
+
+			if(!empty($request->metodo_valoracion))
+				$aVa['metodo_valoracion']	=	$request->metodo_valoracion;
+
+			if(!empty($request->percentil_analisis))
+				$aVa['percentil_analisis']	=	$request->percentil_analisis;
+			
 			$va		=	ValoracionAntropometrica::create($aVa);
 		}
 

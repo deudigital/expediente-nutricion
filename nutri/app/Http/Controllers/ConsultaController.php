@@ -406,7 +406,10 @@ Enviar usuario y contrasena?????? por ahora si...
 										->get()
 										->first();
 		if(count($valoracionAntropometrica)>0){
-			$registros['va']	=	$valoracionAntropometrica->toArray();
+			/*$registros['va']	=	$valoracionAntropometrica->toArray();*/
+			$aVa	=	$valoracionAntropometrica->toArray();
+			$aVa['circunferencia_muneca']	=	intval($aVa['circunferencia_muneca']);
+			$registros['va']	=	$aVa;
 
 			$detalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
 											->get()
@@ -822,7 +825,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 			$item			=	'';
 			$i	=	0;
 			foreach($aValoracionAntropometrica as $key=>$value){
-				if(in_array($key,['id','consulta_id']) || floatval($value)==0)
+				if(in_array($key,['id','consulta_id', 'percentil_analisis']) || floatval($value)==0)
 					continue;
 				/*
 				$key	=	str_replace('_',' ', $key);

@@ -100,13 +100,22 @@ export class ValoracionComponent implements OnInit {
 	loading_data_form:boolean;
 	
 	esAdulto:boolean;
+	displayMethods:boolean;
+	displayGraphicChildren:boolean;
 	displayoptionsForMenor:boolean;
+	displayoptionsForAdulto:boolean;
 	esMenor:boolean;
 	displayOms:boolean;
 	
 	graficando:boolean;
 	mostrarErrorEstatura:boolean;
 	mostrarErrorPeso:boolean;
+
+	showBoxIndicadorImcEdad:boolean;
+	showBoxIndicadorEstaturaEdad:boolean;
+	showBoxIndicadorPesoEdad:boolean;
+	showBoxIndicadorPesoEstatura:boolean;
+	
 	parentWidth:Number;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
@@ -116,13 +125,16 @@ export class ValoracionComponent implements OnInit {
 		this.mng.setMenuPacienteStatus(false);
 		this.nuevaConsulta	=	false;
 		this.disableButtonHistorial	=	true;
-		this.loading_data_form	=	true;
-		this.esAdulto			=	false;
-		this.esMenor			=	false;
-		this.displayoptionsForMenor		=	false;
+		this.loading_data_form		=	true;
+		this.esAdulto				=	false;
+		this.esMenor				=	false;
+		this.displayoptionsForMenor	=	false;
+		this.displayoptionsForAdulto=	false;
+		this.displayMethods			=	false;
+		this.displayGraphicChildren	=	false;
 		
-		this.mostrarErrorEstatura	=	false;
 		this.mostrarErrorPeso		=	false;
+		this.mostrarErrorEstatura	=	false;
 	
 		this.getDatosDeConsulta(this.model.consulta.id);
 		
@@ -134,21 +146,44 @@ export class ValoracionComponent implements OnInit {
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
-		/*this.aPendientes		=	[];
-		this.aPendientess		=	[];*/
 		this.countPendientes	=	0;
 		this.btnNavigation_pressed	=	false;
 		this.graficando				=	false;
 		this.getWidthContainerChildrenGraph();
-		
+		this.showBoxIndicadorEstaturaEdad	=	false;
+		this.showBoxIndicadorPesoEdad		=	false;
+		this.showBoxIndicadorPesoEstatura	=	false;
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
 	}
+	displayErrorPesoEstatura(){
+		if(!this.displayGraphicChildren)
+			return ;
+		
+		console.log('displayErrorPesoEstatura');
+		console.log('mostrarErrorPeso->' + (this.valoracion.peso.length==0));
+		console.log('mostrarErrorEstatura->' + (this.valoracion.estatura.length==0));
+		
+		this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
+		this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
+		
+	}
 	changeMethod(){
 		this.esAdulto	=	this.valoracion.metodo_valoracion=='adulto';
 		this.esMenor	=	!this.esAdulto;
+		this.displayoptionsForAdulto	=	this.esAdulto;
+		console.log(this.esAdulto);
+		
+		var valorarAdulto	=	this.valoracion.metodo_valoracion=='adulto';
+
+			/*this.displayMethods				=	this.esMenor;*/
+			this.displayoptionsForAdulto	=	valorarAdulto;
+			this.displayGraphicChildren		=	!valorarAdulto;				
+
+		
+		
 	}
 	setInfoInit(){
 /*		this.oValoracion.estatura				=	Number(this.valoracion.estatura);
@@ -191,7 +226,7 @@ export class ValoracionComponent implements OnInit {
 		if(!this.valoracion.id && this.countPendientes>0){
 			return true;
 		}
-		console.log(Number(this.oValoracion.estatura) + '!==' + Number(this.valoracion.estatura));
+		/*console.log(Number(this.oValoracion.estatura) + '!==' + Number(this.valoracion.estatura));
 		console.log(Number(this.oValoracion.circunferencia_muneca) + '!==' + Number(this.valoracion.circunferencia_muneca));
 		console.log(Number(this.oValoracion.peso)	 + '!==' + Number(this.valoracion.peso));
 		console.log(Number(this.oValoracion.grasa)	 + '!==' + Number(this.valoracion.grasa));
@@ -203,7 +238,7 @@ export class ValoracionComponent implements OnInit {
 		console.log(Number(this.oValoracion.circunferencia_cintura) + '!==' + Number(this.valoracion.circunferencia_cintura));
 		console.log(Number(this.oValoracion.circunferencia_cadera) + '!==' + Number(this.valoracion.circunferencia_cadera));
 		console.log(String(this.oValoracion.metodo_valoracion) + '!==' + String(this.valoracion.metodo_valoracion));
-		console.log(Number(this.oValoracion.percentil_analisis) + '!==' + Number(this.valoracion.percentil_analisis));
+		console.log(Number(this.oValoracion.percentil_analisis) + '!==' + Number(this.valoracion.percentil_analisis));*/
 		return 	(
 			Number(this.oValoracion.estatura)				!==	Number(this.valoracion.estatura) || 
 			Number(this.oValoracion.circunferencia_muneca)	!==	Number(this.valoracion.circunferencia_muneca) || 
@@ -232,9 +267,19 @@ export class ValoracionComponent implements OnInit {
 				this.detalleMusculo	=	this.model.getFormDetalleMusculo();
 				this.grasa			=	this.model.getFormDetalleGrasa();
 				this.paciente		=	this.model.getFormPaciente();
+				console.log('getDatosDeConsulta');
 				console.log(this.valoracion);
 				this.esAdulto	=	this.paciente.edad>20;
 				this.esMenor	=	!this.esAdulto;
+				
+				this.displayMethods				=	this.esMenor;
+				
+				if(this.paciente.edad>18)
+					this.valoracion.metodo_valoracion	=	'adulto';
+
+				this.displayoptionsForAdulto	=	this.valoracion.metodo_valoracion=='adulto' || this.esAdulto;
+				this.displayGraphicChildren		=	this.esMenor && !this.displayoptionsForAdulto;
+				
 				if(this.esMenor){
 					this.displayoptionsForMenor	=	true;
 				
@@ -363,7 +408,7 @@ export class ValoracionComponent implements OnInit {
 	getWidthContainerChildrenGraph(){
 		try {
 			this.parentWidth	=	document.getElementById('container_children_graphics').offsetWidth;
-			console.log('this.parentWidth-> ' +  this.parentWidth );
+			/*console.log('this.parentWidth-> ' +  this.parentWidth );*/
 		}
 		catch(err) {
 				console.log( err.message );
@@ -374,8 +419,7 @@ export class ValoracionComponent implements OnInit {
 			return false;
 		
 		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
-				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
-				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
+				this.displayErrorPesoEstatura();
 				this.graficando				=	false;
 			return false;
 		}
@@ -402,15 +446,15 @@ export class ValoracionComponent implements OnInit {
 	graficar(){
 		if(this.graficando)
 			return ;
-		
+		this.displayErrorPesoEstatura();
 		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
-				this.mostrarErrorPeso		=	this.valoracion.peso.length==0;
-				this.mostrarErrorEstatura	=	this.valoracion.estatura.length==0;
+				/*this.displayErrorPesoEstatura();*/
 				this.graficando				=	false;
 			return ;
 		}
 		this.graficando	=	true;
 		console.log('graficando');
+		this.valoracion.graficando	=	true;
 		/*this.getWidthContainerChildrenGraph();*/
 		this.formControlDataService.addValoracionAntropometrica(this.valoracion)
 		.subscribe(
@@ -418,7 +462,10 @@ export class ValoracionComponent implements OnInit {
 						this.cleanGraficoChildren();
 						this.getGraphic();
 					},
-			error =>  console.log(<any>error)
+			error =>  {
+					console.log(<any>error)
+					this.graficando	=	false;
+					}
 		);
 	}
 	getGraphic(){
@@ -469,18 +516,18 @@ for(var indicador in response) {
 //console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);		
 		if(this.paciente.fecha_nac){
 			var current_fecha = this.paciente.fecha_nac.split('/');
-			console.log(current_fecha);
+			/*console.log(current_fecha);*/
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
 			var day		=	Number(current_fecha[0]);			
-			console.log('-------------------------');
+			/*console.log('-------------------------');*/
 				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
 				var fechaFin    = new Date().getTime();
-				console.log(fechaFin + ' - ' + fechaInicio);
+				/*console.log(fechaFin + ' - ' + fechaInicio);*/
 				var diff = fechaFin - fechaInicio;
-				console.log('diff->' + diff);
+				/*console.log('diff->' + diff);*/
 				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
-				console.log( 'edadPaciente_dias:' + edadPaciente_dias );
+				/*console.log( 'edadPaciente_dias:' + edadPaciente_dias );*/
 				/*edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );*/
 				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
 				edadPaciente_meses	=	_anhos * 12;
@@ -488,8 +535,8 @@ for(var indicador in response) {
 				if(_anhos>30)
 					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
 
-				console.log( 'edadPaciente_meses:' + edadPaciente_meses );
-			console.log('-------------------------');
+				/*console.log( 'edadPaciente_meses:' + edadPaciente_meses );
+			console.log('-------------------------');*/
 		}
 		
 		
@@ -570,7 +617,8 @@ this.getWidthContainerChildrenGraph();
 							x_label		=	'Edad (Meses)';
 						
 						y_label		=	'Estatura (cm)';
-						graph_title	=	'Edad para Estatura';
+						/*graph_title	=	'Edad para Estatura';*/
+						graph_title	=	'Estatura para Edad';
 						if(this.valoracion.metodo_valoracion=='oms'){
 							if(this.paciente.edad>2)
 								rangoEdad		=	'2-5';
@@ -581,14 +629,16 @@ this.getWidthContainerChildrenGraph();
 						if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 							x_label		=	'Edad (Meses)';
 						y_label		=	'IMC';
-						graph_title	=	'Edad para Imc';
+						/*graph_title	=	'Edad para Imc';*/
+						graph_title	=	'IMC para Edad';
 						break;
 					case 'peso-edad':
 						x_label		=	'Edad (días)';
 						if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
 							x_label		=	'Edad (Meses)';
 						y_label		=	'Peso (Kg)';
-						graph_title	=	'Edad para Peso';				
+						/*graph_title	=	'Edad para Peso';				*/
+						graph_title	=	'Peso para Edad';				
 						break;
 				}
 				headerGraficos.push({'id': indicador, 'nombre':graph_title, 'class': 'grafico-' + indicador + (indicador=='estatura-edad'? ' active':'')})		
@@ -836,7 +886,7 @@ this.getWidthContainerChildrenGraph();
 		var y_label			=	'';
 		var graph_title		=	'';
 		/*alturaPaciente	=	115;pesoPaciente	=	35;edadPaciente	=	2;*/
-		console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);
+		/*console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);*/
 		var _row_first:any;
 		var _row_first_keys:any;
 		var _row_first_fk:any;/*	X, Age	*/
@@ -1318,32 +1368,28 @@ this.getWidthContainerChildrenGraph();
 		try {
 			this.cleanGraficoChildren();
 /*
-				this.tagBody.classList.remove('grafico-by-selected-estatura-edad');
-				this.tagBody.classList.remove('grafico-by-selected-imc-edad');
-				this.tagBody.classList.remove('grafico-by-selected-peso-edad');
-				this.tagBody.classList.remove('grafico-by-selected-estatura-peso');
+			this.tagBody.classList.remove('grafico-by-selected-estatura-edad');
+			this.tagBody.classList.remove('grafico-by-selected-imc-edad');
+			this.tagBody.classList.remove('grafico-by-selected-peso-edad');
+			this.tagBody.classList.remove('grafico-by-selected-estatura-peso');
 */
-				this.tagBody.classList.add('grafico-by-selected-' + header.id + '');
-/*
-				if(document.getElementById('container_estatura-edad') !== null)
-					document.getElementById('container_estatura-edad').className = '';;
-				if(document.getElementById('container_imc-edad') !== null)
-					document.getElementById('container_imc-edad').className = '';;
-				if(document.getElementById('container_peso-edad') !== null)
-					document.getElementById('container_peso-edad').className = '';;
-				if(document.getElementById('container_estatura-peso') !== null)
-					document.getElementById('container_estatura-peso').className = '';;
-				if(document.getElementById('estatura-edad') !== null)
-					document.getElementById('estatura-edad').className = '';
-				if(document.getElementById('imc-edad') !== null)
-					document.getElementById('imc-edad').className = '';
-				if(document.getElementById('peso-edad') !== null)
-					document.getElementById('peso-edad').className = '';
-				if(document.getElementById('estatura-peso') !== null)
-					document.getElementById('estatura-peso').className = '';
-*/
-				document.getElementById(header.id).className = 'active';
-				document.getElementById('container_' + header.id).className = 'active';
+			this.tagBody.classList.add('grafico-by-selected-' + header.id + '');
+			document.getElementById(header.id).className = 'active';
+			document.getElementById('container_' + header.id).className = 'active';
+			this.showBoxIndicadorImcEdad	=	false;
+			this.showBoxIndicadorPesoEdad	=	false;
+			this.showBoxIndicadorPesoEstatura	=	false;
+			switch(header.id){
+				case 'imc-edad':
+					this.showBoxIndicadorImcEdad	=	true;
+					break;
+				case 'peso-edad':
+					this.showBoxIndicadorPesoEdad	=	true;
+					break;
+				case 'estatura-edad':
+					this.showBoxIndicadorPesoEstatura	=	true;
+					break;
+			}
 		}
 		catch(err) {
 				console.log( err.message );
