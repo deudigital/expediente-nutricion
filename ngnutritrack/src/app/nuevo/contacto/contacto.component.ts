@@ -13,8 +13,8 @@ export class ContactoComponent implements OnInit {
 	helpers:any;
 
 	fcData:any;
-	paciente=new Paciente();
-	oPaciente=new Paciente();
+	paciente:any;
+	oPaciente:any;
 	esMenor:boolean=false;	
 	projects:{ [id: string]: any; } = {}; 
 	st_option:{ [id: string]: any; } = {}; 
@@ -115,7 +115,8 @@ export class ContactoComponent implements OnInit {
 	selectBarrios(event:Event):void {console.log('selectBarrios de Distrito->' + this.distrito);
 		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 	}
-	setInfoInit(){
+	setInfoInit(){console.log(this.paciente);
+		this.oPaciente	=	new Paciente();
 		this.oPaciente.telefono				=	this.paciente.telefono;
 		this.oPaciente.celular				=	this.paciente.celular;
 		this.oPaciente.email				=	this.paciente.email;
@@ -129,6 +130,17 @@ export class ContactoComponent implements OnInit {
 	}
 	
 	infoEdited(){
+		console.log('telefono: ' + this.oPaciente.telefono + '!==' + this.paciente.telefono);
+		console.log('celular: ' + this.oPaciente.celular + '!==' + this.paciente.celular);
+		console.log('email: ' + this.oPaciente.email + '!==' + this.paciente.email);
+		console.log('provincia: ' + this.oPaciente.provincia + '!==' + this.paciente.provincia);
+		console.log('canton: ' + this.oPaciente.canton + '!==' + this.paciente.canton);
+		console.log('distrito: ' + this.oPaciente.distrito + '!==' + this.paciente.distrito);
+		console.log('provincia: ' + this.oPaciente.provincia + '!==' + this.paciente.provincia);
+		console.log('detalles_direccion: ' + this.oPaciente.detalles_direccion + '!==' + this.paciente.detalles_direccion);
+		console.log('responsable_telefono: ' + this.oPaciente.responsable_telefono + '!==' + this.paciente.responsable_telefono);
+		console.log('responsable_email: ' + this.oPaciente.responsable_email + '!==' + this.paciente.responsable_email);
+		console.log('ubicacion_id: ' + this.oPaciente.ubicacion_id + '!==' + this.paciente.ubicacion_id);
 		return 	(
 			this.oPaciente.telefono				!==	this.paciente.telefono || 
 			this.oPaciente.celular				!==	this.paciente.celular || 
@@ -179,12 +191,14 @@ export class ContactoComponent implements OnInit {
 			this.router.navigate(['/personales']);
 	}
 	Next(){
-		this.btnNavigation_pressed	=	true;		
+		this.btnNavigation_pressed	=	true;
 		if(this.pacienteNuevo){
 			this.page	=	'/hcp';
 			this.saveForm();
-		}else
+		}else{
+			this.btnNavigation_pressed	=	false;
 			this.router.navigate(['/hcp']);
+		}
 		
 	}
 	goTo(page){

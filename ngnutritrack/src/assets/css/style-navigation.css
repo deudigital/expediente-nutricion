@@ -215,11 +215,14 @@ body {
 	.navbar.top {margin: 0;}
 	#expediente_nombre {font-size: 16px;margin:0}
 	.content-nav .list-group > li.datos-paciente > a {padding-right: 60px;}
+	
 }
 @media(max-width:499px){
 	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 10px;}
 	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcp {margin-right: -9px;margin-left: 4px !important;}
 	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcf {margin-right: -11px;margin-left: 0 !important;}
+	.genero > .checkbox label span {padding-left: 25px;}
+	.genero > .checkbox label span:before {margin-left: -22px;}
 }
 @media(max-width:379px){
 	.content-nav{padding-left:0;padding-right:0;}
