@@ -189,3 +189,33 @@ body {
 	.content-nav .list-group.menu-datos-paciente > li > a {display: inline-block;}
 	.content-nav .list-group.menu-datos-paciente > li > a > span {position: absolute;overflow: hidden;text-indent: -999px;}
 }
+@media(max-width:767px){
+	
+	/*.content-nav .list-group.menu-datos-paciente {background-color: cadetblue;}*/
+	.content-nav .list-group.menu-datos-paciente > li {padding: 0;}
+	.content-nav .list-group.menu-datos-paciente > li > a > i {margin: 0;top: 0;right: inherit;left: 0;}
+	.content-nav .list-group.menu-datos-paciente > li > a {padding: 23px 22px;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcp > a {padding: 27px 30px;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcf > a {padding: 25px 29px;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item:not(.hcf):not(.hcp) > a {}
+	
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 5%;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcp {margin-right: -2%;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcf {margin-right: -2%;}
+	
+	.content-nav .list-group > li.hcp > a > i {top:2px !important;}
+	.content-nav .list-group > li.hcf > a > i {top:1px !important;}
+	
+	.content-nav .list-group.menu-datos-paciente {text-align: center;}	
+	.content-nav .list-group:not(.consulta) > li.hcp > a::after {top: 31px;left: 45px;z-index: 100;}
+	.content-nav .list-group:not(.consulta) > li.hcf > a::after {top: 27px;z-index: 100;left: 45px;}
+}
+@media(max-width:499px){
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 10px;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcp {margin-right: -9px;margin-left: 4px !important;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item.hcf {margin-right: -11px;margin-left: 0 !important;}
+}
+@media(max-width:379px){
+	.content-nav{padding-left:0;padding-right:0;}
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 4px;}	
+}
