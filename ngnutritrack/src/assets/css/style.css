@@ -122,7 +122,7 @@ body.menu-parent-hcp .content-nav .list-group > li.hcp > a > i ,
 body.menu-parent-habito .content-nav .list-group > li.habito > a > i , 
 .content-nav .list-group > li.habito > a:hover > i,
 .content-nav .list-group > li.habito > a.active > i {background-position: -310px -241px;width: 45px;height: 47px;}
-.content-nav .board-inner.control .current-menu{}
+
 
 .content-nav .list-group > li > a.disabled {pointer-events: none;}
 /*.content-nav .list-group > li.current-step-consulta ~ li > a{pointer-events: none;}*/
@@ -452,6 +452,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group.consulta > li > a > span {display: none;}
 	.content-nav .list-group.consulta > li:not(:last-child) > a:after{width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 	.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
+	.content-nav .board-inner.control .current-menu{margin-top:0}
 }
 @media(max-width:600px){
 	body.page-inicio .container-logo img{max-width:50%}

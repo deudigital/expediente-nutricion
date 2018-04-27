@@ -95,7 +95,7 @@ body {
 #leftside #navbar{transition: height 300ms;;}
 /**/
 /* Icon	*/
-#nav-icon2 {position: absolute;margin: 0;top: 0;right: -1px;width: 20px;height: 28px;
+#nav-icon2 {position: absolute;margin: 0;top: 0;right: 15px;width: 20px;height: 28px;
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -143,7 +143,7 @@ body {
 #nav-icon2.open span:nth-child(6) {top: 15px;left: calc(50%);}
 */
 
-#nav-icon2.open {width: 25px;right: -5px;}
+#nav-icon2.open {width: 25px;/*right: -5px;*/}
 #nav-icon2.open span:nth-child(1) {left: 2px;top: 2px;}
 #nav-icon2.open span:nth-child(2) {left: calc(50% - 2px);top: 2px;}
 #nav-icon2.open span:nth-child(3) {left: -50%;opacity: 0;}
@@ -209,6 +209,12 @@ body {
 	.content-nav .list-group.menu-datos-paciente {text-align: center;}	
 	.content-nav .list-group:not(.consulta) > li.hcp > a::after {top: 31px;left: 45px;z-index: 100;}
 	.content-nav .list-group:not(.consulta) > li.hcf > a::after {top: 27px;z-index: 100;left: 45px;}
+	#navbar {text-align: center;}
+	#navbar .nav > li {display: inline-block;}
+	#navbar .nav > li:not(:first-child):before {left: 0;}
+	.navbar.top {margin: 0;}
+	#expediente_nombre {font-size: 16px;margin:0}
+	.content-nav .list-group > li.datos-paciente > a {padding-right: 60px;}
 }
 @media(max-width:499px){
 	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 10px;}
@@ -217,5 +223,6 @@ body {
 }
 @media(max-width:379px){
 	.content-nav{padding-left:0;padding-right:0;}
-	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 4px;}	
+	.content-nav .list-group.menu-datos-paciente > li.list-group-item {margin-left: 4px;}
+	#navbar{font-size:12px;}
 }
