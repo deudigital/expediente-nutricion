@@ -106,6 +106,10 @@ export class ContactoComponent implements OnInit {
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
+		
+		this.canton		=	this.filter_cantones[0].codigo_canton;
+		this.distrito	=	this.filter_distritos[0].codigo_distrito;
+		
 	}
 	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);		
