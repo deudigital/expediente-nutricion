@@ -175,12 +175,12 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .asignacion-porciones tbody tr:nth-child(even) > td{background-color:#e7e7e7;}
 .content-form .asignacion-porciones tr td {padding: 10px 0 5px;}
 .content-form .asignacion-porciones tbody tr td:first-child {padding-left: 22px;}
-.content-form .asignacion-porciones tr td .form-control {max-width: 80px;margin: 0 auto;height:28px;}
-.content-form .asignacion-porciones tbody tr td .form-control {padding-left:25px;}
+.content-form .asignacion-porciones tr td .form-control {max-width: 95px;margin: 0 auto;height:28px;}
+.content-form .asignacion-porciones tbody tr td .form-control {padding-left:40px;}
 .content-form .asignacion-porciones tbody tr td .form-control {margin-top: -7px}
 .content-form .asignacion-porciones tbody label {padding-left: 45px;position: relative;display: block;text-align: left;padding-top: 0;margin-top: 0;}
 /********************/
-.content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-6px;}
+.content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-3px/*6px*/;}
 .alimentos {text-align: center}
 .alimentos figure {height: 70px;display: table;width: 100%;}
 .alimentos figure .inner{display: table-cell;vertical-align: middle;}
@@ -232,8 +232,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .resumen tbody tr > td{color:#fff;}
 .content-form .resumen tbody tr:nth-child(odd) > td{background-color:#969696;}
 .content-form .resumen tbody tr:nth-child(even) > td{background-color:#c0c0c0;}
-.content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
-.content-form .resumen tbody tr td:last-child {padding-right: 30px;}
+/*.content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
+.content-form .resumen tbody tr td:last-child {padding-right: 30px;}*/
 /********************/
 .content-form > .form-patron-menu input.form-control {/*font-size: 10px;*/line-height: 1em;padding-right: 35px;/*height: auto;*/word-break: break-all;min-height:37px}
 /********************/
@@ -366,7 +366,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 @media(min-width:768px){
 	body{font-size:12px;}
 	.content-nav .list-group:first-of-type{margin-top:5px}
-	.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
+	.content-nav .list-group > li:not(:last-child) > a:after {width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
 	.content-nav .list-group > li:not(:first-child){margin-top:30px}
 	
 	.content-nav .list-group-item.hcp > a {margin-top: 6px;}
@@ -374,6 +374,9 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 	.content-nav .list-group-item.hcf > a{margin-top: 3px;}
 	.content-nav .list-group-item.hcf > a > i {	margin-top: -26px !important;}
+	
+	.content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
+	.content-form .resumen tbody tr td:last-child {padding-right: 30px;}
 
 	.main .links .box a > strong {margin-top: 20px;font-size: 17px;}
 	.form-group {margin-bottom: 30px;}
@@ -409,6 +412,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+9) > label:before {background-color: #e0e0e0;height: 1px;width: 100%;content: "";position: absolute;display: block;top: -12px;}
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
+	
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}
