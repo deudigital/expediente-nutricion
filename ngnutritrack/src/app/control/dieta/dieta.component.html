@@ -98,8 +98,6 @@
 								[(ngModel)]="prescripcion.proteinas"
 							/>
 						</div>
-						
-						<div [ngClass]="{'red': sumatoria_distribucion>100 }" class="sumatoria-distribucion">{{sumatoria_distribucion}}</div>
 					</div>
 					<div class="col-sm-4">						
 						<div class="grasas with-cicle">						
@@ -125,6 +123,10 @@
 							/>
 						</div>
 					</div>
+					<div class="col-sm-offset-4 col-sm-4">
+						<div [ngClass]="{'red': sumatoria_distribucion>100 }" class="sumatoria-distribucion">{{sumatoria_distribucion}}</div>
+					</div>
+				
 				</div>			
 		</div>	
 	</section>
