@@ -20,6 +20,8 @@ class Paciente extends Model
 		'responsable_cedula', 
 		'responsable_nombre', 
 		'responsable_parentezco', 
+		'responsable_email', 
+		'responsable_telefono', 
 		'usuario',
 		'contrasena'
     ];

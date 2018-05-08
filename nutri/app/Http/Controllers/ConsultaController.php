@@ -603,7 +603,7 @@ Enviar usuario y contrasena?????? por ahora si...
 								->get()
 								->first();
 				if(count($paciente)>0){
-					if($paciente->email){
+					if($paciente->email || $paciente->responsable_email){
 						/*$this->generatePacienteCredentials($persona);*/
 						$this->generateResumenConsulta($consulta->id);
 					}
@@ -1008,26 +1008,20 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'ac&aacute; ';
 		$html	.=	'tienes el detalle de como dividir estas porciones en los diferentes tiempos de comida con sus respectivos ejemplos:</p>';
 		$html	.=	$_resumen['patronMenu'];
-/*		$html	.=	'<p>Finalmente, toda esta informaci&oacute;n y otras herramientas para llevar el registro de lo que comes d&iacute;a a d&iacute;a y ayudarte a cumplir tus objetivos est&aacute;n disponibles en el app de <strong>NutriTrack</strong>, si a&uacute;n no la tienes desc&aacute;rgala <strong>GRATIS</strong> en las tiendas de iPhone y Android</p>';
-		$contentLeft	=	'<div style="text-align:center"><img src="' . $images . 'appstore.png" width="180" /></div>';
-		$contentRight	=	'<div style="text-align:center"><img src="' . $images . 'googleplay.png" width="180" /></div>';
-		$html	.=	$this->htmlTwoColumns($contentLeft, $contentRight);
 
-		$html	.=	'<p>Te recordamos tus credenciales:</p>';
-		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
-		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
-*/
-		/*echo utf8_decode($html);exit;*/
-		/*$nutricionista	=	Persona::find($paciente->nutricionista_id);*/
-		$to			=	$paciente->email;
-		//$to			=	'jaime_isidro@hotmail.com';
-		$subject 	=	'Resumen consulta nutricional ' . date('d/m/Y', strtotime( $consulta['fecha'] ));
-		$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-		$headers   .=	'CC: ' . $nutricionista->email . "\r\n";
-		$headers   .=	'Bcc: danilo@deudigital.com, inv_jaime@yahoo.com' . "\r\n";
-		$headers   .=	'MIME-Version: 1.0' . "\r\n";
-		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
-		mail($to, $subject, utf8_decode($html), $headers);
+		$to		=	array();
+		if(!empty( $paciente->email ))
+			$to[]	=	$paciente->email;
+		if(!empty( $paciente->responsable_email ))
+			$to[]	=	$paciente->responsable_email;
+
+		$args	=	array(
+						'to'		=>	implode(',', $to),
+						'subject'	=>	'Resumen consulta nutricional ' . date('d/m/Y', strtotime( $consulta['fecha'] )),
+						'cc'	=>	$nutricionista->email,
+						'message'	=>	utf8_decode($html),
+					);
+		$this->sendEmail($args);
 	}
 	function htmlTwoColumns($contentLeft, $contentRight){
 		$html	 =	'<!--[if (gte mso 9)|(IE)]>';
@@ -1076,5 +1070,14 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'<![endif]-->';
 		return $html;
 	}
-	
+	function sendEmail($args){
+		$to			=	$args['to'];
+		$subject 	=	$args['subject'];
+		$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
+		$headers   .=	'CC: ' . $args['cc'] . "\r\n";
+		$headers   .=	'Bcc: danilo@deudigital.com, inv_jaime@yahoo.com' . "\r\n";
+		$headers   .=	'MIME-Version: 1.0' . "\r\n";
+		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
+		mail($to, $subject, $args['message'], $headers);
+	}
 }
