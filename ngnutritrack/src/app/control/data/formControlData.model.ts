@@ -589,7 +589,7 @@ export class ValoracionAntropometrica {
 		this.getPesoIdealAjustado(peso, pesoIdeal);
 	}
 	getPesoIdeal(estatura, genero){
-
+var esMasculino	=	genero=='M';
 /*
 =SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
 */
@@ -600,14 +600,85 @@ export class ValoracionAntropometrica {
 			factor_2	=	2.72;
 		}
 		this.pesoIdeal	=	String((estatura*100-152)*factor_2/2.5+factor_1);
+		this.pesoIdeal	=	this.restarSumarAlPesoIdeal( this.pesoIdeal, esMasculino );
+		
 		return this.pesoIdeal;
 	}
 	getPesoIdealAjustado(peso, pesoIdeal){
 /*
 =(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
 */
-		this.pesoIdealAjustado	=(peso-pesoIdeal)/(4)+(pesoIdeal);
+		//this.pesoIdealAjustado	=(peso-pesoIdeal)/(4)+(pesoIdeal);
+		
+		var _value	=	Number(peso) - pesoIdeal;
+		var _value_2	=	4 + Number(pesoIdeal)
+		_value	=	_value/_value_2;		
+		this.pesoIdealAjustado	=	String(_value);
 		return this.pesoIdealAjustado;
+	}
+	restarSumarAlPesoIdeal(pesoIdeal, esMasculino){
+/*
+=SI(GENERO="M";SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
+*/
+		var valor	=	'';
+		var valor_porcentaje_10	=	pesoIdeal*0.10;/*	10%	*/
+		var estructura_osea	=	this.calcularEstructuraOsea();
+/*
+=	SI(GENERO="M";SI_GENERO_M;SINO_GENERO_M)
+
+SI_GENERO_M->	SI(ESTRUCTURA_OSEA>10,4;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
+
+			SI_ESTRUCTURA_OSEA		->	"PEQUEÑA"
+			SINO_ESTRUCTURA_OSEA	->	SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE")
+
+SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
+
+			SI_ESTRUCTURA_OSEA		->	"PEQUEÑA"
+			SINO_ESTRUCTURA_OSEA	->	SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")
+*/
+		if( esMasculino ){
+//			SI(ESTRUCTURA_OSEA>10,4;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
+			if(estructura_osea>10.4){
+				valor	=	'PEQUEÑA';
+				pesoIdeal	-=	valor_porcentaje_10;
+			}else{
+//				SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE")
+				if(estructura_osea>9.6)
+					valor	=	'MEDIANA';
+				else{
+					valor	=	'GRANDE';
+					pesoIdeal	+=	valor_porcentaje_10;
+				}
+			}
+		}else{
+//			SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
+			if(estructura_osea>11){
+				valor	=	'PEQUEÑA';
+				pesoIdeal	-=	valor_porcentaje_10;
+			}else{
+//				SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")
+				if(estructura_osea>10.1)
+					valor	=	'MEDIANA';
+				else{
+					valor	=	'GRANDE';
+					pesoIdeal	+=	valor_porcentaje_10;
+				}
+			}			
+		}
+		return pesoIdeal;
+	}
+	
+	calcularEstructuraOsea(){
+		if(!this.circunferencia_muneca)
+			return 0;
+/*
+=ESTATURA*100/MUÑECA
+*/
+		var valor	=	0;
+		
+		valor	=	Math.round( Number(this.estatura) *100/Number(this.circunferencia_muneca) );
+		
+		return valor;
 	}
 }
 export class Rdd{

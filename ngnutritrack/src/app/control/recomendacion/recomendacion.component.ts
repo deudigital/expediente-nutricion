@@ -42,30 +42,40 @@ export class RecomendacionComponent implements OnInit {
 	displayBenedict:boolean;
 	displayRDA:boolean;
 	displayFactor:boolean;
+	
+	_tasa_basal:number;
+	_gasto_calorico_real:number;
+	_ingesta_calorica_recomendada:number;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.mng	=	this.model.getManejadorDatos();
 		this.helpers	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
+		//console.log(this.recomendacion);
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
 		this.disableButtonHistorial	=	false;
 		this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
-		console.log(this.va);
+		//console.log(this.va);
+		this._tasa_basal	=	0;
+		this._gasto_calorico_real	=	0;
+		this._ingesta_calorica_recomendada	=	0;
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		
-		if(this.va.metodo_valoracion=='adulto')
+		if(this.va.metodo_valoracion=='adulto'){
 			this.esAdulto	=	true;
-		else
+			this.displayFactor		=	true;
+		}else
 			this.esAdulto	=	this.paciente.edad>18;/*20;*/
+		
 		
 		if(!this.esAdulto){
 			this.esMenor	=	true;
-			console.log(this.recomendacion.metodo_calculo_gc);
+			//console.log(this.recomendacion.metodo_calculo_gc);
 			this.displaySchofield	=	(this.paciente.edad>2) && (this.paciente.edad<19);
 			this.displayBenedict	=	(this.paciente.edad>9);
 			this.displayRDA			=	(this.paciente.edad<19);
@@ -73,12 +83,14 @@ export class RecomendacionComponent implements OnInit {
 			if(this.displayBenedict && !this.displaySchofield && !this.displayRDA)
 				this.recomendacion.metodo_calculo_gc	=	'benedict-child';
 			
-			console.log(this.recomendacion.metodo_calculo_gc);
+			//console.log(this.recomendacion.metodo_calculo_gc);
 		}
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
 		/*console.log(this.habitosEjercicios);*/
 		this.setGastoCaloricoActividadFisica();
 		this.getHistorial();
+		
+		this._analisis();
 	}
 	ngOnInit__old() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -512,6 +524,7 @@ export class RecomendacionComponent implements OnInit {
 	}
 	tmbBenedict(){
 		this.current_peso	=	0;
+		//console.log('this.recomendacion.peso_calculo->' + this.recomendacion.peso_calculo);
 		switch(this.recomendacion.peso_calculo){
 			case 'actual':
 				this.current_peso	=	this.va.peso;
@@ -523,6 +536,7 @@ export class RecomendacionComponent implements OnInit {
 				this.current_peso	=	this.va.pesoIdealAjustado;
 				break;
 		}
+		//console.log('this.current_peso-> ' + this.current_peso);
 /*
 	Tasa Metabolica Basal Harris Benedict
 	=REDONDEAR(
@@ -541,10 +555,23 @@ export class RecomendacionComponent implements OnInit {
 			result	=	655.1+(9.563*this.current_peso)+(1.85*this.va.estatura*100)-(4.676*this.va.edad_metabolica);
 		*/
 		//console.log('BENEDICT: peso=' + this.current_peso + ', estatura=' + this.va.estatura + ', edad=' + this.paciente.edad);
+		var _estatura	=	this.va.estatura*100;
 		if(this.paciente.genero=='M')
-			result	=	66.5+(13.75*this.current_peso)+(5.003*this.va.estatura*100)-(6.755*this.paciente.edad);
-		else
-			result	=	655.1+(9.563*this.current_peso)+(1.85*this.va.estatura*100)-(4.676*this.paciente.edad);
+			result	=	66.5+(13.75*this.current_peso)+(5.003*_estatura)-(6.755*this.paciente.edad);
+		else{
+			/*result	=	655.1+(9.563*this.current_peso)+(1.85*_estatura-(4.676*this.paciente.edad);*/
+			var _peso		=	9.563*this.current_peso;
+			if(isNaN(_peso))
+				_peso	=	0;
+			//console.log(_peso);
+			var _edad		=	4.676*this.paciente.edad;
+			//console.log(_edad);
+			var _estatura	=	1.85*_estatura;
+			//console.log(_estatura);
+			result	=	655.1 + _peso + ( _estatura - _edad );
+			//console.log(result);
+		}
+		
 		
 		return result;
 			
@@ -629,7 +656,7 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 		}		
 		return value;
 	}
-	get tasa_basal(){
+	get tasa_basall(){
 		var result	=	0;
 		switch(this.recomendacion.metodo_calculo_gc){
 			case 'benedict-child':
@@ -651,8 +678,42 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 			default:
 				result	=	0;
 		}
+		this._tasa_basal	=	result;
 	   return result;
    }
+   _get_tasa_basal(){
+		var result	=	0;
+		switch(this.recomendacion.metodo_calculo_gc){
+			case 'benedict-child':
+			case 'benedict':
+				result	=	this.tmbBenedict();
+				break;
+			case 'mifflin':
+				result	=	this.tmbMifflin();
+				break;
+			case 'promedio':
+				result	=	this.tmbPromedio();
+				break;
+			case 'rda':
+				result	=	this.tmbRda();
+				break;
+			case 'schofield':
+				result	=	this.tmbSchofield();
+				break;
+			default:
+				result	=	0;
+		}
+		this._tasa_basal	=	result;
+	   return result;
+   }
+   
+   _analisis(){
+	   this._get_tasa_basal();
+	   this.recomendacion.gcr	=	this.gastoCaloricoReal();
+	   this._gasto_calorico_real	=	this.recomendacion.gcr;
+	   this._ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada();
+   }
+   
 	saveForm(){
 		this.model.getFormRdd().set(this.recomendacion);
 		this.formControlDataService.setFormControlData(this.model);

@@ -81,6 +81,7 @@
 								class="form-control" 
 								placeholder="En metros" 
 								maxlength="5" 
+								(change)="_analisis()"
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.estatura"
 								>
@@ -113,6 +114,7 @@
 								class="form-control" 
 								placeholder="Kilogramos" 
 								maxlength="5" 
+								(change)="_analisis()"
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.peso"
 								>
@@ -235,6 +237,7 @@
 								class="form-control" 
 								placeholder="En centímetros" 
 								maxlength="5" 
+								(change)="_analisis()"
 								(keypress)="helpers.soloNumeros($event)"
 								[(ngModel)]="valoracion.circunferencia_cintura">
 							<i></i>

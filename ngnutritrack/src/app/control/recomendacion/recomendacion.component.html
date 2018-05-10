@@ -25,6 +25,7 @@
 								name="metodo-calculo-calorico" 
 								type="radio"
 								value="benedict" 
+								(change)="_analisis()"
 								[(ngModel)]="recomendacion.metodo_calculo_gc"
 							>
 							<span>Harris Benedict</span>
@@ -36,6 +37,7 @@
 								name="metodo-calculo-calorico" 
 								type="radio"	
 								value="mifflin" 
+								(change)="_analisis()"
 								[(ngModel)]="recomendacion.metodo_calculo_gc"							
 							>
 							<span>Mifflin-St Jeor</span>
@@ -47,6 +49,7 @@
 								name="metodo-calculo-calorico" 
 								type="radio" 
 								value="promedio" 
+								(change)="_analisis()"
 								[(ngModel)]="recomendacion.metodo_calculo_gc"
 							>
 							<span>Promedio de Ambas</span>
@@ -103,6 +106,7 @@
 								type="radio"
 								value="actual" 
 								checked 
+								(change)="_analisis()"
 								[(ngModel)]="recomendacion.peso_calculo"															
 								>
 							<span>Peso Actual</span>
@@ -114,6 +118,7 @@
 								name="peso-calculo-calorico" 
 								type="radio"	
 								value="ideal" 
+								(change)="_analisis()"
 								[(ngModel)]="recomendacion.peso_calculo"							
 								>
 							<span>Peso Ideal</span>
@@ -125,6 +130,7 @@
 								name="peso-calculo-calorico" 
 								type="radio"
 								value="ideal-ajustado" 
+								(change)="_analisis()"
 								[(ngModel)]="recomendacion.peso_calculo"								
 								>
 							<span>Peso Ideal Ajustado</span>
@@ -204,7 +210,8 @@
 						<div class="inner">
 							<i>
 								<strong>
-									{{ tasa_basal | number : '1.0-0'}}
+									<!--{{ tasa_basal_ | number : '1.0-0'}}-->
+									{{ _tasa_basal | number : '1.0-0'}}
 									<span>Kcal</span>							
 								</strong>
 							</i>
@@ -220,7 +227,7 @@
 						<div class="inner">
 							<i>
 								<strong>
-									{{ gasto_calorico_real | number : '1.0-0'}}
+									{{ _gasto_calorico_real | number : '1.0-0'}}
 									<span>Kcal</span>							
 								</strong>
 							</i>
@@ -261,7 +268,7 @@
 					<div class="inner">
 						<i>
 							<strong>
-								{{ ingesta_calorica_recomendada | number : '1.0-0'}}
+								{{ _ingesta_calorica_recomendada | number : '1.0-0'}}
 								<span>Kcal</span>							
 							</strong>						
 						</i>

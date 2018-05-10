@@ -1674,6 +1674,168 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		
 		return valor;
 	}
+	_analisis(){
+/*	peso, estatura	*/
+		this._calcularPesoIdeal();
+/*	peso, pesoIdeal	*/
+		this._calcularPesoIdealAjustado();
+		this._calcularPorcentajePeso();
+		this._calcularGradoSobrepeso();
+/*	peso, pesoIdealAjustado	*/
+		this._calcularDiferenciaPeso();
+		this._calcularAdecuacion();
+/*	circunferencia_cintura, circunferencia_cadera	*/
+		this._calcularRelacionCinturaCadera();
+/*	peso, imc	*/
+		this._calcularPesoMetaMaximo();
+		this._calcularPesoMetaMinimo();
+	}
+	_calcularPesoIdeal(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;
+		var esMasculino	=	this.paciente.genero=='M';
+		//var	esMasculino	=	this.sexo=='M';
+/*
+=SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
+*/
+		var factor_1	=	45.5;
+		var factor_2	=	2.27;
+		if( esMasculino ){
+			factor_1	=	47.7;
+			factor_2	=	2.72;
+		}
+		var pesoIdeal			=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
+		/*console.log(pesoIdeal)*/
+		this.analisis.pesoIdeal	=	this.restarSumarAlPesoIdeal( pesoIdeal, esMasculino );
+		
+		return this.analisis.pesoIdeal;
+	}
+	_calcularPesoIdealAjustado(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;		
+/*
+=(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
+*/
+		var _value	=	Number(this.valoracion.peso) - this.analisis.pesoIdeal;
+		console.log('_value_1: ' + _value)
+
+		var _value_2	=	4 + (this.analisis.pesoIdeal)
+		console.log('_value_2: ' + _value_2)
+		_value	=	_value/_value_2;		
+		console.log('_value: ' + _value)
+		//this.analisis.pesoIdealAjustado	=	(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/(4)+(this.analisis.pesoIdeal);
+		this.analisis.pesoIdealAjustado	=	_value;
+		return this.analisis.pesoIdealAjustado;
+	}
+	_calcularDiferenciaPeso(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;		
+/*
+=PESO-PESO_IDEAL_AJUSTADO
+*/
+		this.analisis.diferenciaPeso	=	Number(this.valoracion.peso) - Number(this.analisis.pesoIdealAjustado);
+		return this.analisis.diferenciaPeso;
+	}
+	_calcularAdecuacion(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;		
+/*
+=PESO/PESO_IDEAL_AJUSTADO
+*/
+		this.model.adecuacion	=	(Number(this.valoracion.peso)/this.analisis.pesoIdealAjustado) * 100;
+		return this.model.adecuacion;
+	}
+	_calcularRelacionCinturaCadera(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!Number(this.valoracion.circunferencia_cintura) || !Number(this.valoracion.circunferencia_cadera))
+			return 0;		
+/*
+=CINTURA/CADERA
+*/
+		this.model.relacionCinturaCadera	=	Number(this.valoracion.circunferencia_cintura)/Number(this.valoracion.circunferencia_cadera);
+		var perc	=	this.model.relacionCinturaCadera*100;
+		/*return this.model.relacionCinturaCadera;*/
+		return perc;
+	}
+	_calcularGradoSobrepeso(){
+		if(!this.allowCalculate)
+			return 0;
+		/*if(!this.valoracion.peso)
+			return 0;*/
+		if(!this.valoracion.peso)
+			return '';
+/*
+/*
+NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB MEDIA";SI(GRADO_SOBREPESO_VALOR>10;"SOBREP";"NP")))	
+3,793658207		=(PESO-PESO_IDEAL)/PESO_IDEAL*100
+*/
+		this.model.gradoSobrepeso	=	(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/this.analisis.pesoIdeal*100;
+		var _print	=	'NP';
+		if(this.model.gradoSobrepeso>40)
+			_print	=	'OB GRAVE';
+		else{
+			if(this.model.gradoSobrepeso>20)
+				_print	=	'OB MEDIA';
+			else{
+				if(this.model.gradoSobrepeso>10)
+					_print	=	'SOBREPESO';
+				/*else{_print	=	'NP';
+				}*/
+			}
+		}		
+		/*return this.model.gradoSobrepeso;*/
+		return _print;
+	}
+	_calcularPorcentajePeso(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;
+/*
+104%	=PESO/PESO_IDEAL
+Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCENTAJE_PESO<90%;"DN LEVE";SI(
+*/
+		this.analisis.porcentajePeso	=	(Number(this.valoracion.peso)/this.analisis.pesoIdeal) * 100;
+		return this.analisis.porcentajePeso;
+	}
+	_calcularPesoMetaMaximo(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;		
+/*
+80,1025		=(PESO*25)/IMC
+*/
+		this.analisis.pesoMetaMaximo	=	(Number(this.valoracion.peso)*25)/this.analisis.imc;
+		if(isNaN(this.analisis.pesoMetaMaximo))
+			this.analisis.pesoMetaMaximo	=	0;
+		return this.analisis.pesoMetaMaximo;
+	}
+	_calcularPesoMetaMinimo(){
+		if(!this.allowCalculate)
+			return 0;
+		if(!this.valoracion.peso)
+			return 0;		
+/*
+=(PESO*18,9)/IMC
+*/
+		this.analisis.pesoMetaMinimo	=	(Number(this.valoracion.peso)*18.9)/this.analisis.imc;
+		if(isNaN(this.analisis.pesoMetaMinimo))
+			this.analisis.pesoMetaMinimo	=	0;
+		return this.analisis.pesoMetaMinimo;
+	}
+	
+	
+	
 	get musculoSegmentado(){
 		return this.calcularMusculoSegmentado();
 	}
@@ -1819,7 +1981,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		
 		return this.analisis.pesoIdeal;
 	}
-	get pesoIdealAjustado(){
+	get pesoIdealAjustado(){console.log('this.allowCalculate: ' + this.allowCalculate);
 		if(!this.allowCalculate)
 			return 0;
 		if(!this.valoracion.peso)
@@ -1827,7 +1989,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 /*
 =(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
 */
-		this.analisis.pesoIdealAjustado	=(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/(4)+(this.analisis.pesoIdeal);
+		this.analisis.pesoIdealAjustado	=	(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/(4)+(this.analisis.pesoIdeal);
 		return this.analisis.pesoIdealAjustado;
 	}
 	get diferenciaPeso(){
