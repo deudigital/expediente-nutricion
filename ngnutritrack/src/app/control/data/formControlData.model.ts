@@ -589,7 +589,7 @@ export class ValoracionAntropometrica {
 		this.getPesoIdealAjustado(peso, pesoIdeal);
 	}
 	getPesoIdeal(estatura, genero){
-var esMasculino	=	genero=='M';
+		var esMasculino	=	genero=='M';
 /*
 =SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
 */
@@ -599,8 +599,10 @@ var esMasculino	=	genero=='M';
 			factor_1	=	47.7;
 			factor_2	=	2.72;
 		}
-		this.pesoIdeal	=	String((estatura*100-152)*factor_2/2.5+factor_1);
-		this.pesoIdeal	=	this.restarSumarAlPesoIdeal( this.pesoIdeal, esMasculino );
+		var _pesoIdeal	=	(estatura*100-152)*factor_2/2.5+factor_1;
+		//this.pesoIdeal	=	String();
+		
+		this.pesoIdeal	=	this.restarSumarAlPesoIdeal( _pesoIdeal, esMasculino );
 		
 		return this.pesoIdeal;
 	}
@@ -609,10 +611,15 @@ var esMasculino	=	genero=='M';
 =(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
 */
 		//this.pesoIdealAjustado	=(peso-pesoIdeal)/(4)+(pesoIdeal);
-		
+		/*console.log('getPesoIdealAjustado(' + peso + ',' + pesoIdeal + ')');*/
 		var _value	=	Number(peso) - pesoIdeal;
-		var _value_2	=	4 + Number(pesoIdeal)
+		/*console.log(_value);*/
+		_value	=	_value/4;
+		/*console.log(_value);*/
+		_value	=	 _value + Number(pesoIdeal)
+		/*console.log(_value);
 		_value	=	_value/_value_2;		
+		console.log(_value);*/
 		this.pesoIdealAjustado	=	String(_value);
 		return this.pesoIdealAjustado;
 	}

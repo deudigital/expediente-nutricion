@@ -117,6 +117,9 @@ export class ValoracionComponent implements OnInit {
 	showBoxIndicadorPesoEstatura:boolean;
 	
 	parentWidth:Number;
+	
+	analisis_imc:Number;
+	analisis_gradoSobrepeso:String;
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
@@ -293,6 +296,7 @@ export class ValoracionComponent implements OnInit {
 				this.graficarInit();
 				setTimeout(() => {
 					      this.allowCalculate	=	true;
+						  this._analisis();
 					    }, 500);
 				
 			},
@@ -1675,6 +1679,8 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return valor;
 	}
 	_analisis(){
+		console.log('_analisis: this.allowCalculate: ' + this.allowCalculate );
+		this._calcularImc();
 /*	peso, estatura	*/
 		this._calcularPesoIdeal();
 /*	peso, pesoIdeal	*/
@@ -1689,6 +1695,41 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 /*	peso, imc	*/
 		this._calcularPesoMetaMaximo();
 		this._calcularPesoMetaMinimo();
+	}
+	_calcularImc(){
+		if(!this.allowCalculate)
+			return '';
+
+		if(!this.valoracion.peso)
+			return '';
+/*
+=PESO/(ESTATURA*ESTATURA)
+
+=SI(B10<18,5;"BAJO PESO";SI(B10<24,9;"NORMAL";SI(B10<30;"SOBREPESO 1";SI(B10<40;"SOBREPESO 2";"SOBREPESO 3"))))
+
+*/
+		this.analisis.imc	=	Number(this.valoracion.peso) / ( Number(this.valoracion.estatura) * Number(this.valoracion.estatura) );
+		this.analisis_imc	=	this.analisis.imc;
+		/*var _print	=	'';
+		if(this.analisis.imc<18)
+			_print	=	'BAJO PESO';
+		else{
+			if(this.analisis.imc<24)
+				_print	=	'NORMAL';
+			else{
+				if(this.analisis.imc<30)
+					_print	=	'SOBREPESO 1';
+				else{
+					if(this.analisis.imc<40)
+						_print	=	'SOBREPESO 2';
+					else
+						_print	=	'SOBREPESO 2';
+				}
+				
+			}
+		}
+		this.analisis_imc	=	_print;
+		return _print;*/
 	}
 	_calcularPesoIdeal(){
 		if(!this.allowCalculate)
@@ -1720,15 +1761,20 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 /*
 =(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
 */
+/*
 		var _value	=	Number(this.valoracion.peso) - this.analisis.pesoIdeal;
 		console.log('_value_1: ' + _value)
 
-		var _value_2	=	4 + (this.analisis.pesoIdeal)
+		var _value_2	=	4 + Number(this.analisis.pesoIdeal);
 		console.log('_value_2: ' + _value_2)
 		_value	=	_value/_value_2;		
 		console.log('_value: ' + _value)
 		//this.analisis.pesoIdealAjustado	=	(Number(this.valoracion.peso)-this.analisis.pesoIdeal)/(4)+(this.analisis.pesoIdeal);
 		this.analisis.pesoIdealAjustado	=	_value;
+*/
+		
+		
+		this.analisis.pesoIdealAjustado	=	Number(this.valoracion.getPesoIdealAjustado(this.valoracion.peso, this.analisis.pesoIdeal));
 		return this.analisis.pesoIdealAjustado;
 	}
 	_calcularDiferenciaPeso(){
@@ -1793,6 +1839,7 @@ NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB ME
 			}
 		}		
 		/*return this.model.gradoSobrepeso;*/
+		this.analisis_gradoSobrepeso	=	_print;
 		return _print;
 	}
 	_calcularPorcentajePeso(){
@@ -1833,9 +1880,6 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 			this.analisis.pesoMetaMinimo	=	0;
 		return this.analisis.pesoMetaMinimo;
 	}
-	
-	
-	
 	get musculoSegmentado(){
 		return this.calcularMusculoSegmentado();
 	}
@@ -1925,6 +1969,19 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		this.valorGrasaPliegues	=	Math.round((495/D)-450);
 		return this.valorGrasaPliegues;
 	}
+	
+	
+	
+	saveForm(){
+		this.formControlDataService.setFormControlData(this.model);
+		this.model.getFormValoracionAntropometrica().set(this.valoracion);
+		if(this.infoEdited())
+			this.createValoracionAntropometrica(this.valoracion);
+		else
+			this.goTo(this.page);		
+	}
+	
+	
 	get	imc(){
 		if(!this.allowCalculate)
 			return '';
@@ -2098,14 +2155,7 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		return JSON.stringify(this.model);
 		/*return JSON.stringify(this.analisis);*/
 	}
-	saveForm(){
-		this.formControlDataService.setFormControlData(this.model);
-		this.model.getFormValoracionAntropometrica().set(this.valoracion);
-		if(this.infoEdited())
-			this.createValoracionAntropometrica(this.valoracion);
-		else
-			this.goTo(this.page);		
-	}
+	
 /*	Previous(){
 		this.saveForm();
 		this.router.navigate(['/personales']);

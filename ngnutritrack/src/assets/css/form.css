@@ -49,6 +49,7 @@
 .np{padding:0 !important}
 .listado.pacientes > .row > div{padding-bottom: 0;}
 .mydp table.header {height: 30px !important;}
+.ng-valid.ng-touched ~ .error {display: none;}
 @media(min-width:768px){
 	.buttons-navigation {padding: 0 5%;}
 	.percentiles [class*="col-"] {width: 19%;padding: 0;}
