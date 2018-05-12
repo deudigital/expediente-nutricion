@@ -38,7 +38,7 @@ body.open-modal .esc-modal {top:5%}
 .alimentos .warning:not(.black){color:#cc2026}
 .alimentos .success:not(.black){color:#8bc23f}
 /*	modalbox	*/
-.esc-modalbox{max-width: 100%;padding: 30px;left: 2%;width:96%;position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
+.esc-modalbox{max-width: 100%;padding: 30px 15px;left: 2%;width:96%;position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
 -webkit-transition: all 0.4s ease;-moz-transition: all 1s ease;-ms-transition: all 1s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;
 }
 .esc-modalbox .modal-close{position:absolute;right:15px;top:15px;cursor:pointer;z-index:10}
@@ -48,9 +48,9 @@ body.open-modal .esc-modal {top:5%}
 .esc-modalbox .menu > li {padding:0;position:relative;}
 .esc-modalbox .menu > li:not(:first-child)::before {top: 20px;border-left: 1px solid #ccc;content: "";left: 0;position: absolute;width: 1px;height: 20px;}
 .esc-modalbox .menu > li > a{display:block;padding-bottom:10px;font-size:16px;color:#b1b1b1}
+.esc-modalbox .menu > li > a.active{border-bottom:5px solid #8bc23f;color:#8bc23f;}
 .esc-modalbox .nav > li > a:focus, 
 .esc-modalbox .nav > li > a:hover {background-color: transparent;color:#8bc23f;}
-.esc-modalbox .menu > li > a.active{border-bottom:5px solid #8bc23f;color:#8bc23f;}
 .esc-modalbox i{display: inline-block;margin-right:10px;position:relative;top:5px;}
 
 .esc-modalbox .menu > li > a > i.segmentado {background-position: -537px -115px;width: 24px;height: 25px;}
@@ -94,13 +94,9 @@ body.open-modal .esc-modalbox.prompt {top:30%;position:fixed}
 .esc-modalbox .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
 .esc-modalbox .table tbody tr > td:first-child){border-left: none;}
 
-.esc-modalbox .table tbody tr > td:first-child{border-radius:15px 0 0 15px}
-.esc-modalbox .table tbody tr > td:last-child{border-radius: 0 15px 15px 0;}
-
 .esc-modalbox .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
 .esc-modalbox .table tr.detalle_prescripcion > td {color:#fff}
-.esc-modalbox .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}
-.esc-modalbox .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
+
 .esc-modalbox .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
 .esc-modalbox .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
 .esc-modalbox .addpadding5{padding:0 5px;}
@@ -154,6 +150,13 @@ body.open-modal .esc-modal.transparent {top: 50%;}
 	.esc-modalbox .container-graficos .menu {	width: 100%;}
 	.esc-modalbox .container-graficos .menu > li {float: none;display: inline-block;}
 	.esc-modalbox .modal-close{right:30px;top:30px;}
+
+	
+	.esc-modalbox .table tbody tr > td:first-child{border-radius:15px 0 0 15px}
+	.esc-modalbox .table tbody tr > td:last-child{border-radius: 0 15px 15px 0;}
+	
+	.esc-modalbox .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}
+	.esc-modalbox .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
 }
 @media (min-width:1240px){
 	.esc-modal.wide,

@@ -341,7 +341,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 .expand-patron-menu {position: absolute;left: -9px;z-index: 1000;width: 20px;height: 17px;display: block;}
 .esc-modalbox .expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;	display: block;top: 0;}
 
-.esc-modalbox .table.prescripcion tbody tr > td:first-child{width:100px}
+
 
 .expand-patron-menu.open i{background-position: -531px -506px;}
 .select-ubicacion select {margin-bottom: 15px;}
@@ -388,7 +388,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.navbar.top.logo-center .navbar-brand {margin-top: -25px;position: absolute;left: 50%;margin-left: -120px;}
 	body.page-control .navbar.top.logo-center .navbar-brand {margin-top: -35px;}
 	.main.page-busqueda {margin-top: 90px;}
-	
+	.esc-modalbox .table.prescripcion tbody tr > td:first-child{width:100px}
 	.page-title {margin-left: -30px;}
 	.nplr{padding-left:0;padding-right:0}
 	/*.row.no-gutters {margin-right: 0;margin-left: 0;}*/

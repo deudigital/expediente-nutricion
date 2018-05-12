@@ -369,7 +369,7 @@
 	<div class="body">
 		<div *ngIf="showModalTabDatos">
 			<div class="table-responsive addpadding5">
-				<table class="table separate historial prescripcion">
+				<table class="table separate table-mobile historial prescripcion">
 					<thead>
 						<tr>
 							<th>Fecha</th>
@@ -405,18 +405,18 @@
 							<td>{{historia.proteinas}} %</td>
 							<td>{{historia.grasas}} %</td>
 					<ng-template [ngIf]="historia.items" [ngIfElse]="historia_items_loading">
-							<td>{{historia.items[1] || '' }}</td>
-							<td>{{historia.items[2] || '' }}</td>
-							<td>{{historia.items[3] || '' }}</td>
-							<td>{{historia.items[4] || '' }}</td>
-							<td>{{historia.items[5] || '' }}</td>
-							<td>{{historia.items[6] || '' }}</td>
-							<td>{{historia.items[7] || '' }}</td>
-							<td>{{historia.items[8] || '' }}</td>
-							<td>{{historia.items[9] || '' }}</td>
-							<td>{{historia.items[10] || '' }}</td>
-							<td>{{historia.items[11] || '' }}</td>
-							<td>{{historia.items[12] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[1] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[2] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[3] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[4] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[5] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[6] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[7] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[8] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[9] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[10] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[11] || '' }}</td>
+							<td *ngIf="!historia.display">{{historia.items[12] || '' }}</td>
 					</ng-template>
 					<ng-template #historia_items_loading>
 							<td colspan="12">&nbsp;</td>
