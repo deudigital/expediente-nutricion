@@ -117,6 +117,7 @@ export class ValoracionComponent implements OnInit {
 	showBoxIndicadorPesoEstatura:boolean;
 	
 	parentWidth:Number;
+	historialParentWidth:Number;
 	
 	analisis_imc:Number;
 	analisis_gradoSobrepeso:String;
@@ -145,6 +146,7 @@ export class ValoracionComponent implements OnInit {
 		window.onresize = ( e ) => {
 			this.getWidthContainerChildrenGraph();
 			this.graficar();
+			this.createGraphs();
 		}
     }
 	ngOnInit() {
@@ -318,7 +320,7 @@ export class ValoracionComponent implements OnInit {
 	createGraphs(){
 		if(this.historial.length==0)
 			return ;
-
+console.log('createGraphs');
 		var toGraph = '';
 		var date;
 		var new_date;
@@ -349,7 +351,7 @@ export class ValoracionComponent implements OnInit {
 
 		var k=0;		
 		var _va	=	this.historial[0];
-
+this.getWidthContainerChildrenGraph();
 		for(var i in _va) {
 			if(i=='fecha' || i=='date')
 				continue ;
@@ -371,8 +373,9 @@ export class ValoracionComponent implements OnInit {
 			}
 			toGraph	=	headerGraficos[i];
 			options = {
-				width: 1100,
-				height:350,
+/*				width: 1100,
+				height:350,*/
+				width: this.historialParentWidth,
 				animation: {
 					duration: 1000,
 					easing: 'out'
@@ -411,11 +414,14 @@ export class ValoracionComponent implements OnInit {
 	}
 	getWidthContainerChildrenGraph(){
 		try {
-			this.parentWidth	=	document.getElementById('container_children_graphics').offsetWidth;
-			/*console.log('this.parentWidth-> ' +  this.parentWidth );*/
+			console.log('this.tagBody.offsetWidth-> ' + this.tagBody.offsetWidth);
+			this.parentWidth			=	document.getElementById('container_children_graphics').offsetWidth;
+			//this.historialParentWidth	=	document.getElementById('container_historial_children_graphics').offsetWidth;
+			this.historialParentWidth	=	this.tagBody.offsetWidth - 30;
+			console.log('this.parentWidth-> ' +  this.parentWidth + 'this.historialParentWidth-> ' +  this.historialParentWidth );
 		}
 		catch(err) {
-				console.log( err.message );
+				console.log( 'ERROR: getWidthContainerChildrenGraph-> ' + err.message );
 		}
 	}
 	puedeGraficar(){

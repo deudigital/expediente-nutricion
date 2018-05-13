@@ -46,6 +46,7 @@ export class RecomendacionComponent implements OnInit {
 	_tasa_basal:number;
 	_gasto_calorico_real:number;
 	_ingesta_calorica_recomendada:number;
+	historialParentWidth:Number;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -62,6 +63,10 @@ export class RecomendacionComponent implements OnInit {
 		this._tasa_basal	=	0;
 		this._gasto_calorico_real	=	0;
 		this._ingesta_calorica_recomendada	=	0;
+		
+		window.onresize = ( e ) => {
+			this.createGraphs();
+		}
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -114,7 +119,14 @@ export class RecomendacionComponent implements OnInit {
 	ngOnDestroy() {
 		this.saveForm();
 	}
-	
+	getWidthContainerChildrenGraph(){
+		try {
+			this.historialParentWidth	=	this.tagBody.offsetWidth - 30;
+		}
+		catch(err) {
+				console.log( 'ERROR: getWidthContainerChildrenGraph-> ' + err.message );
+		}
+	}
 	changeMethod(){
 		this.displayFactor	=	this.recomendacion.metodo_calculo_gc!='rda';
 		if(!this.displayFactor)
@@ -193,7 +205,8 @@ export class RecomendacionComponent implements OnInit {
 		
 		var k=0;
 		var _h	=	['promedio_gc_diario', 'tmb', 'gc_real','variacion_calorica','gc_recomendado'];
-		
+
+		this.getWidthContainerChildrenGraph();
 		var _va	=	this.historial[0];
 		for(var i in _va) {
 			if(!this.helpers.in_array(_h, i))
@@ -216,8 +229,9 @@ export class RecomendacionComponent implements OnInit {
 			}
 			toGraph	=	headerGraficos[i];
 			options = {
-				width: 1100,
-				height:350,
+/*				width: 1100,
+				height:350,*/
+				width: this.historialParentWidth,
 				animation: {
 					duration: 1000,
 					easing: 'out'

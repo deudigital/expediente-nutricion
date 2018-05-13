@@ -506,105 +506,7 @@
 					</div>
 	</ng-template>
 				</div>
-			</section>
-<!--<section>
-				<header>
-					<h3 class="title">An&aacute;lisis</h3>
-				</header>
-				<div class="row analisis" [ngClass]="{'menores': displayGraphicChildren }">
-	<ng-template [ngIf]="esAdulto || esMenor">
-					<div class="box imc">
-						<i></i>
-						<br>
-						IMC
-						<strong>{{ analisis.imc | number : '1.2-2' }}<br>{{ imc }}</strong>
-					</div>
-					<div class="box peso-ideal">
-						<i></i>
-						<br>
-						Peso Ideal
-						<strong>{{ pesoIdeal | number : '1.2-2'}} kg</strong>
-					</div>
-	</ng-template>
-	<ng-template [ngIf]="displayoptionsForAdulto">
-					<div class="box peso-ideal-ajustado">
-						<i></i>
-						<br>
-						Peso Ideal Ajustado
-						<strong>{{ pesoIdealAjustado | number : '1.2-2'}} kg</strong>
-					</div>
-					<div class="box diferencia-peso">
-						<i></i>
-						<br>
-						Diferencia Peso
-						<strong>{{ diferenciaPeso | number : '1.2-2'}} kg</strong>
-					</div>
-					<div class="box adecuacion">
-						<i></i>
-						<br>
-						Adecuación
-						<strong>{{ adecuacion | number : '1.2-2'}} <small>%</small></strong>
-					</div>
-					<div class="box cintura-cadera">
-						<i></i>
-						<br>
-						Relación Cintura-Cadera
-						<strong>{{ relacionCinturaCadera | number : '1.2-2'}}</strong>
-					</div>
-					<div class="box porcentaje-sobrepeso">
-						<i></i>
-						<br>
-						Porcentaje de Sobrepeso
-						<strong>{{ porcentajePeso | number : '1.2-2'}} %</strong>
-					</div>
-					<div class="box grado-sobrepeso">
-						<i></i>
-						<br>
-						Grado de Sobrepeso
-						<strong>{{ gradoSobrepeso }}</strong>
-					</div>
-					<div class="box peso-meta-maximo">
-						<i></i>
-						<br>
-						Peso Meta M&aacute;ximo
-						<strong>{{ pesoMetaMaximo | number : '1.2-2'}} kg</strong>
-					</div>
-					<div class="box peso-meta-minimo">
-						<i></i>
-						<br>
-						Peso Meta M&iacute;nimo
-						<strong>{{ pesoMetaMinimo | number : '1.2-2'}} kg</strong>
-					</div>
-	</ng-template>
-	<ng-template [ngIf]="displayGraphicChildren">
-					<div class="box peso-ideal estatura-ideal">
-						<i></i>
-						<br>
-						Estatura Ideal
-						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
-					</div>
-					<div *ngIf="showBoxIndicadorEstaturaEdad" class="box peso-ideal indicador-estatura-para-edad">
-						<i></i>
-						<br>
-						Indicador Estatura para Edad
-						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
-					</div>
-					<div *ngIf="showBoxIndicadorPesoEdad" class="box peso-ideal indicador-peso-para-edad">
-						<i></i>
-						<br>
-						Indicador Peso para Edad
-						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
-					</div>
-					<div *ngIf="showBoxIndicadorPesoEstatura" class="box peso-ideal indicador-peso-para-estatura">
-						<i></i>
-						<br>
-						Indicador Peso para Estatura
-						<strong>{{ pesoIdeal | number : '1.2-2'}} m</strong>
-					</div>
-	</ng-template>
-				</div>
-			</section>-->
-			
+			</section>		
 			<div class="buttons-navigation">
 				<button 
 					class="btn btn-default previous invisible" 
@@ -699,7 +601,7 @@
 					</li>
 				</ul>
 			</nav>
-			<div class="esc-grafico-boxes row">
+			<div id="container_historial_children_graphics" class="esc-grafico-boxes row">
 <ng-template [ngIf]="graficos" [ngIfElse]="loading">
 	<ng-template ngFor let-grafico [ngForOf]= "graficos">
 	<div id="{{grafico.key}}" class="{{grafico.class}}">
