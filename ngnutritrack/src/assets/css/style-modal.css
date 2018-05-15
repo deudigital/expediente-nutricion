@@ -38,7 +38,7 @@ body.open-modal .esc-modal {top:5%}
 .alimentos .warning:not(.black){color:#cc2026}
 .alimentos .success:not(.black){color:#8bc23f}
 /*	modalbox	*/
-.esc-modalbox{max-width: 100%;padding: 30px 15px;left: 2%;width:96%;position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
+.esc-modalbox{max-width: 100%;padding: 30px 15px;left: 3%;width:94%;position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
 -webkit-transition: all 0.4s ease;-moz-transition: all 1s ease;-ms-transition: all 1s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;
 }
 .esc-modalbox .modal-close{position:absolute;right:15px;top:15px;cursor:pointer;z-index:10}

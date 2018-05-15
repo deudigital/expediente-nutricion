@@ -312,7 +312,7 @@ export class ValoracionComponent implements OnInit {
 			 response  => {
 						this.historial	=	response;
 						this.disableButtonHistorial	=	this.historial.length==0;
-						this.createGraphs();
+						/*this.createGraphs();*/
 						},
 			error =>  console.log(<any>error)
 		);
@@ -351,7 +351,9 @@ console.log('createGraphs');
 
 		var k=0;		
 		var _va	=	this.historial[0];
-this.getWidthContainerChildrenGraph();
+
+		
+		this.getWidthContainerChildrenGraph();
 		for(var i in _va) {
 			if(i=='fecha' || i=='date')
 				continue ;
@@ -415,10 +417,20 @@ this.getWidthContainerChildrenGraph();
 	getWidthContainerChildrenGraph(){
 		try {
 			console.log('this.tagBody.offsetWidth-> ' + this.tagBody.offsetWidth);
-			this.parentWidth			=	document.getElementById('container_children_graphics').offsetWidth;
+			if(document.getElementById('container_children_graphics'))
+				this.parentWidth			=	document.getElementById('container_children_graphics').offsetWidth;
 			//this.historialParentWidth	=	document.getElementById('container_historial_children_graphics').offsetWidth;
-			this.historialParentWidth	=	this.tagBody.offsetWidth - 30;
-			console.log('this.parentWidth-> ' +  this.parentWidth + 'this.historialParentWidth-> ' +  this.historialParentWidth );
+			var _width	=	this.tagBody.offsetWidth;
+			if(_width>1250)
+				_width	=	1200;
+			else
+				_width	=	this.tagBody.offsetWidth - 30;
+
+			if(document.getElementById('container_historial_children_graphics'))
+				_width	=	document.getElementById('container_historial_children_graphics').offsetWidth;
+
+			this.historialParentWidth	=	_width;
+			console.log('parentWidth-> ' +  this.parentWidth + 'historialParentWidth-> ' +  this.historialParentWidth );
 		}
 		catch(err) {
 				console.log( 'ERROR: getWidthContainerChildrenGraph-> ' + err.message );
@@ -1500,6 +1512,9 @@ this.getWidthContainerChildrenGraph();
 		switch(modal){
 			case 'datos':
 				this.hideModalDatos	=	false;
+				setTimeout(() => {
+						  this.createGraphs();
+					    }, 2000);
 				break;
 			case 'grasa':
 				this.hideModalGrasa	=	false;

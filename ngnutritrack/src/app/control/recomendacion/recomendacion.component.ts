@@ -121,7 +121,17 @@ export class RecomendacionComponent implements OnInit {
 	}
 	getWidthContainerChildrenGraph(){
 		try {
-			this.historialParentWidth	=	this.tagBody.offsetWidth - 30;
+			var _width	=	this.tagBody.offsetWidth;
+			if(_width>1250)
+				_width	=	1200;
+			else
+				_width	=	this.tagBody.offsetWidth - 30;
+
+			if(document.getElementById('container_historial_children_graphics'))
+				_width	=	document.getElementById('container_historial_children_graphics').offsetWidth;
+
+			this.historialParentWidth	=	_width;
+			console.log( 'historialParentWidth-> ' +  this.historialParentWidth );
 		}
 		catch(err) {
 				console.log( 'ERROR: getWidthContainerChildrenGraph-> ' + err.message );
