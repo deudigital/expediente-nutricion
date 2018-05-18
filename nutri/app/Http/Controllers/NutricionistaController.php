@@ -13,7 +13,9 @@ class NutricionistaController extends Controller
      */
     public function index()
     {
-        //
+		$registros	=	Nutricionista::All();
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
     }
     /**
      * Show the form for creating a new resource.
@@ -86,5 +88,19 @@ class NutricionistaController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function getNutricionistas()
+    {
+		$registros	=	DB::table('nutricionistas')
+						->join('personas', 'personas.id', 'nutricionistas.persona_id')
+						->select('*')
+						->get();
+
+		if(count($registros)>0)
+			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		else
+			$response	=	Response::json(['message' => 'Record not found'], 204);
+		
+		return $response;
     }
 }

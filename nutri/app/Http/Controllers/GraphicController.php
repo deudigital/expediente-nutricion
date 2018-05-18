@@ -11,6 +11,82 @@ use Illuminate\Support\Facades\Response;
 class GraphicController extends Controller
 {
     //
+	public function all($paciente_id)
+    {
+		$paciente	=	Persona::find($paciente_id);
+		$paciente->edad		=	0;
+		if($paciente->fecha_nac){
+			$fecha_nac = explode('-', $paciente->fecha_nac);
+			$edad	=	Carbon::createFromDate($fecha_nac[0], $fecha_nac[1], $fecha_nac[2])->age;          // int(41) calculated vs now in the same tz
+			$paciente->fecha_nac=	$fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
+			$paciente->edad		=	$edad;
+		}	
+		$genero			=	'mujer';
+		if($paciente->genero=='M')
+			$genero			=	'hombre';
+
+		$indicators	=	array(
+								'estatura-edad'	=>	'', 
+								'estatura-peso'	=>	'', 
+								'imc-edad'		=>	'', 
+								'peso-edad'		=>	''
+							);
+		$methods	=	array( 'oms', 'cdc');
+		$response	=	array();
+		foreach($methods as $method){
+			$_indicators	=	$indicators;
+			if($method=='oms'){
+				if($paciente->edad > 5){
+					unset($_indicators['estatura-peso']);
+					if($paciente->edad > 10)
+						unset($_indicators['peso-edad']);
+				}
+			}
+			if($method=='cdc'){
+				unset($_indicators['estatura-peso']);
+				if($paciente->edad < 3){
+					unset($_indicators['imc-edad']);				
+				}
+			}
+			$rangoEdad	=	'';
+			foreach($_indicators as $key=>$value){
+				$path	=	$method;
+				$path	.=	'-' . $key;
+				switch($method){
+					case 'oms':
+						if($key=='estatura-peso'){
+							$rangoEdad	=	'0-2';
+							if($paciente->edad > 2)
+								$rangoEdad	=	'2-5';
+						}else{
+							$rangoEdad		=	'0-5';
+							if($paciente->edad > 5){
+								$rangoEdad		=	'5-19';
+							}
+						}
+						break;
+					case 'cdc':
+						$rangoEdad		=	'0-2';
+						if($paciente->edad > 2)
+							$rangoEdad		=	'2-20';
+						break;				
+				}
+				
+				$path	.=	'-' . $rangoEdad;			
+				$path	.=	'-' . $genero;
+				$path	.=	'.json';			
+				$path	=	'json-data/' . $path;
+			
+				$jsonURL	=	public_path( $path );
+				$jsonFile	=	file_get_contents($jsonURL);
+				
+				$_indicators[$key]	=	$jsonFile;
+			}
+			$response[$method]	=	$_indicators;
+		}
+		echo '<pre>' . print_r($response, true) . '</pre>';exit;
+		return $response;
+    }
 	public function getIndicators($method, $indicator, $paciente_id)
     {
 		$paciente	=	Persona::find($paciente_id);

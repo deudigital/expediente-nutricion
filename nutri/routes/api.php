@@ -24,6 +24,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	//Route::get('facturacion/notificaciones/{id}', 'FacturaController@notificarPorCorreo');
 	
 	
+	Route::get('graphics/all/{id}', 'GraphicController@all');
 	Route::get('graphics/{method}/{indicator}/{id}', 'GraphicController@getIndicators');
 	Route::get('facturacion/consecutivo/{nutricionista_id}/{tipo_documento_id}', 'FacturaController@getLastNumberConsecutive');
 	Route::post('external/nutricionistas', 'externalController@store');
@@ -84,6 +85,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('pacientes/medicamentos', 'PacienteController@medicamentos');
 	Route::post('pacientes/hcpotros', 'PacienteController@hcpOtros');
 	Route::post('pacientes/hcpbioquimicas', 'PacienteController@hcpBioquimicas');
+	Route::get('backend/nutricionistas', 'NutricionistaController@getNutricionistas');
 	Route::get('nutricionistas/{id}', 'ReportesFacturasController@getDataNutricionista');
 	Route::post('nutricionistas/configFactura','ReportesFacturasController@configFactura');
 	Route::post('nutricionistas/uploadAvatar/{id}','ReportesFacturasController@uploadAvatar');

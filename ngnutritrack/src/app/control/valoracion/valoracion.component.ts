@@ -15,6 +15,7 @@ export class ValoracionComponent implements OnInit {
 	model:any;
 	mng:any;
 	helpers:any;
+	json:any;
 	analisis	=	new Analisis();
 	valoracion	=	new ValoracionAntropometrica();
 	oValoracion	=	new ValoracionAntropometrica();
@@ -108,6 +109,7 @@ export class ValoracionComponent implements OnInit {
 	displayOms:boolean;
 	
 	graficando:boolean;
+	solicitando:boolean;
 	mostrarErrorEstatura:boolean;
 	mostrarErrorPeso:boolean;
 
@@ -125,9 +127,9 @@ export class ValoracionComponent implements OnInit {
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
-		this.mng	=	this.model.getManejadorDatos();
+		this.mng		=	this.model.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(false);
-		this.nuevaConsulta	=	false;
+		this.nuevaConsulta			=	false;
 		this.disableButtonHistorial	=	true;
 		this.loading_data_form		=	true;
 		this.esAdulto				=	false;
@@ -141,12 +143,10 @@ export class ValoracionComponent implements OnInit {
 		this.mostrarErrorEstatura	=	false;
 	
 		this.getDatosDeConsulta(this.model.consulta.id);
-		
-		/*this.getWidthContainerChildrenGraph();*/
 		window.onresize = ( e ) => {
 			this.getWidthContainerChildrenGraph();
 			this.graficar();
-			this.createGraphs();
+			this.graficarHistorial();
 		}
     }
 	ngOnInit() {
@@ -154,14 +154,30 @@ export class ValoracionComponent implements OnInit {
 		this.countPendientes	=	0;
 		this.btnNavigation_pressed	=	false;
 		this.graficando				=	false;
+		this.solicitando			=	false;
 		this.getWidthContainerChildrenGraph();
 		this.showBoxIndicadorEstaturaEdad	=	false;
 		this.showBoxIndicadorPesoEdad		=	false;
 		this.showBoxIndicadorPesoEstatura	=	false;
+		this.getJsonData();
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
+	}
+	getJsonData(){
+		var data			=	Object();
+		data.paciente_id	=	this.paciente.persona_id;
+		this.solicitando	=	true;
+		this.formControlDataService.select('data-graphic', data)
+		.subscribe(
+			 response  => {
+						console.log(response);
+						this.json	=	response;
+						this.solicitando	=	false;
+					},
+			error =>  console.log(<any>error)
+		);
 	}
 	displayErrorPesoEstatura(){
 		if(!this.displayGraphicChildren)
@@ -312,15 +328,111 @@ export class ValoracionComponent implements OnInit {
 			 response  => {
 						this.historial	=	response;
 						this.disableButtonHistorial	=	this.historial.length==0;
-						/*this.createGraphs();*/
 						},
 			error =>  console.log(<any>error)
 		);
 	}
-	createGraphs(){
+	graficarHistorial(){
 		if(this.historial.length==0)
 			return ;
-console.log('createGraphs');
+		console.log('graficarHistorial');
+		var toGraph = '';
+		var date;
+		var new_date;
+		var new_date_format;
+		var toolTipHtml;
+		var va;
+		var data;
+		var item;
+		var items	=	[];
+		var headers	=	[];
+		var headerGraficos	=	[];
+		var config;
+		var options;
+		var columns;
+		var value;
+		headerGraficos['imc']					=	'IMC';
+		headerGraficos['peso']					=	'Peso';
+		headerGraficos['estatura']				=	'Estatura';
+		headerGraficos['grasa']					=	'Grasa';
+		headerGraficos['grasa_viceral']			=	'Grasa Viceral';
+		headerGraficos['musculo']				=	'Músculo';
+		headerGraficos['agua']					=	'Agua';
+		headerGraficos['hueso']					=	'Hueso';
+		headerGraficos['edad_metabolica']		=	'Edad';
+		headerGraficos['circunferencia_cintura']=	'Cintura';
+		headerGraficos['circunferencia_cadera']	=	'Cadera';
+		headerGraficos['circunferencia_muneca']	=	'Muñeca';
+
+		var k=0;		
+		var _va	=	this.historial[0];
+
+		
+		this.getWidthContainerChildrenGraph();
+		for(var i in _va) {
+			if(i=='fecha' || i=='date')
+				continue ;
+
+			data	=	[];
+			for(var j in this.historial){
+				var d	= this.historial[j].fecha.split('-');
+				var anho	=	d[0];
+				var mes		=	d[1];
+				var dia		=	d[2];
+				new_date	=	new Date( anho, (mes-1), dia);
+				new_date_format	=	dia + '/' + mes + '/' + anho;
+				value	=	this.historial[j][i];
+				toolTipHtml	=	'<ul class="grafico-lista">';
+				toolTipHtml	+=	'	<li>Fecha: <strong>' + new_date_format + '</strong></li>';
+				toolTipHtml	+=	'	<li>' + headerGraficos[i] + ': <strong>' + value + '</strong></li>';
+				toolTipHtml	+=	'</ul>';
+				data.push([new_date,parseInt(value), toolTipHtml]);
+			}
+			toGraph	=	headerGraficos[i];
+			options = {
+/*				width: 1100,
+				height:350,*/
+				width: this.historialParentWidth,
+				animation: {
+					duration: 1000,
+					easing: 'out'
+				},
+				tooltip: {isHtml: true},
+				titleTextStyle: {
+					color: '#cc1f25',
+					fontName: 'Verdana',
+					fontSize: 20, 
+					bold: true,   
+					italic: false
+				},
+				pointShape: 'circle', pointSize: 10,
+				hAxis: {
+					title: 'Fecha'
+				},
+				vAxis: {
+					title: toGraph
+				},
+				colors: ['#cc1f25']
+			};
+			columns	= [
+							{label: 'date', type: 'date'},
+							{label: toGraph, type: 'number'},
+							{type: 'string', role: 'tooltip', 'p': {'html': true}}
+						];
+
+			config	=	new LineChartConfig('title ' + toGraph, options, columns);
+			headers.push({'id':i, 'nombre':toGraph, 'class': 'grafico-' + i});
+			item	=	{'data':data, 'config': config, 'elementId':'element_' + i, 'key': 'container_' + i, 'class':i=='imc'? 'active':''};
+			items.push(item);
+		}
+		this.graficosH	=	headers;
+		this.graficos	=	items;
+		this.tagBody.classList.add('grafico-selected-imc');
+	}
+	graficarHistorial__old(){
+		if(this.historial.length==0)
+			return ;
+		console.log('graficarHistorial');
 		var toGraph = '';
 		var date;
 		var new_date;
@@ -1513,7 +1625,7 @@ this.getWidthContainerChildrenGraph();
 			case 'datos':
 				this.hideModalDatos	=	false;
 				setTimeout(() => {
-						  this.createGraphs();
+						  this.graficarHistorial();
 					    }, 2000);
 				break;
 			case 'grasa':
@@ -1774,6 +1886,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		
 		return this.analisis.pesoIdeal;
 	}
+
 	_calcularPesoIdealAjustado(){
 		if(!this.allowCalculate)
 			return 0;

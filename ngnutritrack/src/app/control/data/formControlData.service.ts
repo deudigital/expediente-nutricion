@@ -338,6 +338,9 @@ export class FormControlDataService {
 			case 'graphic':
 				serviceUrl	+=	'graphics/' + data.method + '/' + data.indicator + '/' + data.paciente_id;
 				break;
+			case 'data-graphic':
+				serviceUrl	+=	'graphics/all/' + data.paciente_id;
+				break;
 		}
 		return this.http.get( serviceUrl )
 				.map((response: Response) => response.json());
