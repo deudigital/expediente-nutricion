@@ -56,8 +56,10 @@ class LoginController extends Controller
     }
     function check(Request $request) {
 		$user		=	$request->offsetGet('username');
-		$password	=	$request->offsetGet('password');	
-		$paciente	=	Paciente::where('usuario','=', $user)
+		$password	=	$request->offsetGet('password');
+		/*$paciente	=	Paciente::where('usuario','=', $user)
+								->where('contrasena','=', $password)->first();*/
+		$paciente	=	Paciente::where('lower(usuario)','=', strtolower($user))
 								->where('contrasena','=', $password)->first();
 		if(!$paciente){
 			$response	=	array(	'error'=>'Unauthorized',
