@@ -348,6 +348,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 .esc-grafico-boxes > div:not(.active) {display: none;}
 .esc-grafico-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
+.esc-grafico-children-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
 
 .content-form .analisis > .box{width:50%;}
 

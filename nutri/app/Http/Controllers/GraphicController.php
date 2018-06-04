@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use File;
 
 class GraphicController extends Controller
 {
@@ -77,14 +78,18 @@ class GraphicController extends Controller
 				$path	.=	'.json';			
 				$path	=	'json-data/' . $path;
 			
-				$jsonURL	=	public_path( $path );
-				$jsonFile	=	file_get_contents($jsonURL);
+				$jsonURL	=	public_path( $path );//echo $jsonURL;
+				//$jsonFile	=	file_get_contents($jsonURL);
+				$jsonFile	= File::get($jsonURL);
 				
 				$_indicators[$key]	=	$jsonFile;
+				//$_indicators[$key]	=	(array)json_decode($jsonFile, true);
+				//$_indicators[$key]	=	json_decode($jsonFile, true);
 			}
 			$response[$method]	=	$_indicators;
 		}
-		echo '<pre>' . print_r($response, true) . '</pre>';exit;
+		//echo '<pre>' . print_r($response, true) . '</pre>';exit;
+		$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
 	public function getIndicators($method, $indicator, $paciente_id)

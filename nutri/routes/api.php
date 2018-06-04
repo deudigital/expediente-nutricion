@@ -86,6 +86,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('pacientes/hcpotros', 'PacienteController@hcpOtros');
 	Route::post('pacientes/hcpbioquimicas', 'PacienteController@hcpBioquimicas');
 	Route::get('backend/nutricionistas', 'NutricionistaController@getNutricionistas');
+	Route::post('backend/nutricionistas', 'NutricionistaController@backendStore');
 	Route::get('nutricionistas/{id}', 'ReportesFacturasController@getDataNutricionista');
 	Route::post('nutricionistas/configFactura','ReportesFacturasController@configFactura');
 	Route::post('nutricionistas/uploadAvatar/{id}','ReportesFacturasController@uploadAvatar');

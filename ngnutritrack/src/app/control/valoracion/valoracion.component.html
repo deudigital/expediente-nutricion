@@ -408,7 +408,69 @@
 				</div>
 				</ng-template>
 			</div>
-</ng-template>	
+			<button id="zoom-button">Zoom In / Out</button>
+</ng-template>
+
+
+
+<ng-template [ngIf]="displayoptionsForAdulto">
+				<div  id="container_historial_children_graphics">
+					<nav class="clearfix">
+						<ul class="nav navbar-nav menu grafico">
+							<li *ngFor="let header of graficosH">
+								<a class="{{header.class}}" href="javascript:void(0)" (click)="graficoSelected(header)">
+									<span>{{header.nombre}}	</span>
+								</a>
+							</li>
+						</ul>
+					</nav>			
+					<div class="esc-grafico-boxes rrow">
+						<ng-template [ngIf]="graficos">
+							<ng-template ngFor let-grafico [ngForOf]= "graficos">
+							<div id="{{grafico.key}}" class="{{grafico.class}}">
+								<line-chart 
+									[data]="grafico.data" 
+									[config]="grafico.config" 
+									[elementId]="grafico.elementId"
+								></line-chart>
+							</div>
+							</ng-template>
+							<ng-template #loading>
+								processing...
+							</ng-template>
+						</ng-template>
+					</div>
+				</div>
+</ng-template>
+<ng-template [ngIf]="displayGraphicChildren">
+			<nav class="clearfix">
+				<ul class="nav navbar-nav menu grafico-children by-indicator">
+					<li *ngFor="let header_x of grafico_children_by_x_H">
+						<a id="{{header_x.id}}" class="{{header_x.class}}" href="javascript:void(0)" (click)="graficoChildrenxSelected(header_x, $event)">
+							<span>{{header_x.nombre}}	</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<div id="container_children_graphics">
+				<ng-template [ngIf]="grafico_children_by_x">
+				<div class="esc-grafico-children-by-indicator">
+					<ng-template ngFor let-grafico_by_x [ngForOf]= "grafico_children_by_x">
+						<div id="{{grafico_by_x.key}}" class="{{grafico_by_x.class}}">
+							<line-chart 
+								[data]="grafico_by_x.data" 
+								[config]="grafico_by_x.config" 
+								[elementId]="grafico_by_x.elementId"
+							></line-chart>
+						</div>
+					</ng-template>
+				</div>
+				</ng-template>
+			</div>
+</ng-template>
+
+
+
 			</section>
 <section>
 				<header>
@@ -592,30 +654,20 @@
 			<header class="visible-xs">
 				<h4>Gr&aacute;ficos</h4>
 			</header>
-			<nav class="clearfix">
-				<ul class="nav navbar-nav menu grafico">
-					<li *ngFor="let header of graficosH">
-						<a class="{{header.class}}" href="javascript:void(0)" (click)="graficoSelected(header)">
-							<span>{{header.nombre}}	</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
-			<div id="container_historial_children_graphics" class="esc-grafico-boxes rrow">
-<ng-template [ngIf]="graficos" [ngIfElse]="loading">
-	<ng-template ngFor let-grafico [ngForOf]= "graficos">
-	<div id="{{grafico.key}}" class="{{grafico.class}}">
-		<line-chart 
-			[data]="grafico.data" 
-			[config]="grafico.config" 
-			[elementId]="grafico.elementId"
-		></line-chart>
-	</div>
-	</ng-template>
-	<ng-template #loading>
-		processing...
-	</ng-template>
-</ng-template>
+			<div id="container_modal_tab_graphic">
+			
+
+				
+				
+				
+				
+				
+				
+			
+			
+			
+			
+			
 			</div>
 		</div>
 	</div>
