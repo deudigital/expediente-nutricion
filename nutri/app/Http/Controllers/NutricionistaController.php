@@ -111,25 +111,7 @@ class NutricionistaController extends Controller
 		return $response;*/
 		$action	=	'editado';
 		
-/*
-Array
-(
-    [id] => 199
-    [nombre] => Pruebas DeuDigital Development abc
-    [tipo_idenfificacion_id] => 2
-    [cedula] => 3101671459666
-    [email] => pruebas@deudigital.com
-    [ubicacion_id] => 
 
-    [nombre_comercial] => Anytime Nutrition, LLC abc
-    [usuario] => 
-    [contrasena] => probando abc
-    [carne_cpn] => 
-    [descuento_25_consultas] => 
-    [activo] => on
-)
-*/
-		/*if($request['persona_id'] && $request['persona_id']!=0){*/
 		if($request['id'] && $request['id']!=0){
 			$persona						=	Persona::find($request['id']);
 			$persona->nombre				=	$request['nombre'];
@@ -146,10 +128,6 @@ Array
 			$nutricionista->contrasena						=	$request['contrasena'];
 			$nutricionista->carne_cpn						=	$request['carne_cpn'];
 			$nutricionista->descuento_25_consultas			=	$request['descuento_25_consultas'];
-			/*$nutricionista->atv_ingreso_id					=	$request['atv_ingreso_id'];
-			$nutricionista->atv_ingreso_contrasena			=	$request['atv_ingreso_contrasena'];
-			$nutricionista->atv_llave_criptografica			=	$request['atv_llave_criptografica'];
-			$nutricionista->atv_clave_llave_criptografica	=	$request['atv_clave_llave_criptografica'];*/
 			$nutricionista->activo							=	$request['activo']=='on';
 			$nutricionista->save();
 		}else{$action	=	'registrado';
