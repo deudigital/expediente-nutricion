@@ -95,6 +95,7 @@ class NutricionistaController extends Controller
 		$registros	=	DB::table('nutricionistas')
 						->join('personas', 'personas.id', 'nutricionistas.persona_id')
 						->select('*')
+						->orderBy('personas.id', 'DESC')
 						->get();
 
 		if(count($registros)>0)
