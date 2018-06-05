@@ -133,6 +133,7 @@ Array
 			$persona						=	Persona::find($request['id']);
 			$persona->nombre				=	$request['nombre'];
 			$persona->tipo_idenfificacion_id=	$request['tipo_idenfificacion_id'];
+			$persona->genero				=	$request['genero'];
 			$persona->cedula				=	$request['cedula'];
 			$persona->email					=	$request['email'];
 			$persona->ubicacion_id			=	$request['ubicacion_id'];
@@ -140,7 +141,7 @@ Array
 
 			$nutricionista									=	Nutricionista::find($request['id']);
 			$nutricionista->nombre_comercial				=	$request['nombre_comercial'];
-			$nutricionista->usuario							=	$request['usuario'];
+			$nutricionista->usuario							=	$request['email'];
 			$nutricionista->contrasena						=	$request['contrasena'];
 			$nutricionista->carne_cpn						=	$request['carne_cpn'];
 			$nutricionista->descuento_25_consultas			=	$request['descuento_25_consultas'];
@@ -155,6 +156,7 @@ Array
 			$aPersona	=	array(
 								'nombre'				=>	$request['nombre'],
 								'tipo_idenfificacion_id'=>	$request['tipo_idenfificacion_id'],
+								'genero'				=>	$request['genero'],
 								'cedula'				=>	$request['cedula'],
 								'email'					=>	$request['email'],
 								'ubicacion_id'			=>	$request['ubicacion_id']
@@ -166,7 +168,7 @@ Array
 				$nutricionista	=	Nutricionista::create([
 								'persona_id'					=>	$persona->id,
 								'nombre_comercial'				=>	$request['nombre_comercial'],
-								'usuario'						=>	$request['usuario'],
+								'usuario'						=>	$request['email'],
 								'contrasena'					=>	$request['contrasena'],
 								'carne_cpn'						=>	$request['carne_cpn'],
 								'descuento_25_consultas'		=>	$request['descuento_25_consultas'],
@@ -179,7 +181,7 @@ Array
 				$nutricionista->save();
 			}
 		}
-		$response	=	Response::json(['result'=>'true'], 201, [], JSON_NUMERIC_CHECK);
+		$response	=	Response::json(['result'=>true], 201, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
 }
