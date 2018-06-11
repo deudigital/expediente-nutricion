@@ -366,6 +366,7 @@ export class FormControlDataService {
 		var analisis:Analisis={
 			imc: this.formControlData.imc,
 			pesoIdeal : this.formControlData.pesoIdeal,
+			estaturaIdeal : this.formControlData.estaturaIdeal,
 			pesoIdealAjustado: this.formControlData.pesoIdealAjustado,
 			diferenciaPeso: this.formControlData.diferenciaPeso,
 			adecuacion: this.formControlData.adecuacion,

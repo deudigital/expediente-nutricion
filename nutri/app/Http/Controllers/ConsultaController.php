@@ -467,7 +467,21 @@ Enviar usuario y contrasena?????? por ahora si...
 										->get();
 		if(count($patronMenu)>0)
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
+		
+		
+		$va_historial = DB::table('valor_antropometricas')
+            ->join('consultas', 'consultas.id', '=', 'valor_antropometricas.consulta_id')
+            ->join('personas', 'personas.id', '=', 'consultas.paciente_id')
+            ->where('consultas.paciente_id', $consulta->paciente_id)
+            ->where('consultas.estado', 1)
+            ->select('consultas.fecha', DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,consultas.fecha) as edad'), DB::raw('TRUNCATE(valor_antropometricas.peso/(valor_antropometricas.estatura*valor_antropometricas.estatura), 2) as imc'), 'valor_antropometricas.peso', 'valor_antropometricas.estatura', 'valor_antropometricas.grasa', 'valor_antropometricas.grasa_viceral', 'valor_antropometricas.musculo', 'valor_antropometricas.agua', 'valor_antropometricas.hueso', 'valor_antropometricas.edad_metabolica', 'valor_antropometricas.circunferencia_cintura', 'valor_antropometricas.circunferencia_cadera', 'valor_antropometricas.circunferencia_muneca')
+			->orderBy('consultas.fecha', 'DESC')
+			->get();
 
+		if(count($va_historial)>0)
+			$registros['va']['historial']	=	$va_historial->toArray();
+		
+		
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}

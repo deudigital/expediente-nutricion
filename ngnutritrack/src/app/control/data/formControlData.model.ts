@@ -16,6 +16,7 @@ export class FormControlData {
 
 	imc: number 				=	0;
 	pesoIdeal: number = 0;
+	estaturaIdeal: number = 0;
 	pesoIdealAjustado: number = 0;	
 	diferenciaPeso: number = 0;	
 	adecuacion: number = 0;	
@@ -536,7 +537,7 @@ export class ValoracionAntropometrica {
 	consulta_id: number = 0;
 	pesoIdeal:string='';
 	pesoIdealAjustado:string='';
-	
+	historial:any[]=[];
 	
 	/*lastEstatura:number=0;
 	lastCircunferencia_muneca:number=0;*/
@@ -568,6 +569,9 @@ export class ValoracionAntropometrica {
 			/*console.log('data.percentil_analisis:' + data.percentil_analisis);*/
 			if(data.percentil_analisis)
 				this.percentil_analisis	=	String(data.percentil_analisis);
+		}
+		if(data.historial){
+			this.historial	=	data.historial;
 		}
 			
 /*		this.detalleGrasa.valoracion_antropometrica_id	=	data.id;
@@ -717,6 +721,7 @@ export class Rdd{
 export class Analisis {
     imc: number 				=	0;
     pesoIdeal : number 			=	0;
+    estaturaIdeal : number 			=	0;
     pesoIdealAjustado: number	=	0;
     diferenciaPeso: number 		=	0;
     adecuacion: number 			=	0;
