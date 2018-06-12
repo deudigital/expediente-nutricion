@@ -1825,19 +1825,19 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 */			
 			var _info	=	this.infoIdeal['peso-edad'];
 			switch(this.valoracion.percentil_analisis){
-				case '3':
+				case '10':
 					this.analisis.pesoIdeal	=	_info.P10;
 					break;
-				case '15':
+				case '25':
 					this.analisis.pesoIdeal	=	_info.P25;
 					break;
 				case '50':
 					this.analisis.pesoIdeal	=	_info.P50;
 					break;
-				case '85':
+				case '75':
 					this.analisis.pesoIdeal	=	_info.P75;
 					break;
-				case '97':
+				case '90':
 					this.analisis.pesoIdeal	=	_info.P90;
 					break;
 			}
