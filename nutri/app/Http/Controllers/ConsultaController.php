@@ -1023,6 +1023,16 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'tienes el detalle de como dividir estas porciones en los diferentes tiempos de comida con sus respectivos ejemplos:</p>';
 		$html	.=	$_resumen['patronMenu'];
 
+		$html	.=	'<p>Finalmente, toda esta informaci&oacute;n y otras herramientas para llevar el registro de lo que comes d&iacute;a a d&iacute;a y ayudarte a cumplir tus objetivos est&aacute;n disponibles en el app de <strong>NutriTrack</strong>, si a&uacute;n no la tienes desc&aacute;rgala <strong>GRATIS</strong> en las tiendas de iPhone y Android</p>';
+		$contentLeft	=	'<div style="text-align:center"><img src="' . $images . 'appstore.png" width="180" /></div>';
+		$contentRight	=	'<div style="text-align:center"><img src="' . $images . 'googleplay.png" width="180" /></div>';
+		$html	.=	$this->htmlTwoColumns($contentLeft, $contentRight);
+
+		$html	.=	'<p>Te recordamos tus credenciales:</p>';
+		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
+		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
+
+		
 		$to		=	array();
 		if(!empty( $paciente->email ))
 			$to[]	=	$paciente->email;
