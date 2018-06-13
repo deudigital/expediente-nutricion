@@ -618,7 +618,7 @@ Enviar usuario y contrasena?????? por ahora si...
 								->first();
 				if(count($paciente)>0){
 					if($paciente->email || $paciente->responsable_email){
-						/*$this->generatePacienteCredentials($persona);*/
+						$this->generatePacienteCredentials($persona);
 						$this->generateResumenConsulta($consulta->id);
 					}
 					$aResponse['nutricionista']	=	Nutricionista::find($paciente->nutricionista_id);
