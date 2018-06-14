@@ -1024,8 +1024,10 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	$_resumen['patronMenu'];
 
 		$html	.=	'<p>Finalmente, toda esta informaci&oacute;n y otras herramientas para llevar el registro de lo que comes d&iacute;a a d&iacute;a y ayudarte a cumplir tus objetivos est&aacute;n disponibles en el app de <strong>NutriTrack</strong>, si a&uacute;n no la tienes desc&aacute;rgala <strong>GRATIS</strong> en las tiendas de iPhone y Android</p>';
-		$contentLeft	=	'<div style="text-align:center"><img src="' . $images . 'appstore.png" width="180" /></div>';
-		$contentRight	=	'<div style="text-align:center"><img src="' . $images . 'googleplay.png" width="180" /></div>';
+		
+		$contentLeft	=	'<div style="text-align:center"><a href="https://itunes.apple.com/us/app/nutritrack/id1302386185?l=es&mt=8"><img src="' . $images . 'appstore.png" width="180" /></a></div>';
+		$contentRight	=	'<div style="text-align:center"><a href="https://play.google.com/store/apps/details?id=cr.co.nutricion.nutritrack"><img src="' . $images . 'googleplay.png" width="180" /></a></div>';
+
 		$html	.=	$this->htmlTwoColumns($contentLeft, $contentRight);
 
 		$html	.=	'<p>Te recordamos tus credenciales:</p>';
