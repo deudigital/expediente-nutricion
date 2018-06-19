@@ -1304,7 +1304,7 @@ try {
 			
 			options	=	this._getOptionsGraphChildren( args );
 			config	=	new LineChartConfig('title ' + toGraph, options, columns);
-			item	=	{'data':data, 'config': config, 'elementId':'element_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
+			item	=	{'data':data, 'config': config, 'elementId':'element_children_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
 			items.push(item);
 		}
 }

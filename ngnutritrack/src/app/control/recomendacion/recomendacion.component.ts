@@ -242,6 +242,7 @@ export class RecomendacionComponent implements OnInit {
 /*				width: 1100,
 				height:350,*/
 				width: this.historialParentWidth,
+				legend: { position: 'bottom' },
 				animation: {
 					duration: 1000,
 					easing: 'out'

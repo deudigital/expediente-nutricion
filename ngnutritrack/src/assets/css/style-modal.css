@@ -44,11 +44,12 @@ body.open-modal .esc-modal {top:5%}
 .esc-modalbox .modal-close{position:absolute;right:15px;top:15px;cursor:pointer;z-index:10}
 .esc-modalbox .modal-close > i {background-position: -469px 0;height: 18px;width: 18px;display: block;}
 
-.esc-modalbox .menu {text-align:center;margin-bottom:40px;border-bottom: 1px solid #dcdcdc;}
+.esc-modalbox .menu {text-align:center;margin-bottom:40px;}
+.esc-modalbox .modal-nav .menu {border-bottom: 1px solid #dcdcdc;}
 .esc-modalbox .menu > li {padding:0;position:relative;}
 .esc-modalbox .menu > li:not(:first-child)::before {top: 20px;border-left: 1px solid #ccc;content: "";left: 0;position: absolute;width: 1px;height: 20px;}
 .esc-modalbox .menu > li > a{display:block;padding-bottom:10px;font-size:16px;color:#b1b1b1}
-.esc-modalbox .menu > li > a.active{border-bottom:5px solid #8bc23f;color:#8bc23f;}
+.esc-modalbox .modal-nav .menu > li > a.active{border-bottom:5px solid #8bc23f;color:#8bc23f;}
 .esc-modalbox .nav > li > a:focus, 
 .esc-modalbox .nav > li > a:hover {background-color: transparent;color:#8bc23f;}
 .esc-modalbox i{display: inline-block;margin-right:10px;position:relative;top:5px;}

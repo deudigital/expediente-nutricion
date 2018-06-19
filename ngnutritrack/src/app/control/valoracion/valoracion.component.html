@@ -540,7 +540,7 @@
 <div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<div class="body">
-		<nav>
+		<nav class="modal-nav">
 			<ul class="nav nabvar menu">
 				<li class="col-xs-6">
 					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
@@ -646,7 +646,7 @@
 					</li>
 				</ul>
 			</nav>
-			<div id="container_children_graphics">
+			<div id="container_modal_children_graphics">
 				<ng-template [ngIf]="grafico_children_items">
 				<div class="esc-grafico-children-by-indicator">
 					<ng-template ngFor let-grafico_childre_item [ngForOf]= "grafico_children_items">
@@ -681,7 +681,7 @@
 		<h4>Detalle Grasa</h4>
 	</header>	
 	<div class="body content-form">
-		<nav>
+		<nav class="modal-nav">
 			<ul class="nav nabvar menu">
 				<li class="col-sm-6">
 					<a href="javascript:void(0)" (click)="tabGrasaSelected('segmentado')" class="{{tab_grasa_class_segmentado}}">
