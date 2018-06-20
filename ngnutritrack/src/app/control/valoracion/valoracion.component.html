@@ -412,8 +412,17 @@
 					</ng-template>
 				</div>
 				</ng-template>
+				
+				<button 
+					id="zoom-button-childrem" 
+					class="btn btn-default" 
+					(click)="doZoom('children')" 
+					[disabled]="graficandoChildren"
+					>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
+					<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
+					</button>
 			</div>
-			<!--<button id="zoom-button">Zoom In / Out</button>-->
+			
 </ng-template>
 
 
@@ -671,6 +680,16 @@
 			
 			
 			</div>
+			
+			<button 
+					id="zoom-button-historial" 
+					class="btn btn-default" 
+					(click)="doZoom('historial')" 
+					[disabled]="graficandoHistorialChildren"
+					>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
+					<span *ngIf="graficandoHistorialChildren" class="fa fa-spinner fa-spin"></span>
+					</button>
+			
 		</div>
 	</div>
 </div>
