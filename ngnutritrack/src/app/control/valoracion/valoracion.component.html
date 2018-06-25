@@ -380,7 +380,6 @@
 					>Graficar 
 					<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
 					</button>
-					{{graficandoChildren}}
 			</div>
 			<ng-template [ngIf]="graficandoChildren" [ngIfElse]="mostrarGraficos">
 				<div class="loading-graphic container-fluid text-center">
@@ -419,10 +418,6 @@
 						<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
 						</button>
 				</ng-template>				
-				<!--<ng-template #dibujarGraficos>
-					<div class="jumbotrom">estoy probando...</div>
-				</ng-template>-->
-				
 			</div>
 			
 	</ng-template>
