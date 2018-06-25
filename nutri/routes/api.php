@@ -22,7 +22,8 @@ Route::group(['middleware' => 'cors'], function(){
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	//Route::get('facturacion/notificaciones/{id}', 'FacturaController@notificarPorCorreo');
-	
+	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
+	Route::get('nutricionistas/status/{id}', 'NutricionistaController@status');
 	
 	Route::get('graphics/all/{id}', 'GraphicController@all');
 	Route::get('graphics/{method}/{indicator}/{id}', 'GraphicController@getIndicators');

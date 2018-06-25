@@ -395,7 +395,7 @@ export class Persona{
 	edad_meses:number=0;
 	esMayor:boolean=true;
 	
-	setEdad(){
+	setEdad(){console.log('setEdad:');console.log(this);
 		this.edad	=	0;
 		if(!this.fecha_nac)
 			return ;

@@ -163,4 +163,13 @@ class NutricionistaController extends Controller
 		$response	=	Response::json(['result'=>true], 201, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
+
+	public function status($id){
+		$registros	=	Nutricionista::where('persona_id', $id)
+						->where('nutricionistas.activo', '1')
+						->get()
+						->first();
+		$response	=	Response::json(['activo' => count($registros)>0], 201);
+		return $response;
+    }
 }

@@ -21,6 +21,11 @@ export class NotasComponent implements OnInit {
 	showModalFactura : boolean=false;
 	showModalPrompt : boolean=false;
 	hidePrompt : boolean=false;
+	historialNotas:any[];
+	disableButtonHistorial:boolean=true;
+	currentModal:string;
+	hideModalDatos:boolean=true;
+	showModalDatos:boolean=true;
 	
   constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService) {
 	  this.model	=	formControlDataService.getFormControlData();
@@ -35,6 +40,7 @@ export class NotasComponent implements OnInit {
 	  this.hidePrompt	=	false;
 	  this.data			=	{'0':''};
 	  this.data['id']	=	this.consulta.id;
+	  this._getNotasOfConsulta();
   }
 	ngOnDestroy() {
 		console.log('ngOnDestroy');
@@ -111,6 +117,7 @@ export class NotasComponent implements OnInit {
 		this.hidePrompt	=	false;
 		this.tagBody.classList.add('open-modal');
 		/*this.remove(consulta)*/
+		this.currentModal	=	'prompt';
 	}
 	openModalFactura(){
 		this.commonService.notifyOther({option: 'openModalDatos', persona_id:this.consulta.paciente_id, consulta_id: this.consulta.id, margin: true});
@@ -125,4 +132,41 @@ export class NotasComponent implements OnInit {
 		this.tagBody.classList.remove('open-modal');
 		this.router.navigate(['/inicio']);
 	}
+	hideModal(modal=''){
+		if(modal.length==0)
+			modal	=	this.currentModal;
+		switch(modal){
+			case 'notas':
+				this.hideModalDatos	=	true;
+				break;
+			case 'prompt':
+				this.hidePrompt	=	true;
+				break;
+		}
+		this.tagBody.classList.remove('open-modal');		
+	}
+	showModal(modal){
+		this.showModalDatos		=	false;
+		switch(modal){
+			case 'notas':
+				this.hideModalDatos	=	false;
+				break;
+		}
+		this.tagBody.classList.add('open-modal');
+		this.currentModal	=	modal;
+		window.scrollTo(0, 0);
+	}
+	_getNotasOfConsulta(){
+		var data			=	Object();
+		data.paciente_id	=	this.consulta.paciente_id;
+		this.formControlDataService.select('consulta-paciente', data)
+		.subscribe(
+			 response  => {
+				console.log('_getNotasOfConsulta');
+				this.historialNotas		=	response;
+				this.disableButtonHistorial	= false;
+			},
+			error =>  console.log('_getNotasOfConsulta: ' + <any>error)
+		);
+	}	
 }

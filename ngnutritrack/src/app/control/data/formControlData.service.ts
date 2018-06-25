@@ -41,6 +41,9 @@ export class FormControlDataService {
 		this.formControlData.setNutricionistaId(nutricionista_id);		
 	}
 	
+	verifyStatus(nutricionista_id): Observable<any[]> {
+		return this.http.get( this.apiURL +'nutricionistas/status/' + nutricionista_id).map((response: Response) => response.json());
+	}
 	getDataForm(): Observable<any[]> {
 		return this.http.get( this.apiURL + 'form/data', {headers: this.headers} ).map((response: Response) => response.json());
 	}
@@ -340,6 +343,9 @@ export class FormControlDataService {
 				break;
 			case 'data-graphic':
 				serviceUrl	+=	'graphics/all/' + data.paciente_id;
+				break;
+			case 'consulta-paciente':
+				serviceUrl	+=	'consultas/paciente/' + data.paciente_id;
 				break;
 		}
 		return this.http.get( serviceUrl )

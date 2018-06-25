@@ -377,14 +377,17 @@
 					(click)="graficar()" 
 					class="btn btn-default"
 					[disabled]="!valoracion.peso || !valoracion.estatura"
-					>Graficar</button>
+					>Graficar 
+					<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
+					</button>
+					{{graficandoChildren}}
 			</div>
-			<ng-template [ngIf]="graficando">
-			<div
-				class="container-fluid text-center">
-				<img src="assets/images/loading-bars.svg" width="32" height="32" />
-			</div>
+			<ng-template [ngIf]="graficandoChildren" [ngIfElse]="mostrarGraficos">
+				<div class="loading-graphic container-fluid text-center">
+					<img src="assets/images/loading-bars.svg" width="32" height="32" />
+				</div>
 			</ng-template>
+	<ng-template #mostrarGraficos>
 			<nav class="clearfix">
 				<ul class="nav navbar-nav menu grafico by-indicator">
 					<li *ngFor="let g_indicador of grafico_indicator">
@@ -395,34 +398,34 @@
 				</ul>
 			</nav>
 			<div id="container_children_graphics">
-				<ng-template [ngIf]="grafico_items" [ngIfElse]="loading">
-				<div class="esc-grafico-by-indicator">
-					<ng-template ngFor let-grafico_item [ngForOf]= "grafico_items">
-						<div id="{{grafico_item.key}}" class="{{grafico_item.class}}">
-							<line-chart 
-								[data]="grafico_item.data" 
-								[config]="grafico_item.config" 
-								[elementId]="grafico_item.elementId"
-							></line-chart>
-						</div>
-					</ng-template>
-					<ng-template #loading>
-						
-						
-					</ng-template>
-				</div>
-				</ng-template>
+				<ng-template [ngIf]="grafico_items"><!-- [ngIfElse]="dibujarGraficos"-->
+					<div class="esc-grafico-by-indicator">
+						<ng-template ngFor let-grafico_item [ngForOf]= "grafico_items">
+							<div id="{{grafico_item.key}}" class="{{grafico_item.class}}">
+								<line-chart 
+									[data]="grafico_item.data" 
+									[config]="grafico_item.config" 
+									[elementId]="grafico_item.elementId"
+								></line-chart>
+							</div>
+						</ng-template>					
+					</div>
+					<button 
+						id="zoom-button-childrem" 
+						class="btn btn-default" 
+						(click)="doZoom('children')" 
+						[disabled]="graficandoChildren"
+						>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
+						<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
+						</button>
+				</ng-template>				
+				<!--<ng-template #dibujarGraficos>
+					<div class="jumbotrom">estoy probando...</div>
+				</ng-template>-->
 				
-				<button 
-					id="zoom-button-childrem" 
-					class="btn btn-default" 
-					(click)="doZoom('children')" 
-					[disabled]="graficandoChildren"
-					>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
-					<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
-					</button>
 			</div>
 			
+	</ng-template>
 </ng-template>
 
 

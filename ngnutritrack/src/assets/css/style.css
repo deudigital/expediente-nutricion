@@ -352,7 +352,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 .content-form .analisis > .box{width:50%;}
 
-
+.loading-graphic{margin:25px}
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
 	body.page-inicio .container-logo {margin-bottom: 55px;}
@@ -413,7 +413,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+9) > label:before {background-color: #e0e0e0;height: 1px;width: 100%;content: "";position: absolute;display: block;top: -12px;}
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
-	
+	.loading-graphic{margin:50px}
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}

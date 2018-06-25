@@ -229,9 +229,9 @@ class ConsultaController extends Controller
     }
 	function belongsToPaciente($id){
 		$registros	=	Consulta::where('paciente_id', $id)
+						->where('consultas.estado', 1)
+						->orderBy('consultas.fecha', 'DESC')
 						->get();
-
-		/*$paciente	=	Paciente::find($request->input('paciente_id'));*/
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
@@ -1105,5 +1105,18 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$headers   .=	'MIME-Version: 1.0' . "\r\n";
 		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 		mail($to, $subject, $args['message'], $headers);
+	}
+	function lastOfPaciente($paciente_id){
+		/*$response	=	Response::json($request->all(), 200, [], JSON_NUMERIC_CHECK);
+		return $response;*/
+		$registros	=	Consulta::where('paciente_id', $paciente_id)
+						->where('consultas.estado', 1)
+						->select('consultas.*', DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date_epoch'))
+						->orderBy('consultas.fecha', 'DESC')
+						->get()
+						->first();
+
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
 	}
 }
