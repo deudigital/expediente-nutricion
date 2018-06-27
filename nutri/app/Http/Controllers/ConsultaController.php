@@ -627,7 +627,6 @@ Enviar usuario y contrasena?????? por ahora si...
 			$consulta->save();
 			$aResponse['consulta']	=	$consulta;
 		}
-		//$response	=	Response::json($consulta, 201, [], JSON_NUMERIC_CHECK);
 		$response	=	Response::json($aResponse, 201, [], JSON_NUMERIC_CHECK);
 		return $response;
 
@@ -879,7 +878,7 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 				if($key=='peso'){
 					$imc	=	round($valoracionAntropometrica->peso/($valoracionAntropometrica->estatura*$valoracionAntropometrica->estatura), 2);
 					$value1	=	$imc;
-					if($imc<18)
+					/*if($imc<18)
 						$value1	.=	' (BAJO PESO)';
 					else{
 						if($imc<24)
@@ -892,6 +891,23 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 									$value1	.=	' (SOBREPESO 2)';
 								else
 									$value1	.=	' (SOBREPESO 2)';
+							}
+							
+						}
+					}*/
+					if($imc<18.51)
+						$value1	.=	' (BAJO PESO)';
+					else{
+						if($imc<24.91)
+							$value1	.=	' (NORMAL)';
+						else{
+							if($imc<30)
+								$value1	.=	' (SOBREPESO 1)';
+							else{
+								if($imc<40)
+									$value1	.=	' (SOBREPESO 2)';
+								else
+									$value1	.=	' (SOBREPESO 3)';
 							}
 							
 						}
@@ -1034,7 +1050,6 @@ Importante: Esto únicamente es necesario al finalizar la primera consulta de un 
 		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
 		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
 
-		
 		$to		=	array();
 		if(!empty( $paciente->email ))
 			$to[]	=	$paciente->email;
