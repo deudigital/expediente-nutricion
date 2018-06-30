@@ -405,7 +405,8 @@ export class Persona{
 		var day		=	Number(birthday[0]);
 		var fecha	=	new Date(year, month, day).getTime();
 		var timeDiff = Math.abs(Date.now() - fecha);
-		this.edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);		
+		/*this.edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);*/
+		this.edad	=	Math.trunc(Number((timeDiff / (1000 * 3600 * 24)) / 365));
 		this.esMayor	=	this.edad>17;	
 		
 		var edadPaciente:number		=	Number(this.edad);

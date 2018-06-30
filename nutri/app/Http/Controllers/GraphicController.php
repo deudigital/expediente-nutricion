@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Paciente;
 use App\Persona;
 use Carbon\Carbon;
-
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use File;
@@ -13,6 +13,95 @@ class GraphicController extends Controller
 {
     //
 	public function all($paciente_id)
+    {
+		$paciente	=	Persona::where('id',$paciente_id)
+						->select('*', DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,now()) as edad'), DB::raw('TIMESTAMPDIFF(MONTH,personas.fecha_nac,now()) as meses'))
+						->first();
+//echo '<pre>paciente' . print_r($paciente, true) . '</pre>';exit;
+		
+		/*$paciente	=	Persona::find($paciente_id);*/
+		//$paciente->edad		=	0;
+		if($paciente->fecha_nac){
+			$fecha_nac = explode('-', $paciente->fecha_nac);
+//			$edad	=	Carbon::createFromDate($fecha_nac[0], $fecha_nac[1], $fecha_nac[2])->age;          // int(41) calculated vs now in the same tz
+			$paciente->fecha_nac=	$fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
+//			$paciente->edad		=	$edad;
+		}	
+		$genero			=	'mujer';
+		if($paciente->genero=='M')
+			$genero			=	'hombre';
+		$indicators	=	array(
+								'estatura-edad'	=>	'', 
+								'estatura-peso'	=>	'', 
+								'imc-edad'		=>	'', 
+								'peso-edad'		=>	''
+							);
+		$methods	=	array( 'oms', 'cdc');
+		$response	=	array();
+		
+		$edad	=	$paciente->edad;
+		if( $paciente->meses > $paciente->edad*12 )
+			$edad++;
+//		echo $edad;
+		foreach($methods as $method){
+			$_indicators	=	$indicators;
+			if($method=='oms'){
+				if( $edad > 5){
+					unset($_indicators['estatura-peso']);
+					if( $edad > 10)
+						unset($_indicators['peso-edad']);
+				}
+			}
+			if($method=='cdc'){
+				unset($_indicators['estatura-peso']);
+				if( $edad < 3){
+					unset($_indicators['imc-edad']);				
+				}
+			}
+			$rangoEdad	=	'';
+			foreach($_indicators as $key=>$value){
+				$path	=	$method;
+				$path	.=	'-' . $key;
+				switch($method){
+					case 'oms':
+						if($key=='estatura-peso'){
+							$rangoEdad	=	'0-2';
+							if( $edad > 2 )
+								$rangoEdad	=	'2-5';
+						}else{
+							$rangoEdad		=	'0-5';
+							if( $edad > 5 ){
+								$rangoEdad		=	'5-19';
+							}
+						}
+						break;
+					case 'cdc':
+						$rangoEdad		=	'0-2';
+						if( $edad > 2 )
+							$rangoEdad		=	'2-20';
+						break;				
+				}
+				
+				$path	.=	'-' . $rangoEdad;			
+				$path	.=	'-' . $genero;
+				$path	.=	'.json';			
+				$path	=	'json-data/' . $path;
+			//echo '<pre>' . $path . '</pre>'; 
+				$jsonURL	=	public_path( $path );//echo $jsonURL;
+				//$jsonFile	=	file_get_contents($jsonURL);
+				$jsonFile	= File::get($jsonURL);
+				
+				$_indicators[$key]	=	$jsonFile;
+				//$_indicators[$key]	=	(array)json_decode($jsonFile, true);
+				//$_indicators[$key]	=	json_decode($jsonFile, true);
+			}
+			$response[$method]	=	$_indicators;
+		}
+		//echo '<pre>' . print_r($response, true) . '</pre>';exit;
+		$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+    }
+	public function all__original($paciente_id)
     {
 		$paciente	=	Persona::find($paciente_id);
 		$paciente->edad		=	0;
@@ -25,7 +114,7 @@ class GraphicController extends Controller
 		$genero			=	'mujer';
 		if($paciente->genero=='M')
 			$genero			=	'hombre';
-
+//echo '<pre>paciente' . print_r($paciente, true) . '</pre>';exit;
 		$indicators	=	array(
 								'estatura-edad'	=>	'', 
 								'estatura-peso'	=>	'', 

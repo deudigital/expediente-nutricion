@@ -19,55 +19,55 @@
 						Importar datos - arrastre archivo en formato csv a este cuadro
 					</div>-->
 					<div class="buttons">
-						<button class="btn btn-default" 
+						<button 
+							class="btn btn-default" 
 							[disabled]="disableButtonHistorial"
 							(click)="showModal('datos')" 
-							>Ver Historial Antropom&eacute;trico</button>
+						>Ver Historial Antropom&eacute;trico</button>
 					</div>
 				</div>
-<!--<ng-template [ngIf]="displayoptionsForMenor">-->
 <ng-template [ngIf]="displayMethods">
-			<div class="form-group">
-				<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{paciente.edad}} años, indique como desea hacer la valoracion</label>
-				<div class="radio clearfix">
-					<div class="col-sm-4" *ngIf="displayOms">
-						<label>
-							<input 
-								name="metodo-valoracion" 
-								type="radio"
-								value="oms" 
-								(change)="changeMethod()"
-								[(ngModel)]="valoracion.metodo_valoracion"
-							>
-							<span>OMS</span>
-						</label>
-					</div>
-					<div class="col-sm-4">
-						<label>
-							<input 
-								name="metodo-valoracion" 
-								type="radio"	
-								value="cdc" 
-								(change)="changeMethod()"
-								[(ngModel)]="valoracion.metodo_valoracion"							
-							>
-							<span>CDC</span>
-						</label>
-					</div>
-					<div class="col-sm-4">
-						<label>
-							<input 
-								name="metodo-valoracion" 
-								type="radio" 
-								value="adulto" 
-								(change)="changeMethod()"
-								[(ngModel)]="valoracion.metodo_valoracion"
-							>
-							<span>Adulto</span>
-						</label>
+				<div class="form-group">
+					<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{paciente.edad}} años, indique como desea hacer la valoracion</label>
+					<div class="radio clearfix">
+						<div class="col-sm-4" *ngIf="displayMethodOms">
+							<label>
+								<input 
+									name="metodo-valoracion" 
+									type="radio"
+									value="oms" 
+									(change)="changeMethod()"
+									[(ngModel)]="valoracion.metodo_valoracion"
+								>
+								<span>OMS</span>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label>
+								<input 
+									name="metodo-valoracion" 
+									type="radio"	
+									value="cdc" 
+									(change)="changeMethod()"
+									[(ngModel)]="valoracion.metodo_valoracion"							
+								>
+								<span>CDC</span>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label>
+								<input 
+									name="metodo-valoracion" 
+									type="radio" 
+									value="adulto" 
+									(change)="changeMethod()"
+									[(ngModel)]="valoracion.metodo_valoracion"
+								>
+								<span>Adulto</span>
+							</label>
+						</div>
 					</div>
 				</div>
-			</div>
 </ng-template>
 <ng-template [ngIf]="displayoptionsForAdulto">
 				<div class="row">
@@ -262,142 +262,143 @@
 					</div>
 				</div>
 </ng-template>
-<!--<ng-template [ngIf]="esMenor">-->
-<ng-template [ngIf]="displayGraphicChildren">
-			
-			<div class="form-group ">
-				<label for="percentil-analisis" class="col-form-label">¿con cual percentil desea hacer el analisis?</label>
-				<div class="radio clearfix percentiles">
-					<div class="col-sm-2">
-						<label>
-							<input 
-								name="percentil-analisis" 
-								type="radio"
-								value="10" 
-								(click)="_analisis()" 
-								checked 
-								[(ngModel)]="valoracion.percentil_analisis"
-								>
-							<span>10%</span>
-						</label>
-					</div>
-					<div class="col-sm-2">
-						<label>
-							<input 
-								name="percentil-analisis" 
-								type="radio"	
-								value="25" 
-								(click)="_analisis()" 
-								[(ngModel)]="valoracion.percentil_analisis"
-								>
-							<span>25%</span>
-						</label>
-					</div>
-					<div class="col-sm-2">
-						<label>
-							<input 
-								name="percentil-analisis" 
-								type="radio"
-								value="50" 
-								(click)="_analisis()" 
-								[(ngModel)]="valoracion.percentil_analisis"
-								>
-							<span>50%</span>
-						</label>
-					</div>
-					<div class="col-sm-2">
-						<label>
-							<input 
-								name="percentil-analisis" 
-								type="radio"
-								value="75" 
-								(click)="_analisis()" 
-								[(ngModel)]="valoracion.percentil_analisis"
-								>
-							<span>75%</span>
-						</label>
-					</div>
-					<div class="col-sm-2">
-						<label>
-							<input 
-								name="percentil-analisis" 
-								type="radio"
-								value="90" 
-								(click)="_analisis()" 
-								[(ngModel)]="valoracion.percentil_analisis"
-								>
-							<span>90%</span>
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 with-icon estatura">
-					<div class="form-group with-icon estatura">
-						<label class="col-form-label" for="estatura">Estatura</label>
-						<input 
-							id="estatura" 
-							name="estatura" 
-							type="text" 
-							class="form-control" 
-							placeholder="En metros" 
-							maxlength="6"
-							ng-blur="displayErrorPesoEstatura()" 
-							(keypress)="helpers.soloNumeros($event)"
-							[(ngModel)]="valoracion.estatura"
-							required
-							>
-						<i></i>
-						<span *ngIf="mostrarErrorEstatura" class="error">Dato Requerido</span>
+<ng-template [ngIf]="displayGraphicChildren">			
+				<div class="form-group ">
+					<label for="percentil-analisis" class="col-form-label">¿con cual percentil desea hacer el analisis?</label>
+					<div class="radio clearfix percentiles">
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="10" 
+									(change)="_analisis()" 
+									checked 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>10%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"	
+									value="25" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>25%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="50" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>50%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="75" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>75%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="90" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>90%</span>
+							</label>
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-6">
-					<div class="form-group with-icon peso">
-						<label class="col-form-label" for="peso">Peso</label>
-						<input 
-							id="peso" 
-							name="peso" 
-							type="text"
-							class="form-control" 
-							placeholder="Kilogramos" 
-							maxlength="5" 
-							ng-blur="displayErrorPesoEstatura()" 
-							(keypress)="helpers.soloNumeros($event)"
-							[(ngModel)]="valoracion.peso"
-							required
-							>
-						<i></i>
-						<span *ngIf="mostrarErrorPeso" class="error required">Dato Requerido</span>
+				<div class="row">
+					<div class="col-sm-6 with-icon estatura">
+						<div class="form-group with-icon estatura">
+							<label class="col-form-label" for="estatura">Estatura</label>
+							<input 
+								id="estatura" 
+								name="estatura" 
+								type="text" 
+								class="form-control" 
+								placeholder="En metros" 
+								maxlength="6"
+								ng-blur="displayErrorPesoEstatura()" 
+								(keyup)="_analisis()" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.estatura"
+								required
+								>
+							<i></i>
+							<span *ngIf="mostrarErrorEstatura" class="error">Dato Requerido</span>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon peso">
+							<label class="col-form-label" for="peso">Peso</label>
+							<input 
+								id="peso" 
+								name="peso" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="5" 
+								ng-blur="displayErrorPesoEstatura()" 
+								(keyup)="_analisis()" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.peso"
+								required
+								>
+							<i></i>
+							<span *ngIf="mostrarErrorPeso" class="error required">Dato Requerido</span>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="buttons">
-				<button 
-					href="javascript:void()" 
-					(click)="graficar()" 
-					class="btn btn-default"
-					[disabled]="!valoracion.peso || !valoracion.estatura"
-					>Graficar 
-					<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
-					</button>
-			</div>
-			<ng-template [ngIf]="graficandoChildren" [ngIfElse]="mostrarGraficos">
+				<div class="buttons">
+					<button 
+						href="javascript:void()" 
+						(click)="graficar()" 
+						class="btn btn-default"
+						[disabled]="!valoracion.peso || !valoracion.estatura"
+						>Graficar 
+						<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
+						</button>
+				</div>
+	<ng-template [ngIf]="graficandoChildren" [ngIfElse]="mostrarGraficos">
 				<div class="loading-graphic container-fluid text-center">
 					<img src="assets/images/loading-bars.svg" width="32" height="32" />
 				</div>
-			</ng-template>
+	</ng-template>
 	<ng-template #mostrarGraficos>
-			<nav class="clearfix">
-				<ul class="nav navbar-nav menu grafico by-indicator">
-					<li *ngFor="let g_indicador of grafico_indicator">
-						<a id="{{g_indicador.id}}" class="{{g_indicador.class}}" href="javascript:void(0)" (click)="graficoxSelected(g_indicador, $event)">
-							<span>{{g_indicador.nombre}}	</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
-			<div id="container_children_graphics">
-				<ng-template [ngIf]="grafico_items"><!-- [ngIfElse]="dibujarGraficos"-->
+				<nav class="clearfix">
+					<ul class="nav navbar-nav menu grafico by-indicator">
+						<li *ngFor="let g_indicador of grafico_indicator">
+							<a id="{{g_indicador.id}}" class="{{g_indicador.class}}" href="javascript:void(0)" (click)="graficoxSelected(g_indicador, $event)">
+								<span>{{g_indicador.nombre}}	</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				{{parentWidth}}
+				<div id="container_children_graphics">
+			<ng-template [ngIf]="grafico_items">
 					<div class="esc-grafico-by-indicator">
 						<ng-template ngFor let-grafico_item [ngForOf]= "grafico_items">
 							<div id="{{grafico_item.key}}" class="{{grafico_item.class}}">
@@ -417,9 +418,8 @@
 						>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
 						<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
 						</button>
-				</ng-template>				
-			</div>
-			
+			</ng-template>				
+				</div>
 	</ng-template>
 </ng-template>
 
@@ -525,8 +525,14 @@
 						<strong>{{ analisis.pesoIdeal | number : '1.2-2'}} m</strong>
 					</div>
 	</ng-template>
+				
+					<ng-template [ngIf]="loading_section_analisis">
+						loading section analisis...
+					</ng-template>
+				
 				</div>
-			</section>		
+			</section>
+		<ng-template [ngIf]="displayNavigation">
 			<div class="buttons-navigation">
 				<button 
 					class="btn btn-default previous invisible" 
@@ -538,6 +544,7 @@
 					> SIGUIENTE 
 					</button>
 			</div>
+		</ng-template>
 		</div>
 	</div>
 </div>

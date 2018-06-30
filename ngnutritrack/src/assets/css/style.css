@@ -353,6 +353,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 .content-form .analisis > .box{width:50%;}
 
 .loading-graphic{margin:25px}
+
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
 	body.page-inicio .container-logo {margin-bottom: 55px;}
