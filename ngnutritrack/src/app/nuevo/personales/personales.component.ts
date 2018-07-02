@@ -32,12 +32,12 @@ export class PersonalesComponent implements OnInit {
   
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
-		this.fcData		=	formControlDataService.getFormControlData();console.log(this.fcData);
+		this.fcData		=	formControlDataService.getFormControlData();/*console.log(this.fcData);*/
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
 		
 		this.helpers	=	this.fcData.getHelpers();
-		console.log(this.paciente);
+		/*console.log(this.paciente);*/
 		this.setInfoInit();
 		
 		this.mng.setMenuPacienteStatus(true);
@@ -60,7 +60,7 @@ export class PersonalesComponent implements OnInit {
 		
 		if(this.paciente.fecha_nac){
 			var current_fecha = this.paciente.fecha_nac.split('/');
-			console.log(current_fecha);
+			/*console.log(current_fecha);*/
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
 			var day		=	Number(current_fecha[0]);		
@@ -77,13 +77,13 @@ export class PersonalesComponent implements OnInit {
 	}
 	
 	infoEdited(){
-		console.log(this.oPaciente.cedula + ' !==' + this.paciente.cedula);
+/*		console.log(this.oPaciente.cedula + ' !==' + this.paciente.cedula);
 		console.log(this.oPaciente.nombre + ' !==' + this.paciente.nombre);
 		console.log(this.oPaciente.genero + ' !==' + this.paciente.genero);
 		console.log(this.oPaciente.fecha_nac + ' !==' + this.paciente.fecha_nac);
 		console.log(this.oPaciente.responsable_cedula + ' !==' + this.paciente.responsable_cedula);
 		console.log(this.oPaciente.responsable_nombre + ' !==' + this.paciente.responsable_nombre);
-		console.log(this.oPaciente.responsable_parentezco + '!==' + this.paciente.responsable_parentezco);
+		console.log(this.oPaciente.responsable_parentezco + '!==' + this.paciente.responsable_parentezco);*/
 
 		return 	(
 			this.oPaciente.cedula					!==	this.paciente.cedula || 
@@ -97,13 +97,13 @@ export class PersonalesComponent implements OnInit {
 
 	}
 	saveInfo(data){
-		console.log('Crud Datos Personales-->');
-		console.log(data);
+		/*console.log('Crud Datos Personales-->');
+		console.log(data);*/
 		this.formControlDataService.saveDatosPersonales(data)
 		.subscribe(
 			 response  => {
-						console.log('<--Crud Datos Personales');
-						console.log(response);
+						/*console.log('<--Crud Datos Personales');
+						console.log(response);*/
 						this.updatePacienteInfo(response);
 						//this.mng.setEnableLink(true);
 						//this.router.navigate(['/contacto']);

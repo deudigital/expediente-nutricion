@@ -99,8 +99,8 @@ export class ContactoComponent implements OnInit {
 		this.paciente.ubicacion_id	=	ubicacion_id;
 		return ;
 	}
-	selectCantones(event:Event):void {console.log('selectCantones de provincia-> ' + this.provincia);
-		console.log('x.provincia: ' + this.provincia  + ' &&  canton: '  + this.canton + ' && distrito: ' + this.distrito);
+	selectCantones(event:Event):void {/*console.log('selectCantones de provincia-> ' + this.provincia);*/
+		/*console.log('x.provincia: ' + this.provincia  + ' &&  canton: '  + this.canton + ' && distrito: ' + this.distrito);*/
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
 		this.canton		=	this.filter_cantones[0].codigo_canton;
 		this.distrito	=	this.filter_distritos[0].codigo_distrito;
@@ -109,19 +109,19 @@ export class ContactoComponent implements OnInit {
 		this.paciente.ubicacion_id	=	this.filter_barrios[0].id;
 	}
 	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);
-		console.log('x.provincia: ' + this.provincia  +   ' &&  canton: '  + this.canton + ' && distrito: ' + this.distrito);
+		/*console.log('x.provincia: ' + this.provincia  +   ' &&  canton: '  + this.canton + ' && distrito: ' + this.distrito);*/
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.distrito	=	this.filter_distritos[0].codigo_distrito;				
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.paciente.ubicacion_id	=	this.filter_barrios[0].id;
 	}
 	selectBarrios(event:Event):void {
-		console.log('selectBarrios de Distrito->' + this.distrito);	
-		console.log('x.provincia: ' + this.provincia  + ' &&  canton: '  + this.canton + ' && distrito: ' + this.distrito);		
+		/*console.log('selectBarrios de Distrito->' + this.distrito);	
+		console.log('x.provincia: ' + this.provincia  + ' &&  canton: '  + this.canton + ' && distrito: ' + this.distrito);*/
 		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.paciente.ubicacion_id	=	this.filter_barrios[0].id;	
 	}
-	setInfoInit(){console.clear();console.log(this.paciente);
+	setInfoInit(){/*console.clear();console.log(this.paciente);*/
 		this.oPaciente	=	new Paciente();
 		this.oPaciente.telefono				=	this.paciente.telefono;
 		this.oPaciente.celular				=	this.paciente.celular;
@@ -170,8 +170,8 @@ export class ContactoComponent implements OnInit {
 		this.formControlDataService.saveDatosContacto(data)
 		.subscribe(
 			 response  => {
-						console.log('<--Crud Contacto');
-						console.log(response);
+						/*console.log('<--Crud Contacto');
+						console.log(response);*/
 						this.mng.setEnableLink(true);
 						this.goTo(this.page);
 						this.btnNavigation_pressed	=	false;

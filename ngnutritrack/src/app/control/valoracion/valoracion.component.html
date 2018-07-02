@@ -396,7 +396,6 @@
 						</li>
 					</ul>
 				</nav>
-				{{parentWidth}}
 				<div id="container_children_graphics">
 			<ng-template [ngIf]="grafico_items">
 					<div class="esc-grafico-by-indicator">
@@ -408,16 +407,20 @@
 									[elementId]="grafico_item.elementId"
 								></line-chart>
 							</div>
-						</ng-template>					
+						</ng-template>
 					</div>
-					<button 
-						id="zoom-button-childrem" 
-						class="btn btn-default" 
-						(click)="doZoom('children')" 
-						[disabled]="graficandoChildren"
-						>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
-						<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
+					<div class="buttons">
+						<button 
+							id="zoom-button-childrem" 
+							class="btn btn-default" 
+							(click)="doZoom('children')" 
+							[disabled]="graficandoChildren"
+						>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>						
+					<ng-template [ngIf]="graficandoChildren">
+						<span class="fa fa-spinner fa-spin"></span>
+					</ng-template>
 						</button>
+					</div>
 			</ng-template>				
 				</div>
 	</ng-template>
@@ -686,7 +689,7 @@
 			
 			</div>
 			
-			<button 
+<!--			<button 
 					id="zoom-button-historial" 
 					class="btn btn-default" 
 					(click)="doZoom('historial')" 
@@ -694,6 +697,7 @@
 					>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
 					<span *ngIf="graficandoHistorialChildren" class="fa fa-spinner fa-spin"></span>
 					</button>
+			-->
 			
 		</div>
 	</div>

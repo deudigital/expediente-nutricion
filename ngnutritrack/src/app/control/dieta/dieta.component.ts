@@ -82,12 +82,12 @@ export class DietaComponent implements OnInit {
 
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
-	console.log('this.model');
-	console.log(this.model);
+	/*console.log('this.model');
+	console.log(this.model);*/
 	this.helpers		=	this.model.getHelpers();
 	
 	this.prescripcion	=	this.model.getFormPrescripcion();	
-	console.log(this.prescripcion);
+	/*console.log(this.prescripcion);*/
 	//this.items			=	this.prescripcion.items;	
 	this.items			=	this.prescripcion.itemsByDefault;	
 	this.otrosItems		=	this.prescripcion.otros;	
@@ -160,13 +160,13 @@ export class DietaComponent implements OnInit {
 	createPrescripcion(prescripcion) {
 		if(!this.prescripcion.id)
 			this.addOtrosItems	=	true;
-		console.log('save Prescripcion...');
-		console.log(prescripcion);
+		/*console.log('save Prescripcion...');
+		console.log(prescripcion);*/
 		this.formControlDataService.addPrescripcion(prescripcion)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud Prescripcion');
-						console.log(response);
+						/*console.log('<!--Crud Prescripcion');
+						console.log(response);*/
 						if(this.addOtrosItems)
 							this.saveOtrosAlimentos(response);
 					},
@@ -211,8 +211,8 @@ export class DietaComponent implements OnInit {
 		this.formControlDataService.select('prescripcion', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('<--S prescripcion');
-						console.log(response);
+						/*console.log('<--S prescripcion');
+						console.log(response);*/
 						this.fillHistorial(response);
 						},
 			error =>  console.log(<any>error)
@@ -223,7 +223,7 @@ export class DietaComponent implements OnInit {
 	}
 	fillHistorial(historial){
 		var data	=	[];
-		for(var i in historial){console.log(historial[i]);
+		for(var i in historial){/*console.log(historial[i]);*/
 			historial[i].display	=	false;
 			data[i]		=	historial[i];
 		}
@@ -319,7 +319,7 @@ export class DietaComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	save(data){console.log('Crud OtroAlimento-->');console.log(data);
+	save(data){/*console.log('Crud OtroAlimento-->');console.log(data);*/
 	
 		if(!this.prescripcion.id){
 			//console.log('saving in array');
@@ -329,20 +329,20 @@ export class DietaComponent implements OnInit {
 		this.formControlDataService.store('otros_alimentos', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
+						/*console.log('store->response...');
+						console.log(response);*/
 						this.setOtroAlimentoR(response);
 				},
 			error =>  console.log(<any>error)
 		);
 	}
 	saveOtrosAlimentos(response){
-		console.log(response);
+		/*console.log(response);*/
 		this.formControlDataService.store('otros_alimentos_multiples', {items:this.otrosItems, prescripcion_id:response.data.id})
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
+						/*console.log('store->response...');
+						console.log(response);*/
 						},
 			error =>  console.log(<any>error)
 		);

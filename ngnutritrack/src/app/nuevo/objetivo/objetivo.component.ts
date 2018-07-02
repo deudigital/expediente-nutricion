@@ -43,8 +43,8 @@ export class ObjetivoComponent implements OnInit {
 		var index	=	this.objetivos.indexOf(objetivo);
 		this.formControlDataService.delete('objetivos', objetivo).subscribe(
 			 response  => {
-						console.log('Eliminado');
-						console.log(response);						
+						/*console.log('Eliminado');
+						console.log(response);*/
 						this.objetivos.splice(index,1);
 						},
 			error =>  console.log(<any>error)
@@ -54,8 +54,8 @@ export class ObjetivoComponent implements OnInit {
 		this.formControlDataService.store('objetivos', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
+						/*console.log('store->response...');
+						console.log(response);*/
 						this.setObjetivo(response);
 						},
 			error =>  console.log(<any>error)

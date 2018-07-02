@@ -122,7 +122,7 @@ export class PatronmenuComponent implements OnInit {
 	
 	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
 	//console.log('cargando Patron Menu');
-	console.log(this.menus);
+	/*console.log(this.menus);*/
 	this.setInfoInit();
 	
 	
@@ -297,7 +297,7 @@ proteinas: 32
 		return false;		
 	}
 	
-	chechChangesItems(){console.log(this.oMenu);console.log(this.menus);
+	chechChangesItems(){/*console.log(this.oMenu);console.log(this.menus);*/
 		var obj2	=	{};
 		for(var i in this.oMenu){
 			if(Number(i)>0){
@@ -322,9 +322,9 @@ proteinas: 32
 						obj2	=	this.arrayMenuCoicionNocturna;
 						break;
 				}
-				console.log(JSON.stringify(oItem) + '!==' + JSON.stringify(obj2));
+				/*console.log(JSON.stringify(oItem) + '!==' + JSON.stringify(obj2));*/
 				if(JSON.stringify(oItem) !== JSON.stringify(obj2)){
-					console.log('diferentes');console.log(oItem);console.log(obj2);
+					/*console.log('diferentes');console.log(oItem);console.log(obj2);*/
 					return true;
 				}
 			}
@@ -364,13 +364,13 @@ proteinas: 32
 	}
 	saveInfo(data){		
 		this.tagBody.classList.add('sending');
-		console.log('save PatronMenu...');
-		console.log(data);
+		/*console.log('save PatronMenu...');
+		console.log(data);*/
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud PatronMenu');
-						console.log(response);
+						/*console.log('<!--Crud PatronMenu');
+						console.log(response);*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)

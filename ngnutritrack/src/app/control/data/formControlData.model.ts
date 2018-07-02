@@ -99,7 +99,7 @@ export class FormControlData {
 		this.nutricionista_id	=	nutricionista_id;
 	}
 	fill(data){
-		console.log('fcd::fill(data)...');console.log(data);
+		/*console.log('fcd::fill(data)...');console.log(data);*/
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
@@ -316,7 +316,7 @@ export class FormControlData {
 		return this.detalleMusculo;
 	}
 
-	setLastValuesFormValoracionAntropometrica(va){console.log('setLastValuesFormValoracionAntropometrica');console.log(va);
+	setLastValuesFormValoracionAntropometrica(va){/*console.log('setLastValuesFormValoracionAntropometrica');console.log(va);*/
 		this.valoracionAntropometrica.lastEstatura				=	va.estatura;
 		if(va.circunferencia_muneca==null)
 			va.circunferencia_muneca	=	'';
@@ -395,7 +395,7 @@ export class Persona{
 	edad_meses:number=0;
 	esMayor:boolean=true;
 	
-	setEdad(){console.log('setEdad:');console.log(this);
+	setEdad(){/*console.log('setEdad:');console.log(this);*/
 		this.edad	=	0;
 		if(!this.fecha_nac)
 			return ;
@@ -1088,18 +1088,18 @@ Modo de Uso
 	soloNumerosNegativePositiveDecimal(event: KeyboardEvent, text: string):boolean {
 		//var charCode = (e.which) ? e.which : e.keyCode;
 		var charCode = (event.which) ? event.which : event.keyCode;
-		console.log('charCode-> ' + charCode);
+		/*console.log('charCode-> ' + charCode);*/
 		let input;
 		if(charCode==45 || charCode==46){
 			//var txt 	=	String(e.target.value);
 			var txt 	=	(<HTMLInputElement>event.target).value;
-			console.log('txt: ' + txt + ', charCode: ' + charCode);
-			console.log('text: ' + text + ', charCode: ' + charCode);
+			/*console.log('txt: ' + txt + ', charCode: ' + charCode);
+			console.log('text: ' + text + ', charCode: ' + charCode);*/
 			//input = String.fromCharCode(e.which);			
 			let index	=	txt.indexOf('.');
 			let indexx	=	text.indexOf('.');
-			console.log('index: ' + index);
-			console.log('indexx: ' + indexx);
+			/*console.log('index: ' + index);
+			console.log('indexx: ' + indexx);*/
 			return index==-1;
 		}
 /*		
@@ -1159,7 +1159,7 @@ Modo de Uso
 			/*if(value.length==0)
 				return true;*/
 			index	=	value.indexOf( '-' );
-			console.log('index-> ' + index);
+			/*console.log('index-> ' + index);*/
 			if(index>-1)
 				return false;
 

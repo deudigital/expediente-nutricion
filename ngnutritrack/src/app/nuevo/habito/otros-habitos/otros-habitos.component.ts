@@ -80,8 +80,8 @@ export class OtrosHabitosComponent implements OnInit {
 		this.formControlDataService.store('habitos_otros', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);	
+						/*console.log('store->response...');
+						console.log(response);*/
 						},
 			error =>  console.log(<any>error)
 		);

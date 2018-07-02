@@ -23,7 +23,7 @@ export class OtrosComponent implements OnInit {
 		this.fcd		=	this.formControlDataService.getFormControlData();
 		this.paciente	=	this.fcd.getFormPaciente();
 		this.hcpOtros	=	this.fcd.getFormPacienteHcpOtros();
-		console.log(this.hcpOtros);
+		/*console.log(this.hcpOtros);*/
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 		this.setInfoInit();
@@ -55,15 +55,15 @@ export class OtrosComponent implements OnInit {
 	}
 	saveInfo(data){
 		if(!this.paciente.id){
-			console.log('sin datos de paciente id');
+			/*console.log('sin datos de paciente id');*/
 			return ;
 		}
 		
 		this.formControlDataService.store('hcp_otros', data)
 		.subscribe(
 			 response  => {
-						console.log('<--Crud:hcp_otros');
-						console.log(response);
+						/*console.log('<--Crud:hcp_otros');
+						console.log(response);*/
 						this.setHcpOtros(response);						
 						},
 			error =>  console.log(<any>error)

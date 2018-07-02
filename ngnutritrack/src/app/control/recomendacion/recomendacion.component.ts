@@ -59,7 +59,7 @@ export class RecomendacionComponent implements OnInit {
 		this.setInfoInit();
 		this.disableButtonHistorial	=	false;
 		this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
-		console.log(this.va);
+		/*console.log(this.va);*/
 		this._tasa_basal	=	0;
 		this._gasto_calorico_real	=	0;
 		this._ingesta_calorica_recomendada	=	0;
@@ -127,7 +127,7 @@ el resto es igual a los adultos
 			if( _metodo=='rda' )
 				this.displayFactor	=	false;			
 		}
-		console.log('_metodo: ' + _metodo);
+		/*console.log('_metodo: ' + _metodo);*/
 		this.recomendacion.metodo_calculo_gc	=	_metodo;
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
 		/*console.log(this.habitosEjercicios);*/
@@ -140,7 +140,7 @@ el resto es igual a los adultos
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.esAdulto	=	this.paciente.edad>20;
 		this.esMenor	=	!this.esAdulto;
-		console.log(this.recomendacion.metodo_calculo_gc);
+		/*console.log(this.recomendacion.metodo_calculo_gc);*/
 		this.displaySchofield	=	(this.paciente.edad>2) && (this.paciente.edad<19);
 		this.displayBenedict	=	(this.paciente.edad>9);
 		this.displayRDA			=	(this.paciente.edad<19);
@@ -148,7 +148,7 @@ el resto es igual a los adultos
 		if(this.displayBenedict && !this.displaySchofield && !this.displayRDA)
 			this.recomendacion.metodo_calculo_gc	=	'benedict-child';
 		
-		console.log(this.recomendacion.metodo_calculo_gc);
+		/*console.log(this.recomendacion.metodo_calculo_gc);*/
 		
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
 		/*console.log(this.habitosEjercicios);*/
@@ -170,7 +170,7 @@ el resto es igual a los adultos
 				_width	=	document.getElementById('container_historial_children_graphics').offsetWidth;
 
 			this.historialParentWidth	=	_width;
-			console.log( 'historialParentWidth-> ' +  this.historialParentWidth );
+			/*console.log( 'historialParentWidth-> ' +  this.historialParentWidth );*/
 		}
 		catch(err) {
 				console.log( 'ERROR: getWidthContainerChildrenGraph-> ' + err.message );
@@ -202,7 +202,7 @@ el resto es igual a los adultos
 		this.formControlDataService.select('rdds', paciente_id)
 		.subscribe(
 			 response  => {
-						console.log('<-- cRud RDDs');
+						/*console.log('<-- cRud RDDs');*/
 						/*console.log(response);*/
 						this.processHistorial(response);
 						this.createGraphs();
@@ -353,14 +353,13 @@ el resto es igual a los adultos
 		);
 	}
 	createRdds(recomendacion) {
-		console.log('-->Crud RDDs');
-		console.log(recomendacion);
-
+		/*console.log('-->Crud RDDs');
+		console.log(recomendacion);*/
 		this.formControlDataService.addRdds(recomendacion)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud rdds');
-						console.log(response);
+						/*console.log('<!--Crud rdds');
+						console.log(response);*/
 						},
 			error =>  console.log(<any>error)
 		);

@@ -110,8 +110,8 @@ nombre	"Estreñimiento"
 		this.formControlDataService.store('hcp_patologis', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
+						/*console.log('store->response...');
+						console.log(response);*/
 						},
 			error =>  console.log(<any>error)
 		);

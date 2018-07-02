@@ -577,13 +577,13 @@ this.			=	this.menusEjemplo.textoDesayuno;
 	}
 	saveInfo_patronmenu(data){		
 		this.tagBody.classList.add('sending');
-		console.log('save Valoracion Dietetica...');
-		console.log(data);
+		/*console.log('save Valoracion Dietetica...');
+		console.log(data);*/
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
 			 response  => {
-						console.log('Response Valoracion Dietetica');
-						console.log(response);
+						/*console.log('Response Valoracion Dietetica');
+						console.log(response);*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
@@ -594,8 +594,8 @@ this.			=	this.menusEjemplo.textoDesayuno;
 		this.formControlDataService.store('habitos_valoracion_dietetica', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
+						/*console.log('store->response...');
+						console.log(response);*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)

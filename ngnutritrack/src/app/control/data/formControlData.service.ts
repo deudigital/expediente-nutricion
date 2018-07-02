@@ -234,7 +234,7 @@ export class FormControlDataService {
 	}
 
 	upload(module:string, body:any): Observable<any[]> {
-		console.log('upload:' + module + '-->');
+		/*console.log('upload:' + module + '-->');*/
 		var serviceUrl	=	this.apiURL;
 		switch(module){
 			case 'bioquimicas':
@@ -255,8 +255,8 @@ export class FormControlDataService {
 	}
 
 	store(module:string, data:any): Observable<any[]> {
-		console.log('Crud:' + module + '-->');
-		console.log(data);
+		/*console.log('Crud:' + module + '-->');
+		console.log(data);*/
 		var serviceUrl	=	this.apiURL;
 		switch(module){
 			case 'consulta':
@@ -304,8 +304,8 @@ export class FormControlDataService {
 				.map((response: Response) => response.json());
 	}
 	delete(module:string, data:any): Observable<any[]> {
-		console.log('cruD:' + module + '-->');
-		console.log(data);
+		/*console.log('cruD:' + module + '-->');
+		console.log(data);*/
 		var serviceUrl	=	this.apiURL;
 		switch(module){
 			case 'consultas':
@@ -325,7 +325,7 @@ export class FormControlDataService {
 				.map((response: Response) => response.json());
 	}
 	select(module:string, data:any): Observable<any[]> {
-		console.log('cRud ' + module + '-->');
+		/*console.log('cRud ' + module + '-->');*/
 		/*console.log(data);*/
 		var serviceUrl	=	this.apiURL;
 		switch(module){

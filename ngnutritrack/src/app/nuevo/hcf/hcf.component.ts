@@ -113,8 +113,8 @@ export class HcfComponent implements OnInit {
 		this.formControlDataService.store('hcf_patologis', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
+						/*console.log('store->response...');
+						console.log(response);*/
 						},
 			error =>  console.log(<any>error)
 		);

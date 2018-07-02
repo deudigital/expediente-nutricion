@@ -43,7 +43,7 @@ export class NotasComponent implements OnInit {
 	  this._getNotasOfConsulta();
   }
 	ngOnDestroy() {
-		console.log('ngOnDestroy');
+		/*console.log('ngOnDestroy');*/
 		this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');	
 	}
@@ -66,13 +66,13 @@ export class NotasComponent implements OnInit {
 	}
 	saveInfo(data){
 		this.tagBody.classList.add('sending');
-		console.log('save Notas...');
-		console.log(data);
+		/*console.log('save Notas...');
+		console.log(data);*/
 		this.formControlDataService.saveNotasConsulta(data)
 		.subscribe(
 			 response  => {
-						console.log('Response Notas');
-						console.log(response);
+						/*console.log('Response Notas');
+						console.log(response);*/
 						if(this.finalizar){
 							this.formControlDataService.resetFormControlData();
 							this.finalizar	=	false;
@@ -162,7 +162,7 @@ export class NotasComponent implements OnInit {
 		this.formControlDataService.select('consulta-paciente', data)
 		.subscribe(
 			 response  => {
-				console.log('_getNotasOfConsulta');
+				/*console.log('_getNotasOfConsulta');*/
 				this.historialNotas		=	response;
 				this.disableButtonHistorial	= false;
 			},
