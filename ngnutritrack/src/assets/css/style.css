@@ -26,21 +26,28 @@ i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-
 .form-control:-moz-placeholder {font-size:10px}
 .btn {-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius: 25px;-khtml-border-radius: 25px;
 padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:none !important}
+
+.btn[disabled],
+.btn[disabled]:hover,
+.btn[disabled].focus,
+.btn[disabled]:focus,
+.btn[disabled].active,
+.btn[disabled].active:hover,
 .btn-default.active, 
 .btn-default:active,
 .btn {background-color: #8bc23f;color: #fff;border-color:#8bc23f}
 
 
 .btn.red,
-.btn-default.active.focus, 
-.btn-default.active:focus, 
-.btn-default.active:hover, 
-.btn-default:active.focus, 
-.btn-default:active:focus, 
-.btn-default:active:hover, 
-.btn-default:hover,
-.btn-default.focus, 
-.btn-default:focus {color: #fff;background-color: #cc2026;border-color: #cc2026;}
+.btn-default:not([disabled]).active.focus, 
+.btn-default:not([disabled]).active:focus, 
+.btn-default:not([disabled]).active:hover, 
+.btn-default:not([disabled]):active.focus, 
+.btn-default:not([disabled]):active:focus, 
+.btn-default:not([disabled]):active:hover, 
+.btn-default:not([disabled]):hover,
+.btn-default:not([disabled]).focus, 
+.btn-default:not([disabled]):focus {color: #fff;background-color: #cc2026;border-color: #cc2026;}
 .btn.red {padding-left: 45px;padding-right: 45px;}
 /*******************/
 .transition{-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;}

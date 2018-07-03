@@ -132,7 +132,7 @@ export class NotasComponent implements OnInit {
 		this.tagBody.classList.remove('open-modal');
 		this.router.navigate(['/inicio']);
 	}
-	hideModal(modal=''){
+	hideModal(modal=''){		
 		if(modal.length==0)
 			modal	=	this.currentModal;
 		switch(modal){
@@ -146,7 +146,9 @@ export class NotasComponent implements OnInit {
 		this.tagBody.classList.remove('open-modal');		
 	}
 	showModal(modal){
-		this.showModalDatos		=	false;
+		this.hideModalDatos	=	true;
+		this.hidePrompt		=	true;
+		//this.showModalDatos		=	false;
 		switch(modal){
 			case 'notas':
 				this.hideModalDatos	=	false;
@@ -164,7 +166,7 @@ export class NotasComponent implements OnInit {
 			 response  => {
 				/*console.log('_getNotasOfConsulta');*/
 				this.historialNotas		=	response;
-				this.disableButtonHistorial	= false;
+				this.disableButtonHistorial	=	this.historialNotas.length==0;
 			},
 			error =>  console.log('_getNotasOfConsulta: ' + <any>error)
 		);
