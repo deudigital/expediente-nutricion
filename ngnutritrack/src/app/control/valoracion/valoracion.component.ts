@@ -127,7 +127,8 @@ export class ValoracionComponent implements OnInit {
 	
 	zoom:boolean=false;
 	
-	parentWidth:Number;
+	withChildrenGraphic:Number;
+	withHistorialChildrenGraphic:Number;
 	historialParentWidth:Number;
 	
 	analisis_imc:Number;
@@ -187,142 +188,49 @@ export class ValoracionComponent implements OnInit {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
 	}
-	_setInfoIdeal__old(){
-		var alturaPaciente:number	=	Math.round(Number(this.valoracion.estatura)*100);
-		var pesoPaciente:number		=	Number(this.valoracion.peso);
-		var edadPaciente:number		=	Number(this.paciente.edad);
-		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
-		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
-		if(this.paciente.fecha_nac){
-			var current_fecha = this.paciente.fecha_nac.split('/');
-			var year	=	Number(current_fecha[2]);
-			var month	=	Number(current_fecha[1]);
-			var day		=	Number(current_fecha[0]);			
-				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
-				var fechaFin    = new Date().getTime();
-				var diff = fechaFin - fechaInicio;
-				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
-				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
-				edadPaciente_meses	=	_anhos * 12;
-				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
-				if(_anhos>30)
-					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
-		}
-		var _method		=	this.valoracion.metodo_valoracion;
-		var chartData:any;
-		var _chartData_i_keys:any;
-		var _chartData_i_fk:any;
-		var _row:any;
-		var _text:string;
-		for(var indicador in this.json[_method]) {
-			chartData	=	JSON.parse(this.json[_method][indicador]);
-			_chartData_i_keys	=	Object.keys(chartData[0]);
-			_chartData_i_fk		=	_chartData_i_keys[0];
-			_text	=	indicador + ': ' + _chartData_i_fk;
-
-			switch(indicador){
-				case 'estatura-peso':
-					_text	+=	'h:' + alturaPaciente;
-					_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(alturaPaciente));
-					break;
-				case 'estatura-edad':
-				case 'imc-edad':
-				case 'peso-edad':
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5){
-						_text	+=	'M:' + edadPaciente_meses;
-						_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(edadPaciente_meses));
-					}
-					else{
-						_text	+=	'D:' + edadPaciente_dias;
-						_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= edadPaciente_dias);
-					}
-					break;
-			}
-			if(_row){
-				this.infoIdeal[indicador]	=	_row[0];
-			}
-		}
-	}
+	
 	_setInfoIdeal(){/*console.log('_setInfoIdeal');*/
 		var alturaPaciente:number		=	Math.round(Number(this.valoracion.estatura)*100);
 		var chartData:any;
 		var _chartData_i_keys:any;
 		var _chartData_i_fk:any;
 		var _row:any=[];
-		var _row1:any;
-		var _indicators	=	Object.keys(this.json);
 		var _data:any;
-		
-		/*console.log('h:' + alturaPaciente);*/
-		/*for(var indicador in this.json[this.valoracion.metodo_valoracion]) {*/
-		for(var metodo in this.json) {
-			/*console.log('metodo: ' + metodo);*/
-			_data	=	this.json[metodo]
-			/*console.log(_data);*/
-			
-			for(var indicador in _data) {
-				chartData	=	JSON.parse( _data[indicador] );
-				/*console.log('indicador: ' + indicador);console.log(chartData);*/
-				_chartData_i_keys	=	Object.keys(chartData[0]);
-				_chartData_i_fk		=	_chartData_i_keys[0];
-				switch(indicador){
-					case 'estatura-peso':
-						_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(alturaPaciente));
-						break;
-					case 'estatura-edad':
-					case 'imc-edad':
-					case 'peso-edad':
-						//if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5){
-						if( metodo=='cdc' || this.paciente.edad>5){
-							_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(this.paciente.edad_meses));
-						}
-						else{
-							_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= this.paciente.edad_dias);
-						}
-						break;
-				}
-				if(_row){
-					/*console.log('adding to infoIdeal');console.log(_row);*/
-					if(_row.length>0)
-						this.infoIdeal[metodo][indicador]	=	_row[0];
-					else
-						this.infoIdeal[metodo][indicador]	=	{};
-				}
-			}			
-		}
-		/*console.log('_setInfoIdeal');console.log(this.infoIdeal);*/
-	}
-	_setInfoIdeal__original(){
-		var alturaPaciente:number		=	Math.round(Number(this.valoracion.estatura)*100);
-		var chartData:any;
-		var _chartData_i_keys:any;
-		var _chartData_i_fk:any;
-		var _row:any;
-		for(var indicador in this.json[this.valoracion.metodo_valoracion]) {
-			chartData	=	JSON.parse(this.json[this.valoracion.metodo_valoracion][indicador]);
-			_chartData_i_keys	=	Object.keys(chartData[0]);
-			_chartData_i_fk		=	_chartData_i_keys[0];
-			switch(indicador){
-				case 'estatura-peso':
-					_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(alturaPaciente));
-					break;
-				case 'estatura-edad':
-				case 'imc-edad':
-				case 'peso-edad':
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5){
-						_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(this.paciente.edad_meses));
+		try{
+			for(var metodo in this.json) {/*console.log('metodo: ' + metodo);*/
+				_data	=	this.json[metodo]/*console.log(_data);*/				
+				for(var indicador in _data) {
+					chartData	=	JSON.parse( _data[indicador] );/*console.log('indicador: ' + indicador);console.log(chartData);*/
+					_chartData_i_keys	=	Object.keys(chartData[0]);
+					_chartData_i_fk		=	_chartData_i_keys[0];
+					switch(indicador){
+						case 'estatura-peso':
+							_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(alturaPaciente));
+							break;
+						case 'estatura-edad':
+						case 'imc-edad':
+						case 'peso-edad':
+							if( metodo=='cdc' || this.paciente.edad>5){
+								_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= Number(this.paciente.edad_meses));
+							}
+							else{
+								_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= this.paciente.edad_dias);
+							}
+							break;
 					}
-					else{
-						_row	=	chartData.filter(x => Number(x[_chartData_i_fk]) >= this.paciente.edad_dias);
+					if(_row){/*console.log('adding to infoIdeal');console.log(_row);*/
+						if(_row.length>0)
+							this.infoIdeal[metodo][indicador]	=	_row[0];
+						else
+							this.infoIdeal[metodo][indicador]	=	{};
 					}
-					break;
+				}
 			}
-			if(_row){
-				this.infoIdeal[indicador]	=	_row[0];
-			}
+		}catch(err) {
+			console.log( 'ERROR: _setInfoIdeal-> ' + err.message );
 		}
-		/*console.log('_setInfoIdeal');console.log(this.infoIdeal);*/
 	}
+	
 	_getJsonData(){
 		var data			=	Object();
 		data.paciente_id	=	this.paciente.persona_id;
@@ -330,8 +238,8 @@ export class ValoracionComponent implements OnInit {
 		this.formControlDataService.select('data-graphic', data)
 		.subscribe(
 			 response  => {
-				/*console.log('_getJsonData');*/
-				this.json		=	response;/*console.log(this.json);*/
+				console.log('_getJsonData');
+				this.json		=	response;console.log(this.json);
 				this.solicitando=	false;
 				var _method		=	this.valoracion.metodo_valoracion;
 				if( _method=='adulto' )
@@ -353,7 +261,7 @@ export class ValoracionComponent implements OnInit {
 	_getScreenSize(){
 		try {
 			if(document.getElementById('container_children_graphics'))
-				this.parentWidth			=	document.getElementById('container_children_graphics').offsetWidth;
+				this.withChildrenGraphic			=	document.getElementById('container_children_graphics').offsetWidth;
 			var _width	=	this.tagBody.offsetWidth;
 			if(_width>1250)
 				_width	=	1200;
@@ -379,18 +287,6 @@ export class ValoracionComponent implements OnInit {
 	}
 
 	setInfoInit(){
-/*		this.oValoracion.estatura				=	Number(this.valoracion.estatura);
-		this.oValoracion.circunferencia_muneca	=	Number(this.valoracion.circunferencia_muneca);
-		this.oValoracion.peso					=	Number(this.valoracion.peso);
-		this.oValoracion.grasa					=	Number(this.valoracion.grasa);
-		this.oValoracion.musculo				=	Number(this.valoracion.musculo);
-		this.oValoracion.agua					=	Number(this.valoracion.agua);
-		this.oValoracion.grasa_viceral			=	Number(this.valoracion.grasa_viceral);
-		this.oValoracion.hueso					=	Number(this.valoracion.hueso);
-		this.oValoracion.edad_metabolica		=	Number(this.valoracion.edad_metabolica);
-		this.oValoracion.circunferencia_cintura	=	Number(this.valoracion.circunferencia_cintura);
-		this.oValoracion.circunferencia_cadera	=	Number(this.valoracion.circunferencia_cadera);*/
-		
 		this.oValoracion.estatura				=	this.valoracion.estatura;
 		this.oValoracion.circunferencia_muneca	=	this.valoracion.circunferencia_muneca;
 		this.oValoracion.peso					=	this.valoracion.peso;
@@ -402,15 +298,11 @@ export class ValoracionComponent implements OnInit {
 		this.oValoracion.edad_metabolica		=	this.valoracion.edad_metabolica;
 		this.oValoracion.circunferencia_cintura	=	this.valoracion.circunferencia_cintura;
 		this.oValoracion.circunferencia_cadera	=	this.valoracion.circunferencia_cadera;
-
-		this.oValoracion.metodo_valoracion	=	this.valoracion.metodo_valoracion;
-		this.oValoracion.percentil_analisis	=	this.valoracion.percentil_analisis;
-		
+		this.oValoracion.metodo_valoracion		=	this.valoracion.metodo_valoracion;
+		this.oValoracion.percentil_analisis		=	this.valoracion.percentil_analisis;		
 		
 		if(this.mng.operacion=='nueva-consulta' && !this.valoracion.id){
 			this.nuevaConsulta	=	true;
-			/*this.valoracion.estatura				=	Number(this.valoracion.lastEstatura);
-			this.valoracion.circunferencia_muneca	=	Number(this.valoracion.lastCircunferencia_muneca);*/
 			this.valoracion.estatura				=	String(this.valoracion.lastEstatura);
 			this.valoracion.circunferencia_muneca	=	String(this.valoracion.lastCircunferencia_muneca);
 		}
@@ -418,10 +310,9 @@ export class ValoracionComponent implements OnInit {
 	}
 	_prepopulateForm(){
 		
-		this.esMenor	=	false;
-		this.esAdulto	=	false;
-		this.displayMethods	=	false;
-		
+		this.esMenor				=	false;
+		this.esAdulto				=	false;
+		this.displayMethods			=	false;		
 		this.displayoptionsForMenor	=	false;
 		
 		if( this.paciente.edad > 20 ){
@@ -444,18 +335,7 @@ export class ValoracionComponent implements OnInit {
 		}
 		this.displayoptionsForAdulto	=	this.valoracion.metodo_valoracion=='adulto' || this.esAdulto;
 		this.displayGraphicChildren		=	this.esMenor && !this.displayoptionsForAdulto;
-/*
-
-			this.displayMethodOms	=	this.paciente.edad<19;
-			if(!this.valoracion.metodo_valoracion)
-				this.valoracion.metodo_valoracion	=	this.displayMethodOms? 'oms':'cdc';
-		}
-*/
-		/*this.setInfoInit();
-		this.loading_data_form	=	false;*/
-
-	}
-	
+	}	
 	infoEdited(){
 		if(!this.valoracion.id && this.countPendientes>0){
 			return true;
@@ -489,48 +369,17 @@ export class ValoracionComponent implements OnInit {
 				this.detalleMusculo	=	this.model.getFormDetalleMusculo();
 				this.grasa			=	this.model.getFormDetalleGrasa();
 				this.paciente		=	this.model.getFormPaciente();
-				/*console.log('_getDatosConsulta');
-				console.log(this.valoracion);*/
-/*
-				this.esAdulto	=	this.paciente.edad>20;
-				this.esMenor	=	!this.esAdulto;
-				
-				this.displayMethods				=	this.esMenor;
-				
-				if(this.paciente.edad>18)
-					this.valoracion.metodo_valoracion	=	'adulto';
-
-				this.displayoptionsForAdulto	=	this.valoracion.metodo_valoracion=='adulto' || this.esAdulto;
-				this.displayGraphicChildren		=	this.esMenor && !this.displayoptionsForAdulto;
-				
-				if(this.esMenor){
-					this.displayoptionsForMenor	=	true;
-				
-					this.displayMethodOms	=	this.paciente.edad<19;
-					if(!this.valoracion.metodo_valoracion)
-						this.valoracion.metodo_valoracion	=	this.displayMethodOms? 'oms':'cdc';
-				}
-*/
+				/*console.log('_getDatosConsulta');console.log(this.valoracion);*/
 				this._prepopulateForm();
 				this.setInfoInit();
 				this.loading_data_form	=	false;
-				
-				
-				this.historial	=	this.valoracion.historial;
-				
+				this.historial	=	this.valoracion.historial;				
 				if(!this.valoracion.id)
 					this.valoracion.consulta_id	=	this.model.consulta.id;
-				/*this.graficarInit();*/
-				/*
-				setTimeout(() => {
-					      this.allowCalculate	=	true;
-						  this._analisis();
-					    }, 500);
-				*/
+
 				 this._getJsonData();
 				 this.loading_section_analisis	=	false;
-				 this.displayNavigation			=	true;
-				
+				 this.displayNavigation			=	true;				
 			},
 			error => console.log(<any>error)
 		);
@@ -655,36 +504,9 @@ export class ValoracionComponent implements OnInit {
 				return false;
 		}		
 	}
-	graficar__old(){
-		if(this.graficando)
-			return ;
-		this.displayErrorPesoEstatura();
-		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
-				/*this.displayErrorPesoEstatura();*/
-				this.graficando				=	false;
-			return ;
-		}
-		this.graficando	=	true;
-		this.valoracion.graficando	=	true;
-		this.formControlDataService.addValoracionAntropometrica(this.valoracion)
-		.subscribe(
-			 response  => {
-						this.cleanGraficoChildren();
-						var _method		=	this.valoracion.metodo_valoracion;
-						if( _method=='adulto' )
-							_method	=	'oms';
-
-						/*console.log(_method);*/
-						this._graficarChildren( this.json[_method] )
-					},
-			error =>  {
-					console.log(<any>error)
-					this.graficando	=	false;
-					}
-		);
-	}
+	
 	graficar(){
-		if(this.graficandoChildren || !this.chartChildrenVisible)
+		if( this.graficandoChildren )//|| !this.chartChildrenVisible)
 			return ;
 
 		this.displayErrorPesoEstatura();
@@ -714,8 +536,8 @@ export class ValoracionComponent implements OnInit {
 					}
 		);
 	}
-	_graficarChildren( aChartData ){/*console.log('_graficarChildren');*/
-		this.chartChildrenVisible	=	false;
+	_graficarChildren( aChartData ){console.log('_graficarChildren');
+		//this.chartChildrenVisible	=	false;
 
 		this.grafico_items			=	null;
 		this.grafico_indicator		=	null;
@@ -1117,8 +939,11 @@ export class ValoracionComponent implements OnInit {
 			args['hAxis_value']	=	_value;
 			args['vAxis_min']	=	_min_vAxis;
 			args['vAxis_max']	=	_max_vAxis;
-			args['vAxis_value']	=	_row_first[_row_first_sk];			
-			options	=	this._getOptionsGraphChildren( args );			
+			args['vAxis_value']	=	_row_first[_row_first_sk];
+			args['width']	=	this.withChildrenGraphic;
+			options	=	this._getOptionsGraphChildren( args );
+			
+/*			options	=	this._getOptionsGraphChildren( args );*/
 			config	=	new LineChartConfig('title ' + toGraph, options, columns);
 			item	=	{'data':data, 'config': config, 'elementId':'element_' + indicador, 'key': 'container_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
 			items.push(item);
@@ -1129,427 +954,10 @@ export class ValoracionComponent implements OnInit {
 		this.tagBody.classList.add('grafico-selected-estatura-edad');
 		this.grafico_children_indicator_current	=	'estatura-edad'		
 		this.graficandoChildren		=	false;
-		this.chartChildrenVisible	=	true;
+		//this.chartChildrenVisible	=	true;
 		
 	}
-	_graficarHistorialChildren__correct(){
-		this.graficandoHistorialChildren		=	true;
-		{
-		var _method		=	this.valoracion.metodo_valoracion;
-		var aChartData	=	this.json[_method];
-		var toGraph		=	'';
-		var data;
-		var item;
-		var items			=	[];
-		var headers			=	[];
-		var indicatorsMenuItem	=	[];
-		var config;
-		var options:any;
-		var columns;
-		var chartData:any;
-		var args:any[]	=	[];
-		/*var rangoEdad:any;*/
-		var alturaPaciente:number	=	Math.round(Number(this.valoracion.estatura)*100);
-		var pesoPaciente:number		=	Number(this.valoracion.peso);
-		var edadPaciente:number		=	Number(this.paciente.edad);
-		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
-		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
-		if(this.paciente.fecha_nac){
-			var current_fecha = this.paciente.fecha_nac.split('/');
-			var year	=	Number(current_fecha[2]);
-			var month	=	Number(current_fecha[1]);
-			var day		=	Number(current_fecha[0]);			
-				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
-				var fechaFin    = new Date().getTime();
-				var diff = fechaFin - fechaInicio;
-				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
-				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
-				edadPaciente_meses	=	_anhos * 12;
-				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
-				if(_anhos>30)
-					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
-		}
-		var _label	=	{};
-		var _row_first:any;
-		var _row_first_keys:any;
-		var _row_first_fk:any;/*	X, Age	*/
-		var _row_first_sk:any;/*	P10	*/
-		var _row_last:any;
-		var _row_last_keys:any;
-		var _row_last_fk:any;
-		var _row_last_lk:any;
-		var x:number;
-		var y:number;
-		var _text:string='';
-		var _push_data:any	=	null;
-		var _aux:any	=	0;
-		var _aux_altura:any	=	0;
-		var _aux_peso:any	=	0;
-		var _aux_imc:any	=	0;
-		var _data_i:any;
-		var _data_i_keys:any;
-		var _data_i_fk:any;
-		var _chartData_i_keys:any;
-		var _chartData_i_fk:any;
-		var chartWithToolTips = new Array();
-		var _x_2:number			=	0;
-		var _value:number		=	0;
-		var _value_last:number	=	0;
-		var _min_hAxis:number;
-		var _max_hAxis:number;
-		var _min_vAxis:number;
-		var _max_vAxis:number;
-		var _round_paciente_printed	=	false;
-		var _edad_en_meses:boolean;
-		var _classMenuItem	=	'';
-	}
-		console.log('_graficarHistorialChildren');
-		/*console.log(aChartData);*/
-		this._getScreenSize();
-		var _edad:any;
-		var _hist:any;
-		var h:any;
-		var _elem:any;
-		var data_historial_orig	=	[];
-		var data_historial	=	[];
-		for(var j in this.historial){
-			_hist	=	this.historial[j];
-			_edad	=	this.calculateEdad( this.paciente.fecha_nac, _hist.date );
-			h	=	{'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
-			data_historial_orig.unshift( h );
-		}
-		
-try {
-		for(var indicador in aChartData) {
-			/*console.log('indicador: ' + indicador);*/
-			if(!aChartData[indicador])
-				continue;
-			
-			/*console.log('-> ' + indicador);*/
-			chartData	=	JSON.parse(aChartData[indicador]);
-			data_historial	=	this.helpers.clone(	data_historial_orig );
-			/*console.log('data_historial');
-			console.log(data_historial);*/
-			/*
-			switch(indicador){
-				case 'estatura-peso':
-					_label['x']	=	'Estatura (cm)';
-					_label['y']	=	'Peso (Kg)';
-					_label['title']	=	'Peso para Estatura';
-					break;
-				case 'estatura-edad':					
-					_label['x']		=	'Edad (días)';
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-						_label['x']		=	'Edad (Meses)';
-					
-					_label['y']	=	'Estatura (cm)';
-					_label['title']	=	'Estatura para Edad';
-					
-					break;
-				case 'imc-edad':
-					_label['x']		=	'Edad';						
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-						_label['x']		=	'Edad (Meses)';
-
-					_label['y']	=	'IMC';
-					_label['title']	=	'IMC para Edad';
-					break;
-				case 'peso-edad':
-					_label['x']		=	'Edad (días)';
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-						_label['x']		=	'Edad (Meses)';
-
-					_label['y']	=	'Peso (Kg)';
-					_label['title']	=	'Peso para Edad';					
-					break;
-			}
-			*/
-			_label	=	this._getLabelForGraphic(indicador);
-			/*console.log('_label');console.log(_label);*/
-			_classMenuItem	=	'grafico-children-' + indicador + (indicador=='estatura-edad'? ' active':'');
-			indicatorsMenuItem.push({'id': 'children_' + indicador, 'nombre':_label['title'], 'class': _classMenuItem, 'indicador':indicador });
-			
-			_label['title']	=	'';
-			_row_first		=	chartData[0];
-			_row_first_keys	=	Object.keys(_row_first);
-			_row_first_fk	=	_row_first_keys[0];/*	X, Age	*/
-			_row_first_sk	=	_row_first_keys[1];/*	P10	*/
-
-			_row_last		=	chartData[chartData.length-1];
-			_row_last_keys	=	Object.keys(_row_last);
-			_row_last_fk	=	_row_last_keys[0];
-			_row_last_lk	=	_row_last_keys[_row_last_keys.length-1];
-
-			x	=	Math.ceil((_row_last[_row_last_fk] - _row_first[_row_first_fk])/14);;
-			y	=	Math.ceil((_row_last[_row_last_lk] - _row_first[_row_first_sk])/10);;
-			
-			_text	=	'';
-			data	=	[];
-			columns	=	[];
-			for(var key in _row_first) {
-				columns.push({label: key, type: 'number'});
-				if(key!=_row_first[_row_first_fk])
-					columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
-			}
-			/**/
-
-			columns.push({label: 'Paciente', type: 'number'});
-			columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
-
-			_aux		=	0;			
-			_aux_altura	=	0;
-			_aux_peso	=	0;
-			_aux_imc	=	0;
-			
-			_round_paciente_printed	=	false;
-			
-			var _hrow:any;
-			var _hasHistorialDataRow	=	false;
-			if(data_historial.length>0){
-				_hrow	=	data_historial[0];
-				//_hrow	=	this.helpers.clone(	data_historial[0] );
-				_hasHistorialDataRow	=	true;
-				data_historial.shift();
-			}
-			
-			for(var i=0; i<chartData.length; i++) {/*console.log(_hrow);*/
-				chartWithToolTips = new Array();
-				for(var key in chartData[i]) {
-					_data_i	=	chartData[i];
-					
-					chartWithToolTips.push(parseFloat(_data_i[key]));
-
-					if (key!=_row_first[_row_first_fk]){
-						_data_i_keys	=	Object.keys(_data_i);
-						_data_i_fk		=	_data_i_keys[0];
-
-						_text	=	'<ul class="grafico-lista">';
-						_text	+=	'	<li><strong>' + key + '</strong></li>';
-						_data_i[key]	=	Number(_data_i[key]).toFixed(2)
-						_data_i[_data_i_fk]	=	Number(_data_i[_data_i_fk]).toFixed(2);						
-						switch(indicador){
-							case 'estatura-peso':
-								_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Estatura: ' + _data_i[_data_i_fk] + ' (cm)</li>';
-								break;
-							case 'estatura-edad':
-								_text	+=	'<li>Estatura: ' + _data_i[key] + ' (cm)';
-								_text	+=	' | ';
-								_text	+=	'Edad: ' + _data_i[_data_i_fk];
-								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-									_text	+=	' meses';
-								else
-									_text	+=	' dias';
-								
-								_text	+=	'</li>';									
-								break;
-							case 'imc-edad':
-								_text	+=	'<li>Edad: ' + _data_i[_data_i_fk];
-								
-								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-									_text	+=	' meses';
-								else
-									_text	+=	' dias';
-																	
-								_text	+=	' | ';
-								_text	+=	'Imc: ' + _data_i[key] + ' </li>';
-								break;
-							case 'peso-edad':
-								_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Edad: ' + _data_i[_data_i_fk];
-								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-									_text	+=	' meses';
-								else
-									_text	+=	' dias';
-								
-								_text	+=	'</li>';
-								break;
-						}
-						_text	+=	'</ul>';
-						chartWithToolTips.push( _text );
-					}
-				}
-
-				
-				_text		=	'';
-				_push_data	=	null;
-				
-				
-				if(_hasHistorialDataRow){//console.log(_hrow);
-					
-					_chartData_i_keys	=	Object.keys(chartData[i]);
-					_chartData_i_fk		=	_chartData_i_keys[0];
-					_elem	=	chartData[i][_chartData_i_fk];
-					//_elem	=	chartData[i][_row_first_fk];
-					
-					
-					
-					switch(indicador){
-						case 'estatura-peso':				
-							_push_data	=	_elem >= _hrow.estatura? _hrow.peso : null;
-							//console.log(indicador + ': ' + _elem + '>=' + _hrow.estatura + '?' +  _hrow.peso + ':null -> ' +  _push_data);
-							if(_push_data){
-								_text	+=	'	<li>Peso: ' + _hrow.peso + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Estatura: ' + _hrow.estatura + ' (cm)</li>';
-							}
-							break;
-						case 'estatura-edad':							
-							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >=  _hrow.meses ? _hrow.estatura : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.estatura + ':null -> ' +  _push_data);
-							}
-							else{
-								_push_data	=	_elem >=  _hrow.dias ?  _hrow.estatura : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.estatura + ':null -> ' +  _push_data);
-							}
-							if(_push_data){
-								_text	+=	'	<li>Edad: ';
-								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
-									_text	+=	_hrow.meses + ' meses';
-								else
-									_text	+=	_hrow.dias + ' dias';
-								
-								_text	+=	' | ';
-								_text	+=	'Estatura: ' + _hrow.estatura + ' (cm)</li>';					
-							}
-							
-							break;
-						case 'imc-edad':
-							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >= _hrow.meses ? _hrow.imc : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.imc + ':null -> ' +  _push_data);
-							}
-							else{
-								_push_data	=	_elem >= _hrow.dias ? _hrow.imc : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.imc + ':null -> ' +  _push_data);
-							}
-							
-							if(_push_data){
-								_text	+=	'	<li>Edad: ';
-								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
-									_text	+=	_hrow.meses + ' meses';
-								else
-									_text	+=	_hrow.dias + ' dias';
-
-								_text	+=	' | ';
-								_text	+=	'Imc: ' + _hrow.imc + ' </li>';					
-							}							
-							break;
-						case 'peso-edad':
-							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >= _hrow.meses ? _hrow.peso : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.peso + ':null -> ' +  _push_data);
-							}
-							else{
-								_push_data	=	_elem >= _hrow.dias ? _hrow.peso : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.peso + ':null -> ' +  _push_data);
-							}
-							
-							if(_push_data){
-								_text	+=	'	<li>Peso: ' + _hrow.peso + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Edad: ';
-								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
-									_text	+=	_hrow.meses + ' meses';
-								else
-									_text	+=	_hrow.dias + ' días';
-								_text	+=	'</li>';								
-							}
-							break;
-					}
-					/*if(_push_data){console.log(_push_data);*/
-					if(_text){//console.log(_push_data);
-						_text	=	'	<li><strong>Paciente</strong></li>' + _text;
-						_text	=	'<ul class="grafico-lista">' + _text + '</ul>';
-						
-						if(data_historial.length>0){
-							/*_hrow	=	data_historial[0];*/
-							_hrow	=	this.helpers.clone(	data_historial[0] );
-							_hasHistorialDataRow	=	true;
-							data_historial.shift();
-						}else
-							_hasHistorialDataRow	=	false;
-					}
-				}
-				
-				
-				chartWithToolTips.push( _push_data );
-				chartWithToolTips.push( _text );
-				data.push( chartWithToolTips );
-			}
-			_x_2		=	0;
-			_value		=	0;
-			_value_last	=	0;
-			_value		=	Math.floor (parseFloat( _row_first[_row_first_fk] ));
-			_value_last	=	Math.floor (parseFloat( _row_last[_row_last_fk] ));
-			_x_2		=	x*2;
-
-
-			
-			_min_hAxis	=	Math.floor(_row_first[_row_first_fk]);
-			_max_hAxis	=	Math.ceil(_row_last[_row_last_fk]);
-			
-			_min_vAxis	=	Math.floor(_row_first[_row_first_sk]);
-			_max_vAxis	=	Math.ceil(_row_last[_row_last_lk]);
-
-/*
-//console.log('zoom && indicador==estatura-peso - ' + this.zoom +', '+ indicador);
-if(this.zoom && indicador=='estatura-peso'){
-
-var Fdata	=	_row_first;//chartData[0];
-var Fvalue	=	parseFloat( _row_first[_row_first_fk] );//parseFloat( Fdata.X );
-var Ldata	=	_row_last;//chartData[chartData.length-1];
-var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
-//_x_2	=	parseFloat(x*2);
-
-
-	_min_hAxis	=	_hrow.estatura<=( Fvalue + _x_2 ) ? Math.floor( Fvalue ) : _hrow.estatura - _x_2;
-	_max_hAxis	=	_hrow.estatura>=( Lvalue - _x_2 ) ? Math.floor( Lvalue ) : _hrow.estatura + _x_2;
-
-	_min_vAxis	=	_hrow.peso <= (_row_first[_row_first_sk] + y ) ? Math.floor(_row_first[_row_first_sk]) : _hrow.peso - y ;
-	_max_vAxis	=	_hrow.peso >= (_row_last[_row_last_lk] - y ) ? Math.ceil(_row_last[_row_last_lk]) : _hrow.peso + y;
-
-}else{	
-	_min_hAxis	=	Math.floor(_row_first[_row_first_fk]);
-	_max_hAxis	=	Math.ceil(_row_last[_row_last_fk]);
-	_min_vAxis	=	Math.floor(_row_first[_row_first_sk]);
-	_max_vAxis	=	Math.ceil(_row_last[_row_last_lk]);
-}
-*/
-			
-
-			args['title']		=	_label['title'];
-			args['x']			=	x;
-			args['y']			=	y;
-			args['label_x']		=	_label['x'];
-			args['label_y']		=	_label['y'];
-			args['hAxis_min']	=	_min_hAxis;
-			args['hAxis_max']	=	_max_hAxis;
-			args['hAxis_value']	=	_value;
-			args['vAxis_min']	=	_min_vAxis;
-			args['vAxis_max']	=	_max_vAxis;
-			args['vAxis_value']	=	_row_first[_row_first_sk];
-
-			//args['legend_position']	=	'top';
-			
-			options	=	this._getOptionsGraphChildren( args );
-			config	=	new LineChartConfig('title ' + toGraph, options, columns);
-			item	=	{'data':data, 'config': config, 'elementId':'element_children_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
-			items.push(item);
-		}
-}
-catch(err) {
-	console.log( 'error _graficarHistorialChildren' );
-	console.log( err.message );
-}
-		this.grafico_children_indicator	=	indicatorsMenuItem;
-		this.grafico_children_items		=	items;
-		this.tagBody.classList.add('grafico-children-selected-estatura-edad');
-		this.graficandoHistorialChildren	=	false;
-	}
+	
 
 	_graficarHistorialChildren(){
 		this.graficandoHistorialChildren		=	true;
@@ -1919,7 +1327,7 @@ var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
 			args['vAxis_value']	=	_row_first[_row_first_sk];
 
 			//args['legend_position']	=	'top';
-			
+			args['width']	=	this.withChildrenGraphic;
 			options	=	this._getOptionsGraphChildren( args );
 			config	=	new LineChartConfig('title ' + toGraph, options, columns);
 			item	=	{'data':data, 'config': config, 'elementId':'element_children_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
@@ -1996,386 +1404,7 @@ catch(err) {
 		data['last']['P90']		=	data['last'][keys[5]];/*	P90	*/
 		return data;		
 	}	
-	_graficarHistorialChildren__ed(){
-		this.graficandoHistorialChildren		=	true;
-		{
-		var _method		=	this.valoracion.metodo_valoracion;
-		var aChartData	=	this.json[_method];
-		var toGraph		=	'';
-		var data;
-		var item;
-		var items			=	[];
-		var headers			=	[];
-		var indicatorsMenuItem	=	[];
-		var config;
-		var options:any;
-		var columns;
-		var chartData:any;
-		var args:any[]	=	[];
-		var alturaPaciente:number	=	Math.round(Number(this.valoracion.estatura)*100);
-		var pesoPaciente:number		=	Number(this.valoracion.peso);
-		var edadPaciente:number		=	Number(this.paciente.edad);
-		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
-		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
-		if(this.paciente.fecha_nac){
-			var current_fecha = this.paciente.fecha_nac.split('/');
-			var year	=	Number(current_fecha[2]);
-			var month	=	Number(current_fecha[1]);
-			var day		=	Number(current_fecha[0]);			
-				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
-				var fechaFin    = new Date().getTime();
-				var diff = fechaFin - fechaInicio;
-				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
-				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
-				edadPaciente_meses	=	_anhos * 12;
-				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
-				if(_anhos>30)
-					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
-		}
-		var _label	=	{};
-		var _row_first:any;
-		var _row_first_keys:any;
-		var _row_first_fk:any;/*	X, Age	*/
-		var _row_first_sk:any;/*	P10	*/
-		var _row_last:any;
-		var _row_last_keys:any;
-		var _row_last_fk:any;
-		var _row_last_lk:any;
-		
-		var _dataRow:any;
-		var x:number;
-		var y:number;
-		var _text:string='';
-		var _push_data:any	=	null;
-		var _aux:any	=	0;
-		var _aux_altura:any	=	0;
-		var _aux_peso:any	=	0;
-		var _aux_imc:any	=	0;
-		var _data_i:any;
-		var _data_i_keys:any;
-		var _data_i_fk:any;
-		var _chartData_i_keys:any;
-		var _chartData_i_fk:any;
-		var chartWithToolTips = new Array();
-		var _x_2:number			=	0;
-		var _value:number		=	0;
-		var _value_last:number	=	0;
-		var _min_hAxis:number;
-		var _max_hAxis:number;
-		var _min_vAxis:number;
-		var _max_vAxis:number;
-		var _round_paciente_printed	=	false;
-		var _edad_en_meses:boolean;
-		var _classMenuItem	=	'';
-	}
-		this._getScreenSize();
-		var _edad:any;
-		var _hist:any;
-		var h:any;
-		var _elem:any;
-		var data_historial_orig	=	[];
-		var data_historial	=	[];
-		for(var j in this.historial){
-			_hist	=	this.historial[j];
-			_edad	=	this.calculateEdad( this.paciente.fecha_nac, _hist.date );
-			h	=	{'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
-			data_historial_orig.unshift( h );
-		}
-		
-try {
-		for(var indicador in aChartData) {
-			if(!aChartData[indicador])
-				continue;
-
-			chartData	=	JSON.parse(aChartData[indicador]);
-			_dataRow	=	this._getFirstLastRow(chartData);
-			data_historial	=	this.helpers.clone(	data_historial_orig );		
-			switch(indicador){
-				case 'estatura-peso':
-					_label['x']	=	'Estatura (cm)';
-					_label['y']	=	'Peso (Kg)';
-					_label['title']	=	'Peso para Estatura';
-					break;
-				case 'estatura-edad':					
-					_label['x']		=	'Edad (días)';
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-						_label['x']		=	'Edad (Meses)';
-					_label['y']	=	'Estatura (cm)';
-					_label['title']	=	'Estatura para Edad';
-					
-					
-					break;
-				case 'imc-edad':
-					_label['x']		=	'Edad';						
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-						_label['x']		=	'Edad (Meses)';
-
-					_label['y']	=	'IMC';
-					_label['title']	=	'IMC para Edad';
-					break;
-				case 'peso-edad':
-					_label['x']		=	'Edad (días)';
-					if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-						_label['x']		=	'Edad (Meses)';
-
-					_label['y']	=	'Peso (Kg)';
-					_label['title']	=	'Peso para Edad';					
-					break;
-			}
-			_classMenuItem	=	'grafico-children-' + indicador + (indicador=='estatura-edad'? ' active':'');
-			indicatorsMenuItem.push({'id': 'children_' + indicador, 'nombre':_label['title'], 'class': _classMenuItem, 'indicador':indicador });
-			
-			_label['title']	=	'';
-			x	=	Math.ceil((_dataRow['last']['value'] - _dataRow['first']['value'])/14);;
-			y	=	Math.ceil((_dataRow['last']['P90'] - _dataRow['first']['P10'])/10);;
-			
-			_text	=	'';
-			data	=	[];
-			columns	=	[];
-			for(var key in _dataRow['first']){
-				columns.push({label: key, type: 'number'});
-				if(key!=_dataRow['first']['value'])
-					columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
-			}
-			columns.push({label: 'Paciente', type: 'number'});
-			columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
-
-			_aux		=	0;			
-			_aux_altura	=	0;
-			_aux_peso	=	0;
-			_aux_imc	=	0;
-			
-			_round_paciente_printed	=	false;
-			
-			var _hrow:any;
-			var _hasHistorialDataRow	=	false;
-			if(data_historial.length>0){
-				_hrow	=	data_historial[0];
-				_hasHistorialDataRow	=	true;
-				data_historial.shift();
-			}
-			
-			for(var i=0; i<chartData.length; i++) {
-				chartWithToolTips = new Array();
-				for(var key in chartData[i]) {
-					_data_i	=	chartData[i];
-					
-					chartWithToolTips.push(parseFloat(_data_i[key]));
-
-					if (key!=_dataRow['first']['value']){
-						_data_i_keys	=	Object.keys(_data_i);
-						_data_i_fk		=	_data_i_keys[0];
-
-						_text	=	'<ul class="grafico-lista">';
-						_text	+=	'	<li><strong>' + key + '</strong></li>';
-						_data_i[key]	=	Number(_data_i[key]).toFixed(2)
-						_data_i[_data_i_fk]	=	Number(_data_i[_data_i_fk]).toFixed(2);						
-						switch(indicador){
-							case 'estatura-peso':
-								_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Estatura: ' + _data_i[_data_i_fk] + ' (cm)</li>';
-								break;
-							case 'estatura-edad':
-								_text	+=	'<li>Estatura: ' + _data_i[key] + ' (cm)';
-								_text	+=	' | ';
-								_text	+=	'Edad: ' + _data_i[_data_i_fk];
-								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-									_text	+=	' meses';
-								else
-									_text	+=	' dias';
-								
-								_text	+=	'</li>';									
-								break;
-							case 'imc-edad':
-								_text	+=	'<li>Edad: ' + _data_i[_data_i_fk];
-								
-								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-									_text	+=	' meses';
-								else
-									_text	+=	' dias';
-																	
-								_text	+=	' | ';
-								_text	+=	'Imc: ' + _data_i[key] + ' </li>';
-								break;
-							case 'peso-edad':
-								_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Edad: ' + _data_i[_data_i_fk];
-								if(this.valoracion.metodo_valoracion=='cdc' || this.paciente.edad>5)
-									_text	+=	' meses';
-								else
-									_text	+=	' dias';
-								
-								_text	+=	'</li>';
-								break;
-						}
-						_text	+=	'</ul>';
-						chartWithToolTips.push( _text );
-					}
-				}
-				_text		=	'';
-				_push_data	=	null;
-				if(_hasHistorialDataRow){
-					_chartData_i_keys	=	Object.keys(chartData[i]);
-					_chartData_i_fk		=	_chartData_i_keys[0];
-					_elem	=	chartData[i][_chartData_i_fk];
-					//_elem	=	chartData[i][_row_first_fk];
-					
-					
-					
-					switch(indicador){
-						case 'estatura-peso':				
-							_push_data	=	_elem >= _hrow.estatura? _hrow.peso : null;
-							//console.log(indicador + ': ' + _elem + '>=' + _hrow.estatura + '?' +  _hrow.peso + ':null -> ' +  _push_data);
-							if(_push_data){
-								_text	+=	'	<li>Peso: ' + _hrow.peso + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Estatura: ' + _hrow.estatura + ' (cm)</li>';
-							}
-							break;
-						case 'estatura-edad':							
-							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >=  _hrow.meses ? _hrow.estatura : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.estatura + ':null -> ' +  _push_data);
-							}
-							else{
-								_push_data	=	_elem >=  _hrow.dias ?  _hrow.estatura : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.estatura + ':null -> ' +  _push_data);
-							}
-							if(_push_data){
-								_text	+=	'	<li>Edad: ';
-								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
-									_text	+=	_hrow.meses + ' meses';
-								else
-									_text	+=	_hrow.dias + ' dias';
-								
-								_text	+=	' | ';
-								_text	+=	'Estatura: ' + _hrow.estatura + ' (cm)</li>';					
-							}
-							
-							break;
-						case 'imc-edad':
-							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >= _hrow.meses ? _hrow.imc : null;
-							}
-							else{
-								_push_data	=	_elem >= _hrow.dias ? _hrow.imc : null;
-							}
-							
-							if(_push_data){
-								_text	+=	'	<li>Edad: ';
-								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
-									_text	+=	_hrow.meses + ' meses';
-								else
-									_text	+=	_hrow.dias + ' dias';
-
-								_text	+=	' | ';
-								_text	+=	'Imc: ' + _hrow.imc + ' </li>';					
-							}							
-							break;
-						case 'peso-edad':
-							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >= _hrow.meses ? _hrow.peso : null;
-							}
-							else{
-								_push_data	=	_elem >= _hrow.dias ? _hrow.peso : null;
-							}
-							
-							if(_push_data){
-								_text	+=	'	<li>Peso: ' + _hrow.peso + ' kg';
-								_text	+=	' | ';
-								_text	+=	'Edad: ';
-								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
-									_text	+=	_hrow.meses + ' meses';
-								else
-									_text	+=	_hrow.dias + ' días';
-								_text	+=	'</li>';								
-							}
-							break;
-					}
-					if(_text){
-						_text	=	'	<li><strong>Paciente</strong></li>' + _text;
-						_text	=	'<ul class="grafico-lista">' + _text + '</ul>';
-						
-						if(data_historial.length>0){
-							_hrow	=	this.helpers.clone(	data_historial[0] );
-							_hasHistorialDataRow	=	true;
-							data_historial.shift();
-						}else
-							_hasHistorialDataRow	=	false;
-					}
-				}
-				chartWithToolTips.push( _push_data );
-				chartWithToolTips.push( _text );
-				data.push( chartWithToolTips );
-			}
-			_x_2		=	0;
-			_value		=	0;
-			_value_last	=	0;
-			_value		=	Math.floor (parseFloat( _dataRow['first']['value'] ));
-			_value_last	=	Math.floor (parseFloat( _dataRow['last']['value'] ));
-			_x_2		=	x*2;
-
-
-			
-			_min_hAxis	=	Math.floor(_dataRow['first']['value']);
-			_max_hAxis	=	Math.ceil(_dataRow['last']['value']);
-			
-			_min_vAxis	=	Math.floor(_dataRow['first']['P10']);
-			_max_vAxis	=	Math.ceil(_dataRow['last']['P90']	);
-
-/*
-if(this.zoom && indicador=='estatura-peso'){
-
-	var Fdata	=	_row_first;//chartData[0];
-	var Fvalue	=	parseFloat( _row_first[_row_first_fk] );//parseFloat( Fdata.X );
-	var Ldata	=	_row_last;//chartData[chartData.length-1];
-	var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
-	//_x_2	=	parseFloat(x*2);
-
-
-	_min_hAxis	=	_hrow.estatura<=( Fvalue + _x_2 ) ? Math.floor( Fvalue ) : _hrow.estatura - _x_2;
-	_max_hAxis	=	_hrow.estatura>=( Lvalue - _x_2 ) ? Math.floor( Lvalue ) : _hrow.estatura + _x_2;
-
-	_min_vAxis	=	_hrow.peso <= (_row_first[_row_first_sk] + y ) ? Math.floor(_row_first[_row_first_sk]) : _hrow.peso - y ;
-	_max_vAxis	=	_hrow.peso >= (_row_last[_row_last_lk] - y ) ? Math.ceil(_row_last[_row_last_lk]) : _hrow.peso + y;
-
-}else{	
-	_min_hAxis	=	Math.floor(_row_first[_row_first_fk]);
-	_max_hAxis	=	Math.ceil(_row_last[_row_last_fk]);
-	_min_vAxis	=	Math.floor(_row_first[_row_first_sk]);
-	_max_vAxis	=	Math.ceil(_row_last[_row_last_lk]);
-}
-*/
-
-			args['title']		=	_label['title'];
-			args['x']			=	x;
-			args['y']			=	y;
-			args['label_x']		=	_label['x'];
-			args['label_y']		=	_label['y'];
-			args['hAxis_min']	=	_min_hAxis;
-			args['hAxis_max']	=	_max_hAxis;
-			args['hAxis_value']	=	_value;
-			args['vAxis_min']	=	_min_vAxis;
-			args['vAxis_max']	=	_max_vAxis;
-			args['vAxis_value']	=	_dataRow['first']['P10'];
-		
-			options	=	this._getOptionsGraphChildren( args );
-			config	=	new LineChartConfig('title ' + toGraph, options, columns);
-			item	=	{'data':data, 'config': config, 'elementId':'element_children_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
-			items.push(item);
-		}
-}
-catch(err) {
-	console.log( 'error _graficarHistorialChildren' );
-	console.log( err.message );
-}
-		this.grafico_children_indicator	=	indicatorsMenuItem;
-		this.grafico_children_items		=	items;
-		this.tagBody.classList.add('grafico-children-selected-estatura-edad');
-		this.graficandoHistorialChildren	=	false;
-	}
+	
 	_getOptionsGraphChildren(args){
 		args['title']			=	typeof args['title'] !== 'undefined' ?  args['title'] : '';
 		args['x']				=	typeof args['x'] !== 'undefined' ?  args['x'] : '';
@@ -2392,7 +1421,7 @@ catch(err) {
 		args['series_pointsize']=	typeof args['series_pointsize'] !== 'undefined' ?  args['series_pointsize'] : 10;
 
 		var options = {
-			width: this.parentWidth,
+			width: args['width'],
 			title: args['title'],
 			legend: { position: args['legend_position'] },
 			animation: {duration: 1000,	easing: 'out'},
@@ -2419,7 +1448,7 @@ catch(err) {
 		 //b = typeof b !== 'undefined' ?  b : 1;
 		 
 		var options = {
-			width:this.parentWidth,
+			width:this.withChildrenGraphic,
 			title: graph_title,
 			legend: { position: 'bottom' },
 			animation: {
