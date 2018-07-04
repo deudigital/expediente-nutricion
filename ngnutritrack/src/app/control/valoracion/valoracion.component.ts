@@ -1862,8 +1862,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 
 		if(!this.valoracion.peso)
 			return '';
-		if(this.displayGraphicChildren){
-			/*console.log(this.valoracion.metodo_valoracion);console.log(this.infoIdeal);*/
+		/*if(this.displayGraphicChildren){
 			try{
 				var _info	=	this.infoIdeal[this.valoracion.metodo_valoracion]['imc-edad'];
 				switch(this.valoracion.percentil_analisis){
@@ -1889,7 +1888,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 				console.log( 'ERROR: _calcularImc-> ' + err.message );
 				this.analisis_imc	=	0;
 			}
-		}else{
+		}else{*/
 /*
 =PESO/(ESTATURA*ESTATURA)
 
@@ -1897,8 +1896,9 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 
 */
 			this.analisis.imc	=	Number(this.valoracion.peso) / ( Number(this.valoracion.estatura) * Number(this.valoracion.estatura) );
+			console.log(this.valoracion.peso + '/(' + this.valoracion.estatura + '^2) -> ' + this.valoracion.peso + '/' + '(' + Math.pow(Number(this.valoracion.estatura), 2) + ') = ' + this.analisis.imc);
 			this.analisis_imc	=	this.analisis.imc;
-		}
+		/*}*/
 	}
 	_calcularPesoIdeal(){
 		if(!this.allowCalculate)
