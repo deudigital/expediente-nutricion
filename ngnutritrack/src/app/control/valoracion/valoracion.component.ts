@@ -260,8 +260,11 @@ export class ValoracionComponent implements OnInit {
 	}
 	_getScreenSize(){
 		try {
-			if(document.getElementById('container_children_graphics'))
+			/*if(document.getElementById('container_children_graphics'))
 				this.withChildrenGraphic			=	document.getElementById('container_children_graphics').offsetWidth;
+			*/
+			if(document.getElementById('content-form'))
+				this.withChildrenGraphic			=	document.getElementById('content-form').offsetWidth;
 			var _width	=	this.tagBody.offsetWidth;
 			if(_width>1250)
 				_width	=	1200;
@@ -471,6 +474,7 @@ export class ValoracionComponent implements OnInit {
 				vAxis: {
 					title: toGraph
 				},
+				chartArea: {width: '90%',height: '80%'},
 				colors: ['#cc1f25']
 			};
 			columns	= [
@@ -1427,6 +1431,7 @@ catch(err) {
 			animation: {duration: 1000,	easing: 'out'},
 			tooltip: {isHtml: true},
 			titleTextStyle: {color: 'red',fontName: 'Verdana',fontSize: 14, bold: true, italic: false},
+			chartArea: {width: '90%',height: '80%'},
 			series: {5:{pointShape: 'circle', pointSize: args['series_pointsize']}},
 			hAxis: {
 				title: args['label_x'],
@@ -1474,6 +1479,7 @@ catch(err) {
 				viewWindow: {min: _min_vAxis ,max: _max_vAxis},
 				ticks: this._calcRange( _vAxis_value, y, 50 )
 			},
+			chartArea: {width: '90%',height: '80%'},
 			colors: ['#868684', '#90c445','#cc1f25', '#90c445','#868684', '#DAA520'],
 			crosshair: {
 				color: '#dadada',

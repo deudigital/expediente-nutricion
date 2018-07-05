@@ -9,7 +9,7 @@
 		<div class="col-sm-3 content-nav">
 			<app-navigation></app-navigation>
 		</div>
-		<div class="col-sm-9 content-form">	
+		<div id="content-form" class="col-sm-9 content-form">	
 			<header class="visible-xs text-center">
 				<h4>Valoraci&oacute;n Antropom&eacute;trica</h4>
 			</header>
@@ -28,7 +28,7 @@
 				</div>
 <ng-template [ngIf]="displayMethods">
 				<div class="form-group">
-					<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{paciente.edad}} años, indique como desea hacer la valoracion</label>
+					<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{paciente.edad}} años, indique como desea hacer la valoraci&oacute;n</label>
 					<div class="radio clearfix">
 						<div class="col-sm-4" *ngIf="displayMethodOms">
 							<label>
@@ -264,7 +264,7 @@
 </ng-template>
 <ng-template [ngIf]="displayGraphicChildren">			
 				<div class="form-group ">
-					<label for="percentil-analisis" class="col-form-label">¿con cual percentil desea hacer el analisis?</label>
+					<label for="percentil-analisis" class="col-form-label">¿con cu&aacute;l percentil desea hacer el an&aacute;lisis?</label>
 					<div class="radio clearfix percentiles">
 						<div class="col-sm-2">
 							<label>
@@ -385,9 +385,9 @@
 				<div class="loading-graphic container-fluid text-center">
 					<img src="assets/images/loading-bars.svg" width="32" height="32" />
 				</div>
-	</ng-template>
+	</ng-template>{{withChildrenGraphic}}
 	<ng-template #mostrarGraficos>
-				<nav class="clearfix">
+				<nav class="clearfix text-center">
 					<ul class="nav navbar-nav menu grafico by-indicator">
 						<li *ngFor="let g_indicador of grafico_indicator">
 							<a id="{{g_indicador.id}}" class="{{g_indicador.class}}" href="javascript:void(0)" (click)="graficoxSelected(g_indicador, $event)">
