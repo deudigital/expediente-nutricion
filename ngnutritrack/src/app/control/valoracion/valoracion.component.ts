@@ -198,6 +198,9 @@ export class ValoracionComponent implements OnInit {
 		var _data:any;
 		try{
 			for(var metodo in this.json) {/*console.log('metodo: ' + metodo);*/
+				if(metodo=='debug')
+					continue;
+
 				_data	=	this.json[metodo]/*console.log(_data);*/				
 				for(var indicador in _data) {
 					chartData	=	JSON.parse( _data[indicador] );/*console.log('indicador: ' + indicador);console.log(chartData);*/
@@ -239,7 +242,7 @@ export class ValoracionComponent implements OnInit {
 		.subscribe(
 			 response  => {
 				console.log('_getJsonData');
-				this.json		=	response;console.log(this.json);
+				this.json		=	response;
 				this.solicitando=	false;
 				var _method		=	this.valoracion.metodo_valoracion;
 				if( _method=='adulto' )
@@ -247,12 +250,16 @@ export class ValoracionComponent implements OnInit {
 
 				this.disableButtonHistorial	=	!this.historial;
 
-				if(!this.valoracion.peso)
-					return false;
 
+				//console.log(Object.keys(this.json[_method]));
+				console.log(this.json['debug']);
 				this.allowCalculate	=	true;
 				this._setInfoIdeal();
 				this._analisis();
+
+				if( !this.valoracion.peso || !this.valoracion.estatura)
+					return false;
+
 				this._graficarChildren( this.json[_method] );
 			},
 			error =>  console.log('_getJsonData: ' + <any>error)
@@ -1845,6 +1852,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return valor;
 	}
 	_analisis(){
+		console.log( this.valoracion.metodo_valoracion + ', ' + this.allowCalculate + ', ' + this.valoracion.peso + ', ' + this.valoracion.estatura );
 		this._calcularImc();
 /*	peso, estatura	*/
 		this._calcularPesoIdeal();
@@ -1863,66 +1871,21 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		this._calcularPesoMetaMinimo();
 	}
 	_calcularImc(){
-		if(!this.allowCalculate)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return '';
-
-		if(!this.valoracion.peso)
-			return '';
-		/*if(this.displayGraphicChildren){
-			try{
-				var _info	=	this.infoIdeal[this.valoracion.metodo_valoracion]['imc-edad'];
-				switch(this.valoracion.percentil_analisis){
-					case '10':
-						this.analisis.imc	=	_info.P10;
-						break;
-					case '25':
-						this.analisis.imc	=	_info.P25;
-						break;
-					case '50':
-						this.analisis.imc	=	_info.P50;
-						break;
-					case '75':
-						this.analisis.imc	=	_info.P75;
-						break;
-					case '90':
-						this.analisis.imc	=	_info.P90;
-						break;
-				}
-				this.analisis_imc	=	this.analisis.imc;
-			}
-			catch(err) {
-				console.log( 'ERROR: _calcularImc-> ' + err.message );
-				this.analisis_imc	=	0;
-			}
-		}else{*/
 /*
-=PESO/(ESTATURA*ESTATURA)
-
-=SI(B10<18,5;"BAJO PESO";SI(B10<24,9;"NORMAL";SI(B10<30;"SOBREPESO 1";SI(B10<40;"SOBREPESO 2";"SOBREPESO 3"))))
-
-*/
+ *	=	PESO/(ESTATURA*ESTATURA)
+ */
 			this.analisis.imc	=	Number(this.valoracion.peso) / ( Number(this.valoracion.estatura) * Number(this.valoracion.estatura) );
-			console.log(this.valoracion.peso + '/(' + this.valoracion.estatura + '^2) -> ' + this.valoracion.peso + '/' + '(' + Math.pow(Number(this.valoracion.estatura), 2) + ') = ' + this.analisis.imc);
+			/*console.log(this.valoracion.peso + '/(' + this.valoracion.estatura + '^2) -> ' + this.valoracion.peso + '/' + '(' + Math.pow(Number(this.valoracion.estatura), 2) + ') = ' + this.analisis.imc);*/
 			this.analisis_imc	=	this.analisis.imc;
-		/*}*/
 	}
 	_calcularPesoIdeal(){
-		if(!this.allowCalculate)
+		if( !this.allowCalculate || !this.valoracion.estatura )
 			return 0;
-		if(!this.valoracion.peso)
-			return 0;
+
 		var esMasculino	=	this.paciente.genero=='M';
-		//var	esMasculino	=	this.sexo=='M';
 		if(this.displayGraphicChildren){
-			//var _method		=	this.valoracion.metodo_valoracion;
-			//var aChartData	=	this.json[_method];
-/*
-"P10": 2.758,
-"P25": 3.027,
-"P50": 3.346,
-"P75": 3.687,
-"P90": 4.011
-*/			
 			try{
 				var _info	=	this.infoIdeal[this.valoracion.metodo_valoracion]['peso-edad'];
 				switch(this.valoracion.percentil_analisis){
@@ -1949,8 +1912,8 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 			}
 		}else{
 /*
-=SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
-*/
+ *	=SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
+ */
 			var factor_1	=	45.5;
 			var factor_2	=	2.27;
 			if( esMasculino ){
@@ -1968,19 +1931,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		if(!this.valoracion.peso)
 			return 0;
 		var esMasculino	=	this.paciente.genero=='M';
-		//var	esMasculino	=	this.sexo=='M';
 		if(this.displayGraphicChildren){
-			//var _method		=	this.valoracion.metodo_valoracion;
-			//var aChartData	=	this.json[_method];
-/*
-"P10": 2.758,
-"P25": 3.027,
-"P50": 3.346,
-"P75": 3.687,
-"P90": 4.011
-
-
-*/			
 			try{
 				var _info	=	this.infoIdeal[this.valoracion.metodo_valoracion]['estatura-edad'];
 				switch(this.valoracion.percentil_analisis){
@@ -2005,47 +1956,21 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 				console.log( 'ERROR: _calcularEstaturaIdeal-> ' + err.message );
 				this.analisis.estaturaIdeal	=	0;
 			}
-
 		}
 		return this.analisis.estaturaIdeal;
 	}
-	_calcularPesoIdeal__old(){
-		if(!this.allowCalculate)
-			return 0;
-		if(!this.valoracion.peso)
-			return 0;
-		var esMasculino	=	this.paciente.genero=='M';
-		//var	esMasculino	=	this.sexo=='M';
-/*
-=SI(SEXO="M";(ESTATURA*100-152)*2,72/2,5+47,7;(ESTATURA*100-152)*2,27/2,5+45,5)
-*/
-		var factor_1	=	45.5;
-		var factor_2	=	2.27;
-		if( esMasculino ){
-			factor_1	=	47.7;
-			factor_2	=	2.72;
-		}
-		var pesoIdeal			=	(Number(this.valoracion.estatura)*100-152)*factor_2/2.5+factor_1;
-		this.analisis.pesoIdeal	=	this.restarSumarAlPesoIdeal( pesoIdeal, esMasculino );
-		return this.analisis.pesoIdeal;
-	}
-
 	_calcularPesoIdealAjustado(){
-		if(!this.allowCalculate)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;
-		if(!this.valoracion.peso)
-			return 0;		
 /*
-=(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
-*/
+ *	=(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
+ */
 		this.analisis.pesoIdealAjustado	=	Number(this.valoracion.getPesoIdealAjustado(this.valoracion.peso, this.analisis.pesoIdeal));
 		return this.analisis.pesoIdealAjustado;
 	}
 	_calcularDiferenciaPeso(){
-		if(!this.allowCalculate)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;
-		if(!this.valoracion.peso)
-			return 0;		
 /*
 =PESO-PESO_IDEAL_AJUSTADO
 */
@@ -2053,37 +1978,27 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return this.analisis.diferenciaPeso;
 	}
 	_calcularAdecuacion(){
-		if(!this.allowCalculate)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;
-		if(!this.valoracion.peso)
-			return 0;		
 /*
-=PESO/PESO_IDEAL_AJUSTADO
+ *	=PESO/PESO_IDEAL_AJUSTADO
 */
 		this.model.adecuacion	=	(Number(this.valoracion.peso)/this.analisis.pesoIdealAjustado) * 100;
 		return this.model.adecuacion;
 	}
 	_calcularRelacionCinturaCadera(){
-		if(!this.allowCalculate)
-			return 0;
-		if(!Number(this.valoracion.circunferencia_cintura) || !Number(this.valoracion.circunferencia_cadera))
+		if(!this.allowCalculate || !Number(this.valoracion.circunferencia_cintura) || !Number(this.valoracion.circunferencia_cadera))
 			return 0;		
 /*
-=CINTURA/CADERA
-*/
+ *	=CINTURA/CADERA
+ */
 		this.model.relacionCinturaCadera	=	Number(this.valoracion.circunferencia_cintura)/Number(this.valoracion.circunferencia_cadera);
 		var perc	=	this.model.relacionCinturaCadera*100;
-		/*return this.model.relacionCinturaCadera;*/
 		return perc;
 	}
 	_calcularGradoSobrepeso(){
-		if(!this.allowCalculate)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;
-		/*if(!this.valoracion.peso)
-			return 0;*/
-		if(!this.valoracion.peso)
-			return '';
-/*
 /*
 NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB MEDIA";SI(GRADO_SOBREPESO_VALOR>10;"SOBREP";"NP")))	
 3,793658207		=(PESO-PESO_IDEAL)/PESO_IDEAL*100
@@ -2098,30 +2013,23 @@ NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB ME
 			else{
 				if(this.model.gradoSobrepeso>10)
 					_print	=	'SOBREPESO';
-				/*else{_print	=	'NP';
-				}*/
 			}
-		}		
-		/*return this.model.gradoSobrepeso;*/
+		}
 		this.analisis_gradoSobrepeso	=	_print;
 		return _print;
 	}
 	_calcularPorcentajePeso(){
-		if(!this.allowCalculate)
-			return 0;
-		if(!this.valoracion.peso)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;
 /*
 104%	=PESO/PESO_IDEAL
 Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCENTAJE_PESO<90%;"DN LEVE";SI(
 */
 		this.analisis.porcentajePeso	=	(Number(this.valoracion.peso)/this.analisis.pesoIdeal) * 100;
-		return this.analisis.porcentajePeso;
+ 		return this.analisis.porcentajePeso;
 	}
 	_calcularPesoMetaMaximo(){
-		if(!this.allowCalculate)
-			return 0;
-		if(!this.valoracion.peso)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;		
 /*
 80,1025		=(PESO*25)/IMC
@@ -2132,13 +2040,11 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		return this.analisis.pesoMetaMaximo;
 	}
 	_calcularPesoMetaMinimo(){
-		if(!this.allowCalculate)
-			return 0;
-		if(!this.valoracion.peso)
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
 			return 0;		
 /*
-=(PESO*18,9)/IMC
-*/
+ *	=(PESO*18,9)/IMC
+ */
 		this.analisis.pesoMetaMinimo	=	(Number(this.valoracion.peso)*18.9)/this.analisis.imc;
 		if(isNaN(this.analisis.pesoMetaMinimo))
 			this.analisis.pesoMetaMinimo	=	0;

@@ -17,19 +17,24 @@ class GraphicController extends Controller
 		$paciente	=	Persona::where('id',$paciente_id)
 						->select('*', DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,now()) as edad'), DB::raw('TIMESTAMPDIFF(MONTH,personas.fecha_nac,now()) as meses'))
 						->first();
-//echo '<pre>paciente' . print_r($paciente, true) . '</pre>';exit;
-		
-		/*$paciente	=	Persona::find($paciente_id);*/
-		//$paciente->edad		=	0;
+
 		if($paciente->fecha_nac){
 			$fecha_nac = explode('-', $paciente->fecha_nac);
-//			$edad	=	Carbon::createFromDate($fecha_nac[0], $fecha_nac[1], $fecha_nac[2])->age;          // int(41) calculated vs now in the same tz
 			$paciente->fecha_nac=	$fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
-//			$paciente->edad		=	$edad;
-		}	
+		}
+		$edad	=	$paciente->edad;
 		$genero			=	'mujer';
 		if($paciente->genero=='M')
 			$genero			=	'hombre';
+
+		$debug	=	array();
+		/*$debug['genero']=	$genero;
+		$debug['edad']	=	$edad;*/
+		
+		if( $paciente->meses > $paciente->edad*12 ){
+			$edad++;
+			/*$debug['edad+']	=	$edad;*/
+		}
 		$indicators	=	array(
 								'estatura-edad'	=>	'', 
 								'estatura-peso'	=>	'', 
@@ -39,24 +44,23 @@ class GraphicController extends Controller
 		$methods	=	array( 'oms', 'cdc');
 		$response	=	array();
 		
-		$edad	=	$paciente->edad;
-		if( $paciente->meses > $paciente->edad*12 )
-			$edad++;
-//		echo $edad;
 		foreach($methods as $method){
 			$_indicators	=	$indicators;
-			if($method=='oms'){
-				if( $edad > 5){
+			switch($method){
+				case 'oms':
+					if( $edad > 5){
+						unset($_indicators['estatura-peso']);
+						/*if( $edad > 10)*/
+						if( $edad > 9)
+							unset($_indicators['peso-edad']);
+					}
+					break;
+				case 'cdc':
 					unset($_indicators['estatura-peso']);
-					if( $edad > 10)
-						unset($_indicators['peso-edad']);
-				}
-			}
-			if($method=='cdc'){
-				unset($_indicators['estatura-peso']);
-				if( $edad < 3){
-					unset($_indicators['imc-edad']);				
-				}
+					if( $edad < 3){
+						unset($_indicators['imc-edad']);				
+					}
+					break;
 			}
 			$rangoEdad	=	'';
 			foreach($_indicators as $key=>$value){
@@ -82,22 +86,23 @@ class GraphicController extends Controller
 						break;				
 				}
 				
-				$path	.=	'-' . $rangoEdad;			
+				$path	.=	'-' . $rangoEdad;
 				$path	.=	'-' . $genero;
 				$path	.=	'.json';			
+
+				//$debug[$method][$key]	=	$path;
+				$debug[$method][]	=	$path;
+
 				$path	=	'json-data/' . $path;
-			//echo '<pre>' . $path . '</pre>'; 
-				$jsonURL	=	public_path( $path );//echo $jsonURL;
-				//$jsonFile	=	file_get_contents($jsonURL);
+
+				$jsonURL	=	public_path( $path );
 				$jsonFile	= File::get($jsonURL);
-				
 				$_indicators[$key]	=	$jsonFile;
-				//$_indicators[$key]	=	(array)json_decode($jsonFile, true);
-				//$_indicators[$key]	=	json_decode($jsonFile, true);
-			}
+			}			
 			$response[$method]	=	$_indicators;
 		}
-		//echo '<pre>' . print_r($response, true) . '</pre>';exit;
+		
+		$response['debug']	=	$debug;
 		$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
