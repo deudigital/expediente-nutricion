@@ -124,6 +124,7 @@ export class ValoracionComponent implements OnInit {
 	showBoxIndicadorPesoEdad:boolean;
 	showBoxIndicadorPesoEstatura:boolean;
 	
+	displayAnalisisPesoIdeal:boolean;
 	
 	zoom:boolean=false;
 	
@@ -182,6 +183,7 @@ export class ValoracionComponent implements OnInit {
 		this.showBoxIndicadorEstaturaEdad	=	false;
 		this.showBoxIndicadorPesoEdad		=	false;
 		this.showBoxIndicadorPesoEstatura	=	false;
+		this.displayAnalisisPesoIdeal		=	false;
 		console.clear();
 	}
 	ngOnDestroy() {
@@ -276,10 +278,10 @@ export class ValoracionComponent implements OnInit {
 			if(_width>1250)
 				_width	=	1200;
 			else
-				_width	=	this.tagBody.offsetWidth - 30;
+				_width	=	this.tagBody.offsetWidth - 15;
 
-			if(document.getElementById('container_modal_tab_graphic'))
-				_width	=	document.getElementById('container_modal_tab_graphic').offsetWidth;
+			if(document.getElementById('modal-dato-grafico'))
+				_width	=	document.getElementById('modal-dato-grafico').offsetWidth - 15;
 
 			this.historialParentWidth	=	_width;
 		}
@@ -342,7 +344,9 @@ export class ValoracionComponent implements OnInit {
 				this.valoracion.metodo_valoracion	=	_metodo;
 			}
 			this.displayoptionsForMenor	=	true;
+			this.displayAnalisisPesoIdeal	=	( this.paciente.edad < 11 );
 		}
+		console.log(( this.paciente.edad < 11 ) + ', displayAnalisisPesoIdeal:' + this.displayAnalisisPesoIdeal);
 		this.displayoptionsForAdulto	=	this.valoracion.metodo_valoracion=='adulto' || this.esAdulto;
 		this.displayGraphicChildren		=	this.esMenor && !this.displayoptionsForAdulto;
 	}	
@@ -1338,7 +1342,7 @@ var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
 			args['vAxis_value']	=	_row_first[_row_first_sk];
 
 			//args['legend_position']	=	'top';
-			args['width']	=	this.withChildrenGraphic;
+			args['width']	=	this.historialParentWidth;
 			options	=	this._getOptionsGraphChildren( args );
 			config	=	new LineChartConfig('title ' + toGraph, options, columns);
 			item	=	{'data':data, 'config': config, 'elementId':'element_children_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};

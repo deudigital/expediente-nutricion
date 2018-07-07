@@ -55,7 +55,8 @@
 	.percentiles [class*="col-"] {width: 19%;padding: 0;}
 	.percentiles [class*="col-"]:not(:first-child) {margin-left: 1.25%;}
 	.content-form .analisis.menores {padding-left: 15%;padding-right: 15%;}
-	.content-form .analisis.menores  > .box {width: 33.33%;}
+	.content-form .analisis.menores:not(.nopi)  > .box {width: 33.33%;}
+	.content-form .analisis.menores.nopi  > .box {width: 50%;}
 }
 @media(max-width:767px){
 	textarea.form-control:focus {min-height: 200px;}

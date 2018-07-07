@@ -385,7 +385,7 @@
 				<div class="loading-graphic container-fluid text-center">
 					<img src="assets/images/loading-bars.svg" width="32" height="32" />
 				</div>
-	</ng-template>{{withChildrenGraphic}}
+	</ng-template>
 	<ng-template #mostrarGraficos>
 				<nav class="clearfix text-center">
 					<ul class="nav navbar-nav menu grafico by-indicator">
@@ -437,7 +437,7 @@
 				<header>
 					<h3 class="title">An&aacute;lisis</h3>
 				</header>
-				<div class="row analisis" [ngClass]="{'menores': displayGraphicChildren }">
+				<div class="row analisis" [ngClass]="{'menores': displayGraphicChildren, 'nopi': !displayAnalisisPesoIdeal }">
 	<ng-template [ngIf]="esAdulto || esMenor">
 					<div class="box imc">
 						<i></i>
@@ -445,7 +445,7 @@
 						IMC
 						<strong>{{ analisis_imc | number : '1.2-2' }}<br>{{ imc }}</strong>
 					</div>
-					<div class="box peso-ideal">
+					<div *ngIf="displayAnalisisPesoIdeal" class="box peso-ideal">
 						<i></i>
 						<br>
 						Peso Ideal
@@ -507,7 +507,8 @@
 						<i></i>
 						<br>
 						Estatura Ideal
-						<strong>{{ analisis.estaturaIdeal | number : '1.2-2'}} cm</strong>
+						<!--<strong>{{ analisis.estaturaIdeal | number : '1.2-2'}} cm</strong>-->
+						<strong>{{ analisis.estaturaIdeal/100 | number : '1.2-2'}} m</strong>
 					</div>
 					<div *ngIf="showBoxIndicadorEstaturaEdad" class="box peso-ideal indicador-estatura-para-edad">
 						<i></i>
@@ -554,7 +555,7 @@
 
 
 
-<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
+<div id="modal-dato-grafico" [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<div class="body">
 		<nav class="modal-nav">
