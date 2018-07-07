@@ -1871,8 +1871,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		this._calcularPesoMetaMinimo();
 	}
 	_calcularImc(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis_imc	=	0;
 			return '';
+		}
 /*
  *	=	PESO/(ESTATURA*ESTATURA)
  */
@@ -1881,8 +1883,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 			this.analisis_imc	=	this.analisis.imc;
 	}
 	_calcularPesoIdeal(){
-		if( !this.allowCalculate || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.estatura ){
+			this.analisis.pesoIdeal	=	0;
 			return 0;
+		}
 
 		var esMasculino	=	this.paciente.genero=='M';
 		if(this.displayGraphicChildren){
@@ -1928,8 +1932,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 	_calcularEstaturaIdeal(){
 		if(!this.allowCalculate)
 			return 0;
-		if(!this.valoracion.peso)
+		if(!this.valoracion.peso){
+			this.analisis.estaturaIdeal	=	0;
 			return 0;
+		}
 		var esMasculino	=	this.paciente.genero=='M';
 		if(this.displayGraphicChildren){
 			try{
@@ -1960,8 +1966,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return this.analisis.estaturaIdeal;
 	}
 	_calcularPesoIdealAjustado(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis.pesoIdealAjustado	=	0;
 			return 0;
+		}
 /*
  *	=(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
  */
@@ -1969,8 +1977,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return this.analisis.pesoIdealAjustado;
 	}
 	_calcularDiferenciaPeso(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis.diferenciaPeso	=	0;
 			return 0;
+		}
 /*
 =PESO-PESO_IDEAL_AJUSTADO
 */
@@ -1978,8 +1988,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return this.analisis.diferenciaPeso;
 	}
 	_calcularAdecuacion(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.model.adecuacion	=	0;
 			return 0;
+		}
 /*
  *	=PESO/PESO_IDEAL_AJUSTADO
 */
@@ -1987,8 +1999,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return this.model.adecuacion;
 	}
 	_calcularRelacionCinturaCadera(){
-		if(!this.allowCalculate || !Number(this.valoracion.circunferencia_cintura) || !Number(this.valoracion.circunferencia_cadera))
-			return 0;		
+		if(!this.allowCalculate || !Number(this.valoracion.circunferencia_cintura) || !Number(this.valoracion.circunferencia_cadera)){
+			this.model.relacionCinturaCadera	=	0;
+			return 0;
+		}
 /*
  *	=CINTURA/CADERA
  */
@@ -1997,8 +2011,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return perc;
 	}
 	_calcularGradoSobrepeso(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis_gradoSobrepeso	=	'';
 			return 0;
+		}
 /*
 NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB MEDIA";SI(GRADO_SOBREPESO_VALOR>10;"SOBREP";"NP")))	
 3,793658207		=(PESO-PESO_IDEAL)/PESO_IDEAL*100
@@ -2019,8 +2035,10 @@ NP				=SI(GRADO_SOBREPESO_VALOR>40;"OB GRAVE";SI(GRADO_SOBREPESO_VALOR>20;"OB ME
 		return _print;
 	}
 	_calcularPorcentajePeso(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis.porcentajePeso	=	0;
 			return 0;
+		}
 /*
 104%	=PESO/PESO_IDEAL
 Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCENTAJE_PESO<90%;"DN LEVE";SI(
@@ -2029,8 +2047,10 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
  		return this.analisis.porcentajePeso;
 	}
 	_calcularPesoMetaMaximo(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
-			return 0;		
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis.pesoMetaMaximo	=	0;
+			return 0;
+		}
 /*
 80,1025		=(PESO*25)/IMC
 */
@@ -2040,8 +2060,10 @@ Nl		=SI(PORCENTAJE_PESO<75%;"DN SEVERA";SI(PORCENTAJE_PESO<85%;"DN MOD";SI(PORCE
 		return this.analisis.pesoMetaMaximo;
 	}
 	_calcularPesoMetaMinimo(){
-		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura )
-			return 0;		
+		if( !this.allowCalculate || !this.valoracion.peso || !this.valoracion.estatura ){
+			this.analisis.pesoMetaMinimo	=	0;
+			return 0;
+		}
 /*
  *	=(PESO*18,9)/IMC
  */
