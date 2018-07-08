@@ -42,11 +42,12 @@ export class RecomendacionComponent implements OnInit {
 	displayBenedict:boolean;
 	displayRDA:boolean;
 	displayFactor:boolean;
+	mostrarFilaPeso:boolean;
 	
 	_tasa_basal:number;
 	_gasto_calorico_real:number;
 	_ingesta_calorica_recomendada:number;
-	historialParentWidth:Number;
+	historialParentWidth:number;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -125,7 +126,11 @@ si se selecciona RDA, se debe ocultar el factor termico de los alimentos y su va
 el resto es igual a los adultos
 */
 			if( _metodo=='rda' )
-				this.displayFactor	=	false;			
+				this.displayFactor	=	false;
+			
+			this.mostrarFilaPeso	=	true;
+			if(_metodo=='schofield' || _metodo=='rda')
+				this.mostrarFilaPeso	=	false;
 		}
 		/*console.log('_metodo: ' + _metodo);*/
 		this.recomendacion.metodo_calculo_gc	=	_metodo;
@@ -180,6 +185,10 @@ el resto es igual a los adultos
 		this.displayFactor	=	this.recomendacion.metodo_calculo_gc!='rda';
 		if(!this.displayFactor)
 			this.recomendacion.factor_actividad_sedentaria	=	0;
+		this.mostrarFilaPeso	=	true;
+		if( this.recomendacion.metodo_calculo_gc=='schofield' || this.recomendacion.metodo_calculo_gc=='rda')
+				this.mostrarFilaPeso	=	false;
+		this._analisis();
 	}
 	setGastoCaloricoActividadFisica(){
 		//if(this.recomendacion.promedio_gc_diario>0)
@@ -446,10 +455,12 @@ el resto es igual a los adultos
 				break;
 			case 'rda':
 				this.recomendacion.factor_actividad_sedentaria	=	0;
-				result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				//result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				result	=	this._tasa_basal+this.recomendacion.promedio_gc_diario;
 				break;
 			case 'schofield':
-				result	=	this.tmbSchofield()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				//result	=	this.tmbSchofield()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				result	=	this._tasa_basal+this.recomendacion.promedio_gc_diario;
 				break;
 			default:
 				result	=	0;
@@ -487,6 +498,10 @@ el resto es igual a los adultos
 			case 'promedio':
 				result	=	tmbPromedio*factor_actividad_sedentaria+promedio_gc_diario;
 				break;
+/*			case 'rda':
+			case 'schofield':
+				result	=	_get_tasa_basal()+promedio_gc_diario;
+				break;*/
 			default:
 				result	=	0;
 		}
@@ -641,6 +656,50 @@ el resto es igual a los adultos
 	}
 	tmbRda(){
 		var value	=	0;
+		if(this.paciente.edad<=1){
+/*
+ *Infantes	0 - 0.5	108
+ *			0.5 - 1	98
+*/
+			value	=	108;
+			if(this.paciente.edad_meses >=6)
+				value	=	98;
+		}else{
+/*
+ *Niños		1 - 3	102
+ *			4 - 6	90
+ *			7 - 10	70
+ */
+			if(this.paciente.edad>1){
+				value	=	102;
+				if(this.paciente.edad>=4){
+					value	=	90;
+					if(this.paciente.edad>=7 && this.paciente.edad<=10 )
+						value	=	70;
+/* 
+ *Hombres	11 - 14	55
+ *			15 -18	45
+ * Mujeres	11 - 14	47
+ *			15 -18	40
+ */
+					if(this.paciente.edad>=11 && this.paciente.edad<=14 ){
+						value	=	55;
+						if(this.paciente.genero=='F')
+							value	=	47;
+					}
+					if(this.paciente.edad>=15 && this.paciente.edad<=18 ){
+						value	=	45;
+						if(this.paciente.genero=='F')
+							value	=	40;
+					}
+					
+				}
+			}
+		}
+		return value;
+	}
+	tmbRda__original(){
+		var value	=	0;
 
 /* 
 Infantes	0 - 0.5	108
@@ -683,6 +742,47 @@ Mujeres		11 - 14	47
 		return value;
 	}
 	tmbSchofield(){
+		var value	=	0;
+		this.current_peso	=	this.va.peso;
+		/*switch(this.recomendacion.peso_calculo){
+			case 'actual':
+				this.current_peso	=	this.va.peso;
+				break;
+			case 'ideal':
+				this.current_peso	=	this.va.pesoIdeal;
+				break;
+			case 'ideal-ajustado':
+				this.current_peso	=	this.va.pesoIdealAjustado;
+				break;
+		}*/
+/*
+		Edad	Formula
+Hombres	3-10	(19.6 x Peso) + (130.3 x Estatura) + 414.9
+		10-18	(16.25 x Peso) + (137.2 x Estatura) + 515.5
+
+Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
+		10-18	(19.6 x Peso) + (130.3 x Estatura) + 414.12
+*/
+		//var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.paciente.edad)+variable_msj;
+		
+		if( this.paciente.edad<3 || this.paciente.edad>18 )
+			return value;
+			
+		if(this.paciente.edad<11){
+			if(this.paciente.genero=='M')
+				value	=	(19.6*this.current_peso) + (130.3*this.va.estatura) + 414.9;
+			else
+				value	=	(8.365*this.current_peso) + (130.3*this.va.estatura) + 414.11;
+		}else{
+			if(this.paciente.genero=='M')
+				value	=	(16.25*this.current_peso) + (137.2*this.va.estatura) + 515.5;
+			else
+				value	=	(19.6*this.current_peso) + (130.3 *this.va.estatura) + 414.12;
+			
+		}		
+		return value;
+	}
+	tmbSchofield__original(){
 		var value	=	0;
 		this.current_peso	=	0;
 		switch(this.recomendacion.peso_calculo){
