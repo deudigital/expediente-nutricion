@@ -242,7 +242,7 @@ class ConsultaController extends Controller
             ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
             ->where('consultas.estado', 0)
             ->where('pacientes.nutricionista_id', $id)
-            ->select('consultas.id', 'consultas.fecha', 'consultas.notas', 'personas.id as persona_id', 'personas.nombre as paciente_nombre', 'personas.telefono', 'pacientes.nutricionista_id as nutricionista')
+            ->select('consultas.id', 'consultas.fecha', 'consultas.notas', 'personas.id as persona_id', 'personas.nombre as paciente_nombre', 'personas.telefono', 'pacientes.nutricionista_id as nutricionista', DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,now()) as edad'), 'personas.genero')
 			->orderBy('consultas.id', 'DESC')
             ->get();
 			if(count($registros)>0)

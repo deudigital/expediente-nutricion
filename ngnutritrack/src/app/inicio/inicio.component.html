@@ -41,7 +41,7 @@
 			</header>			
 			<ul>
 				<li *ngFor="let consulta of consultas">
-					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.paciente_nombre}} 
+					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i><span style="margin-left:-45px;position: absolute;font-weight: bold;">{{consulta.genero}}{{consulta.edad}}</span>{{consulta.paciente_nombre}} 
 					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="btn btn-default action continuar" (click)="onSelect(consulta)">CONTINUAR</a>
 					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="remove-item big action eliminar" (click)="onDelete(consulta)"><i></i></a>
 				</li>

@@ -56,7 +56,7 @@ class GraphicController extends Controller
 					}
 					break;
 				case 'cdc':
-					unset($_indicators['estatura-peso']);
+					/*unset($_indicators['estatura-peso']);*/
 					if( $edad < 3){
 						unset($_indicators['imc-edad']);				
 					}
@@ -88,15 +88,22 @@ class GraphicController extends Controller
 				
 				$path	.=	'-' . $rangoEdad;
 				$path	.=	'-' . $genero;
-				$path	.=	'.json';			
-
-				//$debug[$method][$key]	=	$path;
-				$debug[$method][]	=	$path;
-
-				$path	=	'json-data/' . $path;
-
-				$jsonURL	=	public_path( $path );
-				$jsonFile	= File::get($jsonURL);
+				$path	.=	'.json';
+				$_path		=	'json-data/' . $path;
+				$jsonURL	=	public_path( $_path );
+				$jsonFile	=	File::get($jsonURL);
+				
+				/*$array		=	json_decode($jsonFile, true);
+				$keys		=	array_keys($array[0]);				
+				$debug[$method][$keys[0]]	=	$path;*/
+				
+				$array		=	json_decode($jsonFile, true);
+				$keys		=	array_keys($array[0]);
+				
+				$pk		=	$keys[0];
+				$pk		=	$key .':'. $pk . '|' . $array[0][$pk] . '-' . $array[count($array)-1][$pk];
+				/*dd( $pk );*/
+				$debug[$method][$pk]	=	$path;
 				$_indicators[$key]	=	$jsonFile;
 			}			
 			$response[$method]	=	$_indicators;

@@ -192,6 +192,9 @@ export class ValoracionComponent implements OnInit {
 	}
 	
 	_setInfoIdeal(){/*console.log('_setInfoIdeal');*/
+		if(!this.valoracion.estatura)
+			return 0;
+
 		var alturaPaciente:number		=	Math.round(Number(this.valoracion.estatura)*100);
 		var chartData:any;
 		var _chartData_i_keys:any;
@@ -232,7 +235,7 @@ export class ValoracionComponent implements OnInit {
 				}
 			}
 		}catch(err) {
-			console.log( 'ERROR: _setInfoIdeal-> ' + err.message );
+			console.log( 'E:_setInfoIdeal(' + err.message + ')' );
 		}
 	}
 	
@@ -252,8 +255,7 @@ export class ValoracionComponent implements OnInit {
 
 				this.disableButtonHistorial	=	!this.historial;
 
-
-				//console.log(Object.keys(this.json[_method]));
+				console.log(Object.keys(this.json[_method]));
 				console.log(this.json['debug']);
 				this.allowCalculate	=	true;
 				this._setInfoIdeal();
@@ -286,7 +288,7 @@ export class ValoracionComponent implements OnInit {
 			this.historialParentWidth	=	_width;
 		}
 		catch(err) {
-				console.log( 'ERROR: getWidthContainerGraphics-> ' + err.message );
+				console.log( 'E:_getScreenSize(' + err.message + ')' );
 		}
 	}
 	displayErrorPesoEstatura(){
@@ -346,7 +348,6 @@ export class ValoracionComponent implements OnInit {
 			this.displayoptionsForMenor	=	true;
 			this.displayAnalisisPesoIdeal	=	( this.paciente.edad < 11 );
 		}
-		console.log(( this.paciente.edad < 11 ) + ', displayAnalisisPesoIdeal:' + this.displayAnalisisPesoIdeal);
 		this.displayoptionsForAdulto	=	this.valoracion.metodo_valoracion=='adulto' || this.esAdulto;
 		this.displayGraphicChildren		=	this.esMenor && !this.displayoptionsForAdulto;
 	}	
@@ -572,6 +573,10 @@ export class ValoracionComponent implements OnInit {
 		var args:any[]		=	[];
 		var rangoEdad:any;
 		var alturaPaciente:number	=	Math.round(Number(this.valoracion.estatura)*100);
+		var _alturaPaciente:any		=	parseFloat(this.valoracion.estatura)*100;
+		
+		_alturaPaciente	=	Math.trunc(_alturaPaciente * 100) / 100;
+		
 		var pesoPaciente:number		=	Number(this.valoracion.peso);
 		var edadPaciente:number		=	Number(this.paciente.edad);
 		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
@@ -628,7 +633,16 @@ export class ValoracionComponent implements OnInit {
 		var _round_paciente_printed	=	false;
 		var _point:any;
 		this._getScreenSize();
-		for(var indicador in aChartData) {
+		for(var indicador in aChartData) {/*console.log(indicador);*/
+			if( !aChartData[indicador] )
+				continue;
+			
+			/*console.log(indicador + ', altura:' + _alturaPaciente);*/
+			/*if(indicador=='estatura-peso' && _alturaPaciente>121.5)*/
+			if(indicador=='estatura-peso' && _alturaPaciente>122)
+				continue;
+				
+			
 			chartData	=	JSON.parse(aChartData[indicador]);
 			switch(this.valoracion.metodo_valoracion){
 				case 'cdc':
@@ -1045,8 +1059,8 @@ export class ValoracionComponent implements OnInit {
 		var _edad_en_meses:boolean;
 		var _classMenuItem	=	'';
 	}
-		console.log('_graficarHistorialChildren');
-		/*console.log(aChartData);*/
+		console.log('_graficarHistorialChildren');/*console.log(aChartData);*/
+		/*console.log( alturaPaciente + ', ' + edadPaciente + ', ' + edadPaciente_dias + ', ' + edadPaciente_meses );*/
 		this._getScreenSize();
 		var _edad:any;
 		var _hist:any;
@@ -1060,20 +1074,16 @@ export class ValoracionComponent implements OnInit {
 			h	=	{'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
 			data_historial_orig.unshift( h );
 		}
-		
+		console.log(data_historial_orig);
 try {
 		for(var indicador in aChartData) {
 			/*console.log('indicador: ' + indicador);*/
-			if(!aChartData[indicador])
+			if( !aChartData[indicador] )
 				continue;
-			
 			/*console.log('-> ' + indicador);*/
-			chartData	=	JSON.parse(aChartData[indicador]);
+			chartData		=	JSON.parse(aChartData[indicador]);
 			data_historial	=	this.helpers.clone(	data_historial_orig );
-			/*console.log('data_historial');
-			console.log(data_historial);*/
-			_label	=	this._getLabelForGraphic(indicador);
-			
+			_label			=	this._getLabelForGraphic(indicador);			
 			_classMenuItem	=	'grafico-children-' + indicador + (indicador=='estatura-edad'? ' active':'');
 			indicatorsMenuItem.push({'id': 'children_' + indicador, 'nombre':_label['title'], 'class': _classMenuItem, 'indicador':indicador });
 			
@@ -1082,7 +1092,6 @@ try {
 			_row_first_keys	=	Object.keys(_row_first);
 			_row_first_fk	=	_row_first_keys[0];/*	X, Age	*/
 			_row_first_sk	=	_row_first_keys[1];/*	P10	*/
-
 			_row_last		=	chartData[chartData.length-1];
 			_row_last_keys	=	Object.keys(_row_last);
 			_row_last_fk	=	_row_last_keys[0];
@@ -1099,8 +1108,6 @@ try {
 				if(key!=_row_first[_row_first_fk])
 					columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
 			}
-			/**/
-
 			columns.push({label: 'Paciente', type: 'number'});
 			columns.push({type: 'string', role: 'tooltip', 'p': {'html': true}});
 
@@ -1110,31 +1117,25 @@ try {
 			_aux_imc	=	0;
 			
 			_round_paciente_printed	=	false;
-			
 			var _hrow:any;
 			var _hasHistorialDataRow	=	false;
 			if(data_historial.length>0){
 				_hrow	=	data_historial[0];
-				//_hrow	=	this.helpers.clone(	data_historial[0] );
 				_hasHistorialDataRow	=	true;
 				data_historial.shift();
-			}
-			
-			for(var i=0; i<chartData.length; i++) {/*console.log(_hrow);*/
+			}			
+			for(var i=0; i<chartData.length; i++) {
 				chartWithToolTips = new Array();
 				for(var key in chartData[i]) {
 					_data_i	=	chartData[i];
-					
 					chartWithToolTips.push(parseFloat(_data_i[key]));
-
 					if (key!=_row_first[_row_first_fk]){
 						_data_i_keys	=	Object.keys(_data_i);
 						_data_i_fk		=	_data_i_keys[0];
-
 						_text	=	'<ul class="grafico-lista">';
 						_text	+=	'	<li><strong>' + key + '</strong></li>';
 						_data_i[key]	=	Number(_data_i[key]).toFixed(2)
-						_data_i[_data_i_fk]	=	Number(_data_i[_data_i_fk]).toFixed(2);						
+						_data_i[_data_i_fk]	=	Number(_data_i[_data_i_fk]).toFixed(2);
 						switch(indicador){
 							case 'estatura-peso':
 								_text	+=	'<li>Peso: ' + _data_i[key] + ' kg';
@@ -1179,39 +1180,30 @@ try {
 						chartWithToolTips.push( _text );
 					}
 				}
-
-				
 				_text		=	'';
 				_push_data	=	null;
-				
-				
-				if(_hasHistorialDataRow){//console.log(_hrow);
-					
+				if(_hasHistorialDataRow){
 					_chartData_i_keys	=	Object.keys(chartData[i]);
 					_chartData_i_fk		=	_chartData_i_keys[0];
 					_elem	=	chartData[i][_chartData_i_fk];
-					//_elem	=	chartData[i][_row_first_fk];
-					
-					
 					
 					switch(indicador){
-						case 'estatura-peso':				
+						case 'estatura-peso':
 							_push_data	=	_elem >= _hrow.estatura? _hrow.peso : null;
-							//console.log(indicador + ': ' + _elem + '>=' + _hrow.estatura + '?' +  _hrow.peso + ':null -> ' +  _push_data);
 							if(_push_data){
 								_text	+=	'	<li>Peso: ' + _hrow.peso + ' kg';
 								_text	+=	' | ';
 								_text	+=	'Estatura: ' + _hrow.estatura + ' (cm)</li>';
 							}
 							break;
-						case 'estatura-edad':							
+						case 'estatura-edad':
 							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
 								_push_data	=	_elem >=  _hrow.meses ? _hrow.estatura : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.estatura + ':null -> ' +  _push_data);
+								//console.log( _chartData_i_fk + ' m: ' + _elem + '>=' +  _hrow.meses + ': ' + _push_data );
 							}
 							else{
 								_push_data	=	_elem >=  _hrow.dias ?  _hrow.estatura : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.estatura + ':null -> ' +  _push_data);
+								//console.log( _chartData_i_fk + ' d: ' + _elem + '>=' +  _hrow.meses + ': ' + _push_data );
 							}
 							if(_push_data){
 								_text	+=	'	<li>Edad: ';
@@ -1223,18 +1215,14 @@ try {
 								_text	+=	' | ';
 								_text	+=	'Estatura: ' + _hrow.estatura + ' (cm)</li>';					
 							}
-							
 							break;
 						case 'imc-edad':
 							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
 								_push_data	=	_elem >= _hrow.meses ? _hrow.imc : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.imc + ':null -> ' +  _push_data);
 							}
 							else{
 								_push_data	=	_elem >= _hrow.dias ? _hrow.imc : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.imc + ':null -> ' +  _push_data);
 							}
-							
 							if(_push_data){
 								_text	+=	'	<li>Edad: ';
 								if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5)
@@ -1249,13 +1237,10 @@ try {
 						case 'peso-edad':
 							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
 								_push_data	=	_elem >= _hrow.meses ? _hrow.peso : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.meses + '?' +  _hrow.peso + ':null -> ' +  _push_data);
 							}
 							else{
 								_push_data	=	_elem >= _hrow.dias ? _hrow.peso : null;
-								//console.log(indicador + ': ' + _elem + '>=' + _hrow.dias + '?' +  _hrow.peso + ':null -> ' +  _push_data);
-							}
-							
+							}							
 							if(_push_data){
 								_text	+=	'	<li>Peso: ' + _hrow.peso + ' kg';
 								_text	+=	' | ';
@@ -1268,13 +1253,11 @@ try {
 							}
 							break;
 					}
-					/*if(_push_data){console.log(_push_data);*/
-					if(_text){//console.log(_push_data);
+					if(_text){
 						_text	=	'	<li><strong>Paciente</strong></li>' + _text;
 						_text	=	'<ul class="grafico-lista">' + _text + '</ul>';
-						
+						/*console.log( _push_data );*/
 						if(data_historial.length>0){
-							/*_hrow	=	data_historial[0];*/
 							_hrow	=	this.helpers.clone(	data_historial[0] );
 							_hasHistorialDataRow	=	true;
 							data_historial.shift();
@@ -1282,8 +1265,6 @@ try {
 							_hasHistorialDataRow	=	false;
 					}
 				}
-				
-				
 				chartWithToolTips.push( _push_data );
 				chartWithToolTips.push( _text );
 				data.push( chartWithToolTips );
@@ -1294,15 +1275,10 @@ try {
 			_value		=	Math.floor (parseFloat( _row_first[_row_first_fk] ));
 			_value_last	=	Math.floor (parseFloat( _row_last[_row_last_fk] ));
 			_x_2		=	x*2;
-
-
-			
 			_min_hAxis	=	Math.floor(_row_first[_row_first_fk]);
-			_max_hAxis	=	Math.ceil(_row_last[_row_last_fk]);
-			
+			_max_hAxis	=	Math.ceil(_row_last[_row_last_fk]);			
 			_min_vAxis	=	Math.floor(_row_first[_row_first_sk]);
 			_max_vAxis	=	Math.ceil(_row_last[_row_last_lk]);
-
 /*
 //console.log('zoom && indicador==estatura-peso - ' + this.zoom +', '+ indicador);
 if(this.zoom && indicador=='estatura-peso'){
@@ -1327,8 +1303,6 @@ var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
 	_max_vAxis	=	Math.ceil(_row_last[_row_last_lk]);
 }
 */
-			
-
 			args['title']		=	_label['title'];
 			args['x']			=	x;
 			args['y']			=	y;
@@ -1340,9 +1314,7 @@ var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
 			args['vAxis_min']	=	_min_vAxis;
 			args['vAxis_max']	=	_max_vAxis;
 			args['vAxis_value']	=	_row_first[_row_first_sk];
-
-			//args['legend_position']	=	'top';
-			args['width']	=	this.historialParentWidth;
+			args['width']		=	this.historialParentWidth;
 			options	=	this._getOptionsGraphChildren( args );
 			config	=	new LineChartConfig('title ' + toGraph, options, columns);
 			item	=	{'data':data, 'config': config, 'elementId':'element_children_' + indicador, 'key': 'container_children_' + indicador, 'class':indicador=='estatura-edad'? 'active':''};
@@ -1350,8 +1322,7 @@ var Lvalue	=	parseFloat( _row_last[_row_last_fk] );//parseFloat( Ldata.X );
 		}
 }
 catch(err) {
-	console.log( 'error _graficarHistorialChildren' );
-	console.log( err.message );
+	console.log( 'E:_graficarHistorialChildren(' + err.message + ')' );
 }
 		this.grafico_children_indicator	=	indicatorsMenuItem;
 		this.grafico_children_items		=	items;
@@ -1554,7 +1525,7 @@ catch(err) {
 			this.grafico_children_indicator_current	=	header.id;
 		}
 		catch(err) {
-				console.log( err.message );
+				console.log( 'E:graficoxSelected(' + err.message + ')' );
 		}
 	}
 	graficoChildrenxSelected(header, event){
@@ -1565,7 +1536,7 @@ catch(err) {
 			document.getElementById('container_' + header.id).className = 'active';
 		}
 		catch(err) {
-				console.log( err.message );
+				console.log( 'E:graficoChildrenxSelected(' + err.message + ')' );
 		}
 	}
 	cleanGraficoChildren(){
@@ -1583,7 +1554,7 @@ catch(err) {
 			}
 		}
 		catch(err) {
-				console.log( err.message );
+				console.log( 'E:cleanGraficoChildren(' + err.message + ')' );
 		}
 	}
 	cleanGraficoChildrenHistorial(){
@@ -1601,7 +1572,7 @@ catch(err) {
 			}
 		}
 		catch(err) {
-				console.log( err.message );
+				console.log( 'E:cleanGraficoChildrenHistorial(' + err.message + ')' );
 		}
 	}
 	graficoSelected(header){
@@ -1856,7 +1827,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 		return valor;
 	}
 	_analisis(){
-		console.log( this.valoracion.metodo_valoracion + ', ' + this.allowCalculate + ', ' + this.valoracion.peso + ', ' + this.valoracion.estatura );
+		/*console.log( this.valoracion.metodo_valoracion + ', ' + this.allowCalculate + ', ' + this.valoracion.peso + ', ' + this.valoracion.estatura );*/
 		this._calcularImc();
 /*	peso, estatura	*/
 		this._calcularPesoIdeal();
@@ -1915,7 +1886,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 				}
 			}
 			catch(err) {
-				console.log( 'ERROR: _calcularPesoIdeal-> ' + err.message );
+				console.log( 'E:_calcularPesoIdeal(' + err.message + ')' );
 				this.analisis.pesoIdeal	=	0;
 			}
 		}else{
@@ -1963,7 +1934,7 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 				}
 			}
 			catch(err) {
-				console.log( 'ERROR: _calcularEstaturaIdeal-> ' + err.message );
+				console.log( 'E:_calcularEstaturaIdeal(' + err.message + ')' );
 				this.analisis.estaturaIdeal	=	0;
 			}
 		}
