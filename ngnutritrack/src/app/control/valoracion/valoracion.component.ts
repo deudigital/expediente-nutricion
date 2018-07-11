@@ -1071,16 +1071,20 @@ export class ValoracionComponent implements OnInit {
 		for(var j in this.historial){
 			_hist	=	this.historial[j];
 			_edad	=	this.calculateEdad( this.paciente.fecha_nac, _hist.date );
-			h	=	{'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
+			h	=	{'fecha':_hist.fecha, 'edad':_hist.edad,  'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
 			data_historial_orig.unshift( h );
+			//data_historial_orig.push( h );
 		}
-		console.log(data_historial_orig);
+		//console.log(data_historial_orig);
+		
+		//console.log(this.valoracion.metodo_valoracion);
 try {
 		for(var indicador in aChartData) {
-			/*console.log('indicador: ' + indicador);*/
+			//console.log('indicador: ' + indicador);
 			if( !aChartData[indicador] )
 				continue;
 			/*console.log('-> ' + indicador);*/
+		{
 			chartData		=	JSON.parse(aChartData[indicador]);
 			data_historial	=	this.helpers.clone(	data_historial_orig );
 			_label			=	this._getLabelForGraphic(indicador);			
@@ -1115,17 +1119,20 @@ try {
 			_aux_altura	=	0;
 			_aux_peso	=	0;
 			_aux_imc	=	0;
-			
-			_round_paciente_printed	=	false;
-			var _hrow:any;
+			_round_paciente_printed		=	false;
+			var _hrow:any				=	null;
 			var _hasHistorialDataRow	=	false;
 			if(data_historial.length>0){
 				_hrow	=	data_historial[0];
 				_hasHistorialDataRow	=	true;
 				data_historial.shift();
-			}			
+			}
+		}
 			for(var i=0; i<chartData.length; i++) {
-				chartWithToolTips = new Array();
+				chartWithToolTips	=	new Array();				
+				_text				=	'';
+				_push_data			=	null;
+				
 				for(var key in chartData[i]) {
 					_data_i	=	chartData[i];
 					chartWithToolTips.push(parseFloat(_data_i[key]));
@@ -1180,12 +1187,16 @@ try {
 						chartWithToolTips.push( _text );
 					}
 				}
+
 				_text		=	'';
 				_push_data	=	null;
+
 				if(_hasHistorialDataRow){
+					//console.log( indicador + ':_hasHistorialDataRow');
+
 					_chartData_i_keys	=	Object.keys(chartData[i]);
 					_chartData_i_fk		=	_chartData_i_keys[0];
-					_elem	=	chartData[i][_chartData_i_fk];
+					_elem	=	Number(chartData[i][_chartData_i_fk]);
 					
 					switch(indicador){
 						case 'estatura-peso':
@@ -1198,12 +1209,10 @@ try {
 							break;
 						case 'estatura-edad':
 							if(this.valoracion.metodo_valoracion=='cdc' || _hrow.edad>5){
-								_push_data	=	_elem >=  _hrow.meses ? _hrow.estatura : null;
-								//console.log( _chartData_i_fk + ' m: ' + _elem + '>=' +  _hrow.meses + ': ' + _push_data );
+								_push_data	=	_elem>=_hrow.meses? _hrow.estatura : null;
 							}
 							else{
-								_push_data	=	_elem >=  _hrow.dias ?  _hrow.estatura : null;
-								//console.log( _chartData_i_fk + ' d: ' + _elem + '>=' +  _hrow.meses + ': ' + _push_data );
+								_push_data	=	_elem>=_hrow.dias? _hrow.estatura : null;
 							}
 							if(_push_data){
 								_text	+=	'	<li>Edad: ';
@@ -1255,8 +1264,8 @@ try {
 					}
 					if(_text){
 						_text	=	'	<li><strong>Paciente</strong></li>' + _text;
+						_text	+=	'	<li>Fecha:' + _hrow.fecha + '</li>';
 						_text	=	'<ul class="grafico-lista">' + _text + '</ul>';
-						/*console.log( _push_data );*/
 						if(data_historial.length>0){
 							_hrow	=	this.helpers.clone(	data_historial[0] );
 							_hasHistorialDataRow	=	true;
