@@ -275,7 +275,7 @@ export class ValoracionComponent implements OnInit {
 				this.withChildrenGraphic			=	document.getElementById('container_children_graphics').offsetWidth;
 			*/
 			if(document.getElementById('content-form'))
-				this.withChildrenGraphic			=	document.getElementById('content-form').offsetWidth;
+				this.withChildrenGraphic			=	document.getElementById('content-form').offsetWidth - 100;
 			var _width	=	this.tagBody.offsetWidth;
 			if(_width>1250)
 				_width	=	1200;
@@ -1272,6 +1272,10 @@ try {
 							data_historial.shift();
 						}else
 							_hasHistorialDataRow	=	false;
+						/*
+						if(indicador=='estatura-edad')
+							console.log( indicador + ':_push_data:' + _push_data + ', data_historial.length:' + data_historial.length + ', _hasHistorialDataRow:' + _hasHistorialDataRow );
+						*/
 					}
 				}
 				chartWithToolTips.push( _push_data );
