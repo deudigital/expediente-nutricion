@@ -54,13 +54,13 @@ export class RecomendacionComponent implements OnInit {
 		this.mng	=	this.model.getManejadorDatos();
 		this.helpers	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
-		console.log(this.recomendacion);
+		/*console.log(this.recomendacion);*/
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
 		this.disableButtonHistorial	=	false;
 		this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
-		console.log(this.va);
+		/*console.log(this.va);*/
 		this._tasa_basal	=	0;
 		this._gasto_calorico_real	=	0;
 		this._ingesta_calorica_recomendada	=	0;
@@ -364,13 +364,13 @@ el resto es igual a los adultos
 		);
 	}
 	createRdds(recomendacion) {
-		console.log('-->Crud RDDs');
-		console.log(recomendacion);
+		/*console.log('-->Crud RDDs');
+		console.log(recomendacion);*/
 		this.formControlDataService.addRdds(recomendacion)
 		.subscribe(
 			 response  => {
-						console.log('<!--Crud rdds');
-						console.log(response);
+						/*console.log('<!--Crud rdds');
+						console.log(response);*/
 						},
 			error =>  console.log(<any>error)
 		);
@@ -877,9 +877,10 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
    
    _analisis(){
 	   this._get_tasa_basal();
-	   this.recomendacion.gcr	=	this.gastoCaloricoReal();
-	   this._gasto_calorico_real	=	this.recomendacion.gcr;
+	   this.recomendacion.gcr				=	this.gastoCaloricoReal();
+	   this._gasto_calorico_real			=	this.recomendacion.gcr;
 	   this._ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada();
+	   this.recomendacion.icr				=	this._ingesta_calorica_recomendada;
    }
    
 	saveForm(){
