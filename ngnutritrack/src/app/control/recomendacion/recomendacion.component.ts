@@ -54,13 +54,13 @@ export class RecomendacionComponent implements OnInit {
 		this.mng	=	this.model.getManejadorDatos();
 		this.helpers	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
-		//console.log(this.recomendacion);
+		console.log(this.recomendacion);
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
 		this.disableButtonHistorial	=	false;
 		this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
-		/*console.log(this.va);*/
+		console.log(this.va);
 		this._tasa_basal	=	0;
 		this._gasto_calorico_real	=	0;
 		this._ingesta_calorica_recomendada	=	0;
@@ -133,7 +133,9 @@ el resto es igual a los adultos
 				this.mostrarFilaPeso	=	false;
 		}
 		/*console.log('_metodo: ' + _metodo);*/
-		this.recomendacion.metodo_calculo_gc	=	_metodo;
+		if(!this.recomendacion.metodo_calculo_gc || this.recomendacion.metodo_calculo_gc=='benedict' )
+			this.recomendacion.metodo_calculo_gc	=	_metodo;
+
 		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
 		/*console.log(this.habitosEjercicios);*/
 		this.setGastoCaloricoActividadFisica();
@@ -362,13 +364,13 @@ el resto es igual a los adultos
 		);
 	}
 	createRdds(recomendacion) {
-		/*console.log('-->Crud RDDs');
-		console.log(recomendacion);*/
+		console.log('-->Crud RDDs');
+		console.log(recomendacion);
 		this.formControlDataService.addRdds(recomendacion)
 		.subscribe(
 			 response  => {
-						/*console.log('<!--Crud rdds');
-						console.log(response);*/
+						console.log('<!--Crud rdds');
+						console.log(response);
 						},
 			error =>  console.log(<any>error)
 		);
@@ -454,9 +456,11 @@ el resto es igual a los adultos
 				result	=	this.tmbPromedio()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
 				break;
 			case 'rda':
-				this.recomendacion.factor_actividad_sedentaria	=	0;
-				//result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				/*this.recomendacion.factor_actividad_sedentaria	=	0;*/
+				/*result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
+				console.log('G.C.R:' + this.tmbRda() + '*' + this.recomendacion.factor_actividad_sedentaria + '+' + this.recomendacion.promedio_gc_diario + '=' + result );*/
 				result	=	this._tasa_basal+this.recomendacion.promedio_gc_diario;
+				console.log('G.C.R:' + this.tmbRda() + '+' + this.recomendacion.promedio_gc_diario + '=' + result );
 				break;
 			case 'schofield':
 				//result	=	this.tmbSchofield()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
@@ -696,6 +700,7 @@ el resto es igual a los adultos
 				}
 			}
 		}
+		console.log('tmbRda:' + value);
 		return value;
 	}
 	tmbRda__original(){

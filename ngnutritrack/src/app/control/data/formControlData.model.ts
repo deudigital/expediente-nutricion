@@ -99,7 +99,7 @@ export class FormControlData {
 		this.nutricionista_id	=	nutricionista_id;
 	}
 	fill(data){
-		/*console.log('fcd::fill(data)...');console.log(data);*/
+		console.log('fcd::fill(data)...');console.log(data);
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
@@ -498,9 +498,11 @@ export class Paciente extends Persona{
 		this.detalles_direccion	=	data.detalles_direccion;
 		this.ubicacion_id		=	data.ubicacion_id;
 
-		this.edad				=	data.edad;
-		this.esMayor			=	data.esMayor;
-		this.setEdad();
+		if(data.edad){
+			this.edad				=	data.edad;
+			this.esMayor			=	data.esMayor;
+		}else
+			this.setEdad();
 	}
 }
 export class ValoracionAntropometrica {

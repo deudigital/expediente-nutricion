@@ -149,6 +149,8 @@
 						type="number" 
 						class="form-control"  
 						maxlength="6" 
+						min="0" 
+						(keyup)="_analisis()"
 						(change)="_analisis()"
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="recomendacion.factor_actividad_sedentaria"
@@ -165,6 +167,8 @@
 						type="number" 
 						class="form-control"  
 						maxlength="6" 
+						min="0" 
+						(keyup)="_analisis()"
 						(change)="_analisis()"
 						(keypress)="helpers.soloNumerosRange($event)"
 						[(ngModel)]="recomendacion.promedio_gc_diario"
@@ -255,6 +259,8 @@
 						class="form-control" 
 						placeholder="En calorías" 
 						maxlength="6" 
+						min="0" 
+						(keyup)="_analisis()"
 						(change)="_analisis()"
 						(keypress)="helpers.onlyIntNegPos($event)"
 						[(ngModel)]="recomendacion.variacion_calorica"
@@ -297,8 +303,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 <div class="overlay" (click)="hideModal()"></div>
 <div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">

@@ -141,7 +141,8 @@ export class ValoracionComponent implements OnInit {
 	
 	displayNavigation:boolean;
 	chartChildrenVisible:boolean;
-  
+	doit:any;
+	
 	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
@@ -165,11 +166,11 @@ export class ValoracionComponent implements OnInit {
 		this.chartChildrenVisible	=	false;
 	
 		this._getDatosConsulta(this.model.consulta.id);
-		window.onresize = ( e ) => {
+		/*window.onresize = ( e ) => {
 			this._getScreenSize();
 			this.graficar();
 			this.graficarEnModal();
-		}
+		}*/
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -179,12 +180,20 @@ export class ValoracionComponent implements OnInit {
 		this.graficandoChildren		=	false;
 		this.graficandoHistorialChildren		=	false;
 		this.solicitando			=	false;
-		this._getScreenSize();
+		//this._getScreenSize();
 		this.showBoxIndicadorEstaturaEdad	=	false;
 		this.showBoxIndicadorPesoEdad		=	false;
 		this.showBoxIndicadorPesoEstatura	=	false;
 		this.displayAnalisisPesoIdeal		=	false;
 		console.clear();
+		window.onresize = ( e ) => {
+			clearTimeout(this.doit);
+			this.doit	=	setTimeout(() => {
+								this._getScreenSize();
+								this.graficar();
+								this.graficarEnModal();
+							}, 1000);
+		}
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
