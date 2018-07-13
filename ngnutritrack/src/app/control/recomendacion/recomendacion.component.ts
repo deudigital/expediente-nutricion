@@ -125,7 +125,7 @@ por defecto debe estar preseleccionado RDA Y oculto Schofield
 si se selecciona RDA, se debe ocultar el factor termico de los alimentos y su valor debe ser 0
 el resto es igual a los adultos
 */
-			if( _metodo=='rda' )
+			if( _metodo=='rda' || _metodo=='schofield' )
 				this.displayFactor	=	false;
 			
 			this.mostrarFilaPeso	=	true;
@@ -184,7 +184,8 @@ el resto es igual a los adultos
 		}
 	}
 	changeMethod(){
-		this.displayFactor	=	this.recomendacion.metodo_calculo_gc!='rda';
+		//this.displayFactor	=	this.recomendacion.metodo_calculo_gc!='rda';
+		this.displayFactor	=	this.recomendacion.metodo_calculo_gc!='benedict-child';
 		if(!this.displayFactor)
 			this.recomendacion.factor_actividad_sedentaria	=	0;
 		this.mostrarFilaPeso	=	true;
@@ -459,8 +460,8 @@ el resto es igual a los adultos
 				/*this.recomendacion.factor_actividad_sedentaria	=	0;*/
 				/*result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
 				console.log('G.C.R:' + this.tmbRda() + '*' + this.recomendacion.factor_actividad_sedentaria + '+' + this.recomendacion.promedio_gc_diario + '=' + result );*/
-				result	=	(this._tasa_basal*this.paciente.edad)+this.recomendacion.promedio_gc_diario;
-				console.log('G.C.R: ( ' + this.tmbRda() + '*' + this.paciente.edad + ' ) +' + this.recomendacion.promedio_gc_diario + '=' + result );
+				result	=	(this._tasa_basal*this.va.peso)+this.recomendacion.promedio_gc_diario;
+				console.log('G.C.R: ( ' + this.tmbRda() + '*' + this.va.peso + ' ) +' + this.recomendacion.promedio_gc_diario + '=' + result );
 				break;
 			case 'schofield':
 				//result	=	this.tmbSchofield()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
