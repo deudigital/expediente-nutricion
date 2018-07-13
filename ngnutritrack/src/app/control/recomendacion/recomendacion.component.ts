@@ -459,8 +459,8 @@ el resto es igual a los adultos
 				/*this.recomendacion.factor_actividad_sedentaria	=	0;*/
 				/*result	=	this.tmbRda()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
 				console.log('G.C.R:' + this.tmbRda() + '*' + this.recomendacion.factor_actividad_sedentaria + '+' + this.recomendacion.promedio_gc_diario + '=' + result );*/
-				result	=	this._tasa_basal+this.recomendacion.promedio_gc_diario;
-				console.log('G.C.R:' + this.tmbRda() + '+' + this.recomendacion.promedio_gc_diario + '=' + result );
+				result	=	(this._tasa_basal*this.paciente.edad)+this.recomendacion.promedio_gc_diario;
+				console.log('G.C.R: ( ' + this.tmbRda() + '*' + this.paciente.edad + ' ) +' + this.recomendacion.promedio_gc_diario + '=' + result );
 				break;
 			case 'schofield':
 				//result	=	this.tmbSchofield()*this.recomendacion.factor_actividad_sedentaria+this.recomendacion.promedio_gc_diario;
