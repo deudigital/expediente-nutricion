@@ -297,23 +297,71 @@ class ConsultaController extends Controller
 /*
 Enviar usuario y contrasena?????? por ahora si...
 */
-		$paciente = DB::table('pacientes')
+
+/*		$paciente = DB::table('pacientes')
             ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
             ->where('pacientes.persona_id', $consulta->paciente_id)
 			->get()
 			->first();
+*/
+/*
+select 
+
+TIMESTAMPDIFF( YEAR, personas.fecha_nac, CURRENT_DATE() ) ms_year, 
+TIMESTAMPDIFF( MONTH, personas.fecha_nac, CURRENT_DATE() ) ms_month, 
+TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE() ) ms_day,
+
+(TIMESTAMPDIFF( MONTH, personas.fecha_nac, CURRENT_DATE() )%12) ms_meses_residuo,
+(TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE() ) % 30.4375 ) as ms_dias_residuo,
+ ((TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE() ) % 30.4375 )/30.4375) as dias_residuo_en_meses,
+(((TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE() ) % 30.4375 )/30.4375)/12) as meses_residuo_en_anhos,
+
+((TIMESTAMPDIFF( MONTH, personas.fecha_nac, CURRENT_DATE() )%12) + ((TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE() ) % 30.4375 )/30.4375)) as total_meses, 
+(TIMESTAMPDIFF( YEAR, personas.fecha_nac, CURRENT_DATE()) + ((TIMESTAMPDIFF( MONTH, personas.fecha_nac, CURRENT_DATE() )%12) + ((TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE() ) % 30.4375 )/30.4375))/100) as total_anhos, 
+
+personas.*, pacientes.* 
+from pacientes inner join personas on personas.id = pacientes.persona_id where pacientes.persona_id = 18
+
+DB::raw($anhos . ' as edad'), 
+
+*/
+		$prom_mes		=	'30.4375';
+		$prom_anho		=	'365.25';
+		$anhos			=	'TIMESTAMPDIFF( YEAR, personas.fecha_nac, CURRENT_DATE())';
+		$meses			=	'TIMESTAMPDIFF( MONTH, personas.fecha_nac, CURRENT_DATE())';
+		$dias			=	'TIMESTAMPDIFF( DAY, personas.fecha_nac, CURRENT_DATE())';
+		
+		$meses_residuo	=	'(' . $meses . '%12)';
+		$dias_residuo	=	'(' . $dias . ' % ' . $prom_mes . ' )';
+
+		$meses_residuo_total=	'(' . $meses_residuo . ' + (' . $dias_residuo . '/' . $prom_mes . '))';/*	meses + dias/mes	*/
+		$anhos_residuo_total=	'(' . $meses_residuo_total . '/' . $prom_anho . ')';/*	años + meses_residuo_total/*/
+		$anhos_real			=	'(' . $anhos . ' + ' . $anhos_residuo_total . ')';/*	años + meses_residuo_total/*/
+		
+		$meses_total	=	'(' . $anhos . '*12) +' . $meses_residuo_total;
+
+		$paciente 		=	DB::table('pacientes')
+							->join('personas', 'personas.id', '=', 'pacientes.persona_id')
+							->where('pacientes.persona_id', $consulta->paciente_id)
+							->select('*', DB::raw( $anhos_real . ' as edad' ), DB::raw( $meses_total . ' as edad_meses' ), DB::raw( $dias . ' as edad_dias' ))
+							->get()
+							->first();
+/*
+		$paciente	=	Paciente::where('persona_id', $consulta->paciente_id)
+										->get();
+*/
 /*
 		$paciente	=	Paciente::where('persona_id', $consulta->paciente_id)
 										->get();
 */
 		if(count($paciente)>0){
-			$paciente->edad		=	0;
+			/*$paciente->edad		=	0;
 			if($paciente->fecha_nac){
 				$fecha_nac = explode('-', $paciente->fecha_nac);
 				$edad	=	Carbon::createFromDate($fecha_nac[0], $fecha_nac[1], $fecha_nac[2])->age;          // int(41) calculated vs now in the same tz
 				$paciente->fecha_nac=	$fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
 				$paciente->edad		=	$edad;
-			}
+			}*/
 
 
 			/*$response	=	Response::json($paciente, 200, [], JSON_NUMERIC_CHECK);
@@ -469,12 +517,37 @@ Enviar usuario y contrasena?????? por ahora si...
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
 		
 		
+		
+		$prom_mes		=	'30.4375';
+		$prom_anho		=	'365.25';
+		$anhos			=	'TIMESTAMPDIFF( YEAR, personas.fecha_nac, consultas.fecha)';
+		$meses			=	'TIMESTAMPDIFF( MONTH, personas.fecha_nac, consultas.fecha)';
+		$dias			=	'TIMESTAMPDIFF( DAY, personas.fecha_nac, consultas.fecha)';
+		
+		$meses_residuo	=	'(' . $meses . '%12)';
+		$dias_residuo	=	'(' . $dias . ' % ' . $prom_mes . ' )';
+
+		$meses_residuo_total=	'(' . $meses_residuo . ' + (' . $dias_residuo . '/' . $prom_mes . '))';/*	meses + dias/mes	*/
+		$anhos_residuo_total=	'(' . $meses_residuo_total . '/' . $prom_anho . ')';/*	años + meses_residuo_total/*/
+		$anhos_real			=	'(' . $anhos . ' + ' . $anhos_residuo_total . ')';/*	años + meses_residuo_total/*/
+		
+		$meses_total	=	'(' . $anhos . '*12) +' . $meses_residuo_total;
+/*/
+		$paciente 		=	DB::table('pacientes')
+							->join('personas', 'personas.id', '=', 'pacientes.persona_id')
+							->where('pacientes.persona_id', $consulta->paciente_id)
+							->select('*', DB::raw( $anhos_real . ' as edad' ), DB::raw( $meses_total . ' as edad_meses' ), DB::raw( $dias . ' as edad_dias' ))
+							->get()
+							->first();
+							
+*/
 		$va_historial = DB::table('valor_antropometricas')
             ->join('consultas', 'consultas.id', '=', 'valor_antropometricas.consulta_id')
             ->join('personas', 'personas.id', '=', 'consultas.paciente_id')
             ->where('consultas.paciente_id', $consulta->paciente_id)
             ->where('consultas.estado', 1)
-            ->select('consultas.fecha', DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,consultas.fecha) as edad'), DB::raw('TRUNCATE(valor_antropometricas.peso/(valor_antropometricas.estatura*valor_antropometricas.estatura), 2) as imc'), 'valor_antropometricas.peso', 'valor_antropometricas.estatura', 'valor_antropometricas.grasa', 'valor_antropometricas.grasa_viceral', 'valor_antropometricas.musculo', 'valor_antropometricas.agua', 'valor_antropometricas.hueso', 'valor_antropometricas.edad_metabolica', 'valor_antropometricas.circunferencia_cintura', 'valor_antropometricas.circunferencia_cadera', 'valor_antropometricas.circunferencia_muneca')
+            ->select('consultas.fecha', DB::raw('DATE_FORMAT(consultas.fecha,\'%d/%m/%Y\')  as date_formatted'), DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), DB::raw( $anhos_real . ' as edad' ), DB::raw( $meses_total . ' as edad_meses' ), DB::raw( $dias . ' as edad_dias' ), DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,consultas.fecha) as edad'), 
+			DB::raw('TRUNCATE(valor_antropometricas.peso/(valor_antropometricas.estatura*valor_antropometricas.estatura), 2) as imc'), 'valor_antropometricas.peso', 'valor_antropometricas.estatura', 'valor_antropometricas.grasa', 'valor_antropometricas.grasa_viceral', 'valor_antropometricas.musculo', 'valor_antropometricas.agua', 'valor_antropometricas.hueso', 'valor_antropometricas.edad_metabolica', 'valor_antropometricas.circunferencia_cintura', 'valor_antropometricas.circunferencia_cadera', 'valor_antropometricas.circunferencia_muneca')
 			->orderBy('consultas.fecha', 'DESC')
 			->get();
 

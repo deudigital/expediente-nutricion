@@ -590,7 +590,11 @@ export class ValoracionComponent implements OnInit {
 		_alturaPaciente	=	Math.trunc(_alturaPaciente * 100) / 100;
 		
 		var pesoPaciente:number		=	Number(this.valoracion.peso);
-		var edadPaciente:number		=	Number(this.paciente.edad);
+		var edadPaciente:number		=	Number(this.paciente.edad.toFixed(2));
+		var edadPaciente_dias:number=	Number(this.paciente.edad_dias);
+		var edadPaciente_meses:number=	Number(this.paciente.edad_meses.toFixed(2));
+		
+		/*var edadPaciente:number		=	Number(this.paciente.edad);
 		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
 		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
 		if(this.paciente.fecha_nac){
@@ -607,8 +611,8 @@ export class ValoracionComponent implements OnInit {
 				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
 				if(_anhos>30)
 					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
-		}
-		/*console.log('dias: ' + edadPaciente_dias + ', meses: ' + edadPaciente_meses);*/
+		}*/
+		/*console.log('edad: ' + this.paciente.edad + ', edadPaciente: ' + edadPaciente + ', dias: ' + edadPaciente_dias + ', meses: ' + edadPaciente_meses);*/
 		var _label	=	{};
 		var x_label			=	'';
 		var y_label			=	'';
@@ -651,7 +655,7 @@ export class ValoracionComponent implements OnInit {
 			
 			/*console.log(indicador + ', altura:' + _alturaPaciente);*/
 			/*if(indicador=='estatura-peso' && _alturaPaciente>121.5)*/
-			if(indicador=='estatura-peso' && _alturaPaciente>122)
+			if(indicador=='estatura-peso' && _alturaPaciente>121.5)
 				continue;
 				
 			
@@ -1435,6 +1439,7 @@ export class ValoracionComponent implements OnInit {
 	
 
 	_graficarHistorialChildren(){
+		console.log('_graficarHistorialChildren');
 		this.graficandoHistorialChildren		=	true;
 		{
 		var _method		=	this.valoracion.metodo_valoracion;
@@ -1450,10 +1455,17 @@ export class ValoracionComponent implements OnInit {
 		var columns;
 		var chartData:any;
 		var args:any[]	=	[];
+		console.log(this.valoracion);
 		/*var rangoEdad:any;*/
 		var alturaPaciente:number	=	Math.round(Number(this.valoracion.estatura)*100);
+		var _alturaPaciente:any		=	(Number(this.valoracion.estatura)*100).toFixed(2);
 		var pesoPaciente:number		=	Number(this.valoracion.peso);
+		
 		var edadPaciente:number		=	Number(this.paciente.edad);
+		var edadPaciente_dias:number=	Number(this.paciente.edad_dias);
+		var edadPaciente_meses:number=	Number(this.paciente.edad_meses);
+		
+		/*var edadPaciente:number		=	Number(this.paciente.edad);
 		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
 		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
 		if(this.paciente.fecha_nac){
@@ -1470,7 +1482,8 @@ export class ValoracionComponent implements OnInit {
 				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
 				if(_anhos>30)
 					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
-		}
+		}*/
+		/*console.log('edad: ' + this.paciente.edad + ', edadPaciente: ' + edadPaciente + ', dias: ' + edadPaciente_dias + ', meses: ' + edadPaciente_meses);*/
 		var _label	=	{};
 		var _row_first:any;
 		var _row_first_keys:any;
@@ -1505,7 +1518,7 @@ export class ValoracionComponent implements OnInit {
 		var _edad_en_meses:boolean;
 		var _classMenuItem	=	'';
 	}
-		console.log('_graficarHistorialChildren');/*console.log(aChartData);*/
+		/*console.log(aChartData);*/
 		/*console.log( alturaPaciente + ', ' + edadPaciente + ', ' + edadPaciente_dias + ', ' + edadPaciente_meses );*/
 		this._getScreenSize();
 		var _edad:any;
@@ -1516,8 +1529,9 @@ export class ValoracionComponent implements OnInit {
 		var data_historial	=	[];
 		for(var j in this.historial){
 			_hist	=	this.historial[j];
-			_edad	=	this.calculateEdad( this.paciente.fecha_nac, _hist.date );
-			h	=	{'fecha':_hist.fecha, 'edad':_hist.edad,  'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
+			/*_edad	=	this.calculateEdad( this.paciente.fecha_nac, _hist.date );
+			h	=	{'fecha':_hist.fecha, 'edad':_hist.edad,  'dias':_edad.dias, 'meses':_edad.meses, 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};*/
+			h	=	{'fecha':_hist.date_formatted, 'edad':_hist.edad.toFixed(2),  'dias':_hist.edad_dias, 'meses':_hist.edad_meses.toFixed(2), 'estatura':(_hist.estatura*100), 'peso':_hist.peso, 'imc':_hist.imc};
 			data_historial_orig.unshift( h );
 			//data_historial_orig.push( h );
 		}
@@ -1529,7 +1543,9 @@ try {
 			//console.log('indicador: ' + indicador);
 			if( !aChartData[indicador] )
 				continue;
-			/*console.log('-> ' + indicador);*/
+			console.log(indicador + ', altura:' + _alturaPaciente + ', altura1:' + alturaPaciente);
+			if(indicador=='estatura-peso' && _alturaPaciente>121.5)
+				continue;
 		{
 			chartData		=	JSON.parse(aChartData[indicador]);
 			data_historial	=	this.helpers.clone(	data_historial_orig );

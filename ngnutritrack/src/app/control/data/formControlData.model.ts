@@ -499,8 +499,10 @@ export class Paciente extends Persona{
 		this.ubicacion_id		=	data.ubicacion_id;
 
 		if(data.edad){
-			this.edad				=	data.edad;
-			this.esMayor			=	data.esMayor;
+			this.edad			=	data.edad;
+			this.edad_meses		=	data.edad_meses;
+			this.edad_dias		=	data.edad_dias;
+			this.esMayor		=	data.esMayor;
 		}else
 			this.setEdad();
 	}
