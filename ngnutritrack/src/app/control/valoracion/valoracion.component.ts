@@ -257,7 +257,7 @@ export class ValoracionComponent implements OnInit {
 		this.formControlDataService.select('data-graphic', data)
 		.subscribe(
 			 response  => {
-				console.log('_getJsonData');
+				/*console.log('_getJsonData');*/
 				this.json		=	response;
 				this.solicitando=	false;
 				var _method		=	this.valoracion.metodo_valoracion;
@@ -266,8 +266,8 @@ export class ValoracionComponent implements OnInit {
 
 				this.disableButtonHistorial	=	!this.historial;
 
-				console.log(Object.keys(this.json[_method]));
-				console.log(this.json['debug']);
+				/*console.log(Object.keys(this.json[_method]));
+				console.log(this.json['debug']);*/
 				this.allowCalculate	=	true;
 				this._setInfoIdeal();
 				this._analisis();

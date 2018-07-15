@@ -343,7 +343,7 @@ DB::raw($anhos . ' as edad'),
 		$paciente 		=	DB::table('pacientes')
 							->join('personas', 'personas.id', '=', 'pacientes.persona_id')
 							->where('pacientes.persona_id', $consulta->paciente_id)
-							->select('*', DB::raw( $anhos_real . ' as edad' ), DB::raw( $meses_total . ' as edad_meses' ), DB::raw( $dias . ' as edad_dias' ))
+							->select('*', DB::raw('DATE_FORMAT(personas.fecha_nac,\'%d/%m/%Y\')  as fecha_nac'), DB::raw( $anhos_real . ' as edad' ), DB::raw( $meses_total . ' as edad_meses' ), DB::raw( $dias . ' as edad_dias' ))
 							->get()
 							->first();
 /*

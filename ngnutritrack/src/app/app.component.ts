@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
 		}
 		if(this.consulta.paciente_id){
 			summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
-			summary	+=	' (' + this.paciente.genero + ', ' + this.paciente.edad + ' años )';
+			summary	+=	' (' + this.paciente.genero + ', ' + this.paciente.edad.toFixed(2) + ' años )';
 		}
 		if(summary)
 			summary	+=	'  |  ';

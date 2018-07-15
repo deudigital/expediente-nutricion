@@ -28,7 +28,7 @@
 				</div>
 <ng-template [ngIf]="displayMethods">
 				<div class="form-group">
-					<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{paciente.edad}} años, indique como desea hacer la valoraci&oacute;n</label>
+					<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{ paciente.edad | number : '1.0-0'}} años, indique como desea hacer la valoraci&oacute;n</label>
 					<div class="radio clearfix">
 						<div class="col-sm-4" *ngIf="displayMethodOms">
 							<label>

@@ -76,17 +76,17 @@ export class RecomendacionComponent implements OnInit {
 		*/
 		var _edad_min_adulto	=	18;
 		var _metodo			=	'benedict';
+		this.displayFactor	=	true;
 		
 		if(this.va.metodo_valoracion=='adulto'){
 			this.esAdulto		=	true;
-			this.displayFactor	=	true;
 		}else
 			this.esAdulto	=	this.paciente.edad>_edad_min_adulto;/*18;/*20;*/
 		
 		
 		if(!this.esAdulto){
 			this.esMenor			=	true;			
-			this.displayBenedict	=	true;
+			this.displayBenedict	=	false;
 			this.displaySchofield	=	true;
 			this.displayRDA			=	true;
 			_metodo	=	'rda';
@@ -100,7 +100,7 @@ export class RecomendacionComponent implements OnInit {
 /*edad > 18 años - ocultar RDA (en este caso únicamente quedaría harris benedict.*/
 			if( this.paciente.edad > 18 ){
 				this.displayRDA	=	false;
-				//this.displayBenedict	=	true;
+				this.displayBenedict	=	true;
 				_metodo			=	'benedict-child';
 			}
 
@@ -110,8 +110,7 @@ si se tiene seleccionado OMS o CDC en la pantalla de VA:
 edad > a 3 años O < 18
 por defecto debe estar preseleccionado Schofield
 */
-			/*if( ( this.paciente.edad > 3 ) || ( this.paciente.edad < 18 ) )*/
-			if( ( this.paciente.edad > 2 ) && ( this.paciente.edad < 19 ) )
+			if( ( this.paciente.edad >= 3 ) && ( this.paciente.edad <= 18 ) )
 				_metodo	=	'schofield';
 /*
 edad < a 3 años
