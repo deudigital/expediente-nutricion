@@ -200,6 +200,8 @@ export class ValoracionComponent implements OnInit {
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
+		this.grafico_items			=	null;
+		this.grafico_children_items	=	null;
 	}
 	
 	_setInfoIdeal(){/*console.log('_setInfoIdeal');*/
@@ -1440,7 +1442,8 @@ export class ValoracionComponent implements OnInit {
 
 	_graficarHistorialChildren(){
 		console.log('_graficarHistorialChildren');
-		this.graficandoHistorialChildren		=	true;
+		this.graficandoHistorialChildren		=	true;		
+		this.grafico_children_items		=	null;
 		{
 		var _method		=	this.valoracion.metodo_valoracion;
 		var aChartData	=	this.json[_method];
