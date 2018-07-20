@@ -77,6 +77,7 @@ export class RecomendacionComponent implements OnInit {
 		var _edad_min_adulto	=	18;
 		var _metodo			=	'benedict';
 		this.displayFactor	=	true;
+		this.displayBenedict=	true;
 		
 		if(this.va.metodo_valoracion=='adulto'){
 			this.esAdulto		=	true;
