@@ -955,14 +955,16 @@ export class ManejadorDatos{
 			if(!item){
 				prov	=	new Object();
 				prov.codigo_provincia		=	ubicacion.codigo_provincia;
-				prov.nombre_provincia		=	ubicacion.codigo_provincia + ' - ' + ubicacion.nombre_provincia;
+				/*prov.nombre_provincia		=	ubicacion.codigo_provincia + ' - ' + ubicacion.nombre_provincia;*/
+				prov.nombre_provincia		=	ubicacion.nombre_provincia;
 				this.provincias.push(prov);
 			}
 			var item = this.cantones.find(item => item.codigo_canton === ubicacion.codigo_canton  && item.codigo_provincia === ubicacion.codigo_provincia);
 			if(!item){
 				cant	=	new Object();
 				cant.codigo_canton		=	ubicacion.codigo_canton;
-				cant.nombre_canton		=	ubicacion.codigo_provincia + '.' + ubicacion.codigo_canton + ' - ' + ubicacion.nombre_canton;
+				/*cant.nombre_canton		=	ubicacion.codigo_provincia + '.' + ubicacion.codigo_canton + ' - ' + ubicacion.nombre_canton;*/
+				cant.nombre_canton		=	ubicacion.nombre_canton;
 				cant.codigo_provincia	=	ubicacion.codigo_provincia;
 				this.cantones.push(cant);
 			}
@@ -972,7 +974,8 @@ export class ManejadorDatos{
 				dist.codigo_provincia	=	ubicacion.codigo_provincia;
 				dist.codigo_canton		=	ubicacion.codigo_canton;
 				dist.codigo_distrito	=	ubicacion.codigo_distrito;
-				dist.nombre_distrito	=	ubicacion.codigo_provincia + '.' + ubicacion.codigo_canton + '.' + ubicacion.codigo_distrito + ' - ' + ubicacion.nombre_distrito;
+				/*dist.nombre_distrito	=	ubicacion.codigo_provincia + '.' + ubicacion.codigo_canton + '.' + ubicacion.codigo_distrito + ' - ' + ubicacion.nombre_distrito;*/
+				dist.nombre_distrito	=	ubicacion.nombre_distrito;
 				this.distritos.push(dist);
 			}
 		}
