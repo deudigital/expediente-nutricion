@@ -22,7 +22,7 @@
 					(keyup)="onFilter()"
 					/>
 					<i></i>
-			</div>
+			</div> 
 			<ul *ngIf="showFilter">
 				<li  *ngFor="let paciente of filter_pacientes" (click)="onSelect(paciente)">
 					<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.cedula}}</span>
