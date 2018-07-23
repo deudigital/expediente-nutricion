@@ -78,6 +78,7 @@ export class RecomendacionComponent implements OnInit {
 		var _metodo			=	'benedict';
 		this.displayFactor	=	true;
 		this.displayBenedict=	true;
+		this.mostrarFilaPeso	=	true;
 		
 		if(this.va.metodo_valoracion=='adulto'){
 			this.esAdulto		=	true;
@@ -130,7 +131,7 @@ el resto es igual a los adultos
 			if( _metodo=='benedict-child' || _metodo=='benedict' )
 				this.displayFactor	=	true;
 			
-			this.mostrarFilaPeso	=	true;
+			
 			if(_metodo=='schofield' || _metodo=='rda')
 				this.mostrarFilaPeso	=	false;
 		}
