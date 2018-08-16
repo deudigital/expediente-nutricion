@@ -13,6 +13,7 @@ export class AlergiaComponent implements OnInit {
 
 	fcd:any;
 	mng:any;
+	helpers:any;
 	paciente:any;
 	notas:any;
 	
@@ -23,6 +24,7 @@ export class AlergiaComponent implements OnInit {
 	
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.paciente	=	this.fcd.getFormPaciente();
 		this.oAlergias	=	[];
@@ -41,6 +43,7 @@ export class AlergiaComponent implements OnInit {
 			this.save(this.data);
 		}*/
 		this.saveForm();
+		this.helpers.scrollToForm();
 	}
 
 	infoEdited(){

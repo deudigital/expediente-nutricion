@@ -53,6 +53,7 @@ export class PersonalesComponent implements OnInit {
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	setInfoInit(){
 		if(!this.paciente.nutricionista_id)

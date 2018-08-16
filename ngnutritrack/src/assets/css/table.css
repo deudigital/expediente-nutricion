@@ -12,9 +12,9 @@
 .table.asignacion-porciones{border-spacing: 0 20px;}
 .table.crud{border-spacing: 0 10px;}
 
-.table.asignacion-porciones > tfoot > tr > td .form-control::-webkit-input-placeholder {text-align:cente}
-.table.asignacion-porciones > tfoot > tr > td .form-control::-moz-placeholder {text-align:cente}
-.table.asignacion-porciones > tfoot > tr > td .form-control:-ms-input-placeholder {text-align:cente}
+.table.asignacion-porciones > tfoot > tr > td .form-control::-webkit-input-placeholder {text-align:center}
+.table.asignacion-porciones > tfoot > tr > td .form-control::-moz-placeholder {text-align:center}
+.table.asignacion-porciones > tfoot > tr > td .form-control:-ms-input-placeholder {text-align:center}
 .table.asignacion-porciones > tfoot > tr > td .form-control:-moz-placeholder {text-align:center}
 .table.asignacion-porciones.resumen{border-spacing: 0 5px;}
 .content-form .asignacion-porciones.resumen tr td{padding:10px;}
@@ -43,7 +43,7 @@
 .esc-modal .table tbody tr > td{text-align:center;}
 .esc-modal .table tbody tr:nth-child(even) > td{background-color:#cfcfcf;border-left: 1px solid #e7e7e7;}
 .esc-modal .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
-.esc-modal .table tbody tr > td:first-child){border-left: none;}
+.esc-modal .table tbody tr > td:first-child{border-left: none;}
 .esc-modal .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
 .esc-modal .table tr.detalle_prescripcion > td {color:#fff}
 .esc-modal .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}

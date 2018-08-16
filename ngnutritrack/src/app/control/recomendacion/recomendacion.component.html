@@ -16,7 +16,7 @@
 				<section>
 		<div class="row">
 			<div class="form-group">
-				<label for="cedula" class="col-form-label">¿Como desea calcular gasto cal&oacute;rico?</label>
+				<label class="col-form-label">¿Como desea calcular gasto cal&oacute;rico?</label>
 				<div class="radio clearfix">
 			<ng-template [ngIf]="esAdulto">
 					<div class="col-sm-4">
@@ -160,7 +160,7 @@
 			</div>
 			<div class="col-sm-6">
 				<div class="form-group with-icon promedio-gc">
-					<label for="cedula" class="col-form-label">Promedio de gasto cal&oacute;rico diario por actividad F&iacute;sica</label>
+					<label for="promedio-gc" class="col-form-label">Promedio de gasto cal&oacute;rico diario por actividad F&iacute;sica</label>
 					<input 
 						id="promedio-gc" 
 						name="promedio-gc" 
@@ -216,7 +216,6 @@
 						<div class="inner">
 							<i>
 								<strong>
-									<!--{{ tasa_basal_ | number : '1.0-0'}}-->
 									{{ _tasa_basal | number : '1.0-0'}}
 									<span>Kcal</span>							
 								</strong>
@@ -251,7 +250,7 @@
 		  <div class="row">
 			<div class="col-md-5">
 				<div class="form-group with-icon variacion-calorica">
-					<label for="variacion-calorica" class="col-form-label">Variación Calórica</label>
+					<label for="variacion_calorica" class="col-form-label">Variación Calórica</label>
 					<input 
 						id="variacion_calorica" 
 						name="variacion_calorica" 
@@ -304,8 +303,8 @@
 	</div>
 </div>
 
-<div class="overlay" (click)="hideModal()"></div>
-<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
+<div class="overlay" (click)="hideModal('datos')" href="#"></div>
+<div class="esc-modalbox wide" [ngClass]="{'invisible': hideModalDatos }">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<div class="body">
 		<nav class="modal-nav">

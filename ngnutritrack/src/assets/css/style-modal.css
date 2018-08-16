@@ -93,7 +93,7 @@ body.open-modal .esc-modalbox.prompt {top:30%;position:fixed}
 .esc-modalbox .table tbody tr > td{text-align:center;position:relative;}
 .esc-modalbox .table tbody tr:nth-child(even) > td{background-color:#cfcfcf;border-left: 1px solid #e7e7e7;}
 .esc-modalbox .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
-.esc-modalbox .table tbody tr > td:first-child){border-left: none;}
+.esc-modalbox .table tbody tr > td:first-child{border-left: none;}
 
 .esc-modalbox .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
 .esc-modalbox .table tr.detalle_prescripcion > td {color:#fff}
@@ -157,7 +157,7 @@ body.open-modal .esc-modal.transparent {top: 50%;}
 	.esc-modalbox:not(.wide):not(.transparent){width: 660px;margin-left: -330px;}
 	.esc-modal:not(.wide),
 	.esc-modalbox:not(.wide){left: 50%;}
-	.esc-modal),
+	.esc-modal,
 	.esc-modalbox{top: -100%;padding: 30px 55px;}
 	.esc-modalbox .container-graficos{text-align:center}
 	.esc-modalbox .container-graficos .menu {	width: 100%;}

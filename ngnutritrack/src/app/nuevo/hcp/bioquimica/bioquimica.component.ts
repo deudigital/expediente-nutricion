@@ -12,6 +12,7 @@ export class BioquimicaComponent implements OnInit {
 
 	nuevo:boolean=false;
 	model:any;
+	helpers:any;
 	paciente:any;
 	bioquimicas:any;
 	body:any;
@@ -24,6 +25,7 @@ export class BioquimicaComponent implements OnInit {
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.model.getHelpers();
 		this.paciente	=	this.model.getFormPaciente();
 		this.bioquimicas	=	formControlDataService.getFormControlData().getFormPacienteBioquimicas();
 		this.sending	=	false;
@@ -35,6 +37,7 @@ export class BioquimicaComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-hcp');	
+		this.helpers.scrollToForm();
 	}
 
 	showFormEdit(){

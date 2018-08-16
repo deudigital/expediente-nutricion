@@ -12,6 +12,7 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
 export class ObjetivoComponent implements OnInit {
 	fcd:FormControlData;
 	mng:ManejadorDatos;
+	helpers:any;
 	nuevo:boolean=false;
 	objetivos:Objetivo[];
 	objetivo=new Objetivo();
@@ -20,6 +21,7 @@ export class ObjetivoComponent implements OnInit {
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 	}
@@ -28,6 +30,7 @@ export class ObjetivoComponent implements OnInit {
 		this.cargarObjetivosDelPaciente();
 	}  
 	ngOnDestroy(){
+		this.helpers.scrollToForm();
 
 	}
 	showFormEdit(){

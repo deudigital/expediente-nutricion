@@ -14,7 +14,7 @@ export class ServiciosProductosComponent implements OnInit {
 	private formControlData: FormControlData = new FormControlData();
 	nuevo:boolean = false;
 	showZero_price:boolean = false;
-	show_deleteConfirmation:boolean = false;
+	showDeleteConfirmation:boolean = false;
 	edit_mode:boolean = false;
 	loading:boolean = false;
 
@@ -268,11 +268,23 @@ export class ServiciosProductosComponent implements OnInit {
 			body.classList.remove('open-modal');
 	}
 
-	confirmDeleteItem(producto){
+	confirmDeleteItem__original(producto){
 		this.paquete = producto;
-		this.show_deleteConfirmation = !this.show_deleteConfirmation;
+		this.showDeleteConfirmation = !this.showDeleteConfirmation;
 		let body = document.getElementsByTagName('body')[0];
-		if(this.show_deleteConfirmation)
+		if(this.showDeleteConfirmation)
+			body.classList.add('open-modal');
+		else
+			body.classList.remove('open-modal');
+		
+	}
+	confirmDeleteItem(producto?:any){
+		if(producto)
+			this.paquete = producto;
+
+		this.showDeleteConfirmation = !this.showDeleteConfirmation;
+		let body = document.getElementsByTagName('body')[0];
+		if(this.showDeleteConfirmation)
 			body.classList.add('open-modal');
 		else
 			body.classList.remove('open-modal');

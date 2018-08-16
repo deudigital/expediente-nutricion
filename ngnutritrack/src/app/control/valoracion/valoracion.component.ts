@@ -202,6 +202,7 @@ export class ValoracionComponent implements OnInit {
 			this.saveForm();
 		this.grafico_items			=	null;
 		this.grafico_children_items	=	null;
+		this.helpers.scrollToForm(true);
 	}
 	
 	_setInfoIdeal(){/*console.log('_setInfoIdeal');*/

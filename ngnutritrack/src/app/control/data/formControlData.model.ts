@@ -1188,6 +1188,19 @@ Modo de Uso
 	equals(obj1, obj2){//console.log(obj1);console.log(obj2);
 		return (JSON.stringify(obj1)==JSON.stringify(obj2));
 	}
+	scrollToForm(isConsulta=false){
+		setTimeout(() => {
+				var _width	=	document.getElementsByTagName('body')[0].offsetWidth;
+				if(_width>767){
+					window.scrollTo(0, top);
+					return ;
+				}				
+				var top	=	180;/*	Nuevo	*/
+				if(isConsulta)
+					top	=	200;/*	Consulta	*/
+				window.scrollTo(0, top);
+			}, 100);
+	}
 }
 export class Ejercicio{
 	id:number;

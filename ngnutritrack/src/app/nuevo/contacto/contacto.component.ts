@@ -77,6 +77,7 @@ export class ContactoComponent implements OnInit {
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	/*filterItems(query) {
 		return this.ubicaciones.filter(function(x) {

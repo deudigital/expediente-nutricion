@@ -11,6 +11,7 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 })
 export class MedicamentoComponent implements OnInit {
 	fcd:FormControlData;
+	helpers:any;
 	mng:ManejadorDatos;
 	paciente:Paciente;
 	medicamentos:any;
@@ -18,6 +19,7 @@ export class MedicamentoComponent implements OnInit {
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.paciente	=	this.fcd.getFormPaciente();
 		this.medicamentos	=	this.paciente.notas_medicamentos;
@@ -32,6 +34,7 @@ export class MedicamentoComponent implements OnInit {
 			this.save(this.paciente);
 */
 		this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	isValid(){
 		return this.medicamentos!=this.paciente.notas_medicamentos;

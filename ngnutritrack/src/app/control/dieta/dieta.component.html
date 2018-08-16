@@ -69,7 +69,7 @@
 								placeholder="Porcentaje"  
 								maxlength="5" 
 								 currencyMask 
-								 [options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
+								 [options]="{ prefix: '', suffix: ' %', precision:0,align:'center' }" 
 								 [(ngModel)]="prescripcion.carbohidratos"
 								 /> 
 						</div>
@@ -94,7 +94,7 @@
 								maxlength="5"
 
 								currencyMask 
-								[options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
+								[options]="{ prefix: '', suffix: ' %', precision:0,align:'center' }" 
 								[(ngModel)]="prescripcion.proteinas"
 							/>
 						</div>
@@ -118,7 +118,7 @@
 								placeholder="Porcentaje"  
 								maxlength="5" 
 								currencyMask 
-								[options]="{ prefix: '', suffix: ' %', precision:0,align:center }" 
+								[options]="{ prefix: '', suffix: ' %', precision:0,align:'center' }" 
 								[(ngModel)]="prescripcion.grasas"
 							/>
 						</div>
@@ -360,8 +360,8 @@
 	</div>
 </div>
 
-<div class="overlay" (click)="hideModal()"></div>
-<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
+<div class="overlay" (click)="hideModal('datos')"></div>
+<div [ngClass]="{'invisible': hideModalDatos }" class="esc-modalbox wide">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<header class="text-center">
 		<h4>Historial de Prescripciones</h4>

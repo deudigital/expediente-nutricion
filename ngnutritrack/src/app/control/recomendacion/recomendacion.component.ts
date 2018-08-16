@@ -167,6 +167,7 @@ el resto es igual a los adultos
 	}
 	ngOnDestroy() {
 		this.saveForm();
+		this.helpers.scrollToForm(true);
 	}
 	getWidthContainerChildrenGraph(){
 		try {

@@ -18,6 +18,7 @@ export class ControlComponent implements OnInit {
 	selectedPaciente: Paciente;
 	tagBody:any;
 	mng:any;
+	helpers:any;
 	seleccionado:boolean=false;
 	q:string;
 	showFilter:boolean=false;
@@ -25,6 +26,7 @@ export class ControlComponent implements OnInit {
 	
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.mng		=	this.formControlDataService.getFormControlData().getManejadorDatos();
+		this.helpers	=	this.formControlDataService.getFormControlData().getHelpers();
 		this.getPacientesDeNutricionista();
 	}
 	ngOnInit() {
@@ -39,6 +41,7 @@ export class ControlComponent implements OnInit {
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
 		this.tagBody.classList.remove('page-control');
+		this.helpers.scrollToForm(true);
 	}
 	getPacientesDeNutricionista(){
 		this.formControlDataService.getPacientesDeNutricionista()

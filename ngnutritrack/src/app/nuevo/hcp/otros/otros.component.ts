@@ -12,6 +12,7 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 export class OtrosComponent implements OnInit {
 
 	fcd:any;
+	helpers:any;
 	mng:any;
 	paciente:any;
 	hcpOtros:any;
@@ -21,6 +22,7 @@ export class OtrosComponent implements OnInit {
 	//id 	ciclos_menstruales 	notas 	paciente_id 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	this.formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.paciente	=	this.fcd.getFormPaciente();
 		this.hcpOtros	=	this.fcd.getFormPacienteHcpOtros();
 		/*console.log(this.hcpOtros);*/
@@ -38,6 +40,7 @@ export class OtrosComponent implements OnInit {
 		this.body.classList.remove('menu-parent-hcp');
 		if(!this.btnNavigation_pressed)
 			this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	
 	setInfoInit(){

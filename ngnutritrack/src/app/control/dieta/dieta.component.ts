@@ -107,6 +107,8 @@ export class DietaComponent implements OnInit {
 	ngOnDestroy() {
 		if(!this.navitation)
 			this.saveForm();
+
+		this.helpers.scrollToForm(true);
 	}
 	createOriginal(){
 		this.oPrescripcion.carbohidratos	=	this.prescripcion.carbohidratos;

@@ -35,6 +35,7 @@ export class ActividadFisicaComponent implements OnInit {
 	}  
 	ngOnDestroy(){
 
+		this.helpers.scrollToForm();
 	}
 	showFormEdit(){
 		this.nuevo	=	!this.nuevo;

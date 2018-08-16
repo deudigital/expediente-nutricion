@@ -161,6 +161,7 @@ proteinas: 32
 		if(!this.navitation)
 			this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');
+		this.helpers.scrollToForm(true);
 	}
 	setInfoInit(){
 		this.pme.dieta_desayuno_ejemplo			=	this.model.dieta_desayuno_ejemplo;

@@ -11,6 +11,7 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
 })
 export class HcpComponent implements OnInit {
 	fcd:any;
+	helpers:any;
 	mng:any;
 	paciente:any;
 	notas:any;
@@ -19,6 +20,7 @@ export class HcpComponent implements OnInit {
 	data:{ [id: string]: any; } = {'0':''};
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 		this.paciente	=	this.fcd.getFormPaciente();
@@ -34,6 +36,7 @@ export class HcpComponent implements OnInit {
 			this.save(this.data);
 		}*/
 		this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	infoEdited(){
 		var notas_changed	=	false;

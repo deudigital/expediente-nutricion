@@ -15,6 +15,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 	asignacionPorciones: {};
 	asignacionEjemplos: {};
 	model:any;
+	helpers:any;
 	mng:any;
 	texto_dieta_comidas_rapidas:string='';
 	paciente:any;
@@ -108,6 +109,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.model.getHelpers();
 		this.mng		=	this.model.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 		this.paciente	=	this.model.getFormPaciente();
@@ -160,6 +162,7 @@ export class ValoracionDieteticaComponent implements OnInit {
 		if(!this.navitation)
 			this.saveForm();
 		this.tagBody.classList.remove('menu-parent-habito');
+		this.helpers.scrollToForm();
 	}
 	setInfoInit(){
 		this.pme.dieta_desayuno_ejemplo			=	this.model.dieta_desayuno_ejemplo;

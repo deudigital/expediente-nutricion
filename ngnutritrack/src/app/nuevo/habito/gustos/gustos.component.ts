@@ -12,12 +12,14 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 export class GustosComponent implements OnInit {
 	fcd:FormControlData;
 	mng:ManejadorDatos;
+	helpers:any;
 	gusto:HabitosGusto;
 	oGusto:HabitosGusto;
 	paciente:any;
 	body:any;
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.gusto		=	this.fcd.getFormPacienteHabitosGustos();
 		this.oGusto		=	new HabitosGusto();
@@ -37,6 +39,7 @@ export class GustosComponent implements OnInit {
 			this.save(this.gusto);
 		}*/
 		this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	setInfoInit(){
 		this.oGusto.comidas_favoritas		=	this.gusto.comidas_favoritas;

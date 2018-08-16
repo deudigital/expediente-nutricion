@@ -11,6 +11,7 @@ import { FormControlDataService }     from '../../../control/data/formControlDat
 })
 export class OtrosHabitosComponent implements OnInit {
 	fcd:FormControlData;
+	helpers:any;
 	mng:ManejadorDatos;
 	paciente:Paciente;
 	
@@ -23,6 +24,7 @@ export class OtrosHabitosComponent implements OnInit {
   
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.otros		=	this.fcd.getFormPacienteHabitosOtros();
 		this.paciente	=	this.fcd.getFormPaciente();
@@ -45,6 +47,7 @@ export class OtrosHabitosComponent implements OnInit {
 		}*/
 		if(!this.navitation)
 			this.saveForm();
+		this.helpers.scrollToForm();
 	}
 	
 	setInfoInit(){
