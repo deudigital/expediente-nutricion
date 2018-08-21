@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Response;
 use App\Persona;
 use App\Nutricionista;
 use DB;
+use User;
+use Mail;
 class ExternalController extends Controller
 {
 	/**
@@ -17,42 +19,25 @@ class ExternalController extends Controller
      */
     public function store(Request $request)
     {
-		/*$response	=	array(
-							'data'	=>	$request->all(),
-							'mensaje'	=>	'desde el servidor'
-						);*/
-/*
-[id] => 
-[tipo_idenfificacion_id] => 3
-	[cedula] => bbbbbb
-	?[nombre] => 
-x[genero] => 
-x[fecha_nac] => 
-	[telefono] => 
-[celular] => 
-	[email] => 
-	[ubicacion_id] => 
-[provincia] => 
-[canton] => 
-[distrito] => 
-	[detalles_direccion] => 
-x[apartado_postal] => 
+		$data	=	array('name'=>"Juan Perez", "body" => "Test mail whit smtp");   
+		Mail::send('emails.resumen', $data, function($message) {
+			$message->to('danilo@deudigital.com', 
+						'Nutritrack')
+						->subject('Testing Nutritrack SMTP local');
+			$message->from('nutritrack@deudigital.com','Nutritrack');
+			$message->sender('sender@nutritrack.com', 'Sender');
+			$message->cc('jaime@deudigital.com', 'Jaime Deudigital');
+			$message->bcc('inv_jaime@yahoo.com', 'INV JAIME');
+			$message->replyTo('replay_correo@nutricionista.com', 'Nutricionista');
 
-x[persona_id] => 
-[imagen] => 
-	[nombre_comercial] => teresa nutricional xxx
-	[usuario] => 
-	[contrasena] => 
-	[carne_cpn] => d
-	[descuento_25_consultas] => e
-[token] => 
-	[atv_ingreso_id] => 
-	[atv_ingreso_contrasena] => 
-	[atv_llave_criptografica] => 
-	[atv_clave_llave_criptografica] => 
-[pe] => 
-	[activo] => 
-*/		
+		});
+		$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Email sent correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+
 		$action	=	'editado';
 		if($request->input('id') && $request->id!=0){
 			$persona						=	Persona::find($request->id);
@@ -77,7 +62,6 @@ x[persona_id] =>
 			$nutricionista->activo							=	$request->activo;
 			$nutricionista->save();
 		}else{$action	=	'registrado';
-			/*	persona	*/
 			$aPersona	=	array(
 								'tipo_idenfificacion_id'=>	$request->input('tipo_idenfificacion_id'),
 								'cedula'				=>	$request->input('cedula'),
@@ -88,10 +72,8 @@ x[persona_id] =>
 							);
 
 			$persona	=	Persona::create($aPersona);
-			//$persona->save();
 			if($persona->id){
 				$nutricionista	=	Nutricionista::create([
-							/*	datos personales	*/
 								'persona_id'					=>	$persona->id,
 								'nombre_comercial'				=>	$request->input('nombre_comercial'),
 								'usuario'						=>	$request->input('usuario'),
@@ -107,10 +89,7 @@ x[persona_id] =>
 							]);
 				$nutricionista->save();
 			}
-		}
-
-						
-						
+		}				
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $persona->id,

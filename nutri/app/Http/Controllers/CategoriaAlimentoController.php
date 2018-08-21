@@ -15,7 +15,6 @@ class CategoriaAlimentoController extends Controller
     public function index()
     {
 		$categorias	=	CategoriaAlimento::all();
-		/*$response	=	Response::json($categorias, 200);*/
 		$response	=	Response::json($categorias, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }

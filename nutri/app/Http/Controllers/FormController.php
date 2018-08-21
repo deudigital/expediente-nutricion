@@ -15,7 +15,6 @@ use App\Ubicacion;
 
 class FormController extends Controller
 {
-    //
 	function dataform(){
 		$data	=	HcpPatologia::all();
 		if($data)
@@ -44,11 +43,6 @@ class FormController extends Controller
 		if($data)
 			$response['ubicaciones']	=	$data->toArray();
 		
-		/*
-		$data	=	Ubicacion::paginate(30);
-		if($data)
-			$response['ubicaciones']	=	$data->toArray()['data'];
-		*/
 		$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}

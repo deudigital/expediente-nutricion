@@ -26,8 +26,6 @@ class OtrosAlimentoController extends Controller
      */
     public function store(Request $request)
     {
-        /*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		$otrosAlimento	=	new OtrosAlimento(
 										array(
 											'nombre'		=>	$request->nombre,
@@ -51,8 +49,6 @@ class OtrosAlimentoController extends Controller
     }
     public function storemultiple(Request $request)
     {
-		/*$response	=	Response::json($request->all(), 200);
-		return $response;*/
 		if(!$request->items){
 			$response	=	Response::json([
 				'code'		=>	204,
@@ -83,8 +79,7 @@ class OtrosAlimentoController extends Controller
 			'code'		=> '201',
 			'data'		=>	$array
 		], 201);
-		return $response;
-		
+		return $response;		
     }
 	 public function destroy($id)
     {

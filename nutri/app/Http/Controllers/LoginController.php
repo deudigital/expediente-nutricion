@@ -8,7 +8,6 @@ use Route;
 use App\Persona;
 use App\Paciente;
 use App\Nutricionista;
-
 //use Mail;
 use DB;
 
@@ -17,49 +16,59 @@ use Illuminate\Routing\Controller;
 class LoginController extends Controller
 {
     function webcheck(Request $request) {
-		/**/
-		$user		=	$request->offsetGet('email');
-		$password	=	$request->offsetGet('password');	
-		$nutricionista	=	Nutricionista::where('usuario','=', $user)
-								->where('contrasena','=', $password)->first();
-		if(!$nutricionista){
-			$response	=	array(	'error'=>'Unauthorized',
-									'message'=>'invalid credentials.',
-									'hint'=>'Check the `username` parameter'
-								);
-			return Response::json($response, 401);
-		}
-		$request->offsetSet('client_id', '2');
-		$request->offsetSet('client_secret', '0uoQGOsoRODwmhE3xhniXBZsxauD9qobeBFDJyNE');
-		$request->offsetSet('grant_type', 'password');
-		$request->offsetSet('scope', '*');
-		$request->offsetSet('username', 'danilo@deudigital.com');
-		$request->offsetSet('password', 'deudigit');
-		$tokenRequest	=	$request->create('/oauth/token', 'POST', $request->all());
-        $response		=	Route::dispatch($tokenRequest);
-		$statusCode		=	$response->getStatusCode();
-		if($statusCode!=200)
-			return $response;
+		$response	=	array(	'error'=>'Unauthorized',
+								'message'=>'invalid credentials.',
+								'hint'=>'Check the `username` parameter'
+							);
+		try{
+			/**/
+			$user		=	$request->offsetGet('email');
+			$password	=	$request->offsetGet('password');	
+			$nutricionista	=	Nutricionista::where('usuario','=', $user)
+									->where('contrasena','=', $password)->first();
+			
+			if(!$nutricionista)
+				return Response::json($response, 401);
 
-		$persona	=	Persona::find($nutricionista->persona_id);
-        $json = (array) json_decode($response->getContent());		
-        
-		$json['nutricionista']['id'] = $persona->id;
-        $json['nutricionista']['nombre'] = $persona->nombre;
-        $json['nutricionista']['genero'] = $persona->genero;
-        $json['nutricionista']['telefono'] = $persona->telefono;
-        $json['nutricionista']['celular'] = $persona->celular;
-        $json['nutricionista']['email'] = $persona->email;
-		
-        $response->setContent(json_encode($json));
+			if(!$nutricionista->activo){
+				$response['message']	=	'Su cuenta esta desactivada, favor ponerse en contacto con nosotros para solucionar este problema.';
+				return Response::json($response, 401);
+			}
+			$request->offsetSet('client_id', '2');
+			$request->offsetSet('client_secret', '0uoQGOsoRODwmhE3xhniXBZsxauD9qobeBFDJyNE');
+			$request->offsetSet('grant_type', 'password');
+			$request->offsetSet('scope', '*');
+			$request->offsetSet('username', 'danilo@deudigital.com');
+			$request->offsetSet('password', 'deudigit');
+			$tokenRequest	=	$request->create('/oauth/token', 'POST', $request->all());
+			$response		=	Route::dispatch($tokenRequest);
+			$statusCode		=	$response->getStatusCode();
+			if($statusCode!=200)
+				return $response;
+
+			$persona	=	Persona::find($nutricionista->persona_id);
+			$json = (array) json_decode($response->getContent());		
+			
+			$json['nutricionista']['id'] = $persona->id;
+			$json['nutricionista']['nombre'] = $persona->nombre;
+			$json['nutricionista']['genero'] = $persona->genero;
+			$json['nutricionista']['telefono'] = $persona->telefono;
+			$json['nutricionista']['celular'] = $persona->celular;
+			$json['nutricionista']['email'] = $persona->email;
+			
+			$response->setContent(json_encode($json));
+		} catch (\Exception $e) {		
+			// something went wrong
+			$response['hint']	=	$e->getMessage();
+		}
         return $response;	
     }
     function check(Request $request) {
 		$user		=	$request->offsetGet('username');
-		$password	=	$request->offsetGet('password');
-		/*$paciente	=	Paciente::where('usuario','=', $user)
-								->where('contrasena','=', $password)->first();*/
-		$paciente	=	Paciente::where('lower(usuario)','=', strtolower($user))
+		$password	=	$request->offsetGet('password');	
+		$paciente	=	Paciente::where('usuario','=', $user)
+
+
 								->where('contrasena','=', $password)->first();
 		if(!$paciente){
 			$response	=	array(	'error'=>'Unauthorized',
@@ -81,12 +90,9 @@ class LoginController extends Controller
 		$json['paciente']['id'] = $persona->id;
         $json['paciente']['nombre'] = $persona->nombre;
         $json['paciente']['genero'] = $persona->genero;
-        /*$json['paciente']['telefono'] = $persona->telefono;
-        $json['paciente']['celular'] = $persona->celular;*/
         $json['paciente']['email'] = $persona->email;
 		
 		$persona	=	Persona::find($paciente->nutricionista_id);
-		/*$json['nutricionista']['id'] = $persona->id;*/
         $json['nutricionista']['nombre'] = $persona->nombre;
         $json['nutricionista']['genero'] = $persona->genero;
         $json['nutricionista']['telefono'] = $persona->telefono;
@@ -96,14 +102,9 @@ class LoginController extends Controller
         $response->setContent(json_encode($json));
         return $response;	
     }
-
 	public function reminder(Request $request)
     {	
 		$email		=	$request->offsetGet('email');
-/*
-		$persona	=	Persona::where('email','=', $email)
-								->first();
-*/
 		$paciente = DB::table('pacientes')
 						->join('personas', 'personas.id', '=', 'pacientes.persona_id')
 						->where('personas.email', $email)
@@ -130,18 +131,11 @@ class LoginController extends Controller
 			$to			=	$paciente->email;
 			$subject 	=	'Recordatorio de datos autenticacion en NUTRITRACK';
 			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			$headers   .=	'CC: danilo@deudigital.com' . "\r\n";
-			$headers   .=	'Bcc: jaime@deudigital.com' . "\r\n";
+			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
 			$headers   .=	'MIME-Version: 1.0' . "\r\n";
 			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 			
 			mail($to, $subject, $html, $headers);
-			/*Mail::send('emails.reminder', ['persona' => $persona], function ($m) use ($persona) {
-				$m->from('support@nutricion.co.cr', 'NUTRITRACK');
-
-				//$m->to($persona->email, $persona->nombre)->subject('Your Reminder!');
-				$m->to('inv_jaime@yahoo.com', $persona->nombre)->subject('Your Reminder!');
-			});*/
 			$message	=	array(
 								'code'		=> '201',
 								'message'	=> 'Se ha enviado un correo electronico con sus datos.'
@@ -153,18 +147,13 @@ class LoginController extends Controller
 								'message'	=> 'El correo proporcionado no es valido o no esta registrado.'
 							);
 			$response	=	Response::json($message, 200);
-		}
-		
+		}		
 		return $response;
     }	
 	public function webReminder(Request $request)
     {	$response	=	Response::json($request->all(), 200);
 		return $response;
 		$email		=	$request->offsetGet('email');
-/*
-		$persona	=	Persona::where('email','=', $email)
-								->first();
-*/
 		$paciente = DB::table('pacientes')
 						->join('personas', 'personas.id', '=', 'pacientes.persona_id')
 						->where('personas.email', $email)
@@ -191,18 +180,11 @@ class LoginController extends Controller
 			$to			=	$paciente->email;
 			$subject 	=	'Recordatorio de datos autenticacion en NUTRITRACK';
 			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			$headers   .=	'CC: danilo@deudigital.com' . "\r\n";
-			$headers   .=	'Bcc: jaime@deudigital.com' . "\r\n";
+			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
 			$headers   .=	'MIME-Version: 1.0' . "\r\n";
 			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 			
 			mail($to, $subject, $html, $headers);
-			/*Mail::send('emails.reminder', ['persona' => $persona], function ($m) use ($persona) {
-				$m->from('support@nutricion.co.cr', 'NUTRITRACK');
-
-				//$m->to($persona->email, $persona->nombre)->subject('Your Reminder!');
-				$m->to('inv_jaime@yahoo.com', $persona->nombre)->subject('Your Reminder!');
-			});*/
 			$message	=	array(
 								'code'		=> '201',
 								'message'	=> 'Se ha enviado un correo electronico con sus datos.'

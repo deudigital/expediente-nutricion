@@ -11,7 +11,6 @@ use File;
 
 class GraphicController extends Controller
 {
-    //
 	public function all($paciente_id)
     {
 		$paciente	=	Persona::where('id',$paciente_id)
@@ -28,12 +27,9 @@ class GraphicController extends Controller
 			$genero			=	'hombre';
 
 		$debug	=	array();
-		/*$debug['genero']=	$genero;
-		$debug['edad']	=	$edad;*/
-		
+
 		if( $paciente->meses > $paciente->edad*12 ){
 			$edad++;
-			/*$debug['edad+']	=	$edad;*/
 		}
 		$indicators	=	array(
 								'estatura-edad'	=>	'', 
@@ -50,13 +46,11 @@ class GraphicController extends Controller
 				case 'oms':
 					if( $edad > 5){
 						unset($_indicators['estatura-peso']);
-						/*if( $edad > 10)*/
 						if( $edad > 9)
 							unset($_indicators['peso-edad']);
 					}
 					break;
 				case 'cdc':
-					/*unset($_indicators['estatura-peso']);*/
 					if( $edad < 3){
 						unset($_indicators['imc-edad']);				
 					}
@@ -92,17 +86,12 @@ class GraphicController extends Controller
 				$_path		=	'json-data/' . $path;
 				$jsonURL	=	public_path( $_path );
 				$jsonFile	=	File::get($jsonURL);
-				
-				/*$array		=	json_decode($jsonFile, true);
-				$keys		=	array_keys($array[0]);				
-				$debug[$method][$keys[0]]	=	$path;*/
-				
+
 				$array		=	json_decode($jsonFile, true);
 				$keys		=	array_keys($array[0]);
 				
 				$pk		=	$keys[0];
 				$pk		=	$key .':'. $pk . '|' . $array[0][$pk] . '-' . $array[count($array)-1][$pk];
-				/*dd( $pk );*/
 				$debug[$method][$pk]	=	$path;
 				$_indicators[$key]	=	$jsonFile;
 			}			
@@ -126,7 +115,7 @@ class GraphicController extends Controller
 		$genero			=	'mujer';
 		if($paciente->genero=='M')
 			$genero			=	'hombre';
-//echo '<pre>paciente' . print_r($paciente, true) . '</pre>';exit;
+
 		$indicators	=	array(
 								'estatura-edad'	=>	'', 
 								'estatura-peso'	=>	'', 
@@ -173,23 +162,17 @@ class GraphicController extends Controller
 							$rangoEdad		=	'2-20';
 						break;				
 				}
-				
 				$path	.=	'-' . $rangoEdad;			
 				$path	.=	'-' . $genero;
 				$path	.=	'.json';			
 				$path	=	'json-data/' . $path;
 			
-				$jsonURL	=	public_path( $path );//echo $jsonURL;
-				//$jsonFile	=	file_get_contents($jsonURL);
+				$jsonURL	=	public_path( $path );
 				$jsonFile	= File::get($jsonURL);
-				
 				$_indicators[$key]	=	$jsonFile;
-				//$_indicators[$key]	=	(array)json_decode($jsonFile, true);
-				//$_indicators[$key]	=	json_decode($jsonFile, true);
 			}
 			$response[$method]	=	$_indicators;
 		}
-		//echo '<pre>' . print_r($response, true) . '</pre>';exit;
 		$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
@@ -213,7 +196,6 @@ class GraphicController extends Controller
 								'imc-edad'		=>	'', 
 								'peso-edad'		=>	''
 							);
-/*echo $paciente->edad;*/
 		if($method=='oms'){
 			if($paciente->edad > 5){
 				unset($_indicators['estatura-peso']);
@@ -252,10 +234,6 @@ Indicadores OMS
 					}else{
 						$rangoEdad		=	'0-5';
 						if($paciente->edad > 5){
-/*							unset($_indicators['estatura-peso']);
-							if($paciente->edad > 10)
-								unset($_indicators['peso-edad']);
-*/
 							$rangoEdad		=	'5-19';
 						}
 					}
@@ -280,11 +258,9 @@ Indicadores CDC
 
 					break;				
 			}
-			
 			$path	.=	'-' . $rangoEdad;			
 			$path	.=	'-' . $genero;
-			$path	.=	'.json';
-			
+			$path	.=	'.json';			
 			$path	=	'json-data/' . $path;
 		
 			$jsonURL	=	public_path( $path );
@@ -292,7 +268,6 @@ Indicadores CDC
 			
 			$_indicators[$key]	=	$jsonFile;
 		}
-		/*echo '<pre>' . print_r($_indicators, true) . '</pre>';exit;*/
 		return $_indicators;
     }
 	public function getIndicators__oms($method, $indicator, $paciente_id)
@@ -358,15 +333,12 @@ Indicadores CDC
 			$path	.=	'-' . $rangoEdad;			
 			$path	.=	'-' . $genero;
 			$path	.=	'.json';
-			
 			$path	=	'json-data/' . $path;
 		
 			$jsonURL	=	public_path( $path );
-			$jsonFile	=	file_get_contents($jsonURL);
-			
+			$jsonFile	=	file_get_contents($jsonURL);			
 			$_indicators[$key]	=	$jsonFile;
 		}
-		/*print_r($_indicators);exit;*/
 		return $_indicators;
     }
 	public function getIndicators__simple($method, $indicator, $paciente_id)
@@ -395,52 +367,20 @@ Indicadores CDC
 					$rangoEdad		=	'2-5';
 				
 				break;
-			/*case 'imc-edad':
-			case 'estatura-edad':
-			case 'peso-edad':
-				$rangoEdad		=	'0-5';
-				if($paciente->edad > 5)
-					$rangoEdad		=	'5-19';
-				
-				break;*/
 		}
-		
-		
-		
-
 		$path	=	$method;
 		$path	.=	'-' . $indicator;
 		$path	.=	'-' . $rangoEdad;
 		$path	.=	'-' . $genero;
 		$path	=	'json-data/' . $path . '.json';
 		
-		/*$tablaUtilizada	=	'oms';
-		$indicador		=	'peso-edad';
-		$rangoEdad		=	'5-19';
-		$genero			=	'mujer';
-		$x_label			=	'Edad';
-		$y_label			=	'Peso';
-		$alturaPaciente	=	115;
-		$pesoPaciente	=	25;
-		$edadPaciente	=	2;
-		$path	=	'json-data/';
-		$path	.=	$tablaUtilizada;
-		$path	.=	'-' . $indicador;
-		$path	.=	'-' . $rangoEdad;
-		$path	.=	'-' . $genero;
-		$path	.=	'.json';
 		$jsonURL	=	public_path( $path );
-		$path		=	'json-data/oms-peso-edad-5-19-mujer.json';
-		*/
-		$jsonURL	=	public_path( $path );/*die($jsonURL);*/
 		$jsonFile	=	file_get_contents($jsonURL);
 		return $jsonFile;
     }
     public function getIndicators__new($method, $indicator, $paciente_id)
     {
 		$paciente	=	Paciente::find($paciente_id);
-/*		$tablaUtilizada	=	'oms';
-		$indicador		=	'peso-edad';*/
 		$genero			=	'mujer';
 		if($paciente->genero=='M')
 			$genero			=	'hombre';
@@ -456,9 +396,8 @@ Indicadores CDC
 		$path	.=	'-' . $genero;
 		$path	=	'json-data/' . $path . '.json';
 
-		$jsonURL	=	public_path( $path );/*die($jsonURL);*/
+		$jsonURL	=	public_path( $path );
 		$jsonFile	=	file_get_contents($jsonURL);
-		//$response	=	Response::json($str, 200, [], JSON_NUMERIC_CHECK);
 		return $jsonFile;
     }
 }

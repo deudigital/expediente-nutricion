@@ -74,15 +74,6 @@ class PrescripcionController extends Controller
     }
     public function belongsToPaciente($id)
     {
-		/*$registros = DB::table('detalle_prescripcion')
-            ->join('prescripcions', 'prescripcions.id', '=', 'detalle_prescripcion.prescripcion_id')
-            ->join('consultas', 'consultas.id', '=', 'prescripcions.consulta_id')
-            ->where('consultas.paciente_id', $id)
-            ->where('consultas.estado', 1)
-            ->select('prescripcions.id', 'consultas.fecha', 'prescripcions.carbohidratos', 'prescripcions.proteinas', 'prescripcions.grasas', 'detalle_prescripcion.*')
-			->orderBy('consultas.fecha', 'DESC')
-			->get();
-		*/
 		$registros = [];
 		$prescripcions = DB::table('prescripcions')
             ->join('consultas', 'consultas.id', '=', 'prescripcions.consulta_id')
@@ -93,7 +84,6 @@ class PrescripcionController extends Controller
 			->get();
 
 		if(count($prescripcions)>0){
-			/*$registros['prescripcions']	=	$prescripcions;*/
 			foreach($prescripcions as $prescripcion){
 			
 				$detalle_prescripcion	=	DB::table('detalle_prescripcion')
@@ -104,18 +94,12 @@ class PrescripcionController extends Controller
 					
 				if(count($detalle_prescripcion)>0){
 					$items	=	[];
-/*
-prescripcion_id	34
-grupo_alimento_nutricionista_id	12
-porciones	5
-*/
 					for($i=0;$i<13;$i++)
 						$items[]	=	'';
 					foreach($detalle_prescripcion as $item)						
 						$items[$item->grupo_alimento_nutricionista_id]	=	$item->porciones;
 
-					$prescripcion->items	=	$items;					
-					
+					$prescripcion->items	=	$items;
 					$patron_menus = DB::table('patron_menus')
 									->join('consultas', 'consultas.id', '=', 'patron_menus.consulta_id')
 									->where('consultas.id', $prescripcion->consulta_id)
@@ -124,13 +108,6 @@ porciones	5
 									->get();
 					if(count($patron_menus)>0){
 						$items	=	[];
-/*
-0	
-grupo_alimento_nutricionista_id	7
-tiempo_comida_id	1
-consulta_id	34
-porciones	5
-*/
 						for($i=0;$i<7;$i++)
 							for($j=0;$j<13;$j++)
 								$items[$i][$j]	=	'';
@@ -142,11 +119,7 @@ porciones	5
 				}
 				$registros[]	=	$prescripcion;
 			}
-		}
-			
-		
-		
-			
+		}	
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }

@@ -16,7 +16,6 @@ class ObjetivoController extends Controller
     {
         $registros	=	Objetivo::All();
 		if(count($registros)>0)
-			/*$response	=	Response::json($registros, 200);*/
 			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		else
 			$response	=	Response::json('Sin Datos', 204);

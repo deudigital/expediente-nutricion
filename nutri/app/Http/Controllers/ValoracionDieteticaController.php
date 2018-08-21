@@ -34,8 +34,6 @@ class ValoracionDieteticaController extends Controller
      */
     public function store(Request $request)
     {
-		/*$response	=	Response::json($request->all(), 200, []);
-		return $response;*/
 		$message	=	array(
 							'code'		=> '201',
 							'message'	=> 'Se ha registrado correctamente'
@@ -62,7 +60,6 @@ class ValoracionDieteticaController extends Controller
 										'porciones'							=>	$porciones,
 									]);
 					$datos[]	=	$detalleValoracionDietetica;
-					//$patronMenu->save();
 					$message['datos']	=	$datos;
 				}
 			}
@@ -129,21 +126,4 @@ class ValoracionDieteticaController extends Controller
     {
         //
     }
-	/*
-	function belongsToPaciente($id){
-		$registros	=	DB::table('patron_menus')
-							->join('consultas', 'consultas.id', '=', 'patron_menus.consulta_id')
-							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
-							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
-							->where('consultas.paciente_id', $id)
-							->select('patron_menus.tiempo_comida_id', 'tiempo_comidas.nombre as tiempo_comida_nombre', 'patron_menus.grupo_alimento_nutricionista_id as grupo_alimento_id', 'grupo_alimento_nutricionistas.nombre as grupo_alimento_nombre', 'patron_menus.porciones', DB::Raw('IFNULL(patron_menus.ejemplo, \'\') as ejemplo'))
-							->orderBy('tiempo_comida_id', 'ASC')
-							->get();
-
-		if(count($registros)>0)
-			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
-		else
-			$response	=	Response::json(['message' => 'Records not found'], 204);
-		return $response;
-	}*/
 }

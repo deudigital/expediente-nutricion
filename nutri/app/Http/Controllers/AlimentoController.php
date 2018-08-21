@@ -19,7 +19,6 @@ class AlimentoController extends Controller
     public function index()
     {
 		$alimentos	=	Alimento::All();
-		/*$response	=	Response::json($alimentos, 200);*/
 		$registros	=	array();
 		if(count($alimentos)>0){
 			foreach($alimentos as $key=>$value){
@@ -110,7 +109,6 @@ class AlimentoController extends Controller
      */
     public function categorias(){
 		$registros	=	CategoriaAlimento::All();
-		/*$response	=	Response::json($alimentos, 200);*/
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
@@ -120,45 +118,18 @@ class AlimentoController extends Controller
 
 		$registros	=	array();
 		if(count($alimentos)>0){
-			//$registros['paciente']['hcf']['patologias']	=	$hcf_patologias->toArray();
 			foreach($alimentos as $key=>$value){
 				$alimento	=	$value;
 				$composicion = DB::table('alimento_grupos')
 									->join('grupo_alimentos', 'grupo_alimentos.id', '=', 'alimento_grupos.grupo_alimento_id')
 									->where('alimento_grupos.alimento_id',  $value->id)
 									->get();
-				
-				//$alimentos['composicion']	=	$composicion->toArray();
+
 				$alimento['composicion']	=	$composicion->toArray();
-				$registros[]	=	$alimento;
-				
+				$registros[]	=	$alimento;				
 			}
-			
 		}
-						
-						
-		/*$response	=	Response::json($alimentos, 200);*/
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
-    public function categoriasbyid__old($id){
-		$registros	=	Alimento::where('categoria_alimento_id', $id)
-						->get();
-		/*$response	=	Response::json($alimentos, 200);*/
-		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
-		return $response;
-    }
-/*
-    public function indices(){
-		$alimentos	=	IndiceGlicemico::All();
-		$response	=	Response::json($alimentos, 200);
-		return $response;
-    }
-    public function indicesbyid($id){
-		$alimentos	=	Alimento::where('indice_glicemico_id', $id)
-						->get();
-		$response	=	Response::json($alimentos, 200);
-		return $response;
-    }
-*/
 }

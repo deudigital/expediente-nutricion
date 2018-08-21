@@ -118,8 +118,8 @@ export class InicioComponent implements OnInit {
 		this.formControlDataService.getConsultasPendientes()
 		.subscribe(
 			 response  => {
-						/*console.log('Consultas Pendientes');
-						console.log(response);*/
+						console.log('Consultas Pendientes');
+						console.log(response);
 						this.showLoading	=	false;
 							if(response){
 								this.setConsultas(response);

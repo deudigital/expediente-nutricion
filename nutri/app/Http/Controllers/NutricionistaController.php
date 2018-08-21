@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Nutricionista;
 use App\Persona;
+use App\User;
 use DB;
 class NutricionistaController extends Controller
 {
@@ -45,8 +46,6 @@ class NutricionistaController extends Controller
      */
     public function show($id)
     {
-        //
-		/*$registros	=	Nutricionista::find($id);*/
 		$registros = DB::table('nutricionistas')
             ->join('personas', 'personas.id', '=', 'nutricionistas.persona_id')
             ->where('nutricionistas.persona_id', $id)
@@ -56,7 +55,6 @@ class NutricionistaController extends Controller
 		else
 			$response	=	Response::json(['message' => 'Record not found'], 204);
 		
-		/*$response	=	Response::json($response, 200, [], JSON_NUMERIC_CHECK);*/
 		return $response;
     }
     /**
@@ -106,12 +104,23 @@ class NutricionistaController extends Controller
 		return $response;
     }
 	public function backendStore(Request $request){
-		$request	=	unserialize($request['request']);
-		/*$response	=	Response::json($request, 200, [], JSON_NUMERIC_CHECK);
-		return $response;*/
-		$action	=	'editado';
 		
-
+		$user = new User();
+		$user->name		=	'jaime_isidro';/*$request->name;*/
+		$user->email	=	'jaime_isidro@hotmail.com';/*$request->email;*/
+		$user->password	=	bcrypt( $request->password );
+		/*$user->remember_token	= $request->_token;*/
+		$user->save();
+		$message	=	array(
+							'code'		=> '201',
+							'message'	=> $user
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+		
+		
+		$request	=	unserialize($request['request']);
+		$action	=	'editado';
 		if($request['id'] && $request['id']!=0){
 			$persona						=	Persona::find($request['id']);
 			$persona->nombre				=	$request['nombre'];
@@ -131,7 +140,6 @@ class NutricionistaController extends Controller
 			$nutricionista->activo							=	$request['activo']=='on';
 			$nutricionista->save();
 		}else{$action	=	'registrado';
-			/*	persona	*/
 			$aPersona	=	array(
 								'nombre'				=>	$request['nombre'],
 								'tipo_idenfificacion_id'=>	$request['tipo_idenfificacion_id'],
@@ -142,7 +150,6 @@ class NutricionistaController extends Controller
 							);
 
 			$persona	=	Persona::create($aPersona);
-			//$persona->save();
 			if($persona->id){
 				$nutricionista	=	Nutricionista::create([
 								'persona_id'					=>	$persona->id,
@@ -151,10 +158,6 @@ class NutricionistaController extends Controller
 								'contrasena'					=>	$request['contrasena'],
 								'carne_cpn'						=>	$request['carne_cpn'],
 								'descuento_25_consultas'		=>	$request['descuento_25_consultas'],
-								/*'atv_ingreso_id'				=>	$request['atv_ingreso_id'],
-								'atv_ingreso_contrasena'		=>	$request['atv_ingreso_contrasena'],
-								'atv_llave_criptografica'		=>	$request['atv_llave_criptografica'],
-								'atv_clave_llave_criptografica'	=>	$request['atv_clave_llave_criptografica'],*/
 								'activo'						=>	$request['activo']=='on',
 							]);
 				$nutricionista->save();

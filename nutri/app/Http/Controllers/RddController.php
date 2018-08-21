@@ -26,8 +26,6 @@ class RddController extends Controller
 			$rdd->factor_actividad_sedentaria	=	$request->factor_actividad_sedentaria;
 			$rdd->promedio_gc_diario			=	$request->promedio_gc_diario;
 			$rdd->variacion_calorica			=	$request->variacion_calorica;
-			/*"consulta_id": 1*/
-			
 		}else{$action	=	'registrado';
 			$rdd	=	array(
 							'metodo_calculo_gc'				=>	$request->metodo_calculo_gc,
@@ -40,8 +38,6 @@ class RddController extends Controller
 			$rdd	=	Rdd::create($rdd);
 		}
 		$rdd->save();
-		/*$response	=	Response::json($rdd, 200, []);
-		return $response;*/
 		$response	=	Response::json([
 			'message'	=> 'RDD ' . $action . ' correctamente',
 			'data'		=>	$rdd

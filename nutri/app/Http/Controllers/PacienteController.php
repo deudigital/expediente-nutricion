@@ -27,7 +27,6 @@ class PacienteController extends Controller
     public function index()
     {
 		$registros	=	Paciente::All();
-		/*$response	=	Response::json($pacientes, 200);*/
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
@@ -95,25 +94,12 @@ class PacienteController extends Controller
             ->join('hcf_patologias', 'hcf_patologias.id', '=', 'hcf_patologias_pacientes.hcf_patologia_id')
             ->where('hcf_patologias_pacientes.paciente_id', $id)
             ->get();
-/*
-select *
-from `hcf_patologias_pacientes`
-	inner join `hcf_patologias` on
-		`hcf_patologias`.`id` = `hcf_patologia_pacientes`.`hcf_patologia_id`
-		where `hcf_patologias_pacientes`.`paciente_id` = 6
-*/
-
-		/*$patologias	=	PatologiasPaciente::where('paciente_id', $id)
-						->get();*/
-
-		/*$paciente	=	Paciente::find($request->input('paciente_id'));*/
 		return $registros;
 	}
 	public function medicamentos(Request $request){
 		$paciente	=	Paciente::find($request->input('id'));
 		$paciente->notas_medicamentos	=	$request->input('notas_medicamentos');
 		$paciente->save();
-
 		$message	=	array(
 							'code'		=> '201',
 							'message'	=> 'Se ha registrado correctamente'
@@ -138,13 +124,13 @@ from `hcf_patologias_pacientes`
 			$hcpOtro->notas				=	$request->notas;
 			$hcpOtro->save();
 		}
-		else{$action	=	'registrado';
+		else{
+			$action	=	'registrado';
 			$hcpOtro	=	HcpOtro::create([
 									'ciclos_menstruales'=>	$request->input('ciclos_menstruales'),
 									'notas'				=>	$request->input('notas'),
 									'paciente_id'		=>	$request->input('paciente_id')
 								]);
-			//$hcpOtro->save();
 		}		
 		$message	=	array(
 							'code'		=> '201',
@@ -154,7 +140,6 @@ from `hcf_patologias_pacientes`
 		$response	=	Response::json($message, 201);
 		return $response;
 	}
-
 	function belongsToNutricionista($id){
 		$registros = DB::table('pacientes')
             ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
@@ -171,12 +156,8 @@ from `hcf_patologias_pacientes`
 		$response	=	Response::json($message, 201);
 		return $response;
 	}
-
-
     public function storeDatosPersonales(Request $request)
     {
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		if(!$request->input('nombre') || !$request->input('genero') || !$request->input('fecha_nac')){
 			$response	=	Response::json([
 				'code'		=>	422,
@@ -197,7 +178,6 @@ from `hcf_patologias_pacientes`
 				$fecha_nac	=	$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
 				$persona->fecha_nac	=	$fecha_nac;
 			}
-
 			$persona->save();
 			$paciente	=	Paciente::find($request->id);
 			$paciente->responsable_cedula		=	$request->responsable_cedula;
@@ -205,7 +185,6 @@ from `hcf_patologias_pacientes`
 			$paciente->responsable_parentezco	=	$request->responsable_parentezco;
 			$paciente->save();
 		}else{$action	=	'registrado';
-			/*	persona	*/
 			$aPersona	=	array(
 								'cedula'			=>	$request->input('cedula'),
 								'nombre'			=>	$request->input('nombre'),
@@ -222,7 +201,6 @@ from `hcf_patologias_pacientes`
 			$persona->save();
 			if($persona->id){
 				$paciente	=	Paciente::create([
-							/*	datos personales	*/
 								'persona_id'			=>	$persona->id,
 								'responsable_cedula'	=>	$request->input('responsable_cedula'),
 								'responsable_nombre'	=>	$request->input('responsable_nombre'),
@@ -248,8 +226,6 @@ from `hcf_patologias_pacientes`
     }
     public function storeDatosContacto(Request $request)
     {
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		$action	=	'editado';
 		$persona	=	false;
 		if($request->input('id')){
@@ -261,8 +237,6 @@ from `hcf_patologias_pacientes`
 			$persona->canton	=	$request->canton;
 			$persona->distrito	=	$request->distrito;
 			$persona->detalles_direccion	=	$request->detalles_direccion;
-			//if($request->input('barrio'))
-				//$persona->ubicacion_id	=	$request->input('barrio')['id'];
 			$persona->ubicacion_id	=	$request->ubicacion_id;
 			$persona->save();
 			$paciente	=	Paciente::find($request->id);
@@ -288,7 +262,6 @@ from `hcf_patologias_pacientes`
 							]);
 			$paciente->save();
 		}
-
 		$message	=	array(
 							'code'		=> '201',
 							'id'		=> $persona->id,
@@ -297,11 +270,8 @@ from `hcf_patologias_pacientes`
 		$response	=	Response::json($message, 201);
 		return $response;
     }
-
 	 public function storeDatosObjetivo(Request $request)
     {
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		$action	=	'editado';
 		if($request->input('id')){
 			$objetivo			=	Objetivo::find($request->id);
@@ -327,9 +297,6 @@ from `hcf_patologias_pacientes`
     }
 	public function storeDatosEjercicio(Request $request)
     {
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
-
 		$ejercicio	=	$request->input('ejercicio_id');
 		$horas_semanales	=	floatval($request->horas_semanales);
 		$ejerciciosPaciente	=	EjerciciosPaciente::create([
@@ -348,8 +315,6 @@ from `hcf_patologias_pacientes`
 		return $response;
     }
 	public function storeDatosGustos(Request $request){
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		$action	=	'editado';
 		if($request->input('id')){
 			$gusto			=	HabitosGusto::find($request->id);
@@ -379,8 +344,6 @@ from `hcf_patologias_pacientes`
 		return $response;
     }
 	public function storeDatosOtros(Request $request){
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		$action	=	'editado';
 		if($request->input('id')){
 			$habitosOtro						=	HabitosOtro::find($request->id);
@@ -420,28 +383,7 @@ from `hcf_patologias_pacientes`
 		$response	=	Response::json($message, 201);
 		return $response;
     }
-	/*public function storeDatosValoracionDietetica(Request $request){
-		$forInsert	=	array();
-			foreach($request->items as $item){
-				if(!$item['porciones'] || count($item['porciones'])==1)
-					continue;
-				/*$detalleDescripcion	=	new DetalleDescripcion(
-						array(
-							'prescripcion_id'					=>	$prescripcion->id,
-							'grupo_alimento_nutricionista_id'	=>	$item['id'],
-							'porciones'							=>	$item['porciones'],
-						)
-					);* /
-				//$detalleDescripcion->save();
-				$forInsert[]	=	$item;
-			}
-
-		$response	=	Response::json($forInsert, 201);
-		return $response;
-	}*/
 	public function storeDatosHcfPatologia(Request $request){
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
 		$deletedRows = HcfPatologiasPaciente::where('paciente_id', $request->paciente_id)->delete();
 		$array= Array();
 		foreach($request->items as $item){
@@ -457,10 +399,8 @@ from `hcf_patologias_pacientes`
 						'paciente_id'		=>	$request->paciente_id,
 					)
 				);
-//			$array[]	=	$hcfPatologiasPaciente;
 			$hcfPatologiasPaciente->save();
 		}
-
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $array,
@@ -469,11 +409,7 @@ from `hcf_patologias_pacientes`
 		$response	=	Response::json($message, 201);
 		return $response;
     }
-
 	public function storeDatosHcpPatologia(Request $request){
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
-
 		if($request->notas){
 			$paciente	=	Paciente::find($request->input('paciente_id'));
 			$paciente->notas_patologias	=	$request->notas[0];
@@ -499,7 +435,6 @@ from `hcf_patologias_pacientes`
 						'paciente_id'		=>	$request->paciente_id,
 					)
 				);
-//			$array[]	=	$hcfPatologiasPaciente;
 			$patologiasPaciente->save();
 		}
 
@@ -523,9 +458,6 @@ from `hcf_patologias_pacientes`
 		$file			=	$request->file('examen');
 		$filename_epoc	=	Carbon::now()->timestamp;		
 		$destination	=	public_path('/bioquimicas');
-		/*$path			=	$file->path();		
-		$destination2	=	$file->getClientOriginalName();
-		$destination3	=	$filename_epoc . '.' . $file->getClientOriginalExtension();*/
 		$filename	=	'examen_' . $filename_epoc . '_' . $request->paciente_id . '.' . $file->getClientOriginalExtension();
 		$new_filename	=	url('/bioquimicas/') . '/' .  $filename;
 		$file->move($destination, $new_filename);	
@@ -546,9 +478,6 @@ from `hcf_patologias_pacientes`
 		return $response;
 	}
 	public function storeDatosHcpAlergia(Request $request){
-		/*$response	=	Response::json($request->all(), 201);
-		return $response;*/
-
 		if($request->notas){
 			$paciente	=	Paciente::find($request->input('paciente_id'));
 			$paciente->notas_alergias	=	$request->notas[0];
@@ -628,8 +557,8 @@ from `hcf_patologias_pacientes`
 
 			$subject 	=	'Datos de autenticacion - NUTRITRACK';
 			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			$headers   .=	'CC: danilo@deudigital.com' . "\r\n";
-			$headers   .=	'Bcc: jaime@deudigital.com' . "\r\n";
+			/*$headers   .=	'CC: danilo@deudigital.com' . "\r\n";*/
+			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
 			$headers   .=	'MIME-Version: 1.0' . "\r\n";
 			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 
