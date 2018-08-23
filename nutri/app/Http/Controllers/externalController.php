@@ -19,25 +19,6 @@ class ExternalController extends Controller
      */
     public function store(Request $request)
     {
-		$data	=	array('name'=>"Juan Perez", "body" => "Test mail whit smtp");   
-		Mail::send('emails.resumen', $data, function($message) {
-			$message->to('danilo@deudigital.com', 
-						'Nutritrack')
-						->subject('Testing Nutritrack SMTP local');
-			$message->from('nutritrack@deudigital.com','Nutritrack');
-			$message->sender('sender@nutritrack.com', 'Sender');
-			$message->cc('jaime@deudigital.com', 'Jaime Deudigital');
-			$message->bcc('inv_jaime@yahoo.com', 'INV JAIME');
-			$message->replyTo('replay_correo@nutricionista.com', 'Nutricionista');
-
-		});
-		$message	=	array(
-							'code'		=> '201',
-							'message'	=> 'Email sent correctamente'
-						);
-		$response	=	Response::json($message, 201);
-		return $response;
-
 		$action	=	'editado';
 		if($request->input('id') && $request->id!=0){
 			$persona						=	Persona::find($request->id);

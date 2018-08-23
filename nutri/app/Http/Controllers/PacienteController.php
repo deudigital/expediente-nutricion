@@ -539,6 +539,7 @@ class PacienteController extends Controller
 			$paciente	=	Paciente::find($paciente->id);
 			$paciente->contrasena	=	$new_password;
 			$paciente->save();
+/*
 			$html 	= '<h3>Su contraseña se ha actualizado correctamente</h3>';
 			$html 	.= '<table rules="all" style="border-color: #666;" cellpadding="10">';
 			$html	.=	'<tr style="background-color: #eee;">';
@@ -557,12 +558,25 @@ class PacienteController extends Controller
 
 			$subject 	=	'Datos de autenticacion - NUTRITRACK';
 			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			/*$headers   .=	'CC: danilo@deudigital.com' . "\r\n";*/
 			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
 			$headers   .=	'MIME-Version: 1.0' . "\r\n";
 			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 
 			mail($to, $subject, $html, $headers);
+*/
+			$data	=	array(
+							'nombre'	=>	$paciente->nombre, 
+							'usuario'	=>	$paciente->usuario, 
+							'contrasena'=>	$paciente->contrasena
+						);
+			Mail::send('emails.paciente.change_password', $data, function($message) {
+				$message->to($paciente->email, $paciente->nombre);
+				$message->subject('Recordatorio de datos autenticacion - NUTRITRACK');
+				
+				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+				$message->bcc(env('EMAIL_BCC'));
+				$message->replyTo(env('EMAIL_REPLYTO'));
+			});
 			$message	=	array(
 								'code'		=> '201',
 								'message'	=> 'Su Contrasena ha sido actualizada correctamente, Se ha enviado un correo electronico con sus datos.'

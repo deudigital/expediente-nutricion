@@ -112,6 +112,7 @@ class LoginController extends Controller
 						->first();
 		
 		if(count($paciente)>0){
+/*
 			$html 	= '<h3>Datos de Autenticacion</h3>';
 			$html 	.= '<table rules="all" style="border-color: #666;" cellpadding="10">';
 			$html	.=	'<tr style="background-color: #eee;">';
@@ -136,6 +137,21 @@ class LoginController extends Controller
 			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 			
 			mail($to, $subject, $html, $headers);
+*/
+			$data	=	array(
+							'nombre'	=>	$paciente->nombre, 
+							'usuario'	=>	$paciente->usuario, 
+							'contrasena'=>	$paciente->contrasena
+						);
+			Mail::send('emails.paciente.change_password', $data, function($message) {
+				$message->to($paciente->email, $paciente->nombre);
+				$message->subject('Recordatorio de datos autenticacion en NUTRITRACK');
+				
+				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+				$message->bcc(env('EMAIL_BCC'));
+				$message->replyTo(env('EMAIL_REPLYTO'));
+			});
+			
 			$message	=	array(
 								'code'		=> '201',
 								'message'	=> 'Se ha enviado un correo electronico con sus datos.'
@@ -161,6 +177,7 @@ class LoginController extends Controller
 						->first();
 		
 		if(count($paciente)>0){
+/*
 			$html 	= '<h3>Datos de Autenticacion</h3>';
 			$html 	.= '<table rules="all" style="border-color: #666;" cellpadding="10">';
 			$html	.=	'<tr style="background-color: #eee;">';
@@ -185,6 +202,21 @@ class LoginController extends Controller
 			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 			
 			mail($to, $subject, $html, $headers);
+*/
+			$data	=	array(
+							'nombre'	=>	$paciente->nombre, 
+							'usuario'	=>	$paciente->usuario, 
+							'contrasena'=>	$paciente->contrasena
+						);
+			Mail::send('emails.paciente.change_password', $data, function($message) {
+				$message->to($paciente->email, $paciente->nombre);
+				$message->subject('Recordatorio de datos autenticacion en NUTRITRACK');
+				
+				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+				$message->bcc(env('EMAIL_BCC'));
+				$message->replyTo(env('EMAIL_REPLYTO'));
+			});
+			
 			$message	=	array(
 								'code'		=> '201',
 								'message'	=> 'Se ha enviado un correo electronico con sus datos.'

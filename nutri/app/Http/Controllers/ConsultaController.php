@@ -591,7 +591,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$paciente->usuario		=	$persona->email;
 		$paciente->contrasena	=	rand ( 1234 , 9999 );
 		$paciente->save();
-
+/*
 		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
 
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
@@ -625,6 +625,20 @@ Enviar usuario y contrasena?????? por ahora si...
 		$headers   .=	'MIME-Version: 1.0' . "\r\n";
 		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
 		mail($to, $subject, utf8_decode($html), $headers);
+*/
+		$data	=	array(
+							'nombre'	=>	$persona->nombre,
+							'usuario'	=>	$persona->usuario,
+							'contrasena'=>	$persona->contrasena
+						);
+		Mail::send('emails.paciente.credenciales', $data, function($message) {
+			$message->to($persona->email, $persona->nombre);
+			$message->subject('Credenciales NutriTrack');			
+			$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+			$message->bcc(env('EMAIL_BCC'));
+			/*$message->replyTo(env('EMAIL_REPLYTO'));*/
+		});
+		
 /*
  * Al finalizar la primera consulta,
  * se deben crear las credenciales para el acceso al app
@@ -910,7 +924,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$image	=	$images . 'logo.png';
 		if($nutricionista->imagen)
 			$image	=	$nutricionista->imagen;
-		
+/*		
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
 		
 		$html	.=	'<img src="' . $image . '" width="180" title="Consulta:' . $consulta-> id . '"/>';
@@ -937,7 +951,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$html	.=	'<p>Te recordamos tus credenciales:</p>';
 		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
 		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
-
+*/
 		$to		=	array();
 		if(!empty( $paciente->email ))
 			$to[]	=	$paciente->email;
@@ -950,7 +964,26 @@ Enviar usuario y contrasena?????? por ahora si...
 						'cc'	=>	$nutricionista->email,
 						'message'	=>	utf8_decode($html),
 					);
-		$this->sendEmail($args);
+/*	$this->sendEmail($args);*/
+
+		$data	=	array(
+							'logo'=>	$image, 
+							'paciente_nombre'=>	$paciente->nombre, 
+							'paciente_usuario'=>	$paciente->usuario, 
+							'paciente_contrasena'=>	$paciente->contrasena, 
+							'valoracion_antropometrica'=>	$_resumen['va'], 
+							'porciones'=>	$_resumen['porciones'], 
+							'patron_menu'=>	$_resumen['patronMenu'], 
+
+						);
+		Mail::send('emails.consulta.resumen', $data, function($message) {
+			$message->to( $args['to'] );
+			$message->subject( $args['subject'] );			
+			$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+			$message->cc( $args['cc'] );
+			$message->bcc(env('EMAIL_BCC'));
+			/*$message->replyTo(env('EMAIL_REPLYTO'));*/
+		});
 	}
 	function htmlTwoColumns($contentLeft, $contentRight){
 		$html	 =	'<!--[if (gte mso 9)|(IE)]>';
