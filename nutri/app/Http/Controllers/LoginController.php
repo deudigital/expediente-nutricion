@@ -8,7 +8,7 @@ use Route;
 use App\Persona;
 use App\Paciente;
 use App\Nutricionista;
-//use Mail;
+use Mail;
 use DB;
 
 use Illuminate\Routing\Controller;
@@ -110,7 +110,7 @@ class LoginController extends Controller
 						->where('personas.email', $email)
 						->get()
 						->first();
-		
+		print_r($paciente);
 		if(count($paciente)>0){
 /*
 			$html 	= '<h3>Datos de Autenticacion</h3>';
@@ -143,11 +143,18 @@ class LoginController extends Controller
 							'usuario'	=>	$paciente->usuario, 
 							'contrasena'=>	$paciente->contrasena
 						);
-			Mail::send('emails.paciente.change_password', $data, function($message) {
+/*Mail::send('emails.paciente.change_password', [$data, 'paciente' => $paciente], function ($message) use ($paciente) {*/
+
+print_r('-env(EMAIL_FROM)');
+print_r(env('APP_EMAIL_FROM'));
+		
+			Mail::send('emails.paciente.change_password', $data, function($message) use ($paciente) {
+		print_r('env(APP_EMAIL_FROM)');
+		print_r(env('APP_EMAIL_FROM'));
 				$message->to($paciente->email, $paciente->nombre);
-				$message->subject('Recordatorio de datos autenticacion en NUTRITRACK');
-				
+				$message->subject('Recordatorio de datos autenticacion en NUTRITRACK');				
 				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+				$message->sender($paciente->email, $paciente->nombre);
 				$message->bcc(env('EMAIL_BCC'));
 				$message->replyTo(env('EMAIL_REPLYTO'));
 			});
