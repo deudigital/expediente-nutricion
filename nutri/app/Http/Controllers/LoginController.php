@@ -145,18 +145,20 @@ class LoginController extends Controller
 						);
 /*Mail::send('emails.paciente.change_password', [$data, 'paciente' => $paciente], function ($message) use ($paciente) {*/
 
+/*print_r(config('email.from.address'));
+print_r(config('email.from.name'));
 print_r('-env(EMAIL_FROM)');
-print_r(env('APP_EMAIL_FROM'));
+print_r(env('APP_EMAIL_FROM'));*/
 		
 			Mail::send('emails.paciente.change_password', $data, function($message) use ($paciente) {
-		print_r('env(APP_EMAIL_FROM)');
-		print_r(env('APP_EMAIL_FROM'));
+		print_r('APP_EMAIL_FROM-> ' . env('APP_EMAIL_FROM'));
+		print_r('APP_EMAIL_FROM_NAME-> ' . env('APP_EMAIL_FROM_NAME'));
 				$message->to($paciente->email, $paciente->nombre);
 				$message->subject('Recordatorio de datos autenticacion en NUTRITRACK');				
-				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 				$message->sender($paciente->email, $paciente->nombre);
-				$message->bcc(env('EMAIL_BCC'));
-				$message->replyTo(env('EMAIL_REPLYTO'));
+				$message->bcc(env('APP_EMAIL_BCC'));
+				$message->replyTo(env('APP_EMAIL_REPLYTO'));
 			});
 			
 			$message	=	array(
