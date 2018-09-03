@@ -31,7 +31,7 @@
 		</header>
 		
 		
-		<div class="row division-nutricional s-75">
+		<div class="row division-nutricional s-80">
 		
 				<div class="col-md-5">
 					<div class="ingesta-calorica-recomendada col-sm-6">
@@ -57,7 +57,9 @@
 									<span>Gramos</span>
 									<strong>{{gramos_carbohidratos | number : '1.0-0'}}</strong>
 									<span>Kcal</span>
-									<strong>{{kcal_carbohidratos | number : '1.0-0'}}</strong>	
+									<strong>{{kcal_carbohidratos | number : '1.0-0'}}</strong>
+									<span>g/Kg</span>
+									<strong>{{g_kg_carbohidratos | number : '1.0-0'}}</strong>
 								</i>
 							</div>
 							<h5>Carbohidratos</h5>
@@ -82,6 +84,8 @@
 									<strong>{{gramos_proteinas | number : '1.0-0'}}</strong>
 									<span>Kcal</span>
 									<strong>{{kcal_proteinas | number : '1.0-0'}}</strong>	
+									<span>g/Kg</span>
+									<strong>{{g_kg_proteinas | number : '1.0-0'}}</strong>
 								</i>
 							</div>
 							<h5>Proteínas</h5>
@@ -107,6 +111,8 @@
 									<strong>{{gramos_grasas | number : '1.0-0'}}</strong>
 									<span>Kcal</span>
 									<strong>{{kcal_grasas | number : '1.0-0'}}</strong>	
+									<span>g/Kg</span>
+									<strong>{{g_kg_grasas | number : '1.0-0'}}</strong>
 								</i>
 							</div>
 							<h5>Grasas</h5>
@@ -399,6 +405,13 @@
 									<i></i>
 								</a>
 					</ng-template>
+					
+					<a 
+						class="button-copy" 
+						href="javascript:void(0)"
+						(click)="showModalCopiar(historia)"
+					>Copiar</a>
+				
 								{{historia.fecha}}
 							</td>
 							<td>{{historia.carbohidratos}} %</td>
@@ -534,4 +547,34 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="esc-modalbox prompt" *ngIf="!hideModalCopiar">
+	<a class="modal-close" (click)="copiarCancelar()"><i></i></a>
+	
+<ng-template #promptCopiar>	
+	<header class="text-center">
+		<h4>¿Est&aacute; seguro de copiar estos datos?</h4>
+	</header>
+	<div class="body row">
+
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block" (click)="copiarYes()">SI</button>
+		</div>
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block red" (click)="copiarCancelar()">No</button>
+		</div>
+	</div>
+</ng-template>	
+<ng-template [ngIf]="copiando" [ngIfElse]="promptCopiar">
+
+	<header class="text-center">
+		<h4>Copiando datos...</h4>
+	</header>
+	<div class="body row">
+		<img src="assets/images/loading-bars.svg" width="75" />
+		
+		{{paraCopiar}}
+		
+	</div>
+</ng-template>	
 </div>

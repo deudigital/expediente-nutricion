@@ -111,6 +111,15 @@
 .content-form.vd .division-nutricional .distribucion .with-cicle {font-size: 17px;}
 .content-form.vd .division-nutricional.s-75 .inner + span {width: 70px;margin: 10px auto;border-radius: 12px;}
 
+.division-nutricional.s-80 .with-cicle i {background-size: 912px 1680px;}
+.division-nutricional.s-80 .with-cicle.carbohidratos i {background-position: -146px -722px;width: 130px;height: 130px;}
+.division-nutricional.s-80 .with-cicle.proteinas i {background-position: -294px -725px;width: 130px;height: 130px;}
+.division-nutricional.s-80 .with-cicle.grasas i {background-position: -440px -723px;width: 130px;height: 130px;}
+.division-nutricional.s-80 .with-cicle.ingesta-calorica-recomendada-value i {background-position: 1px -724px;width: 137px;height: 140px;}
+.division-nutricional.s-80 .with-cicle.kcal i {background-position: -415px -1245px;width: 130px;height: 130px;}
+/*.content-form.vd .division-nutricional .distribucion .with-cicle {font-size: 17px;}*/
+.content-form.vd .division-nutricional.s-80 .inner + span {width: 70px;margin: 10px auto;border-radius: 12px;}
+
 
 .link-modal {}
 .with-icon a.link-modal > i {background-position: -495px 0;width: 16px;height: 16px;position: absolute;left: inherit;right: 15px;bottom: 9px;-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;cursor:pointer;}

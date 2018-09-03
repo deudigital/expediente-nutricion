@@ -7,6 +7,7 @@ use App\Documento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use Mail;
 use QRCode;
 use App\Persona;
 use App\Nutricionista;

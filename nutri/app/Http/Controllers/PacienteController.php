@@ -16,6 +16,7 @@ use App\EjerciciosPaciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use Mail;
 use Carbon\Carbon;
 class PacienteController extends Controller
 {
@@ -522,60 +523,36 @@ class PacienteController extends Controller
 		$current_password	=	$request->offsetGet('actual');
 		$new_password		=	$request->offsetGet('nuevo');
 		$paciente_id		=	$request->offsetGet('paciente_id');
-
 		if(empty($current_password) || empty($new_password) || empty($paciente_id))
 			return Response::json($message, 200);
 
 		$paciente = DB::table('pacientes')
             ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
-            ->where('pacientes.persona_id', $paciente_id)
-            ->where('pacientes.contrasena', $current_password)
+            ->where('pacientes.persona_id', '=', $paciente_id)
+            ->where('pacientes.contrasena', '=', $current_password)
             ->select('personas.id', 'personas.email', 'personas.nombre', 'pacientes.usuario', 'pacientes.contrasena')
 			->get()
 			->first();
+
 		if($paciente){
 			$to			=	$paciente->email;
 			$nombre		=	$paciente->nombre;
-			$paciente	=	Paciente::find($paciente->id);
-			$paciente->contrasena	=	$new_password;
-			$paciente->save();
-/*
-			$html 	= '<h3>Su contraseña se ha actualizado correctamente</h3>';
-			$html 	.= '<table rules="all" style="border-color: #666;" cellpadding="10">';
-			$html	.=	'<tr style="background-color: #eee;">';
-			$html	.=	'<th>Nombre</th>';
-			$html	.=	'<td>' . $nombre . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'<tr>';
-			$html	.=	'<th>Usuario</th>';
-			$html	.=	'<td>' . $paciente->usuario . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'<tr>';
-			$html	.=	'<th>Contrasena</th>';
-			$html	.=	'<td>' . $paciente->contrasena . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'</table>';
+			$_paciente	=	Paciente::find($paciente->id);
+			$_paciente->contrasena	=	$new_password;
+			$_paciente->save();
 
-			$subject 	=	'Datos de autenticacion - NUTRITRACK';
-			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
-			$headers   .=	'MIME-Version: 1.0' . "\r\n";
-			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
-
-			mail($to, $subject, $html, $headers);
-*/
 			$data	=	array(
 							'nombre'	=>	$paciente->nombre, 
 							'usuario'	=>	$paciente->usuario, 
 							'contrasena'=>	$paciente->contrasena
 						);
-			Mail::send('emails.paciente.change_password', $data, function($message) {
-				$message->to($paciente->email, $paciente->nombre);
-				$message->subject('Recordatorio de datos autenticacion - NUTRITRACK');
-				
-				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
-				$message->bcc(env('EMAIL_BCC'));
-				$message->replyTo(env('EMAIL_REPLYTO'));
+			Mail::send('emails.contrasena_cambiada', $data, function($message) use ($paciente) {
+				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
+				$message->subject($paciente->nombre . ', tu contraseña ha sido cambiada');
+				$message->to($paciente->email, $paciente->nombre);				
+				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+				$message->bcc($bcc);
+				/*$message->replyTo(env('EMAIL_REPLYTO'));*/
 			});
 			$message	=	array(
 								'code'		=> '201',

@@ -22,6 +22,7 @@ export class DietaComponent implements OnInit {
 	oPrescripcion=new Prescripcion();
 	paciente:Paciente;
 	rdd:Rdd;
+	va:any;
 	otroAlimento:any;
 	
 	historial:any[];
@@ -52,6 +53,8 @@ export class DietaComponent implements OnInit {
 	total_otros_calorias:number=0;
 
 	hideModalDatos:boolean=true;
+	hideModalCopiar:boolean=true;
+	
 	showModalDatos:boolean=false;
 	showModalTabDatos:boolean=true;
 	showModalTabGrafico:boolean=false;
@@ -72,6 +75,7 @@ export class DietaComponent implements OnInit {
 	showAdicionarOtro:boolean=false;
 	nuevo:boolean=false;
 	addOtrosItems:boolean=false;
+	copiando:boolean=false;
 
 	errors:any = {
 		nombre: false,
@@ -79,7 +83,8 @@ export class DietaComponent implements OnInit {
 	};
 
 	disableButtonHistorial:boolean;
-
+	current_peso:number;
+	paraCopiar:any;
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
 	/*console.log('this.model');
@@ -93,6 +98,10 @@ export class DietaComponent implements OnInit {
 	this.otrosItems		=	this.prescripcion.otros;	
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
+	console.log(this.rdd);
+	
+	this.va				=	this.model.getFormValoracionAntropometrica();	
+	console.log(this.va);
 	this.createOriginal();	
 	this.calculateItems()
   }
@@ -103,6 +112,20 @@ export class DietaComponent implements OnInit {
 	  this.navitation	=	false;
 	  this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
 	  this.addOtrosItems=false;
+	  this.copiando	=	false;
+	  this.current_peso	=	0;
+		switch(this.rdd.peso_calculo){
+			case 'actual':
+				this.current_peso	=	this.va.peso;
+				break;
+			case 'ideal':
+				this.current_peso	=	this.va.pesoIdeal;
+				break;
+			case 'ideal-ajustado':
+				this.current_peso	=	this.va.pesoIdealAjustado;
+				break;
+		}
+		
   }
 	ngOnDestroy() {
 		if(!this.navitation)
@@ -237,13 +260,33 @@ export class DietaComponent implements OnInit {
 	displayDetails(item){
 		item.display	=	!item.display;
 	}
+	showModalCopiar(prescripcion){
+		this.paraCopiar	=	prescripcion;
+		this.hideModalCopiar	=	false;
+		/*this.showModal('copiar');*/
+	}
 	
-	
+	copiarYes(){
+		this.copiando	=	true;
+		
+		console.log(this.paraCopiar);
+		/*this.remove( this.selectedConsulta );*/
+		//alert('copiando...');
+		//this.copiarCancelar();
+	}
+	copiarCancelar(){
+		this.hideModalCopiar	=	true;
+		/*this.tagBody.classList.remove('open-modal');*/
+	}
 	showModal(modal){
 		this.hideModalDatos		=	true;
+		this.hideModalCopiar	=	true;
 		switch(modal){
 			case 'datos':
 				this.hideModalDatos	=	false;
+				break;
+			case 'copiar':
+				this.hideModalCopiar	=	false;
 				break;
 		}
 		this.tagBody.classList.add('open-modal');
@@ -253,6 +296,9 @@ export class DietaComponent implements OnInit {
 		switch(modal){
 			case 'datos':
 				this.hideModalDatos	=	true;
+				break;
+			case 'copiar':
+				this.hideModalCopiar	=	true;
 				break;
 		}
 		this.tagBody.classList.remove('open-modal');		
@@ -353,17 +399,19 @@ export class DietaComponent implements OnInit {
    getCalculoKcalCarbohidratos(){
 	   if(!this.prescripcion.carbohidratos)
 			return 0;
+
 		var percentage	=	this.prescripcion.carbohidratos*0.01;
 		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalCarb;
-   }   
-   getCalculoKcalProteinas(){
+   } 
+	getCalculoKcalProteinas(){
 	   if(!this.prescripcion.proteinas)
 			return 0;
 		var percentage	=	this.prescripcion.proteinas*0.01;
 		this.kcalProt	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalProt;
-   } 
+   }   
+   
    getCalculoKcalGrasas(){
 	   if(!this.prescripcion.grasas)
 			return 0;
@@ -371,21 +419,55 @@ export class DietaComponent implements OnInit {
 		this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);
 		return this.kcalGrasas;
    }
+   
+   getCalculoGKgCarbohidratos(){
+	   if(!this.prescripcion.carbohidratos)
+			return 0;
+		let gramos	=	this.kcalCarb/4;
+		/*console.log('Carbohidratos g/kg: ' + gramos + ' / ' + this.current_peso);*/
+		return gramos/this.current_peso;
+   }
+   getCalculoGKgProteinas(){
+	   if(!this.prescripcion.proteinas)
+			return 0;
+		let gramos	=	this.kcalProt/4;
+		/*console.log('Proteinas g/kg: ' + gramos + ' / ' + this.current_peso);*/
+		return gramos/this.current_peso;
+   }  
+   getCalculoGKgGrasas(){
+	   if(!this.prescripcion.grasas)
+			return 0;
+		let gramos	=	this.kcalGrasas/9;
+		/*console.log('Grasas g/kg: ' + gramos + ' / ' + this.current_peso);*/
+		return gramos/this.current_peso;
+   }
+   
+	
+	get g_kg_carbohidratos(){
+		return this.getCalculoGKgCarbohidratos();
+	}
+	get g_kg_proteinas(){
+		return this.getCalculoGKgProteinas();
+	}
+	get g_kg_grasas(){
+		return this.getCalculoGKgGrasas();
+	}
+	
 	get kcal_carbohidratos(){
 		return this.getCalculoKcalCarbohidratos();
-	}
-
-	get gramos_carbohidratos(){
-		return this.getCalculoKcalCarbohidratos()/4;
 	}
 	get kcal_proteinas(){
 		return this.getCalculoKcalProteinas();
 	}
-	get gramos_proteinas(){
-		return this.getCalculoKcalProteinas()/4;
-	}
 	get kcal_grasas(){
 		return this.getCalculoKcalGrasas();
+	}
+		
+	get gramos_carbohidratos(){
+		return this.getCalculoKcalCarbohidratos()/4;
+	}
+	get gramos_proteinas(){
+		return this.getCalculoKcalProteinas()/4;
 	}
 	get gramos_grasas(){
 		return this.getCalculoKcalGrasas()/9;
@@ -515,6 +597,7 @@ export class DietaComponent implements OnInit {
    }
    calculate_total_ideal(){	   
    }
+   
    
    total(){
 		var total	=	0;

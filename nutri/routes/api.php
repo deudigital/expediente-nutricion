@@ -15,12 +15,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => 'cors'], function(){
-	Route::post('web/login', 'LoginController@webcheck');
-	Route::post('web/login/reminder', 'LoginController@webReminder');
+	/*	Movil	*/
 	Route::post('login', 'LoginController@check');
 	Route::post('login/reminder', 'LoginController@reminder');
+	/*	Web	*/
+	Route::post('web/login', 'LoginController@webcheck');
+	Route::post('web/login/reminder', 'LoginController@webReminder');
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
+	Route::get('prescripcion/copy/{prescripcion_id}/{consulta_id}', 'PrescripcionController@copy');
 	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
 	Route::get('nutricionistas/status/{id}', 'NutricionistaController@status');	
 	Route::get('graphics/all/{id}', 'GraphicController@all');
@@ -120,6 +123,8 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::resource('registroconsumos', 'RegistroConsumoController');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
+	
+	Route::get('prescripcion/copy/{id}', 'PrescripcionController@copy');
 	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
 	Route::get('recordatorios', 'RecordatorioController@index');
 	Route::get('mensajes', 'MensajeController@index');

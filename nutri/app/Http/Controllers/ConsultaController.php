@@ -18,6 +18,7 @@ use App\DetalleGrasa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use Mail;
 use Carbon\Carbon;
 use Auth;
 class ConsultaController extends Controller
@@ -570,6 +571,7 @@ Enviar usuario y contrasena?????? por ahora si...
 								->where('pacientes.persona_id', $consulta->paciente_id)
 								->get()
 								->first();
+				
 				if(count($paciente)>0){
 					if($paciente->email || $paciente->responsable_email){
 						$this->generatePacienteCredentials($persona);
@@ -586,56 +588,29 @@ Enviar usuario y contrasena?????? por ahora si...
 	}
 	function generatePacienteCredentials($persona){
 		$paciente		=	Paciente::find($persona->id);
+		$nutricionista	=	Persona::find($paciente->nutricionista_id);
 		if($paciente->usuario)
 			return ;
 		$paciente->usuario		=	$persona->email;
 		$paciente->contrasena	=	rand ( 1234 , 9999 );
 		$paciente->save();
-/*
-		$images	=	'https://expediente.nutricion.co.cr/mail/images/';
 
-		$html	=	'<div style="text-align:center;margin-bottom:20px">';
-		$html	.=	'<img src="' . $images . 'logo.png" width="180" />';
-		$html	.=	'</div>';
-		$html	.=	'<p>' . $persona->nombre . ', puedes descargar el app de <strong>NutriTrack</strong> completamente <strong>GRATIS</strong>, en las tiendas de iPhone y Android.  Tus credenciales para usarla son:</p>';
-		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
-		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
-
-		$html	.=	'<div style="text-align:center;margin-bottom:20px;margin-top:20px;display:inline-block;width:100%">';
-
-		$html	.=	'<div style="text-align:center"><a href="https://itunes.apple.com/us/app/nutritrack/id1302386185?l=es&mt=8"><img src="' . $images . 'appstore.png" width="180" /></a></div>';
-		$html	.=	'<div style="text-align:center"><a href="https://play.google.com/store/apps/details?id=cr.co.nutricion.nutritrack"><img src="' . $images . 'googleplay.png" width="180" /></a></div>';
-		$html	.=	'</div>';
-
-		$html	.=	'<p>En esta app vas a poder:</p>';
-
-		$html	.=	'<ul>';
-		$html	.=	'<li>Llevar el control de lo que comes d&iacute;a a d&iacute;a.</li>';
-		$html	.=	'<li>Ver el historial de tus medidas.</li>';
-		$html	.=	'<li>Ver listados de comidas y sus equivalencias en porciones.</li>';
-		$html	.=	'<li>Ver los ejemplos y porciones que te indico el nutricionista en tu consulta.</li>';
-		$html	.=	'<li>Motivarte todos los d&iacute;as para cumplir tus metas.</li>';
-		$html	.=	'<li>Habilitar recordatorios para los diferentes tiempos de comida.</li>';
-		$html	.=	'</ul>';
-
-		$to			=	$persona->email;
-		$subject 	=	'Credenciales NutriTrack';
-		$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-		$headers   .=	'Bcc: danilo@deudigital.com, inv_jaime@yahoo.com' . "\r\n";
-		$headers   .=	'MIME-Version: 1.0' . "\r\n";
-		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
-		mail($to, $subject, utf8_decode($html), $headers);
-*/
+		$paciente->email				=	$persona->email;
+		$paciente->nombre				=	$persona->nombre;
+		$paciente->nombre_nutricionista	=	$nutricionista->nombre;
+		$paciente->email_nutricionista	=	$nutricionista->email;
 		$data	=	array(
-							'nombre'	=>	$persona->nombre,
-							'usuario'	=>	$persona->usuario,
-							'contrasena'=>	$persona->contrasena
-						);
-		Mail::send('emails.paciente.credenciales', $data, function($message) {
-			$message->to($persona->email, $persona->nombre);
-			$message->subject('Credenciales NutriTrack');			
-			$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
-			$message->bcc(env('EMAIL_BCC'));
+							'nombre'	=>	$persona->nombre, 
+							'usuario'	=>	$paciente->usuario, 
+							'contrasena'=>	$paciente->contrasena
+					);
+		Mail::send('emails.credenciales_nutritrack', $data, function($message) use ($paciente) {
+			$bcc	=	explode(',', env('APP_EMAIL_BCC'));			
+			$message->subject('Credenciales NutriTrack App | ' . $paciente->nombre);
+			$message->to($paciente->email, $paciente->nombre);
+			$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+			$message->cc($paciente->email_nutricionista, $paciente->nombre_nutricionista);
+			$message->bcc($bcc);
 			/*$message->replyTo(env('EMAIL_REPLYTO'));*/
 		});
 		
@@ -924,7 +899,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$image	=	$images . 'logo.png';
 		if($nutricionista->imagen)
 			$image	=	$nutricionista->imagen;
-/*		
+		
 		$html	=	'<div style="text-align:center;margin-bottom:20px">';
 		
 		$html	.=	'<img src="' . $image . '" width="180" title="Consulta:' . $consulta-> id . '"/>';
@@ -951,7 +926,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$html	.=	'<p>Te recordamos tus credenciales:</p>';
 		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
 		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
-*/
+
 		$to		=	array();
 		if(!empty( $paciente->email ))
 			$to[]	=	$paciente->email;
@@ -964,6 +939,7 @@ Enviar usuario y contrasena?????? por ahora si...
 						'cc'	=>	$nutricionista->email,
 						'message'	=>	utf8_decode($html),
 					);
+		print_r($html);exit;
 /*	$this->sendEmail($args);*/
 
 		$data	=	array(
