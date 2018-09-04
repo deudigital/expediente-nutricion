@@ -26,7 +26,6 @@ Route::group(['middleware' => 'cors'], function(){
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	/*v1*/
 	Route::get('nutricionistas/{id}', 'ReportesFacturasController@getDataNutricionista');
-
 	//Route::post('prescripcion/copy/{prescripcion_id}/{consulta_id}', 'PrescripcionController@copy');
 	Route::post('prescripcion/copy', 'PrescripcionController@copy');
 	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
