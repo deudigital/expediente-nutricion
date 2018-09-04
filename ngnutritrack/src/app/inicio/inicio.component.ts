@@ -5,7 +5,7 @@ import { Consulta } from '../control/data/formControlData.model';
 import { FormControlDataService }     from '../control/data/formControlData.service';
 import { Observable } from 'rxjs/Observable';
 import { CommonService } from '../services/common.service';
-
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-inicio',
@@ -27,7 +27,7 @@ export class InicioComponent implements OnInit {
 	hidenFactura: boolean =false;
 	agregadoAPI:number;
 
-	constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
+	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
 	}
 	ngOnInit() {
@@ -114,6 +114,42 @@ export class InicioComponent implements OnInit {
 	}
 
 	getConsultasPendientes() {
+		//console.log('get Consultas Pendientes');
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				this.formControlDataService.getConsultasPendientes()
+					.subscribe(
+						 response  => {
+									console.log('Consultas Pendientes');
+									console.log(response);
+									this.showLoading	=	false;
+										if(response){
+											this.setConsultas(response);
+											this.showBoxConsultasPendientes	=	true;
+										}
+									
+									},
+						error =>  {
+								this.showLoading	=	false;
+								console.log(<any>error)
+							}
+					);
+				
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+				this.showLoading	=	false;
+			});
+	}
+	getConsultasPendientes__original() {
 		//console.log('get Consultas Pendientes');
 		this.formControlDataService.getConsultasPendientes()
 		.subscribe(

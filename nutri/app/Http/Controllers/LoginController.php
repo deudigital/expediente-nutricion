@@ -120,6 +120,60 @@ class LoginController extends Controller
 		return $response;
     }	
 	/*	Web	*/
+	function statuscheck(Request $request) {
+		/*$response	=	Response::json($request->all(), 200);
+		return $response;*/
+		$user_id		=	$request->offsetGet('user_id');
+		$response	=	array(	'valid'		=>	0,
+								'message'	=>	'',
+								'action'	=>	'login'
+							);
+		try{
+			$nutricionista	=	Nutricionista::find($user_id);
+			if(!$nutricionista)
+				return Response::json($response, 200);
+
+			if(!$nutricionista->activo){
+				$response['message']	=	'Su cuenta esta desactivada, favor ponerse en contacto con nosotros para solucionar este problema.';
+				return Response::json($response, 200);
+			}
+			$response['valid']	=	1;
+			$response['action']	=	'access';
+/*
+			$user		=	$request->offsetGet('email');
+			$password	=	$request->offsetGet('password');	
+			$nutricionista	=	Nutricionista::where('usuario','=', $user)
+									->where('contrasena','=', $password)->first();
+			
+			$request->offsetSet('client_id', '2');
+			$request->offsetSet('client_secret', '0uoQGOsoRODwmhE3xhniXBZsxauD9qobeBFDJyNE');
+			$request->offsetSet('grant_type', 'password');
+			$request->offsetSet('scope', '*');
+			$request->offsetSet('username', 'danilo@deudigital.com');
+			$request->offsetSet('password', 'deudigit');
+			$tokenRequest	=	$request->create('/oauth/token', 'POST', $request->all());
+			$response		=	Route::dispatch($tokenRequest);
+			$statusCode		=	$response->getStatusCode();
+			if($statusCode!=200)
+				return $response;
+
+			$persona	=	Persona::find($nutricionista->persona_id);
+			$json = (array) json_decode($response->getContent());		
+			
+			$json['nutricionista']['id'] = $persona->id;
+			$json['nutricionista']['nombre'] = $persona->nombre;
+			$json['nutricionista']['genero'] = $persona->genero;
+			$json['nutricionista']['telefono'] = $persona->telefono;
+			$json['nutricionista']['celular'] = $persona->celular;
+			$json['nutricionista']['email'] = $persona->email;
+			
+			$response->setContent(json_encode($json));
+			*/
+		} catch (\Exception $e) {
+			$response['hint']	=	$e->getMessage();
+		}
+        return $response;	
+    }
 	function webcheck(Request $request) {
 		$response	=	array(	'error'=>'Unauthorized',
 								'message'=>'invalid credentials.',

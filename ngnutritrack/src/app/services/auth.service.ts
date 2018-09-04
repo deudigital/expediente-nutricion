@@ -31,4 +31,13 @@ export class AuthService {
 		});
 		return this.http.get(url, {headers: headers}).toPromise();
 	}
+	verifyUser(user_id): Promise<any> {console.log('auth.service - verifyUser');
+		let url: string = `${this.BASE_URL}status`;
+		/*let headers: Headers = new Headers({
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`
+		});*/
+		//return this.http.get(url, {headers: headers}).toPromise();
+		return this.http.post(url, {'user_id':user_id}).toPromise();
+	}
 }

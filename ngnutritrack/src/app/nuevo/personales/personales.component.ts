@@ -4,6 +4,7 @@ import {IMyDpOptions} from 'mydatepicker';
 
 import { Analisis, Paciente } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-personales',
@@ -31,16 +32,30 @@ export class PersonalesComponent implements OnInit {
 	};
   
 
-	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcData		=	formControlDataService.getFormControlData();/*console.log(this.fcData);*/
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
 		
 		this.helpers	=	this.fcData.getHelpers();
 		/*console.log(this.paciente);*/
-		this.setInfoInit();
-		
-		this.mng.setMenuPacienteStatus(true);
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}		
+				
+				this.setInfoInit();				
+				this.mng.setMenuPacienteStatus(true);				
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});
 	}
 
 	ngOnInit() {

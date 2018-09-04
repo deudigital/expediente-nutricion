@@ -24,6 +24,7 @@ import {Observable} from 'rxjs/Rx';
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	environment.apiUrl;
+	private _apiURL	=	environment.apiUrl1;
 	private headers: Headers;
 	data:any={};
 
@@ -45,16 +46,24 @@ export class FormControlDataService {
 		return this.http.get( this.apiURL +'nutricionistas/status/' + nutricionista_id).map((response: Response) => response.json());
 	}
 	getDataForm(): Observable<any[]> {
-		return this.http.get( this.apiURL + 'form/data', {headers: this.headers} ).map((response: Response) => response.json());
+		return this.http.get( this._apiURL + 'form/data', {headers: this.headers} ).map((response: Response) => response.json());
 	}
-	getPacientesDeNutricionista(): Observable<Paciente[]> {
+	getConsultasPendientes(): Observable<Consulta[]> {
 		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
-		return this.http.get( this.apiURL + 'pacientes/nutricionista/' + nutricionista_id ).map((response: Response) => response.json());
+		//var url	=	this.apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/';
+		var url	=	this._apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/';
+		return this.http.get( url, {headers: this.headers} )
+		.map((response: Response) => response.json());
 	}
 	getNutricionista(): Observable<any[]> {
 		var nutricionista_id = localStorage.getItem('nutricionista_id');
-		return this.http.get( this.apiURL +'nutricionistas/' + nutricionista_id ).map((response: Response) => response.json());
+		return this.http.get( this._apiURL +'nutricionistas/' + nutricionista_id, {headers: this.headers} ).map((response: Response) => response.json());
 	}
+	getPacientesDeNutricionista(): Observable<Paciente[]> {
+		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
+		return this.http.get( this._apiURL + 'pacientes/nutricionista/' + nutricionista_id, {headers: this.headers}  ).map((response: Response) => response.json());
+	}
+	
 	getNutricionistaUbicacion(ubicacion_id): Observable<any[]> {
 		return this.http.get( this.apiURL +'nutricionistas/ubicacion/' + ubicacion_id).map((response: Response) => response.json());
 	}
@@ -89,12 +98,7 @@ export class FormControlDataService {
 	getEjercicios(): Observable<Ejercicio[]> {
 		return this.http.get( this.apiURL + 'ejercicios').map((response: Response) => response.json());
 	}
-	getConsultasPendientes(): Observable<Consulta[]> {
-		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
-		var url	=	this.apiURL + 'consultas/nutricionista/' + nutricionista_id + '/pendientes/';
-		return this.http.get( url, {headers: this.headers} )
-		.map((response: Response) => response.json());
-	}
+	
 	getPacientes(): Observable<Consulta[]> {
 		var nutricionista_id	=	localStorage.getItem('nutricionista_id');
 		return this.http.get( this.apiURL + 'nutricionista/pacientes/' + nutricionista_id)

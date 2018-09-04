@@ -197,6 +197,9 @@ class ConsultaController extends Controller
 	}
 	function pendientes($id){
 		try{
+		$user = Auth::user();
+		
+		
 		$registros = DB::table('consultas')
             ->join('pacientes', 'pacientes.persona_id', '=', 'consultas.paciente_id')
             ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
@@ -205,6 +208,7 @@ class ConsultaController extends Controller
             ->select('consultas.id', 'consultas.fecha', 'consultas.notas', 'personas.id as persona_id', 'personas.nombre as paciente_nombre', 'personas.telefono', 'pacientes.nutricionista_id as nutricionista', DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,now()) as edad'), 'personas.genero')
 			->orderBy('consultas.id', 'DESC')
             ->get();
+		$registros[]	=	$user;
 			if(count($registros)>0)
 				$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 			else

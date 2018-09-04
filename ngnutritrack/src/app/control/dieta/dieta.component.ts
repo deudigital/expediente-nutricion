@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Prescripcion, PrescripcionItem, Paciente, Rdd, OtroAlimento } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dieta',
@@ -85,7 +86,7 @@ export class DietaComponent implements OnInit {
 	disableButtonHistorial:boolean;
 	current_peso:number;
 	paraCopiar:any;
-  constructor(private router: Router, private formControlDataService: FormControlDataService) {
+  constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
 	/*console.log('this.model');
 	console.log(this.model);*/
@@ -107,25 +108,38 @@ export class DietaComponent implements OnInit {
   }
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
-	  this.disableButtonHistorial	=	true;
-	  this.getHistorial();
-	  this.navitation	=	false;
-	  this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
-	  this.addOtrosItems=false;
-	  this.copiando	=	false;
-	  this.current_peso	=	0;
-		switch(this.rdd.peso_calculo){
-			case 'actual':
-				this.current_peso	=	this.va.peso;
-				break;
-			case 'ideal':
-				this.current_peso	=	this.va.pesoIdeal;
-				break;
-			case 'ideal-ajustado':
-				this.current_peso	=	this.va.pesoIdealAjustado;
-				break;
-		}
-		
+	  this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				this.disableButtonHistorial	=	true;
+				  this.getHistorial();
+				  this.navitation	=	false;
+				  this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
+				  this.addOtrosItems=false;
+				  this.copiando	=	false;
+				  this.current_peso	=	0;
+					switch(this.rdd.peso_calculo){
+						case 'actual':
+							this.current_peso	=	this.va.peso;
+							break;
+						case 'ideal':
+							this.current_peso	=	this.va.pesoIdeal;
+							break;
+						case 'ideal-ajustado':
+							this.current_peso	=	this.va.pesoIdealAjustado;
+							break;
+					}
+			})		
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});	  
   }
 	ngOnDestroy() {
 		if(!this.navitation)

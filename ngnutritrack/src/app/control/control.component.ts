@@ -3,6 +3,7 @@ import { FormControlData, Consulta, Paciente } from './data/formControlData.mode
 import { FormControlDataService }     from './data/formControlData.service';
 import {Observable} from 'rxjs/Observable';
 import { Router }              from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-control',
@@ -24,7 +25,7 @@ export class ControlComponent implements OnInit {
 	showFilter:boolean=false;
 	canFilter:boolean=false;
 	
-	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.mng		=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		this.helpers	=	this.formControlDataService.getFormControlData().getHelpers();
 		this.getPacientesDeNutricionista();
@@ -44,6 +45,32 @@ export class ControlComponent implements OnInit {
 		this.helpers.scrollToForm(true);
 	}
 	getPacientesDeNutricionista(){
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				
+				this.formControlDataService.getPacientesDeNutricionista()
+				.subscribe(
+					 response  => {
+								this.pacientes	=	response;
+								this.canFilter	=	this.pacientes.length > 0;
+							},
+					error =>  console.log(<any>error)
+				);
+				
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});
+	}
+	getPacientesDeNutricionista__original(){
 		this.formControlDataService.getPacientesDeNutricionista()
 		.subscribe(
 			 response  => {

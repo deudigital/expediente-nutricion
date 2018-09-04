@@ -6,6 +6,7 @@ import { FormControlDataService }     from '../data/formControlData.service';
 import { LineChartConfig } from '../../models/LineChartConfig';
 
 import { FileService } from '../../services/file.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-valoracion',
   templateUrl: './valoracion.component.html',
@@ -145,7 +146,7 @@ export class ValoracionComponent implements OnInit {
 	
 	data_chart:any;
 	
-	constructor(private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
+	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService, private fileService: FileService) {
 		this.model		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.model.getHelpers();
 		this.mng		=	this.model.getManejadorDatos();
@@ -387,6 +388,50 @@ export class ValoracionComponent implements OnInit {
 		);
 	}
 	_getDatosConsulta(consulta_id){
+		if(!consulta_id)
+			return ;
+		
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				
+				this.allowCalculate	=	false;
+				this.loading_section_analisis	=	true;
+				this.formControlDataService.getConsultaSelected(consulta_id).subscribe(
+					data => {
+						this.model.fill(data);
+						this.valoracion		=	this.model.getFormValoracionAntropometrica();				
+						this.detalleMusculo	=	this.model.getFormDetalleMusculo();
+						this.grasa			=	this.model.getFormDetalleGrasa();
+						this.paciente		=	this.model.getFormPaciente();
+						/*console.log('_getDatosConsulta');console.log(this.valoracion);*/
+						this._prepopulateForm();
+						this.setInfoInit();
+						this.loading_data_form	=	false;
+						this.historial	=	this.valoracion.historial;				
+						if(!this.valoracion.id)
+							this.valoracion.consulta_id	=	this.model.consulta.id;
+
+						 this._getJsonData();
+						 this.loading_section_analisis	=	false;
+						 this.displayNavigation			=	true;				
+					},
+					error => console.log(<any>error)
+				);
+				
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});
+	}
+	_getDatosConsulta__original(consulta_id){
 		if(!consulta_id)
 			return ;
 		

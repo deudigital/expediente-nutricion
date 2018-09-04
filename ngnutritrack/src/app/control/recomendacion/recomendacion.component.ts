@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Rdd } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
 import { LineChartConfig } from '../../models/LineChartConfig';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-recomendacion',
@@ -49,7 +50,7 @@ export class RecomendacionComponent implements OnInit {
 	_ingesta_calorica_recomendada:number;
 	historialParentWidth:number;
 
-	constructor(private router: Router, private formControlDataService: FormControlDataService) {
+	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.mng	=	this.model.getManejadorDatos();
 		this.helpers	=	this.model.getHelpers();
@@ -71,80 +72,95 @@ export class RecomendacionComponent implements OnInit {
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
-		/*
-		rda  0 - 18a
-		*/
-		var _edad_min_adulto	=	18;
-		var _metodo			=	'benedict';
-		this.displayFactor	=	true;
-		this.displayBenedict=	true;
-		this.mostrarFilaPeso	=	true;
-		
-		if(this.va.metodo_valoracion=='adulto'){
-			this.esAdulto		=	true;
-		}else
-			this.esAdulto	=	this.paciente.edad>_edad_min_adulto;/*18;/*20;*/
-		
-		
-		if(!this.esAdulto){
-			this.esMenor			=	true;			
-			this.displayBenedict	=	false;
-			this.displaySchofield	=	true;
-			this.displayRDA			=	true;
-			_metodo	=	'rda';
-			this.displayFactor	=	false;
-/*
-*Excepciones:
-*/
-/*edad < a 3 años O > 18 - ocultar opcion de schofield*/
-			if( ( this.paciente.edad < 3 ) || ( this.paciente.edad > 18 ) )
-				this.displaySchofield	=	false;
-/*edad > 18 años - ocultar RDA (en este caso únicamente quedaría harris benedict.*/
-			if( this.paciente.edad > 18 ){
-				this.displayRDA	=	false;
-				this.displayBenedict	=	true;
-				_metodo			=	'benedict-child';
-			}
-
-			
-/*
-si se tiene seleccionado OMS o CDC en la pantalla de VA:
-edad > a 3 años O < 18
-por defecto debe estar preseleccionado Schofield
-*/
-			if( ( this.paciente.edad >= 3 ) && ( this.paciente.edad <= 18 ) )
-				_metodo	=	'schofield';
-/*
-edad < a 3 años
-por defecto debe estar preseleccionado RDA Y oculto Schofield
-*/
-			/*if( this.paciente.edad < 3 ){
-				_metodo	=	'rda';
-				this.displaySchofield	=	false;
-			}*/
-			
-/*
-si se selecciona RDA, se debe ocultar el factor termico de los alimentos y su valor debe ser 0
-el resto es igual a los adultos
-*/
-			/*if( _metodo=='rda')*/
-			if( _metodo=='benedict-child' || _metodo=='benedict' )
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				/*
+				rda  0 - 18a
+				*/
+				var _edad_min_adulto	=	18;
+				var _metodo			=	'benedict';
 				this.displayFactor	=	true;
-			
-			
-			if(_metodo=='schofield' || _metodo=='rda')
-				this.mostrarFilaPeso	=	false;
-		}
-		/*console.log('_metodo: ' + _metodo);*/
-		if(!this.recomendacion.metodo_calculo_gc || this.recomendacion.metodo_calculo_gc=='benedict' )
-			this.recomendacion.metodo_calculo_gc	=	_metodo;
+				this.displayBenedict=	true;
+				this.mostrarFilaPeso	=	true;
+				
+				if(this.va.metodo_valoracion=='adulto'){
+					this.esAdulto		=	true;
+				}else
+					this.esAdulto	=	this.paciente.edad>_edad_min_adulto;/*18;/*20;*/
+				
+				
+				if(!this.esAdulto){
+					this.esMenor			=	true;			
+					this.displayBenedict	=	false;
+					this.displaySchofield	=	true;
+					this.displayRDA			=	true;
+					_metodo	=	'rda';
+					this.displayFactor	=	false;
+		/*
+		*Excepciones:
+		*/
+		/*edad < a 3 años O > 18 - ocultar opcion de schofield*/
+					if( ( this.paciente.edad < 3 ) || ( this.paciente.edad > 18 ) )
+						this.displaySchofield	=	false;
+		/*edad > 18 años - ocultar RDA (en este caso únicamente quedaría harris benedict.*/
+					if( this.paciente.edad > 18 ){
+						this.displayRDA	=	false;
+						this.displayBenedict	=	true;
+						_metodo			=	'benedict-child';
+					}
 
-		this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
-		/*console.log(this.habitosEjercicios);*/
-		this.setGastoCaloricoActividadFisica();
-		this.getHistorial();
-		
-		this._analisis();
+					
+		/*
+		si se tiene seleccionado OMS o CDC en la pantalla de VA:
+		edad > a 3 años O < 18
+		por defecto debe estar preseleccionado Schofield
+		*/
+					if( ( this.paciente.edad >= 3 ) && ( this.paciente.edad <= 18 ) )
+						_metodo	=	'schofield';
+		/*
+		edad < a 3 años
+		por defecto debe estar preseleccionado RDA Y oculto Schofield
+		*/
+					/*if( this.paciente.edad < 3 ){
+						_metodo	=	'rda';
+						this.displaySchofield	=	false;
+					}*/
+					
+		/*
+		si se selecciona RDA, se debe ocultar el factor termico de los alimentos y su valor debe ser 0
+		el resto es igual a los adultos
+		*/
+					/*if( _metodo=='rda')*/
+					if( _metodo=='benedict-child' || _metodo=='benedict' )
+						this.displayFactor	=	true;
+					
+					
+					if(_metodo=='schofield' || _metodo=='rda')
+						this.mostrarFilaPeso	=	false;
+				}
+				/*console.log('_metodo: ' + _metodo);*/
+				if(!this.recomendacion.metodo_calculo_gc || this.recomendacion.metodo_calculo_gc=='benedict' )
+					this.recomendacion.metodo_calculo_gc	=	_metodo;
+
+				this.habitosEjercicios	=	this.model.getFormPacienteHabitosEjercicios();
+				/*console.log(this.habitosEjercicios);*/
+				this.setGastoCaloricoActividadFisica();
+				this.getHistorial();
+				
+				this._analisis();				
+				
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});		
 	}
 	ngOnInit__old() {
 		this.tagBody = document.getElementsByTagName('body')[0];

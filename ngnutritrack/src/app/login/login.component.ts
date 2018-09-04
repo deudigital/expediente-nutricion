@@ -42,6 +42,7 @@ export class LoginComponent {
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.classList.add('page-login');
+		this.message	=	this.fcd.message_login;
 	}  
 	ngOnDestroy(){
 		this.tagBody.classList.remove('page-login');
