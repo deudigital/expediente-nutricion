@@ -41,7 +41,6 @@ export class FormControlDataService {
 		this.setHeader(token);
 		this.formControlData.setNutricionistaId(nutricionista_id);		
 	}
-	
 	verifyStatus(nutricionista_id): Observable<any[]> {
 		return this.http.get( this.apiURL +'nutricionistas/status/' + nutricionista_id).map((response: Response) => response.json());
 	}
