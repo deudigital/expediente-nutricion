@@ -416,7 +416,16 @@ Enviar usuario y contrasena?????? por ahora si...
 										->get();
 		if(count($patronMenu)>0)
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
-		
+			
+//										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+		$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
+									->where('consulta_id',$id)
+									->orderBy('tiempo_comida_id', 'ASC')
+									->get();
+
+		if(count($patronMenuEjemplos)>0)
+			$registros['dieta']['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
+
 		$prom_mes		=	'30.4375';
 		$prom_anho		=	'365.25';
 		$anhos			=	'TIMESTAMPDIFF( YEAR, personas.fecha_nac, consultas.fecha)';

@@ -195,8 +195,36 @@ export class FormControlData {
 				this.prescripcion.set(prescripcion);
 			}			
 /*		Patron Menu	*/
-			if(data.dieta.patron_menu)
-				this.patronmenu			=	data.dieta.patron_menu;
+			if(data.dieta.patron_menu){
+				this.patronmenu			=	data.dieta.patron_menu;				
+			}		
+/*		Patron Menu	Ejemplos	*/
+			if(data.dieta.patron_menu_ejemplos){
+				for(var i in data.dieta.patron_menu_ejemplos){
+					let item	=	data.dieta.patron_menu_ejemplos[i];
+					switch(item.tiempo_comida_id){
+						case 1:
+							this.dieta_desayuno_ejemplo			=	item.ejemplo;
+							break;
+						case 2:
+							this.dieta_media_manana_ejemplo		=	item.ejemplo;
+							break;
+						case 3:
+							this.dieta_almuerzo_ejemplo			=	item.ejemplo;
+							break;
+						case 4:
+							this.dieta_media_tarde_ejemplo		=	item.ejemplo;
+							break;
+						case 5:
+							this.dieta_cena_ejemplo				=	item.ejemplo;
+							break;
+						case 6:
+							this.dieta_coicion_nocturna_ejemplo	=	item.ejemplo;
+							break;
+					}
+				}
+				
+			}
 		}
 		this.dataFilled	=	true;
 	}

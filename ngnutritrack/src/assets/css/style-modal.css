@@ -96,12 +96,13 @@ body.open-modal .esc-modalbox.prompt {top:30%;position:fixed}
 .esc-modalbox .table tbody tr > td:first-child{border-left: none;}
 
 .esc-modalbox .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
+.esc-modalbox .table.historial.prescripcion tr{position:relative;}
 .esc-modalbox .table tr.detalle_prescripcion > td {color:#fff}
 
 .esc-modalbox .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
 .esc-modalbox .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
 .esc-modalbox .addpadding5{padding:0 5px;}
-
+.esc-modalbox .addpaddingprescripcion {padding: 0 25px 0 6px;margin-right: -25px;}
 body.grafico-selected-imc .grafico-imc > span,
 body.grafico-selected-peso .grafico-peso > span,
 body.grafico-selected-estatura .grafico-estatura > span,

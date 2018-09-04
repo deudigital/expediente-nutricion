@@ -374,7 +374,8 @@
 	</header>
 	<div class="body">
 		<div *ngIf="showModalTabDatos">
-			<div class="table-responsive addpadding5">
+			<!--<div class="table-responsive addpadding5">-->
+			<div class="table-responsive addpaddingprescripcion">
 				<table class="table separate table-mobile historial prescripcion">
 					<thead>
 						<tr>
@@ -405,13 +406,6 @@
 									<i></i>
 								</a>
 					</ng-template>
-					
-					<a 
-						class="button-copy" 
-						href="javascript:void(0)"
-						(click)="showModalCopiar(historia)"
-					>Copiar</a>
-				
 								{{historia.fecha}}
 							</td>
 							<td>{{historia.carbohidratos}} %</td>
@@ -434,6 +428,11 @@
 					<ng-template #historia_items_loading>
 							<td colspan="12">&nbsp;</td>
 					</ng-template>
+							<a 
+								class="button-copy" 
+								href="javascript:void(0)"
+								(click)="showModalCopiar(historia)"
+							>Copiar</a>
 						</tr>
 						
 			<ng-template [ngIf]="historia.patron_menu">
@@ -556,7 +555,6 @@
 		<h4>¿Est&aacute; seguro de copiar estos datos?</h4>
 	</header>
 	<div class="body row">
-
 		<div class="col-sm-6">
 			<button class="btn btn-default btn-block" (click)="copiarYes()">SI</button>
 		</div>
@@ -572,9 +570,6 @@
 	</header>
 	<div class="body row">
 		<img src="assets/images/loading-bars.svg" width="75" />
-		
-		{{paraCopiar}}
-		
 	</div>
 </ng-template>	
 </div>

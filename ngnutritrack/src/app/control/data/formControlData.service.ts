@@ -215,6 +215,9 @@ export class FormControlDataService {
 			case 'alergias':
 				serviceUrl	+=	'pacientes/alergias';
 				break;
+			case 'copiar_prescripcion':
+				serviceUrl	+=	'prescripcion/copy';
+				break;
 		}
 
 		return this.http.post( serviceUrl, data)

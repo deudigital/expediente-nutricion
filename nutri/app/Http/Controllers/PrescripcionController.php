@@ -174,78 +174,98 @@ class PrescripcionController extends Controller
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
-	public function copy($prescripcion_id, $consulta_id){
+	public function copy(Request $request){
+		$consulta_id		=	$request->consulta_id;
+		$prescripcion_id	=	$request->prescripcion_id;
 		$result['prescripcion_id']		=	$prescripcion_id;
 		$result['consulta_id']			=	$consulta_id;
-		$prescripcion					=	Prescripcion::find($prescripcion_id);
-		$result['prescripcion']			=	$prescripcion;
-
-		$new_prescripcion	=	new Prescripcion( array(
-														'carbohidratos'	=>	$prescripcion->carbohidratos, 
-														'proteinas'		=>	$prescripcion->proteinas, 
-														'grasas'		=>	$prescripcion->grasas, 
-														'consulta_id'	=>	$consulta_id
-													) );
-		$new_prescripcion->save();
-		$result['new_prescripcion']			=	$new_prescripcion;
-		/*	Borrar si existe prescripcion, patronmenu para esta consulta	*/
+	/*public function copy($prescripcion_id, $consulta_id){*/
+		/*$response	=	Response::json($request, 200, [], JSON_NUMERIC_CHECK);
+		return $response;*/
 		
-		//$current_prescripcion = Prescripcion::where('consulta_id', $consulta_id)->first();
-/*
-		$deletedRows = DetalleDescripcion::where('prescripcion_id', $current_prescripcion->id)->delete();
-		$deletedRows = Prescripcion::find($current_prescripcion->id)->delete();
-		
-		$deletedRows = PatronMenuEjemplo::where('consulta_id', $consulta_id)->delete();
-		$deletedRows = PatronMenu::where('consulta_id',  $consulta_id)->delete();
-*/
-		/*$detalle_prescripcion			=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
-											->get();
-		$result['detalle_prescripcion']	=	$detalle_prescripcion;*/
-		
-		$response	=	Response::json($result, 200, [], JSON_NUMERIC_CHECK);
-		return $response;
-		if($detalle_prescripcion){
-			foreach($detalle_prescripcion as $item){
-				$new_detalleDescripcion	=	new DetalleDescripcion(
-						array(
-							'prescripcion_id'					=>	$new_prescripcion->id, 
-							'grupo_alimento_nutricionista_id'	=>	$item['grupo_alimento_nutricionista_id'], 
-							'porciones'							=>	$item['porciones'], 
-						)
-					);
-				$new_detalleDescripcion->save();
+		/*DB::beginTransaction();*/
+		try {
+			/*	Borrar si existe prescripcion, patronmenu para esta consulta	*/
+			$current_prescripcion	=	Prescripcion::where('consulta_id', $consulta_id)->first();
+			if($current_prescripcion){
+				$deletedRows 			=	DetalleDescripcion::where('prescripcion_id', $current_prescripcion->id)->delete();
+				$deletedRows 			=	Prescripcion::find($current_prescripcion->id)->delete();
 			}
-		}
-		$patron_menu					=	PatronMenu::where('consulta_id', $prescripcion->consulta_id)
-											->get();
-		$result['Patron_menu']			=	$patron_menu;
 
-		if($patron_menu){
-			foreach($patron_menu as $key=>$item){				
-					$new_patronMenu	=	PatronMenu::create([
-										'consulta_id'						=>	$consulta_id,
-										'tiempo_comida_id'					=>	$item['tiempo_comida_id'],
-										'grupo_alimento_nutricionista_id'	=>	$item['grupo_alimento_nutricionista_id'],
-										'porciones'							=>	$item['porciones']
-									]);
-					$new_patronMenu->save();							
-			}
-		}				
-		$patron_menu_ejemplo			=	PatronMenuEjemplo::where('consulta_id', $prescripcion->consulta_id)
-											->get();
-		$result['Patron_menu_ejemplo']	=	$patron_menu_ejemplo;
-
-		if($patron_menu_ejemplo){
+			$deletedRows 			=	PatronMenuEjemplo::where('consulta_id', $consulta_id)->delete();
+			$deletedRows 			=	PatronMenu::where('consulta_id',  $consulta_id)->delete();
 			
-			foreach($patron_menu_ejemplo as $key=>$item){
-				$new_patronMenuEjemplo	=	PatronMenuEjemplo::create([
-									'consulta_id'		=>	$consulta_id,
-									'tiempo_comida_id'	=>	$item['tiempo_comida_id'],
-									'ejemplo'			=>	$item['ejemplo']
-								]);
-				$new_patronMenuEjemplo->save();						
+			$prescripcion					=	Prescripcion::find($prescripcion_id);
+			$result['prescripcion']			=	$prescripcion;
+		
+			$new_prescripcion		=	new Prescripcion( array(
+															'carbohidratos'	=>	$prescripcion->carbohidratos, 
+															'proteinas'		=>	$prescripcion->proteinas, 
+															'grasas'		=>	$prescripcion->grasas, 
+															'consulta_id'	=>	$consulta_id
+														) );
+			$new_prescripcion->save();
+			$result['new_prescripcion']		=	$new_prescripcion;
+			$detalle_prescripcion			=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
+												->get();
+			$result['detalle_prescripcion']	=	$detalle_prescripcion;
+			
+
+			if($detalle_prescripcion){
+				foreach($detalle_prescripcion as $item){
+					$new_detalleDescripcion	=	new DetalleDescripcion(
+							array(
+								'prescripcion_id'					=>	$new_prescripcion->id, 
+								'grupo_alimento_nutricionista_id'	=>	$item['grupo_alimento_nutricionista_id'], 
+								'porciones'							=>	$item['porciones'], 
+							)
+						);
+					$new_detalleDescripcion->save();
+				}
 			}
+			$patron_menu					=	PatronMenu::where('consulta_id', $prescripcion->consulta_id)
+												->get();
+			$result['Patron_menu']			=	$patron_menu;
+
+			if($patron_menu){
+				foreach($patron_menu as $key=>$item){				
+						$new_patronMenu	=	PatronMenu::create([
+											'consulta_id'						=>	$consulta_id,
+											'tiempo_comida_id'					=>	$item['tiempo_comida_id'],
+											'grupo_alimento_nutricionista_id'	=>	$item['grupo_alimento_nutricionista_id'],
+											'porciones'							=>	$item['porciones']
+										]);
+						$new_patronMenu->save();							
+				}
+			}				
+			$patron_menu_ejemplo			=	PatronMenuEjemplo::where('consulta_id', $prescripcion->consulta_id)
+												->get();
+			$result['Patron_menu_ejemplo']	=	$patron_menu_ejemplo;
+
+			if($patron_menu_ejemplo){
+				
+				foreach($patron_menu_ejemplo as $key=>$item){
+					$new_patronMenuEjemplo	=	PatronMenuEjemplo::create([
+										'consulta_id'		=>	$consulta_id,
+										'tiempo_comida_id'	=>	$item['tiempo_comida_id'],
+										'ejemplo'			=>	$item['ejemplo']
+									]);
+					$new_patronMenuEjemplo->save();						
+				}
+			}
+			
+			/*DB::commit();*/
+			$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Datos copiados correctamente'
+						);
+			
+		} catch (\Exception $e) {
+			/*DB::rollback();*/
+			$message['error']	=	$e->getMessage();
+
 		}
+		$result['message']	=	$message;
 		$response	=	Response::json($result, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}

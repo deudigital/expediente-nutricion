@@ -268,11 +268,43 @@ export class DietaComponent implements OnInit {
 	
 	copiarYes(){
 		this.copiando	=	true;
-		
 		console.log(this.paraCopiar);
-		/*this.remove( this.selectedConsulta );*/
-		//alert('copiando...');
-		//this.copiarCancelar();
+		
+		let data	=	{
+			prescripcion_id: this.paraCopiar.id,
+			consulta_id: this.model.consulta.id
+		};
+		//let data	=	[this.paraCopiar.id,this.model.consulta.id];		
+		this.formControlDataService.store('copiar_prescripcion', data)
+		.subscribe(
+			 response  => {
+						console.log('store->response...');
+						console.log(response);
+						this.formControlDataService.getConsultaSelected(this.model.consulta.id).subscribe(
+							data => {
+								this.model.fill(data);
+								this.prescripcion	=	this.model.getFormPrescripcion();	
+								this.items			=	this.prescripcion.itemsByDefault;	
+								this.otrosItems		=	this.prescripcion.otros;	
+								this.createOriginal();	
+								this.calculateItems()
+								this.total();
+	
+								this.copiando	=	false;
+								this.hideModalCopiar	=	true;
+								this.hideModal('datos');
+							},
+							error => console.log(<any>error)
+						);
+						
+						
+				},
+			error =>  {
+				console.log(<any>error)
+				this.copiando	=	false;
+			}
+				
+		);
 	}
 	copiarCancelar(){
 		this.hideModalCopiar	=	true;
