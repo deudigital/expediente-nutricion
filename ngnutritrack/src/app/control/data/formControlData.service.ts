@@ -24,7 +24,7 @@ import {Observable} from 'rxjs/Rx';
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	environment.apiUrl;
-	private _apiURL	=	environment.apiUrl1;
+	private _apiURL	=	environment.apiUrlsec;
 	private headers: Headers;
 	data:any={};
 
