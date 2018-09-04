@@ -24,6 +24,9 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::post('web/login/reminder', 'LoginController@webReminder');
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
+	/*v1*/
+	Route::get('nutricionistas/{id}', 'ReportesFacturasController@getDataNutricionista');
+
 	//Route::post('prescripcion/copy/{prescripcion_id}/{consulta_id}', 'PrescripcionController@copy');
 	Route::post('prescripcion/copy', 'PrescripcionController@copy');
 	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
@@ -87,7 +90,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::post('pacientes/hcpbioquimicas', 'PacienteController@hcpBioquimicas');
 	Route::get('backend/nutricionistas', 'NutricionistaController@getNutricionistas');
 	Route::post('backend/nutricionistas', 'NutricionistaController@backendStore');
-	/*v1*/Route::get('nutricionistas/{id}', 'ReportesFacturasController@getDataNutricionista');
+	
 	Route::post('nutricionistas/configFactura','ReportesFacturasController@configFactura');
 	Route::post('nutricionistas/uploadAvatar/{id}','ReportesFacturasController@uploadAvatar');
 	Route::post('nutricionistas/uploadCrypto/{id}','ReportesFacturasController@uploadCrypto');
