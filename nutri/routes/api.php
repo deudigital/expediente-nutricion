@@ -24,7 +24,7 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::post('web/login/reminder', 'LoginController@webReminder');
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
-	/*v1*/
+	/*	v1	*/
 	Route::get('nutricionistas/{id}', 'ReportesFacturasController@getDataNutricionista');
 	//Route::post('prescripcion/copy/{prescripcion_id}/{consulta_id}', 'PrescripcionController@copy');
 	Route::post('prescripcion/copy', 'PrescripcionController@copy');
