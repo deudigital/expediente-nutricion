@@ -24,7 +24,7 @@ import {Observable} from 'rxjs/Rx';
 export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	environment.apiUrl;
-	private _apiURL	=	environment.apiUrlsec;
+	private _apiURL	=	'http://dev.expediente.nutricion.co.cr/nutri/public/api/v1/';
 	private headers: Headers;
 	data:any={};
 
