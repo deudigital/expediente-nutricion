@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://dev.expediente.nutricion.co.cr/nutri/public/api/v0/',
-  apiUrlsec: 'http://dev.expediente.nutricion.co.cr/nutri/public/api/v0/',
-  baseUrl: 'http://dev.expediente.nutricion.co.cr'
+  baseUrl: 	'http://dev.expediente.nutricion.co.cr',
+  loginUrl: 'http://dev.expediente.nutricion.co.cr/nutri/public/api/web/',
+  apiUrl: 	'http://dev.expediente.nutricion.co.cr/nutri/public/api/v0/',
+  apiUrlsec:'http://dev.expediente.nutricion.co.cr/nutri/public/api/v1/'
 };

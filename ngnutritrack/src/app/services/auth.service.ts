@@ -7,8 +7,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {
-	/*private BASE_URL: string = environment.baseUrl + '/nutri/public/api/web/';*/
-	private BASE_URL: string = environment.baseUrl + '/api/web/';
+	private BASE_URL: string = environment.loginUrl;
 	private headers: Headers = new Headers({'Content-Type': 'application/json'});
 	constructor(private http: Http) {}
 	login(user: User): Promise<any> {
