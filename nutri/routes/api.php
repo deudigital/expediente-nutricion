@@ -47,7 +47,6 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('consultas/nutricionista/{id}/pendientes/', 'ConsultaController@pendientes');
 	Route::get('consultas/{id}/all/', 'ConsultaController@all');
 	Route::get('consultas/{id}/resumen/', 'ConsultaController@generateResumenConsulta');
-
 /*	Pacientes del Nutricionista / X	*/
 	Route::get('pacientes/nutricionista/{id}', 'PacienteController@belongsToNutricionista');
 	Route::post('pacientes/datos', 'PacienteController@storeDatosPersonales');
