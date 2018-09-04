@@ -89,9 +89,16 @@ export class LoginComponent {
 				this.loadDataForm();				
 			})
 			.catch((err) => {
-				//console.log(err);
 				err	=	JSON.parse(err._body);				
-				this.message	=	err.message;
+				console.log(err);
+				switch(err.error){
+					case 'Unauthorized':
+						this.message	=	err.message;
+						break;
+					default:
+						this.message	=	'Error Interno, Intenta nuevamente mas tarde';
+					
+				}
 			});
 	}
 	storeInfo(data){
