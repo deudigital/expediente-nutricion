@@ -343,7 +343,7 @@ export class ValoracionComponent implements OnInit {
 		this.esAdulto				=	false;
 		this.displayMethods			=	false;		
 		this.displayoptionsForMenor	=	false;
-		this.displayAnalisisPesoIdeal	=	false;
+		this.displayAnalisisPesoIdeal	=	true;
 		
 		if( this.paciente.edad > 20 ){
 			this.esAdulto	=	true;
