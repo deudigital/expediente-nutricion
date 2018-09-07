@@ -952,7 +952,7 @@ Enviar usuario y contrasena?????? por ahora si...
 						'cc'	=>	$nutricionista->email,
 						'message'	=>	utf8_decode($html),
 					);
-		print_r($html);exit;
+		/*print_r($html);exit;*/
 /*	$this->sendEmail($args);*/
 
 		$data	=	array(
