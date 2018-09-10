@@ -752,12 +752,6 @@ class FacturaController extends Controller
 			$images = $nutricionista2->imagen;
 		}
 		$pdf	=	$url;  
-/*
-		$html	=	'<div style="text-align:center;margin-bottom:20px">';
-		$html	.=	'<img src="' . $images . '" width="180" />';
-		$html	.=	'</div>';
-		$html	.=	'<p>' . $nota_credito->nombre_persona . ', </p>';
-*/
 		$template	=	'';
 		$tipo_doc	=	'';
 		$titulo		=	'';
@@ -767,24 +761,12 @@ class FacturaController extends Controller
 				$template	=	'factura';
 				$tipo_doc	=	'Factura Electrónica';
 				$titulo		=	'Factura';
-/*
-				$html	.=	'<p>Ha recibido la Factura Electr&oacute;nica : ';
-				$html	.=	'N&deg; ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre . '.  ';
-				$html	.=	'Puede verla y descargarla del siguiente enlace:</p>';			
-				$html	.=	'<p><a href="' . $nota_credito->pdf . '">click aqui para ver la factura</a></p>';
-*/
 				break;
 			case 3:
 				$subject 	=	'Se ha enviado la Nota de Crédito Nº ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre;
 				$template	=	'nota_credito';
 				$tipo_doc	=	'Nota Crédito';
 				$titulo		=	'Nota de Crédito';
-/*
-				$html	.=	'Ha recibido la Nota de Cr&eacute;dito (anulaci&oacute;n de factura): ';
-				$html	.=	'N&deg; ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre . '. ';
-				$html	.=	'Puede verla y descargarla del siguiente enlace:</p>';
-				$html	.=	'<a href="' . $nota_credito->pdf . '">click aqui para ver la nota de cr&eacute;dito</a>';
-*/
 			break;
 		}
 /*
@@ -809,25 +791,16 @@ class FacturaController extends Controller
 		$nota_credito->numeracion	=	$numeracion_consecutiva;
 		$nota_credito->nutricionista=	$nutricionista->nombre;
 		$nota_credito->nutricionista_email=	$nutricionista->email;
-		/*Mail::send('emails.' . $template . '_notificacion', $data, function($message) {*/
-		/*Mail::send('emails.documento', $data, function($message) use ($nota_credito) {
-			$message->to($nota_credito->email, $nota_credito->nombre_persona);
-			$message->subject($subject);			
-			$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
-			$message->cc( $nutricionista->email );
-			$message->bcc(env('EMAIL_BCC'));
-			$message->replyTo(env('EMAIL_REPLYTO'));
-		});
-		*/
+
 		Mail::send('emails.documento', $data, function($message) use ($nota_credito) {
 				
-				$subject	=	$nota_credito->titulo . ' N° ' . $nota_credito->numeracion .' del Emisor: ' . $nota_credito->nutricionista;
-				$subject	=	htmlentities($subject);
+				$subject	=	$nota_credito->titulo . ' N° ' . $nota_credito->numeracion .' del Emisor: ';
+				$subject	.=	htmlentities($nota_credito->nutricionista);
 				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
 				
 				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
 				$message->to($nota_credito->email, $nota_credito->nombre_persona);
-				$message->subject('=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
+				$message->subject('=?utf-8?Q?=F0=9F=93=9D ' . $subject . '?=');
 				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 				$message->cc( $nota_credito->nutricionista_email );
 				$message->bcc($bcc);
