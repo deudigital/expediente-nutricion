@@ -759,6 +759,104 @@ class FacturaController extends Controller
 		$html	.=	'<p>' . $nota_credito->nombre_persona . ', </p>';
 */
 		$template	=	'';
+		$tipo_doc	=	'';
+		$titulo		=	'';
+		switch($nota_credito->tipo_documento_id){
+			case 1:
+				$subject 	=	'Se ha enviado la Factura electrónica Nº ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre;
+				$template	=	'factura';
+				$tipo_doc	=	'Factura Electrónica';
+				$titulo		=	'Factura';
+/*
+				$html	.=	'<p>Ha recibido la Factura Electr&oacute;nica : ';
+				$html	.=	'N&deg; ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre . '.  ';
+				$html	.=	'Puede verla y descargarla del siguiente enlace:</p>';			
+				$html	.=	'<p><a href="' . $nota_credito->pdf . '">click aqui para ver la factura</a></p>';
+*/
+				break;
+			case 3:
+				$subject 	=	'Se ha enviado la Nota de Crédito Nº ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre;
+				$template	=	'nota_credito';
+				$tipo_doc	=	'Nota Crédito';
+				$titulo		=	'Nota de Crédito';
+/*
+				$html	.=	'Ha recibido la Nota de Cr&eacute;dito (anulaci&oacute;n de factura): ';
+				$html	.=	'N&deg; ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre . '. ';
+				$html	.=	'Puede verla y descargarla del siguiente enlace:</p>';
+				$html	.=	'<a href="' . $nota_credito->pdf . '">click aqui para ver la nota de cr&eacute;dito</a>';
+*/
+			break;
+		}
+/*
+		$to			=	$nota_credito->email;
+		$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
+		$headers   .=	'CC: ' . $nutricionista->email . "\r\n";
+		$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com, inv_jaime@yahoo.com' . "\r\n";
+		$headers   .=	'MIME-Version: 1.0' . "\r\n";
+		$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
+		mail($to, $subject, utf8_decode($html), $headers);
+*/
+		$data	=	array(
+							'numeracion'			=>	$numeracion_consecutiva, 
+							'nombre_persona'		=>	$nota_credito->nombre_persona, 
+							'nombre_nutricionista'	=>	$nutricionista->nombre, 
+							'pdf'					=>	$nota_credito->pdf, 
+							'tipo_doc'					=>	$tipo_doc, 
+							'titulo'					=>	$titulo, 
+							'logo'					=>	$images
+						);
+		$nota_credito->titulo		=	$titulo;
+		$nota_credito->numeracion	=	$numeracion_consecutiva;
+		$nota_credito->nutricionista=	$nutricionista->nombre;
+		$nota_credito->nutricionista_email=	$nutricionista->email;
+		/*Mail::send('emails.' . $template . '_notificacion', $data, function($message) {*/
+		/*Mail::send('emails.documento', $data, function($message) use ($nota_credito) {
+			$message->to($nota_credito->email, $nota_credito->nombre_persona);
+			$message->subject($subject);			
+			$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+			$message->cc( $nutricionista->email );
+			$message->bcc(env('EMAIL_BCC'));
+			$message->replyTo(env('EMAIL_REPLYTO'));
+		});
+		*/
+		Mail::send('emails.documento', $data, function($message) use ($nota_credito) {
+				
+				$subject	=	$nota_credito->titulo . ' N° ' . $nota_credito->numeracion .' del Emisor: ' . $nota_credito->nutricionista;
+				$subject	=	htmlentities($subject);
+				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+				
+				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
+				$message->to($nota_credito->email, $nota_credito->nombre_persona);
+				$message->subject('=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
+				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+				$message->cc( $nota_credito->nutricionista_email );
+				$message->bcc($bcc);
+				/*$message->replyTo(env('APP_EMAIL_REPLYTO'));*/
+			});
+	}
+	function notificarPorCorreo__original($nota_credito_id, $numeracion_consecutiva){
+		$nota_credito = DB::table('documentos')
+						->join('personas', 'personas.id', '=', 'documentos.persona_id')
+						->where('documentos.id', $nota_credito_id)
+						->select('personas.nombre as nombre_persona', 'personas.email', 'documentos.*')
+						->first();
+
+		$nutricionista	=	Persona::find($nota_credito->nutricionista_id);	
+		$nutricionista2	= Nutricionista::find($nota_credito->nutricionista_id);
+			$url	=	'https://expediente.nutricion.co.cr/';
+		if (empty($nutricionista2->imagen)) {
+			$images  = $url . 'mail/images/logo.png';
+		}else{
+			$images = $nutricionista2->imagen;
+		}
+		$pdf	=	$url;  
+/*
+		$html	=	'<div style="text-align:center;margin-bottom:20px">';
+		$html	.=	'<img src="' . $images . '" width="180" />';
+		$html	.=	'</div>';
+		$html	.=	'<p>' . $nota_credito->nombre_persona . ', </p>';
+*/
+		$template	=	'';
 		switch($nota_credito->tipo_documento_id){
 			case 1:
 				$subject 	=	'Se ha enviado la Factura electrónica Nº ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre;

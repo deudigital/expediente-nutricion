@@ -888,6 +888,8 @@ Enviar usuario y contrasena?????? por ahora si...
 				$order	=	array('estatura', 'peso', 'grasa', 'musculo', 'circunferencia_muneca', 'agua', 'grasa_viceral', 'hueso', 'edad_metabolica', 'circunferencia_cintura', 'circunferencia_cadera');
 				$aNew	=	array();
 				foreach($order as $key){
+					if(!isset($blade['va'][$key]))
+						continue;
 					$aNew[$key]	=	$blade['va'][$key];
 				}
 				$blade['va']	=	$aNew;
