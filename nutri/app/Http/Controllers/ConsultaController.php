@@ -588,7 +588,7 @@ Enviar usuario y contrasena?????? por ahora si...
 				if(count($paciente)>0){
 					$aResponse['nutricionista']	=	Nutricionista::find($paciente->nutricionista_id);
 					if($paciente->email || $paciente->responsable_email){
-						$this->generatePacienteCredentials($persona, $aResponse['nutricionista']->imagen);exit;
+						$this->generatePacienteCredentials($persona, $aResponse['nutricionista']->imagen);
 						$this->generateResumenConsulta($consulta->id);
 					}
 				}
@@ -1092,7 +1092,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		
 		/*/return view('emails.resumen_consulta', $data);*/
 		Mail::send('emails.resumen_consulta', $data, function($message) use ($paciente) {
-
+/*print_r($paciente);exit;*/
 			$subject	=	'Resumen Consulta Nutricional dd/mm/aaaa | ' . $paciente->nombre;
 			$subject	=	htmlentities($subject);
 			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);		
