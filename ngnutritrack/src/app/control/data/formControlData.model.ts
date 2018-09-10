@@ -738,6 +738,8 @@ export class Rdd{
 	tmb:number=0;
 	gcr:number=0;
 	icr:number=0;
+	va:ValoracionAntropometrica;
+	paciente:Paciente;
 
 	set(rdd:Rdd){
 		this.id							=	rdd.id;
@@ -751,6 +753,263 @@ export class Rdd{
 		this.gcr						=	rdd.gcr;
 		this.icr						=	rdd.icr;
 	}
+	setVA(va:ValoracionAntropometrica){
+		this.va	=	va;
+	}
+	setPaciente(paciente:Paciente){
+		this.paciente	=	paciente;
+	}
+	
+	
+	getTmbBenedict(){
+		var current_peso:any	=	0;
+		//console.log('this.recomendacion.peso_calculo->' + this.recomendacion.peso_calculo);
+		switch(this.peso_calculo){
+			case 'actual':
+				current_peso	=	this.va.peso;
+				break;
+			case 'ideal':
+				current_peso	=	this.va.pesoIdeal;
+				break;
+			case 'ideal-ajustado':
+				current_peso	=	this.va.pesoIdealAjustado;
+				break;
+		}
+		//console.log('this.current_peso-> ' + this.current_peso);
+/*
+	Tasa Metabolica Basal Harris Benedict
+	=REDONDEAR(
+		SI(	SEXO="M";
+			(66,5+(13,75*PESO)+(5,003*ESTATURA*100)-(6,755*EDAD));
+				SI(SEXO="F";
+					(655,1+(9,563*PESO)+(1,85*ESTATURA*100)-(4,676*EDAD));)
+		
+		)
+	;0)
+*/
+		var result	=	0;
+		//console.log('BENEDICT: peso=' + this.current_peso + ', estatura=' + this.va.estatura + ', edad=' + this.paciente.edad);
+		var _estatura:any	=	Number(this.va.estatura)*100;
+		if(this.paciente.genero=='M')
+			result	=	66.5+(13.75*current_peso)+(5.003*_estatura)-(6.755*this.paciente.edad);
+		else{
+			/*result	=	655.1+(9.563*this.current_peso)+(1.85*_estatura-(4.676*this.paciente.edad);*/
+			var _peso		=	9.563*current_peso;
+			if(isNaN(_peso))
+				_peso	=	0;
+			//console.log(_peso);
+			var _edad		=	4.676*this.paciente.edad;
+			//console.log(_edad);
+			_estatura	=	1.85*_estatura;
+			//console.log(_estatura);
+			result	=	655.1 + _peso + ( _estatura - _edad );
+			//console.log(result);
+		}
+		return result;
+			
+	}
+	getTmbMifflin(){
+		var current_peso:any	=	0;
+		switch(this.peso_calculo){
+			case 'actual':
+				current_peso	=	this.va.peso;
+				break;
+			case 'ideal':
+				current_peso	=	this.va.pesoIdeal;
+				break;
+			case 'ideal-ajustado':
+				current_peso	=	this.va.pesoIdealAjustado;
+				break;
+		}
+/*		Tasa Metabolica Basal Mifflin - St Jeor
+		=REDONDEAR(
+			(10*PESO)+(6,25*(ESTATURA*100))-(5*EDAD)+VARIABLE_MSJ
+		;0)
+		Variable MSJ:
+		=SI(SEXO="F";
+			-161;
+				SI(SEXO="M";
+				5;0))
+*/
+		var variable_msj	=	0;
+		if(this.paciente.genero=='M')
+			variable_msj	=	5;
+		else
+			variable_msj	=	-161;
+
+		var result	=	(10*current_peso)+(6.25*Number(this.va.estatura)*100)-(5*Number(this.paciente.edad))+variable_msj;
+		return result;
+	}
+	getTmbPromedio(){
+/*		TMB Promedio
+		=REDONDEAR(
+			PROMEDIO(HARRIS;MIFFLIN)
+		;0)
+*/
+		var result	=	(this.getTmbBenedict()+this.getTmbMifflin())/2;
+		return result;
+	}
+	getTmbRda(){
+		var value	=	0;
+		if(this.paciente.edad<=1){
+/*
+ *Infantes	0 - 0.5	108
+ *			0.5 - 1	98
+*/
+			value	=	108;
+			if(this.paciente.edad_meses >=6)
+				value	=	98;
+		}else{
+/*
+ *Niños		1 - 3	102
+ *			4 - 6	90
+ *			7 - 10	70
+ */
+			if(this.paciente.edad>1){
+				value	=	102;
+				if(this.paciente.edad>=4){
+					value	=	90;
+					if(this.paciente.edad>=7 && this.paciente.edad<=10 )
+						value	=	70;
+/* 
+ *Hombres	11 - 14	55
+ *			15 -18	45
+ * Mujeres	11 - 14	47
+ *			15 -18	40
+ */
+					if(this.paciente.edad>=11 && this.paciente.edad<=14 ){
+						value	=	55;
+						if(this.paciente.genero=='F')
+							value	=	47;
+					}
+					if(this.paciente.edad>=15 && this.paciente.edad<=18 ){
+						value	=	45;
+						if(this.paciente.genero=='F')
+							value	=	40;
+					}
+					
+				}
+			}
+		}
+		console.log('tmbRda:' + value);
+		return value;
+	}
+	getTmbSchofield(){
+		var value	=	0;
+		var current_peso:any	=	this.va.peso;
+		/*switch(this.recomendacion.peso_calculo){
+			case 'actual':
+				this.current_peso	=	this.va.peso;
+				break;
+			case 'ideal':
+				this.current_peso	=	this.va.pesoIdeal;
+				break;
+			case 'ideal-ajustado':
+				this.current_peso	=	this.va.pesoIdealAjustado;
+				break;
+		}*/
+/*
+		Edad	Formula
+Hombres	3-10	(19.6 x Peso) + (130.3 x Estatura) + 414.9
+		10-18	(16.25 x Peso) + (137.2 x Estatura) + 515.5
+
+Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
+		10-18	(19.6 x Peso) + (130.3 x Estatura) + 414.12
+*/
+		//var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.paciente.edad)+variable_msj;
+		
+		if( this.paciente.edad<3 || this.paciente.edad>18 )
+			return value;
+			
+		if(this.paciente.edad<11){
+			if(this.paciente.genero=='M')
+				value	=	(19.6*current_peso) + (130.3*Number(this.va.estatura)) + 414.9;
+			else
+				value	=	(8.365*current_peso) + (130.3*Number(this.va.estatura)) + 414.11;
+		}else{
+			if(this.paciente.genero=='M')
+				value	=	(16.25*current_peso) + (137.2*Number(this.va.estatura)) + 515.5;
+			else
+				value	=	(19.6*current_peso) + (130.3 *Number(this.va.estatura)) + 414.12;		
+		}		
+		return value;
+	}
+	getTasaBasal(){
+		var result:any	=	0;
+		switch(this.metodo_calculo_gc){
+			case 'benedict-child':
+			case 'benedict':
+				result	=	this.getTmbBenedict();
+				break;
+			case 'mifflin':
+				result	=	this.getTmbMifflin();
+				break;
+			case 'promedio':
+				result	=	this.getTmbPromedio();
+				break;
+			case 'rda':
+				result	=	this.getTmbRda();
+				break;
+			case 'schofield':
+				result	=	this.getTmbSchofield();
+				break;
+			default:
+				result	=	0;
+		}
+		/*this._tasa_basal	=	result;*/
+	   return result;
+   }
+	
+	getGastoCaloricoReal(){
+/*		Gasto Calórico Real
+		=REDONDEAR(
+			SI(METODO="HARRIS BENEDICT";
+				TMB_HARRIS_BENEDICT*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
+				SI(METODO="MIFFLIN-ST-JEOR";
+					TMB_MIFFLIN*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
+					SI(METODO="PROMEDIO";
+						TMB_PROMEDIO*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
+
+			"Método Inválido")));0)
+*/		
+		var result:any	=	0;
+		switch(this.metodo_calculo_gc){
+			case 'benedict-child':
+			case 'benedict':
+				result	=	this.getTmbBenedict()*this.factor_actividad_sedentaria+this.promedio_gc_diario;
+				break;
+			case 'mifflin':
+				result	=	this.getTmbMifflin()*this.factor_actividad_sedentaria+this.promedio_gc_diario;
+				break;
+			case 'promedio':
+				result	=	this.getTmbPromedio()*this.factor_actividad_sedentaria+this.promedio_gc_diario;
+				break;
+			case 'rda':
+				result	=	(this.getTasaBasal()*Number(this.va.peso))+this.promedio_gc_diario;
+				break;
+			case 'schofield':
+				result	=	this.getTasaBasal()+this.promedio_gc_diario;
+				break;
+			default:
+				result	=	0;
+		}
+		return result;
+	}
+	getIngestaCaloricaRecomendada(){
+/*	Ingesta calórica Recomendada
+	=GASTO_CALORICO_REAL+VARIACION_CALORICA
+*/
+		var result	=	this.getGastoCaloricoReal()+this.variacion_calorica;
+		return result;
+	}
+	doAnalisis(){
+		
+	   this.getTasaBasal();
+	   this.gcr	=	this.getGastoCaloricoReal();
+	   this.icr	=	this.getIngestaCaloricaRecomendada();
+
+   }
+	
 }
 export class Analisis {
     imc: number 				=	0;

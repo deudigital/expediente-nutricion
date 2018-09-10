@@ -586,11 +586,11 @@ Enviar usuario y contrasena?????? por ahora si...
 								->first();
 				
 				if(count($paciente)>0){
+					$aResponse['nutricionista']	=	Nutricionista::find($paciente->nutricionista_id);
 					if($paciente->email || $paciente->responsable_email){
-						$this->generatePacienteCredentials($persona);
+						$this->generatePacienteCredentials($persona, $aResponse['nutricionista']->imagen);exit;
 						$this->generateResumenConsulta($consulta->id);
 					}
-					$aResponse['nutricionista']	=	Nutricionista::find($paciente->nutricionista_id);
 				}
 			}
 			$consulta->save();
@@ -599,11 +599,12 @@ Enviar usuario y contrasena?????? por ahora si...
 		$response	=	Response::json($aResponse, 201, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
-	function generatePacienteCredentials($persona){
+	function generatePacienteCredentials($persona, $logo){
 		$paciente		=	Paciente::find($persona->id);
 		$nutricionista	=	Persona::find($paciente->nutricionista_id);
 		if($paciente->usuario)
 			return ;
+
 		$paciente->usuario		=	$persona->email;
 		$paciente->contrasena	=	rand ( 1234 , 9999 );
 		$paciente->save();
@@ -615,18 +616,22 @@ Enviar usuario y contrasena?????? por ahora si...
 		$data	=	array(
 							'nombre'	=>	$persona->nombre, 
 							'usuario'	=>	$paciente->usuario, 
-							'contrasena'=>	$paciente->contrasena
+							'contrasena'=>	$paciente->contrasena,
+							'logo'		=>	$logo
 					);
 		Mail::send('emails.credenciales_nutritrack', $data, function($message) use ($paciente) {
+			$subject	=	'Credenciales NutriTrack App | ' . $paciente->nombre;
+			$subject	=	htmlentities($subject);
+			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+			
 			$bcc	=	explode(',', env('APP_EMAIL_BCC'));			
-			$message->subject('Credenciales NutriTrack App | ' . $paciente->nombre);
+			$message->subject('=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
 			$message->to($paciente->email, $paciente->nombre);
 			$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 			$message->cc($paciente->email_nutricionista, $paciente->nombre_nutricionista);
 			$message->bcc($bcc);
 			/*$message->replyTo(env('EMAIL_REPLYTO'));*/
-		});
-		
+		});		
 /*
  * Al finalizar la primera consulta,
  * se deben crear las credenciales para el acceso al app
@@ -642,6 +647,465 @@ Enviar usuario y contrasena?????? por ahora si...
  */
 	}
 	function generateResumenConsulta($id){
+		$consulta	=	Consulta::find($id);
+		if(count($consulta)==0)
+			return Response::json(['message' => 'Record not found'], 204);
+
+		$registros	=	$consulta->toArray();
+		$paciente = DB::table('pacientes')
+            ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
+            ->where('pacientes.persona_id', $consulta->paciente_id)
+			->get()
+			->first();
+		if(count($paciente)>0){
+			$registros['paciente']	=	(array)$paciente;
+		}
+		$_info_va['estatura']				=	array(
+													'titulo'=>	'Estatura',
+													'unidad'=>	'm'
+													);
+		$_info_va['circunferencia_muneca']	=	array(
+													'titulo'=>	'Mu&ntilde;eca',
+													'unidad'=>	'cm'
+													);
+		$_info_va['peso']					=	array(
+													'titulo'=>	'Peso',
+													'unidad'=>	'Kg'
+													);
+		$_info_va['grasa']					=	array(
+													'titulo'=>	'Grasa',
+													'unidad'=>	'%'
+													);
+		$_info_va['musculo']				=	array(
+													'titulo'=>	'M&uacute;sculo',
+													'unidad'=>	'Kg'
+													);
+		$_info_va['agua']					=	array(
+													'titulo'=>	'Agua',
+													'unidad'=>	'%'
+													);
+		$_info_va['grasa_viceral']			=	array(
+													'titulo'=>	'Grasa Visceral',
+													'unidad'=>	''
+													);
+		$_info_va['hueso']					=	array(
+													'titulo'=>	'Hueso',
+													'unidad'=>	'Kg'
+													);
+		$_info_va['edad_metabolica']		=	array(
+													'titulo'=>	'Edad Metab&oacute;lica',
+													'unidad'=>	'a&ntilde;os'
+													);
+		$_info_va['circunferencia_cintura']	=	array(
+													'titulo'=>	'Circunferencia Cintura',
+													'unidad'=>	'cm'
+													);
+		$_info_va['circunferencia_cadera']	=	array(
+													'titulo'=>	'Circunferencia Cadera',
+													'unidad'=>	'cm'
+													);
+		
+		$_info_va['segmentado_abdominal']		=	array(
+														'titulo'=>	'Abdominal',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_brazo_izquierdo']	=	array(
+														'titulo'=>	'Brazo Izquierdo',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_brazo_derecho']	=	array(
+														'titulo'=>	'Brazo Derecho',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_pierna_izquierda']=	array(
+														'titulo'=>	'Pierna Izquierda',
+														'unidad'=>	'%'
+														);
+		$_info_va['segmentado_pierna_derecha']	=	array(
+														'titulo'=>	'Pierna Derecha',
+														'unidad'=>	'%'
+														);
+
+		$_info_va['tronco']				=	array(
+												'titulo'=>	'Tronco',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['brazo_izquierdo']	=	array(
+												'titulo'=>	'Brazo Izquierdo',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['brazo_derecho']		=	array(
+												'titulo'=>	'Brazo Derecho',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['pierna_izquierda']	=	array(
+												'titulo'=>	'Pierna Izquierda',
+												'unidad'=>	'Kg'
+												);
+		$_info_va['pierna_derecha']		=	array(
+												'titulo'=>	'Pierna Derecha',
+												'unidad'=>	'Kg'
+												);
+
+
+		$_resumen['va']	=	'';
+		$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $id)
+										->get()
+										->first();
+		$html	=	'';
+		if(count($valoracionAntropometrica)>0){
+			$aValoracionAntropometrica	=	$valoracionAntropometrica->toArray();
+			
+			$aDetalleMusculo	=	DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+						->get()
+						->first();
+			$aDetalleGrasa		=	DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)
+						->get()
+						->first();
+
+			$contentLeft	=	'';
+			$contentRight	=	'';
+			$item			=	'';
+			$i	=	0;
+			$blade['va']	=	array();
+
+			foreach($aValoracionAntropometrica as $key=>$value){
+				if(in_array($key,['id','consulta_id', 'percentil_analisis']) || floatval($value)==0)
+					continue;
+
+				$bva	=	array();
+				switch($key){
+					case 'agua':
+						$bva['icono']	=	'agua-corp';
+						break;
+					case 'grasa':
+						$bva['icono']	=	'grasa-corp';
+						break;
+					case 'grasa_viceral':
+						$bva['icono']	=	'grasa-visc';
+						break;
+					case 'edad_metabolica':
+						$bva['icono']	=	'edad-meta';
+						break;
+					case 'circunferencia_muneca':
+						$bva['icono']	=	'munneca';
+						break;
+					case 'circunferencia_cintura':
+						$bva['icono']	=	'cintura';
+						break;
+					case 'circunferencia_cadera':
+						$bva['icono']	=	'cadera';
+						break;
+					default:
+						$bva['icono']	=	$key;
+				}				
+				$bva['titulo']	=	$_info_va[$key]['titulo'];
+				$bva['unidad']	=	$_info_va[$key]['unidad'];
+				if($key=='edad_metabolica')
+					$bva['unidad']	=	' ' . $bva['unidad'];
+				//$bva['value']	=	number_format($value, 1);
+				if(is_int($value))
+					$bva['value']	=	intval($value);
+				else
+					$bva['value']	=	floatval($value);
+				
+				
+				
+				
+				
+				$value	=	$_info_va[$key]['titulo'] . ': ' . $value . ' ' . $_info_va[$key]['unidad'];
+				$item	.=	'<li style="text-align:left">' . $value;				
+				if($key=='grasa' && $aDetalleGrasa){
+					$aDetalleGrasa	=	$aDetalleGrasa->toArray();
+					$grasa_detalle	=	array();
+					foreach($aDetalleGrasa as $mkey=>$mvalue){
+						$grasa_detalle[$mkey]	=	intval($mvalue);
+					}
+					$bva['grasa_detalle']	=	$grasa_detalle;
+					/*$bva['grasa_detalle']	=	$aDetalleGrasa;*/
+					$item2	=	'';
+					foreach($aDetalleGrasa as $a=>$value1){
+						if(in_array($a,['id','valoracion_antropometrica_id']) || 
+							floatval($value1)==0 ||
+							strpos($a,'pliegue_')>-1
+							)
+							continue;
+						
+						$value1	=	$_info_va[$a]['titulo'] . ': ' . $value1 . ' ' . $_info_va[$a]['unidad'];
+						$item2	.=	'<li style="text-align:left">' . $value1 . '</li>';
+					}
+					$item	.=	'<ul style="margin:0;">' . $item2 . '</ul>';					
+				}
+				if($key=='musculo' && $aDetalleMusculo){
+					$aDetalleMusculo	=	$aDetalleMusculo->toArray();
+					/*print_r($aDetalleMusculo);exit;*/
+			
+					$musculo_detalle	=	array();
+					foreach($aDetalleMusculo as $mkey=>$mvalue){
+						$musculo_detalle[$mkey]	=	intval($mvalue);
+					}
+					$bva['musculo_detalle']	=	$musculo_detalle;
+					$item2	=	'';
+					foreach($aDetalleMusculo as $a=>$value1){
+						if(in_array($a,['id','valoracion_antropometrica_id']) || floatval($value1)==0)
+							continue;
+						$value1	=	$_info_va[$a]['titulo'] . ': ' . $value1 . ' ' . $_info_va[$a]['unidad'];
+						$item2	.=	'<li style="text-align:left">' . $value1 . '</li>';
+					}					
+					$item	.=	'<ul style="margin:0;">' . $item2 . '</ul>';
+				}
+				$item	.=	'</li>';
+				if($key=='peso'){
+					$imc	=	round($valoracionAntropometrica->peso/($valoracionAntropometrica->estatura*$valoracionAntropometrica->estatura), 2);
+					$value1	=	$imc;
+					if($imc<18.51)
+						$value1	.=	' (BAJO PESO)';
+					else{
+						if($imc<24.91)
+							$value1	.=	' (NORMAL)';
+						else{
+							if($imc<30)
+								$value1	.=	' (SOBREPESO 1)';
+							else{
+								if($imc<40)
+									$value1	.=	' (SOBREPESO 2)';
+								else
+									$value1	.=	' (SOBREPESO 3)';
+							}
+							
+						}
+					}
+					$item	.=	'<li>IMC: ' . $value1 . '</li>';
+				}
+				
+				$blade['va'][$key]	=	$bva;
+			}
+			$html	=	'<ul style="list-style:none;margin:0;">' . $item . '</ul>';
+			$_resumen['va']	=	$html;
+
+			/*print_r($blade);exit;*/
+			if(count($blade)>0){
+				$order	=	array('estatura', 'peso', 'grasa', 'musculo', 'circunferencia_muneca', 'agua', 'grasa_viceral', 'hueso', 'edad_metabolica', 'circunferencia_cintura', 'circunferencia_cadera');
+				$aNew	=	array();
+				foreach($order as $key){
+					$aNew[$key]	=	$blade['va'][$key];
+				}
+				$blade['va']	=	$aNew;
+			}			
+		}
+		$_resumen['porciones']	=	'';
+		$prescripcion	=	Prescripcion::where('consulta_id', $id)
+										->get()
+										->first();
+		if(count($prescripcion)>0){
+			$aPrescripcion	=	$prescripcion->toArray();
+			$detalleDescripcion	=	DB::table('detalle_prescripcion')
+										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+										->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
+										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+										->get();
+			if(count($detalleDescripcion)>0){
+				$aPrescripcionItems	=	$detalleDescripcion->toArray();
+				$array	=	array();
+				foreach($aPrescripcionItems as $key=>$value){
+					if(in_array($value->grupo_alimento_nutricionista_id,[1,2,3])){
+						if(isset($array['Lacteos']))
+							$array['Lacteos']	=	$array['Lacteos'] + $value->porciones;
+						else
+							$array['Lacteos']	=	$value->porciones;
+					}
+					else{
+						if(in_array($value->grupo_alimento_nutricionista_id,[7,8,9])){
+							if(isset($array['Carnes']))
+								$array['Carnes']	=	$array['Carnes'] + $value->porciones;
+							else
+								$array['Carnes']	=	$value->porciones;
+						}
+						else
+							$array[$value->nombre]	=	$value->porciones;
+					}
+				}				
+				$item	=	'';
+				$i	=	0;
+				foreach($array as $nombre=>$valor){						
+					$item	.=	'<li style="text-transform:capitalize;text-align:left">' . $valor . ' ' . ($nombre=='Lacteos'? 'L&aacute;cteos':$nombre) . '</li>';				
+					$i++;
+				}
+				$html	=	'<ul style="list-style:none;margin:0;">' . $item . '</ul>';
+			}
+			$_resumen['porciones']	=	$html;
+			for($i=0;$i<count($aPrescripcionItems);$i++){
+				switch($aPrescripcionItems[$i]->grupo_alimento_nutricionista_id){
+					case '1':
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche-descremada.png';
+						break;
+					case 2:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche2.png';
+						break;
+					case 3:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche-entera.png';
+						break;
+					case 4:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'vegetales.png';
+						break;
+					case 5:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'frutas.png';
+						break;
+					case 6:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'harinas.png';
+						break;
+					case 7:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-magra.png';
+						break;
+					case 8:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-int.png';
+						break;
+					case 9:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-grasa.png';
+						break;
+					case 10:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'azucar.png';
+						break;
+					case 11:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'grasa.png';
+						break;
+					case 12:
+						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'agua.png';
+						break;
+				}
+				
+			}
+			$blade['prescripcion']	=	$aPrescripcionItems;
+		}
+		$tiempoComidas	=	TiempoComida::all();
+		if(count($tiempoComidas)>0){
+			$aTiempoComidas	=	$tiempoComidas->toArray();
+			$_tiempo_comidas	=	array();
+			foreach($aTiempoComidas as $key=>$value){
+				$_tiempo_comidas[$value['id']]['nombre']	=	htmlentities($value['nombre']);
+				$_tiempo_comidas[$value['id']]['ejemplo']	=	'';
+				$_tiempo_comidas[$value['id']]['menu']		=	array();
+			}
+		}
+		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $id)
+									->get();
+		if(count($patronMenuEjemplo)>0){
+			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
+			foreach($aPatronMenuEjemplo as $key=>$value)
+				$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+		}
+		$_resumen['patronMenu']	=	'';
+		$patronMenu	=	DB::table('patron_menus')
+							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
+							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
+							->where('patron_menus.consulta_id',$id)
+							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
+							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
+							->get();
+		if(count($patronMenu)>0){
+			$aPatronMenu	=	$patronMenu->toArray();
+			foreach($aPatronMenu as $key=>$value)
+				$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	$value->porciones . ' ' . $value->alimento;
+		}
+		$html='';
+		$blade['patron_menu']	=	$_tiempo_comidas;
+		foreach($_tiempo_comidas as $key=>$value){
+			$html	.=	'<h4>' . $value['nombre'] . '</h4>';
+			if($value['menu'])
+				$html	.=	'<p>' . implode(', ', $value['menu']) . '</p>';
+			if($value['ejemplo'])
+				$html	.=	'<p>Ejemplo: <i>' . $value['ejemplo'] . '</i></p>';
+		}
+		$_resumen['patronMenu']	=	$html;
+		$nutricionista	=	Persona::find($paciente->nutricionista_id);
+		$nutricionista = DB::table('nutricionistas')
+            ->join('personas', 'personas.id', 'nutricionistas.persona_id')
+            ->where('nutricionistas.persona_id', $paciente->nutricionista_id)
+			->get()
+			->first();
+
+		$images	=	'https://expediente.nutricion.co.cr/mail/images/';	
+		$image	=	$images . 'logo.png';
+		if($nutricionista->imagen)
+			$image	=	$nutricionista->imagen;
+		
+		$html	=	'<div style="text-align:center;margin-bottom:20px">';
+		
+		$html	.=	'<img src="' . $image . '" width="180" title="Consulta:' . $consulta-> id . '"/>';
+		$html	.=	'</div>';
+
+		$html	.=	'<p>' . $paciente->nombre . ', a continuaci&oacute;n, un resumen de las medidas en esta consulta:</p>';
+		$html	.=	$_resumen['va'];
+		$html	.=	'<p>Asimismo, ac&aacute; tienes el total de porciones que debes comer d&iacute;a a d&iacute;a seg&uacute;n lo indicado por la nutricionista:</p>';
+		$html	.=	$_resumen['porciones'];
+		$html	.=	'<p>';
+		$html	.=	'Adem&aacute;';
+		$html	.=	's, ';
+		$html	.=	'ac&aacute; ';
+		$html	.=	'tienes el detalle de como dividir estas porciones en los diferentes tiempos de comida con sus respectivos ejemplos:</p>';
+		$html	.=	$_resumen['patronMenu'];
+
+		$html	.=	'<p>Finalmente, toda esta informaci&oacute;n y otras herramientas para llevar el registro de lo que comes d&iacute;a a d&iacute;a y ayudarte a cumplir tus objetivos est&aacute;n disponibles en el app de <strong>NutriTrack</strong>, si a&uacute;n no la tienes desc&aacute;rgala <strong>GRATIS</strong> en las tiendas de iPhone y Android</p>';
+		
+		$contentLeft	=	'<div style="text-align:center"><a href="https://itunes.apple.com/us/app/nutritrack/id1302386185?l=es&mt=8"><img src="' . $images . 'appstore.png" width="180" /></a></div>';
+		$contentRight	=	'<div style="text-align:center"><a href="https://play.google.com/store/apps/details?id=cr.co.nutricion.nutritrack"><img src="' . $images . 'googleplay.png" width="180" /></a></div>';
+
+		$html	.=	$this->htmlTwoColumns($contentLeft, $contentRight);
+
+		$html	.=	'<p>Te recordamos tus credenciales:</p>';
+		$html	.=	'<p>Usuario: ' . $paciente->usuario . '</p>';
+		$html	.=	'<p>Contrase&ntilde;a: ' . $paciente->contrasena . '</p>';
+
+		$to		=	array();
+		if(!empty( $paciente->email ))
+			$to[]	=	$paciente->email;
+		if(!empty( $paciente->responsable_email ))
+			$to[]	=	$paciente->responsable_email;
+
+		$args	=	array(
+						'to'		=>	implode(',', $to),
+						'subject'	=>	'Resumen consulta nutricional ' . date('d/m/Y', strtotime( $consulta['fecha'] )),
+						/*'cc'	=>	$nutricionista->email,*/
+						'message'	=>	utf8_decode($html),
+					);
+		/*print_r($html);exit;*/
+/*	$this->sendEmail($args);*/
+
+		$paciente->to	=	implode(',', $to);
+		$data	=	array(
+							'logo'=>	$image, 
+							'paciente_nombre'=>	$paciente->nombre, 
+							'paciente_usuario'=>	$paciente->usuario, 
+							'paciente_contrasena'=>	$paciente->contrasena, 
+							'bva'	=>	$blade['va'],
+							/*'bprescripcion'=>	$blade['prescripcion'],*/
+							/*'bpatronmenu'=>	$blade['patron_menu'],*/
+							'valoracion_antropometrica'=>	$_resumen['va'], 
+							'porciones'=>	$_resumen['porciones'], 
+							'patron_menu'=>	$_resumen['patronMenu'], 
+
+						);
+		if(isset($blade['prescripcion']))
+			$data['bprescripcion']	=	$blade['prescripcion'];
+		if(isset($blade['patron_menu']))
+			$data['bpatronmenu']	=	$blade['patron_menu'];
+		
+		/*/return view('emails.resumen_consulta', $data);*/
+		Mail::send('emails.resumen_consulta', $data, function($message) use ($paciente) {
+
+			$subject	=	'Resumen Consulta Nutricional dd/mm/aaaa | ' . $paciente->nombre;
+			$subject	=	htmlentities($subject);
+			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);		
+			$bcc	=	explode(',', env('APP_EMAIL_BCC'));
+			$message->to( $paciente->to );
+			$message->subject( '=?utf-8?Q?=F0=9F=93=9D ' . $subject . '?=');
+			$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+			/*$message->cc( $args['cc'] );*/
+			$message->bcc($bcc);
+			/*$message->replyTo(env('EMAIL_REPLYTO'));*/
+		});
+	}
+	function generateResumenConsulta__original($id){
 		$consulta	=	Consulta::find($id);
 		if(count($consulta)==0)
 			return Response::json(['message' => 'Record not found'], 204);

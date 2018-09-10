@@ -64,42 +64,24 @@ class LoginController extends Controller
 						->first();
 		/*print_r($paciente);*/
 		if(count($paciente)>0){
-/*
-			$html 	= '<h3>Datos de Autenticacion</h3>';
-			$html 	.= '<table rules="all" style="border-color: #666;" cellpadding="10">';
-			$html	.=	'<tr style="background-color: #eee;">';
-			$html	.=	'<th>Nombre</th>';
-			$html	.=	'<td>' . $paciente->nombre . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'<tr>';
-			$html	.=	'<th>Usuario</th>';
-			$html	.=	'<td>' . $paciente->usuario . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'<tr>';
-			$html	.=	'<th>Contrasena</th>';
-			$html	.=	'<td>' . $paciente->contrasena . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'</table>';
-			
-			$to			=	$paciente->email;
-			$subject 	=	'Recordatorio de datos autenticacion en NUTRITRACK';
-			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
-			$headers   .=	'MIME-Version: 1.0' . "\r\n";
-			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
-			
-			mail($to, $subject, $html, $headers);
-*/
+			$nutricionista	=	Nutricionista::find($paciente->nutricionista_id);
 			$data	=	array(
 							'nombre'	=>	$paciente->nombre, 
 							'usuario'	=>	$paciente->usuario, 
-							'contrasena'=>	$paciente->contrasena
+							'contrasena'=>	$paciente->contrasena,
+							'logo'		=>	$nutricionista->imagen
 						);
 		
-			Mail::send('emails.recordatorio_contrasena', $data, function($message) use ($paciente) {	
+			Mail::send('emails.recordatorio_contrasena', $data, function($message) use ($paciente) {
+				
+				$subject	=	'Credenciales NutriTrack App | ' . $paciente->nombre;
+				$subject	=	htmlentities($subject);
+				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+				
 				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
 				$message->to($paciente->email, $paciente->nombre)
-						->subject('Credenciales NutriTrack App | ' . $paciente->nombre);
+						->subject('=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
+						/*->subject('=?utf-8?Q?=F0=9F=94=91_Credenciales_NutriTrack_App_|_' . $paciente->nombre . '?=');*/
 				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 				$message->bcc($bcc);
 				/*$message->replyTo(env('APP_EMAIL_REPLYTO'));*/

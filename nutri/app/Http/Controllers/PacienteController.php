@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Persona;
 use App\Paciente;
+use App\Nutricionista;
 use App\Cliente;
 use App\Objetivo;
 use App\HcpPatologia;
@@ -540,16 +541,20 @@ class PacienteController extends Controller
 			$_paciente	=	Paciente::find($paciente->id);
 			$_paciente->contrasena	=	$new_password;
 			$_paciente->save();
-
+			$nutricionista	=	Nutricionista::find($_paciente->nutricionista_id);
 			$data	=	array(
 							'nombre'	=>	$paciente->nombre, 
 							'usuario'	=>	$paciente->usuario, 
-							'contrasena'=>	$paciente->contrasena
+							'contrasena'=>	$paciente->contrasena,
+							'logo'		=>	$nutricionista->imagen
 						);
 			Mail::send('emails.contrasena_cambiada', $data, function($message) use ($paciente) {
 				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
-				$message->subject($paciente->nombre . ', tu contraseña ha sido cambiada');
-				$message->to($paciente->email, $paciente->nombre);				
+				$message->to($paciente->email, $paciente->nombre);
+				$subject	=	$paciente->nombre . utf8_encode(', tu contraseña ha sido cambiada');
+				$subject	=	htmlentities($subject);
+				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+				$message->subject( '=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
 				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 				$message->bcc($bcc);
 				/*$message->replyTo(env('EMAIL_REPLYTO'));*/

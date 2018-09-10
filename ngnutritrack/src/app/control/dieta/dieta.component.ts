@@ -88,23 +88,22 @@ export class DietaComponent implements OnInit {
 	paraCopiar:any;
   constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
-	/*console.log('this.model');
-	console.log(this.model);*/
-	this.helpers		=	this.model.getHelpers();
-	
+	this.helpers		=	this.model.getHelpers();	
 	this.prescripcion	=	this.model.getFormPrescripcion();	
-	/*console.log(this.prescripcion);*/
-	//this.items			=	this.prescripcion.items;	
 	this.items			=	this.prescripcion.itemsByDefault;	
 	this.otrosItems		=	this.prescripcion.otros;	
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
-	console.log(this.rdd);
-	
+	console.log(this.rdd);	
 	this.va				=	this.model.getFormValoracionAntropometrica();	
 	console.log(this.va);
+	this.rdd.setPaciente(this.paciente);
+	this.rdd.setVA(this.va);
+	this.rdd.doAnalisis();
+	this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
 	this.createOriginal();	
-	this.calculateItems()
+	this.calculateItems();
+	this.total();
   }
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
@@ -298,8 +297,14 @@ export class DietaComponent implements OnInit {
 							data => {
 								this.model.fill(data);
 								this.prescripcion	=	this.model.getFormPrescripcion();	
+								this.va				=	this.model.getFormValoracionAntropometrica();
+								this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
 								this.items			=	this.prescripcion.itemsByDefault;	
-								this.otrosItems		=	this.prescripcion.otros;	
+								this.otrosItems		=	this.prescripcion.otros;
+								this.rdd.setPaciente(this.paciente);
+								this.rdd.setVA(this.va);
+								this.rdd.doAnalisis();
+								
 								this.createOriginal();	
 								this.calculateItems()
 								this.total();
