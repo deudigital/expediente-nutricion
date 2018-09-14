@@ -401,6 +401,13 @@
 <ng-template ngFor let-historia [ngForOf]= "historial">
 						<tr>
 							<td>
+							<div class="actions">
+								<a 
+									class="button-copy" 
+									href="javascript:void(0)"
+									(click)="showModalCopiar(historia)"
+								><i></i></a>
+							</div>
 					<ng-template [ngIf]="historia.patron_menu">
 								<a [ngClass]="{'open ': historia.display }"  class="expand-patron-menu" href="javascript:void(0)" (click)="displayDetails(historia)">
 									<i></i>
@@ -428,11 +435,6 @@
 					<ng-template #historia_items_loading>
 							<td colspan="12">&nbsp;</td>
 					</ng-template>
-							<a 
-								class="button-copy" 
-								href="javascript:void(0)"
-								(click)="showModalCopiar(historia)"
-							>Copiar</a>
 						</tr>
 						
 			<ng-template [ngIf]="historia.patron_menu">

@@ -223,13 +223,13 @@
 .back-button > a > i {background-position: -544px 0;width: 15px;height: 15px;display: block;}
 
 .navigation-hcp.esfemenino > li {width: 20%;padding:0}
-
+/*
 .button-copy {position: absolute;overflow:hidden;text-indent: -100px;
 	width: 25px;height: 25px;right: -25px;
 	background: url(../images/icon-copy.png) no-repeat center top transparent;
 	background-size:25px;
 }
-
+*/
 @media(min-width:768px){
 	.navigation-hcp > div {padding: 0;margin: 0;}
 	.submenu{text-align:center;}
@@ -247,7 +247,7 @@
 @media (max-width:767px){
 	.submenu > li > a  {text-align:center;}
 	.submenu > li > a > span {display:none;}	
-	.button-copy {top:5px;}
+	/*.button-copy {top:5px;}*/
 }
 @media (max-width:549px){
 	.main .links .box a figure {width: 140px;height: 140px;}

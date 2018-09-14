@@ -422,6 +422,8 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
 	.loading-graphic{margin:50px}
+	
+	.actions > a.button-copy {left: -58px !important;text-indent: -500px;}	
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}
@@ -433,6 +435,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 }
 @media (min-width:1200px){
 	.content-nav .list-group {margin-right: 31px;}
+	.actions > a.button-copy {left: -68px !important;}
 }
 @media (min-width:1370px){
 	.container-fluid{width:90%;}
@@ -466,6 +469,8 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group.consulta > li:not(:last-child) > a:after{width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 	.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 	.content-nav .board-inner.control .current-menu{margin-top:0}
+	
+	.actions > a.button-copy {position: absolute !important;left: 50% !important;top: 6px !important;}
 }
 @media(max-width:600px){
 	body.page-inicio .container-logo img{max-width:50%}

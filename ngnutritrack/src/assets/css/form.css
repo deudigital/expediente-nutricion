@@ -3,10 +3,14 @@
 .developmentInfo {position: fixed;bottom: 0;left: 0;width: 100%;background-color: rgba(0,0,0,0.5);color: #fff;word-wrap: break-word;padding: 5px 10px 15px;z-index: 100;text-align:center;color:#eee;font-size:12px}
 .developmentInfo > a {color: #00f81d;/*margin-left: 20px;*/}
 
+.actions > a.button-copy,
 .container-form > .actions > label,
 .container-form > .actions > a {display: inline-block;padding-left: 25px;color: #000;font-weight: 600;position: relative;left: -5px;z-index: 100;top: -3px;cursor:pointer;}
+.actions > a.button-copy > i,
 .container-form > .actions > label > i,
 .container-form > .actions > a > i{width: 20px;height: 20px;display: block;position: absolute;left:0}
+
+.actions > a.button-copy > i,
 .container-form > .actions > a.form-open > i {background-position: -532px -481px;}
 .container-form > .actions > a.form-close > i {background-position: -530px -445px;/*top: -4px;*/}
 .container-form > .actions > a.form-close {text-indent: -1000px;/*position: absolute;*/margin-bottom: -17px;}
