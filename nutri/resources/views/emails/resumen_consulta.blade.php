@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <!--[if !mso]><!-->
@@ -21,7 +20,6 @@ img:hover { opacity: 0.9 !important; }
 a { color: #cc1f25; text-decoration: none; }
 .textbutton a { font-family: 'open sans', arial, sans-serif !important; }
 .btn-link a { color: #FFFFFF !important; }
-
 @media only screen and (max-width: 480px) {
 body { width: auto !important; }
 *[class="table-inner"] { width: 90% !important; text-align: center !important; }
@@ -31,14 +29,13 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
 }
 </style>
 </head>
-
 <body>
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center">
         <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td align="center" bgcolor="#414a51" background="https://expediente.nutricion.co.cr/bg-login@2x.6c503c7d8db2c72eaf47.jpg" style="background-size:cover; background-repeat:repeat-x; background-position:top;">
+            <td align="center" bgcolor="#414a51" style="background-size:cover; background-repeat:repeat-x; background-position:top;">
               <table align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td width="600" align="center">
@@ -102,7 +99,6 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                       <tr>
                         <td height="30"></td>
                       </tr>
-                      <!--logo-->
                       <tr>
                         <td align="center">
                           <a href="#">
@@ -110,7 +106,6 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                           </a>
                         </td>
                       </tr>
-                      <!--end logo-->
                       <tr>
                         <td height="25"></td>
                       </tr>
@@ -120,14 +115,11 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                             <tr>
                               <td height="40"></td>
                             </tr>
-                            <!--content-->
                             <tr>
                               <td align="center" style="font-family: 'Open sans', Arial, sans-serif; color:#7f8c8d; font-size:14px; line-height: 28px;">
 							  {{ $paciente_nombre }}, a continuación, un resumen de las medidas en esta consulta:
                               </td>
                             </tr>
-                            <!--end content-->
-                      
                           </table>
 						 
 						 <table align="center" class="table-inner" width="90%" border="0" cellspacing="0" cellpadding="0">
@@ -135,7 +127,6 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                               <td height="40"></td>
                             </tr>
                           </table>
-
 @php
 	$i	=	0;
 @endphp
@@ -143,7 +134,6 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
 @php
 	if($i%2==0)	:
 @endphp
-						  <!--2/2 container-->
 						  <table align="center" bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td height="25"></td>
@@ -156,7 +146,6 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
 						              <table width="100%" border="0" cellpadding="0" cellspacing="0">
 						                <tr>
 						                  <td align="center" style="text-align:center;vertical-align:top;font-size:0;">
-						                  	<!--left-->
 						                    <div style="display:inline-block;vertical-align:top;">
 						                      <table border="0" align="center" cellpadding="0" cellspacing="0">
 						                        <tr>
@@ -166,21 +155,14 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
 						                                <td height="45" bgcolor="#f5f5f5" align="center">
 						                                  <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0">
 						                                    <tr>
-						                                      <!--icono-->
 						                                      <td align="right" width="40" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;"> <img style="width: 40px; display:block; line-height:0px; font-size:0px; border:0px;" src="https://expediente.nutricion.co.cr/mail/images/{{ $va['icono'] }}.png" alt="{{ $va['titulo'] }}" /></td>
-						                                      <!--icono-->
-						                                   	  <!--label-->
 						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:18px;color:#7f8c8d;font-weight:bold;">{{ $va['titulo'] }}</td>
-						                                      <!--label-->
-						                                      <!--valor-->
 						                                      <td height="45" width="60" align="center" bgcolor="#828482" style="font-family: 'Open Sans', Arial, sans-serif; font-size:22px;color:#FFFFFF;font-weight: bold;padding-left: 15px;padding-right: 15px;font-style: italic;">{{ $va['value'] }}{{ $va['unidad'] }}</td>
-						                                      <!--valor-->
 						                                    </tr>
 						                                  </table>
 @php
 if($key=='grasa' && isset($va['grasa_detalle']))	:
 @endphp
-														  
 						                                  <table border="0" align="center" cellpadding="0" cellspacing="0">
 							                                  <tr >
 							                                      <td align="center" height="25" width="100" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;border-top: 1px solid #000;border-bottom: 1px solid #000">Abdominal</td>
@@ -200,7 +182,6 @@ if($key=='grasa' && isset($va['grasa_detalle']))	:
 							                                      					<td align="center" height="20" width="50">{{ $va['grasa_detalle']['segmentado_pierna_derecha'] }}%</td>
 							                                      				</tr>
 							                                      			</table>
-
 							                                      </td>
 							                                      <td align="center" width="100" cellpadding="0" cellspacing="0" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;">
 							                                      			<table>
@@ -240,7 +221,6 @@ if($key=='musculo' && isset($va['musculo_detalle']))	:
 							                                      					<td align="center" height="20" width="50">{{ $va['musculo_detalle']['brazo_derecho'] }}kg</td>
 							                                      				</tr>
 							                                      			</table>
-
 							                                      </td>
 							                                      <td align="center" width="100" cellpadding="0" cellspacing="0" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;">
 							                                      			<table>
@@ -266,11 +246,9 @@ endif;
 						                        </tr>
 						                      </table>
 						                    </div>
-						                    <!--end left-->
 @php
 	else:
 @endphp
-						                    <!--right-->
 						                    <div style="display:inline-block;vertical-align:top;">
 						                      <table border="0" align="center" cellpadding="0" cellspacing="0">
 						                        <tr>
@@ -280,21 +258,14 @@ endif;
 						                                <td height="45" bgcolor="#f5f5f5" align="center">
 						                                  <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0">
 						                                    <tr>
-						                                      <!--icono-->
 						                                      <td align="right" width="40" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;"> <img style="width: 40px; display:block; line-height:0px; font-size:0px; border:0px;" src="https://expediente.nutricion.co.cr/mail/images/{{ $va['icono'] }}.png" alt="{{ $va['titulo'] }}" /></td>
-						                                      <!--icono-->
-						                                   	  <!--label-->
 						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:18px;color:#7f8c8d;font-weight:bold;">{{ $va['titulo'] }}</td>
-						                                      <!--label-->
-						                                      <!--valor-->
 						                                      <td height="45" width="60" align="center" bgcolor="#828482" style="font-family: 'Open Sans', Arial, sans-serif; font-size:22px;color:#FFFFFF;font-weight: bold;padding-left: 15px;padding-right: 15px;font-style: italic;">{{ $va['value'] }}{{ $va['unidad'] }}</td>
-						                                      <!--valor-->
 						                                    </tr>
 						                                  </table>
 @php
 if($key=='grasa' && isset($va['grasa_detalle']))	:
 @endphp
-														  
 						                                  <table border="0" align="center" cellpadding="0" cellspacing="0">
 							                                  <tr >
 							                                      <td align="center" height="25" width="100" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;border-top: 1px solid #000;border-bottom: 1px solid #000">Abdominal</td>
@@ -314,7 +285,6 @@ if($key=='grasa' && isset($va['grasa_detalle']))	:
 							                                      					<td align="center" height="20" width="50">{{ $va['grasa_detalle']['segmentado_pierna_derecha'] }}%</td>
 							                                      				</tr>
 							                                      			</table>
-
 							                                      </td>
 							                                      <td align="center" width="100" cellpadding="0" cellspacing="0" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;">
 							                                      			<table>
@@ -334,7 +304,6 @@ if($key=='grasa' && isset($va['grasa_detalle']))	:
 endif;
 if($key=='musculo' && isset($va['musculo_detalle']))	:
 @endphp
-														  
 						                                  <table border="0" align="center" cellpadding="0" cellspacing="0">
 							                                  <tr >
 							                                      <td align="center" height="25" width="100" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;border-top: 1px solid #000;border-bottom: 1px solid #000">Tronco</td>
@@ -354,7 +323,6 @@ if($key=='musculo' && isset($va['musculo_detalle']))	:
 							                                      					<td align="center" height="20" width="50">{{ $va['musculo_detalle']['brazo_derecho'] }}kg</td>
 							                                      				</tr>
 							                                      			</table>
-
 							                                      </td>
 							                                      <td align="center" width="100" cellpadding="0" cellspacing="0" style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px;color:#7f8c8d;font-weight:bold;">
 							                                      			<table>
@@ -380,7 +348,6 @@ endif;
 						                        </tr>
 						                      </table>
 						                    </div>
-						                    <!--end right-->
 						                  </td>
 						                </tr>
 						              </table>
@@ -390,23 +357,13 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
-						  <!--end 2/2 container-->
 @php
 	endif;
 @endphp
-
 @php
 	$i++;
 @endphp
 @endforeach
-
-						  
-						  
-						  
-						  
-						  
-
-						  <!--encabezado prescripción dieta-->
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>
@@ -417,13 +374,11 @@ endif;
 		                            <tr>
 		                              <td height="40"></td>
 		                            </tr>
-		                            <!--content-->
 		                            <tr>
 		                              <td align="center" style="font-family: 'Open sans', Arial, sans-serif; color:#7f8c8d; font-size:14px; line-height: 28px;">
 		                                Asimismo, acá tienes el total de porciones que debes comer día a día según lo indicado por la nutricionista:
 		                              </td>
 		                            </tr>
-		                            <!--end content-->
 		                            <tr>
 		                              <td height="40"></td>
 		                            </tr>
@@ -433,11 +388,8 @@ endif;
 		                          </tr>
 		                        </td>
 		                      </tr>
-		                    
 		                    </table>
-                   			<!--encabezadp prescripción dieta-->
 @isset($bprescripcion)
-                   			<!--3/3 panel-->
 						  <table align="center" bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td align="center">
@@ -451,32 +403,26 @@ endif;
 	$i	=	0;
 @endphp
 @foreach ($bprescripcion as $prescripcion)
-											<!--{{ $prescripcion->nombre }}-->
 						                    <div style="display:inline-block;vertical-align:top;">
 						                      <table border="0" align="center" cellpadding="0" cellspacing="0">
 						                        <tr>
 						                          <td width="200" align="center">
 						                            <table class="table-inner" width="90%" bgcolor="#ffffff" style="border:1px solid #FFFFFF;border-bottom:2px solid #e6e6e6;" align="center" border="0" cellspacing="0" cellpadding="0">
-						                              <!--img-->
 						                              <tr>
 						                                <td align="center" style="line-height: 0px;"><img style="display:block; line-height:0px; font-size:0px; border:0px; width: 100px" class="img1" src="https://expediente.nutricion.co.cr/mail/images/{{ $prescripcion->grupo_alimento_nutricionista_imagen }}" alt="{{ $prescripcion->nombre }}" /></td>
 						                              </tr>
-						                              <!--end img-->
 						                              <tr>
 						                                <td height="15"></td>
 						                              </tr>
 						                              <tr>
 						                                <td align="center">
 						                                  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
-						                                    <!--title-->
 						                                    <tr>
 						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:14px;color:#3b3b3b;font-weight: bold;">{{ $prescripcion->nombre }}</td>
 						                                    </tr>
-						                                    <!--end title-->
 						                                    <tr>
 						                                      <td height="15"></td>
 						                                    </tr>
-						                                    <!--dotted-->
 						                                    <tr>
 						                                      <td align="center">
 						                                        <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -508,15 +454,12 @@ endif;
 						                                        </table>
 						                                      </td>
 						                                    </tr>
-						                                    <!--end dotted-->
 						                                    <tr>
 						                                      <td height="10"></td>
 						                                    </tr>
-						                                    <!--content-->
 						                                    <tr>
 						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:14px;color:#7f8c8d;line-height: 28px; font-weight:normal;">{{ $prescripcion->porciones }}</td>
 						                                    </tr>
-						                                    <!--end content-->
 						                                  </table>
 						                                </td>
 						                              </tr>
@@ -528,7 +471,6 @@ endif;
 						                        </tr>
 						                      </table>
 						                    </div>
-						                    <!--{{ $prescripcion->nombre }}-->
 @php
 	$i++;
 	if($i%3==0)	:
@@ -542,8 +484,6 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
-						  <!--end 3/3 panel-->
-                   			<!--3/3 panel-->
 						  <table align="center" bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td align="center">
@@ -554,12 +494,9 @@ endif;
 						                <tr>
 						                  <td align="center" style="text-align:center;vertical-align:top;font-size:0;">
 @php
-	endif;
-	
+	endif;	
 @endphp
-
 @endforeach
-
 						                  </td>
 						                </tr>
 						              </table>
@@ -569,13 +506,7 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
-						  <!--end 3/3 panel-->
 @endisset
-
-
-
-                   			
-						  <!--encabezado patrón menú-->
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>
@@ -586,13 +517,11 @@ endif;
 		                            <tr>
 		                              <td height="40"></td>
 		                            </tr>
-		                            <!--content-->
 		                            <tr>
 		                              <td align="center" style="font-family: 'Open sans', Arial, sans-serif; color:#7f8c8d; font-size:14px; line-height: 28px;">
 		                                Además, acá tienes el detalle de como dividir estas porciones en los diferentes tiempos de comida con sus respectivos ejemplos:
 		                              </td>
 		                            </tr>
-		                            <!--end content-->
 		                            <tr>
 		                              <td height="40"></td>
 		                            </tr>
@@ -602,15 +531,11 @@ endif;
 		                          </tr>
 		                        </td>
 		                      </tr>
-		                    
 		                    </table>
-                   			<!--encabezadp patrón menú-->
-
 @foreach ($bpatronmenu as $patronmenu)
 @php
 	$porciones	=	implode(', ', $patronmenu['menu'])
 @endphp
-<!--{{ $patronmenu['nombre'] }}-->
 						  <table bgcolor="#ffffff" align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td height="25"></td>
@@ -644,11 +569,9 @@ endif;
 						                                      </td>
 						                                      <td rowspan="2" align="center" background="https://expediente.nutricion.co.cr/mail/images/title-bg.png" style="background-image: url(images/title-bg.png); background-repeat: repeat-x; background-size: auto; background-position: bottom;">
 						                                        <table style="border-radius:6px;" class="table-title" width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#828482">
-						                                          <!--tiempo de comida-->
 						                                          <tr>
 						                                            <td width="600" height="35" align="center" style="padding-left: 15px;padding-right: 15px; font-family: 'Open Sans', Arial, sans-serif; font-size: 16px;color:#FFFFFF;line-height: 28px;font-weight: bold;">{{ $patronmenu['nombre'] }}</td>
 						                                          </tr>
-						                                          <!--end tiempo de comida-->
 						                                        </table>
 						                                      </td>
 						                                      <td width="30" align="left">
@@ -671,15 +594,12 @@ endif;
 						                                    <tr>
 						                                      <td height="10"></td>
 						                                    </tr>
-						                                    <!--porciones-->
 						                                    <tr>
 						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; color:#414a51; font-size:16px; line-height: 28px; font-weight: bold;">{{ $porciones }}</td>
 						                                    </tr>
-						                                    <!--end porciones-->
 						                                    <tr>
 						                                      <td height="10"></td>
 						                                    </tr>
-						                               <!--dotted-->
 						                                    <tr>
 						                                      <td align="center">
 						                                        <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -711,18 +631,14 @@ endif;
 						                                        </table>
 						                                      </td>
 						                                    </tr>
-						                                    <!--end dotted-->
 						                                    <tr>
 						                                      <td height="15"></td>
 						                                    </tr>
-						                                    <!--ejemplo-->
 						                                    <tr>
 						                                      <td align="center" style="font-family: 'Open sans', Arial, sans-serif; color:#7f8c8d; font-size:14px; line-height: 28px;">
 						                                        {{ $patronmenu['ejemplo'] }}
 						                                      </td>
 						                                    </tr>
-						                                    <!--end ejemplo-->
-
 						                                  </table>
 						                                </td>
 						                              </tr>
@@ -740,10 +656,7 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
-<!--{{ $patronmenu['nombre'] }}-->
 @endforeach
-
-						  <!--encabezado credenciales app-->
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>
@@ -754,7 +667,6 @@ endif;
 		                            <tr>
 		                              <td height="40"></td>
 		                            </tr>
-		                            <!--content-->
 		                            <tr>
 		                              <td align="center" style="font-family: 'Open sans', Arial, sans-serif; color:#7f8c8d; font-size:14px; line-height: 28px;">
 		                                Finalmente, toda esta información y otras herramientas para llevar el registro de lo que comes día a día y ayudarte a cumplir tus objetivos están disponibles en el app de <strong>NutriTrack</strong>, si aún no la tienes descárgala <strong>GRATIS</strong> en las tiendas de iPhone y Android.  <br/>Te recordamos tus credenciales:
@@ -762,7 +674,6 @@ endif;
 										<br/><strong>Contraseña:</strong> {{ $paciente_contrasena }}
 		                              </td>
 		                            </tr>
-		                            <!--end content-->
 		                            <tr>
 		                              <td height="40"></td>
 		                            </tr>
@@ -772,7 +683,6 @@ endif;
 		                          </tr>
 		                        </td>
 		                      </tr>
-		                                    <!--ios-->
 								                      <tr>
 								                        <td align="center">
 								                          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -794,8 +704,6 @@ endif;
 								                                    </tr>
 								                                  </table>
 								                                </div>
-								                                <!--ios-->
-                                                <!--android-->
 								                                <div style="display:inline-block;vertical-align:top;">
 								                                  <table border="0" align="center" cellpadding="0" cellspacing="0">
 								                                    <tr>
@@ -814,10 +722,7 @@ endif;
 								                          </table>
 								                        </td>
 								                      </tr>
-								                     <!--android-->
-		                    
 		                    </table>
-                   			<!--encabezadp credenciales app-->
                         </td>
                       </tr>
                       <tr>

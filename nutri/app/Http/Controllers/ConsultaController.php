@@ -1070,9 +1070,7 @@ Enviar usuario y contrasena?????? por ahora si...
 						/*'cc'	=>	$nutricionista->email,*/
 						'message'	=>	utf8_decode($html),
 					);
-		/*print_r($html);exit;*/
-/*	$this->sendEmail($args);*/
-
+		$paciente->subject	=	'Resumen Consulta Nutricional ' . date('d/m/Y', strtotime( $consulta['fecha'] )) . ' | ' . $paciente->nombre;
 		$paciente->to	=	implode(',', $to);
 		$data	=	array(
 							'logo'=>	$image, 
@@ -1080,8 +1078,6 @@ Enviar usuario y contrasena?????? por ahora si...
 							'paciente_usuario'=>	$paciente->usuario, 
 							'paciente_contrasena'=>	$paciente->contrasena, 
 							'bva'	=>	$blade['va'],
-							/*'bprescripcion'=>	$blade['prescripcion'],*/
-							/*'bpatronmenu'=>	$blade['patron_menu'],*/
 							'valoracion_antropometrica'=>	$_resumen['va'], 
 							'porciones'=>	$_resumen['porciones'], 
 							'patron_menu'=>	$_resumen['patronMenu'], 
@@ -1092,12 +1088,11 @@ Enviar usuario y contrasena?????? por ahora si...
 		if(isset($blade['patron_menu']))
 			$data['bpatronmenu']	=	$blade['patron_menu'];
 		
-		/*/return view('emails.resumen_consulta', $data);*/
+		/*return view('emails.resumen_consulta', $data);*/
 		Mail::send('emails.resumen_consulta', $data, function($message) use ($paciente) {
-/*print_r($paciente);exit;*/
-			$subject	=	'Resumen Consulta Nutricional dd/mm/aaaa | ' . $paciente->nombre;
+			$subject	=	$paciente->subject;
 			$subject	=	htmlentities($subject);
-			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);		
+			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
 			$bcc	=	explode(',', env('APP_EMAIL_BCC'));
 			$message->to( $paciente->to );
 			$message->subject( '=?utf-8?Q?=F0=9F=93=9D ' . $subject . '?=');
