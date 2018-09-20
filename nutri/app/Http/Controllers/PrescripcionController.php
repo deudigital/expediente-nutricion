@@ -187,6 +187,7 @@ class PrescripcionController extends Controller
 		try {
 			/*	Borrar si existe prescripcion, patronmenu para esta consulta	*/
 			$current_prescripcion	=	Prescripcion::where('consulta_id', $consulta_id)->first();
+			/*print_r($current_prescripcion->id);*/
 			if($current_prescripcion){
 				$deletedRows 			=	DetalleDescripcion::where('prescripcion_id', $current_prescripcion->id)->delete();
 				$deletedRows 			=	Prescripcion::find($current_prescripcion->id)->delete();
@@ -212,6 +213,7 @@ class PrescripcionController extends Controller
 			
 
 			if($detalle_prescripcion){
+				
 				foreach($detalle_prescripcion as $item){
 					$new_detalleDescripcion	=	new DetalleDescripcion(
 							array(
@@ -223,6 +225,7 @@ class PrescripcionController extends Controller
 					$new_detalleDescripcion->save();
 				}
 			}
+			/*print_r($new_detalleDescripcion);exit;*/
 			$patron_menu					=	PatronMenu::where('consulta_id', $prescripcion->consulta_id)
 												->get();
 			$result['Patron_menu']			=	$patron_menu;
@@ -262,6 +265,55 @@ class PrescripcionController extends Controller
 			
 		} catch (\Exception $e) {
 			/*DB::rollback();*/
+			$message['error']	=	$e->getMessage();
+
+		}
+		$result['message']	=	$message;
+		$response	=	Response::json($result, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+	}
+	public function repeated(Request $request){
+		try {
+			$prescripcions	=	Prescripcion::All();
+			if($prescripcions){
+				$_repeated	=	array();
+				$_no_repeated	=	array();
+				$keys	=	array();
+				/*echo '<pre>' . print_r($detalle_prescripcion,true) . '</pre>';*/
+				foreach($prescripcions as $index=>$prescripcion){
+					$detalle_prescripcions	=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
+													->get();
+					if(count($detalle_prescripcions)==0)
+						continue;
+
+					$aFields	=	array();
+					$keys[]		=	$prescripcion->id;
+					
+					foreach($detalle_prescripcions as $key=>$detalle_prescripcion){
+						$_key	=	$detalle_prescripcion->prescripcion_id;
+						$_key	.=	'-' . $detalle_prescripcion->grupo_alimento_nutricionista_id;
+						$_key	.=	'-' . $detalle_prescripcion->porciones;
+						if(isset($aFields[$_key]) && !in_array($detalle_prescripcion->prescripcion_id, $_repeated)){
+							$_repeated[]	=	$detalle_prescripcion->prescripcion_id;
+						}else{
+							/*if(!isset($aFields[$_key]) && !in_array($detalle_prescripcion->prescripcion_id, $_no_repeated))
+								$_no_repeated[]	=	$detalle_prescripcion->prescripcion_id;*/
+						}
+						$aFields[$_key]	=	$_key;
+					}
+				}
+				$result['no_repetidos']	=	array_diff($keys, $_repeated);
+				$result['repetidos']	=	$_repeated;
+				/*$result['no_repetidos']	=	$_no_repeated;*/
+			}
+						
+			/*DB::commit();*/
+			$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Datos copiados correctamente'
+						);
+			
+		} catch (\Exception $e) {
 			$message['error']	=	$e->getMessage();
 
 		}
