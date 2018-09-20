@@ -423,7 +423,9 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
 	.loading-graphic{margin:50px}
 	
-	.actions > a.button-copy {left: -58px !important;text-indent: -500px;}	
+	.table.historial.prescripcion .actions {position:relative}	
+	.table.historial.prescripcion .actions > .button-copy{position:absolute;top: -8px;left: -40px !important;text-indent: -500px;}
+	/*.actions > a.button-copy {left: -58px !important;text-indent: -500px;}*/
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}

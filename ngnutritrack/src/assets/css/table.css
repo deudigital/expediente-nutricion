@@ -136,7 +136,7 @@
 	
 	
 	/*.table-mobile.historial.prescripcion tr:first-child td:nth-of-type(1):before{content: 'Fecha';}*/
-	.table-mobile.historial.prescripcion tr:nth-of-type(1):before{content: 'Fecha';}
+	.table-mobile.historial.prescripcion td:nth-of-type(1):before{content: 'Fecha';}
 	.table-mobile.historial.prescripcion td:nth-of-type(2):before{content: 'Carbohidratos';}
 	.table-mobile.historial.prescripcion td:nth-of-type(3):before{content: 'Proteínas';}
 	.table-mobile.historial.prescripcion td:nth-of-type(4):before{content: 'Grasas';}
