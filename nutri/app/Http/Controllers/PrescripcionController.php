@@ -278,6 +278,7 @@ class PrescripcionController extends Controller
 			if($prescripcions){
 				$_repeated	=	array();
 				$_no_repeated	=	array();
+				$_key_id_repeated	=	array();
 				$keys	=	array();
 				/*echo '<pre>' . print_r($detalle_prescripcion,true) . '</pre>';*/
 				foreach($prescripcions as $index=>$prescripcion){
@@ -295,6 +296,9 @@ class PrescripcionController extends Controller
 						$_key	.=	'-' . $detalle_prescripcion->porciones;
 						if(isset($aFields[$_key]) && !in_array($detalle_prescripcion->prescripcion_id, $_repeated)){
 							$_repeated[]	=	$detalle_prescripcion->prescripcion_id;
+							$_rep['prescripcion_id']	=	$detalle_prescripcion->prescripcion_id;
+							$_rep['id_repeat']			=	$detalle_prescripcion->id;
+							$_key_id_repeated[]	=	$_rep;
 						}else{
 							/*if(!isset($aFields[$_key]) && !in_array($detalle_prescripcion->prescripcion_id, $_no_repeated))
 								$_no_repeated[]	=	$detalle_prescripcion->prescripcion_id;*/
@@ -302,10 +306,31 @@ class PrescripcionController extends Controller
 						$aFields[$_key]	=	$_key;
 					}
 				}
-				$result['no_repetidos']	=	array_diff($keys, $_repeated);
-				$result['repetidos']	=	$_repeated;
+				$result['summary_repetidos']=	$_key_id_repeated;
+				$result['no_repetidos']		=	array_diff($keys, $_repeated);
+				$result['repetidos']		=	$_repeated;
 				/*$result['no_repetidos']	=	$_no_repeated;*/
 			}
+			
+			/*foreach($result['summary_repetidos'] as $key=>$value){*/
+/*				$_for_delete	=	DetalleDescripcion::where('prescripcion_id', $value['prescripcion_id'])
+									  ->where('id', '>=', $value['id_repeat'])
+									  ->get();
+				
+				if($_for_delete)
+					$result['for_delete'][]	=	$_for_delete;
+*/				
+/*
+				
+				$deletedRows = DetalleDescripcion::where('prescripcion_id', $value['prescripcion_id'])
+												  ->where('id', '>=', $value['id_repeat'])
+												  ->delete();
+				if($deletedRows)
+					$result['deleted'][]	=	$prescripcion->id . ' - ' . $deletedRows;
+
+*/
+			/*}*/
+			
 						
 			/*DB::commit();*/
 			$message	=	array(

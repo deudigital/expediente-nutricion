@@ -23,9 +23,6 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::post('web/login', 'LoginController@webcheck');
 	Route::post('web/login/reminder', 'LoginController@webReminder');
 });
-Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
-	Route::get('prescripcion/repeated', 'PrescripcionController@repeated');
-});
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	
 	Route::get('form/data', 'FormController@dataform');
