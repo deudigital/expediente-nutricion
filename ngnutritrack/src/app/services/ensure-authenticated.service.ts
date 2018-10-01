@@ -11,7 +11,7 @@ export class EnsureAuthenticated implements CanActivate {
 		console.log('ensure-authenticated-service');
 		this._checking	=	false;
 	}
-	canActivate(): boolean {console.log('canActivate');
+	canActivate(): boolean {/*console.log('canActivate');*/
 		if(!localStorage.getItem('token')){
 			this.router.navigateByUrl('/login');
 			return false;

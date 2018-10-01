@@ -218,15 +218,24 @@ export class RecomendacionComponent implements OnInit {
 		if(this.mng.operacion!='nueva-consulta')
 			return ;
 
+		var gasto_calorico_total	=	0;
 		var gasto_calorico_total_semanal	=	0;
 		var ejercicio;
+		var _value1;
+		var _value2;
 		for(var i in this.habitosEjercicios) {
 			ejercicio	=	this.habitosEjercicios[i];
-			gasto_calorico_total_semanal		+=	(ejercicio.mets*0.0175*this.va.peso)*(ejercicio.horas_semanales*60);
+			_value1	=	(ejercicio.mets*0.0175*this.va.peso);
+			_value2	=	(ejercicio.horas_semanales*60);
+			/*gasto_calorico_total_semanal		+=	_value1*_value2;*/
+			gasto_calorico_total		+=	_value1*_value2;
+			console.log(ejercicio.nombre + ':(' + ejercicio.mets + '*0.0175*' + this.va.peso + ')*(' + ejercicio.horas_semanales + '*60)-> ' + _value1 + '*' + _value2 +' = ' + gasto_calorico_total);
+			/*gasto_calorico_total_semanal		+=	(ejercicio.mets*0.0175*this.va.peso)*(ejercicio.horas_semanales*60);*/
 		}
 		//console.log('gasto_calorico_total_semanal: ' + gasto_calorico_total_semanal);
-		gasto_calorico_total_semanal	=	gasto_calorico_total_semanal / 7;
-		//console.log('gasto_calorico_total_semanal / 7: ' + gasto_calorico_total_semanal);
+		/*gasto_calorico_total_semanal	=	gasto_calorico_total_semanal / 7;*/
+		gasto_calorico_total_semanal	=	gasto_calorico_total / 7;
+		console.log(gasto_calorico_total + '/7: ' + gasto_calorico_total_semanal);
 		this.recomendacion.promedio_gc_diario	=	Math.round(gasto_calorico_total_semanal);
 	}
 	getHistorial(){

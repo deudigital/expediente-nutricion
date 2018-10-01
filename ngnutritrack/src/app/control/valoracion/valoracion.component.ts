@@ -612,7 +612,7 @@ export class ValoracionComponent implements OnInit {
 					}
 		);
 	}
-	_graficarChildren( aChartData ){console.log('_graficarChildren');
+	_graficarChildren( aChartData ){/*console.log('_graficarChildren');*/
 		//this.chartChildrenVisible	=	false;
 
 		this.data_chart				=	null;
@@ -1051,7 +1051,7 @@ export class ValoracionComponent implements OnInit {
 		//this.chartChildrenVisible	=	true;
 		
 	}
-	_graficarChildren__successfully( aChartData ){console.log('_graficarChildren');
+	_graficarChildren__successfully( aChartData ){
 		//this.chartChildrenVisible	=	false;
 
 		this.grafico_items			=	null;
