@@ -244,7 +244,11 @@ class PacienteController extends Controller
 			$paciente	=	Paciente::find($request->id);
 			$paciente->responsable_telefono		=	$request->responsable_telefono;
 			$paciente->responsable_email		=	$request->responsable_email;
-			$paciente->save();
+			
+			if(!empty($paciente->usuario))
+				$paciente->usuario		=	$persona->email;
+
+			$paciente->save();			
 		}else{$action	=	'registrado';
 			$new	=	array(
 							'telefono'			=>	$request->input('telefono'),
@@ -448,6 +452,8 @@ class PacienteController extends Controller
 		return $response;
     }
 	public function hcpBioquimicas(Request $request){
+		/*$response	=	Response::json($request, 201);
+		return $response;*/
 		if(!$request->input('paciente_id')){
 			$response	=	Response::json([
 				'code'		=>	422,
