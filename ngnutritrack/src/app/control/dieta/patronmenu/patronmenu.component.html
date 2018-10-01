@@ -444,12 +444,10 @@
 			  <label class="label-modal-porciones">{{label_modal_porciones}}</label>
 				<input 
 				id="modal-text" 
-				name="leche_descremada" 
 				type="text" 
 				class="form-control" 
 				value=""   
 				maxlength="3" 
-				(keypress)="helpers.soloEnteros($event)"
 				[(ngModel)]="inputModal"
 				>			  
 			</div>
@@ -479,7 +477,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 					  [(ngModel)]="porciones_leche_2"
 					  (change)="porciones('leche_2', 2)"
 				  >
@@ -495,7 +493,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_leche_entera"
 						(change)="porciones('leche_entera', 3)"
 				  >
@@ -509,9 +507,9 @@
 						type="number" 
 						class="form-control" 
 						value="0" 
-						min="0" 						
+						min="0" 
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_vegetales"
 						(change)="porciones('vegetales', 4)"
 				  >
@@ -521,9 +519,15 @@
 				<figure>
 				  <i class="frutas"></i>
 				  <label>Frutas</label>
-				  <input type="number" class="form-control" value="0" min="0" 
-				   [(ngModel)]="porciones_frutas"
-				  (change)="porciones('frutas', 5)"
+				  <input 
+					type="number" 
+					class="form-control" 
+					value="0" 
+					min="0" 
+					maxlength="3" 
+					(keypress)="helpers.soloNumeros($event)"
+					[(ngModel)]="porciones_frutas"
+					(change)="porciones('frutas', 5)"
 				  >
 				</figure>
 			  </div>
@@ -537,7 +541,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_harinas"
 						(change)="porciones('harinas', 6)"
 				  >
@@ -553,7 +557,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 					   [(ngModel)]="porciones_carne_magra"
 					  (change)="porciones('carne_magra', 7)"
 				  >
@@ -569,7 +573,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_carne_intermedia"
 						(change)="porciones('carne_intermedia', 8)"
 				  >
@@ -585,7 +589,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_carne_grasa"
 						(change)="porciones('carne_grasa', 9)"
 				  >
@@ -601,7 +605,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_azucares"
 						(change)="porciones('azucares', 10)"
 				  >
@@ -617,7 +621,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_grasas"
 						(change)="porciones('grasas', 11)"
 				  >
@@ -633,7 +637,7 @@
 						value="0" 
 						min="0" 						
 						maxlength="3" 
-						(keypress)="helpers.soloEnteros($event)"
+						(keypress)="helpers.soloNumeros($event)"
 						[(ngModel)]="porciones_vaso_agua"
 						(change)="porciones('vaso_agua', 12)"
 				  >
