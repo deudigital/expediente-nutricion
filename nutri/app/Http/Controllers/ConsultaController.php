@@ -937,46 +937,48 @@ Enviar usuario y contrasena?????? por ahora si...
 				$html	=	'<ul style="list-style:none;margin:0;">' . $item . '</ul>';
 			}
 			$_resumen['porciones']	=	$html;
-			for($i=0;$i<count($aPrescripcionItems);$i++){
-				switch($aPrescripcionItems[$i]->grupo_alimento_nutricionista_id){
-					case '1':
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche-descremada.png';
-						break;
-					case 2:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche2.png';
-						break;
-					case 3:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche-entera.png';
-						break;
-					case 4:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'vegetales.png';
-						break;
-					case 5:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'frutas.png';
-						break;
-					case 6:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'harinas.png';
-						break;
-					case 7:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-magra.png';
-						break;
-					case 8:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-int.png';
-						break;
-					case 9:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-grasa.png';
-						break;
-					case 10:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'azucar.png';
-						break;
-					case 11:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'grasa.png';
-						break;
-					case 12:
-						$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'agua.png';
-						break;
+			if(count($aPrescripcionItems)>0){
+				for($i=0;$i<count($aPrescripcionItems);$i++){
+					switch($aPrescripcionItems[$i]->grupo_alimento_nutricionista_id){
+						case '1':
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche-descremada.png';
+							break;
+						case 2:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche2.png';
+							break;
+						case 3:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'leche-entera.png';
+							break;
+						case 4:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'vegetales.png';
+							break;
+						case 5:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'frutas.png';
+							break;
+						case 6:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'harinas.png';
+							break;
+						case 7:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-magra.png';
+							break;
+						case 8:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-int.png';
+							break;
+						case 9:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'carne-grasa.png';
+							break;
+						case 10:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'azucar.png';
+							break;
+						case 11:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'grasa.png';
+							break;
+						case 12:
+							$aPrescripcionItems[$i]->grupo_alimento_nutricionista_imagen	=	'agua.png';
+							break;
+					}
+					
 				}
-				
 			}
 			$blade['prescripcion']	=	$aPrescripcionItems;
 		}
