@@ -25,10 +25,12 @@ export class FormControlDataService {
 	private formControlData: FormControlData = new FormControlData();
 	private apiURL	=	environment.apiUrl;
 	private headers: Headers;
+	private token: any;
 	data:any={};
 
 	constructor(private http: Http) {}
 	setHeader(token){
+		this.token	=	token;
 		this.headers	=	new Headers({
 								  'Content-Type': 'application/json',
 								  Authorization: `Bearer ${token}`
@@ -176,15 +178,13 @@ export class FormControlDataService {
 				serviceUrl	+=	'pacientes/hcpbioquimicas';
 				break;
 		}
-		let headers = new Headers();
-		let options = new RequestOptions({
-			headers: headers
-		});
+		const headers = new Headers();		 
+		headers.append('Authorization', "Bearer" + " " + this.token);
+		const options = new RequestOptions({headers: headers});
 		
 		return this.http.post( serviceUrl, body, options)
-				.map((response: Response) => response.json());
+		.map((response: Response) => response.json());
 	}
-
 	store(module:string, data:any): Observable<any[]> {
 		var serviceUrl	=	this.apiURL;
 		switch(module){
