@@ -547,7 +547,16 @@ class PacienteController extends Controller
 			$_paciente	=	Paciente::find($paciente->id);
 			$_paciente->contrasena	=	$new_password;
 			$_paciente->save();
-			$nutricionista	=	Nutricionista::find($_paciente->nutricionista_id);
+			/*$nutricionista	=	Nutricionista::find($_paciente->nutricionista_id);*/
+			$nutricionista = DB::table('nutricionistas')
+							->join('personas', 'personas.id', 'nutricionistas.persona_id')
+							->where('nutricionistas.persona_id', $_paciente->nutricionista_id)
+							->get()
+							->first();
+			
+			$paciente->nutricionista_nombre	=	$nutricionista->nombre;
+			$paciente->nutricionista_email	=	$nutricionista->email;
+		
 			$data	=	array(
 							'nombre'	=>	$paciente->nombre, 
 							'usuario'	=>	$paciente->usuario, 
@@ -555,13 +564,14 @@ class PacienteController extends Controller
 							'logo'		=>	$nutricionista->imagen
 						);
 			Mail::send('emails.contrasena_cambiada', $data, function($message) use ($paciente) {
-				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
-				$message->to($paciente->email, $paciente->nombre);
+				
 				$subject	=	$paciente->nombre . utf8_encode(', tu contraseña ha sido cambiada');
 				$subject	=	htmlentities($subject);
-				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);				
+				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
 				$message->subject( '=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
-				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+				$message->to($paciente->email, $paciente->nombre);
+				$message->from( $paciente->nutricionista_email, $paciente->nutricionista_nombre );
 				$message->bcc($bcc);
 				/*$message->replyTo(env('EMAIL_REPLYTO'));*/
 			});

@@ -64,7 +64,15 @@ class LoginController extends Controller
 						->first();
 		/*print_r($paciente);*/
 		if(count($paciente)>0){
-			$nutricionista	=	Nutricionista::find($paciente->nutricionista_id);
+			/*$nutricionista	=	Nutricionista::find($paciente->nutricionista_id);*/
+			$nutricionista = DB::table('nutricionistas')
+								->join('personas', 'personas.id', 'nutricionistas.persona_id')
+								->where('nutricionistas.persona_id', $paciente->nutricionista_id)
+								->get()
+								->first();
+			$paciente->nutricionista_nombre	=	$nutricionista->nombre;
+			$paciente->nutricionista_email	=	$nutricionista->email;
+		
 			$data	=	array(
 							'nombre'	=>	$paciente->nombre, 
 							'usuario'	=>	$paciente->usuario, 
@@ -81,8 +89,7 @@ class LoginController extends Controller
 				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
 				$message->to($paciente->email, $paciente->nombre)
 						->subject('=?utf-8?Q?=F0=9F=94=91 ' . $subject . '?=');
-						/*->subject('=?utf-8?Q?=F0=9F=94=91_Credenciales_NutriTrack_App_|_' . $paciente->nombre . '?=');*/
-				$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+				$message->from( $paciente->nutricionista_email, $paciente->nutricionista_nombre );
 				$message->bcc($bcc);
 				/*$message->replyTo(env('APP_EMAIL_REPLYTO'));*/
 			});
@@ -121,36 +128,6 @@ class LoginController extends Controller
 			}
 			$response['valid']	=	1;
 			$response['action']	=	'access';
-/*
-			$user		=	$request->offsetGet('email');
-			$password	=	$request->offsetGet('password');	
-			$nutricionista	=	Nutricionista::where('usuario','=', $user)
-									->where('contrasena','=', $password)->first();
-			
-			$request->offsetSet('client_id', '2');
-			$request->offsetSet('client_secret', '0uoQGOsoRODwmhE3xhniXBZsxauD9qobeBFDJyNE');
-			$request->offsetSet('grant_type', 'password');
-			$request->offsetSet('scope', '*');
-			$request->offsetSet('username', 'danilo@deudigital.com');
-			$request->offsetSet('password', 'deudigit');
-			$tokenRequest	=	$request->create('/oauth/token', 'POST', $request->all());
-			$response		=	Route::dispatch($tokenRequest);
-			$statusCode		=	$response->getStatusCode();
-			if($statusCode!=200)
-				return $response;
-
-			$persona	=	Persona::find($nutricionista->persona_id);
-			$json = (array) json_decode($response->getContent());		
-			
-			$json['nutricionista']['id'] = $persona->id;
-			$json['nutricionista']['nombre'] = $persona->nombre;
-			$json['nutricionista']['genero'] = $persona->genero;
-			$json['nutricionista']['telefono'] = $persona->telefono;
-			$json['nutricionista']['celular'] = $persona->celular;
-			$json['nutricionista']['email'] = $persona->email;
-			
-			$response->setContent(json_encode($json));
-			*/
 		} catch (\Exception $e) {
 			$response['hint']	=	$e->getMessage();
 		}
@@ -214,42 +191,23 @@ class LoginController extends Controller
 						->first();
 		
 		if(count($paciente)>0){
-/*
-			$html 	= '<h3>Datos de Autenticacion</h3>';
-			$html 	.= '<table rules="all" style="border-color: #666;" cellpadding="10">';
-			$html	.=	'<tr style="background-color: #eee;">';
-			$html	.=	'<th>Nombre</th>';
-			$html	.=	'<td>' . $paciente->nombre . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'<tr>';
-			$html	.=	'<th>Usuario</th>';
-			$html	.=	'<td>' . $paciente->usuario . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'<tr>';
-			$html	.=	'<th>Contrasena</th>';
-			$html	.=	'<td>' . $paciente->contrasena . '</td>';
-			$html	.=	'</tr>';
-			$html	.=	'</table>';
-			
-			$to			=	$paciente->email;
-			$subject 	=	'Recordatorio de datos autenticacion en NUTRITRACK';
-			$headers 	=	'From: info@nutricion.co.cr' . "\r\n";
-			$headers   .=	'Bcc: danilo@deudigital.com,jaime@deudigital.com' . "\r\n";
-			$headers   .=	'MIME-Version: 1.0' . "\r\n";
-			$headers   .=	'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
-			
-			mail($to, $subject, $html, $headers);
-*/
+			$nutricionista = DB::table('nutricionistas')
+								->join('personas', 'personas.id', 'nutricionistas.persona_id')
+								->where('nutricionistas.persona_id', $paciente->nutricionista_id)
+								->get()
+								->first();
+			$paciente->nutricionista_nombre	=	$nutricionista->nombre;
+			$paciente->nutricionista_email	=	$nutricionista->email;
+		
 			$data	=	array(
 							'nombre'	=>	$paciente->nombre, 
 							'usuario'	=>	$paciente->usuario, 
 							'contrasena'=>	$paciente->contrasena
 						);
-			Mail::send('emails.paciente.change_password', $data, function($message) {
+			Mail::send('emails.paciente.change_password', $data, function($message) use ($paciente)  {
 				$message->to($paciente->email, $paciente->nombre);
 				$message->subject('Recordatorio de datos autenticacion en NUTRITRACK');
-				
-				$message->from(env('EMAIL_FROM'), env('EMAIL_FROM_NAME'));
+				$message->from( $paciente->nutricionista_email, $paciente->nutricionista_nombre );
 				$message->bcc(env('EMAIL_BCC'));
 				$message->replyTo(env('EMAIL_REPLYTO'));
 			});
