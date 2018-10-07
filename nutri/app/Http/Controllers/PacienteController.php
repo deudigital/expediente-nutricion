@@ -462,26 +462,30 @@ class PacienteController extends Controller
 			], 200);
 			return $response;
 		}
-		
-		$file			=	$request->file('examen');
-		$filename_epoc	=	Carbon::now()->timestamp;		
-		$destination	=	public_path('/bioquimicas');
-		$filename	=	'examen_' . $filename_epoc . '_' . $request->paciente_id . '.' . $file->getClientOriginalExtension();
-		$new_filename	=	url('/bioquimicas/') . '/' .  $filename;
-		$file->move($destination, $new_filename);	
-		$bioquimicaClinica	=	BioquimicaClinica::create([
-								'filename'		=>	$new_filename,
-								'fecha'			=>	DB::raw('now()'),
-								'paciente_id'	=>	$request->paciente_id,
-							]);
-		$bioquimicaClinica	=	BioquimicaClinica::find($bioquimicaClinica->id);	
-		$fecha	=	explode('-', $bioquimicaClinica->fecha);
-		$fecha	=	$fecha[2].'/'.$fecha[1].'/'.$fecha[0];
-		$bioquimicaClinica->fecha	=	$fecha;
-		$bioquimicaClinica->file	=	$filename;
-		$response	=	array(
-							'data'	=>	$bioquimicaClinica
-						);
+		try{
+			$file			=	$request->file('examen');
+			$filename_epoc	=	Carbon::now()->timestamp;		
+			$destination	=	public_path('/bioquimicas');
+			$filename	=	'examen_' . $filename_epoc . '_' . $request->paciente_id . '.' . $file->getClientOriginalExtension();
+			$new_filename	=	url('/bioquimicas/') . '/' .  $filename;
+			$file->move($destination, $new_filename);	
+			$bioquimicaClinica	=	BioquimicaClinica::create([
+									'filename'		=>	$new_filename,
+									'fecha'			=>	DB::raw('now()'),
+									'paciente_id'	=>	$request->paciente_id,
+								]);
+			$bioquimicaClinica	=	BioquimicaClinica::find($bioquimicaClinica->id);	
+			$fecha	=	explode('-', $bioquimicaClinica->fecha);
+			$fecha	=	$fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+			$bioquimicaClinica->fecha	=	$fecha;
+			$bioquimicaClinica->file	=	$filename;
+			$response	=	array(
+								'data'	=>	$bioquimicaClinica
+							);
+		} catch (\Exception $e) {
+			$response['code']	=	404;
+			$response['message']	=	$e->getMessage();
+		}
 		$response	=	Response::json($response, 201);
 		return $response;
 	}
