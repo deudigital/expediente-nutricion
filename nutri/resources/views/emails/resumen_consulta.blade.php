@@ -127,7 +127,9 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                               <td height="40"></td>
                             </tr>
                           </table>
+@isset($bva)
 @php
+	if(count($bva)>0){
 	$i	=	0;
 @endphp
 @foreach ($bva as $key=>$va)
@@ -364,6 +366,10 @@ endif;
 	$i++;
 @endphp
 @endforeach
+@php
+	}
+@endphp
+@endisset
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>

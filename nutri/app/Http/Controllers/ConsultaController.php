@@ -907,6 +907,7 @@ Enviar usuario y contrasena?????? por ahora si...
 										->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
 										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
 										->get();
+			$aPrescripcionItems	=	array();
 			if(count($detalleDescripcion)>0){
 				$aPrescripcionItems	=	$detalleDescripcion->toArray();
 				$array	=	array();
@@ -1083,12 +1084,13 @@ Enviar usuario y contrasena?????? por ahora si...
 							'paciente_nombre'=>	$paciente->nombre, 
 							'paciente_usuario'=>	$paciente->usuario, 
 							'paciente_contrasena'=>	$paciente->contrasena, 
-							'bva'	=>	$blade['va'],
 							'valoracion_antropometrica'=>	$_resumen['va'], 
 							'porciones'=>	$_resumen['porciones'], 
 							'patron_menu'=>	$_resumen['patronMenu'], 
 
 						);
+		if(isset($blade['va']))
+			$data['bva']	=	$blade['va'];
 		if(isset($blade['prescripcion']))
 			$data['bprescripcion']	=	$blade['prescripcion'];
 		if(isset($blade['patron_menu']))
