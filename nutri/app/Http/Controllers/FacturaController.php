@@ -783,10 +783,9 @@ class FacturaController extends Controller
 		$nota_credito->nutricionista=	$nutricionista->nombre;
 		$nota_credito->nutricionista_email=	$nutricionista->email;
 		Mail::send('emails.documento', $data, function($message) use ($nota_credito) {
-			$subject	=	$nota_credito->titulo . ' N° ' . $nota_credito->numeracion .' del Emisor: ';
-			$subject	.=	htmlentities($nota_credito->nutricionista);
-			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
-
+				$subject	=	$nota_credito->titulo . ' N=c2=b0' . $nota_credito->numeracion .' del Emisor: ';
+				$subject	.=	htmlentities($nota_credito->nutricionista);
+				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
 
 				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
 				$message->to($nota_credito->email, $nota_credito->nombre_persona);
