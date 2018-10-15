@@ -37,13 +37,33 @@ export class InicioComponent implements OnInit {
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
 		this.hidePrompt	=	false;
-		this.getConsultasPendientes();
-		this.getAgregadoAPI();
+		this.init();		
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
 		this.tagBody.classList.remove('page-inicio');
 		this.tagBody.classList.remove('open-modal');
+	}
+	
+	init(){
+		/**/
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				/*console.log(response);*/
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				this.getConsultasPendientes();
+				this.getAgregadoAPI();
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+				this.showLoading	=	false;
+			});
 	}
 	onSelect(consulta: Consulta) {
 		this.selectedConsulta = consulta;
@@ -113,7 +133,7 @@ export class InicioComponent implements OnInit {
 		);
 	}
 
-	getConsultasPendientes() {
+	getConsultasPendientes__login() {
 		//console.log('get Consultas Pendientes');
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
@@ -128,8 +148,8 @@ export class InicioComponent implements OnInit {
 				this.formControlDataService.getConsultasPendientes()
 					.subscribe(
 						 response  => {
-									console.log('Consultas Pendientes');
-									console.log(response);
+									/*console.log('Consultas Pendientes');
+									console.log(response);*/
 									this.showLoading	=	false;
 										if(response){
 											this.setConsultas(response);
@@ -149,24 +169,20 @@ export class InicioComponent implements OnInit {
 				this.showLoading	=	false;
 			});
 	}
-	getConsultasPendientes__original() {
-		//console.log('get Consultas Pendientes');
+	getConsultasPendientes() {
 		this.formControlDataService.getConsultasPendientes()
-		.subscribe(
-			 response  => {
-						console.log('Consultas Pendientes');
-						console.log(response);
-						this.showLoading	=	false;
-							if(response){
-								this.setConsultas(response);
-								this.showBoxConsultasPendientes	=	true;
-							}
-						
-						},
-			error =>  {
+			.subscribe(
+				response  => {
 					this.showLoading	=	false;
-					console.log(<any>error)
-				}
+					if(response){
+						this.setConsultas(response);
+						this.showBoxConsultasPendientes	=	true;
+					}
+				},
+			error =>  {
+				this.showLoading	=	false;
+				console.log(<any>error)
+			}
 		);
 	}
 }

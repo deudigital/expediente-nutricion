@@ -151,29 +151,22 @@ export class ValoracionComponent implements OnInit {
 		this.helpers	=	this.model.getHelpers();
 		this.mng		=	this.model.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(false);
-		this.nuevaConsulta			=	false;
-		this.disableButtonHistorial	=	true;
-		this.loading_data_form		=	true;
+		this.nuevaConsulta				=	false;
+		this.disableButtonHistorial		=	true;
+		this.loading_data_form			=	true;
 		this.loading_section_analisis	=	false;
-		this.esAdulto				=	false;
-		this.esMenor				=	false;
-		this.displayoptionsForMenor	=	false;
-		this.displayoptionsForAdulto=	false;
-		this.displayMethods			=	false;
-		this.displayGraphicChildren	=	false;
+		this.esAdulto					=	false;
+		this.esMenor					=	false;
+		this.displayoptionsForMenor		=	false;
+		this.displayoptionsForAdulto	=	false;
+		this.displayMethods				=	false;
+		this.displayGraphicChildren		=	false;
 		
-		this.mostrarErrorPeso		=	false;
-		this.mostrarErrorEstatura	=	false;
+		this.mostrarErrorPeso			=	false;
+		this.mostrarErrorEstatura		=	false;
 		
-		this.displayNavigation		=	false;
-		this.chartChildrenVisible	=	false;
-	
-		this._getDatosConsulta(this.model.consulta.id);
-		/*window.onresize = ( e ) => {
-			this._getScreenSize();
-			this.graficar();
-			this.graficarEnModal();
-		}*/
+		this.displayNavigation			=	false;
+		this.chartChildrenVisible		=	false;
     }
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -183,20 +176,13 @@ export class ValoracionComponent implements OnInit {
 		this.graficandoChildren		=	false;
 		this.graficandoHistorialChildren		=	false;
 		this.solicitando			=	false;
-		//this._getScreenSize();
 		this.showBoxIndicadorEstaturaEdad	=	false;
 		this.showBoxIndicadorPesoEdad		=	false;
 		this.showBoxIndicadorPesoEstatura	=	false;
 		this.displayAnalisisPesoIdeal		=	false;
 		console.clear();
-		window.onresize = ( e ) => {
-			clearTimeout(this.doit);
-			this.doit	=	setTimeout(() => {
-								this._getScreenSize();
-								this.graficar();
-								this.graficarEnModal();
-							}, 1000);
-		}
+		this.init();
+		
 	}
 	ngOnDestroy() {
 		if(!this.btnNavigation_pressed)
@@ -205,8 +191,25 @@ export class ValoracionComponent implements OnInit {
 		this.grafico_children_items	=	null;
 		this.helpers.scrollToForm(true);
 	}
-	
-	_setInfoIdeal(){/*console.log('_setInfoIdeal');*/
+	init(){
+		this.allowCalculate	=	false;
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				/*console.log(response);*/
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				this._getDatosConsulta(this.model.consulta.id);
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});
+	}
+	_setInfoIdeal(){
 		if(!this.valoracion.estatura)
 			return 0;
 
@@ -387,7 +390,7 @@ export class ValoracionComponent implements OnInit {
 			Number(this.oValoracion.percentil_analisis)		!==	Number(this.valoracion.percentil_analisis)
 		);
 	}
-	_getDatosConsulta(consulta_id){
+	_getDatosConsulta__login(consulta_id){
 		if(!consulta_id)
 			return ;
 		
@@ -431,7 +434,7 @@ export class ValoracionComponent implements OnInit {
 				console.log(JSON.parse(err._body));
 			});
 	}
-	_getDatosConsulta__original(consulta_id){
+	_getDatosConsulta(consulta_id){
 		if(!consulta_id)
 			return ;
 		
@@ -454,7 +457,17 @@ export class ValoracionComponent implements OnInit {
 
 				 this._getJsonData();
 				 this.loading_section_analisis	=	false;
-				 this.displayNavigation			=	true;				
+				 this.displayNavigation			=	true;
+				 
+				 window.onresize = ( e ) => {
+					clearTimeout(this.doit);
+					this.doit	=	setTimeout(() => {
+										this._getScreenSize();
+										this.graficar();
+										this.graficarEnModal();
+									}, 1000);
+				}
+		
 			},
 			error => console.log(<any>error)
 		);

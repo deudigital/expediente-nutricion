@@ -27,34 +27,41 @@ export class AppComponent implements OnInit {
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
-	get developmentInfo(){	
-		this.fcd			=	this.formControlDataService.getFormControlData();
-		this.consulta		=	this.fcd.getFormConsulta();
-		this.valoracion		=	this.fcd.getFormValoracionAntropometrica();
-		this.prescripcion	=	this.fcd.getFormPrescripcion();
-		this.rdd			=	this.fcd.getFormRdd();
-		this.paciente			=	this.fcd.getFormPaciente();
-
+	get developmentInfo(){
 		var summary	=	'';
-		if(this.consulta.id){
-			summary	+=	'Consulta: ' + this.consulta.id;
+		try{
+			this.fcd			=	this.formControlDataService.getFormControlData();
+			this.consulta		=	this.fcd.getFormConsulta();
+			this.valoracion		=	this.fcd.getFormValoracionAntropometrica();
+			this.prescripcion	=	this.fcd.getFormPrescripcion();
+			this.rdd			=	this.fcd.getFormRdd();
+			this.paciente			=	this.fcd.getFormPaciente();
+
+			
+			if(this.consulta.id){
+				summary	+=	'Consulta: ' + this.consulta.id;
+			}
+			if(this.prescripcion.id){
+				summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
+			}
+			if(this.valoracion.id){
+				summary	+=	'  |  VA: ' + this.valoracion.id;
+			}
+			if(this.rdd.id){
+				summary	+=	'  |  Rdd: ' + this.rdd.id;
+			}
+			if(this.consulta.paciente_id){
+				summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
+				summary	+=	' (' + this.paciente.genero + ', ' + this.paciente.edad.toFixed(2) + ' años )';
+			}
+			if(summary)
+				summary	+=	'  |  ';
+
+			summary += 'Nutricionista: ' + this.fcd.nutricionista_id + '  |  ';
+		}catch(err) {
+			console.log( 'E:_setInfoIdeal(' + err.message + ')' );
 		}
-		if(this.prescripcion.id){
-			summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
-		}
-		if(this.valoracion.id){
-			summary	+=	'  |  VA: ' + this.valoracion.id;
-		}
-		if(this.rdd.id){
-			summary	+=	'  |  Rdd: ' + this.rdd.id;
-		}
-		if(this.consulta.paciente_id){
-			summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
-			summary	+=	' (' + this.paciente.genero + ', ' + this.paciente.edad.toFixed(2) + ' años )';
-		}
-		if(summary)
-			summary	+=	'  |  ';
-		return summary + 'Nutricionista: ' + this.fcd.nutricionista_id + '  |  ';
+		return summary;
 	}
 
 }

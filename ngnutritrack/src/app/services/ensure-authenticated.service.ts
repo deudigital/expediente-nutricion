@@ -8,7 +8,7 @@ export class EnsureAuthenticated implements CanActivate {
 	_checking:boolean;
 	_status:any;
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
-		console.log('ensure-authenticated-service');
+		/*console.log('ensure-authenticated-service');*/
 		this._checking	=	false;
 	}
 	canActivate(): boolean {/*console.log('canActivate');*/

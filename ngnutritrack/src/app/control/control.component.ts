@@ -28,7 +28,6 @@ export class ControlComponent implements OnInit {
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.mng		=	this.formControlDataService.getFormControlData().getManejadorDatos();
 		this.helpers	=	this.formControlDataService.getFormControlData().getHelpers();
-		this.getPacientesDeNutricionista();
 	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
@@ -38,13 +37,31 @@ export class ControlComponent implements OnInit {
 		this.showFilter		=	false;
 		this.canFilter		=	false;
 		this.seleccionado	=	false;
+		this.init();
 	}
 	ngOnDestroy(){
 		this.tagBody.classList.remove('with-bg');
 		this.tagBody.classList.remove('page-control');
 		this.helpers.scrollToForm(true);
 	}
-	getPacientesDeNutricionista(){
+	init(){
+		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
+			.then((response) => {
+				var response	=	response.json();
+				console.log(response);
+				if(!response.valid){
+					localStorage.clear();
+					this.formControlDataService.getFormControlData().message_login	=	response.message;
+					this.router.navigateByUrl('/login');
+					return false;
+				}
+				this.getPacientesDeNutricionista();
+			})
+			.catch((err) => {
+				console.log(JSON.parse(err._body));
+			});
+	}
+	getPacientesDeNutricionista__Login(){
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
@@ -70,12 +87,10 @@ export class ControlComponent implements OnInit {
 				console.log(JSON.parse(err._body));
 			});
 	}
-	getPacientesDeNutricionista__original(){
+	getPacientesDeNutricionista(){
 		this.formControlDataService.getPacientesDeNutricionista()
 		.subscribe(
 			 response  => {
-						/*console.log('<--cRud getPacientesDeNutricionista');
-						console.log(response);*/
 						this.pacientes	=	response;
 						this.canFilter	=	this.pacientes.length > 0;
 					},

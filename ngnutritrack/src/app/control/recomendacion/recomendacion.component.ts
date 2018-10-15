@@ -60,7 +60,7 @@ export class RecomendacionComponent implements OnInit {
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
 		this.disableButtonHistorial	=	false;
-		this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
+		/*this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);*/
 		/*console.log(this.va);*/
 		this._tasa_basal	=	0;
 		this._gasto_calorico_real	=	0;
@@ -75,13 +75,15 @@ export class RecomendacionComponent implements OnInit {
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				console.log(response);
+				/*console.log(response);*/
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
 					this.router.navigateByUrl('/login');
 					return false;
 				}
+				this.va.setPesos(this.va.peso, this.va.estatura, this.paciente.genero);
+				
 				/*
 				rda  0 - 18a
 				*/
@@ -243,8 +245,8 @@ export class RecomendacionComponent implements OnInit {
 		this.formControlDataService.select('rdds', paciente_id)
 		.subscribe(
 			 response  => {
-						/*console.log('<-- cRud RDDs');*/
-						/*console.log(response);*/
+						console.log('<-- cRud RDDs');
+						console.log(response);
 						this.processHistorial(response);
 						this.createGraphs();
 						},
