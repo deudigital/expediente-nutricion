@@ -10,7 +10,7 @@
 				<h4>Datos Personales</h4>
 			</header>
 
-		<form #personalForm="ngForm" class="editForm" novalidate>
+		<form #personalForm="ngForm" class="editForm" method="post" novalidate>
 			<section>
 				<div class="row">
 					<app-factura-vacia></app-factura-vacia>
@@ -57,16 +57,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6"><!--								 [selDate]="selDate"-->
 						<div class="form-group with-icon nacimiento">
 							<label class="col-form-label" for="fecha_nac">Fecha de Nacimiento</label>
-							<my-date-picker name="fecha_nac" 
-											class="form-control esc-dp"
-											[options]="birthdayOptions"
-											[(ngModel)]="fecha_nac"                                         
-											(dateChanged)="verificarEdad()"
-											required>
-							</my-date-picker>
+							<my-date-picker 
+								name="fecha_nac" 
+								class="form-control esc-dp" 
+								[options]="birthdayOptions"
+								[(ngModel)]="fecha_nac"                                         
+								(dateChanged)="verificarEdad()"
+								required></my-date-picker>
 							 <i></i>
 						</div>
 					</div>
@@ -117,9 +117,11 @@
 					disabled="disabled"
 				> ANTERIOR 
 				</button>
-				<button class="btn btn-success next" 
-				[disabled]="!personalForm.valid || btnNavigation_pressed"
-				(click)="Next()"
+				<button 
+					type="button" 
+					class="btn btn-success next" 
+					[disabled]="!personalForm.valid || btnNavigation_pressed"
+					(click)="Next()"
 					
 				> SIGUIENTE <span *ngIf="btnNavigation_pressed" class="fa fa-spinner fa-spin"></span>
 				</button>

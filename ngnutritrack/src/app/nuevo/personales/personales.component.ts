@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {IMyDpOptions} from 'mydatepicker';
+import {IMyDpOptions, IMyDate} from 'mydatepicker';
 
 import { Analisis, Paciente } from '../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
@@ -23,7 +23,8 @@ export class PersonalesComponent implements OnInit {
 	page:string;
 	pacienteNuevo:boolean;
 	
-	public fecha_nac: any = { date: {year: 2000, month: 10, day:15 } };;
+	private selDate: IMyDate = {year: 0, month: 0, day: 0};
+	public fecha_nac: any;/* = { date: {year: 2000, month: 10, day:15 } };;*/
 
 	public birthdayOptions: IMyDpOptions = {
 		dateFormat: 'dd/mm/yyyy',
@@ -39,6 +40,17 @@ export class PersonalesComponent implements OnInit {
 		
 		this.helpers	=	this.fcData.getHelpers();
 		/*console.log(this.paciente);*/
+		
+		/*let d: Date = new Date();
+        this.fecha_nac = {date: {year: d.getFullYear(), 
+                             month: d.getMonth() + 1, 
+                             day: d.getDate()}};*/
+	}
+
+	ngOnInit() {
+		this.btnNavigation_pressed	=	false;
+		//this.verificarEdad();
+		this.pacienteNuevo	=	this.mng.operacion=='nuevo-paciente';
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
@@ -56,13 +68,6 @@ export class PersonalesComponent implements OnInit {
 			.catch((err) => {
 				console.log(JSON.parse(err._body));
 			});
-	}
-
-	ngOnInit() {
-		this.btnNavigation_pressed	=	false;
-		//this.verificarEdad();
-		this.pacienteNuevo	=	this.mng.operacion=='nuevo-paciente';
-		
 			
 	}
 	ngOnDestroy() {
@@ -75,12 +80,17 @@ export class PersonalesComponent implements OnInit {
 			this.paciente.nutricionista_id	=	this.fcData.nutricionista_id;
 		
 		if(this.paciente.fecha_nac){
+			console.log('this.paciente.fecha_nac: ' + this.paciente.fecha_nac);
 			var current_fecha = this.paciente.fecha_nac.split('/');
-			/*console.log(current_fecha);*/
+			console.log('current_fecha: ');
+			console.log(current_fecha);
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
-			var day		=	Number(current_fecha[0]);		
+			var day		=	Number(current_fecha[0]);
+
 			this.fecha_nac		= { date: {year: year, month: month, day:day } };
+			/*this.selDate		= {year: year, month: month, day:day };*/
+			console.log( this.fecha_nac );
 		}
 		
 		this.oPaciente.cedula				=	this.paciente.cedula;
