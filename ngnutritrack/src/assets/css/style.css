@@ -2,31 +2,24 @@ body{font-family: 'Montserrat', sans-serif;color:#000;font-weight:500;padding-bo
 textarea,select,input,table {max-width: 100%;}
 img,iframe,figure{max-width:100%}
 img{height:auto}
-
 body.main{padding-top:50px}
 body.with-bg:before,
 body.with-bg:after {content: "";display: block;height: 100%;width: 100%;top: 0;position: absolute;z-index:-1}
-
 body.with-bg.page-inicio:before{background: url(../images/bg-left@2x.png) no-repeat 0 0 transparent;background-size: 77px 301px;left:0;}
 body.with-bg.page-inicio:after {background: url(../images/bg-right@2x.png) no-repeat top right transparent;background-size: 202px 306px;right: 0;}
-
 body.page-control {padding-top: 40px;}
 body.with-bg.page-control:before{background: url(../images/bg-ctrl-lt@2x.png) no-repeat 0 0 transparent;background-size: 288px 169px;left:0;}
 body.with-bg.page-control:after {background: url(../images/bg-ctrl-br@2x.png) no-repeat bottom right transparent;background-size: 196px 227px;right: 0;}
-
 /*	1140x2100	-	570x1050	*/
 .page-title:before,
 .genero span:before,
 i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-size: 570px 1050px;font-style:normal}
 /*******************/
-
 .form-control::-webkit-input-placeholder {font-size:10px}
 .form-control::-moz-placeholder {font-size:10px}
 .form-control:-ms-input-placeholder {font-size:10px}
 .form-control:-moz-placeholder {font-size:10px}
-.btn {-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius: 25px;-khtml-border-radius: 25px;
-padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:none !important}
-
+.btn {-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius: 25px;-khtml-border-radius: 25px;padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:none !important}
 .btn[disabled],
 .btn[disabled]:hover,
 .btn[disabled].focus,
@@ -36,8 +29,6 @@ padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:
 .btn-default.active, 
 .btn-default:active,
 .btn {background-color: #8bc23f;color: #fff;border-color:#8bc23f}
-
-
 .btn.red,
 .btn-default:not([disabled]).active.focus, 
 .btn-default:not([disabled]).active:focus, 
@@ -51,36 +42,28 @@ padding-left: 28px;padding-right: 28px;font-size: 12px;line-height: 2em;outline:
 .btn.red {padding-left: 45px;padding-right: 45px;}
 /*******************/
 .transition{-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;}
-/*********/
 /*******************/
 .main .navbar-brand {position: absolute;float: none;left: 50%;margin-left: -150px !important;margin-top:-50px}
 .main .navbar {margin-bottom: 120px;}
 .navbar-default {background-color: transparent;border-color: transparent;}
 /********************/
 .main{font-size:14px;}
-
-
 /********************/
 .buttons{margin:15px 0 25px;text-align:center;}
 /********************/ /********************/
 .main .navbar-default .navbar-nav > li:not(:first-child):before {border-left: 1px solid #000;content: "";position: absolute;height: 20px;width: 1px;top: 30%;}
-
-
-
-
 .navbar.top .navbar-brand {margin-top:-25px;height:auto;}
 .navbar.top .navbar-nav > li{}
 .navbar.top .navbar-nav > li:not(:first-child):before {border-left: 1px solid #000;content: "";position: absolute;height: 20px;width: 1px;top: 30%;}
-/*.navbar.top .navbar-nav > li > a {font-size:12px}*/
 .navbar.top .navbar-nav > li > a > i {display: block;text-align: center;height: 22px;width: 20px;margin:0 auto}
 .navbar.top .navbar-nav > li.nuevo > a > i{background-position: -49px 0;width: 18px;	height: 22px;}
 .navbar.top .navbar-nav > li.control > a > i{background-position: -76px 0;width: 27px;height: 22px;}
 .navbar.top .navbar-nav > li.agenda > a > i{background-position: -111px 0;width: 22px;height: 22px;}
 /***************************/
 .genero .checkbox > label{width:48%;}
-/********************/ /********************/
+/********************/
 .content-nav{}
-.content-nav h3 {font-weight: 700;font-size: 16px;text-align: right;margin-right: 35px;/*margin-top: 35px;*/	margin-bottom: 30px;}
+.content-nav h3 {font-weight: 700;font-size: 16px;text-align: right;margin-right: 35px;margin-bottom: 30px;}
 .content-nav .list-group {text-align: right;font-weight:600}
 .content-nav .list-group > li {background-color: transparent;border: none;position:relative;}
 .content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";}
@@ -94,27 +77,19 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a,
 .content-nav .list-group > li > a > i{content: "";	display: inline-block;	z-index: 100;	position: absolute;	right: -15px;	top: 50%;	margin-top: -23px;background-color:#fff;}
 .content-nav .list-group > li.valoracion > a > i {background-position: -366px -183px;width: 46px;	height: 46px;}
 .content-nav .list-group > li.recomendacion > a > i {background-position: -425px -183px;	width: 46px;height: 46px;}
-
 .content-nav .list-group > li.dieta > a > i {background-position: -482px -183px;	width: 46px;height: 46px;}
 .content-nav .list-group > li.valoracion > a.active > i {background-position: -366px -238px;	width: 45px;height: 46px;}
 .content-nav .list-group > li.recomendacion > a.active > i {background-position: -425px -238px;	width: 45px;height: 46px;}
-
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a > i,
 .content-nav .list-group > li.dieta > a.active > i {background-position: -482px -238px;	width: 45px;height: 46px;}
 .content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;right: -5px;}
 .content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;}
-/*.content-nav .paciente .list-group > li:not(:first-child){margin-top:30px}
-*/ 
 .content-nav .list-group > li.personales > a > i {background-position: 0 -183px;width: 44px;height: 46px;}
 .content-nav .list-group > li.contacto > a > i {background-position: -56px -183px;width: 44px;height: 46px;}
 .content-nav .list-group > li.hcp > a > i {background-position: -112px -183px;width: 59px;right: -28px;height: 53px;}
 .content-nav .list-group > li.hcf > a > i {background-position: -183px -183px;width: 58px;right: -28px;height: 49px;}
 .content-nav .list-group > li.objetivo > a > i {background-position: -254px -183px;width: 45px;height: 46px;}
 .content-nav .list-group > li.habito > a > i {background-position: -310px -183px;width: 45px;height: 47px;}
-
-
-
-
 .content-nav .list-group > li.personales > a:hover > i,
 .content-nav .list-group > li.personales > a.active > i {background-position: 0 -241px;width: 44px;height: 46px;}
 .content-nav .list-group > li.contacto > a:hover > i,
@@ -129,22 +104,16 @@ body.menu-parent-hcp .content-nav .list-group > li.hcp > a > i ,
 body.menu-parent-habito .content-nav .list-group > li.habito > a > i , 
 .content-nav .list-group > li.habito > a:hover > i,
 .content-nav .list-group > li.habito > a.active > i {background-position: -310px -241px;width: 45px;height: 47px;}
-
-
 .content-nav .list-group > li > a.disabled {pointer-events: none;}
-/*.content-nav .list-group > li.current-step-consulta ~ li > a{pointer-events: none;}*/
 /********************/
 .page-title {position: relative;padding-left: 30px;font-size:18px;}
 .page-title:before {content: "";position: absolute;display: block;z-index: 100;left: 30px;width: 19px;height: 28px;background-position: -19px 0px;left: 0;top:-5px;}
 /*********************/
-/*
-.content-form > section
-*/
 .content-form section{background: #f3f3f3;border-radius: 15px;padding: 15px;}
 .content-form section:not(:first-child){margin-top:20px;}
 .content-form section header {text-align: center;margin-bottom: 20px;}
 .content-form section header > .title {margin-top: 0;font-weight: 500;font-size: 17px;color:#000}
-/**/
+/*********************/
 .content-form tbody .form-group > label{margin-left:15px;}
 .content-form .form-control{background: #e0e0e0;border-radius: 20px;color:#000;font-weight:500;box-shadow:none;border-color:#e0e0e0;}
 .content-form input.form-control:not(textarea){height:37px}
@@ -187,7 +156,7 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .asignacion-porciones tbody tr td .form-control {margin-top: -7px}
 .content-form .asignacion-porciones tbody label {padding-left: 45px;position: relative;display: block;text-align: left;padding-top: 0;margin-top: 0;}
 /********************/
-.content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-3px/*6px*/;}
+.content-form .asignacion-porciones i {display: inline-block;position: absolute;left: 0;top:-3px;}
 .alimentos {text-align: center}
 .alimentos figure {height: 70px;display: table;width: 100%;}
 .alimentos figure .inner{display: table-cell;vertical-align: middle;}
@@ -239,10 +208,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .content-form .resumen tbody tr > td{color:#fff;}
 .content-form .resumen tbody tr:nth-child(odd) > td{background-color:#969696;}
 .content-form .resumen tbody tr:nth-child(even) > td{background-color:#c0c0c0;}
-/*.content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
-.content-form .resumen tbody tr td:last-child {padding-right: 30px;}*/
 /********************/
-.content-form > .form-patron-menu input.form-control {/*font-size: 10px;*/line-height: 1em;padding-right: 35px;/*height: auto;*/word-break: break-all;min-height:37px}
+.content-form > .form-patron-menu input.form-control {line-height: 1em;padding-right: 35px;word-break: break-all;min-height:37px}
 /********************/
 .main .links{margin:5% 0}
 .main.page-inicio .links{margin:5% -15px}
@@ -258,11 +225,8 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .links .box a figure.main-nuevo{}
 .main .links .box a figure.main-nuevo i {background-position: 0 -552px;width: 48px;height: 55px;}
 .main .links .box a:hover figure.main-nuevo i{background-position:0 -623px;}
-
-
 .main .links .box a figure.main-agenda i {background-position: -56px -551px;width: 58px;height: 59px;}
 .main .links .box a:hover figure.main-agenda i{background-position:-56px -623px;}
-
 .main .links .box a figure.main-control i {background-position: -129px -552px;width: 69px;height: 55px;}
 .main .links .box a:hover figure.main-control i{background-position:-129px -623px;}
 /***************************/
@@ -281,93 +245,63 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 /***************************/
 .main .listado.consultas{background-color:#f3f3f3;text-align:center}
 .main .listado.consultas {margin:50px auto;border-radius:25px;padding:25px 15px;font-size:12px}
-
 .listado.consultas header {margin-bottom: 35px;}
 .main .listado.consultas .title > i {background-position: -431px -142px;height: 28px;width: 25px;top: 8px;left: 0;display: inline-block;position: relative;margin-right: 10px;}
 .main .listado.consultas ul li {background-color: #e0e0e0;border-radius: 25px;margin:10px 0 }
 .main .listado.consultas ul li i.fullname{margin: 0 5px 0 30px;}
-
 .main .listado.consultas ul li .action {position: absolute;border: none;}
 .main .listado.consultas ul li .continuar {padding: 6px 15px;right: 0;top: 0;}
 .main .listado.consultas ul li .eliminar {left: -30px;top: 3px;}
-
 /*******************/
 .main .listado.pacientes ul li i.fullname {margin-right: 10px;}
-.main .listado.pacientes {width: 424px;max-width:100%;/*background-color:#e6e6e6;*/margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
+.main .listado.pacientes {width: 424px;max-width:100%;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
 .main .listado.pacientes .form-group{margin-bottom:0;position:relative;margin-top:-15px}
-.main .listado.pacientes .form-control {background: #e0e0e0;border: none;box-shadow: none;/*border-radius: 18px 18px 0 0;*/padding-left: 53px;line-height:2.5em;height:auto;}
+.main .listado.pacientes .form-control {background: #e0e0e0;border: none;box-shadow: none;padding-left: 53px;line-height:2.5em;height:auto;}
 .main .listado.pacientes ul{padding:0 10px;max-height:300px;overflow:auto;height:auto}
 .main .listado.pacientes ul li {cursor:pointer;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
 .main .listado.pacientes ul li:hover {background-color:#7fb831;color:#fff;border-radius:25px;}
-
-
 a.active{color:red}
-
-.lista-examen {list-style: none;font-size: 10px;min-height:auto;/*margin-top:50px;*/}
+.lista-examen {list-style: none;font-size: 10px;min-height:auto;}
 .lista-examen > li {float: left;width: 20%;text-align: center;min-height: 150px;position: relative;}
 .lista-examen > li:before {border-left: 1px solid #b7b7b7;content: "";position: absolute;left: 0;width: 1px;height: 23%;top: 14%;}
 .lista-examen > li:nth-child(5n+1):before {border-left:none}
 .lista-examen > li > a {color:#727272;display:block;}
 .lista-examen > li > a > i {background-position: -219px -622px;width: 51px;height: 63px;display: inline-block;margin-bottom: 15px;}
-/*.lista-examen > li > a > i {background-position: -218px -622px;width: 50px;height: 55px;display: inline-block;margin-bottom: 15px;}*/
 .lista-examen > li > a > span {display: block;}
 .info-sending { background-color: rgba(0,0,0,0.75); color: white; text-align: center; width: 250px; padding: 10px 5px; position: absolute; left: 50%; z-index: 1; border-radius: 0 5px 5px 0; top: -250px; transition: all 0.4s cubic-bezier(1,0,0,1) 0.4s; }
 body.sending .info-sending{display:block;top:50px}
-
-
 .distribucion {text-align:center;}
 .distribucion .carbohidratos {color: #0aa4d8;}
 .distribucion .proteinas {color: #d8b80a;}
 .distribucion .grasas {color: #f34026;}
-
 .distribucion h5 {font-size: 12px;}
 .distribucion .form-control {width: 65%;/*80px;*/border-radius: 10px;margin: 0 auto;text-align: center;}
-
-/*body.page-inicio .main{padding-top:45px}
-body.page-inicio .container-logo {margin-bottom: 55px;}*/
 body.page-inicio .container-logo {margin-bottom: 0;}
-
 .calculo-calorico {font-weight: 600;text-align: center;}
-
 .wrap-patologias .separator {width: 97%;display: inline-block;}
 .container-file {display: block;background: #dedede;padding: 20px;border-radius: 20px;line-height: 2em;text-align: center;min-height: 70px;color: rgba(0,0,0,0.5);}
 .container-file > input[type="file"] {visibility: hidden;position: absolute;color: #e0e0e0;}
-
-
 .esc-modal .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
-
 .esc-modal .table tr.detalle_prescripcion > td {color:#fff}
 .esc-modal .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}
 .esc-modal .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
 .esc-modal .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
 .esc-modal .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
-
-
-/*.expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;display: block;position: absolute !important;margin-left: -20px;}*/
-
 .expand-patron-menu {position: absolute;left: -9px;z-index: 1000;width: 20px;height: 17px;display: block;}
 .esc-modalbox .expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;	display: block;top: 0;}
-
-
-
 .expand-patron-menu.open i{background-position: -531px -506px;}
 .select-ubicacion select {margin-bottom: 15px;}
-
 .esc-grafico-boxes > div:not(.active) {display: none;}
 .esc-grafico-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
 .esc-grafico-children-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
-
 .content-form .analisis > .box{width:50%;}
-
 .loading-graphic{margin:25px}
-
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
 	body.page-inicio .container-logo {margin-bottom: 55px;}
 	.main.page-inicio .listado.consultas {margin-top:90px;}
 	.main .listado.consultas {padding:25px 123px;}
 	.main .listado.pacientes {padding:15px;}
-	
 	body.page-control .navbar.top {margin-top: 35px;}
 	.navbar.top {margin-top: 25px;margin-bottom: 0;}
 	.label-modal-porciones{font-size:14px;}
@@ -377,16 +311,12 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group:first-of-type{margin-top:5px}
 	.content-nav .list-group > li:not(:last-child) > a:after {width: 3px;height: 50px;right: 5px;border-right: 3px dotted #acacac;}
 	.content-nav .list-group > li:not(:first-child){margin-top:30px}
-	
 	.content-nav .list-group-item.hcp > a {margin-top: 6px;}
 	.content-nav .list-group-item.hcp > a > i {	margin-top: -29px !important;}
-
 	.content-nav .list-group-item.hcf > a{margin-top: 3px;}
 	.content-nav .list-group-item.hcf > a > i {	margin-top: -26px !important;}
-	
 	.content-form .resumen tbody tr td:first-child {padding-left: 22px;text-align:left;}
 	.content-form .resumen tbody tr td:last-child {padding-right: 30px;}
-
 	.main .links .box a > strong {margin-top: 20px;font-size: 17px;}
 	.form-group {margin-bottom: 30px;}
 	.navbar.top:not(.logo-center) .navbar-brand {width: 100%;text-align: right;padding-right: 50px;}
@@ -400,32 +330,18 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.esc-modalbox .table.prescripcion tbody tr > td:first-child{width:100px}
 	.page-title {margin-left: -30px;}
 	.nplr{padding-left:0;padding-right:0}
-	/*.row.no-gutters {margin-right: 0;margin-left: 0;}*/
 	.row.no-gutters > [class^="col-"],
 	.row.no-gutters > [class*=" col-"] {padding-right: 0;padding-left: 0;}
-	
 	.np-section{margin-right: 0;}
 	.np-section > div:first-child {padding-right: 0;}
 	.np-section > div:not(:first-child) {padding-left: 5px;padding-right: 0;}
 	.row.dif {margin-bottom: 30px;}
 	.row.dif > div:first-child {margin-left: 0;}
 	.row.dif > div {width: 46%;margin-left: 8%;}
-	
 	.calculo-calorico > .row > div {padding: 0;}
-	
-	.wrap-patologias > .checkbox > .row > div:nth-child(6n+7), 
-	.wrap-patologias > .checkbox > .row > div:nth-child(6n+8), 
-	.wrap-patologias > .checkbox > .row > div:nth-child(6n+9){margin-top: 13px;}
-	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
-	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before, 
-	.wrap-patologias .checkbox > .row > div:nth-child(6n+9) > label:before {background-color: #e0e0e0;height: 1px;width: 100%;content: "";position: absolute;display: block;top: -12px;}
-	.wrap-patologias .checkbox > .row > div:nth-child(6n+7) > label:before, 
-	.wrap-patologias .checkbox > .row > div:nth-child(6n+8) > label:before{width: 120%;}
 	.loading-graphic{margin:50px}
-	
 	.table.historial.prescripcion .actions {position:relative}	
 	.table.historial.prescripcion .actions > .button-copy{position:absolute;top: -8px;left: -40px !important;text-indent: -500px;}
-	/*.actions > a.button-copy {left: -58px !important;text-indent: -500px;}*/
 }
 @media(min-width:992px){ 
 	.content-form .analisis > .box{width:20%;padding:0 10px;;min-height: 140px;margin-top:10px}
@@ -453,15 +369,11 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.calculo-calorico-recomendadas .inner {display: inline-block;margin-top: 15px;}
 	.lista-examen {padding:0}
 	.lista-examen > li {width:33.33%;}
-	
 	.content-form .analisis > .box{min-height:170px}
-	
 	.content-nav .list-group:not(.consulta) > li{margin-top:30px}
 	.content-nav .list-group:not(.consulta):nth-child(1) > li,
 	.content-nav .list-group:not(.consulta):nth-child(2) > li,
 	.content-nav .list-group:not(.consulta):nth-child(3) > li{margin-top:0}
-	
-	/*.esc-modal {padding: 40px 15px;}*/
 	.content-nav h3 {text-align: center;margin-right: 0;}
 	.content-nav .list-group.consulta {text-align: center;max-width: 350px;margin: auto auto 20px;}
 	.content-nav .list-group.consulta > li {width: 32%;display: inline-block;text-align: center;padding:0;}
@@ -471,7 +383,6 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group.consulta > li:not(:last-child) > a:after{width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 	.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 	.content-nav .board-inner.control .current-menu{margin-top:0}
-	
 	.actions > a.button-copy {position: absolute !important;left: 50% !important;top: 6px !important;}
 }
 @media(max-width:600px){
@@ -480,7 +391,6 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	body.page-inicio .main .listado.consultas ul li .action.continuar {position: relative;margin-top: 10px;width: 100%;}
 	body.page-inicio .main .listado.consultas ul li .eliminar {right: 15px;left: inherit;}
 }
-
 @media(max-width:499px){
 	.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 20px;}
 }
