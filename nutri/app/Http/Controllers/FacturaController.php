@@ -782,18 +782,19 @@ class FacturaController extends Controller
 		$nota_credito->numeracion	=	$numeracion_consecutiva;
 		$nota_credito->nutricionista=	$nutricionista->nombre;
 		$nota_credito->nutricionista_email=	$nutricionista->email;
-		Mail::send('emails.documento', $data, function($message) use ($nota_credito) {
-				$subject	=	$nota_credito->titulo . ' N=c2=b0' . $nota_credito->numeracion .' del Emisor: ';
-				$subject	.=	htmlentities($nota_credito->nutricionista);
-				$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+		Mail::send('emails.documento', $data, function($message) use ($nota_credito) {			
+			$bcc	=	explode(',', env('APP_EMAIL_BCC'));
+			$subject	=	$nota_credito->titulo . ' N=c2=b0' . $nota_credito->numeracion .' del Emisor: '.$nota_credito->nutricionista;
+			$subject	=	str_replace('&ntilde;','=C3=B1',$subject);
+			/*$subject	=	$nota_credito->titulo . ' N=c2=b0' . $subject;*/
 
-				$bcc	=	explode(',', env('APP_EMAIL_BCC'));
-				$message->to($nota_credito->email, $nota_credito->nombre_persona);
-				$message->subject('=?utf-8?Q?=F0=9F=93=9D ' . $subject);
-				$message->from( $nota_credito->nutricionista_email, $nota_credito->nutricionista );
-				$message->cc( $nota_credito->nutricionista_email );
-				$message->bcc($bcc);
-			});
+			$message->subject('=?utf-8?Q?=F0=9F=93=9D ' . $subject . '?=');				
+			
+			$message->to($nota_credito->email, $nota_credito->nombre_persona);
+			$message->from( $nota_credito->nutricionista_email, $nota_credito->nutricionista );
+			$message->cc( $nota_credito->nutricionista_email );
+			$message->bcc($bcc);
+		});
 	}
 	public function guardarPaciente(Request $request){
 		try {
