@@ -38,6 +38,7 @@ export class FormControlDataService {
 	}
 	setSession(nutricionista_id, token){
 		localStorage.setItem('token', token);
+		localStorage.setItem('nutritrack', 'desktop');
 		localStorage.setItem('nutricionista_id', nutricionista_id);
 		this.setHeader(token);
 		this.formControlData.setNutricionistaId(nutricionista_id);		

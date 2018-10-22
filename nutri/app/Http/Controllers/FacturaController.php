@@ -766,7 +766,7 @@ class FacturaController extends Controller
 				$subject 	=	'Se ha enviado la Nota de Crédito Nº ' . $numeracion_consecutiva . ' de la cuenta de ' . $nutricionista->nombre;
 				$template	=	'nota_credito';
 				$tipo_doc	=	'Nota Crédito';
-				$titulo		=	'Nota de Credito';
+				$titulo		=	'Nota Cr=c3=a9dito';
 			break;
 		}
 		$data	=	array(

@@ -11,8 +11,16 @@ export class EnsureAuthenticated implements CanActivate {
 		/*console.log('ensure-authenticated-service');*/
 		this._checking	=	false;
 	}
-	canActivate(): boolean {/*console.log('canActivate');*/
+	canActivate(): boolean {
+		/*console.log('canActivate');*/
+		if(!localStorage.getItem('nutritrack')){
+			/*console.log('!localStorage.getItem(nutritrack)');*/
+			localStorage.clear();
+			this.router.navigateByUrl('/login');
+			return false;
+		}
 		if(!localStorage.getItem('token')){
+			/*console.log('!localStorage.getItem(token)');*/
 			this.router.navigateByUrl('/login');
 			return false;
 		}
