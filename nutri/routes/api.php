@@ -27,6 +27,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	/*	REPORTES	*/
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
 	Route::get('reportes/update/nutricionista', 'ReportesFacturasController@updateMontoDocumentos');
+	Route::get('reportes/sinmonto', 'ReportesFacturasController@documentoSinMonto');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	
