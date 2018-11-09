@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Persona;
 use App\Nutricionista;
 use App\ReportesFacturas;
+use App\Documento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
@@ -106,6 +107,37 @@ class ReportesFacturasController extends Controller
     }
 
     public function getDocumentos($id)
+    {
+        try{
+          $facturas = DB::table('documentos')  
+            ->select('personas.nombre',
+                     'documentos.id',
+                     'documentos.consulta_id',
+                     'documentos.nutricionista_id',
+                     'documentos.persona_id',
+                     'documentos.estado',
+                     'documentos.fecha',
+                     'documentos.medio_pago_id',
+                     'documentos.pdf',
+                     'documentos.numeracion_consecutiva',
+                     'documentos.tipo_documento_id',
+                     'documentos.monto_total as monto')  
+            ->join('personas', 'documentos.persona_id', '=', 'personas.id')        
+            ->where('nutricionista_id', '=',$id)
+            ->get();
+            if(count($facturas)>0)
+                $response   =   Response::json($facturas, 200, [], JSON_NUMERIC_CHECK);
+            else
+                $response   =   Response::json(['message' => 'Record not found'], 204);
+        }
+        catch (Illuminate\Database\QueryException $e) {
+            dd($e);
+        } catch (PDOException $e) {
+            dd($e);
+        }
+        return $response;
+    }
+	public function getDocumentos__original($id)
     {
         try{
           $result = [];
@@ -324,5 +356,104 @@ class ReportesFacturasController extends Controller
              return $response;
         }        
          return response()->json(['message' => "Error_setAvatar: No file provided !"], 200);
+    }
+
+	public function updateMontoDocumentos(){
+        try{
+			$documentos	=	Documento::All();
+			/*$documentos	=	Documento::limit(2)->get();*/
+			$registros	=	array();
+			if(count($documentos)>0){
+				
+				foreach($documentos as $key=>$documento){
+					$linea_detalles	=	DB::table('linea_detalles')
+											->join('productos', 'productos.id', 'linea_detalles.producto_id')
+											->where('linea_detalles.documento_id',  $documento->id)
+											->get();
+					$monto	=	0;
+					$precios	=	array();
+					foreach($linea_detalles as $linea_detalle){
+						$monto	+=	$linea_detalle->precio;
+						$precios[]	=	$linea_detalle->precio;
+					}
+					/*if(count($precios)>1){
+						$registros[$documento->id]['monto']	=	$monto;
+						$registros[$documento->id]['precio_items']	=	$precios;
+					}*/
+					$row['documento_id']	=	$documento->id;
+					$row['nutricionista_id']=	$documento->nutricionista_id;
+					$row['monto']			=	$monto;
+					
+					/*if($monto>0)
+						continue;*/
+					
+					DB::table('documentos')
+							->where('id', $documento->id)
+							->update(['monto_total' => $monto]);
+							
+					$registros[$documento->id]	=	$row;
+					
+					/*$documento	=	Paciente::find($documento->id);
+					$documento->monto_total	=	$monto;
+					$documento->save();*/
+
+				}
+				
+			}
+/*
+          $result = [];
+          $facturas = DB::table('documentos')  
+            ->select('personas.nombre',
+                     'documentos.id',
+                     'documentos.consulta_id',
+                     'documentos.nutricionista_id',
+                     'documentos.persona_id',
+                     'documentos.estado',
+                     'documentos.fecha',
+                     'documentos.medio_pago_id',
+                     'documentos.pdf',
+                     'documentos.numeracion_consecutiva',
+                     'documentos.tipo_documento_id')  
+            ->join('personas', 'documentos.persona_id', '=', 'personas.id')        
+            ->where('nutricionista_id', '=',$id)
+            ->get();
+
+          $facturas = $facturas->toArray();
+
+          for ($i=0; $i < count($facturas) ; $i++) {
+
+            $facturas[$i] = json_decode(json_encode($facturas[$i]),True);            
+            $facturas[$i]["monto"] = 0;
+
+            $lineas = DB::table('linea_detalles')
+              ->select('*')
+              ->where('documento_id', '=', $facturas[$i]["id"])
+              ->get();
+
+            $lineas=$lineas->toArray();
+
+            $lineas = json_decode(json_encode($lineas),True);
+
+            for($j=0; $j<count($lineas); $j++){
+                $precio_u = DB::table('productos')
+                            ->select('precio')
+                            ->where('id', '=', $lineas[$j]["producto_id"])
+                            ->get();
+                $precio_u = $precio_u->toArray();
+                
+                $precio_u = json_decode(json_encode($precio_u),True);                 
+                $lineas[$j]["total"] = ($precio_u[0]["precio"] * $lineas[$j]["cantidad"]) + $lineas[$j]["impuesto_venta"] - $lineas[$j]["descuento"];
+                $facturas[$i]["monto"] += $lineas[$j]["total"];
+            }
+          }            
+*/
+			$response   =   Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+        }
+        catch (Illuminate\Database\QueryException $e) {
+            dd($e);
+        } catch (PDOException $e) {
+            dd($e);
+        }
+        return $response;
     }
 }

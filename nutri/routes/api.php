@@ -23,6 +23,11 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::post('web/login', 'LoginController@webcheck');
 	Route::post('web/login/reminder', 'LoginController@webReminder');
 });
+Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
+	/*	REPORTES	*/
+	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
+	Route::get('reportes/update/nutricionista', 'ReportesFacturasController@updateMontoDocumentos');
+});
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	
 	Route::get('form/data', 'FormController@dataform');

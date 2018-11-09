@@ -545,6 +545,7 @@ class FacturaController extends Controller
 		}
         // Fin del proceso del almacenamiento de factura en la BD
         // Proceso creacion de lineas de detalle
+		$monto_total	=	0;
 		for($i=0; $i<count($products); $i++)  {
 			$products[$i]["numero_linea"] = $i+1;
 			try{
@@ -559,12 +560,17 @@ class FacturaController extends Controller
 
 					  ]
 					);
+				$monto_total	+=	$products[$i]["precio"];
 			} catch(Illuminate\Database\QueryException $e) {
 			  dd($e);
 			} catch(PDOException $e) {
 			  dd($e);
 			}
 		}
+		DB::table('documentos')
+			->where('id', $documento_id)
+			->update(['monto_total' => $monto_total]);
+		
 		$this->notificarPorCorreo($documento_id, $numeracion_consecutiva);
         // Fin de proceso de creacion de lineas de detalle
 		$result = self::makeXML($codigo_seguridad, $documento_id, $nutricionista, $client["nombre"], $nutricionista_ubicacion[0], $products, $factura, "", "01");
