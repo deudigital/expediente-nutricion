@@ -1,17 +1,26 @@
+<div class="esc-modal transparent icon-messages loading-modal" *ngIf="sending">
+	<img src="assets/images/loading-bars.svg" style="width:75px;" />
+</div>		
+<div class="esc-modal transparent icon-messages success_ajax" *ngIf="form_errors.successful_operation">
+	<img src="assets/images/success.png" width="75" />
+</div>
+<div class="esc-modal transparent icon-messages success_ajax" *ngIf="form_errors.ajax_failure">
+	<img src="assets/images/error.png" width="75" />
+</div>
 <app-topnav></app-topnav>
 <div class="container-fluid">
-	<div class="row">
-		<div class="content-form">
+	<div class="clearfix">
+		<div class="content-form recepcion">
 			<section>
-				<ul class="nav submenu navigation-recepcion" *ngIf="!esFemenino">
+				<ul class="nav submenu navigation-recepcion">
 					<li class="col-xs-3 hcp-menu">
-						<a routerLink="/recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Patologias">
+						<a routerLink="/recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Recepcion de Documento">
 							<i></i>
 							<span>Cargar Factura</span>
 						</a>
 					</li>
-					<li class="col-xs-3 alergias">
-						<a routerLink="/reportes-recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Alergias">
+					<li class="col-xs-3">
+						<a routerLink="/reportes-recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Reporte">
 							<i></i>
 							<span>Reporte</span>
 						</a>
@@ -31,7 +40,7 @@
 </div>
 
 
-<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox musculo">
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox recepcion">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<header class="text-center">
 		<h4>Nueva Factura</h4>
@@ -45,11 +54,9 @@
 				</div>
 				<div class="col-sm-9">
 					<div class="custom-file">
-<!--<input type="file" class="custom-file-input" id="customFile" [(ngModel)]="file" required>-->
 						<input type="file" class="custom-file-input" #customFile name="customFile" (change)="fileChange($event)" required/>
 						<label class="custom-file-label" for="customFile">Seleccionar Archivo</label>
 					</div>
-					<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
 				</div>
 			</div>
 		</div>
@@ -83,12 +90,22 @@
 					<label>&nbsp;</label>
 				</div>
 				<div class="col-sm-9">			
-					<button type="button" class="btn btn-primary btn-lg  btn-block" (click)="onSubmit()">Cargar</button>
+					<button 
+						type="button" 
+						class="btn btn-primary btn-lg btn-block" 
+						[disabled]="!uploadForm.valid || sending"
+						(click)="onSubmit()">Cargar</button>
 				</div>
 			</div>
 		</div>
 </form>
 		<div class="row result">
+
+					<!--<div *ngIf="sending" class="loading-file">cargando... 
+						<span class="fa fa-spinner fa-spin"></span>
+					</div>-->
+
+
 		</div>
 	</div>
 </div>

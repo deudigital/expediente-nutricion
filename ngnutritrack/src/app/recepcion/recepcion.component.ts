@@ -16,6 +16,12 @@ export class RecepcionComponent implements OnInit {
 	estado:any;
 	mensaje:any;
 	sending:boolean=false;
+	
+	form_errors: any = {
+		loading: false,
+		successful_operation: false,
+		ajax_failure: false
+	  };
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
@@ -39,18 +45,36 @@ export class RecepcionComponent implements OnInit {
 	}
 	uploadFile(formData){
 		this.sending	=	true;
+		
+		this.form_errors.ajax_failure = false;	
+		this.form_errors.successful_operation = false;
+					   
 		this.formControlDataService.upload('recepcion', formData)
 		.subscribe(
 			 response  => {
 						console.log('<!--upload Recepcion');
 						console.log(response);
 						this.sending	=	false;
+						this.form_errors.successful_operation	=	true;
 					},
 			error =>  {
 				console.log(<any>error)
 				this.sending	=	false;
-			}
+				this.form_errors.ajax_failure			=	true;
+				this.hideIconMessages();
+			},
+			()=>{
+				this.hideIconMessages();
+				this.file_for_upload =	null;
+				this.estado	=	'';
+			}			
 		);
+	}
+	hideIconMessages(){
+		setTimeout(() => {
+			  this.form_errors.successful_operation =	false;
+			  this.form_errors.ajax_failure			=	false;
+		}, 5000);
 	}
 /*
 	cargar(){

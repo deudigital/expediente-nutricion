@@ -21,7 +21,7 @@ export class ReporteRecepcionComponent implements OnInit {
 	filter = {};
 	doc_recepcionados = [];
   nombre: string = "";
-  tipo: string = "Todos";
+  estado: string = "Todos";
   estados: any = [];
   resultArray: any = [];
   deleted_document: any = {};
@@ -85,36 +85,40 @@ export class ReporteRecepcionComponent implements OnInit {
   }
   obtenerTiposDeDocumento(){
     this.estados = [
-            {
-              id:'05',
-              nombre:"aceptado"
-            },
-            {
-              id:'06',
-              nombre:"aceptado parcial"
-            },
-            {
-              id:'07',
-              nombre:"rechazado"
-            }
-    ]
+            {id:1, nombre:"aceptado"},
+            {id:2, nombre:"aceptado parcial"},
+            {id:3, nombre:"rechazado"}
+			];
   }
 
   obtenerFacturas(){
 		this.formControlDataService.select('reporte-recepcion', {'nutricionista_id':this.fcd.nutricionista_id})
 		.subscribe(
 			 response  => {
-
-          this.doc_recepcionados = response;
-          console.log(this.doc_recepcionados)
-          for(let doc in this.doc_recepcionados){
-            for(let item in this.estados){
-              if(this.doc_recepcionados[doc].tipo_documento_id === this.estados[item].id){
-                this.doc_recepcionados[doc].nombre_tipo = this.estados[item].nombre;
-                this.doc_recepcionados[doc].monto = Math.round(this.doc_recepcionados[doc].monto * 100) / 100;
-              }
-            }
-          }
+					this.doc_recepcionados	=	response;
+					console.log(this.doc_recepcionados)
+/*
+id	4
+nutricionista_id	199
+fecha	2018-11-12
+emisor	DEUDIGITAL S.A
+estado	
+fecha_emision	2018-11-06T20:55:20-06:00
+moneda	CRC
+monto	21375.3
+respuesta_status	200
+respuesta_code	28
+respuesta_data	Validation Error.
+*/
+					for(let doc in this.doc_recepcionados){
+						/*for(let item in this.estados){
+							if(this.doc_recepcionados[doc].tipo_documento_id === this.estados[item].id){
+								this.doc_recepcionados[doc].nombre_tipo = this.estados[item].nombre;
+								this.doc_recepcionados[doc].monto = Math.round(this.doc_recepcionados[doc].monto * 100) / 100;
+							}
+						}*/
+						this.doc_recepcionados[doc].monto = Math.round(this.doc_recepcionados[doc].monto * 100) / 100;
+					}
 			},
 			error =>  {
 					console.log(error)
@@ -179,13 +183,24 @@ export class ReporteRecepcionComponent implements OnInit {
         //queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
 
         if(queryDate >= fromDate && queryDate <= uDate){
-          this.doc_recepcionados[consulta].showDelete    =  true;
-          if(this.doc_recepcionados[consulta].tipo_documento_id==3 || !this.doc_recepcionados[consulta].estado){
+          /*this.doc_recepcionados[consulta].showDelete    =  true;
+          if(this.doc_recepcionados[consulta].estado==3 || !this.doc_recepcionados[consulta].estado){
             this.doc_recepcionados[consulta].showDelete    =  false;
-          }
-          if(this.tipo === this.doc_recepcionados[consulta].nombre_tipo){
-            this.resultArray.push(this.doc_recepcionados[consulta]);
-          } else if(this.tipo === "Todos"){
+          }*/
+		  /*console.log(this.estados);
+		  console.log(this.estado + '==' + this.doc_recepcionados[consulta].estado);*/
+          if(this.estado == this.doc_recepcionados[consulta].estado){
+			  let _row	=	this.doc_recepcionados[consulta];
+			  /*console.log(_row);*/
+			  let _frow	=	this.estados.filter(x => x.id === _row.estado);
+			  console.log('_frow');
+			  console.log(_frow);
+			  if(_frow)
+				_row.estado=	_frow[0].nombre;
+				/*_row.estado=	this.estados[index].nombre;*/
+
+            this.resultArray.push(_row);
+          } else if(this.estado === "Todos"){
             this.resultArray.push(this.doc_recepcionados[consulta]);
           }
         }
@@ -197,9 +212,9 @@ export class ReporteRecepcionComponent implements OnInit {
 
         if(queryDate >= fromDate && queryDate <=
           uDate && this.doc_recepcionados[consulta].nombre.toLowerCase().includes(this.nombre.toLowerCase())){
-          if(this.tipo === this.doc_recepcionados[consulta].nombre_tipo){
+          if(this.estado === this.doc_recepcionados[consulta].estado){
             this.resultArray.push(this.doc_recepcionados[consulta]);
-          } else if(this.tipo === "Todos"){
+          } else if(this.estado === "Todos"){
             this.resultArray.push(this.doc_recepcionados[consulta]);
           }
         }
@@ -211,7 +226,7 @@ export class ReporteRecepcionComponent implements OnInit {
   	switch(Data){
   		case 1: console.log('pdf build');
   			let doc = new jsPDF({orientation:'l', format: 'a2'});
-  			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];
+  			let col = ["# Documento", "Emisor","Estado","Fecha","Moneda","Monto"];
   			let rows = [];
 
   			for(let xi=0;xi< this.resultArray.length;xi++){
@@ -225,7 +240,7 @@ export class ReporteRecepcionComponent implements OnInit {
           }				  
 		    }
   			doc.autoTable(col, rows);
-  			doc.save('Reporte de Factura.pdf');
+  			doc.save('Reporte de Recepcion de documento.pdf');
   			break;
 		  case 2: console.log('excel build');
         let excelArray = [];
@@ -233,8 +248,8 @@ export class ReporteRecepcionComponent implements OnInit {
           if (this.resultArray[xi].tipo_documento_id===3){
             let objecto = {
               '# Documento' : this.resultArray[xi].numeracion_consecutiva,
-              'Receptor' : this.resultArray[xi].nombre,
-              'Tipo' : this.resultArray[xi].nombre_tipo,
+              'Emisor' : this.resultArray[xi].nombre,
+              'Estado' : this.resultArray[xi].estado,
               'Fecha' : this.resultArray[xi].fecha,
               'Moneda' : 'Colones',
               'Monto' : '-'+this.resultArray[xi].monto
@@ -243,8 +258,8 @@ export class ReporteRecepcionComponent implements OnInit {
           }else{
             let objecto = {
               '# Documento' : this.resultArray[xi].numeracion_consecutiva,
-              'Receptor' : this.resultArray[xi].nombre,
-              'Tipo' : this.resultArray[xi].nombre_tipo,
+              'Emisor' : this.resultArray[xi].nombre,
+              'Estado' : this.resultArray[xi].nombre_tipo,
               'Fecha' : this.resultArray[xi].fecha,
               'Moneda' : 'Colones',
               'Monto' : this.resultArray[xi].monto

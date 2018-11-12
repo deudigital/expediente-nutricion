@@ -75,10 +75,10 @@
 					</div>
 					<div class="col-md-3 col-sm-3">
                         <div class="form-group with-icon parentezco">
-                          <label class="col-form-label" for="tipo">Tipo</label>
-                          <select class="form-control ng-pristine ng-valid ng-touched" [(ngModel)]="tipo" id="tipo" name="tipo">
+                          <label class="col-form-label" for="estado">Estado</label>
+                          <select class="form-control ng-pristine ng-valid ng-touched" [(ngModel)]="estado" id="estado" name="estado">
                           	<option>Todos</option>
-                            <option *ngFor="let item of tipos">{{item.nombre}}</option>
+                            <option *ngFor="let item of estados" value="{{item.id}}">{{item.nombre}}</option>
                           </select>
                           <i></i>
                         </div>
@@ -97,8 +97,8 @@
 	                                <tr>
 	                                    <th width="100">&nbsp;</th>
 	                                    <th># Documento</th>
-	                                    <th>Receptor</th>
-	                                    <th>Tipo</th>
+	                                    <th>Emisor</th>
+	                                    <th>Estado</th>
 	                                    <th>Fecha</th>
 	                                    <th>Moneda</th>
 	                                    <th>Monto</th>
@@ -119,10 +119,10 @@
 										</td>
 	                                    <td>{{i+1}}</td>
 	                                    <td>{{item.nombre}}</td>
-	                                    <td>{{item.nombre_tipo}}</td>
+	                                    <td>{{item.estado}}</td>
 	                                    <td>{{item.fecha}}</td>
 	                                    <td>Colones</td>
-	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }"><span *ngIf="item.tipo_documento_id==3">-</span>₡{{item.monto | thousandsPipe}}</td>
+	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">₡{{item.monto | thousandsPipe}}</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>

@@ -59,6 +59,7 @@ class RecepcionController extends Controller
 									'monto_total_impuesto'		=>	$resumen_factura['TotalImpuesto'],/*'0',*/
 									'total_factura'				=>	$resumen_factura['TotalComprobante'],/*'2900',*/
 									'numero_cedula_receptor'	=>	$receptor['Identificacion']['Numero'],/*'114470933',*/
+									'num_consecutivo_receptor'	=>	'1'
 								);
 		$_json['emisor']	=	array(
 									'identificacion'	=>	array(
