@@ -28,6 +28,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
 	Route::get('reportes/update/nutricionista', 'ReportesFacturasController@updateMontoDocumentos');
 	Route::get('reportes/sinmonto', 'ReportesFacturasController@documentoSinMonto');
+	Route::get('recepcion', 'RecepcionController@importar');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	
@@ -68,6 +69,7 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	
 	/*	REPORTES	*/
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
+	Route::get('reportes/recepcion/{nutricionista_id}', 'RecepcionController@reporte');
 	
 	/*	CONSULTAS SIN FACTURAR	*/
 	Route::get('reportes/consultas_sin_facturar/nutricionista/{id}','FacturaController@getConsultasSinFacturar');
@@ -157,4 +159,6 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::post('facturacion/generar_factura', 'FacturaController@generarFactura');
 	Route::post('facturacion/delete', 'FacturaController@deleteFactura');
 	Route::post('facturacion/guardarPaciente', 'FacturaController@guardarPaciente');
+	
+	Route::post('recepcion/importar', 'RecepcionController@importar');
 });

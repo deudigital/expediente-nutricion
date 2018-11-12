@@ -20,6 +20,7 @@ import { FormControlDataService }    from './control/data/formControlData.servic
 import { InicioComponent } from './inicio/inicio.component';
 import { ControlComponent } from './control/control.component';
 import { AgendaComponent } from './agenda/agenda.component';
+import { RecepcionComponent } from './recepcion/recepcion.component';
 
 import { ControlNavComponent } from './control/control-nav/control-nav.component';
 import { TopnavComponent } from './topnav/topnav.component';
@@ -73,6 +74,7 @@ import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './login/logout.component';
 import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
+import { ReporteRecepcionComponent } from './reporte-recepcion/reporte-recepcion.component';
 import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
 import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
 import { ConfigFacturaComponent } from './facturacion/config-factura/config-factura.component';
@@ -109,6 +111,7 @@ import { FacturaVaciaComponent } from './factura-vacia/factura-vacia.component';
                     InicioComponent, 
                     ControlComponent, 
                     AgendaComponent, 
+                    RecepcionComponent, 
                     ControlNavComponent, 
                     ValoracionComponent, 
                     RecomendacionComponent, 
@@ -145,6 +148,7 @@ import { FacturaVaciaComponent } from './factura-vacia/factura-vacia.component';
                     LineChartComponent, 
                     FileUploadComponent,
                     ReporteFacturaComponent,
+                    ReporteRecepcionComponent,
                     ServiciosProductosComponent,
                     ConsultasSinFacturarComponent,
                     ConfigFacturaComponent,

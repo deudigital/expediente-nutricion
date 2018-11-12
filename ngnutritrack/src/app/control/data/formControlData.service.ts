@@ -178,6 +178,9 @@ export class FormControlDataService {
 			case 'bioquimicas':
 				serviceUrl	+=	'pacientes/hcpbioquimicas';
 				break;
+			case 'recepcion':
+				serviceUrl	+=	'recepcion/importar';
+				break;
 		}
 		const headers = new Headers();		 
 		headers.append('Authorization', "Bearer" + " " + this.token);
@@ -273,6 +276,9 @@ export class FormControlDataService {
 				break;
 			case 'consulta-paciente':
 				serviceUrl	+=	'consultas/paciente/' + data.paciente_id;
+				break;
+			case 'reporte-recepcion':
+				serviceUrl	+=	'reportes/recepcion/' + data.nutricionista_id;
 				break;
 		}
 		return this.http.get( serviceUrl, {headers: this.headers}).map((response: Response) => response.json());

@@ -36,7 +36,9 @@ import { ResetComponent } from './login/reset.component';
 
 
 import { AgendaComponent }      from './agenda/agenda.component';
+import { RecepcionComponent }      from './recepcion/recepcion.component';
 import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
+import { ReporteRecepcionComponent } from './reporte-recepcion/reporte-recepcion.component';
 import { ServiciosProductosComponent } from './servicios-productos/servicios-productos.component';
 import { ConsultasSinFacturarComponent } from './reporte-factura/consultas-sin-facturar/consultas-sin-facturar.component';
 import { ConfigFacturaComponent } from './facturacion/config-factura/config-factura.component';
@@ -76,8 +78,11 @@ export const appRoutes: Routes = [
 			{ path: 'notas',  component: NotasComponent, canActivate: [EnsureAuthenticated] },	
 	
     //{ path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'recepcion',  component: RecepcionComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'recepcion',  component: RecepcionComponent, canActivate: [EnsureAuthenticated] },
 	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 	{ path: 'reportes', component: ReporteFacturaComponent, canActivate: [EnsureAuthenticated] },
+	{ path: 'reportes-recepcion', component: ReporteRecepcionComponent, canActivate: [EnsureAuthenticated] },
     { path: 'servicios-productos', component: ServiciosProductosComponent, canActivate: [EnsureAuthenticated] },
     { path: 'sinfacturar', component: ConsultasSinFacturarComponent, canActivate: [EnsureAuthenticated] },
     { path: 'config-factura', component: ConfigFacturaComponent, canActivate: [EnsureAuthenticated] },

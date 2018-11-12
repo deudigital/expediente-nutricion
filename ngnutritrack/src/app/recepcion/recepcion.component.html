@@ -1,0 +1,96 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="content-form">
+			<section>
+				<ul class="nav submenu navigation-recepcion" *ngIf="!esFemenino">
+					<li class="col-xs-3 hcp-menu">
+						<a routerLink="/recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Patologias">
+							<i></i>
+							<span>Cargar Factura</span>
+						</a>
+					</li>
+					<li class="col-xs-3 alergias">
+						<a routerLink="/reportes-recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Alergias">
+							<i></i>
+							<span>Reporte</span>
+						</a>
+					</li>
+				</ul>
+				<header>
+					<h3 class="title">Recepci&oacute;n  de documentos</h3>
+				</header>
+				
+				<button class="btn btn-primary" (click)="showModal('datos')">Nuevo Documento</button>
+				
+			</section>
+
+
+		</div>
+	</div>
+</div>
+
+
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox musculo">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<header class="text-center">
+		<h4>Nueva Factura</h4>
+	</header>	
+	<div class="body content-form">
+<form #uploadForm="ngForm" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="customFile">Cargar XML</label>
+				</div>
+				<div class="col-sm-9">
+					<div class="custom-file">
+<!--<input type="file" class="custom-file-input" id="customFile" [(ngModel)]="file" required>-->
+						<input type="file" class="custom-file-input" #customFile name="customFile" (change)="fileChange($event)" required/>
+						<label class="custom-file-label" for="customFile">Seleccionar Archivo</label>
+					</div>
+					<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="estado">Estado</label>
+				</div>
+				<div class="col-sm-9">
+					<select class="form-control" [(ngModel)]="estado" id="estado" name="estado" required>
+						<option value="1">aceptado</option>
+						<option value="2">aceptado parcial</option>
+						<option value="3">rechazado</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="mensaje">Mensaje</label>
+				</div>
+				<div class="col-sm-9">				
+					<textarea class="form-control" [(ngModel)]="mensaje" id="mensaje" name="mensaje" rows="5" maxlength="80" lang="es"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label>&nbsp;</label>
+				</div>
+				<div class="col-sm-9">			
+					<button type="button" class="btn btn-primary btn-lg  btn-block" (click)="onSubmit()">Cargar</button>
+				</div>
+			</div>
+		</div>
+</form>
+		<div class="row result">
+		</div>
+	</div>
+</div>
+
+<div class="overlay" (click)="hideModal()"></div>
