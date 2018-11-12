@@ -31,7 +31,6 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('recepcion', 'RecepcionController@importar');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
-	
 	Route::get('form/data', 'FormController@dataform');
 	Route::get('graphics/{method}/{indicator}/{id}', 'GraphicController@getIndicators');
 	
