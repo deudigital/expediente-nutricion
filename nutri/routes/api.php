@@ -133,7 +133,6 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 
 	Route::get('pacientes/{id}/patologiashcp', 'PacienteController@patologiashcp');
 	Route::post('pacientes/hcpotros', 'PacienteController@hcpOtros');
-
 		
 	Route::post('pacientes/hcpbioquimicas', 'PacienteController@hcpBioquimicas');
 	Route::get('backend/nutricionistas', 'NutricionistaController@getNutricionistas');
