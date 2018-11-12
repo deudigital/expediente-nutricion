@@ -79,10 +79,9 @@ export const appRoutes: Routes = [
 	
     //{ path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
     { path: 'recepcion',  component: RecepcionComponent, canActivate: [EnsureAuthenticated] },
-    { path: 'recepcion',  component: RecepcionComponent, canActivate: [EnsureAuthenticated] },
+	{ path: 'reportes-recepcion', component: ReporteRecepcionComponent, canActivate: [EnsureAuthenticated] },
 	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 	{ path: 'reportes', component: ReporteFacturaComponent, canActivate: [EnsureAuthenticated] },
-	{ path: 'reportes-recepcion', component: ReporteRecepcionComponent, canActivate: [EnsureAuthenticated] },
     { path: 'servicios-productos', component: ServiciosProductosComponent, canActivate: [EnsureAuthenticated] },
     { path: 'sinfacturar', component: ConsultasSinFacturarComponent, canActivate: [EnsureAuthenticated] },
     { path: 'config-factura', component: ConfigFacturaComponent, canActivate: [EnsureAuthenticated] },
