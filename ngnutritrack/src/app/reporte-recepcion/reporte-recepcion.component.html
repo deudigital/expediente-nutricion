@@ -17,18 +17,28 @@
 <!-- Modal Confirmacion Borrado de Item -->
 <div class="overlay" *ngIf="show_deleteConfirmation || form_errors.loading || form_errors.successful_operation || form_errors.ajax_failure"></div>
 <!-- End Modal Borrado de Item -->
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-offset-4 col-sm-8">
-            <h3>Reporte de Recepcion de Documentos</h3>
-        </div>
-    </div>
-</div>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-sm-12 col-xs-12 col-md-12 content-form">
+		<div class="content-form">
 			<section>
+				
+				<ul class="nav submenu navigation-recepcion" *ngIf="!esFemenino">
+					<li class="col-xs-3 hcp-menu">
+						<a routerLink="/recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Patologias">
+							<i></i>
+							<span>Cargar Factura</span>
+						</a>
+					</li>
+					<li class="col-xs-3 alergias">
+						<a routerLink="/reportes-recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Alergias">
+							<i></i>
+							<span>Reporte</span>
+						</a>
+					</li>
+				</ul>
+				<header>
+					<h3 class="title">Reporte de Recepci&oacute;n  de documentos</h3>
+				</header>
 				<div class="row">
                     <div class="col-md-3 col-sm-3">
 						<div class="form-group with-icon paciente_nombre">
