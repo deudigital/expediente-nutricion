@@ -81,8 +81,7 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
 	Route::get('recordatorios', 'RecordatorioController@index');
 	Route::get('mensajes', 'MensajeController@index');
-	
-	
+
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 	Route::post('pacientes/cambiarcontrasena', 'PacienteController@updateContrasena');
 	Route::post('pacientes/patologiashcp', 'PacienteController@patologiashcp');
