@@ -77,7 +77,6 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 
 	/*	CONFIGURACION	*/
 
-
 	Route::post('prescripcion/copy', 'PrescripcionController@copy');
 	Route::get('consultas/last/{id}', 'ConsultaController@lastOfPaciente');
 	Route::get('recordatorios', 'RecordatorioController@index');
