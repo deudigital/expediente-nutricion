@@ -124,8 +124,7 @@ class Helper
  *	Convert Epoch to Date Format
  *	---------------------------------
  *	$date	=	date("Y-m-d H:i:s", substr($date_epoch, 0, 10));
- */
- 
+ */ 
 /*	Enable DB Queries Log
  *	----------------------
  *	DB::enableQueryLog();
