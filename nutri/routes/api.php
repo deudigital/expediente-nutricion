@@ -29,6 +29,8 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('reportes/update/nutricionista', 'ReportesFacturasController@updateMontoDocumentos');
 	Route::get('reportes/sinmonto', 'ReportesFacturasController@documentoSinMonto');
 	Route::get('recepcion', 'RecepcionController@importar');
+	Route::get('agenda/{agenda_id}/test/{mode}/{action}', 'AgendaController@testEmails');
+	Route::get('agenda/test', 'AgendaController@test');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	Route::get('form/data', 'FormController@dataform');
@@ -154,7 +156,17 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::post('facturacion/generar_factura', 'FacturaController@generarFactura');
 	Route::post('facturacion/delete', 'FacturaController@deleteFactura');
 	Route::post('facturacion/guardarPaciente', 'FacturaController@guardarPaciente');
-	
+	/*	Agenda	*/
+	Route::get('agenda/servicios/{nutricionista_id}', 'AgendaController@selectServicios');
+	Route::post('agenda/servicios', 'AgendaController@storeServicio');
+	Route::post('agenda/servicios/{id}/delete', 'AgendaController@deleteServicio');
+	Route::get('agenda/{nutricionista_id}/{fecha}', 'AgendaController@select');
+	Route::post('agenda', 'AgendaController@store');
+	Route::post('agenda/{agenda_id}/confirmar', 'AgendaController@confirmar');
+	Route::post('agenda/{agenda_id}/cancelar', 'AgendaController@cancelar');
+	Route::post('agenda/{agenda_id}/cancelar', 'AgendaController@cancelar');
+	Route::get('agenda/nutricionista/{nutricionista_id}/personas', 'AgendaController@belongsToNutricionista');
+	/*	Recepcion	*/
 	Route::post('recepcion/importar', 'RecepcionController@importar');	
 	Route::get('reportes/recepcion/{nutricionista_id}', 'RecepcionController@reporte');
 });
