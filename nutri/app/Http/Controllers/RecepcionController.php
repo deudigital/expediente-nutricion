@@ -215,7 +215,7 @@ stdClass Object
 						->get()
 						->first();
 		if($registros){
-			return 'XML con Clave registrada';
+			return 'Documento XML ya fue recibido y procesado previamente';
 		}
 		return false;
 	}
