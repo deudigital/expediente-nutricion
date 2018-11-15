@@ -250,7 +250,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
               'Emisor' : this.resultArray[xi].nombre,
               'Estado' : this.resultArray[xi].estado,
               'Fecha' : this.resultArray[xi].fecha,
-              'Moneda' : 'Colones',
+              'Moneda' : this.resultArray[xi].moneda,
               'Monto' : '-'+this.resultArray[xi].monto
             }
             excelArray.push(objecto)
@@ -260,7 +260,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
               'Emisor' : this.resultArray[xi].nombre,
               'Estado' : this.resultArray[xi].nombre_tipo,
               'Fecha' : this.resultArray[xi].fecha,
-              'Moneda' : 'Colones',
+              'Moneda' : this.resultArray[xi].moneda,
               'Monto' : this.resultArray[xi].monto
             }
             excelArray.push(objecto);

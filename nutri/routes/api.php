@@ -31,6 +31,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('recepcion', 'RecepcionController@importar');
 	Route::get('agenda/{agenda_id}/test/{mode}/{action}', 'AgendaController@testEmails');
 	Route::get('agenda/test', 'AgendaController@test');
+	Route::get('reportes/recepcion/{nutricionista_id}', 'RecepcionController@reporte');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	Route::get('form/data', 'FormController@dataform');

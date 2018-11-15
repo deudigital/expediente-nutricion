@@ -30,6 +30,11 @@ class RecepcionController extends Controller
 		$parser 		=	new Parser();
 		$xml			=	$parser->xml( $xml_content );
 
+		$errorMessage	=	$this->existeDatosErroneosXML($xml, $request->nutricionista_id);
+		if($errorMessage){
+			$response['error']	=	$errorMessage;
+			return Response::json($response, 200);
+		}
 		
 		$_numeracion_consecutiva	=	Helper::getLastNumberConsecutiveRecepcion($request->nutricionista_id, $request->tipo_documento_id);
 		
@@ -70,9 +75,6 @@ class RecepcionController extends Controller
 															)
 									);
 		$response['json']	=	$_json;
-		/*$response	=	Response::json($_json, 201);
-		return $response;*/
-		/*echo '<pre>' . print_r($_json, true) . '</pre>';*/
 /*
 		$options	=	array(
 							"ssl"	=>	array(
@@ -118,7 +120,13 @@ stdClass Object
 	error	02-02: Elementos de Clave requeridos faltantes.
 	fecha	null
 
-*/
+*/			
+			$fecha_emision	=	explode('T',$xml['FechaEmision']);
+			$fecha	=	$fecha_emision[0];
+			$time	=	explode('-', $fecha_emision[1]);
+			$time	=	$time[0];
+			$fecha_emision	=	$fecha . ' ' . $time;
+			
 			
 			$doc_recibido	=	array(
 										'fecha'						=>	DB::raw('now()'),
@@ -127,7 +135,7 @@ stdClass Object
 										'nutricionista_id'			=>	$request->nutricionista_id,
 										'emisor'					=>	$emisor['Nombre'],
 										'emisor_email'				=>	$emisor['CorreoElectronico'],
-										'fecha_emision'				=>	$xml['FechaEmision'],
+										'fecha_emision'				=>	$fecha_emision,
 										'moneda'					=>	$resumen_factura['CodigoMoneda'],
 										'monto'						=>	$resumen_factura['TotalComprobante'],
 										'respuesta_status'			=>	'',
@@ -150,31 +158,29 @@ stdClass Object
 			$recepcion			=	Recepcion::create( $doc_recibido );
 			$response['stored']	=	$recepcion;
 			if($recepcion->respuesta_code==1){
-				/*switch($recepcion->tipo_documento_id){
-					case 1;
+				$estado	=	'';
+				switch($recepcion->tipo_documento_id){
+					case 5;
 						$estado	=	'Aceptado';
 						break;
-					case 2;
+					case 6;
 						$estado	=	'Aceptado Parcial';
 						break;
-					case 3;
+					case 7;
 						$estado	=	'Rechazado';
 						break;
-				}*/
-				$recepcion->estado	=	'Aceptado';
+				}
+				$recepcion->estado	=	$estado;
 				$data	=	array(
 								'estado'				=>	$recepcion->estado,
 								'numero_consecutivo'	=>	$xml['NumeroConsecutivo']
 							);
 				Mail::send('emails.recepcion_documento', $data, function($message) use ($recepcion) {
 					$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-					
-					/*$subject	=	'Documento ' . $recepcion->estado;*/
-					$subject	=	'Documento Aceptado';
+					$subject	=	'Documento ' . $recepcion->estado;
 					$subject	=	Helper::emailParseSubject( $subject );
 					$message->subject( $subject );
-					$message->to( 'jaime_isidro@hotmail.com', 'web developer' );
-					$message->to(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+					$message->to($recepcion->emisor_email, $recepcion->emisor);
 					$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 					$message->sender(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
 					$message->bcc($bcc);
@@ -196,16 +202,33 @@ stdClass Object
 		
 		return Response::json($response, $code);
     }
+	function existeDatosErroneosXML($xml, $nutricionista_id){
+		$response	=	false;
+		if(!isset($xml['Clave']) || empty($xml['Clave'])){
+			return 'Xml sin el tag "Clave"';
+		}		
+		$recepcion	=	Recepcion::where('nutricionista_id', $nutricionista_id)
+									->where('respuesta_clave', $xml['Clave'])
+									->where('respuesta_code', 1)
+									->get();
+		if($recepcion){
+			return 'XML con Clave registrada';
+		}
+		return false;
+	}
+	
 	function reporte($nutricionista_id){
 		/*$registros	=	Recepcion::Where('nutricionista_id', $nutricionista_id)
 							->get();*/
 		 $registros = DB::table('recepcions')  
-            ->select('recepcions.*',
-                     'recepcions.emisor as nombre')  
-            ->where('nutricionista_id', '=',$nutricionista_id)
-            ->get();
+						->select('recepcions.*',
+								 DB::raw('SUBSTRING(respuesta_clave, 22, 20) AS clave'),
+								 'recepcions.emisor as nombre')
+						->where('nutricionista_id', '=',$nutricionista_id)
+						->get();
 			
-		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		/*$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);*/
+		$response	=	Response::json($registros, 200, []);
 		return $response;
 	}
 

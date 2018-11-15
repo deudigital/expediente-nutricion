@@ -109,8 +109,13 @@
 	                                    <td>{{item.nombre}}</td>
 	                                    <td>{{item.estado_text}}</td>
 	                                    <td>{{item.fecha}}</td>
-	                                    <td>Colones</td>
-	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">₡{{item.monto | thousandsPipe}}</td>
+	                                    <td>{{item.moneda}}</td>
+	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">
+											<span *ngIf="item.moneda=='CRC'">₡</span>
+											<span *ngIf="item.moneda=='USD'">$</span>
+											<span *ngIf="item.moneda=='EUR'">€</span>
+											{{item.monto | thousandsPipe}}
+										</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>

@@ -85,6 +85,7 @@ type: "text/xml"​​
 	}
 	uploadFile(formData){
 		this.sending	=	true;
+		this.submit_message	=	'';
 		
 		this.form_errors.ajax_failure = false;	
 		this.form_errors.successful_operation = false;
@@ -106,13 +107,11 @@ type: "text/xml"​​
 				this.hideIconMessages();
 			},
 			()=>{
-				this.hideIconMessages();
-				this.file_for_upload =	null;
-				this.tipo_documento_id	=	'';
+				this.hideIconMessages();				
 			}			
 		);
 	}
-	_displayMessageSubmit(response){console.log(response);
+	_displayMessageSubmit(response){
 		if(response.error){
 			this.submit_message	=	response.error;
 			this.form_errors.ajax_failure	=	true;
@@ -120,8 +119,13 @@ type: "text/xml"​​
 				this.submit_message	=	'';
 			}, 10000);
 		}
-		else
+		else{
 			this.form_errors.successful_operation	=	true;
+			this.file_for_upload =	null;
+			this.tipo_documento_id	=	'';
+			this.upload_success	=	false;
+			this.upload_error	=	false;
+		}
 	}
 	hideIconMessages(){
 		setTimeout(() => {

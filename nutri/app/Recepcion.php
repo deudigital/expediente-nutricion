@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Recepcion extends Model
 {
 	protected $fillable	=	[
-		'numeracion_consecutiva',
 		'fecha',
+		'numeracion_consecutiva',
 		'tipo_documento_id',
 		'nutricionista_id',
 		'emisor',
-		'estado',
+		'emisor_email',
 		'fecha_emision',
 		'moneda',
 		'monto',
-		'clave',
 		'respuesta_status',
 		'respuesta_code',
 		'respuesta_data',
