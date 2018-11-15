@@ -13,10 +13,13 @@ export class RecepcionComponent implements OnInit {
 	tagBody:any;
 	/* When we select file */
 	file_for_upload:any; /* property of File type */
-	estado:any;
+	tipo_documento_id:any;
 	mensaje:any;
 	sending:boolean=false;
-	
+	filename_xml:string='';
+	submit_message:string='';
+	upload_error:boolean=false;
+	upload_success:boolean=false;
 	form_errors: any = {
 		loading: false,
 		successful_operation: false,
@@ -33,11 +36,48 @@ export class RecepcionComponent implements OnInit {
 	}
 	
 	fileChange (event) {
-		this.file_for_upload =	event.target.files;	
+		console.log(event.target.files);
+		if(!this._validatiteXmlFile( event.target.files[0] )){
+			this._displayMessage('xml_wrong');
+			this.file_for_upload =	null;	
+			this.filename_xml	=	'';
+		}else{
+			this._displayMessage('xml_success');
+			this.file_for_upload =	event.target.files;	
+			this.filename_xml	=	event.target.files[0].name;
+		}
+	}
+	_displayMessage(error){
+		this.upload_error	=	false;
+		this.upload_success	=	false;
+		switch(error){
+			case 'xml_wrong':
+				this.upload_error	=	true;
+				setTimeout(() => {
+					  this.upload_error	=	false;
+				}, 5000);
+				break;
+			case 'xml_success':
+				this.upload_success	=	true;
+				break;
+		}
+	}
+	_validatiteXmlFile(file){
+/*
+lastModified: 1541818471265​​
+name: "xml-testing.xml"​​
+size: 9259​​
+type: "text/xml"​​
+*/
+			let _valid	=	false;
+		if(file.type=='text/xml')
+			_valid	=	true;
+
+		return _valid;
 	}
 	onSubmit(): void {
 		let _formData = new FormData();
-		_formData.append('estado', this.estado);
+		_formData.append('tipo_documento_id', this.tipo_documento_id);
 		_formData.append('mensaje', this.mensaje);
 		_formData.append('nutricionista_id', this.fcd.nutricionista_id);
 		_formData.append("file", this.file_for_upload[0]);
@@ -55,20 +95,33 @@ export class RecepcionComponent implements OnInit {
 						console.log('<!--upload Recepcion');
 						console.log(response);
 						this.sending	=	false;
-						this.form_errors.successful_operation	=	true;
+						this._displayMessageSubmit(response);
+
 					},
 			error =>  {
 				console.log(<any>error)
 				this.sending	=	false;
+				this.submit_message	=	error.statusText;
 				this.form_errors.ajax_failure			=	true;
 				this.hideIconMessages();
 			},
 			()=>{
 				this.hideIconMessages();
 				this.file_for_upload =	null;
-				this.estado	=	'';
+				this.tipo_documento_id	=	'';
 			}			
 		);
+	}
+	_displayMessageSubmit(response){console.log(response);
+		if(response.error){
+			this.submit_message	=	response.error;
+			this.form_errors.ajax_failure	=	true;
+			setTimeout(() => {
+				this.submit_message	=	'';
+			}, 10000);
+		}
+		else
+			this.form_errors.successful_operation	=	true;
 	}
 	hideIconMessages(){
 		setTimeout(() => {

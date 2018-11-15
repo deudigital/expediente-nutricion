@@ -85,10 +85,10 @@ export class ReporteRecepcionComponent implements OnInit {
   }
   obtenerTiposDeDocumento(){
     this.estados = [
-            {id:1, nombre:"aceptado"},
-            {id:2, nombre:"aceptado parcial"},
-            {id:3, nombre:"rechazado"}
-			];
+            {id:5, nombre:"Aceptado"},
+            {id:6, nombre:"Aceptado Parcial"},
+            {id:7, nombre:"Rechazado"}
+			];			
   }
 
   obtenerFacturas(){
@@ -97,26 +97,13 @@ export class ReporteRecepcionComponent implements OnInit {
 			 response  => {
 					this.doc_recepcionados	=	response;
 					console.log(this.doc_recepcionados)
-/*
-id	4
-nutricionista_id	199
-fecha	2018-11-12
-emisor	DEUDIGITAL S.A
-estado	
-fecha_emision	2018-11-06T20:55:20-06:00
-moneda	CRC
-monto	21375.3
-respuesta_status	200
-respuesta_code	28
-respuesta_data	Validation Error.
-*/
-					for(let doc in this.doc_recepcionados){
-						/*for(let item in this.estados){
-							if(this.doc_recepcionados[doc].tipo_documento_id === this.estados[item].id){
-								this.doc_recepcionados[doc].nombre_tipo = this.estados[item].nombre;
-								this.doc_recepcionados[doc].monto = Math.round(this.doc_recepcionados[doc].monto * 100) / 100;
-							}
-						}*/
+					for(let doc in this.doc_recepcionados){						
+						let _frow		=	this.estados.filter(x => x.id === this.doc_recepcionados[doc].tipo_documento_id);
+						if(_frow[0]){
+							console.log(_frow);
+							this.doc_recepcionados[doc].estado_text	=	_frow[0].nombre;
+						}
+
 						this.doc_recepcionados[doc].monto = Math.round(this.doc_recepcionados[doc].monto * 100) / 100;
 					}
 			},
@@ -125,6 +112,93 @@ respuesta_data	Validation Error.
 				}
 		);
 	}
+
+  showPDF(item){
+    let pdf = item.pdf.split('/');
+
+    if(item.tipo_documento_id != 3){
+      window.open(item.pdf, "_blank");
+    }else{
+      window.open(item.pdf, "_blank");
+    }
+  }
+  fillWithZero(valor){
+	  valor	=	((String(valor).length==1)? '0':'' ) + valor;
+	  return valor;
+  }
+	filterQueryxx(){
+		this.resultArray = [];
+		let fromDate	=	new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
+		let uDate		=	new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);
+
+		if(this.fromDate.date.day != fromDate.getDate())
+			fromDate = new Date(fromDate.setDate(fromDate.getDate() + 1));
+
+		if(this.untilDate.date.day != uDate.getDate())
+			uDate = new Date(uDate.setDate(uDate.getDate() + 1));
+		
+		/*let _filters_row	=	this.doc_recepcionados.filter(x => x.fecha  >= fromDate && x.fecha  <= uDate );*/
+		this.resultArray	=	this.doc_recepcionados.filter(function(x){
+																console.log(x.fecha + ': filter: fromDate: ' + fromDate + ', uDate: ' + uDate);
+																x => x.fecha  >= fromDate && x.fecha  <= uDate 
+															});
+/*
+var search	=	this.queryPerson.toLowerCase();
+this.filteredListPerson	=	this.resultArray.filter(function(item) {
+								var nombre = item.nombre.toString().toLowerCase();
+								return nombre.indexOf(search)>-1;
+							})
+*/
+
+	}
+  filterQuery(){
+    this.resultArray = [];
+    let fromDate	=	new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
+    let uDate		=	new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);
+
+	if(this.fromDate.date.day != fromDate.getDate())
+		fromDate = new Date(fromDate.setDate(fromDate.getDate() + 1));
+
+	if(this.untilDate.date.day != uDate.getDate())
+		uDate = new Date(uDate.setDate(uDate.getDate() + 1));	
+	
+    if(this.nombre== ''){
+		for(let consulta in this.doc_recepcionados){
+			let queryDate	=	new Date(this.doc_recepcionados[consulta].fecha);
+
+			if(queryDate >= fromDate && queryDate <= uDate){
+				if(this.estado == this.doc_recepcionados[consulta].tipo_documento_id){
+					let _row	=	this.doc_recepcionados[consulta];
+					let _frow	=	this.estados.filter(x => x.id === _row.tipo_documento_id);
+					console.log('_frow');
+					console.log(_frow);
+					if(_frow)
+					_row.estado=	_frow[0].nombre;
+
+					this.resultArray.push(_row);
+				}else{
+					if(this.estado === "Todos")
+						this.resultArray.push(this.doc_recepcionados[consulta]);
+				}
+			}
+		}
+    }else{
+      for(let consulta in this.doc_recepcionados){
+        let queryDate =  new Date(this.doc_recepcionados[consulta].fecha);
+        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
+
+        if(queryDate >= fromDate && queryDate <=
+          uDate && this.doc_recepcionados[consulta].nombre.toLowerCase().includes(this.nombre.toLowerCase())){
+          if(this.estado === this.doc_recepcionados[consulta].estado){
+            this.resultArray.push(this.doc_recepcionados[consulta]);
+          } else if(this.estado === "Todos"){
+            this.resultArray.push(this.doc_recepcionados[consulta]);
+          }
+        }
+      }
+    }
+  }
+
   setLeftBorder(index){
     let value = "";
     let maxPosition = this.resultArray.length-1;
@@ -147,81 +221,6 @@ respuesta_data	Validation Error.
       return value = '0px';
     }
   }
-
-  showPDF(item){
-    let pdf = item.pdf.split('/');
-
-    if(item.tipo_documento_id != 3){
-      window.open(item.pdf, "_blank");
-    }else{
-      window.open(item.pdf, "_blank");
-    }
-  }
-  fillWithZero(valor){
-	  valor	=	((String(valor).length==1)? '0':'' ) + valor;
-	  return valor;
-  }
-  filterQuery(){
-
-    this.resultArray = [];
-
-    //filter dates
-    let fromDate = new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
-    let uDate = new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);
-
-    if(this.fromDate.date.day != fromDate.getDate()){
-      fromDate = new Date(fromDate.setDate(fromDate.getDate() + 1));
-    }
-
-    if(this.untilDate.date.day != uDate.getDate()){
-      uDate = new Date(uDate.setDate(uDate.getDate() + 1));
-    }
-
-    if(this.nombre === ""){
-      for(let consulta in this.doc_recepcionados){
-        let queryDate =  new Date(this.doc_recepcionados[consulta].fecha);
-        //queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
-
-        if(queryDate >= fromDate && queryDate <= uDate){
-          /*this.doc_recepcionados[consulta].showDelete    =  true;
-          if(this.doc_recepcionados[consulta].estado==3 || !this.doc_recepcionados[consulta].estado){
-            this.doc_recepcionados[consulta].showDelete    =  false;
-          }*/
-		  /*console.log(this.estados);
-		  console.log(this.estado + '==' + this.doc_recepcionados[consulta].estado);*/
-          if(this.estado == this.doc_recepcionados[consulta].estado){
-			  let _row	=	this.doc_recepcionados[consulta];
-			  /*console.log(_row);*/
-			  let _frow	=	this.estados.filter(x => x.id === _row.estado);
-			  console.log('_frow');
-			  console.log(_frow);
-			  if(_frow)
-				_row.estado=	_frow[0].nombre;
-				/*_row.estado=	this.estados[index].nombre;*/
-
-            this.resultArray.push(_row);
-          } else if(this.estado === "Todos"){
-            this.resultArray.push(this.doc_recepcionados[consulta]);
-          }
-        }
-      }
-    }else{
-      for(let consulta in this.doc_recepcionados){
-        let queryDate =  new Date(this.doc_recepcionados[consulta].fecha);
-        queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
-
-        if(queryDate >= fromDate && queryDate <=
-          uDate && this.doc_recepcionados[consulta].nombre.toLowerCase().includes(this.nombre.toLowerCase())){
-          if(this.estado === this.doc_recepcionados[consulta].estado){
-            this.resultArray.push(this.doc_recepcionados[consulta]);
-          } else if(this.estado === "Todos"){
-            this.resultArray.push(this.doc_recepcionados[consulta]);
-          }
-        }
-      }
-    }
-  }
-
   exportData(Data){
   	switch(Data){
   		case 1: console.log('pdf build');

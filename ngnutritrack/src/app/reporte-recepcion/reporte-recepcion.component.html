@@ -92,10 +92,9 @@
             	<div class="row">
                     <div class="container-fluid">
                     	<div class="table-responsive">
-	                        <table class="table reporte-factura">
+	                        <table class="table reporte-recepcion">
 	                            <thead>
 	                                <tr>
-	                                    <th width="100">&nbsp;</th>
 	                                    <th># Documento</th>
 	                                    <th>Emisor</th>
 	                                    <th>Estado</th>
@@ -105,21 +104,10 @@
 	                                </tr>
 	                            </thead>
 	                            <tbody>
-	                                <tr *ngFor="let item of resultArray; let i = index ">
-										<td>
-<div class="actions reporte">
-	<a class="edit-item" href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
-		<i class="fa fa-file-pdf-o"></i>
-	</a>
-	<a class="remove-item" href="javascript:void(0)" routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.showDelete">
-		<i></i>
-	</a>
-</div>
-										
-										</td>
+	                                <tr *ngFor="let item of resultArray; let i = index ">										
 	                                    <td>{{i+1}}</td>
 	                                    <td>{{item.nombre}}</td>
-	                                    <td>{{item.estado}}</td>
+	                                    <td>{{item.estado_text}}</td>
 	                                    <td>{{item.fecha}}</td>
 	                                    <td>Colones</td>
 	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }">₡{{item.monto | thousandsPipe}}</td>
@@ -138,11 +126,6 @@
                                 <span class="glyphicon glyphicon-floppy-save"></span>
                                 Exportar a
                             </h4>
-                        </div>
-                        <div class="col-md-1">
-                            <a routerLinkActive="active" (click)='exportData(1)'  href="javascript:void(0)">
-                                <i class="fa fa-file-pdf-o" style="font-size:48px;color:red;background:none;"></i>
-                            </a>
                         </div>
                         <div class="col-md-1">
                             <a routerLinkActive="active" (click)='exportData(2)' href="javascript:void(0)">

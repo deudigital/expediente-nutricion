@@ -108,6 +108,23 @@ class Helper
 		return $response;
 	}
 /*
+ *
+ */
+	public static function getLastNumberConsecutiveRecepcion($nutricionista_id, $tipo_documento_id){
+		$return	=	1;
+		$response	=	DB::table('recepcions')
+							->where('nutricionista_id', '=', $nutricionista_id)
+							->where('tipo_documento_id', '=', $tipo_documento_id)
+							->orderBy('numeracion_consecutiva', 'DESC')
+							->first();
+
+		if($response)
+			$return	=	$response->numeracion_consecutiva + 1;
+
+		return $return;
+	}
+	
+/*
  *	return Helper::testStatic();
  */
 	public static function testStatic(){
