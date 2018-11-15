@@ -126,31 +126,6 @@ export class ReporteRecepcionComponent implements OnInit {
 	  valor	=	((String(valor).length==1)? '0':'' ) + valor;
 	  return valor;
   }
-	filterQueryxx(){
-		this.resultArray = [];
-		let fromDate	=	new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
-		let uDate		=	new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);
-
-		if(this.fromDate.date.day != fromDate.getDate())
-			fromDate = new Date(fromDate.setDate(fromDate.getDate() + 1));
-
-		if(this.untilDate.date.day != uDate.getDate())
-			uDate = new Date(uDate.setDate(uDate.getDate() + 1));
-		
-		/*let _filters_row	=	this.doc_recepcionados.filter(x => x.fecha  >= fromDate && x.fecha  <= uDate );*/
-		this.resultArray	=	this.doc_recepcionados.filter(function(x){
-																console.log(x.fecha + ': filter: fromDate: ' + fromDate + ', uDate: ' + uDate);
-																x => x.fecha  >= fromDate && x.fecha  <= uDate 
-															});
-/*
-var search	=	this.queryPerson.toLowerCase();
-this.filteredListPerson	=	this.resultArray.filter(function(item) {
-								var nombre = item.nombre.toString().toLowerCase();
-								return nombre.indexOf(search)>-1;
-							})
-*/
-
-	}
   filterQuery(){
     this.resultArray = [];
     let fromDate	=	new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
@@ -164,14 +139,13 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
 	
     if(this.nombre== ''){
 		for(let consulta in this.doc_recepcionados){
-			let queryDate	=	new Date(this.doc_recepcionados[consulta].fecha);
+			let queryDate	=	new Date(this.doc_recepcionados[consulta].fecha_emision);
 
 			if(queryDate >= fromDate && queryDate <= uDate){
 				if(this.estado == this.doc_recepcionados[consulta].tipo_documento_id){
 					let _row	=	this.doc_recepcionados[consulta];
 					let _frow	=	this.estados.filter(x => x.id === _row.tipo_documento_id);
-					console.log('_frow');
-					console.log(_frow);
+					console.log('_frow');console.log(_frow);
 					if(_frow)
 					_row.estado=	_frow[0].nombre;
 
@@ -184,7 +158,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
 		}
     }else{
       for(let consulta in this.doc_recepcionados){
-        let queryDate =  new Date(this.doc_recepcionados[consulta].fecha);
+        let queryDate =  new Date(this.doc_recepcionados[consulta].fecha_emision);
         queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
 
         if(queryDate >= fromDate && queryDate <=
@@ -231,10 +205,10 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
   			for(let xi=0;xi< this.resultArray.length;xi++){
   				let js = this.resultArray[xi];
           if (js.tipo_documento_id===3){
-            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones','-'+js.monto];
+            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha_emision,'Colones','-'+js.monto];
             rows.push(temp);  
           }else{
-            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones',js.monto];
+            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha_emision,'Colones',js.monto];
             rows.push(temp);  
           }				  
 		    }
@@ -249,7 +223,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
               '# Documento' : this.resultArray[xi].clave,
               'Emisor' : this.resultArray[xi].nombre,
               'Estado' : this.resultArray[xi].estado,
-              'Fecha' : this.resultArray[xi].fecha,
+              'Fecha' : this.resultArray[xi].fecha_emision,
               'Moneda' : this.resultArray[xi].moneda,
               'Monto' : '-'+this.resultArray[xi].monto
             }
@@ -259,7 +233,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
               '# Documento' : this.resultArray[xi].clave,
               'Emisor' : this.resultArray[xi].nombre,
               'Estado' : this.resultArray[xi].nombre_tipo,
-              'Fecha' : this.resultArray[xi].fecha,
+              'Fecha' : this.resultArray[xi].fecha_emision,
               'Moneda' : this.resultArray[xi].moneda,
               'Monto' : this.resultArray[xi].monto
             }

@@ -121,10 +121,11 @@ type: "text/xml"​​
 		}
 		else{
 			this.form_errors.successful_operation	=	true;
-			this.file_for_upload =	null;
+			this.file_for_upload 	=	null;
 			this.tipo_documento_id	=	'';
-			this.upload_success	=	false;
-			this.upload_error	=	false;
+			this.mensaje			=	'';
+			this.upload_success		=	false;
+			this.upload_error		=	false;
 		}
 	}
 	hideIconMessages(){

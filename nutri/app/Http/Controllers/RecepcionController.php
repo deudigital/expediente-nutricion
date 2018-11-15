@@ -32,7 +32,9 @@ class RecepcionController extends Controller
 
 		$errorMessage	=	$this->existeDatosErroneosXML($xml, $request->nutricionista_id);
 		if($errorMessage){
+			global $xml_missing;
 			$response['error']	=	$errorMessage;
+			$response['missing']=	$xml_missing;
 			return Response::json($response, 200);
 		}
 		
@@ -204,10 +206,56 @@ stdClass Object
 		return Response::json($response, $code);
     }
 	function existeDatosErroneosXML($xml, $nutricionista_id){
-		$response	=	false;
-		if(!isset($xml['Clave']) || empty($xml['Clave'])){
-			return 'Xml sin el tag "Clave"';
+		/*if(
+				!isset($xml['Clave']) || empty($xml['Clave']) || 
+				!isset($xml['FechaEmision']) || empty($xml['FechaEmision']) || 
+				!isset($xml['Emisor']) || empty($xml['Emisor']) || 
+				!isset($xml['Emisor']['Nombre']) || empty($xml['Emisor']['Nombre']) || 
+				!isset($xml['Emisor']['CorreoElectronico']) || empty($xml['Emisor']['CorreoElectronico']) || 
+				!isset($xml['Emisor']['Identificacion']) || empty($xml['Emisor']['Identificacion']) || 
+				!isset($xml['Emisor']['Identificacion']['Numero']) || empty($xml['Emisor']['Identificacion']['Numero']) || 
+				!isset($xml['Emisor']['Identificacion']['Tipo']) || empty($xml['Emisor']['Identificacion']['Tipo']) || 
+				!isset($xml['Receptor']) || empty($xml['Receptor']) || 
+				!isset($xml['Receptor']['Identificacion']['Numero']) || empty($xml['Receptor']['Identificacion']['Numero']) || 
+				!isset($xml['ResumenFactura']['TotalImpuesto']) || empty($xml['ResumenFactura']['TotalImpuesto']) || 
+				!isset($xml['ResumenFactura']['TotalComprobante']) || empty($xml['ResumenFactura']['TotalComprobante']) || 
+				!isset($xml['ResumenFactura']['CodigoMoneda']) || empty($xml['ResumenFactura']['CodigoMoneda'])			
+			){
+				return 'XML inválido.';
+		}*/
+		$_xml	=	array();
+		if( !isset($xml['Clave']) || strlen($xml['Clave'])==0)
+			$_xml[]	=	'Clave';
+		if( !isset($xml['FechaEmision']) || strlen($xml['FechaEmision'])==0)
+			$_xml[]	=	'FechaEmision';
+		if( !isset($xml['Emisor']))
+			$_xml[]	=	'Emisor';
+		if( !isset($xml['Emisor']['Nombre']) || strlen($xml['Emisor']['Nombre'])==0)
+			$_xml[]	=	'Emisor->Nombre';
+		if( !isset($xml['Emisor']['CorreoElectronico']) || strlen($xml['Emisor']['CorreoElectronico'])==0)
+			$_xml[]	=	'Emisor->CorreoElectronico';
+		if( !isset($xml['Emisor']['Identificacion']))
+			$_xml[]	=	'Emisor->Identificacion';
+		if( !isset($xml['Emisor']['Identificacion']['Numero']) || strlen($xml['Emisor']['Identificacion']['Numero'])==0)
+			$_xml[]	=	'Emisor->Identificacion->Numero';
+		if( !isset($xml['Emisor']['Identificacion']['Tipo']) || strlen($xml['Emisor']['Identificacion']['Tipo'])==0)
+			$_xml[]	=	'Emisor->Identificacion->Tipo';
+		if( !isset($xml['Receptor']))
+			$_xml[]	=	'Receptor';
+		if( !isset($xml['Receptor']['Identificacion']['Numero']) || strlen($xml['Receptor']['Identificacion']['Numero'])==0)
+			$_xml[]	=	'Receptor->Identificacion->Numero';
+		if( !isset($xml['ResumenFactura']['TotalImpuesto']) || strlen($xml['ResumenFactura']['TotalImpuesto'])==0)
+			$_xml[]	=	'ResumenFactura->TotalImpuesto';
+		if( !isset($xml['ResumenFactura']['TotalComprobante']) || strlen($xml['ResumenFactura']['TotalComprobante'])==0)
+			$_xml[]	=	'ResumenFactura->TotalComprobante';
+		if( !isset($xml['ResumenFactura']['CodigoMoneda']) || strlen($xml['ResumenFactura']['CodigoMoneda'])==0)
+			$_xml[]	=	'ResumenFactura->CodigoMoneda';
+		if(count( $_xml )>0){
+			global $xml_missing;
+			$xml_missing	=	$_xml;
+			return 'XML inválido.';
 		}
+
 		$registros = DB::table('recepcions')
 						->where('nutricionista_id', '=',$nutricionista_id)
 						->where('clave', '=',$xml['Clave'])
@@ -217,6 +265,7 @@ stdClass Object
 		if($registros){
 			return 'Documento XML ya fue recibido y procesado previamente';
 		}
+		
 		return false;
 	}
 	
