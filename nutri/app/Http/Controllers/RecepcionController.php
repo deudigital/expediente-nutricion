@@ -130,6 +130,7 @@ stdClass Object
 			
 			$doc_recibido	=	array(
 										'fecha'						=>	DB::raw('now()'),
+										'clave'						=>	$xml['Clave'],
 										'numeracion_consecutiva'	=>	$_numeracion_consecutiva,
 										'tipo_documento_id'			=>	$request->tipo_documento_id,
 										'nutricionista_id'			=>	$request->nutricionista_id,
@@ -206,12 +207,14 @@ stdClass Object
 		$response	=	false;
 		if(!isset($xml['Clave']) || empty($xml['Clave'])){
 			return 'Xml sin el tag "Clave"';
-		}		
-		$recepcion	=	Recepcion::where('nutricionista_id', $nutricionista_id)
-									->where('respuesta_clave', $xml['Clave'])
-									->where('respuesta_code', 1)
-									->get();
-		if($recepcion){
+		}
+		$registros = DB::table('recepcions')
+						->where('nutricionista_id', '=',$nutricionista_id)
+						->where('clave', '=',$xml['Clave'])
+						->where('respuesta_code', '=',1)
+						->get()
+						->first();
+		if($registros){
 			return 'XML con Clave registrada';
 		}
 		return false;

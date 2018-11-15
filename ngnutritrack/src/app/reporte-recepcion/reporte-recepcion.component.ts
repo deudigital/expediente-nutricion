@@ -246,7 +246,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
         for(let xi = 0;xi<this.resultArray.length;xi++){
           if (this.resultArray[xi].tipo_documento_id===3){
             let objecto = {
-              '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+              '# Documento' : this.resultArray[xi].clave,
               'Emisor' : this.resultArray[xi].nombre,
               'Estado' : this.resultArray[xi].estado,
               'Fecha' : this.resultArray[xi].fecha,
@@ -256,7 +256,7 @@ this.filteredListPerson	=	this.resultArray.filter(function(item) {
             excelArray.push(objecto)
           }else{
             let objecto = {
-              '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+              '# Documento' : this.resultArray[xi].clave,
               'Emisor' : this.resultArray[xi].nombre,
               'Estado' : this.resultArray[xi].nombre_tipo,
               'Fecha' : this.resultArray[xi].fecha,

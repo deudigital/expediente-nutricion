@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Recepcion extends Model
 {
 	protected $fillable	=	[
+		'clave',
 		'fecha',
 		'numeracion_consecutiva',
 		'tipo_documento_id',
