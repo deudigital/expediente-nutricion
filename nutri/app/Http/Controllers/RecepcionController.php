@@ -279,8 +279,8 @@ stdClass Object
 						->where('nutricionista_id', '=',$nutricionista_id)
 						->get();
 			
-		/*$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);*/
-		$response	=	Response::json($registros, 200, []);
+		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		/*$response	=	Response::json($registros, 200, []);*/
 		return $response;
 	}
 
