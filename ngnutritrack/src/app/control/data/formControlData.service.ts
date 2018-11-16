@@ -234,6 +234,18 @@ export class FormControlDataService {
 			case 'copiar_prescripcion':
 				serviceUrl	+=	'prescripcion/copy';
 				break;
+			case 'agenda-servicio':
+				serviceUrl	+=	'agenda/servicios';
+				break;
+			case 'agenda':
+				serviceUrl	+=	'agenda';
+				break;
+			case 'confirmar_cita':
+				serviceUrl	+=	'agenda/' + data.id + '/confirmar';
+				break;
+			case 'cancelar_cita':
+				serviceUrl	+=	'agenda/' + data.id + '/cancelar';
+				break;
 		}
 
 		return this.http.post( serviceUrl, data, {headers: this.headers}).map((response: Response) => response.json());
@@ -252,6 +264,9 @@ export class FormControlDataService {
 				break;
 			case 'otros_alimentos':
 				serviceUrl	+=	'otrosalimentos/' + data.id + '/delete';
+				break;
+			case 'agenda-servicio':
+				serviceUrl	+=	'agenda/servicios/' + data.id + '/delete';
 				break;
 		}
 		return this.http.post( serviceUrl, data, {headers: this.headers}).map((response: Response) => response.json());
@@ -279,6 +294,15 @@ export class FormControlDataService {
 				break;
 			case 'reporte-recepcion':
 				serviceUrl	+=	'reportes/recepcion/' + data.nutricionista_id;
+				break;
+			case 'agenda-servicio':
+				serviceUrl	+=	'agenda/servicios/' + data.nutricionista_id;
+				break;
+			case 'agenda-personas':
+				serviceUrl	+=	'agenda/nutricionista/' + data.nutricionista_id + '/personas';
+				break;
+			case 'agenda':
+				serviceUrl	+=	'agenda/' + data.nutricionista_id + '/' + data.fecha;
 				break;
 		}
 		return this.http.get( serviceUrl, {headers: this.headers}).map((response: Response) => response.json());

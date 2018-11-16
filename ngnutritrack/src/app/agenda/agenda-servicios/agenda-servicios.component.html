@@ -1,0 +1,92 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container">
+	<div class="row">
+		<div class="content-form">
+			<header class="visible-xs text-center">
+				<h4>Servicios</h4>
+			</header>
+			<section>
+				<app-agenda-nav></app-agenda-nav>
+					<header class="visible-xs">
+						<h4>Servicios</h4>
+					</header>
+				<div class="container-fluid">
+					<table class="table habitos">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Duraci&oacute;n</th>
+							</tr>
+						</thead>
+						<tbody>
+						<ng-template ngFor let-agendaServicio [ngForOf]= "agendaServicios" let-i="index">
+							<tr>
+								<td>
+									<a 
+										href="javascript:void(0);" 
+										class="remove-item" 
+										(click)="remove(agendaServicio)" 
+									><i></i></a>{{agendaServicio.nombre}}</td>
+								<td>{{agendaServicio.duracion}}</td>
+							</tr>
+						</ng-template>
+						</tbody>
+					</table>
+
+					<div class="container-form">					
+						<div class="form-edit objetivo" ng-animate="'example'" *ngIf="nuevo">
+							<div class="row">
+								<div class="col-md-4">
+								<div class="form-group">
+									<label for="servicio_nombre">Servicio</label>
+									<input type="text" class="form-control" 
+										id="servicio_nombre" 
+										name="servicio_nombre" 
+										placeholder="nombre" 
+										[(ngModel)]="newAgendaServicio.nombre"
+										/>
+								</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">							
+										<label for="servicio_duracion">Duraci&oacute;n</label>
+										<input type="text" class="form-control" 
+											id="servicio_duracion" 
+											name="servicio_duracion" 
+											placeholder="En minutos" 
+											[(ngModel)]="newAgendaServicio.duracion"
+											(keypress)="isNumberKey($event)" 
+											/>
+									</div>
+								</div>								
+								<div class="col-md-4">
+									<div class="form-group">							
+										<label>&nbsp;</label>
+										<div class="actions">
+											<a (click)="adicionarNuevo()" class="btn btn-default">GUARDAR</a>
+										</div>
+									</div>
+								</div>
+							</div>							
+							
+						</div>
+						<div class="actions">
+							<a 
+								[ngClass]="{'form-close objetivos':nuevo, 'form-open': !nuevo }" 
+								(click)="showFormEdit()" 
+								href="javascript:void(0)">
+								<i></i>
+								Nuevo Servicio</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,129 @@
+body.agenda .form-group{margin-bottom:15px;}
+
+.confirmed {background-color: #8bc23f !important;color: #fff;}
+.programed {background-color: #ccc !important;}
+/*.unavailable{background-color: #000 !important;color:#fff}*/
+
+.table.citas {background: none !important;	border: none !important;}
+.table.citas > tbody > tr > td, 
+.table.citas > tbody > tr > th, 
+.table.citas > tfoot > tr > td, 
+.table.citas > tfoot > tr > th, 
+.table.citas > thead > tr > td, 
+.table.citas > thead > tr > th {border: none;}
+.table.citas > tbody > tr > th {width: 104px;}
+.table.citas > tbody > tr > td {position: relative;padding:0;}
+.table.citas > tbody > tr:nth-child(2n+1) > td{background-color:transparent;}
+.table.citas > tbody > tr > td .actions {position: absolute;top: 5px;right: 0;}
+.table.citas > tbody > tr:first-child > td:first-of-type > label{border-radius: 15px 15px 0 0;}
+.table.citas > tbody > tr:last-child > td:first-of-type > label{border-radius: 0 0 15px 15px !important;}
+
+.table.citas label {position: relative;overflow: hidden;display: block;margin: 0;border: 1px solid #ccc;}
+.table.citas > tbody > tr > td.unavailable{
+background-color: #eee;
+background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+.table.citas > tbody > tr > td:not(.unavailable) label{cursor: pointer;}
+.table.citas > tbody > tr > td.unavailable label > span {color: #ccc;text-align: center;}
+.table.citas label:hover {}
+.table.citas label > input[type="radio"] {position: absolute;/*right:0;*/left: -20px;}
+/*:not(.unavailable)*/
+.table.citas > tbody > tr > td label > span {display: block;position: relative;padding:10px;}
+body.open-modal.datos .table.citas label > input:checked + span {z-index:1001;background-color:#fff;}
+
+.agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;border-collapse: inherit;}
+.agenda_calendar .mydp .weekdaytitle {background-color: #e0e0e0;color: #303030;}
+.agenda_calendar .mydp .daycell:not(.disabled) .datevalue.currmonth:hover,
+.agenda_calendar .mydp .selectedday .datevalue, 
+.agenda_calendar .mydp .selectedmonth .monthvalue, 
+.agenda_calendar .mydp .selectedyear .yearvalue {background-color: #8bc23f;color: #fff;border-radius: 50%;height: 36px;width: 36px;line-height: 2em;position: absolute;top: 50%;margin-top: -18px;left: 50%;margin-left: -18px;}
+.agenda_calendar .mydp .inlinedp table.caltable tr td {border: 1px solid #e0e0e0;position:relative;color:#303030;background-color:#fff;height:45px}
+.agenda_calendar .mydp .inlinedp table.caltable tr td.daycell.disabled {background-color: #f5f5f5;color:#ccc;}
+.agenda_calendar .mydp .inlinedp table.caltable tr td .datevalue span  {text-decoration: none;}
+.agenda_calendar .mydp .nextmonth, .agenda_calendar .mydp .prevmonth {color: #fff;}
+.agenda_calendar .mydp .tablesingleday:hover, 
+.agenda_calendar .mydp .tablesinglemonth:hover, 
+.agenda_calendar .mydp .tablesingleyear:hover {background-color: #fff;}
+
+.main .links.four .box a figure i {background-size:456px 840px}
+.main .links.four .box a figure {width: 140px;height: 140px;}
+.main .links.four .box a figure.main-nuevo i {background-position: 0px -441px;width: 39px;height: 44px;}
+.main .links.four .box a figure.main-agenda i {background-position: -45px -440px;width: 50px;height: 50px;}
+.main .links.four .box a figure.main-control i {background-position: -104px -442px;width: 54px;height: 44px;}
+.main .links.four .box a figure.main-facturacion i {background-position: 0 -552px;width: 64px;height: 63px;background-size: 342px 630px;}
+
+.main .links.four .box a:hover figure.main-nuevo i {background-position: 0 -498px;}
+.main .links.four .box a:hover figure.main-agenda i {background-position: -45px -498px;}
+.main .links.four .box a:hover figure.main-control i {background-position: -104px -498px;}
+.main .links.four .box a:hover figure.main-facturacion i {background-position: -76px -552px;}
+
+.filter.pacientes .with-icon.search i {position: absolute;top: inherit;bottom: 13px;left:15px;}
+.filter.pacientes ul {margin: 0;text-align: left;margin-left: 0;list-style-type: none;padding: 0;}
+.filter.pacientes ul {text-align: left;list-style-type: none;padding: 0;}
+.filter.pacientes ul li i.fullname {background-position: -469px -71px;width: 14px;height: 14px;	display: inline-block;}
+.filter.pacientes ul li i.fullname {margin-right: 10px;}
+.filter.pacientes {max-width:100%;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
+.filter.pacientes .form-group{margin-bottom:0;position:relative;margin-top:-15px;z-index:2;}
+.filter.pacientes .form-control {border: none;box-shadow: none;padding-left: 35px;line-height:2.5em;}
+.filter.pacientes ul:not(:empty) {background-color: #e6e6e6;padding-top: 20px !important;margin-top: -15px;position:absolute;z-index:1;}
+.filter.pacientes ul{padding:0 10px;max-height:300px;overflow:auto;height:auto}
+.filter.pacientes ul li {cursor:pointer;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
+.filter.pacientes ul li {padding: 8px 15px;position: relative;}
+.filter.pacientes ul li:hover {background-color:#7fb831;color:#fff;border-radius:25px;}
+body.hide-main-title #expediente_nombre{display:none;}
+
+.display-icon{clear: both;display: block;overflow: hidden;}
+.display-icon > svg {margin-top: -100px;}
+.display-icon.success > svg {margin-top: 15px;}
+svg {width: 100px;display: block;margin: 40px auto 0;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
+.path {stroke-dasharray: 1000;stroke-dashoffset: 0;}
+.path.circle {-webkit-animation: dash 0.9s ease-in-out;animation: dash 0.9s ease-in-out;}
+.path.line {stroke-dashoffset: 1000;-webkit-animation: dash 0.9s 0.35s ease-in-out forwards;animation: dash 0.9s 0.35s ease-in-out forwards;}
+.path.check {stroke-dashoffset: -100;-webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;animation: dash-check 0.9s 0.35s ease-in-out forwards;}
+p {text-align: center;margin: 20px 0 60px;font-size: 1.25em;}
+p.success {color: #73AF55;}
+p.error {color: #D06079;}
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@-webkit-keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+
+@media(min-width:600px){
+	.esc-modalbox.agenda{width:480px !important;margin-left:-240px !important;}
+	.esc-modalbox.agenda .content-form{margin-top:30px;}
+	.container-form.agenda {min-height: 500px;}
+}
+@media(min-width:768px){
+	.main .links.four .box a > strong {font-size: 16px;}
+	.agenda_calendar .mydp .inlinedp .caltable {height: calc(100% - 25%);}
+	.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}
+}

@@ -84,6 +84,8 @@ import { ThousandsPipe } from './pipes/ThousandsPipe';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import {FileService} from './services/file.service';
 import { FacturaVaciaComponent } from './factura-vacia/factura-vacia.component';
+import { AgendaServiciosComponent } from './agenda/agenda-servicios/agenda-servicios.component';
+import { AgendaNavComponent } from './agenda/agenda-nav/agenda-nav.component';
 
 @NgModule({
     imports:      [ BrowserModule,
@@ -154,7 +156,9 @@ import { FacturaVaciaComponent } from './factura-vacia/factura-vacia.component';
                     ConfigFacturaComponent,
                     FacturacionComponent,
                     FacturaVaciaComponent,
-                    ThousandsPipe ],
+                    ThousandsPipe,
+					AgendaServiciosComponent,
+                    AgendaNavComponent],
     bootstrap:    [ AppComponent ]
 })
 

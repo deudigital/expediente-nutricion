@@ -36,6 +36,7 @@ import { ResetComponent } from './login/reset.component';
 
 
 import { AgendaComponent }      from './agenda/agenda.component';
+import { AgendaServiciosComponent }      from './agenda/agenda-servicios/agenda-servicios.component';
 import { RecepcionComponent }      from './recepcion/recepcion.component';
 import { ReporteFacturaComponent } from './reporte-factura/reporte-factura.component';
 import { ReporteRecepcionComponent } from './reporte-recepcion/reporte-recepcion.component';
@@ -77,7 +78,9 @@ export const appRoutes: Routes = [
 			{ path: 'patron-menu',  component: PatronmenuComponent, canActivate: [EnsureAuthenticated] },	
 			{ path: 'notas',  component: NotasComponent, canActivate: [EnsureAuthenticated] },	
 	
-    //{ path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
+    { path: 'agenda-servicios',  component: AgendaServiciosComponent, canActivate: [EnsureAuthenticated] },
+
     { path: 'recepcion',  component: RecepcionComponent, canActivate: [EnsureAuthenticated] },
 	{ path: 'reportes-recepcion', component: ReporteRecepcionComponent, canActivate: [EnsureAuthenticated] },
 	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },

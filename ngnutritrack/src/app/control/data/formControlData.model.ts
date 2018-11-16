@@ -1489,6 +1489,27 @@ Modo de Uso
 				window.scrollTo(0, top);
 			}, 100);
 	}
+	formatTime(value, militaryTime=false){
+		let _num	=	String(value).padStart(4, '0');
+		let time_formatted	=	_num.substring(0,2) + ':' + _num.substring(2,4);
+		if(!militaryTime){
+			let _hour	=	_num.substring(0,2);
+			let _ampm	=	'am';
+			if(Number(_hour)>11)
+				_ampm	=	'pm';
+			
+			time_formatted	=	_hour + ':' + _num.substring(2,4) + _ampm;
+			/*_time		=	(i>12? i-12:i) + ':' + init + ' ' + (i>12? 'p':'a') + 'm';*/
+			return time_formatted;
+		}
+		return time_formatted;
+	}
+	getHourMinutes(value){
+		let _num	=	String(value).padStart(4, '0');
+		let time_formatted	=	{hour: parseInt(_num.substring(0,2)), minutes: parseInt(_num.substring(2,4))};
+		
+		return time_formatted;
+	}
 }
 export class Ejercicio{
 	id:number;
@@ -1697,4 +1718,69 @@ export class Graphic{
 	public edad:number=0;
 	public peso:number=0;
 	public altura:number=0;
+}
+
+export class AgendaServicio{
+	public id:number;
+	public nombre:string;
+	public duracion:number;
+	public nutricionista_id:number;
+}
+export class Agenda{
+	public id:number;
+	public date:string;
+	public militartime:number;
+	public notas:string;
+	public status:number;
+	public email:string;
+	public telefono:string;
+	public agenda_servicio_id:number;
+	public agenda_servicio_nombre:string;
+	public agenda_servicio_duracion:number;
+	public persona_id:number;
+	public persona_nombre:string;
+	public nutricionista_id:number;
+	public class:string;
+	public time_formatted:string;
+	public text:string;
+	public editable:boolean;
+
+	/*constructor(
+				public id:number=0,
+				public date:string='',
+				public militartime:number=0,
+				public notas:string='',
+				public status:number=-1,
+				public email:string='',
+				public telefono:string='',
+				public agenda_servicio_id:number=0,
+				public agenda_servicio_nombre:string='',
+				public agenda_servicio_duracion:number=0,
+				public persona_id:number=0,
+				public persona_nombre:string='',
+				public nutricionista_id:number=0,
+				public class:string='',
+				public time_formatted:string='',
+				public text:string='FREE'
+			){}*/
+	/*constructor(public id:number=0, public date:string='', public militartime:number=0, public notas:string='', public status:number=-1, public email:string='', public telefono:string='', public agenda_servicio_id:number=0, public agenda_servicio_nombre:string='', public agenda_servicio_duracion:number=0, public persona_id:number=0, public persona_nombre:string='', public nutricionista_id:number=0, public class:string='', public time_formatted:string='', public text:string=''){}*/
+	constructor(nutricionista_id:number=0){
+		this.id=0;
+		this.date='';
+		this.militartime=0;
+		this.notas='';
+		this.status=-1;
+		this.email='';
+		this.telefono='';
+		this.agenda_servicio_id=0;
+		this.agenda_servicio_nombre='';
+		this.agenda_servicio_duracion=0;
+		this.persona_id=0;
+		this.persona_nombre='';
+		this.nutricionista_id=nutricionista_id;
+		this.class='';
+		this.time_formatted='';
+		this.text='FREE';
+		this.editable=true;
+	}
 }
