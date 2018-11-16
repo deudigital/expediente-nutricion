@@ -57,6 +57,7 @@ export class AgendaComponent implements OnInit {
 	current_cita_time:string='';
 	time_selected:string='';
 	editar_cita_nuevo:boolean=false;
+	procesandoAgenda:boolean=false;
 	doit:any;
 	
 	public _dayLabels: IMyDayLabels = {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'};
@@ -142,6 +143,7 @@ export class AgendaComponent implements OnInit {
 		this.sinServicio	=	false;
 		this.mostrarServicios	=	false;
 		this.cargandoServicios	=	false;
+		this.procesandoAgenda	=	false;
 		
 		let d: Date = new Date();
 		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()} };
@@ -270,7 +272,10 @@ export class AgendaComponent implements OnInit {
 		.subscribe(
 			 response  => {
 						this.citas	=	response;
-						this.mostrarCitasAgendadas();					
+						this.procesandoAgenda	=	true;
+						setTimeout(() => {
+							this.mostrarCitasAgendadas();					
+						}, 100);
 						},
 			error =>  console.log(<any>error)
 		);
@@ -391,8 +396,10 @@ export class AgendaComponent implements OnInit {
 				break;
 		}
 		
-			if(cita_prepared!=null)
-				this.fieldArray.push( cita_prepared );
+		if(cita_prepared!=null)
+			this.fieldArray.push( cita_prepared );
+		
+		this.procesandoAgenda	=	false;
 	}
 	servicioChanged(event){
 		console.log('servicioChanged');		

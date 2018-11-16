@@ -46,7 +46,10 @@
 					<div class="col-md-6 col-lg-offset-1 col-lg-7">
 <ng-template [ngIf]="servicio" [ngIfElse]="mostrarProcesandoAgenda">
 						<h3>{{cita_reserva_fecha}}</h3>
-						<table class="table citas">
+						<div *ngIf="procesandoAgenda" class="loading-graphic container-fluid text-center">
+							<img src="assets/images/loading-bars.svg" width="32" height="32" />
+						</div>
+						<table *ngIf="!procesandoAgenda" class="table citas">
 						<tbody>
 							<tr *ngFor="let field of fieldArray; let i = index">
 								<th>{{field.time_formatted}}</th>
@@ -187,7 +190,11 @@
 			</button>
 		</div>
 		<div class="col-sm-6">
-			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
+			<button 
+				class="btn btn-default btn-block red" 
+				[disabled]="btn_prompt_yes_presionado"
+				(click)="promptCancelar()"
+			>No</button>
 		</div>
 	</div>
 </div>

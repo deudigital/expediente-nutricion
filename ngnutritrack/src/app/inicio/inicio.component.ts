@@ -20,12 +20,16 @@ export class InicioComponent implements OnInit {
 	selectedConsulta: Consulta;
 	showBoxConsultasPendientes:boolean=false;
 	showLoading:boolean=true;
+	showLoadingMenuCircles:boolean=true;
+	showMenuCircles:boolean=true;
 	tagBody:any;
 	mng:any;
 
 	hidePrompt : boolean=false;
 	hidenFactura: boolean =false;
 	agregadoAPI:number;
+	enable_agenda: boolean =false;
+	cols:string='';
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
@@ -37,6 +41,7 @@ export class InicioComponent implements OnInit {
 		this.tagBody.classList.add('with-bg');
 		this.tagBody.classList.add('page-inicio');
 		this.hidePrompt	=	false;
+		this.cols	=	'col-sm-6';
 		this.init();		
 	}
 	ngOnDestroy(){
@@ -47,6 +52,7 @@ export class InicioComponent implements OnInit {
 	
 	init(){
 		/**/
+		this.showMenuCircles	=	false;
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
@@ -124,11 +130,26 @@ export class InicioComponent implements OnInit {
 		this.formControlDataService.getNutricionista()
 		.subscribe(
 			response => {
+				console.log('getAgregadoAPI');
+				console.log(response);
 				localStorage.setItem("agregadoAPI", response[0].agregadoAPI);
+				localStorage.setItem("enable_agenda", response[0].enable_agenda);
 				this.agregadoAPI = response[0].agregadoAPI;
+				this.enable_agenda = response[0].enable_agenda;
+				
+				if(this.agregadoAPI || this.enable_agenda){
+					if(this.agregadoAPI && this.enable_agenda)					
+						this.cols	=	'col-sm-3';
+					else
+						this.cols	=	'col-sm-4';
+				}
+				this.showLoadingMenuCircles	=	false;
+				this.showMenuCircles	=	true;
+				console.log(this.cols);
 			}, 
 			error => {
 				console.log(<any>error);
+				this.showLoadingMenuCircles	=	false;
 			}
 		);
 	}
