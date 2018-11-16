@@ -138,6 +138,7 @@ stdClass Object
 										'nutricionista_id'			=>	$request->nutricionista_id,
 										'emisor'					=>	$emisor['Nombre'],
 										'emisor_email'				=>	$emisor['CorreoElectronico'],
+										'emisor_cedula'				=>	$emisor['Identificacion']['Numero'],
 										'fecha_emision'				=>	$fecha_emision,
 										'moneda'					=>	$resumen_factura['CodigoMoneda'],
 										'monto'						=>	$resumen_factura['TotalComprobante'],
@@ -273,14 +274,12 @@ stdClass Object
 		/*$registros	=	Recepcion::Where('nutricionista_id', $nutricionista_id)
 							->get();*/
 		 $registros = DB::table('recepcions')  
-						->select('recepcions.*',
-								 DB::raw('SUBSTRING(respuesta_clave, 22, 20) AS clave'),
-								 'recepcions.emisor as nombre')
+						->select('recepcions.*', DB::raw('SUBSTRING(respuesta_clave, 22, 20) AS clave'))
 						->where('nutricionista_id', '=',$nutricionista_id)
 						->get();
 			
-		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
-		/*$response	=	Response::json($registros, 200, []);*/
+		/*$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);*/
+		$response	=	Response::json($registros, 200, []);
 		return $response;
 	}
 

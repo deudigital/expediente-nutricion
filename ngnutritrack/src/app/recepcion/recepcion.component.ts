@@ -63,13 +63,7 @@ export class RecepcionComponent implements OnInit {
 		}
 	}
 	_validatiteXmlFile(file){
-/*
-lastModified: 1541818471265​​
-name: "xml-testing.xml"​​
-size: 9259​​
-type: "text/xml"​​
-*/
-			let _valid	=	false;
+		let _valid	=	false;
 		if(file.type=='text/xml')
 			_valid	=	true;
 
@@ -117,15 +111,18 @@ type: "text/xml"​​
 			this.form_errors.ajax_failure	=	true;
 			setTimeout(() => {
 				this.submit_message	=	'';
-			}, 10000);
+			}, 5000);
 		}
 		else{
 			this.form_errors.successful_operation	=	true;
-			this.file_for_upload 	=	null;
-			this.tipo_documento_id	=	'';
-			this.mensaje			=	'';
 			this.upload_success		=	false;
-			this.upload_error		=	false;
+			this.upload_error	=	false;
+			setTimeout(() => {
+				this.hideModal('datos');
+				this.file_for_upload 	=	null;				
+				this.tipo_documento_id	=	'';
+				this.mensaje			=	'';			  
+			}, 5000);
 		}
 	}
 	hideIconMessages(){
@@ -134,19 +131,6 @@ type: "text/xml"​​
 			  this.form_errors.ajax_failure			=	false;
 		}, 5000);
 	}
-/*
-	cargar(){
-		if(!this.validarCamposLlenos())
-			return ;
-			
-		if(!this.validarFormatoXML())
-			return "el formato del xml es inválido";
-		
-		if(!this.validarIdentReceptorCedNutricionista())
-			return "el documento no fue emitido a usted, fue enviado a la identificación [numero identificacion receptor documento] y su identificacion es [cedula nutricionista]";
-		
-		this.prepareBeforeSendWebserve()
-	}*/
 	showModal(modal){
 		this.hideModalDatos		=	true;
 		switch(modal){

@@ -90,19 +90,15 @@ export class ReporteRecepcionComponent implements OnInit {
             {id:7, nombre:"Rechazado"}
 			];			
   }
-
   obtenerFacturas(){
 		this.formControlDataService.select('reporte-recepcion', {'nutricionista_id':this.fcd.nutricionista_id})
 		.subscribe(
 			 response  => {
 					this.doc_recepcionados	=	response;
-					console.log(this.doc_recepcionados)
-					for(let doc in this.doc_recepcionados){						
-						let _frow		=	this.estados.filter(x => x.id === this.doc_recepcionados[doc].tipo_documento_id);
-						if(_frow[0]){
-							console.log(_frow);
+					for(let doc in this.doc_recepcionados){
+						let _frow		=	this.estados.filter(x => x.id === Number(this.doc_recepcionados[doc].tipo_documento_id));
+						if(_frow[0])
 							this.doc_recepcionados[doc].estado_text	=	_frow[0].nombre;
-						}
 
 						this.doc_recepcionados[doc].monto = Math.round(this.doc_recepcionados[doc].monto * 100) / 100;
 					}
@@ -147,7 +143,7 @@ export class ReporteRecepcionComponent implements OnInit {
 					let _frow	=	this.estados.filter(x => x.id === _row.tipo_documento_id);
 					console.log('_frow');console.log(_frow);
 					if(_frow)
-					_row.estado=	_frow[0].nombre;
+					_row.estado_text=	_frow[0].nombre;
 
 					this.resultArray.push(_row);
 				}else{
@@ -195,54 +191,36 @@ export class ReporteRecepcionComponent implements OnInit {
       return value = '0px';
     }
   }
-  exportData(Data){
+  exportData(Data){console.log( this.resultArray );
   	switch(Data){
-  		case 1: console.log('pdf build');
-  			let doc = new jsPDF({orientation:'l', format: 'a2'});
-  			let col = ["# Documento", "Emisor","Estado","Fecha","Moneda","Monto"];
-  			let rows = [];
+		case 1: console.log('pdf build');
+			let doc = new jsPDF({orientation:'l', format: 'a2'});
+			let col = ["# Documento", "Emisor", "Cedula","Estado","Fecha","Moneda","Monto"];
+			let rows = [];
 
-  			for(let xi=0;xi< this.resultArray.length;xi++){
-  				let js = this.resultArray[xi];
-          if (js.tipo_documento_id===3){
-            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha_emision,'Colones','-'+js.monto];
-            rows.push(temp);  
-          }else{
-            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha_emision,'Colones',js.monto];
-            rows.push(temp);  
-          }				  
-		    }
-  			doc.autoTable(col, rows);
-  			doc.save('Reporte de Recepcion de documento.pdf');
-  			break;
-		  case 2: console.log('excel build');
-        let excelArray = [];
-        for(let xi = 0;xi<this.resultArray.length;xi++){
-          if (this.resultArray[xi].tipo_documento_id===3){
-            let objecto = {
-              '# Documento' : this.resultArray[xi].clave,
-              'Emisor' : this.resultArray[xi].nombre,
-              'Estado' : this.resultArray[xi].estado,
-              'Fecha' : this.resultArray[xi].fecha_emision,
-              'Moneda' : this.resultArray[xi].moneda,
-              'Monto' : '-'+this.resultArray[xi].monto
-            }
-            excelArray.push(objecto)
-          }else{
-            let objecto = {
-              '# Documento' : this.resultArray[xi].clave,
-              'Emisor' : this.resultArray[xi].nombre,
-              'Estado' : this.resultArray[xi].nombre_tipo,
-              'Fecha' : this.resultArray[xi].fecha_emision,
-              'Moneda' : this.resultArray[xi].moneda,
-              'Monto' : this.resultArray[xi].monto
-            }
-            excelArray.push(objecto);
-          }
-          
-        }
-			  new Angular2Csv(excelArray, 'My Report',{ headers: Object.keys(excelArray[0]) });
-  			break;
+			for(let xi=0;xi< this.resultArray.length;xi++){
+				let js = this.resultArray[xi];
+				let temp = [js.clave,js.nombre,js.emisor_cedula,js.estado_text,js.fecha_emision,js.moneda,js.monto];
+			}
+			doc.autoTable(col, rows);
+			doc.save('Reporte de Recepcion de documento.pdf');
+			break;
+		case 2: console.log('excel build');
+			let excelArray = [];
+			for(let xi = 0;xi<this.resultArray.length;xi++){
+				let objecto = {
+				  '# Documento' : this.resultArray[xi].clave,
+				  'Emisor' : this.resultArray[xi].nombre,
+				  'Cedula' : this.resultArray[xi].emisor_cedula,
+				  'Estado' : this.resultArray[xi].estado_text,
+				  'Fecha' : this.resultArray[xi].fecha_emision,
+				  'Moneda' : this.resultArray[xi].moneda,
+				  'Monto' : this.resultArray[xi].monto
+				}
+				excelArray.push(objecto);			  
+			}
+		new Angular2Csv(excelArray, 'My Report',{ headers: Object.keys(excelArray[0]) });
+		break;
   	}
   }
 }

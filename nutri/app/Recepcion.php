@@ -14,6 +14,7 @@ class Recepcion extends Model
 		'nutricionista_id',
 		'emisor',
 		'emisor_email',
+		'emisor_cedula',
 		'fecha_emision',
 		'moneda',
 		'monto',

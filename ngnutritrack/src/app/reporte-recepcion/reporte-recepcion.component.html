@@ -97,6 +97,7 @@
 	                                <tr>
 	                                    <th># Documento</th>
 	                                    <th>Emisor</th>
+	                                    <th>Cedula</th>
 	                                    <th>Estado</th>
 	                                    <th>Fecha</th>
 	                                    <th>Moneda</th>
@@ -106,7 +107,8 @@
 	                            <tbody>
 	                                <tr *ngFor="let item of resultArray; let i = index ">										
 	                                    <td>{{item.clave}}</td>
-	                                    <td>{{item.nombre}}</td>
+	                                    <td>{{item.emisor}}</td>
+	                                    <td>{{item.emisor_cedula}}</td>
 	                                    <td>{{item.estado_text}}</td>
 	                                    <td>{{item.fecha_emision}}</td>
 	                                    <td>{{item.moneda}}</td>
