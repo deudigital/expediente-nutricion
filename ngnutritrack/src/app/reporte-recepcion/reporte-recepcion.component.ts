@@ -140,7 +140,7 @@ export class ReporteRecepcionComponent implements OnInit {
 			if(queryDate >= fromDate && queryDate <= uDate){
 				if(this.estado == this.doc_recepcionados[consulta].tipo_documento_id){
 					let _row	=	this.doc_recepcionados[consulta];
-					let _frow	=	this.estados.filter(x => x.id === _row.tipo_documento_id);
+					let _frow	=	this.estados.filter(x => x.id === Number(_row.tipo_documento_id));
 					console.log('_frow');console.log(_frow);
 					if(_frow)
 					_row.estado_text=	_frow[0].nombre;
