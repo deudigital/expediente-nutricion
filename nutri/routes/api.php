@@ -25,6 +25,7 @@ Route::group(['middleware' => 'cors'], function(){
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	/*	REPORTES	*/
+	Route::get('documento/{documento_id}/xml', 'ReportesFacturasController@attachxmlemail');
 	Route::get('reportes/nutricionista/{id}', 'ReportesFacturasController@getDocumentos');
 	Route::get('reportes/update/nutricionista', 'ReportesFacturasController@updateMontoDocumentos');
 	Route::get('reportes/sinmonto', 'ReportesFacturasController@documentoSinMonto');
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('agenda/{agenda_id}/test/{mode}/{action}', 'AgendaController@testEmails');
 	Route::get('agenda/test', 'AgendaController@test');
 	Route::get('reportes/recepcion/{nutricionista_id}', 'RecepcionController@reporte');
+	Route::get('agenda/{nutricionista_id}/{fecha}', 'AgendaController@select');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	Route::get('form/data', 'FormController@dataform');

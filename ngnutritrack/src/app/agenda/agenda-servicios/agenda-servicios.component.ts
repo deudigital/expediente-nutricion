@@ -13,6 +13,20 @@ export class AgendaServiciosComponent implements OnInit {
 	nuevo:boolean=false;
 	agendaServicios:any[];
 	newAgendaServicio=new AgendaServicio();
+	tiempos: any = [
+					{id:10, nombre:"10 minutos"},
+					{id:15, nombre:"15 minutos"},
+					{id:20, nombre:"20 minutos"},
+					{id:30, nombre:"30 minutos"},
+					{id:45, nombre:"45 minutos"},
+					{id:60, nombre:"60 minutos"},
+					{id:75, nombre:"75 minutos"},
+					{id:90, nombre:"90 minutos"},
+					{id:120, nombre:"120 minutos"},
+					{id:150, nombre:"150 minutos"},
+					{id:180, nombre:"180 minutos"},
+					
+				];	
 	
 	/*habitosEjercicio=new HabitosEjercicio();
 	ejercicios:any[];

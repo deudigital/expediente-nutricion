@@ -32,8 +32,17 @@ class Helper
 		/*return _convertTimeMilitarToTimeStandard($timeMilitar);
 	}
 	public function _convertTimeMilitarToTimeStandard($timeMilitar){*/
-		$h	=	substr($timeMilitar,0,2);
-		$m	=	substr($timeMilitar,2,2);
+		$limitador	=	1;
+		if(strlen($timeMilitar)>3)
+			$limitador	=	2;
+		/*static::_print(strlen($timeMilitar));
+		static::_print($timeMilitar);*/
+		/*$h	=	substr($timeMilitar,0,2);*/
+		$h	=	substr($timeMilitar,0,$limitador);
+		/*static::_print($h);*/
+		/*$m	=	substr($timeMilitar,2,2);*/
+		$m	=	substr($timeMilitar,$limitador,2);
+		/*static::_print($m);*/
 		$ampm	=	$h>11? 'pm':'am';
 		if($h>12)
 			$h	=	$h%12;

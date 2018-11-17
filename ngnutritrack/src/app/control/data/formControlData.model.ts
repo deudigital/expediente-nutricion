@@ -1498,7 +1498,13 @@ Modo de Uso
 			if(Number(_hour)>11)
 				_ampm	=	'pm';
 			
-			time_formatted	=	_hour + ':' + _num.substring(2,4) + _ampm;
+			let h	=	Number(_hour) % 12;
+			/*console.log(_hour + ' -> ' + h);*/
+			if(h==0)
+				h	=	12;
+				/*_hour	=	'12';*/
+			/*time_formatted	=	_hour + ':' + _num.substring(2,4) + _ampm;*/
+			time_formatted	=	h + ':' + _num.substring(2,4) + _ampm;
 			/*_time		=	(i>12? i-12:i) + ':' + init + ' ' + (i>12? 'p':'a') + 'm';*/
 			return time_formatted;
 		}
@@ -1509,6 +1515,23 @@ Modo de Uso
 		let time_formatted	=	{hour: parseInt(_num.substring(0,2)), minutes: parseInt(_num.substring(2,4))};
 		
 		return time_formatted;
+	}
+	getStatusCitaClass(status){
+		let _class	=	'';
+		switch(status){
+			case 0:
+				_class	=	'cancelled';
+				break;
+			case 1:
+				_class	=	'programed';
+				break;
+			case 2:
+				_class	=	'confirmed';
+				break;
+			default:
+				_class	=	'';							
+		}
+		return _class;
 	}
 }
 export class Ejercicio{
@@ -1780,7 +1803,7 @@ export class Agenda{
 		this.nutricionista_id=nutricionista_id;
 		this.class='';
 		this.time_formatted='';
-		this.text='FREE';
+		this.text='Disponible';
 		this.editable=true;
 	}
 }

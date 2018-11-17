@@ -24,6 +24,7 @@ class Recepcion extends Model
 		'respuesta_clave',
 		'json',
 		'respuesta_completa'
+		'xml_url'
 	];
 	public $timestamps	=	false;
 }

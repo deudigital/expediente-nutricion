@@ -282,17 +282,16 @@ export class AgendaComponent implements OnInit {
 		
 	}
 	mostrarCitasAgendadas(){
+		console.clear();
 		this.fieldArray = [];
 		let hour_from	=	8;
-		let hour_to		=	21;
+		let hour_to		=	22;
 		let _minutos	=	0;
 		let _horaEnMinutos	=	60;
-		
 		let citaReservada	=	null;
 		let _horaMilitarCitaReservada:number	=	1000000;
 		if(this.citas.length>0){
-			/*citaReservada	=	this.citas.pop();*/		
-			citaReservada	=	this.citas.shift();		
+			citaReservada	=	this.citas.shift();
 			_horaMilitarCitaReservada	=	Number(citaReservada.militartime );
 		}
 		let _id:number	=	0;
@@ -309,95 +308,75 @@ export class AgendaComponent implements OnInit {
 		let cita_prepared	=	null;
 		while(h<hour_to){
 			while(_minutos<_horaEnMinutos){
-/*
-				if(cita_prepared!=null)
-					this.fieldArray.push( cita_prepared );
-*/
 				cita	=	new Agenda( this.fcd.nutricionista_id );
 				cita.militartime	=	Number( (h*100)+_minutos);
 				cita.time_formatted	=	this.helpers.formatTime(cita.militartime);
 				if( cita.militartime >= _horaMilitarCitaReservada){
 					if(cita.militartime>_horaMilitarCitaReservada){
-						cita_prepared.text		=	'No Disponible';
+						cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
 						cita_prepared.class		=	'unavailable';
 						cita_prepared.editable	=	false;
 					}
-				
-					cita.id	=	citaReservada.id;
-					cita.militartime	=	citaReservada.militartime;
-					cita.time_formatted	=	this.helpers.formatTime(cita.militartime);
-					_class	=	'';
-					switch(citaReservada.status){
-						case 0:
-							_class	=	'cancelled';
-							break;
-						case 1:
-							_class	=	'programed';
-							break;
-						case 2:
-							_class	=	'confirmed';
-							break;
-						default:
-							_class	=	'';							
-					}
-					cita.class	=	_class;					
-					/*cita.text	=	citaReservada.agenda_servicio_nombre + ' - ' + cita.time_formatted + ' (' + citaReservada.agenda_servicio_duracion + ' minutos)';*/
-					cita.text	=	citaReservada.persona_nombre + ' - ' + citaReservada.agenda_servicio_nombre + ' (' + citaReservada.agenda_servicio_duracion + ' minutos)';
-					cita.notas	=	citaReservada.notas;
-					cita.agenda_servicio_nombre		=	citaReservada.agenda_servicio_nombre;
-					cita.agenda_servicio_duracion	=	citaReservada.agenda_servicio_duracion;
-					cita.nutricionista_id			=	citaReservada.nutricionista_id;
-					cita.persona_id					=	citaReservada.persona_id;
-					cita.persona_nombre				=	citaReservada.persona_nombre;
-					cita.email						=	citaReservada.email;
-					cita.telefono					=	citaReservada.telefono;
-					cita.notas						=	citaReservada.notas;
-
-					let _t	=	this.helpers.getHourMinutes(cita.militartime);
-					let aux	=	_t.minutes + citaReservada.agenda_servicio_duracion;
-					/*console.log(cita.militartime + ': aux = ' + _t.minutes + '+' +  citaReservada.agenda_servicio_duracion + ' => ' + aux);*/
+					cita							=	citaReservada;
+					cita.time_formatted				=	this.helpers.formatTime(cita.militartime);
+					cita.class						=	this.helpers.getStatusCitaClass(citaReservada.status);
+					cita.text						=	citaReservada.persona_nombre + ' - ' + citaReservada.agenda_servicio_nombre + ' (' + citaReservada.agenda_servicio_duracion + ' minutos)';
+					let _t		=	this.helpers.getHourMinutes(cita.militartime);
+					let aux		=	_t.minutes + citaReservada.agenda_servicio_duracion;
 					if(aux>=_horaEnMinutos){
 						let res	=	Math.trunc(Number(aux/_horaEnMinutos));
-						/*console.log('res: ' + _minutos + '/' + _horaEnMinutos + ' = ' + res);*/
 						h	=	_t.hour + res;
 						_minutos	=	aux%_horaEnMinutos;
 					}else{
 						h	=	_t.hour;
-						_minutos	=	citaReservada.agenda_servicio_duracion;
+						/*_minutos	=	citaReservada.agenda_servicio_duracion;*/
+						_minutos	=	aux;
 					}
-					
 					if(this.citas.length>0){
-						citaReservada	=	this.citas.shift();
+						citaReservada				=	this.citas.shift();
 						_horaMilitarCitaReservada	=	Number(citaReservada.militartime );
 						
 					}else{
-						_horaMilitarCitaReservada	=	1000000;
-						
+						citaReservada				=	null;
+						_horaMilitarCitaReservada	=	1000000;						
 					}
 				}else{
 					_minutos	+=	this.servicio.duracion;
 				}
-				/*this.fieldArray.push( cita );*/
-				if(cita_prepared!=null)
+				if(cita_prepared!=null){
+					console.log(cita_prepared.militartime)
 					this.fieldArray.push( cita_prepared );
+				}
 				cita_prepared	=	cita;
 			}
 			
 			if(_minutos>=_horaEnMinutos){
 				let res	=	Math.trunc(Number(_minutos/_horaEnMinutos));
-				/*console.log('295: ' + _minutos + '/' + _horaEnMinutos + ' = ' + res);*/
-				h	=	h	+	res;
+					h	=	h	+	res;
 			}else
 				h++;
 			_minutos	=	_minutos%_horaEnMinutos;
-
-			j++;
-			if(j>1000)
-				break;
 		}
-		
-		if(cita_prepared!=null)
+		if(cita_prepared!=null ){
+			hour_to	=	Number( (hour_to*100));/*	2200	*/
+			let _time	=	cita_prepared.militartime;/*	2145	*/
+			if( this.servicio.duracion>=_horaEnMinutos){
+				let div	=	Math.trunc(Number( this.servicio.duracion/_horaEnMinutos ));
+				_time	=	cita_prepared.militartime + (div*100);
+				let res	=	Math.trunc(Number( this.servicio.duracion%_horaEnMinutos ));
+				_time	+=	res;
+			}else{
+				let _dif	=	(hour_to-40) - cita_prepared.militartime;			
+				if( _dif <this.servicio.duracion)
+					_time	=	hour_to + 1;
+			}
+			if( (_time > hour_to) ){
+				cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
+				cita_prepared.class		=	'unavailable';
+				cita_prepared.editable	=	false;
+			}
 			this.fieldArray.push( cita_prepared );
+		}
 		
 		this.procesandoAgenda	=	false;
 	}

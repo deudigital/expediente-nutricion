@@ -25,8 +25,9 @@ class RecepcionController extends Controller
 		$filename		=	$request->nutricionista_id . '-' . time() . '.' . $file->getClientOriginalExtension();
 
 		$file->move($destination, $filename);
-
-		$xml_content	=	file_get_contents( $destination . '/' . $filename );
+		
+		$fileXmlPath	=	$destination . '/' . $filename;
+		$xml_content	=	file_get_contents( $fileXmlPath );
 		$parser 		=	new Parser();
 		$xml			=	$parser->xml( $xml_content );
 
@@ -148,6 +149,7 @@ stdClass Object
 										'respuesta_clave'			=>	'',
 										'json'						=>	json_encode($_json),
 										'respuesta_completa'		=>	json_encode($result),
+										'xml_url'					=>	$fileXmlPath,
 									);
 
 			if(isset($result->status))
@@ -265,6 +267,10 @@ stdClass Object
 						->first();
 		if($registros){
 			return 'Documento XML ya fue recibido y procesado previamente';
+		}
+		$nutricionista	=	Persona::find($nutricionista_id);
+		if( $nutricionista->cedula != $xml['Emisor']['Identificacion']['Numero'] ){
+			return 'Esta factura no se puede procesar porque la cédula del remitente no corresponde a la suya';
 		}
 		
 		return false;

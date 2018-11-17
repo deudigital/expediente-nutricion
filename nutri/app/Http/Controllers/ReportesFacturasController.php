@@ -9,6 +9,7 @@ use App\Documento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
+use Mail;
 
 class ReportesFacturasController extends Controller
 {
@@ -111,6 +112,7 @@ class ReportesFacturasController extends Controller
         try{
           $facturas = DB::table('documentos')  
             ->select('personas.nombre',
+                     'personas.cedula',
                      'documentos.id',
                      'documentos.consulta_id',
                      'documentos.nutricionista_id',
@@ -401,4 +403,26 @@ class ReportesFacturasController extends Controller
 		$response   =   Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
         return $response;
     }
+	public function attachxmlemail($documento_id){
+		$documento	=	Documento::find($documento_id);
+		$info['file']		=	base64_decode( $documento->xml );		
+		$info['filename']	=	$documento->clave . 'xml';
+		$data	=	array();
+		Mail::send('emails.test', $data, function($message) use ($info) {
+			$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+			$subject	=	'testing xml attached';
+			$message->subject( $subject );
+			$message->to( 'jaime_isidro@hotmail.com', 'jaime web developer' );
+			$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+			$message->sender(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+			$message->bcc($bcc);
+			/*$message->attach($pdfPath);*/
+			$message->attachData($info['file'], $info['filename'], [
+                        'mime' => 'application/xml',
+                    ]);
+		});
+		
+		$response   =   Response::json(base64_decode( $documento->xml ), 200, [], JSON_NUMERIC_CHECK);
+        return $response;
+	}
 }

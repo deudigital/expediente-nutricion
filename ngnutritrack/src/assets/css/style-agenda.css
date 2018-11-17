@@ -11,7 +11,7 @@ body.agenda .form-group{margin-bottom:15px;}
 .table.citas > tfoot > tr > th, 
 .table.citas > thead > tr > td, 
 .table.citas > thead > tr > th {border: none;}
-.table.citas > tbody > tr > th {width: 104px;}
+.table.citas > tbody > tr > th {width: 104px;padding-top:0}
 .table.citas > tbody > tr > td {position: relative;padding:0;}
 .table.citas > tbody > tr:nth-child(2n+1) > td{background-color:transparent;}
 .table.citas > tbody > tr > td .actions {position: absolute;top: 5px;right: 0;}

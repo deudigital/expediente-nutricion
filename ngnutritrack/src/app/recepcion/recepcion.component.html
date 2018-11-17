@@ -50,12 +50,12 @@
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-3">
-					<label for="customFile">Cargar XML</label>
+					<label for="customFile" for="custom_file">Cargar XML</label>
 				</div>
 				<div class="col-sm-9">
 					<div class="custom-file">
-						<input type="file" class="custom-file-input" #customFile name="customFile" (change)="fileChange($event)" accept=".xml" required/>
-						<label class="custom-file-label" for="customFile">Seleccionar Archivo</label>
+						<input type="file" class="custom-file-input" #custom_file name="custom_file" (change)="fileChange($event)" accept=".xml" required/>
+						<label class="custom-file-label" for="custom_file">Seleccionar Archivo</label>
 					</div>
 					<div *ngIf="upload_error || upload_success" [ngClass]="{'alert-danger': upload_error, 'alert-success': upload_success }" class="alert">
 						<span *ngIf="upload_error"><strong>&#x2716; Formato No aceptado: </strong> Carga tu archivo en formato XML</span>
