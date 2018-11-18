@@ -20,6 +20,7 @@ export class TopnavComponent implements OnInit {
 	
 	toggle:boolean;
 	toggleTopMenu:boolean;
+	enable_agenda:boolean;
 	
 	constructor( private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService ) {
 		this.model	=	formControlDataService.getFormControlData();
@@ -27,9 +28,11 @@ export class TopnavComponent implements OnInit {
 		this.displayTitle();
 		this.toggle	=	false;
 		this.toggleTopMenu	=	false;
+		
 	}		
 	ngOnInit() {
 		this.agregadoAPI = parseInt(localStorage.getItem("agregadoAPI"));
+		this.enable_agenda	=	this.model.canAccessAgenda;
 		this.title_control	=	this.model.getFormPaciente().nombre;
 		if(!this.title_control){
 			setInterval(() => {
@@ -50,6 +53,10 @@ export class TopnavComponent implements OnInit {
 			case '/servicios-productos':
 			case '/sinfacturar':
 			case '/config-factura':
+			case '/agenda':
+			case '/agenda-servicios':
+			case '/recepcion':
+			case '/reportes-recepcion':
 				this.showTitle	=	false;
 				break;
 			default:

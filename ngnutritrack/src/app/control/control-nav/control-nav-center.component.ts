@@ -10,12 +10,14 @@ import { FormControlDataService }     from '../data/formControlData.service';
 })
 export class ControlNavCenterComponent implements OnInit {
 
-  agregadoAPI:number;
+	agregadoAPI:number;
+	enable_agenda:boolean;
 
   constructor(private commonService: CommonService, private formControlDataService: FormControlDataService) { }
 
   ngOnInit() {
-    this.getAgregadoAPI();
+	this.getAgregadoAPI();
+	this.enable_agenda	=	this.formControlDataService.getFormControlData().canAccessAgenda;
   }
 
   mouseOut(){

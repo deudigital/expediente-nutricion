@@ -22,7 +22,7 @@
 					<i class="menu-icon"></i>Control
 				</a>
 			</li>			
-			<li class="agenda">
+			<li class="agenda" *ngIf="enable_agenda">
 				<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
 					<i class="menu-icon"></i>Agenda
 				</a>

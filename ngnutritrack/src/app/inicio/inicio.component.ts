@@ -136,6 +136,8 @@ export class InicioComponent implements OnInit {
 				localStorage.setItem("enable_agenda", response[0].enable_agenda);
 				this.agregadoAPI = response[0].agregadoAPI;
 				this.enable_agenda = response[0].enable_agenda;
+				this.formControlDataService.getFormControlData().canAccessFacturacion	=	response[0].agregadoAPI;
+				this.formControlDataService.getFormControlData().canAccessAgenda			=	response[0].enable_agenda;
 				
 				if(this.agregadoAPI || this.enable_agenda){
 					if(this.agregadoAPI && this.enable_agenda)					

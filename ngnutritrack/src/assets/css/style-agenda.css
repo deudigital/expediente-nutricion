@@ -29,6 +29,7 @@ background-image: repeating-linear-gradient(45deg, transparent, transparent 35px
 .table.citas label > input[type="radio"] {position: absolute;/*right:0;*/left: -20px;}
 /*:not(.unavailable)*/
 .table.citas > tbody > tr > td label > span {display: block;position: relative;padding:10px;}
+.table.citas > tbody > tr > td .add-item > i {height: 14px;width: 14px;background-position: -367px -801px;top: 2px;}
 body.open-modal.datos .table.citas label > input:checked + span {z-index:1001;background-color:#fff;}
 
 .agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;border-collapse: inherit;}
@@ -116,6 +117,15 @@ p.error {color: #D06079;}
   }
 }
 
+.navigation-agenda .agenda > li{padding:0}
+.navigation-agenda li > a > i {top: 0 !important;}
+.navigation-agenda .agenda a > i{background-position: -523px -837px;width: 24px;height: 24px;}
+.navigation-agenda .agenda a.active > i, 
+.navigation-agenda .agenda a:hover > i {background-position: -523px -863px;}
+
+.navigation-agenda .agenda-reporte a > i {background-position: -549px -837px;width: 21px;height: 21px;}
+.navigation-agenda .agenda-reporte a.active > i, 
+.navigation-agenda .agenda-reporte a:hover > i {background-position: -549px -863px;}
 
 @media(min-width:600px){
 	.esc-modalbox.agenda{width:480px !important;margin-left:-240px !important;}

@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
 		}catch(err) {
 			console.log( 'E:_setInfoIdeal(' + err.message + ')' );
 		}
-		return summary;
+		return summary + ' | canAccessAgenda' + this.fcd.canAccessAgenda;
 	}
 
 }

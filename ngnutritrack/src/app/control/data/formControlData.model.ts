@@ -2,7 +2,10 @@ export class FormControlData {
 	aaa:string='class FormControlData';
 	dataFilled:boolean=false;
 	paciente_id:number=0;
-	nutricionista_id:number=0;	
+	nutricionista_id:number=0;
+	canAccessAgenda:boolean=false;
+	canAccessFacturacion:boolean=false;
+
 	message_login:string			=	'';
 	dieta_desayuno_ejemplo:string			=	'';
 	dieta_media_manana_ejemplo:string		=	'';
