@@ -55,29 +55,14 @@
 								<div class="col-md-4">
 									<div class="form-group">							
 										<label for="servicio_duracion">Duraci&oacute;n</label>
-										<!--<input type="text" class="form-control" 
-											id="servicio_duracion" 
-											name="servicio_duracion" 
-											placeholder="En minutos" 
-											[(ngModel)]="newAgendaServicio.duracion"
-											(keypress)="isNumberKey($event)" 
-											/>-->
 										<select 
+											class="form-control ng-pristine ng-valid ng-touched" 
 											id="servicio_duracion" 
 											name="servicio_duracion" 
-											placeholder="En minutos" 
 											[(ngModel)]="newAgendaServicio.duracion"
-										>
-											<option></option>
+											>
+											<option *ngFor="let item of tiempos" value="{{item.id}}">{{item.nombre}}</option>
 										</select>
-<select 
-	class="form-control ng-pristine ng-valid ng-touched" 
-	id="servicio_duracion" 
-	name="servicio_duracion" 
-	[(ngModel)]="newAgendaServicio.duracion"
-	>
-	<option *ngFor="let item of tiempos" value="{{item.id}}">{{item.nombre}}</option>
-</select>
 									</div>
 								</div>								
 								<div class="col-md-4">

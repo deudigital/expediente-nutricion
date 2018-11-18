@@ -23,7 +23,7 @@ class Recepcion extends Model
 		'respuesta_data',
 		'respuesta_clave',
 		'json',
-		'respuesta_completa'
+		'respuesta_completa',
 		'xml_url'
 	];
 	public $timestamps	=	false;

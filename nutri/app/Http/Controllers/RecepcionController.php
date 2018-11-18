@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Nathanmac\Utilities\Parser\Parser;
 use App\Recepcion;
+use App\Persona;
 use App\Nutricionista;
 use App\Helper;
 use DB;
@@ -38,7 +39,7 @@ class RecepcionController extends Controller
 			$response['missing']=	$xml_missing;
 			return Response::json($response, 200);
 		}
-		
+		$fileXmlPath	=	url('/recepcion/') . '/' . $filename;
 		$_numeracion_consecutiva	=	Helper::getLastNumberConsecutiveRecepcion($request->nutricionista_id, $request->tipo_documento_id);
 		
 		$response['xml']	=	$xml;
@@ -268,10 +269,15 @@ stdClass Object
 		if($registros){
 			return 'Documento XML ya fue recibido y procesado previamente';
 		}
-		$nutricionista	=	Persona::find($nutricionista_id);
+		/*$nutricionista	=	Persona::find($nutricionista_id);
 		if( $nutricionista->cedula != $xml['Emisor']['Identificacion']['Numero'] ){
+			global $xml_missing;
+			$xml_missing	=	array(
+										'emisor'		=>	$xml['Emisor']['Identificacion']['Numero'],
+										'nutricionista'	=>	$nutricionista->cedula
+									);
 			return 'Esta factura no se puede procesar porque la cédula del remitente no corresponde a la suya';
-		}
+		}*/
 		
 		return false;
 	}

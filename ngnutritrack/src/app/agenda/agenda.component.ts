@@ -284,7 +284,7 @@ export class AgendaComponent implements OnInit {
 	mostrarCitasAgendadas(){
 		console.clear();
 		this.fieldArray = [];
-		let hour_from	=	8;
+		let hour_from	=	4;
 		let hour_to		=	22;
 		let _minutos	=	0;
 		let _horaEnMinutos	=	60;

@@ -6,17 +6,12 @@
  .esc-modal.icon-messages{z-index:20000;}
  .content-form.recepcion section {min-height: 450px;}
  .table.reporte-recepcion > tbody > tr > td {text-transform: capitalize;}
+ .table.reporte-recepcion > tbody > tr > td:first-child {text-align: center;}
 .recepcion-container-button-nuevo{text-align:center}
 .esc-modalbox.recepcion header {margin-bottom: 15px;}
 .esc-modalbox.recepcion .alert {margin-top: 15px !important;}
 .esc-modalbox.recepcion header {margin-bottom: 20px;}
-a.link-file > i {
-	background-position: -110px -312px;
-	width: 25px;
-	height: 30px;
-	display: inline-block;
-	background-size: 285px 525px;
-}
+a.link-file > i {background-position: -88px -249px;width: 20px;height: 25px;display: inline-block;background-size: 228px 420px;}
  @media(min-width:768px){
 	 .esc-modalbox.recepcion header {margin-bottom: 50px;}
 	.recepcion-container-button-nuevo{padding:50px}
