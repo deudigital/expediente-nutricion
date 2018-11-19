@@ -19,6 +19,7 @@ body.agenda .form-group{margin-bottom:15px;}
 .table.citas > tbody > tr:last-child > td:first-of-type > label{border-radius: 0 0 15px 15px !important;}
 
 .table.citas label {position: relative;overflow: hidden;display: block;margin: 0;border: 1px solid #ccc;}
+.table.citas > tbody > tr > td.available:hover label{background-color: #eee;}
 .table.citas > tbody > tr > td.unavailable{
 background-color: #eee;
 background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);

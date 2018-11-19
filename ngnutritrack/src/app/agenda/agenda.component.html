@@ -22,12 +22,12 @@
 							<div class="form-group">
 								<label for="servicios">Seleccione el servicio para esta cita</label>
 								<select [(ngModel)]="servicio" class="form-control" name="servicio" (change)="servicioChanged($event)">
-									<option *ngFor="let serv of servicios" [ngValue]="serv">{{serv.id}} - {{serv.nombre}} - {{serv.duracion}}</option>
+									<option *ngFor="let serv of servicios" [ngValue]="serv">{{serv.nombre}} - {{serv.duracion}} minutos</option>
 								</select>
 							</div>	
 </ng-template>				
 <ng-template [ngIf]="sinServicio">
-							<p>"Antes de agendar citas debe ingresar servicios".</p>
+							<p>Antes de agendar citas debe ingresar servicios.</p>
 </ng-template>
 <ng-template [ngIf]="servicio">
 							<div class="form-group">

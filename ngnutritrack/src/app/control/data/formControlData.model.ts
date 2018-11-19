@@ -1520,7 +1520,7 @@ Modo de Uso
 		return time_formatted;
 	}
 	getStatusCitaClass(status){
-		let _class	=	'';
+		let _class	=	'availablessss';
 		switch(status){
 			case 0:
 				_class	=	'cancelled';
@@ -1532,7 +1532,7 @@ Modo de Uso
 				_class	=	'confirmed';
 				break;
 			default:
-				_class	=	'';							
+				_class	=	'available';							
 		}
 		return _class;
 	}
@@ -1804,7 +1804,7 @@ export class Agenda{
 		this.persona_id=0;
 		this.persona_nombre='';
 		this.nutricionista_id=nutricionista_id;
-		this.class='';
+		this.class='available';
 		this.time_formatted='';
 		this.text='Disponible';
 		this.editable=true;

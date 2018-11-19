@@ -146,7 +146,7 @@ export class AgendaComponent implements OnInit {
 		this.procesandoAgenda	=	false;
 		
 		let d: Date = new Date();
-		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()} };
+		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() / 1000 };
 		this.printDateSelected();
 	}
 	editarCita(cita){
@@ -344,7 +344,7 @@ export class AgendaComponent implements OnInit {
 					_minutos	+=	this.servicio.duracion;
 				}
 				if(cita_prepared!=null){
-					console.log(cita_prepared.militartime)
+					/*console.log(cita_prepared.militartime)*/
 					this.fieldArray.push( cita_prepared );
 				}
 				cita_prepared	=	cita;
@@ -385,7 +385,7 @@ export class AgendaComponent implements OnInit {
 		console.log(event);*/
 		clearTimeout(this.doit);
 		this.doit	=	setTimeout(() => {
-							/*console.log(this.fecha_event);*/
+							console.log(this.fecha_event);
 							if(!this.fecha_event.epoc)
 								return ;
 							this.getCitasAgendadas( this.fecha_event.epoc );
