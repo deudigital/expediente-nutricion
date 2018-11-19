@@ -270,10 +270,10 @@ stdClass Object
 			return 'Documento XML ya fue recibido y procesado previamente';
 		}
 		$nutricionista	=	Persona::find($nutricionista_id);
-		if( $nutricionista->cedula != $xml['Emisor']['Identificacion']['Numero'] ){
+		if( $nutricionista->cedula != $xml['Receptor']['Identificacion']['Numero'] ){
 			global $xml_missing;
 			$xml_missing	=	array(
-										'emisor'		=>	$xml['Emisor']['Identificacion']['Numero'],
+										'emisor'		=>	$xml['Receptor']['Identificacion']['Numero'],
 										'nutricionista'	=>	$nutricionista->cedula
 									);
 			return 'Esta factura no se puede procesar porque la cédula del remitente no corresponde a la suya';
