@@ -28,11 +28,17 @@
 							<tr>
 								<td>
 									<a 
+										*ngIf="!agendaServicio.allow_delete"
+										href="javascript:void(0);" 
+										class="remove-item deny" 
+									><i></i></a>
+									<a 
+										*ngIf="agendaServicio.allow_delete"
 										href="javascript:void(0);" 
 										class="remove-item" 
 										(click)="remove(agendaServicio)" 
 									><i></i></a>{{agendaServicio.nombre}}</td>
-								<td>{{agendaServicio.duracion}}</td>
+								<td>{{agendaServicio.duracion}} minutos</td>
 							</tr>
 						</ng-template>
 						</tbody>

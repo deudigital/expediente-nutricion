@@ -33,8 +33,15 @@ class AgendaController extends Controller
 		return $response;
 	}
 	public function selectServicios($nutricionista_id){
+		/*DB::enableQueryLog();*/
+		$registros	=	DB::table('agenda_servicios')
+							->select(DB::raw('(select IF(count(id)=0, 1, 0) from agendas where agenda_servicio_id=agenda_servicios.id) as allow_delete'), 'agenda_servicios.*')
+							->where('nutricionista_id', $nutricionista_id)
+							->get();
+/*
 		$registros	=	AgendaServicio::where('nutricionista_id', $nutricionista_id)
-						->get();
+						->get();*/
+/*		dd(DB::getQueryLog());*/
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}

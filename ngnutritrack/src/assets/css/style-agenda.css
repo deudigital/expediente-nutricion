@@ -126,7 +126,7 @@ p.error {color: #D06079;}
 .navigation-agenda .agenda-reporte a > i {background-position: -549px -837px;width: 21px;height: 21px;}
 .navigation-agenda .agenda-reporte a.active > i, 
 .navigation-agenda .agenda-reporte a:hover > i {background-position: -549px -863px;}
-
+.remove-item.deny {filter: grayscale(1);cursor: not-allowed;}
 @media(min-width:600px){
 	.esc-modalbox.agenda{width:480px !important;margin-left:-240px !important;}
 	.esc-modalbox.agenda .content-form{margin-top:30px;}
