@@ -93,7 +93,7 @@ export class AgendaComponent implements OnInit {
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				console.log(response);
+				/*console.log(response);*/
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
@@ -150,8 +150,8 @@ export class AgendaComponent implements OnInit {
 		this.printDateSelected();
 	}
 	editarCita(cita){
-		console.log('editarCita');
-		console.log(cita);
+		/*console.log('editarCita');
+		console.log(cita);*/
 		if( !cita.editable || this.currentModal=='datos' ){
 			return ;
 		}		
@@ -202,11 +202,11 @@ export class AgendaComponent implements OnInit {
 
 		nueva_cita.persona_nombre		=	this.q;
 		
-		console.log(nueva_cita);
+		/*console.log(nueva_cita);*/
 		this.formControlDataService.store('agenda', nueva_cita)
 		.subscribe(
 			 response  => {
-						console.log('saveCita::response');
+						/*console.log('saveCita::response');*/
 						this.setAgenda(response);
 						
 						},
@@ -216,7 +216,7 @@ export class AgendaComponent implements OnInit {
 					this.btn_save_presionado=false;
 					},					
 			() =>{
-				console.log('saveCita::Complete');
+				/*console.log('saveCita::Complete');*/
 				this.btn_save_presionado=false;
 				}
 
@@ -381,11 +381,11 @@ export class AgendaComponent implements OnInit {
 		this.procesandoAgenda	=	false;
 	}
 	servicioChanged(event){
-		console.log('servicioChanged');		
-		console.log(event);
+		/*console.log('servicioChanged');		
+		console.log(event);*/
 		clearTimeout(this.doit);
 		this.doit	=	setTimeout(() => {
-							console.log(this.fecha_event);
+							/*console.log(this.fecha_event);*/
 							if(!this.fecha_event.epoc)
 								return ;
 							this.getCitasAgendadas( this.fecha_event.epoc );
@@ -393,7 +393,7 @@ export class AgendaComponent implements OnInit {
 	}	
 	onDateChanged(event: IMyDateModel) {
 		setTimeout(() => {
-						console.log('onDateChanged');		
+						/*console.log('onDateChanged');*/
 						this.printDateSelected();
 					}, 100);
 
@@ -485,7 +485,7 @@ date: {…}
 				this.formControlDataService.store('confirmar_cita', this.cita)
 				.subscribe(
 					 response  => {
-								console.log('response');
+								/*console.log('response');*/
 								this.setAgenda(response);
 								
 								},
@@ -495,7 +495,7 @@ date: {…}
 							this.btn_prompt_yes_presionado=false;
 							},					
 					() =>{
-							console.log('Complete');
+							/*console.log('Complete');*/
 							this.hidePrompt	=	true;
 							this.promptCancelar();
 							this.btn_prompt_yes_presionado=false;
@@ -530,8 +530,8 @@ date: {…}
 		this.tagBody.classList.remove('open-modal');
 	}
 	printDateSelected(){
-		console.log('printDateSelected');
-		console.log(this.fecha_event.date);
+		/*console.log('printDateSelected');
+		console.log(this.fecha_event.date);*/
 		let date	=	this.fecha_event.date;
 		this.cita_reserva_fecha	=	this._months[date.month] + ' ' + date.day + ', ' + date.year;
 	}

@@ -22,6 +22,8 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::post('web/status', 'LoginController@statuscheck');
 	Route::post('web/login', 'LoginController@webcheck');
 	Route::post('web/login/reminder', 'LoginController@webReminder');
+	Route::get('web/asistencia/{token_id}', 'AgendaController@select');
+	Route::get('web/asistencia/recordatorio/{access_token}', 'AgendaController@recordatorio');
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	/*	REPORTES	*/

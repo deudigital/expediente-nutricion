@@ -44,6 +44,7 @@ class AgendaController extends Controller
 		$agenda	=	Agenda::where('militartime', $request->militartime)
 							->where('status', '>', 0)
 							->where('date', $date)
+							->where('nutricionista_id', $request->nutricionista_id)
 							->get()
 							->first();
 
@@ -146,7 +147,7 @@ class AgendaController extends Controller
 		$params	=	explode('-', $token_decoded);
 		$token		=	$params[0];
 		$militarTime=	$params[1];
-		$respuesta	=	$params[2];
+		$respuesta	=	$params[2];/*true/false*/
 		$agenda	=	Agenda::where('militartime', $militarTime)
 							->where('status', 1)
 							->where('token', $token)
@@ -154,21 +155,16 @@ class AgendaController extends Controller
 							->get()
 							->first();
 		if(!$agenda){
-			$response	=	Response::json('Token Invalido', 201);
-			return $response;
+			/*$response	=	Response::json('Token Invalido', 201);
+			return $response;*/
+			return abort(404);
 		}
-		$agenda->status	=	2;
+		$agenda->status	=	$respuesta=='true'? 2:0;
 		$agenda->confirmado_por_correo	=	1;
 		$agenda->save();
-		
-		$this->sendEmails($agenda, 'confirmar');
-		$message	=	array(
-							'code'		=> '201',
-							'data'		=> $agenda,
-							'message'	=> 'La Cita Se ha Confirmado'
-						);
-		$response	=	Response::json($message, 201);
-		return $response;
+
+		$data	=	array();
+		return view('emails.confirmar_cita');
 	}
 	public function confirmar($agenda_id){
 		$agenda	=	Agenda::find( $agenda_id );
@@ -455,5 +451,47 @@ class AgendaController extends Controller
 	public function belongsToNutricionista($nutricionista_id){
 		return Helper::getPacientesClientes( $nutricionista_id );
 		
+	}
+	public function recordatorio($token){
+		$access_token	=	array(
+								'LrWnLh2EE7ZL0senjMgGA16A9N6gKBm2nrLpfDLn',
+								'nEa08tDwBzXUHJ6ttivgBq6TdrRdrehB9b6lcFQq',
+								'GVfPA24Hv4REhq0ZAZ8Vj7Sk6Ns6WFnMOPIko0iH',
+								'fbjx0wf7p1iFmFs7ntIU9uaC7OXNbS3umSr0SYeJ',
+								'mIhLvp0axy8udGkpRlbIDt2KBwvJhykAgBXiszWN'
+							);
+		if(!in_array($token, $access_token)){
+			return abort(404);
+		}
+			
+		$citas	=	Agenda::where('date', DB::raw('(CURDATE() + INTERVAL 1 DAY)'))
+							->where('status', 1)
+							->get();
+		$nutricionista_id		=	0;
+		$nutricionista_count	=	0;
+		$emails_notificatified	=	array();
+		if(count($citas)==0){
+			$response	=	Response::json(array('mensaje'=>'No hay Citas programadas!'), 201);
+			return $response;
+		}
+
+		foreach($citas as $agenda){
+			$this->sendEmails($agenda, 'confirmar_cita');
+			if($nutricionista_id!=$agenda->nutricionista_id){
+				$nutricionista_id	=	$agenda->nutricionista_id;
+				$nutricionista_count++;
+			}
+			$emails_notificatified[]	=	$agenda->nutricionista_id . ': ' . $agenda->date . ' - ' . $agenda->email . ' - ' . str_random(40);
+		}
+		$message	=	array(
+							'resumen'		=>	array(
+														'Emails de Notificion enviadas'	=>	count( $emails_notificatified ),
+														'Nutricionistas con citas'		=>	$nutricionista_count
+													),
+							'detalle'	=>	$emails_notificatified
+							);
+		
+		$response	=	Response::json($message, 201);
+		return $response;
 	}
 }
