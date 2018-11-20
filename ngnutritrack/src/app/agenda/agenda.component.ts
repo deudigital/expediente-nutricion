@@ -230,24 +230,31 @@ export class AgendaComponent implements OnInit {
 			/*this.cita	=	{id: _id,title:, value:_horaMilitar, time:_time, class:_class};*/
 			this.cita.id	=	response.data.id;
 			/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.servicio.nombre + ' - ' + this.cita.time_formatted + ' (' + this.servicio.duracion + ' minutos)';*/
-			this.cita.text	=	this.q + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';
+			/*this.cita.text	=	this.q + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';*/
+			this.cita.text	=	this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';
 			
 			let _class	=	'';
 			switch(response.data.status){
 				case '1':
 				case 1:
 					_class	=	'programed';
+					this.cita.text	=	this.q + ' - ' + this.cita.text;
 					break;
 				case '2':
 				case 2:
 					_class	=	'confirmed';
+					this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;
 					break;
 				default:
-					_class	=	'cancelled';							
+					_class	=	'cancelled';
+					this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;
 			}
-			
-			this.cita.class	=	_class;
-			this.cita.notas	=	response.data.notas;
+			this.cita.status	=	response.data.status;
+			this.cita.telefono	=	response.data.telefono;
+			this.cita.email		=	response.data.email;
+			this.cita.notas		=	response.data.notas;
+			this.cita.editable	=	this.cita.status < 2;
+			this.cita.class		=	_class;
 			this.hideModal('datos');
 			this.selectedPaciente = null;
 			this.q	=	'';
