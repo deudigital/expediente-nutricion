@@ -272,8 +272,8 @@ class AgendaController extends Controller
 		if($action=='confirmar_cita'){
 			$token_si	=	base64_encode(base64_encode($agenda->token . '-' . $agenda->militartime . '-true'));
 			$token_no	=	base64_encode(base64_encode($agenda->token . '-' . $agenda->militartime . '-false'));
-			$data['link_confirmacion_de_cita_si']	=	env('APP_URL') . '/api/web/asistencia/' . $token_si;
-			$data['link_confirmacion_de_cita_no']	=	env('APP_URL') . '/api/web/asistencia/' . $token_no;
+			$data['link_confirmacion_de_cita_si']	=	env('APP_URL_API') . 'web/asistencia/' . $token_si;
+			$data['link_confirmacion_de_cita_no']	=	env('APP_URL_API') . 'web/asistencia/' . $token_no;
 		}		
 		$app			=	app();
 		$return			=	$app->make('stdClass');
