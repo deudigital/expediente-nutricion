@@ -155,16 +155,24 @@ class AgendaController extends Controller
 	
 	public function confirmarAsistencia($token){
 		$token_decoded	=	base64_decode(base64_decode($token));
-		$params	=	explode('-', $token_decoded);
+		$params	=	explode('-', $token_decoded);/*Helper::_print($params);*/
 		$token		=	$params[0];
 		$militarTime=	$params[1];
-		$respuesta	=	$params[2];/*true/false*/
+		$respuesta	=	$params[2];
+		
+		if(strlen($militarTime)< 3 || strlen($militarTime) > 4)
+			return abort(404);
+		if(!in_array($respuesta, array('true', 'false')))
+			return abort(404);
+		
 		$agenda	=	Agenda::where('militartime', $militarTime)
 							->where('status', 1)
 							->where('token', $token)
 							->where('confirmado_por_correo', 0)
 							->get()
 							->first();
+		/*$response	=	Response::json($agenda, 201);
+			return $response;*/
 		if(!$agenda){
 			/*$response	=	Response::json('Token Invalido', 201);
 			return $response;*/
@@ -173,9 +181,33 @@ class AgendaController extends Controller
 		$agenda->status	=	$respuesta=='true'? 2:0;
 		$agenda->confirmado_por_correo	=	1;
 		$agenda->save();
+		return view('emails.confirmar_cita_info');
+	}
+	public function confirmarAsistenciaCheck($token){
+		$token_decoded	=	base64_decode(base64_decode($token));
+		$params	=	explode('-', $token_decoded);/*Helper::_print($params);*/
+		$token		=	$params[0];
+		$militarTime=	$params[1];
+		$respuesta	=	$params[2];
+		$agenda	=	false;
+		if(strlen($militarTime)< 3 || strlen($militarTime) > 4)
+			die('token invalido');
+		if(!in_array($respuesta, array('true', 'false')))
+			die('token invalido');
 
-		$data	=	array();
-		return view('emails.confirmar_cita');
+		$agenda	=	Agenda::where('militartime', $militarTime)
+							->where('status', 1)
+							->where('token', $token)
+							->where('confirmado_por_correo', 0)
+							->get()
+							->first();
+
+		$result		=	array(
+							'parametros'	=>	$params,
+							'cita'	=>	$agenda,
+						);
+		$response	=	Response::json($result, 201);
+		return $response;
 	}
 	public function confirmar($agenda_id){
 		$agenda	=	Agenda::find( $agenda_id );
@@ -324,8 +356,6 @@ class AgendaController extends Controller
 						});
 					break;
 				case 'cancelar':
-						$data['link_confirmacion_de_cita_si']	=	env('APP_URL') . '/api/web/asistencia/' . $agenda->token . '/true';
-						$data['link_confirmacion_de_cita_no']	=	env('APP_URL') . '/api/web/asistencia/' . $agenda->token . '/false';
 						Mail::send('emails.cita_cancelada_paciente', $data, function($message) use ($persona) {
 							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
 							$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido cancelada';
@@ -495,9 +525,9 @@ class AgendaController extends Controller
 			$response	=	Response::json(array('mensaje'=>'No hay Citas programadas!'), 201);
 			return $response;
 		}
-
+		$status_email	=	array();
 		foreach($citas as $agenda){
-			$this->sendEmails($agenda, 'confirmar_cita');
+			$status_email[$agenda->id]	=	$this->sendEmails($agenda, 'confirmar_cita');
 			if($nutricionista_id!=$agenda->nutricionista_id){
 				$nutricionista_id	=	$agenda->nutricionista_id;
 				$nutricionista_count++;
@@ -511,8 +541,26 @@ class AgendaController extends Controller
 													),
 							'detalle'	=>	$emails_notificatified
 							);
-		
+				
 		$response	=	Response::json($message, 201);
+		$data	=	array(
+							'nutricionista_count'	=>	$nutricionista_count,
+							'emails_notificatified'	=>	count( $emails_notificatified ),
+							'status_email'	=>	$status_email
+						);
+		Mail::send('emails.resumen_recordatorio_citas', $data, function($message) {
+			$subject	=	'Resumen del envío de recordatorio de Citas';
+			$args	=	array(
+					'before_emoji'	=>	'watermelon'
+				);					
+			$subject	=	Helper::emailParseSubject( $subject, $args );
+			$message->subject( $subject );
+			$message->to('danilo@deudigital.com', 'Danilo Mata Corela');
+			$message->from(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+			$message->sender(env('APP_EMAIL_FROM'), env('APP_EMAIL_FROM_NAME'));
+			$message->bcc('jaime@deudigital.com', 'Jaime Isidro');
+		});
 		return $response;
 	}
+	
 }
