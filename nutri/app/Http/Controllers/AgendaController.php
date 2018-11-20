@@ -181,6 +181,10 @@ class AgendaController extends Controller
 		$agenda->status	=	$respuesta=='true'? 2:0;
 		$agenda->confirmado_por_correo	=	1;
 		$agenda->save();
+		$action	=	'cancelar';
+		if($agenda->status==2)
+			$action	=	'confirmar';
+		$this->sendEmails($agenda, $action);
 		return view('emails.confirmar_cita_info');
 	}
 	public function confirmarAsistenciaCheck($token){
