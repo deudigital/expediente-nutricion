@@ -54,7 +54,8 @@ class AgendaController extends Controller
 							->where('nutricionista_id', $request->nutricionista_id)
 							->get()
 							->first();
-
+							
+		$info_send_email	=	array();
 		if(isset($request->id) && $request->id > 0){
 			$action	=	'editado';
 			$agenda	=	Agenda::find( $request->id );
@@ -101,6 +102,7 @@ class AgendaController extends Controller
 										'status'			=>	1,
 										'token'				=>	str_random(40),
 										'agenda_servicio_id'=>	$request['agenda_servicio_id'],
+										'agenda_servicio_id'=>	$request['agenda_servicio_id'],
 										'nutricionista_id'	=>	$request['nutricionista_id'],
 										'persona_id'		=>	$persona_id,
 										'notas'				=>	$request['notas'],
@@ -109,13 +111,15 @@ class AgendaController extends Controller
 									]);
 			/*	'persona_id'		=>	$request['persona_id'],	*/
 			$agenda->date_epoc	=	$request->date;
-			$this->sendEmails($agenda, 'nuevo');
+			$info_send_email	=	$this->sendEmails($agenda, 'nuevo');
 		}
 		$message	=	array(
 							'code'		=> '201',
 							'data'		=> $agenda,
 							'message'	=> 'Se ha ' . $action . ' correctamente'
 						);
+		if(count($info_send_email)>0)
+			$message['info']	=	$info_send_email;
 		$response	=	Response::json($message, 201);
 		return $response;
     }
@@ -250,123 +254,133 @@ class AgendaController extends Controller
 		$res	=	$this->prepareDataForEmail($agenda, $action);
 		$data	=	$res->data;
 		$persona=	$res->persona;
-		switch($action){
-			case 'nuevo':
-					Mail::send('emails.nueva_cita_paciente', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido agendada';						
-						$args	=	array(
-										'before_emoji'	=>	'tangerine',
-									);
-						$subject=	Helper::emailParseSubject( $subject, $args );						
-						$message->subject( $subject );
-						$message->to( $persona->email, $persona->nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
+		$message	=	array(
+							'error'		=>	false,
+							'message'	=>	'Emails sent Successfully',
+						);
+		try{
+			switch($action){
+				case 'nuevo':
+						Mail::send('emails.nueva_cita_paciente', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido agendada';						
+							$args	=	array(
+											'before_emoji'	=>	'tangerine',
+										);
+							$subject=	Helper::emailParseSubject( $subject, $args );						
+							$message->subject( $subject );
+							$message->to( $persona->email, $persona->nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
 
-					Mail::send('emails.nueva_cita_nutricionista', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	' Tu cita con ' . $persona->nombre . ' ha sido agendada';
-						$args	=	array(
-										'before_emoji'	=>	'tangerine',
-									);
-						$subject=	Helper::emailParseSubject( $subject, $args );						
-						$message->subject( $subject );
-						$message->to( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
-				break;
-			case 'confirmar':
-					Mail::send('emails.cita_confirmada_paciente', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido confirmada';
-						$args	=	array(
-								'before_emoji'	=>	'smiling_face_with_smiling_eyes',
-								'after_emoji'	=>	'heavy_check_mark'
-							);
-						$subject=	Helper::emailParseSubject( $subject, $args );
-						$message->subject( $subject );
-						$message->to( $persona->email, $persona->nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
-					Mail::send('emails.cita_confirmada_nutricionista', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	$persona->nutricionista_nombre . ', tu cita con ' . $persona->nombre . ' ha sido confirmada';
-						$args	=	array(
-								'before_emoji'	=>	'smiling_face_with_smiling_eyes',
-								'after_emoji'	=>	'heavy_check_mark'
-							);
-						$subject=	Helper::emailParseSubject( $subject, $args );
-						$message->subject( $subject );						
-						$message->to( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
-				break;
-			case 'cancelar':
-					$data['link_confirmacion_de_cita_si']	=	env('APP_URL') . '/api/web/asistencia/' . $agenda->token . '/true';
-					$data['link_confirmacion_de_cita_no']	=	env('APP_URL') . '/api/web/asistencia/' . $agenda->token . '/false';
-					Mail::send('emails.cita_cancelada_paciente', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido cancelada';
-						$args	=	array(
-								'before_emoji'	=>	'disappointed_face',
-								'after_emoji'	=>	'heavy_multiplication_x'
-							);
-						$subject=	Helper::emailParseSubject( $subject, $args );						
-						$message->subject( $subject );
-						$message->to( $persona->email, $persona->nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
-					Mail::send('emails.cita_cancelada_nutricionista', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	$persona->nutricionista_nombre . ', tu cita con ' . $persona->nombre . ' ha sido cancelada';
-						$args	=	array(
-								'before_emoji'	=>	'disappointed_face',
-								'after_emoji'	=>	'heavy_multiplication_x'
-							);
-						$subject=	Helper::emailParseSubject( $subject, $args );						
-						$message->subject( $subject );
-						$message->to( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
-				break;
-			
-			case 'confirmar_cita':
-					Mail::send('emails.confirmar_cita', $data, function($message) use ($persona) {
-						$bcc		=	explode(',', env('APP_EMAIL_BCC'));
-						$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' es mañana';
-						$args	=	array(
-								'before_emoji'	=>	'watermelon'
-							);					
-						$subject=	Helper::emailParseSubject( $subject );
-						$message->subject( $subject );
-						$message->to( $persona->email, $persona->nombre );
-						$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
-						$message->bcc($bcc);
-						$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
-					});
-				break;
+						Mail::send('emails.nueva_cita_nutricionista', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	' Tu cita con ' . $persona->nombre . ' ha sido agendada';
+							$args	=	array(
+											'before_emoji'	=>	'tangerine',
+										);
+							$subject=	Helper::emailParseSubject( $subject, $args );						
+							$message->subject( $subject );
+							$message->to( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
+					break;
+				case 'confirmar':
+						Mail::send('emails.cita_confirmada_paciente', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido confirmada';
+							$args	=	array(
+									'before_emoji'	=>	'smiling_face_with_smiling_eyes',
+									'after_emoji'	=>	'heavy_check_mark'
+								);
+							$subject=	Helper::emailParseSubject( $subject, $args );
+							$message->subject( $subject );
+							$message->to( $persona->email, $persona->nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
+						Mail::send('emails.cita_confirmada_nutricionista', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	$persona->nutricionista_nombre . ', tu cita con ' . $persona->nombre . ' ha sido confirmada';
+							$args	=	array(
+									'before_emoji'	=>	'smiling_face_with_smiling_eyes',
+									'after_emoji'	=>	'heavy_check_mark'
+								);
+							$subject=	Helper::emailParseSubject( $subject, $args );
+							$message->subject( $subject );						
+							$message->to( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
+					break;
+				case 'cancelar':
+						$data['link_confirmacion_de_cita_si']	=	env('APP_URL') . '/api/web/asistencia/' . $agenda->token . '/true';
+						$data['link_confirmacion_de_cita_no']	=	env('APP_URL') . '/api/web/asistencia/' . $agenda->token . '/false';
+						Mail::send('emails.cita_cancelada_paciente', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido cancelada';
+							$args	=	array(
+									'before_emoji'	=>	'disappointed_face',
+									'after_emoji'	=>	'heavy_multiplication_x'
+								);
+							$subject=	Helper::emailParseSubject( $subject, $args );						
+							$message->subject( $subject );
+							$message->to( $persona->email, $persona->nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
+						Mail::send('emails.cita_cancelada_nutricionista', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	$persona->nutricionista_nombre . ', tu cita con ' . $persona->nombre . ' ha sido cancelada';
+							$args	=	array(
+									'before_emoji'	=>	'disappointed_face',
+									'after_emoji'	=>	'heavy_multiplication_x'
+								);
+							$subject=	Helper::emailParseSubject( $subject, $args );						
+							$message->subject( $subject );
+							$message->to( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
+					break;
+				
+				case 'confirmar_cita':
+						Mail::send('emails.confirmar_cita', $data, function($message) use ($persona) {
+							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
+							$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' es mañana';
+							$args	=	array(
+									'before_emoji'	=>	'watermelon'
+								);					
+							$subject=	Helper::emailParseSubject( $subject );
+							$message->subject( $subject );
+							$message->to( $persona->email, $persona->nombre );
+							$message->from( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->sender( $persona->nutricionista_email, $persona->nutricionista_nombre );
+							$message->bcc($bcc);
+							$message->replyTo(env('APP_EMAIL_AGENDA_REPLYTO'));
+						});
+					break;
+			}
 		}
-		
+		catch(\Exception $e){
+			$message['error']	=	true;
+			$message['message']	=	$e;
+		}
+		return $message;
 	}
 	public function viewEmails($agenda, $action){
 		$res	=	$this->prepareDataForEmail($agenda, $action);

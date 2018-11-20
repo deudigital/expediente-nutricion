@@ -59,6 +59,7 @@ export class AgendaComponent implements OnInit {
 	editar_cita_nuevo:boolean=false;
 	procesandoAgenda:boolean=false;
 	doit:any;
+	_form:any;
 	
 	public _dayLabels: IMyDayLabels = {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'};
 	public _monthLabels: IMyMonthLabels = { 1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic' };
@@ -150,9 +151,10 @@ export class AgendaComponent implements OnInit {
 		this.printDateSelected();
 	}
 	editarCita(cita){
-		/*console.log('editarCita');
-		console.log(cita);*/
-		if( !cita.editable || this.currentModal=='datos' ){
+		console.log('editarCita');
+		console.log(cita);
+		/*if( !cita.editable || this.currentModal=='datos' ){*/
+		if( !cita.editable ){
 			return ;
 		}		
 		this.cita	=	cita;
@@ -182,7 +184,8 @@ export class AgendaComponent implements OnInit {
 		this.currentModal	=	'datos';
 		window.scrollTo(0, 0);
 	}
-	saveCita(){
+	saveCita(form){
+		this._form	=	form;
 		this.btn_save_presionado	=	true;
 		var index	=	this.fieldArray.indexOf(this.cita);
 		var nueva_cita	=	new Agenda();
@@ -250,7 +253,7 @@ export class AgendaComponent implements OnInit {
 			this.q	=	'';
 
 			this.editar_cita	=	new Agenda();
-			
+			this._resetFormModal();
 			this.display_successfully_icon_animated	=	true;
 			setTimeout(() => {
  							this.display_successfully_icon_animated	=	false;
@@ -345,6 +348,7 @@ export class AgendaComponent implements OnInit {
 				}
 				if(cita_prepared!=null){
 					/*console.log(cita_prepared.militartime)*/
+					cita_prepared.editable	=	cita_prepared.status < 2;
 					this.fieldArray.push( cita_prepared );
 				}
 				cita_prepared	=	cita;
@@ -375,6 +379,7 @@ export class AgendaComponent implements OnInit {
 				cita_prepared.class		=	'unavailable';
 				cita_prepared.editable	=	false;
 			}
+			cita_prepared.editable	=	cita_prepared.status < 2;
 			this.fieldArray.push( cita_prepared );
 		}
 		
@@ -400,23 +405,12 @@ export class AgendaComponent implements OnInit {
 		setTimeout(() => {						
 						this.getCitasAgendadas(event.epoc);
 					}, 500);
-/*		​
-date: {…}
-​​day: 17
-​​month: 10
-​​year: 2018
-​​<prototype>: Object { … }
-​epoc: 1539748800
-​formatted: "17/10/2018"
-​jsdate: Date */
     }
-
 	showModal(modal){
 		this.hideModalDatos		=	true;
 		switch(modal){
 			case 'datos':
 				this.hideModalDatos	=	false;
-				/*this.oDetalleGrasa	=	this.helpers.clone(this.grasa);*/
 				break;
 		}
 		this.tagBody.classList.add('open-modal');
@@ -429,14 +423,28 @@ date: {…}
 
 		switch(modal){
 			case 'datos':
-				this.hideModalDatos	=	true;				
-				this.current_cita_time	=	'';
+				this.hideModalDatos		=	true;				
+				this.current_cita_time	=	'';				
+				this._resetFormModal();
 				break;
 		}
 		this.currentModal	=	'';
 		this.showFilter	=	false;
 		this.tagBody.classList.remove('datos');		
 		this.tagBody.classList.remove('open-modal');
+	}
+	_resetFormModal(){	
+		/*if( typeof this._form !== 'undefined' ){
+			this._form.reset();
+			return ;
+		}*/
+		let inputs	=	document.getElementsByClassName('form-control-modal');
+		for(var i in inputs){
+			if(inputs[i].classList){
+				inputs[i].classList.remove('ng-invalid');
+				inputs[i].classList.remove('ng-touched');
+			}
+		}
 	}
 	onFilter(){
 		if(!this.canFilter)
@@ -445,7 +453,8 @@ date: {…}
 		if(this.q.length==0){
 			this.editar_cita.email		=	'';
 			this.editar_cita.telefono	=	'';
-			this.showFilter	=	false;
+			this.showFilter				=	false;
+			this.selectedPaciente 		=	null;
 			return ;
 		}			
 		var search	=	this.q.toLowerCase();
@@ -454,6 +463,9 @@ date: {…}
 										return nombre.indexOf(search)>-1;
 									})
 		this.showFilter	=	this.filter_pacientes.length>0;
+		if(!this.showFilter)
+			this.selectedPaciente 		=	null;
+			
 	}
 	onSelect(paciente: Paciente) {
 		this.selectedPaciente = paciente;

@@ -65,8 +65,8 @@
 </ng-template>
 										<span>{{field.text}}</span>
 									</label>
-									<div *ngIf="field.id>0" class="actions">
-										<a href="javascript:void(0);" class="add-item" (click)="confirmarCita(field)" title="Confirmar Cita"><i></i></a>
+									<div *ngIf="field.status>0" class="actions">
+										<a *ngIf="field.status==1" href="javascript:void(0);" class="add-item" (click)="confirmarCita(field)" title="Confirmar Cita"><i></i></a>
 										<a href="javascript:void(0);" class="remove-item" (click)="cancelarCita(field)" title="Cancelar Cita"><i></i></a>
 									</div>
 								</td>
@@ -101,7 +101,7 @@
 							<input 
 								name="input_filter_pacientes" 
 								type="text" 
-								class="form-control" 
+								class="form-control form-control-modal" 
 								[(ngModel)]="q"
 								(keyup)="onFilter()"
 								required
@@ -124,7 +124,7 @@
 					<input 				
 						name="cita_email"
 						type="text" 
-						class="form-control col-sm-9" 
+						class="form-control form-control-modal col-sm-9" 
 						[(ngModel)]="editar_cita.email" 
 						required
 						>
@@ -136,7 +136,7 @@
 					<input 				
 						name="cita_telefono"
 						type="text" 
-						class="form-control" 
+						class="form-control form-control-modal" 
 						[(ngModel)]="editar_cita.telefono"
 						required
 						>
@@ -147,7 +147,7 @@
 				<div class="col-sm-9">
 					<textarea 				
 						name="cita_notas"
-						class="form-control col-sm-9" 
+						class="form-control form-control-modal col-sm-9" 
 						[(ngModel)]="editar_cita.notas"
 						></textarea>
 				</div>
@@ -159,7 +159,7 @@
 					<button 
 						class="btn btn-primary btn-block" 
 						[disabled]="!citaForm.valid || btn_save_presionado"
-						(click)="saveCita()"
+						(click)="saveCita(citaForm)"
 						>
 						<span *ngIf="editar_cita_nuevo">CONFIRMAR </span>
 						<span *ngIf="!editar_cita_nuevo">GUARDAR </span>
