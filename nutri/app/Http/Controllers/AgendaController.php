@@ -25,7 +25,7 @@ class AgendaController extends Controller
 							->where('agendas.date', $date)
 							->select(	'agendas.*',
 										'agenda_servicios.nombre as agenda_servicio_nombre', 'agenda_servicios.duracion as agenda_servicio_duracion', 
-										'personas.nombre as persona_nombre', 'personas.email', 'personas.telefono')
+										'personas.nombre as persona_nombre')
 							->orderBy('agendas.militartime', 'ASC')
 							->get();
 

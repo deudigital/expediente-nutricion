@@ -151,12 +151,12 @@ export class AgendaComponent implements OnInit {
 		this.printDateSelected();
 	}
 	editarCita(cita){
-		console.log('editarCita');
-		console.log(cita);
+		/*console.log('editarCita');
+		console.log(cita);*/
 		/*if( !cita.editable || this.currentModal=='datos' ){*/
-		if( !cita.editable ){
+		/*if( !cita.editable ){
 			return ;
-		}		
+		}*/
 		this.cita	=	cita;
 		this.cita_reserva_hora	=	cita.time_formatted;
 		this.servicio_nombre	=	this.servicio.nombre;
@@ -215,8 +215,14 @@ export class AgendaComponent implements OnInit {
 						},
 			error =>  {
 					console.log('saveCita::error');
-					console.log(<any>error),
-					this.btn_save_presionado=false;
+					console.log(<any>error);
+					this.editar_cita_message		=	'Intenta nuevamente por favor..';
+					this.show_editar_cita_message	=	true;
+					setTimeout(() => {
+										this.editar_cita_message		=	'';
+										this.show_editar_cita_message	=	false;
+										this.btn_save_presionado=false;
+									}, 5000);
 					},					
 			() =>{
 				/*console.log('saveCita::Complete');*/
@@ -231,24 +237,26 @@ export class AgendaComponent implements OnInit {
 			this.cita.id	=	response.data.id;
 			/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.servicio.nombre + ' - ' + this.cita.time_formatted + ' (' + this.servicio.duracion + ' minutos)';*/
 			/*this.cita.text	=	this.q + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';*/
-			this.cita.text	=	this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';
+			/*this.cita.text	=	this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';*/
 			
 			let _class	=	'';
 			switch(response.data.status){
 				case '1':
 				case 1:
 					_class	=	'programed';
-					this.cita.text	=	this.q + ' - ' + this.cita.text;
+					this.cita.persona_nombre	=	this.q;
+					/*this.cita.text	=	this.q + ' - ' + this.cita.text;*/
 					break;
 				case '2':
 				case 2:
 					_class	=	'confirmed';
-					this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;
+					/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;*/
 					break;
 				default:
 					_class	=	'cancelled';
-					this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;
+					/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;*/
 			}
+			this.cita.text		=	this.cita.persona_nombre + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';;
 			this.cita.status	=	response.data.status;
 			this.cita.telefono	=	response.data.telefono;
 			this.cita.email		=	response.data.email;
@@ -454,7 +462,7 @@ export class AgendaComponent implements OnInit {
 		}
 	}
 	onFilter(){
-		if(!this.canFilter)
+		if(!this.canFilter || this.cita.status>0)
 			return ;
 		/*this.q	=	this.q.trim();*/
 		if(this.q.length==0){
