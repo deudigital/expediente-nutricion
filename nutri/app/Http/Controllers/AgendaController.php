@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Persona;
 use App\Cliente;
+use App\Nutricionista;
 use App\Agenda;
 use App\AgendaServicio;
 use App\Helper;
@@ -185,7 +186,15 @@ class AgendaController extends Controller
 		if($agenda->status==2)
 			$action	=	'confirmar';
 		$this->sendEmails($agenda, $action);
-		return view('emails.confirmar_cita_info');
+		$nutricionista	=	Nutricionista::find($agenda->nutricionista_id);
+		$image	=	'https://expediente.nutricion.co.cr/mail/images/logo.png';
+		if($nutricionista->imagen)
+			$image	=	$nutricionista->imagen;
+		
+		$data	=	array(
+						'logo'	=>	$image
+					);
+		return view('emails.confirmar_cita_info', $data);
 	}
 	public function confirmarAsistenciaCheck($token){
 		$token_decoded	=	base64_decode(base64_decode($token));
