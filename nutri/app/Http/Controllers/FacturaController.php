@@ -980,7 +980,7 @@ class FacturaController extends Controller
 			$message->bcc($bcc);
 			
 			$file		=	base64_decode( $nota_credito->xml );
-			$filename	=	$nota_credito->clave . 'xml';
+			$filename	=	$nota_credito->clave . '.xml';
 			$message->attachData($file, $filename, [
                         'mime' => 'application/xml',
                     ]);
