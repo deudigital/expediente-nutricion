@@ -72,10 +72,10 @@ body.open-modal.datos .table.citas tr > td.programed> label > span.cita-highligh
 .filter.pacientes {max-width:100%;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
 .filter.pacientes .form-group{margin-bottom:0;position:relative;margin-top:-15px;z-index:2;}
 .filter.pacientes .form-control {border: none;box-shadow: none;padding-left: 35px;line-height:2.5em;}
-.filter.pacientes ul:not(:empty) {background-color: #e6e6e6;padding-top: 20px !important;margin-top: -15px;position:absolute;z-index:1;}
+.filter.pacientes ul:not(:empty) {background-color: #e6e6e6;padding-top: 20px !important;margin-top: -22px;position:absolute;z-index:1;width:100%}
 .filter.pacientes ul{padding:0 10px;max-height:300px;overflow:auto;height:auto}
 .filter.pacientes ul li {cursor:pointer;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
-.filter.pacientes ul li {padding: 8px 15px;position: relative;}
+.filter.pacientes ul li {padding: 8px;position: relative;}
 .filter.pacientes ul li:hover {background-color:#7fb831;color:#fff;border-radius:25px;}
 body.hide-main-title #expediente_nombre{display:none;}
 
@@ -122,7 +122,8 @@ body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 	.agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;height: calc(100% - 25%);}
 	.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}
 	/*body.open-modal .esc-modalbox.agenda {top: 15%;}*/
-	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;}
+	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;padding:30px}
+	.editForm [class*="col-xs-"] {padding: 0;}
 }
 @media(max-width:767px){
 	.esc-modalbox.agenda {padding: 30px;position:fixed;font-size:12px}
