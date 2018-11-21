@@ -151,15 +151,10 @@ export class AgendaComponent implements OnInit {
 		this.printDateSelected();
 	}
 	editarCita(cita){
-		/*console.log('editarCita');
-		console.log(cita);*/
-		/*if( !cita.editable || this.currentModal=='datos' ){*/
-		/*if( !cita.editable ){
-			return ;
-		}*/
 		this.cita	=	cita;
 		this.cita_reserva_hora	=	cita.time_formatted;
 		this.servicio_nombre	=	this.servicio.nombre;
+		this.cita.editing	=	true;
 		if(cita.id>0){
 			this.editar_cita_nuevo		=	true;
 			this.selectedPaciente		=	new Paciente();
@@ -170,7 +165,6 @@ export class AgendaComponent implements OnInit {
 			this.editar_cita.notas		=	cita.notas;
 		}else{
 			this.q	=	'';
-			/*this.selectedPaciente	=	null;*/
 			this.editar_cita		=	new Agenda();
 			this.editar_cita_nuevo	=	false;
 		}
@@ -178,11 +172,13 @@ export class AgendaComponent implements OnInit {
 		
 		this.hidePrompt		=	true;
 		this.hideModalDatos	=	false;
+		
+		this._resetFormModal()
+		
 		this.tagBody.classList.add('open-modal');
 		this.tagBody.classList.add('datos');
 
 		this.currentModal	=	'datos';
-		window.scrollTo(0, 0);
 	}
 	saveCita(form){
 		this._form	=	form;
@@ -233,28 +229,20 @@ export class AgendaComponent implements OnInit {
 	}
 	setAgenda(response){		
 		if(response.code==201){
-			/*this.cita	=	{id: _id,title:, value:_horaMilitar, time:_time, class:_class};*/
-			this.cita.id	=	response.data.id;
-			/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.servicio.nombre + ' - ' + this.cita.time_formatted + ' (' + this.servicio.duracion + ' minutos)';*/
-			/*this.cita.text	=	this.q + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';*/
-			/*this.cita.text	=	this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';*/
-			
+			this.cita.id	=	response.data.id;			
 			let _class	=	'';
 			switch(response.data.status){
 				case '1':
 				case 1:
 					_class	=	'programed';
 					this.cita.persona_nombre	=	this.q;
-					/*this.cita.text	=	this.q + ' - ' + this.cita.text;*/
 					break;
 				case '2':
 				case 2:
 					_class	=	'confirmed';
-					/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;*/
 					break;
 				default:
 					_class	=	'cancelled';
-					/*this.cita.text	=	this.cita.persona_nombre + ' - ' + this.cita.text;*/
 			}
 			this.cita.text		=	this.cita.persona_nombre + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';;
 			this.cita.status	=	response.data.status;
@@ -274,8 +262,7 @@ export class AgendaComponent implements OnInit {
  							this.display_successfully_icon_animated	=	false;
 						}, 5000);
 		}
-		if(response.code==208){
-			
+		if(response.code==208){			
 			this.editar_cita_message		=	response.message;
 			this.show_editar_cita_message	=	true;
 			setTimeout(() => {
@@ -297,7 +284,6 @@ export class AgendaComponent implements OnInit {
 						},
 			error =>  console.log(<any>error)
 		);
-		
 	}
 	mostrarCitasAgendadas(){
 		console.clear();
@@ -438,26 +424,25 @@ export class AgendaComponent implements OnInit {
 
 		switch(modal){
 			case 'datos':
-				this.hideModalDatos		=	true;				
-				this.current_cita_time	=	'';				
+				this.hideModalDatos		=	true;
+				this.current_cita_time	=	'';
 				this._resetFormModal();
 				break;
 		}
+		this.cita.editing	=	false;
 		this.currentModal	=	'';
 		this.showFilter	=	false;
 		this.tagBody.classList.remove('datos');		
 		this.tagBody.classList.remove('open-modal');
 	}
-	_resetFormModal(){	
-		/*if( typeof this._form !== 'undefined' ){
-			this._form.reset();
-			return ;
-		}*/
+	_resetFormModal(){
 		let inputs	=	document.getElementsByClassName('form-control-modal');
 		for(var i in inputs){
-			if(inputs[i].classList){
+			if( inputs[i].classList ){
+				console.log( inputs[i].classList );
 				inputs[i].classList.remove('ng-invalid');
 				inputs[i].classList.remove('ng-touched');
+				inputs[i].classList.remove('ng-dirty');
 			}
 		}
 	}

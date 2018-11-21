@@ -52,8 +52,8 @@
 						<table *ngIf="!procesandoAgenda" class="table citas">
 						<tbody>
 							<tr *ngFor="let field of fieldArray; let i = index">
-								<th>{{field.time_formatted}}</th>
-								<td class="{{field.class}}">
+								<th id="cita_{{field.militartime}}">{{field.time_formatted}}</th>
+								<td class="{{field.html_id}}" class="{{field.class}}">
 									<label (click)="editarCita(field)">
 <ng-template [ngIf]="field.editable">
 										<input 
@@ -63,7 +63,7 @@
 											
 										>
 </ng-template>
-										<span>{{field.text}}</span>
+										<span [ngClass]="{'cita-highlight': field.editing }">{{field.text}}</span>
 									</label>
 									<div *ngIf="field.status>0" class="actions">
 										<a *ngIf="field.status==1" href="javascript:void(0);" class="add-item" (click)="confirmarCita(field)" title="Confirmar Cita"><i></i></a>
@@ -85,7 +85,7 @@
 </div>
 
 
-<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox agenda">
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox agenda" id="modal_agenda">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<header class="text-center">
 		<h3>{{cita_reserva_fecha}} : {{cita_reserva_hora}}</h3>

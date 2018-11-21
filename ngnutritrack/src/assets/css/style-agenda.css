@@ -31,7 +31,12 @@ background-image: repeating-linear-gradient(45deg, transparent, transparent 35px
 /*:not(.unavailable)*/
 .table.citas > tbody > tr > td label > span {display: block;position: relative;padding:10px;}
 .table.citas > tbody > tr > td .add-item > i {height: 14px;width: 14px;background-position: -367px -801px;top: 2px;}
-body.open-modal.datos .table.citas label > input:checked + span {z-index:1001;background-color:#fff;}
+
+
+body.open-modal.datos .table.citas tr > td > label{background-color:inherit;}
+body.open-modal.datos .table.citas tr > td > label > span.cita-highlight{z-index:1001;background-color:#fff;}
+body.open-modal.datos .table.citas tr > td.confirmed> label > span.cita-highlight{background-color:#8bc23f;border-color:#8bc23f;}
+body.open-modal.datos .table.citas tr > td.programed> label > span.cita-highlight{background-color:#ccc;}
 
 .agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;border-collapse: inherit;}
 .agenda_calendar .mydp .weekdaytitle {background-color: #e0e0e0;color: #303030;}
@@ -129,6 +134,7 @@ p.error {color: #D06079;}
 .navigation-agenda .agenda-reporte a:hover > i {background-position: -549px -863px;}
 .remove-item.deny {filter: grayscale(1);cursor: not-allowed;}
 .esc-modalbox.agenda{position:fixed}
+body.open-modal .esc-modalbox.agenda {top: 25%;}
 @media(min-width:600px){
 	.esc-modalbox.agenda{width:480px !important;margin-left:-240px !important;}
 	.esc-modalbox.agenda .content-form{margin-top:30px;}

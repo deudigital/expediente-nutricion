@@ -122,7 +122,7 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                             </tr>
                             <!--headline-->
                             <tr>
-                              <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:22px;color:#414a51;font-weight: bold;letter-spacing: 2px;">Gracias!</td>
+                              <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:22px;color:#414a51;font-weight: bold;letter-spacing: 2px;">¡Gracias!</td>
                             </tr>
                             <!--end headline-->
                             <tr>

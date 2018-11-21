@@ -1770,6 +1770,7 @@ export class Agenda{
 	public time_formatted:string;
 	public text:string;
 	public editable:boolean;
+	public editing:boolean;
 
 	/*constructor(
 				public id:number=0,
@@ -1808,5 +1809,6 @@ export class Agenda{
 		this.time_formatted='';
 		this.text='Disponible';
 		this.editable=true;
+		this.editing=false;
 	}
 }
