@@ -121,7 +121,8 @@ body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 	.agenda_calendar .mydp .inlinedp table.caltable tr td {height:45px}
 	.agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;height: calc(100% - 25%);}
 	.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}
-	body.open-modal .esc-modalbox.agenda {top: 15%;}
+	/*body.open-modal .esc-modalbox.agenda {top: 15%;}*/
+	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;}
 }
 @media(max-width:767px){
 	.esc-modalbox.agenda {padding: 30px;position:fixed;font-size:12px}
