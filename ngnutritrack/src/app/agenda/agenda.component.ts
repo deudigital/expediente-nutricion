@@ -87,22 +87,22 @@ export class AgendaComponent implements OnInit {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
-		window.onresize = ( e ) => {
+		/*window.onresize = ( e ) => {
 					clearTimeout(this.doitresize);
 					this.doitresize	=	setTimeout(() => {
 										this._getScreenSize();
 									}, 1000);
-				}
+				}*/
 		
     }
-	_getScreenSize(){
-		try {			
+	/*_getScreenSize(){
+		try {
 			this.isMobile	=	this.tagBody.offsetWidth<768;
 		}
 		catch(err) {
 				console.log( 'E:_getScreenSize(' + err.message + ')' );
 		}
-	}
+	}*/
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.classList.add('hide-main-title');
@@ -147,7 +147,7 @@ export class AgendaComponent implements OnInit {
 				console.log(JSON.parse(err._body));
 
 			});
-		this._getScreenSize();
+		/*this._getScreenSize();*/
 	}
 	ngOnDestroy() {
 		this.tagBody.classList.remove('hide-main-title');
@@ -438,7 +438,7 @@ export class AgendaComponent implements OnInit {
 		}
 		this.tagBody.classList.add('open-modal');
 		this.currentModal	=	modal;
-		if(this.isMobile)
+		if(this.tagBody.offsetWidth<768)
 			window.scrollTo(0, 0);
 	}
 	hideModal(modal=''){
