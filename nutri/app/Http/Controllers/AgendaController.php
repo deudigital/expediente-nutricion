@@ -310,7 +310,7 @@ class AgendaController extends Controller
 							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
 							$subject	=	$persona->nombre . ', tu cita con ' . $persona->nutricionista_nombre . ' ha sido agendada';						
 							$args	=	array(
-											'before_emoji'	=>	'tangerine',
+											'before_emoji'	=>	'calendar',
 										);
 							$subject=	Helper::emailParseSubject( $subject, $args );						
 							$message->subject( $subject );
@@ -325,7 +325,7 @@ class AgendaController extends Controller
 							$bcc		=	explode(',', env('APP_EMAIL_BCC'));
 							$subject	=	' Tu cita con ' . $persona->nombre . ' ha sido agendada';
 							$args	=	array(
-											'before_emoji'	=>	'tangerine',
+											'before_emoji'	=>	'calendar',
 										);
 							$subject=	Helper::emailParseSubject( $subject, $args );						
 							$message->subject( $subject );
