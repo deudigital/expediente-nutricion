@@ -133,15 +133,30 @@ p.error {color: #D06079;}
 .navigation-agenda .agenda-reporte a.active > i, 
 .navigation-agenda .agenda-reporte a:hover > i {background-position: -549px -863px;}
 .remove-item.deny {filter: grayscale(1);cursor: not-allowed;}
-.esc-modalbox.agenda{position:fixed}
-body.open-modal .esc-modalbox.agenda {top: 25%;}
-@media(min-width:600px){
-	.esc-modalbox.agenda{width:480px !important;margin-left:-240px !important;}
+
+body.open-modal .esc-modalbox.agenda {top: 2.5%;}
+@media(min-width:500px){
+	.esc-modalbox.agenda:not(.wide):not(.transparent){width: 480px;margin-left: -240px;left: 50%;}
 	.esc-modalbox.agenda .content-form{margin-top:30px;}
 	.container-form.agenda {min-height: 500px;}
+}
+@media(min-width:500px) and (max-width:767px){
+	.filter.pacientes .with-icon.search i {bottom: 22px;}
 }
 @media(min-width:768px){
 	.main .links.four .box a > strong {font-size: 16px;}
 	.agenda_calendar .mydp .inlinedp .caltable {height: calc(100% - 25%);}
 	.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}
+	body.open-modal .esc-modalbox.agenda {top: 15%;}
+}
+@media(max-width:767px){
+	.esc-modalbox.agenda{position:fixed}
+	.esc-modalbox.agenda h3 {font-size: 18px;}
+	.esc-modalbox.agenda h4 {font-size: 14px;}
+}
+@media(max-width:499px){
+	.esc-modalbox.agenda .content-form .form-group [class*="col-xs"] {width: 100%;}
+	.esc-modalbox.agenda .row > div {padding-top: 0;padding-bottom: 0;}
+	.esc-modalbox.agenda .form-group {margin-bottom: 5px;}
+	.esc-modalbox.agenda .form-group label {margin-bottom: 0;}
 }

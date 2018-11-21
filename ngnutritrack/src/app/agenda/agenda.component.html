@@ -94,8 +94,8 @@
 	<div class="body content-form">
 		<form #citaForm="ngForm" class="editForm" novalidate>
 			<div class="form-group row">
-				<label class="col-sm-3">Paciente</label>
-				<div class="col-sm-9">
+				<label class="col-xs-3">Paciente</label>
+				<div class="col-xs-9">
 					<div class="row filter pacientes">
 						<div class="form-group with-icon search">
 							<input 
@@ -119,20 +119,20 @@
 				
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3">Correo</label>
-				<div class="col-sm-9">
+				<label class="col-xs-3">Correo</label>
+				<div class="col-xs-9">
 					<input 				
 						name="cita_email"
 						type="text" 
-						class="form-control form-control-modal col-sm-9" 
+						class="form-control form-control-modal col-xs-9" 
 						[(ngModel)]="editar_cita.email" 
 						required
 						>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3">Tel&eacute;fono</label>
-				<div class="col-sm-9">
+				<label class="col-xs-3">Tel&eacute;fono</label>
+				<div class="col-xs-9">
 					<input 				
 						name="cita_telefono"
 						type="text" 
@@ -143,18 +143,18 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3">Notas</label>
-				<div class="col-sm-9">
+				<label class="col-xs-3">Notas</label>
+				<div class="col-xs-9">
 					<textarea 				
 						name="cita_notas"
-						class="form-control form-control-modal col-sm-9" 
+						class="form-control form-control-modal col-xs-9" 
 						[(ngModel)]="editar_cita.notas"
 						></textarea>
 				</div>
 			</div>
 			<div *ngIf="display_submit_modal" class="form-group row">
-				<label class="col-sm-3">&nbsp;</label>
-				<div class="col-sm-9">
+				<label class="col-xs-3">&nbsp;</label>
+				<div class="col-xs-9">
 					<div *ngIf="show_editar_cita_message" class="alert alert-danger text-center">{{editar_cita_message}}</div>
 					<button 
 						class="btn btn-primary btn-block" 

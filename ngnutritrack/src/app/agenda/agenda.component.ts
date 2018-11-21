@@ -61,6 +61,8 @@ export class AgendaComponent implements OnInit {
 	display_submit_modal:boolean=false;
 	doit:any;
 	_form:any;
+	doitresize:any;
+	isMobile:boolean=false;
 	
 	public _dayLabels: IMyDayLabels = {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'};
 	public _monthLabels: IMyMonthLabels = { 1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic' };
@@ -85,9 +87,22 @@ export class AgendaComponent implements OnInit {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
-		
+		window.onresize = ( e ) => {
+					clearTimeout(this.doitresize);
+					this.doitresize	=	setTimeout(() => {
+										this._getScreenSize();
+									}, 1000);
+				}
 		
     }
+	_getScreenSize(){
+		try {			
+			this.isMobile	=	this.tagBody.offsetWidth<768;
+		}
+		catch(err) {
+				console.log( 'E:_getScreenSize(' + err.message + ')' );
+		}
+	}
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.classList.add('hide-main-title');
@@ -131,7 +146,8 @@ export class AgendaComponent implements OnInit {
 			.catch((err) => {
 				console.log(JSON.parse(err._body));
 
-			});		
+			});
+		this._getScreenSize();
 	}
 	ngOnDestroy() {
 		this.tagBody.classList.remove('hide-main-title');
@@ -182,6 +198,8 @@ export class AgendaComponent implements OnInit {
 		this.tagBody.classList.add('datos');
 
 		this.currentModal	=	'datos';
+		if(this.isMobile)
+			window.scrollTo(0, 0);
 	}
 	saveCita(form){
 		this._form	=	form;
@@ -420,7 +438,8 @@ export class AgendaComponent implements OnInit {
 		}
 		this.tagBody.classList.add('open-modal');
 		this.currentModal	=	modal;
-		window.scrollTo(0, 0);
+		if(this.isMobile)
+			window.scrollTo(0, 0);
 	}
 	hideModal(modal=''){
 		if(modal.length==0)
