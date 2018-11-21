@@ -58,6 +58,7 @@ export class AgendaComponent implements OnInit {
 	time_selected:string='';
 	editar_cita_nuevo:boolean=false;
 	procesandoAgenda:boolean=false;
+	display_submit_modal:boolean=false;
 	doit:any;
 	_form:any;
 	
@@ -150,7 +151,9 @@ export class AgendaComponent implements OnInit {
 		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() / 1000 };
 		this.printDateSelected();
 	}
-	editarCita(cita){
+	editarCita(cita){/*console.log(cita);*/
+		if(!cita.editable)
+			return ;
 		this.cita	=	cita;
 		this.cita_reserva_hora	=	cita.time_formatted;
 		this.servicio_nombre	=	this.servicio.nombre;
@@ -169,7 +172,7 @@ export class AgendaComponent implements OnInit {
 			this.editar_cita_nuevo	=	false;
 		}
 		
-		
+		this.display_submit_modal	=	this.cita.status<2;
 		this.hidePrompt		=	true;
 		this.hideModalDatos	=	false;
 		
@@ -249,7 +252,7 @@ export class AgendaComponent implements OnInit {
 			this.cita.telefono	=	response.data.telefono;
 			this.cita.email		=	response.data.email;
 			this.cita.notas		=	response.data.notas;
-			this.cita.editable	=	this.cita.status < 2;
+			this.cita.editable	=	this.cita.status < 3;
 			this.cita.class		=	_class;
 			this.hideModal('datos');
 			this.selectedPaciente = null;
@@ -319,7 +322,7 @@ export class AgendaComponent implements OnInit {
 					if(cita.militartime>_horaMilitarCitaReservada){
 						cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
 						cita_prepared.class		=	'unavailable';
-						cita_prepared.editable	=	false;
+						cita_prepared.status	=	3;
 					}
 					cita							=	citaReservada;
 					cita.time_formatted				=	this.helpers.formatTime(cita.militartime);
@@ -349,7 +352,7 @@ export class AgendaComponent implements OnInit {
 				}
 				if(cita_prepared!=null){
 					/*console.log(cita_prepared.militartime)*/
-					cita_prepared.editable	=	cita_prepared.status < 2;
+					cita_prepared.editable	=	cita_prepared.status < 3;
 					this.fieldArray.push( cita_prepared );
 				}
 				cita_prepared	=	cita;
@@ -378,9 +381,10 @@ export class AgendaComponent implements OnInit {
 			if( (_time > hour_to) ){
 				cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
 				cita_prepared.class		=	'unavailable';
-				cita_prepared.editable	=	false;
+				/*cita_prepared.editable	=	false;*/
+				cita_prepared.status	=	3;
 			}
-			cita_prepared.editable	=	cita_prepared.status < 2;
+			cita_prepared.editable	=	cita_prepared.status < 3;
 			this.fieldArray.push( cita_prepared );
 		}
 		
