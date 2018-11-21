@@ -10,6 +10,7 @@ class Helper
 {
     
 	private static $emojis	=	array(
+					'calendar'						=>	'=?utf-8?Q?=F0=9F=93=85',
 					'memo'							=>	'=?utf-8?Q?=F0=9F=93=9D',
 					'heavy_check_mark'				=>	'=?utf-8?Q?=E2=9C=94',
 					'heavy_multiplication_x'		=>	'=?utf-8?Q?=E2=9C=96',
