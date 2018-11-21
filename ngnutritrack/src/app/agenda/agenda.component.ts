@@ -439,7 +439,7 @@ export class AgendaComponent implements OnInit {
 		let inputs	=	document.getElementsByClassName('form-control-modal');
 		for(var i in inputs){
 			if( inputs[i].classList ){
-				console.log( inputs[i].classList );
+				/*console.log( inputs[i].classList );*/
 				inputs[i].classList.remove('ng-invalid');
 				inputs[i].classList.remove('ng-touched');
 				inputs[i].classList.remove('ng-dirty');
