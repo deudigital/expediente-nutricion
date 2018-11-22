@@ -69,7 +69,7 @@ body.open-modal.datos .table.citas tr > td.programed> label > span.cita-highligh
 .filter.pacientes ul {text-align: left;list-style-type: none;padding: 0;}
 .filter.pacientes ul li i.fullname {background-position: -469px -71px;width: 14px;height: 14px;	display: inline-block;}
 .filter.pacientes ul li i.fullname {margin-right: 10px;}
-.filter.pacientes {max-width:100%;margin: 20px auto 0;border-radius: 18px 18px 0 0;position:relative;}
+.filter.pacientes {max-width:100%;margin: 15px auto 0;border-radius: 18px 18px 0 0;position:relative;}
 .filter.pacientes .form-group{margin-bottom:0;position:relative;margin-top:-15px;z-index:2;}
 .filter.pacientes .form-control {border: none;box-shadow: none;padding-left: 35px;line-height:2.5em;}
 .filter.pacientes ul:not(:empty) {background-color: #e6e6e6;padding-top: 20px !important;margin-top: -22px;position:absolute;z-index:1;width:100%}
@@ -103,9 +103,16 @@ p.error {color: #D06079;}
 .remove-item.deny {filter: grayscale(1);cursor: not-allowed;}
 
 body.open-modal .esc-modalbox.agenda {top: 2.5%;}
+
+.mydp .headerlabelbtn, .mydp .headertodaybtn,
+.mydp .caltable *,
+.mydp .monthtable *,
+.mydp .yeartable * {font-family: 'Montserrat', sans-serif;}
+.mydp .caltable * {font-size: 16px;}
 @media(min-width:500px){
 	.esc-modalbox.agenda:not(.wide):not(.transparent){width: 480px;margin-left: -240px;left: 50%;position:fixed}
 	.esc-modalbox.agenda .content-form{margin-top:30px;}
+	.esc-modalbox.agenda .content-form .form-group label {margin-top: 10px;}
 	.container-form.agenda {min-height: 500px;}
 	.table.citas > tbody > tr > td.programed label > span {padding-right: 60px;}
 }
@@ -120,7 +127,8 @@ body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 	.agenda_calendar .mydp .selectedyear .yearvalue {height: 36px;width: 36px;margin-top: -18px;margin-left: -18px;}
 	.agenda_calendar .mydp .inlinedp table.caltable tr td {height:45px}
 	.agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;height: calc(100% - 25%);}
-	.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}
+	.agenda_calendar .mydp .weekdaytitle {padding: 10px;}
+	/*.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}*/
 	/*body.open-modal .esc-modalbox.agenda {top: 15%;}*/
 	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;padding:30px}
 	.editForm [class*="col-xs-"] {padding: 0;}
