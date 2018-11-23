@@ -464,7 +464,7 @@ endif;
 						                                      <td height="10"></td>
 						                                    </tr>
 						                                    <tr>
-						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:14px;color:#7f8c8d;line-height: 28px; font-weight:normal;">{{ $prescripcion->porciones }}</td>
+						                                      <td align="center" style="font-family: 'Open Sans', Arial, sans-serif; font-size:14px;color:#7f8c8d;line-height: 28px; font-weight:normal;">{{ $prescripcion->porciones + 0 }}</td>
 						                                    </tr>
 						                                  </table>
 						                                </td>

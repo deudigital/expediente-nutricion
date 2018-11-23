@@ -290,16 +290,16 @@ export class ReporteFacturaComponent implements OnInit {
   	switch(Data){
   		case 1: console.log('pdf build');
   			let doc = new jsPDF({orientation:'l', format: 'a2'});
-  			let col = ["# Documento", "Receptor","Tipo","Fecha","Moneda","Monto"];
+  			let col = ["# Documento", "Cedula",, "Receptor","Tipo","Fecha","Moneda","Monto"];
   			let rows = [];
 
   			for(let xi=0;xi< this.resultArray.length;xi++){
   				let js = this.resultArray[xi];
           if (js.tipo_documento_id===3){
-            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones','-'+js.monto];
+            let temp = [js.numeracion_consecutiva,js.cedula,js.nombre,js.nombre_tipo,js.fecha,'Colones','-'+js.monto];
             rows.push(temp);  
           }else{
-            let temp = [js.numeracion_consecutiva,js.nombre,js.nombre_tipo,js.fecha,'Colones',js.monto];
+            let temp = [js.numeracion_consecutiva,js.cedula,js.nombre,js.nombre_tipo,js.fecha,'Colones',js.monto];
             rows.push(temp);  
           }				  
 		    }
@@ -312,6 +312,7 @@ export class ReporteFacturaComponent implements OnInit {
           if (this.resultArray[xi].tipo_documento_id===3){
             let objecto = {
               '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+              'Cedula' : this.resultArray[xi].cedula,
               'Receptor' : this.resultArray[xi].nombre,
               'Tipo' : this.resultArray[xi].nombre_tipo,
               'Fecha' : this.resultArray[xi].fecha,
@@ -322,6 +323,7 @@ export class ReporteFacturaComponent implements OnInit {
           }else{
             let objecto = {
               '# Documento' : this.resultArray[xi].numeracion_consecutiva,
+			  'Cedula' : this.resultArray[xi].cedula,
               'Receptor' : this.resultArray[xi].nombre,
               'Tipo' : this.resultArray[xi].nombre_tipo,
               'Fecha' : this.resultArray[xi].fecha,

@@ -281,6 +281,7 @@ class AgendaController extends Controller
 						);
 		$persona->nutricionista_nombre	=	$nutricionista->nombre;
 		$persona->nutricionista_email	=	$nutricionista->email;
+		$persona->email					=	$agenda->email;
 		
 		if($action=='confirmar_cita'){
 			$token_si	=	base64_encode(base64_encode($agenda->token . '-' . $agenda->militartime . '-true'));

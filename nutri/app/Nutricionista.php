@@ -11,6 +11,7 @@ class Nutricionista extends Model
 		'persona_id',
 		'nombre_comercial',
 		'imagen',
+		'imagen_base64',
 		'usuario',
 		'contrasena',
 		'carne_cpn',

@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="col-md-6 col-lg-offset-1 col-lg-7">
-<ng-template [ngIf]="servicio" [ngIfElse]="mostrarProcesandoAgenda">
+<ng-template [ngIf]="servicio">
 						<h3>{{cita_reserva_fecha}}</h3>
 						<div *ngIf="procesandoAgenda" class="loading-graphic container-fluid text-center">
 							<img src="assets/images/loading-bars.svg" width="32" height="32" />
@@ -74,9 +74,6 @@
 						</tbody>
 						</table>
 </ng-template>
-<!--<ng-template #mostrarProcesandoAgenda>
-						<p>Procesando Agenda...</p>
-</ng-template>-->
 					</div>
 				</div>
 			</section>

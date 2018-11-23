@@ -104,11 +104,12 @@ p.error {color: #D06079;}
 
 body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 
-.mydp .headerlabelbtn, .mydp .headertodaybtn,
-.mydp .caltable *,
-.mydp .monthtable *,
-.mydp .yeartable * {font-family: 'Montserrat', sans-serif;}
-.mydp .caltable * {font-size: 16px;}
+.agenda_calendar .mydp .headerlabelbtn, 
+.agenda_calendar .mydp .headertodaybtn,
+.agenda_calendar .mydp .caltable *,
+.agenda_calendar .mydp .monthtable *,
+.agenda_calendar .mydp .yeartable * {font-family: 'Montserrat', sans-serif;}
+.agenda_calendar .mydp .caltable * {font-size: 16px;}
 @media(min-width:500px){
 	.esc-modalbox.agenda:not(.wide):not(.transparent){width: 480px;margin-left: -240px;left: 50%;position:fixed}
 	.esc-modalbox.agenda .content-form{margin-top:30px;}
@@ -128,10 +129,8 @@ body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 	.agenda_calendar .mydp .inlinedp table.caltable tr td {height:45px}
 	.agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;height: calc(100% - 25%);}
 	.agenda_calendar .mydp .weekdaytitle {padding: 10px;}
-	/*.agenda_calendar .mydp .weekdaytitle {font-size: 20px;padding: 10px;}*/
-	/*body.open-modal .esc-modalbox.agenda {top: 15%;}*/
 	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;padding:30px}
-	.editForm [class*="col-xs-"] {padding: 0;}
+	.esc-modalbox.agenda .editForm [class*="col-xs-"] {padding: 0;}
 }
 @media(max-width:767px){
 	.esc-modalbox.agenda {padding: 30px;position:fixed;font-size:12px}

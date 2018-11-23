@@ -16,10 +16,13 @@ class Documento extends Model
 		'nutricionista_id',
 		'consulta_id',
 		'notas',
+		'monto_total',
 		'pdf',
 		'xml',
+		'respuesta_code',
+		'respuesta',
 		'referencia',
 		'estado'
 	];
-	public $timestamps	=	true;
+	public $timestamps	=	false;
 }
