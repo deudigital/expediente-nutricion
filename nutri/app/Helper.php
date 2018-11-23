@@ -19,11 +19,11 @@ class Helper
 					'tangerine'						=>	'=?utf-8?Q?=F0=9F=8D=8A',
 					'watermelon'					=>	'=?utf-8?Q?=F0=9F=8D=89'
 				);
-	private $_search	=	array('&aacute;', '&eacute;', '&iacute;', '&oacute;', '&uacute;', '&ntilde;');
-	private $_replace	=	array('=c3=a1', '=c3=a9', '=c3=ad', '=c3=b3', '=c3=ba', '=C3=B1');
+	private $_search	=	array('&aacute;', '&eacute;', '&iacute;', '&oacute;', '&uacute;', '&ntilde;','&Aacute;', '&Eacute;', '&Iacute;', '&Oacute;', '&Uacute;', '&Ntilde;');
+	private $_replace	=	array('=c3=a1', '=c3=a9', '=c3=ad', '=c3=b3', '=c3=ba', '=c3=b1', '=c3=81', '=c3=89', '=c3=8d', '=c3=9a', '=c3=91');
 	
-	private static $search	=	array('&aacute;', '&eacute;', '&iacute;', '&oacute;', '&uacute;', '&ntilde;');
-	private static $replace	=	array('=c3=a1', '=c3=a9', '=c3=ad', '=c3=b3', '=c3=ba', '=C3=B1');
+	private static $search	=	array('&aacute;', '&eacute;', '&iacute;', '&oacute;', '&uacute;', '&ntilde;','&Aacute;', '&Eacute;', '&Iacute;', '&Oacute;', '&Uacute;', '&Ntilde;');
+	private static $replace	=	array('=c3=a1', '=c3=a9', '=c3=ad', '=c3=b3', '=c3=ba', '=c3=b1', '=c3=81', '=c3=89', '=c3=8d', '=c3=9a', '=c3=91');
 /*
  *	self::_print($data);
  */
