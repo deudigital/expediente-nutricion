@@ -103,12 +103,12 @@ class MensajeController extends Controller
 												'id'=>	$message->id
 											)
 				);
-		$fields	=	json_encode($fields);
-		$api_url		=	'https://onesignal.com/api/v1/notifications';
-		$http_header	=	array(
-								'Content-Type: application/json; charset=utf-8',
-								'Authorization: Basic MzYxZjUyMGQtZmM5Yi00MjhjLTgyMzEtMGRmOGI0M2I3YWNh'
-							);
+		$fields		=	json_encode($fields);
+		$api_url	=	env('APP_URL_ONESIGNAL_API');
+		$http_header=	array(
+							'Content-Type: application/json; charset=utf-8',
+							'Authorization: Basic MzYxZjUyMGQtZmM5Yi00MjhjLTgyMzEtMGRmOGI0M2I3YWNh'
+						);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $api_url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
