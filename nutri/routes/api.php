@@ -25,6 +25,8 @@ Route::group(['middleware' => 'cors'], function(){
 	Route::get('web/asistencia/{token_id}', 'AgendaController@confirmarAsistencia');
 	Route::get('web/asistencia/check/{token_id}', 'AgendaController@confirmarAsistenciaCheck');
 	Route::get('web/asistencia/recordatorio/{access_token}', 'AgendaController@recordatorio');
+	Route::get('web/appmessage/{dia}/{hora}/{token}', 'MensajeController@enviarMensaje');
+	Route::get('web/appmessage/last', 'MensajeController@ultimosMensajesEnviados');
 });
 Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	/*	REPORTES	*/

@@ -10,6 +10,7 @@ class Mensaje extends Model
 		'texto',
 		'dia',
 		'hora',
+		'ultimo_enviado'
 	];
 	public $timestamps	=	false;
 }

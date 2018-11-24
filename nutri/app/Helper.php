@@ -25,26 +25,40 @@ class Helper
 	private static $search	=	array('&aacute;', '&eacute;', '&iacute;', '&oacute;', '&uacute;', '&ntilde;','&Aacute;', '&Eacute;', '&Iacute;', '&Oacute;', '&Uacute;', '&Ntilde;');
 	private static $replace	=	array('=c3=a1', '=c3=a9', '=c3=ad', '=c3=b3', '=c3=ba', '=c3=b1', '=c3=81', '=c3=89', '=c3=8d', '=c3=9a', '=c3=91');
 /*
+ *	TIPS
+ *	====================================================================
+ *	Convert Epoch to Date Format
+ *	---------------------------------
+ *	$date	=	date("Y-m-d H:i:s", substr($date_epoch, 0, 10));
+ *	====================================================================
+ *	Enable DB Queries Log
+ *	----------------------
+ *	DB::enableQueryLog();
+ *	$registros	=	DB::table() ... ;
+ *	dd(DB::getQueryLog());
+ *	====================================================================
+ */
+	
+/*
+ *	return Helper::testStatic();
+ */
+	public static function testStatic(){return 'soy el static helper';}
+/*
+ *	$helper	=	new Helper();
+ *	return $helper->test();
+ */
+	public function test(){return 'soy el helper';}
+/*
  *	self::_print($data);
  */
-	public static function _print($data){
-		echo '<pre>' . print_r($data, true) . '</pre>';		
-	}
+	public static function _print($data){echo '<pre>' . print_r($data, true) . '</pre>';}
 	public static function convertTimeMilitarToTimeStandard($timeMilitar){
-		/*return _convertTimeMilitarToTimeStandard($timeMilitar);
-	}
-	public function _convertTimeMilitarToTimeStandard($timeMilitar){*/
 		$limitador	=	1;
 		if(strlen($timeMilitar)>3)
 			$limitador	=	2;
-		/*static::_print(strlen($timeMilitar));
-		static::_print($timeMilitar);*/
-		/*$h	=	substr($timeMilitar,0,2);*/
-		$h	=	substr($timeMilitar,0,$limitador);
-		/*static::_print($h);*/
-		/*$m	=	substr($timeMilitar,2,2);*/
-		$m	=	substr($timeMilitar,$limitador,2);
-		/*static::_print($m);*/
+
+		$h		=	substr($timeMilitar,0,$limitador);
+		$m		=	substr($timeMilitar,$limitador,2);
 		$ampm	=	$h>11? 'pm':'am';
 		if($h>12)
 			$h	=	$h%12;
@@ -134,29 +148,7 @@ class Helper
 
 		return $return;
 	}
-	
-/*
- *	return Helper::testStatic();
- */
-	public static function testStatic(){
-		return 'soy el static helper';
-	}
-/*
- *	$helper	=	new Helper();
- *	return $helper->test();
- */
-	public function test(){
-		return 'soy el helper';
-	}
-/*
- *	Convert Epoch to Date Format
- *	---------------------------------
- *	$date	=	date("Y-m-d H:i:s", substr($date_epoch, 0, 10));
- */ 
-/*	Enable DB Queries Log
- *	----------------------
- *	DB::enableQueryLog();
- *	$registros	=	DB::table() ... ;
- *	dd(DB::getQueryLog());
- */
+/*	API APP	*/
+		
+
 }
