@@ -85,14 +85,17 @@
 <div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox agenda" id="modal_agenda">
 	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
 	<header class="text-center">
-		<h3>{{cita_reserva_fecha}} : {{cita_reserva_hora}}</h3>
+		<h3>{{cita_reserva_fecha}} :  </h3>
+		<select [(ngModel)]="hora_custom" class="form-control" name="hora_custom">
+			<option *ngFor="let hora of filter_time_availables" [ngValue]="hora.id">{{hora.text}}</option>
+		</select>
 		<h4>Servicio: {{servicio_nombre}}</h4>
 	</header>
 	<div class="body content-form">
 		<form #citaForm="ngForm" class="editForm" novalidate>
 			<div class="form-group row">
-				<label class="col-sm-2">Paciente</label>
-				<div class="col-sm-10">
+				<label class="col-xs-2">Paciente</label>
+				<div class="col-xs-10">
 					<div class="row filter pacientes">
 						<div class="form-group with-icon search">
 							<input 
@@ -116,8 +119,8 @@
 				
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-2">Correo</label>
-				<div class="col-sm-10">
+				<label class="col-xs-2">Correo</label>
+				<div class="col-xs-10">
 					<input 				
 						name="cita_email"
 						type="text" 
@@ -128,8 +131,8 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-2">Tel&eacute;fono</label>
-				<div class="col-sm-10">
+				<label class="col-xs-2">Tel&eacute;fono</label>
+				<div class="col-xs-10">
 					<input 				
 						name="cita_telefono"
 						type="text" 
@@ -140,8 +143,8 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-2">Notas</label>
-				<div class="col-sm-10">
+				<label class="col-xs-2">Notas</label>
+				<div class="col-xs-10">
 					<textarea 				
 						name="cita_notas"
 						class="form-control form-control-modal col-sm-10" 
@@ -150,8 +153,8 @@
 				</div>
 			</div>
 			<div *ngIf="display_submit_modal" class="form-group row">
-				<label class="col-sm-2">&nbsp;</label>
-				<div class="col-sm-10">
+				<label class="col-xs-2">&nbsp;</label>
+				<div class="col-xs-10">
 					<div *ngIf="show_editar_cita_message" class="alert alert-danger text-center">{{editar_cita_message}}</div>
 					<button 
 						class="btn btn-primary btn-block" 

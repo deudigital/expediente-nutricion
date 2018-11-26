@@ -110,12 +110,16 @@ body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 .agenda_calendar .mydp .monthtable *,
 .agenda_calendar .mydp .yeartable * {font-family: 'Montserrat', sans-serif;}
 .agenda_calendar .mydp .caltable * {font-size: 16px;}
+
+.esc-modalbox.agenda h3{display:inline;}
+.esc-modalbox.agenda select.form-control{display: inline-block;width: auto;padding: 0;font-size:18px}
+.esc-modalbox.agenda select.form-control:not(:active):not(:focus) {box-shadow: none;border: none;}
 @media(min-width:500px){
 	.esc-modalbox.agenda:not(.wide):not(.transparent){width: 480px;margin-left: -240px;left: 50%;position:fixed}
-	.esc-modalbox.agenda .content-form{margin-top:30px;}
 	.esc-modalbox.agenda .content-form .form-group label {margin-top: 10px;}
 	.container-form.agenda {min-height: 500px;}
 	.table.citas > tbody > tr > td.programed label > span {padding-right: 60px;}
+	.esc-modalbox.agenda .content-form{margin-top:30px;}
 }
 @media(min-width:500px) and (max-width:767px){
 	.filter.pacientes .with-icon.search i {bottom: 22px;}
@@ -129,23 +133,32 @@ body.open-modal .esc-modalbox.agenda {top: 2.5%;}
 	.agenda_calendar .mydp .inlinedp table.caltable tr td {height:45px}
 	.agenda_calendar .mydp .inlinedp .caltable {font-size: 1.5em;height: calc(100% - 25%);}
 	.agenda_calendar .mydp .weekdaytitle {padding: 10px;}
-	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;padding:30px}
+	body.open-modal .esc-modalbox.agenda {top: 50%;margin-top: -270px;padding:35px}
 	.esc-modalbox.agenda .editForm [class*="col-xs-"] {padding: 0;}
+	.esc-modalbox.agenda .modal-close {right: 15px;top: 15px;}
+	.esc-modalbox.agenda select.form-control{font-size:24px}
 }
 @media(max-width:767px){
-	.esc-modalbox.agenda {padding: 30px;position:fixed;font-size:12px}
-	.esc-modalbox.agenda h3 {font-size: 18px;}
+	
+	.esc-modalbox.agenda h3 {font-size: 18px;margin-top:0;}
 	.esc-modalbox.agenda h4 {font-size: 14px;}
 	.table.citas {font-size: 12px;}
 	.table.citas > tbody > tr > th {width: 60px;padding: 0;}
+	/*.filter.pacientes .with-icon.search i {bottom: 22px;}*/
 }
 @media(max-width:499px){
 	.table.citas .actions > a {display: block;}
 	.esc-modalbox.agenda .content-form .form-group [class*="col-xs"] {width: 100%;}
+	.table.citas > tbody > tr > td.programed label > span {min-height: 60px;}
+	.esc-modalbox.agenda {padding: 50px 15px 30px;position:fixed;font-size:12px}
 	.esc-modalbox.agenda .row > div {padding-top: 0;padding-bottom: 0;}
 	.esc-modalbox.agenda .form-group {margin-bottom: 5px;}
 	.esc-modalbox.agenda .form-group label {margin-bottom: 0;}
-	.table.citas > tbody > tr > td.programed label > span {min-height: 60px;}
+}
+@media(max-width:419px){
+	.esc-modalbox.agenda h3 {font-size: 16px;}
+	.esc-modalbox.agenda select.form-control{font-size:16px}
+	.esc-modalbox.agenda .modal-close {right: 5px;top: 10px;}
 }
 @-webkit-keyframes dash {
   0% {

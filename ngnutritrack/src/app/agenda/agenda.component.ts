@@ -63,6 +63,10 @@ export class AgendaComponent implements OnInit {
 	_form:any;
 	doitresize:any;
 	isMobile:boolean=false;
+	hora_custom:any;
+	
+	hour_from:number=	4;
+	hour_to:number	=	22;
 	
 	public _dayLabels: IMyDayLabels = {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'};
 	public _monthLabels: IMyMonthLabels = { 1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic' };
@@ -82,6 +86,7 @@ export class AgendaComponent implements OnInit {
 	};
 	
 	private fieldArray: Array<any> = [];
+	private filter_time_availables: Array<any> = [];
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
@@ -164,12 +169,17 @@ export class AgendaComponent implements OnInit {
 		this.procesandoAgenda	=	false;
 		
 		let d: Date = new Date();
-		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() / 1000 };
+		/*this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() / 1000 };*/
+		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() };
 		this.printDateSelected();
 	}
-	editarCita(cita){/*console.log(cita);*/
+	editarCita(cita){
 		if(!cita.editable)
 			return ;
+		if(cita.editing)
+			return ;
+
+		console.log(cita);
 		this.cita	=	cita;
 		this.cita_reserva_hora	=	cita.time_formatted;
 		this.servicio_nombre	=	this.servicio.nombre;
@@ -194,12 +204,82 @@ export class AgendaComponent implements OnInit {
 		
 		this._resetFormModal()
 		
+		var index	=	this.fieldArray.indexOf(this.cita);
+		this.setTimesAvailable(	index );
 		this.tagBody.classList.add('open-modal');
 		this.tagBody.classList.add('datos');
 
 		this.currentModal	=	'datos';
 		if(this.isMobile)
 			window.scrollTo(0, 0);
+	}
+	setTimesAvailable( index_cita_selected ){
+		console.log('index_cita_selected: ' + index_cita_selected);	
+		var _hora_init	=	Number( (this.hour_from*100));
+		var _hora_limit	=	Number( (this.hour_to*100)) - (this.servicio.duracion+40);
+		if(this.citas.length>0){
+			_hora_init	=	this.__get_init_section(index_cita_selected);
+			_hora_limit	=	this.__get_limit_section(index_cita_selected);
+		}
+		console.log('h: ' + _hora_init + ', ' + _hora_limit);
+		this.filter_time_availables	=	[];
+		var _index	=	0;
+		var _i = _hora_init;
+		var _d	=	100;
+		var _res=	0;
+		var _div=	0;
+		var _time_standard	=	'';
+		while( _i <= _hora_limit ) {						
+			this.filter_time_availables.push({id:_i,text: this.helpers.formatTime( _i )});
+			/*if(_i>999)
+				_d	=	1000;
+			else*/
+				_d	=	100;
+			_res	=	_i%_d;
+			_div	=	_i/_d;
+console.log(_d + ':' + _div + ' - ' + _res);
+			if(_res==55)
+				_i	+=	40;
+
+			_i	=	_i + 5;
+		}
+		this.hora_custom	=	this.cita.militartime;
+	}
+	__get_init_section(index_cita_selected){
+		var _index_init	=	index_cita_selected - 1;
+		var found	=	false;
+		while( (_index_init>=0 ) && !found){
+			let prev_time =	this.fieldArray[_index_init];
+			/*console.log('prev: ' + prev_time.militartime)*/
+			if(prev_time.status>0){
+				found	=	true;
+				_index_init++;
+			}else
+				_index_init--;
+		}
+		/*console.log('_index_init: ' + _index_init);*/
+		if(_index_init==-1)
+			_index_init	=	0;
+		return this.fieldArray[_index_init].militartime;
+	}
+	__get_limit_section(index_cita_selected){
+		var _index_limit	=	index_cita_selected + 1;
+		var found	=	false;		
+		while((_index_limit < this.fieldArray.length) && !found){
+			let next_time =	this.fieldArray[_index_limit];
+			/*console.log('next: ' + next_time.militartime)*/
+			if(next_time.status>0){
+				found	=	true;
+				_index_limit--;
+			}
+			else
+				_index_limit++;
+		}
+		/*console.log('_index_limit: ' + _index_limit + '  -  this.fieldArray.length: '+ this.fieldArray.length);*/
+		if(_index_limit==this.fieldArray.length)
+			_index_limit--;
+
+		return this.fieldArray[_index_limit].militartime;/* - (this.servicio.duracion+40)*/
 	}
 	saveCita(form){
 		this._form	=	form;
@@ -211,7 +291,8 @@ export class AgendaComponent implements OnInit {
 			nueva_cita.id	=	this.cita.id;
 
 		nueva_cita.date					=	this.fecha_event.epoc;
-		nueva_cita.militartime			=	this.cita.militartime;
+		/*nueva_cita.militartime			=	this.cita.militartime;*/
+		nueva_cita.militartime			=	this.hora_custom;
 		nueva_cita.agenda_servicio_id	=	this.servicio.id;
 		nueva_cita.nutricionista_id		=	this.fcd.nutricionista_id;
 		nueva_cita.notas				=	this.editar_cita.notas;
@@ -222,7 +303,7 @@ export class AgendaComponent implements OnInit {
 
 		nueva_cita.persona_nombre		=	this.q;
 		
-		/*console.log(nueva_cita);*/
+		console.log(nueva_cita);
 		this.formControlDataService.store('agenda', nueva_cita)
 		.subscribe(
 			 response  => {
@@ -250,6 +331,9 @@ export class AgendaComponent implements OnInit {
 	}
 	setAgenda(response){		
 		if(response.code==201){
+			
+			this.getCitasAgendadas( this.fecha_event.epoc );
+/*
 			this.cita.id	=	response.data.id;			
 			let _class	=	'';
 			switch(response.data.status){
@@ -272,6 +356,7 @@ export class AgendaComponent implements OnInit {
 			this.cita.notas		=	response.data.notas;
 			this.cita.editable	=	this.cita.status < 3;
 			this.cita.class		=	_class;
+*/
 			this.hideModal('datos');
 			this.selectedPaciente = null;
 			this.q	=	'';
@@ -306,11 +391,118 @@ export class AgendaComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
+	
 	mostrarCitasAgendadas(){
 		console.clear();
 		this.fieldArray = [];
-		let hour_from	=	4;
-		let hour_to		=	22;
+		/*let hour_from	=	4;*/
+		/*let hour_to		=	22;*/
+		let _citas		=	this.helpers.clone( this.citas );
+		let hour_to		=	this.hour_to;
+		let _minutos	=	0;
+		let _horaEnMinutos	=	60;
+		let citaReservada	=	null;
+		let _horaMilitarCitaReservada:number	=	1000000;
+		if(_citas.length>0){
+			citaReservada	=	_citas.shift();
+			_horaMilitarCitaReservada	=	Number(citaReservada.militartime );
+		}
+		let _id:number	=	0;
+		let _horaMilitar:number	=	0;
+		let _class	=	'';
+		let _servicio	=	'';
+		let _time	=	'';
+		let _time_label	=	'';
+		
+		var j=0;
+		/*var h=hour_from;*/
+		var h=this.hour_from;
+		let cita:any;
+		
+		let cita_prepared	=	null;
+		while(h<this.hour_to){
+			while(_minutos<_horaEnMinutos){
+				cita	=	new Agenda( this.fcd.nutricionista_id );
+				cita.militartime	=	Number( (h*100)+_minutos);
+				cita.time_formatted	=	this.helpers.formatTime(cita.militartime);
+				if( cita.militartime >= _horaMilitarCitaReservada){
+					if(cita.militartime>_horaMilitarCitaReservada){
+						cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
+						cita_prepared.class		=	'unavailable';
+						cita_prepared.status	=	3;
+					}
+					cita							=	citaReservada;
+					cita.time_formatted				=	this.helpers.formatTime(cita.militartime);
+					cita.class						=	this.helpers.getStatusCitaClass(citaReservada.status);
+					cita.text						=	citaReservada.persona_nombre + ' - ' + citaReservada.agenda_servicio_nombre + ' (' + citaReservada.agenda_servicio_duracion + ' minutos)';
+					let _t		=	this.helpers.getHourMinutes(cita.militartime);
+					let aux		=	_t.minutes + citaReservada.agenda_servicio_duracion;
+					if(aux>=_horaEnMinutos){
+						let res	=	Math.trunc(Number(aux/_horaEnMinutos));
+						h	=	_t.hour + res;
+						_minutos	=	aux%_horaEnMinutos;
+					}else{
+						h	=	_t.hour;
+						/*_minutos	=	citaReservada.agenda_servicio_duracion;*/
+						_minutos	=	aux;
+					}
+					if(_citas.length>0){
+						citaReservada				=	_citas.shift();
+						_horaMilitarCitaReservada	=	Number(citaReservada.militartime );
+						
+					}else{
+						citaReservada				=	null;
+						_horaMilitarCitaReservada	=	1000000;						
+					}
+				}else{
+					_minutos	+=	this.servicio.duracion;
+				}
+				if(cita_prepared!=null){
+					/*console.log(cita_prepared.militartime)*/
+					cita_prepared.editable	=	cita_prepared.status < 3;
+					this.fieldArray.push( cita_prepared );
+				}
+				cita_prepared	=	cita;
+			}
+			
+			if(_minutos>=_horaEnMinutos){
+				let res	=	Math.trunc(Number(_minutos/_horaEnMinutos));
+					h	=	h	+	res;
+			}else
+				h++;
+			_minutos	=	_minutos%_horaEnMinutos;
+		}
+		if(cita_prepared!=null ){
+			hour_to	=	Number( (hour_to*100));/*	2200	*/
+			let _time	=	cita_prepared.militartime;/*	2145	*/
+			if( this.servicio.duracion>=_horaEnMinutos){
+				let div	=	Math.trunc(Number( this.servicio.duracion/_horaEnMinutos ));
+				_time	=	cita_prepared.militartime + (div*100);
+				let res	=	Math.trunc(Number( this.servicio.duracion%_horaEnMinutos ));
+				_time	+=	res;
+			}else{
+				let _dif	=	(hour_to-40) - cita_prepared.militartime;			
+				if( _dif <this.servicio.duracion)
+					_time	=	hour_to + 1;
+			}
+			if( (_time > hour_to) ){
+				cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
+				cita_prepared.class		=	'unavailable';
+				/*cita_prepared.editable	=	false;*/
+				cita_prepared.status	=	3;
+			}
+			cita_prepared.editable	=	cita_prepared.status < 3;
+			this.fieldArray.push( cita_prepared );
+		}
+		
+		this.procesandoAgenda	=	false;
+	}
+	mostrarCitasAgendadas__old(){
+		console.clear();
+		this.fieldArray = [];
+		/*let hour_from	=	4;*/
+		/*let hour_to		=	22;*/
+		let hour_to		=	this.hour_to;
 		let _minutos	=	0;
 		let _horaEnMinutos	=	60;
 		let citaReservada	=	null;
@@ -327,11 +519,12 @@ export class AgendaComponent implements OnInit {
 		let _time_label	=	'';
 		
 		var j=0;
-		var h=hour_from;
+		/*var h=hour_from;*/
+		var h=this.hour_from;
 		let cita:any;
 		
 		let cita_prepared	=	null;
-		while(h<hour_to){
+		while(h<this.hour_to){
 			while(_minutos<_horaEnMinutos){
 				cita	=	new Agenda( this.fcd.nutricionista_id );
 				cita.militartime	=	Number( (h*100)+_minutos);
