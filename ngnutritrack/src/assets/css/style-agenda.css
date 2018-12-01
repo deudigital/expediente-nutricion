@@ -82,12 +82,12 @@ body.hide-main-title #expediente_nombre{display:none;}
 .display-icon{clear: both;display: block;overflow: hidden;}
 .display-icon > svg {margin-top: -100px;}
 .display-icon.success > svg {margin-top: 15px;}
-svg {width: 100px;display: block;margin: 40px auto 0;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
+.esc-modalbox.agenda svg {width: 100px;display: block;margin: 40px auto 0;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-ms-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
 .path {stroke-dasharray: 1000;stroke-dashoffset: 0;}
 .path.circle {-webkit-animation: dash 0.9s ease-in-out;animation: dash 0.9s ease-in-out;}
 .path.line {stroke-dashoffset: 1000;-webkit-animation: dash 0.9s 0.35s ease-in-out forwards;animation: dash 0.9s 0.35s ease-in-out forwards;}
 .path.check {stroke-dashoffset: -100;-webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;animation: dash-check 0.9s 0.35s ease-in-out forwards;}
-p {text-align: center;margin: 20px 0 60px;font-size: 1.25em;}
+.esc-modalbox.agenda p {text-align: center;margin: 20px 0 60px;font-size: 1.25em;}
 p.success {color: #73AF55;}
 p.error {color: #D06079;}
 

@@ -1536,6 +1536,23 @@ Modo de Uso
 		}
 		return _class;
 	}
+	__getCocienteResiduo(numero,divisor){
+		/*console.log('__getCocienteResiduo(' + numero + ', ' + divisor +')');*/
+		let _div	=	Math.trunc(Number( numero/divisor ));
+		let _res	=	Math.trunc(Number( numero%divisor ));
+		let result	=	{d: _div, r:_res, n:numero,c:divisor};
+		/*console.log(result);*/
+		return result;
+	}
+	__getMinutesHM(minutos){
+		let _d	=	this.__getCocienteResiduo(minutos, 60);
+		/*console.log(_d);*/
+		let _mhm	=	(_d.d*100) + _d.r
+		if(_d.r>0)
+			_mhm	+=	40;
+		/*console.log('__getMinutesHM: ' + _mhm);*/
+		return _mhm;
+	}
 }
 export class Ejercicio{
 	id:number;

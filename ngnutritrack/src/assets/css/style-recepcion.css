@@ -3,16 +3,16 @@
 .custom-file-label {position: absolute;	top: 0;	right: 0;left: 0;z-index: 1;height: 40px;padding: 1rem .75rem;line-height: 1.5;	color: #495057;	background-color: #e0e0e0;	border: 1px solid #e0e0e0;border-radius: 25px;}
 .custom-file-input:lang(es) ~ .custom-file-label::after {content: "Seleccionar";}
 .custom-file-label::after {position: absolute;top: 0;right: 0;bottom: 0;z-index: 3;display: block;padding: 1rem;line-height: 1.5;color: #495057;content: "Seleccionar";background-color: #e9ecef;border-left: 1px solid #ced4da;border-radius: 0 25px 25px 0;}
- .esc-modal.icon-messages{z-index:20000;}
- .content-form.recepcion section {min-height: 450px;}
- .table.reporte-recepcion > tbody > tr > td {text-transform: capitalize;}
- .table.reporte-recepcion > tbody > tr > td:first-child {text-align: center;}
+.esc-modal.icon-messages{z-index:20000;}
+.content-form.recepcion section {min-height: 450px;}
+.table.reporte-recepcion > tbody > tr > td {text-transform: capitalize;}
+.table.reporte-recepcion > tbody > tr > td:first-child {text-align: center;}
 .recepcion-container-button-nuevo{text-align:center}
 .esc-modalbox.recepcion header {margin-bottom: 15px;}
 .esc-modalbox.recepcion .alert {margin-top: 15px !important;}
 .esc-modalbox.recepcion header {margin-bottom: 20px;}
 a.link-file > i {background-position: -88px -249px;width: 20px;height: 25px;display: inline-block;background-size: 228px 420px;}
- @media(min-width:768px){
-	 .esc-modalbox.recepcion header {margin-bottom: 50px;}
+@media(min-width:768px){
+	.esc-modalbox.recepcion header {margin-bottom: 50px;}
 	.recepcion-container-button-nuevo{padding:50px}
- }
+}

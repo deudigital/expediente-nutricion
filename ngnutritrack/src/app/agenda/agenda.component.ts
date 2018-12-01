@@ -67,7 +67,8 @@ export class AgendaComponent implements OnInit {
 	
 	hour_from:number=	4;
 	hour_to:number	=	22;
-	
+	currentTimeMiliar:any;
+
 	public _dayLabels: IMyDayLabels = {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'};
 	public _monthLabels: IMyMonthLabels = { 1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic' };
 	public _months:any	=  { 1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto', 9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre' };
@@ -87,6 +88,7 @@ export class AgendaComponent implements OnInit {
 	
 	private fieldArray: Array<any> = [];
 	private filter_time_availables: Array<any> = [];
+	
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
@@ -179,11 +181,12 @@ export class AgendaComponent implements OnInit {
 		if(cita.editing)
 			return ;
 
-		console.log(cita);
+		/*console.log(cita);*/
 		this.cita	=	cita;
 		this.cita_reserva_hora	=	cita.time_formatted;
-		this.servicio_nombre	=	this.servicio.nombre;
+		/*this.servicio_nombre	=	this.servicio.nombre;*/
 		this.cita.editing	=	true;
+		var index	=	this.fieldArray.indexOf(this.cita);
 		if(cita.id>0){
 			this.editar_cita_nuevo		=	true;
 			this.selectedPaciente		=	new Paciente();
@@ -192,10 +195,17 @@ export class AgendaComponent implements OnInit {
 			this.editar_cita.telefono	=	cita.telefono;
 			this.editar_cita.email		=	cita.email;
 			this.editar_cita.notas		=	cita.notas;
+			this.servicio_nombre		=	cita.agenda_servicio_nombre;
+			/*var index	=	this.fieldArray.indexOf(this.cita);*/
+			this.setAllTimesAvailable(index);
+		
 		}else{
 			this.q	=	'';
 			this.editar_cita		=	new Agenda();
 			this.editar_cita_nuevo	=	false;
+			this.servicio_nombre	=	this.servicio.nombre;
+			/*var index	=	this.fieldArray.indexOf(this.cita);*/
+			this.setTimesAvailable(	index, this.servicio.duracion );
 		}
 		
 		this.display_submit_modal	=	this.cita.status<2;
@@ -204,8 +214,8 @@ export class AgendaComponent implements OnInit {
 		
 		this._resetFormModal()
 		
-		var index	=	this.fieldArray.indexOf(this.cita);
-		this.setTimesAvailable(	index );
+		/*var index	=	this.fieldArray.indexOf(this.cita);
+		this.setTimesAvailable(	index );*/
 		this.tagBody.classList.add('open-modal');
 		this.tagBody.classList.add('datos');
 
@@ -213,16 +223,50 @@ export class AgendaComponent implements OnInit {
 		if(this.isMobile)
 			window.scrollTo(0, 0);
 	}
-	setTimesAvailable( index_cita_selected ){
-		console.log('index_cita_selected: ' + index_cita_selected);	
+
+	x(a){
+		return	this.fieldArray.filter(function(item) {
+										return (item.status>0 && item.status<3 && item.militartime>a);
+									});
+	}
+	setAllTimesAvailable(selected_index){	
 		var _hora_init	=	Number( (this.hour_from*100));
 		var _hora_limit	=	Number( (this.hour_to*100)) - (this.servicio.duracion+40);
+		var _next:any;
+		var previous_index	=	-1;
+		var index	=	0;
+		var _i = _hora_init;
+		var _aux_status	=	this.fieldArray[selected_index].status;
+		this.fieldArray[selected_index].status	=	-1;
+		while( _i < _hora_limit ) {
+			this.currentTimeMiliar	=	_i;
+			_next	=	this.x(this.currentTimeMiliar);
+			if(_next.length>0){
+				index	=	this.fieldArray.indexOf( _next[0] );
+				if((index-1)>previous_index){
+					/*this.setTimesAvailable( index -1, true );*/
+					this.setTimesAvailable( index -1, this.fieldArray[selected_index].agenda_servicio_duracion, true );
+				}
+
+				_i	=	_next[0].militartime;
+				previous_index	=	index;
+			}else{
+				this.setTimesAvailable( this.fieldArray.length-1, this.fieldArray[selected_index].agenda_servicio_duracion, true );
+				_i	=	_hora_limit;
+			}
+		}
+		this.fieldArray[selected_index].status	=	_aux_status;
+	}
+	setTimesAvailable( index_cita_selected, servicio_duracion, all=false ){
+		var _hora_init	=	Number( (this.hour_from*100));
+		/*var _hora_limit	=	Number( (this.hour_to*100)) - (this.servicio.duracion+40);*/
+		var _hora_limit	=	Number( (this.hour_to*100)) - (servicio_duracion+40);
 		if(this.citas.length>0){
 			_hora_init	=	this.__get_init_section(index_cita_selected);
-			_hora_limit	=	this.__get_limit_section(index_cita_selected);
+			_hora_limit	=	this.__get_limit_section(index_cita_selected, servicio_duracion);
 		}
-		console.log('h: ' + _hora_init + ', ' + _hora_limit);
-		this.filter_time_availables	=	[];
+		if(!all)
+			this.filter_time_availables	=	[];
 		var _index	=	0;
 		var _i = _hora_init;
 		var _d	=	100;
@@ -231,13 +275,9 @@ export class AgendaComponent implements OnInit {
 		var _time_standard	=	'';
 		while( _i <= _hora_limit ) {						
 			this.filter_time_availables.push({id:_i,text: this.helpers.formatTime( _i )});
-			/*if(_i>999)
-				_d	=	1000;
-			else*/
 				_d	=	100;
 			_res	=	_i%_d;
 			_div	=	_i/_d;
-console.log(_d + ':' + _div + ' - ' + _res);
 			if(_res==55)
 				_i	+=	40;
 
@@ -250,50 +290,140 @@ console.log(_d + ':' + _div + ' - ' + _res);
 		var found	=	false;
 		while( (_index_init>=0 ) && !found){
 			let prev_time =	this.fieldArray[_index_init];
-			/*console.log('prev: ' + prev_time.militartime)*/
-			if(prev_time.status>0){
+			if(prev_time.status>0 && prev_time.status<3){
 				found	=	true;
 				_index_init++;
 			}else
 				_index_init--;
 		}
-		/*console.log('_index_init: ' + _index_init);*/
 		if(_index_init==-1)
 			_index_init	=	0;
 		return this.fieldArray[_index_init].militartime;
 	}
-	__get_limit_section(index_cita_selected){
+	__get_limit_section(index_cita_selected, servicio_duracion){
 		var _index_limit	=	index_cita_selected + 1;
 		var found	=	false;		
+		var next_time:any;
 		while((_index_limit < this.fieldArray.length) && !found){
-			let next_time =	this.fieldArray[_index_limit];
-			/*console.log('next: ' + next_time.militartime)*/
-			if(next_time.status>0){
+			next_time =	this.fieldArray[_index_limit];
+			if(next_time.status>0 && next_time.status<3){
 				found	=	true;
 				_index_limit--;
 			}
 			else
 				_index_limit++;
 		}
-		/*console.log('_index_limit: ' + _index_limit + '  -  this.fieldArray.length: '+ this.fieldArray.length);*/
-		if(_index_limit==this.fieldArray.length)
-			_index_limit--;
+		if(_index_limit==this.fieldArray.length){
+			let _hour_to	=	Number(this.hour_to*100);
+			/*let _mhm	=	this.helpers.__getMinutesHM( this.servicio.duracion );*/
+			let _mhm	=	this.helpers.__getMinutesHM( servicio_duracion );
+			let _return	=	_hour_to - _mhm;
+			return	_return;
+		}
+		let _duracion	=	this.helpers.__getCocienteResiduo(servicio_duracion,60);
+		let _nexttime	=	this.helpers.__getCocienteResiduo(next_time.militartime,100);
+		let _return	=	0;
+		let _aux	=	0;
+		console.log(_duracion.r + ' > ' + _nexttime.r);
+		if(_duracion.r>_nexttime.r)
+			_aux	=	_duracion.d*40+40;
+		else
+			_aux	=	_duracion.d*40;
 
-		return this.fieldArray[_index_limit].militartime;/* - (this.servicio.duracion+40)*/
+		/*_return	=	next_time.militartime - (this.servicio.duracion + _aux);*/
+		_return	=	next_time.militartime - (servicio_duracion + _aux);
+		return _return;
 	}
+/*	setTimesAvailable__ok( index_cita_selected, all=false ){
+		var _hora_init	=	Number( (this.hour_from*100));
+		var _hora_limit	=	Number( (this.hour_to*100)) - (this.servicio.duracion+40);
+		if(this.citas.length>0){
+			_hora_init	=	this.__get_init_section(index_cita_selected);
+			_hora_limit	=	this.__get_limit_section(index_cita_selected);
+		}
+		if(!all)
+			this.filter_time_availables	=	[];
+		var _index	=	0;
+		var _i = _hora_init;
+		var _d	=	100;
+		var _res=	0;
+		var _div=	0;
+		var _time_standard	=	'';
+		while( _i <= _hora_limit ) {						
+			this.filter_time_availables.push({id:_i,text: this.helpers.formatTime( _i )});
+				_d	=	100;
+			_res	=	_i%_d;
+			_div	=	_i/_d;
+			if(_res==55)
+				_i	+=	40;
+
+			_i	=	_i + 5;
+		}
+		this.hora_custom	=	this.cita.militartime;
+	}
+	__get_init_section__ok(index_cita_selected){
+		var _index_init	=	index_cita_selected - 1;
+		var found	=	false;
+		while( (_index_init>=0 ) && !found){
+			let prev_time =	this.fieldArray[_index_init];
+			if(prev_time.status>0 && prev_time.status<3){
+				found	=	true;
+				_index_init++;
+			}else
+				_index_init--;
+		}
+		if(_index_init==-1)
+			_index_init	=	0;
+		return this.fieldArray[_index_init].militartime;
+	}
+	__get_limit_section__ok(index_cita_selected){
+		var _index_limit	=	index_cita_selected + 1;
+		var found	=	false;		
+		var next_time:any;
+		while((_index_limit < this.fieldArray.length) && !found){
+			next_time =	this.fieldArray[_index_limit];
+			if(next_time.status>0 && next_time.status<3){
+				found	=	true;
+				_index_limit--;
+			}
+			else
+				_index_limit++;
+		}
+		if(_index_limit==this.fieldArray.length){
+			let _hour_to	=	Number(this.hour_to*100);
+			let _mhm	=	this.helpers.__getMinutesHM( this.servicio.duracion );
+			let _return	=	_hour_to - _mhm;
+			return	_return;
+		}
+		let _duracion	=	this.helpers.__getCocienteResiduo(this.servicio.duracion,60);
+		let _nexttime	=	this.helpers.__getCocienteResiduo(next_time.militartime,100);
+		let _return	=	0;
+		let _aux	=	0;
+		console.log(_duracion.r + ' > ' + _nexttime.r);
+		if(_duracion.r>_nexttime.r)
+			_aux	=	_duracion.d*40+40;
+		else
+			_aux	=	_duracion.d*40;
+
+		_return	=	next_time.militartime - (this.servicio.duracion + _aux);
+		return _return;
+	}
+*/
 	saveCita(form){
 		this._form	=	form;
 		this.btn_save_presionado	=	true;
 		var index	=	this.fieldArray.indexOf(this.cita);
 		var nueva_cita	=	new Agenda();
 
-		if(this.cita.id>0)
+		nueva_cita.agenda_servicio_id	=	this.servicio.id;
+		if(this.cita.id>0){
 			nueva_cita.id	=	this.cita.id;
+			nueva_cita.agenda_servicio_id	=	this.cita.agenda_servicio_id;
+		}
 
 		nueva_cita.date					=	this.fecha_event.epoc;
 		/*nueva_cita.militartime			=	this.cita.militartime;*/
 		nueva_cita.militartime			=	this.hora_custom;
-		nueva_cita.agenda_servicio_id	=	this.servicio.id;
 		nueva_cita.nutricionista_id		=	this.fcd.nutricionista_id;
 		nueva_cita.notas				=	this.editar_cita.notas;
 		nueva_cita.email				=	this.editar_cita.email;
@@ -331,36 +461,10 @@ console.log(_d + ':' + _div + ' - ' + _res);
 	}
 	setAgenda(response){		
 		if(response.code==201){
-			
 			this.getCitasAgendadas( this.fecha_event.epoc );
-/*
-			this.cita.id	=	response.data.id;			
-			let _class	=	'';
-			switch(response.data.status){
-				case '1':
-				case 1:
-					_class	=	'programed';
-					this.cita.persona_nombre	=	this.q;
-					break;
-				case '2':
-				case 2:
-					_class	=	'confirmed';
-					break;
-				default:
-					_class	=	'cancelled';
-			}
-			this.cita.text		=	this.cita.persona_nombre + ' - ' + this.servicio.nombre +  ' (' + this.servicio.duracion + ' minutos)';;
-			this.cita.status	=	response.data.status;
-			this.cita.telefono	=	response.data.telefono;
-			this.cita.email		=	response.data.email;
-			this.cita.notas		=	response.data.notas;
-			this.cita.editable	=	this.cita.status < 3;
-			this.cita.class		=	_class;
-*/
 			this.hideModal('datos');
 			this.selectedPaciente = null;
 			this.q	=	'';
-
 			this.editar_cita	=	new Agenda();
 			this._resetFormModal();
 			this.display_successfully_icon_animated	=	true;
@@ -395,8 +499,6 @@ console.log(_d + ':' + _div + ' - ' + _res);
 	mostrarCitasAgendadas(){
 		console.clear();
 		this.fieldArray = [];
-		/*let hour_from	=	4;*/
-		/*let hour_to		=	22;*/
 		let _citas		=	this.helpers.clone( this.citas );
 		let hour_to		=	this.hour_to;
 		let _minutos	=	0;
