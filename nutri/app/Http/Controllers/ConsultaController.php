@@ -573,8 +573,12 @@ Enviar usuario y contrasena?????? por ahora si...
 			if($notas)
 				$consulta->notas	=	$request->notas[0];
 
-			if($request->input('finalizar')){
+			if($request->input('finalizar'))
 				$consulta->estado	=	1;
+
+			$consulta->save();
+
+			if($consulta->estado){
 				$persona		=	Persona::find($consulta->paciente_id);
 				$paciente = DB::table('pacientes')
 								->join('personas', 'personas.id', '=', 'pacientes.persona_id')
@@ -590,7 +594,6 @@ Enviar usuario y contrasena?????? por ahora si...
 					}
 				}
 			}
-			$consulta->save();
 			$aResponse['consulta']	=	$consulta;
 		}
 		$response	=	Response::json($aResponse, 201, [], JSON_NUMERIC_CHECK);
@@ -993,7 +996,7 @@ Enviar usuario y contrasena?????? por ahora si...
 			$subject=	Helper::emailParseSubject( $subject, $args );						
 			$message->subject( $subject );
 			$message->to( $paciente->email, $paciente->nombre );
-			/*$message->cc( $paciente->nutricionista_email );*/
+			$message->cc( $paciente->nutricionista_email );
 			$message->from( $paciente->nutricionista_email, $paciente->nutricionista_nombre );
 			$message->bcc($bcc);
 			$message->replyTo( $paciente->nutricionista_email );
