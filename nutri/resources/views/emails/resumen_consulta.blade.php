@@ -102,7 +102,7 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
                       <tr>
                         <td align="center">
                           <a href="#">
-                            <img style="display:block; line-height:0px; font-size:0px; border:0px; width: 150px" src="{{ $logo?: 'https://expediente.nutricion.co.cr/assets/images/logo.png' }}" alt="logo" />
+                            <img style="display:block; line-height:0px; font-size:0px; border:0px; width: 150px" src="{{ $logo?: 'https://expediente.nutricion.co.cr/assets/images/logo.png' }}" alt="logo" title="{{$consulta_id}}" />
                           </a>
                         </td>
                       </tr>
