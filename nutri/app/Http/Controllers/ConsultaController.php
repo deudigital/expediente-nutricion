@@ -943,6 +943,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$paciente->consulta_fecha		=	$consulta->fecha;
 		$data	=	array(
 							'logo'					=>	$image, 
+							'consulta_id'			=>	$consulta->id, 
 							'paciente'				=>	$paciente, 
 							'paciente_nombre'		=>	$paciente->nombre, 
 							'paciente_usuario'		=>	$paciente->usuario, 
