@@ -41,6 +41,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('agenda/{nutricionista_id}/{fecha}', 'AgendaController@select');
 	Route::get('agenda/servicios/{nutricionista_id}', 'AgendaController@selectServicios');
 	Route::get('consultas/{id}/resumen/{mode}', 'ConsultaController@testResumen');
+	Route::get('consultas/patronmenu/duplicados', 'PatronMenuController@duplicados');
 	
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
