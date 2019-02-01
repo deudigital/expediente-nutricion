@@ -39,7 +39,8 @@ class DietaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {/*$response	=	Response::json($request, 200, [], JSON_NUMERIC_CHECK);
+		return $response;	*/
 		$items	=	$request->items;
 		if($items){
 			$datos	=	array();			
@@ -64,11 +65,14 @@ class DietaController extends Controller
 		$tiempos	=	$request->tiempos;
 		if($tiempos){
 			$datos	=	array();			
-			$deletedRows = PatronMenuEjemplo::where('consulta_id', $request->consulta_id)->delete();
+			/*$deletedRows = PatronMenuEjemplo::where('consulta_id', $request->consulta_id)->delete();*/
 			
 			foreach($tiempos as $key=>$item){
 				if($item['tiempo_id']<1)
 					continue ;
+				$deletedRows = PatronMenuEjemplo::where('consulta_id', $request->consulta_id)
+												->where('tiempo_comida_id', '=', $item['tiempo_id'])
+												->delete();
 				$patronMenuEjemplo	=	PatronMenuEjemplo::create([
 									'consulta_id'		=>	$request->consulta_id,
 									'tiempo_comida_id'	=>	$item['tiempo_id'],
