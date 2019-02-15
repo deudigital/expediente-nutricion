@@ -11,7 +11,8 @@ import { FormControlDataService }     from '../../data/formControlData.service';
 })
 export class PatronmenuComponent implements OnInit {
   menus:{ [id: string]: any; } = {'0':''}; 
-  asignacionPorciones: {};
+  /*asignacionPorciones: {};*/
+  asignacionPorciones:any;
   asignacionEjemplos: {};
   model:any;
   helpers:any;
@@ -28,6 +29,7 @@ export class PatronmenuComponent implements OnInit {
   tab_class_graficos:string='';
   
   displayModalPorciones:boolean=false;
+  displayOldTiemposComida:boolean=false;
   label_modal_porciones:string='';
   
   dieta_desayuno_text:string='testing, desayuno';
@@ -67,13 +69,15 @@ export class PatronmenuComponent implements OnInit {
   arrayMenuCena:{ [id: string]: any; } = {'0':''}; 
   arrayMenuCoicionNocturna:{ [id: string]: any; } = {'0':''};
   arrayMenuCurrent:{ [id: string]: any; } = {'0':''};
+  arrayMenuCustom:{ [id: string]: any; } = {'0':''};
   
 	alimentos:Object[]=[];
 	tiempos:Object[]=[];
-	//data:Object[]=[];
 	data:{ [id: string]: any; } = {'0':''}; 
 	oData:{ [id: string]: any; } = {'0':''}; 
 	pme:PatronMenuEjemplo=new PatronMenuEjemplo();
+	
+	abkp:any;
 	
 	tagBody:any;
 	oMenu:{ [id: string]: any; } = {'0':''};
@@ -81,17 +85,15 @@ export class PatronmenuComponent implements OnInit {
 	prescritos:Object[]=[];
 	
 	navitation:boolean=false;
+	nuevo:boolean=false;
+	
+	tiempo_comida_nombre:string;
+	tiempo_comida_nombre_message:string;
+	custom_tiempo_comidas:any;
 	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model	=	formControlDataService.getFormControlData();
 	this.helpers	=	this.model.getHelpers();
-	/*
-	this.menus	=	formControlDataService.getFormControlData().patronmenu;	
-	
-	console.log('cargando Patron Menu');
-	console.log(this.menus);
-	this.setInfoInit();
-	*/
   }
   ngOnInit() {
 	this.alimentos['0']	=	'';
@@ -121,41 +123,31 @@ export class PatronmenuComponent implements OnInit {
 	this.navitation	=	false;
 	
 	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
-	//console.log('cargando Patron Menu');
-	/*console.log(this.menus);*/
+	console.log('this.menus');
+	console.log(this.menus);
+	
+	
+	let _withOldInfo	=	this.menus.filter(x => x.tiempo_comida_id < 7);
+	if(_withOldInfo[0])
+		this.displayOldTiemposComida	=	true;
+
 	this.setInfoInit();
 	
 	
 	this.prescripcion	=	this.model.getFormPrescripcion();
-	/*console.log('prescripcion');
-	console.log(this.prescripcion);*/
 	this.items			=	this.prescripcion.items;
-	//console.log(this.items);
-	
+
 	for(var i=0;i<13;i++)
 		this.prescritos[i]	=	0;
 	
-/*
-carbohidratos: 48
-grasas: 4
-grupo_alimento_nutricionista_id: 1
-id: 1
-kcal: 360
-nombre: "Leche Descremada"
-porciones: 4
-prescripcion_id: 43
-proteinas: 32
-*/
 	var obj;
 	for(var i =0;i<this.items.length;i++){
 		obj	=	this.items[i];
-		//console.log(obj);
-		//this.prescritos[obj.grupo_alimento_nutricionista_id]	=	obj.porciones;
 		this.prescritos[obj.id]	=	obj.porciones;
 	}
 	
 	this.setTotales();
-
+	this.tiempo_comida_nombre	=	'';
   }
 	ngOnDestroy() {
 		if(!this.navitation)
@@ -163,7 +155,31 @@ proteinas: 32
 		this.tagBody.classList.remove('menu-parent-dieta');
 		this.helpers.scrollToForm(true);
 	}
-	setInfoInit(){
+	setInfoInit(){		
+		this.custom_tiempo_comidas	=	this.model.getTiempoComidasDeNutricionista();
+		var ejemplos	=	this.formControlDataService.getFormControlData().patron_menu_ejemplos;
+
+		for(var j in this.custom_tiempo_comidas){
+			if(ejemplos){
+				var __aEjemplo	=	ejemplos.filter(x => x.tiempo_comida_id === this.custom_tiempo_comidas[j].id);
+				if( __aEjemplo[0] ){
+					this.custom_tiempo_comidas[j].ejemplo	=	__aEjemplo[0].​​ejemplo;
+				}
+			}				
+			this.custom_tiempo_comidas[j].menu	=	{};
+			if(this.menus){
+				var __aMenu	=	this.menus.filter(x => x.tiempo_comida_id === this.custom_tiempo_comidas[j].id);
+				if(__aMenu[0]){
+					let a_Menu	=	__aMenu;
+					for(var f in a_Menu){
+						let _item	=	a_Menu[f];
+						this.custom_tiempo_comidas[j].menu[_item.grupo_alimento_nutricionista_id]		=	_item.porciones;
+					}
+					this.custom_tiempo_comidas[j].summary	=	this.concatenar(this.custom_tiempo_comidas[j].menu);
+				}
+			}
+		}
+
 		this.pme.dieta_desayuno_ejemplo			=	this.model.dieta_desayuno_ejemplo;
 		this.pme.dieta_media_manana_ejemplo		=	this.model.dieta_media_manana_ejemplo;
 		this.pme.dieta_almuerzo_ejemplo			=	this.model.dieta_almuerzo_ejemplo;
@@ -171,42 +187,49 @@ proteinas: 32
 		this.pme.dieta_cena_ejemplo				=	this.model.dieta_cena_ejemplo;
 		this.pme.dieta_coicion_nocturna_ejemplo	=	this.model.dieta_coicion_nocturna_ejemplo;
 		
+		
+		this.abkp	=	this.helpers.clone(this.custom_tiempo_comidas);
+		
 		var aMenu	=	{};
 		this.oMenu	=	{};
-		for(var i in this.menus){
-			var item	=	this.menus[i];
-			var tiempo_de_comida	=	item.tiempo_comida_id;
-			switch(tiempo_de_comida){
-				case 1:
-					aMenu	=	this.arrayMenuDesayuno;
-					break;
-				case 2:
-					aMenu	=	this.arrayMenuMediaManana;
-					break;
-				case 3:
-					aMenu	=	this.arrayMenuAlmuerzo;
-					break;
-				case 4:
-					aMenu	=	this.arrayMenuMediaTarde;
-					break;
-				case 5:
-					aMenu	=	this.arrayMenuCena;
-					break;
-				case 6:
-					aMenu	=	this.arrayMenuCoicionNocturna;
-					break;
+		if(this.menus){
+			for(var i in this.menus){
+				var item	=	this.menus[i];
+				var tiempo_de_comida	=	item.tiempo_comida_id;
+				switch(tiempo_de_comida){
+					case 1:
+						aMenu	=	this.arrayMenuDesayuno;
+						break;
+					case 2:
+						aMenu	=	this.arrayMenuMediaManana;
+						break;
+					case 3:
+						aMenu	=	this.arrayMenuAlmuerzo;
+						break;
+					case 4:
+						aMenu	=	this.arrayMenuMediaTarde;
+						break;
+					case 5:
+						aMenu	=	this.arrayMenuCena;
+						break;
+					case 6:
+						aMenu	=	this.arrayMenuCoicionNocturna;
+						break;
+				}				
+				aMenu[item.grupo_alimento_nutricionista_id]			=	item.porciones;
+				this.concatenar(aMenu);
 			}
-
-			aMenu[item.grupo_alimento_nutricionista_id]			=	item.porciones;			
-			this.concatenar(aMenu);
+			this.oMenu[0]	=	'';
+			this.oMenu[1]	=	this.copy(this.arrayMenuDesayuno);
+			this.oMenu[2]	=	this.copy(this.arrayMenuMediaManana);
+			this.oMenu[3]	=	this.copy(this.arrayMenuAlmuerzo);
+			this.oMenu[4]	=	this.copy(this.arrayMenuMediaTarde);
+			this.oMenu[5]	=	this.copy(this.arrayMenuCena);
+			this.oMenu[6]	=	this.copy(this.arrayMenuCoicionNocturna);
 		}
-		this.oMenu[0]	=	'';
-		this.oMenu[1]	=	this.copy(this.arrayMenuDesayuno);
-		this.oMenu[2]	=	this.copy(this.arrayMenuMediaManana);
-		this.oMenu[3]	=	this.copy(this.arrayMenuAlmuerzo);
-		this.oMenu[4]	=	this.copy(this.arrayMenuMediaTarde);
-		this.oMenu[5]	=	this.copy(this.arrayMenuCena);
-		this.oMenu[6]	=	this.copy(this.arrayMenuCoicionNocturna);
+		for(var j in this.custom_tiempo_comidas){
+			this.oMenu[this.custom_tiempo_comidas[j].id]	=	this.copy( this.custom_tiempo_comidas[j].menu );		
+		}		
 	}
 	copy(data){
 		var myArray={};
@@ -215,7 +238,7 @@ proteinas: 32
 		}
 		return myArray;
 	}
-	prepare(id_consulta){
+	prepare__old(id_consulta){
 		var myArray=[];
 		var menus	=	[];
 		menus[0]	=	this.arrayMenuDesayuno;
@@ -238,8 +261,36 @@ proteinas: 32
 		}
 		return myArray;
 	}
+	prepare(id_consulta){
+		var myArray=[];
+		var menus	=	[];
+		menus[0]	=	this.arrayMenuDesayuno;
+		menus[1]	=	this.arrayMenuMediaManana;
+		menus[2]	=	this.arrayMenuAlmuerzo;
+		menus[3]	=	this.arrayMenuMediaTarde;
+		menus[4]	=	this.arrayMenuCena;
+		menus[5]	=	this.arrayMenuCoicionNocturna;
+
+		for(var k in this.custom_tiempo_comidas){
+			menus.push(this.custom_tiempo_comidas[k]);
+		}
+		/*console.log('menus');console.log(menus);*/
+		var j=0;
+		for(var a in menus){
+			var data	=	menus[a].menu;
+			var tiempoComida	=	menus[a].id;
+			for(var i in data){
+				var grupoAlimentoNutricionista	=	Number(i);
+				if(Number(i)>0){
+					let _data	=	{'consulta_id': id_consulta, 'ejemplo': '', 'grupo_alimento_nutricionista_id': grupoAlimentoNutricionista, 'porciones': data[grupoAlimentoNutricionista], 'tiempo_comida_id': tiempoComida};
+					myArray.push(_data);
+				}
+			}
+		}
+		console.log('prepare:');console.log(myArray);
+		return myArray;
+	}
 	infoEdited(){
-		//var result	=	this.infoEditedEjemplos() || this.infoEditedPorciones();
 		var result1	=	this.infoEditedEjemplos();
 		var result2	=	this.infoEditedPorciones();
 		var result	=	result1 || result2;
@@ -274,6 +325,12 @@ proteinas: 32
 			tiempo_de_comidas[i]	=	{'tiempo_id':'6', 'ejemplo':this.model.dieta_coicion_nocturna_ejemplo};
 			i++;
 		}
+
+		for(var j in this.custom_tiempo_comidas){
+			if(this.abkp[j].ejemplo!==this.custom_tiempo_comidas[j].ejemplo)
+				tiempo_de_comidas[++i]	=	{'tiempo_id':this.custom_tiempo_comidas[j].id, 'ejemplo': this.custom_tiempo_comidas[j].ejemplo };
+		}		
+		
 		if(tiempo_de_comidas.length>1){
 			this.data['tiempos']	=	tiempo_de_comidas;
 			return true;
@@ -291,6 +348,13 @@ proteinas: 32
 				{'tiempo_id':'5', 'porciones': this.arrayMenuCena},
 				{'tiempo_id':'6', 'porciones': this.arrayMenuCoicionNocturna},
 			];
+			
+			var k	=	this.asignacionPorciones.length - 1;
+			
+			for(var j in this.custom_tiempo_comidas){
+				this.asignacionPorciones[++k]	=	{'tiempo_id':this.custom_tiempo_comidas[j].id, 'porciones': this.custom_tiempo_comidas[j].menu };
+			}
+			
 			this.data['items']		=	this.asignacionPorciones;
 			return 	true;
 		}
@@ -298,7 +362,7 @@ proteinas: 32
 		return false;		
 	}
 	
-	chechChangesItems(){/*console.log(this.oMenu);console.log(this.menus);*/
+	chechChangesItems(){
 		var obj2	=	{};
 		for(var i in this.oMenu){
 			if(Number(i)>0){
@@ -322,10 +386,11 @@ proteinas: 32
 					case '6':
 						obj2	=	this.arrayMenuCoicionNocturna;
 						break;
+					default:
+						var _aMenu	=	this.custom_tiempo_comidas.filter(x => x.id === Number(i));
+						obj2	=	_aMenu[0].menu;
 				}
-				/*console.log(JSON.stringify(oItem) + '!==' + JSON.stringify(obj2));*/
 				if(JSON.stringify(oItem) !== JSON.stringify(obj2)){
-					/*console.log('diferentes');console.log(oItem);console.log(obj2);*/
 					return true;
 				}
 			}
@@ -334,7 +399,6 @@ proteinas: 32
 	}
 	saveForm(){		
 		if(this.infoEdited()){
-			//console.log('CAMBIOS');
 			this.updateItems();
 			this.data['0']				=	'';
 			this.data['consulta_id']	=	 this.model.getFormConsulta().id;
@@ -343,65 +407,24 @@ proteinas: 32
 		}
 	}
 	updateItems(){
-		/*console.log('current this.menus');
-		console.log(this.menus);*/
 		this.menus		=	{};
 		this.menus[0]	=	'';
 		var id_consulta	=	this.model.getFormConsulta().id;
-/*		this.menus[1]	=	this.prepare(this.arrayMenuDesayuno,1, id_consulta);
-		this.menus[2]	=	this.prepare(this.arrayMenuMediaManana,2, id_consulta);
-		this.menus[3]	=	this.prepare(this.arrayMenuAlmuerzo,3, id_consulta);
-		this.menus[4]	=	this.prepare(this.arrayMenuMediaTarde,4, id_consulta);
-		this.menus[5]	=	this.prepare(this.arrayMenuCena,5, id_consulta);
-		this.menus[6]	=	this.prepare(this.arrayMenuCoicionNocturna,6, id_consulta);
-*/
 		this.menus		=	this.prepare(id_consulta)
-		/*console.log('updated this.menus');
-		console.log(this.menus);*/
 		this.model.setPatronMenu(this.menus);
 		this.formControlDataService.setFormControlData(this.model);		
-		/*console.log('global this.model');
-		console.log(this.formControlDataService.getFormControlData().patronmenu);*/
 	}
-	saveInfo(data){		
+	saveInfo(data){console.log('saveInfo');console.log(data);
 		this.tagBody.classList.add('sending');
-		/*console.log('save PatronMenu...');
-		console.log(data);*/
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
 			 response  => {
-						/*console.log('<!--Crud PatronMenu');
-						console.log(response);*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
 		);
 	}
-  
-  
-
-  porciones(alimento_name, alimento_id){  
-	  var aMenu	=	{};
-		switch(this.currentTiempoComida){
-			case 1:
-				aMenu	=	this.arrayMenuDesayuno;
-				break;
-			case 2:
-				aMenu	=	this.arrayMenuMediaManana;
-				break;
-			case 3:
-				aMenu	=	this.arrayMenuAlmuerzo;
-				break;
-			case 4:
-				aMenu	=	this.arrayMenuMediaTarde;
-				break;
-			case 5:
-				aMenu	=	this.arrayMenuCena;
-				break;
-			case 6:
-				aMenu	=	this.arrayMenuCoicionNocturna;
-				break;
-		}
+  porciones(alimento_name, alimento_id){	  
 		var cantidad	=	0;
 		switch(alimento_id){
 			case 1:
@@ -441,10 +464,42 @@ proteinas: 32
 				cantidad	=	this.porciones_vaso_agua;
 				break;			
 		}
+		
+		var _aMenu	=	{};
+		var aMenu		=	{};
+		switch(this.currentTiempoComida){
+			case 1:
+				aMenu	=	this.arrayMenuDesayuno;
+				break;
+			case 2:
+				aMenu	=	this.arrayMenuMediaManana;
+				break;
+			case 3:
+				aMenu	=	this.arrayMenuAlmuerzo;
+				break;
+			case 4:
+				aMenu	=	this.arrayMenuMediaTarde;
+				break;
+			case 5:
+				aMenu	=	this.arrayMenuCena;
+				break;
+			case 6:
+				aMenu	=	this.arrayMenuCoicionNocturna;
+				break;
+			default:
+				_aMenu	=	this.custom_tiempo_comidas.filter(x => x.id === this.currentTiempoComida);
+				if(_aMenu[0]){
+					if(_aMenu[0].menu)
+						aMenu		=	_aMenu[0].menu;
+					else
+						_aMenu[0].menu	=	{};
+				}					
+		}
 		aMenu[alimento_id]	=	cantidad;
 		this.arrayMenuCurrent	=	aMenu;
-		this.concatenar(aMenu);
-  }  
+		if(_aMenu[0])
+			_aMenu[0].summary	=	this.concatenar(aMenu);
+  }
   concatenar(aMenu){
 	  var summary	=	'';
 		for(var i in aMenu){
@@ -456,6 +511,17 @@ proteinas: 32
 			}
 		}
 		this.inputModal	=	summary;
+		return summary;
+  }
+	summary_tiempoComida(aMenu){
+		var summary	=	'';
+		for(var i in aMenu){
+			if(aMenu[i]){
+				if(summary)
+					summary	+=	', ';
+				summary	+=	this.arrayMenuDesayuno[i] + ' ' + this.alimentos[i];;
+			}
+		}
 		return summary;
   }
 	get summary_desayuno(){
@@ -569,6 +635,39 @@ proteinas: 32
 		this.concatenar(aMenu);
 		window.scrollTo(0, 0);
    }
+   showModalPorcionesNew(tiempoComida){
+		this.inputModal	=	'';
+		this.currentTiempoComida	=	tiempoComida;
+		var aMenu	=	{};
+		
+		var oTiempoComida	=	this.custom_tiempo_comidas.filter(x => x.id === tiempoComida);
+		console.log(oTiempoComida);
+		aMenu	=	oTiempoComida[0].menu;
+
+		this.porciones_leche_descremada	=	aMenu[1];
+		this.porciones_leche_2			=	aMenu[2];
+		this.porciones_leche_entera		=	aMenu[3];
+		this.porciones_vegetales		=	aMenu[4];
+		this.porciones_frutas			=	aMenu[5];
+		this.porciones_harinas			=	aMenu[6];
+		this.porciones_carne_magra		=	aMenu[7];
+		this.porciones_carne_intermedia	=	aMenu[8];
+		this.porciones_carne_grasa		=	aMenu[9];
+		this.porciones_azucares			=	aMenu[10];
+		this.porciones_grasas			=	aMenu[11];
+		this.porciones_vaso_agua		=	aMenu[12];
+		
+		/*var tiempo_de_comida	=	this.tiempos[tiempoComida];
+		this.label_modal_porciones	=	tiempo_de_comida.toString()*/
+
+		this.label_modal_porciones	=	oTiempoComida[0].nombre;
+		
+		this.displayModalPorciones=true;
+		let body = document.getElementsByTagName('body')[0];
+		body.classList.add('open-modal');
+		this.concatenar(aMenu);
+		window.scrollTo(0, 0);
+		}
    closeModalPorciones(){
 		let body = document.getElementsByTagName('body')[0];
 		this.displayModalPorciones=false;
@@ -595,7 +694,11 @@ proteinas: 32
 		
 		if(this.arrayMenuCoicionNocturna[alimento_id])
 			total	+=	Number(this.arrayMenuCoicionNocturna[alimento_id]);
-
+		
+		for(var j in this.custom_tiempo_comidas){
+			if(this.custom_tiempo_comidas[j].menu[alimento_id])
+				total	+=	Number(this.custom_tiempo_comidas[j].menu[alimento_id]);
+		}
 	  return total;	  
 	}
 	setTotales(){	
@@ -636,6 +739,45 @@ proteinas: 32
 		return JSON.stringify(this.arrayMenuDesayuno);
 	}
 
+	showFormEdit(){
+		this.nuevo	=	!this.nuevo;
+	}
+	save(data){
+		this.tiempo_comida_nombre_message	=	'';
+		this.formControlDataService.store('tiempo_comida', data)
+		.subscribe(
+			 response  => {
+						this.setTiempoComida(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	setTiempoComida(response){
+		if(response.code==208){
+			this.tiempo_comida_nombre_message	=	response.message;
+			return ;
+		}
+		if(response.code==201){
+			this.tiempo_comida_nombre	=	'';
+			this.custom_tiempo_comidas.push(response.data);
+			this.abkp.push(response.data);
+			this.nuevo	=	false;
+		}
+	}
+	isValid(){
+		return true;/*this.tiempo_comida_nombre!='';*/
+	}
+	adicionarNuevo(){
+		if(this.isValid()){
+			this.data['0']				=	'';
+			this.data['nutricionista_id']	=	 this.model.nutricionista_id;
+			this.data['tiempo_comida_nombre']	=	 this.tiempo_comida_nombre;
+			this.save(this.data);
+		}else
+			alert('campo vacio')
+		return true;
+	}
+	
 	
 	Previous(){
 		this.saveForm();

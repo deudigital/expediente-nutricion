@@ -246,8 +246,10 @@ export class FormControlDataService {
 			case 'cancelar_cita':
 				serviceUrl	+=	'agenda/' + data.id + '/cancelar';
 				break;
+			case 'tiempo_comida':
+				serviceUrl	+=	'tiempocomidas';
+				break;
 		}
-
 		return this.http.post( serviceUrl, data, {headers: this.headers}).map((response: Response) => response.json());
 	}
 	delete(module:string, data:any): Observable<any[]> {

@@ -40,7 +40,7 @@ class DietaController extends Controller
      */
     public function store(Request $request)
     {/*$response	=	Response::json($request, 200, [], JSON_NUMERIC_CHECK);
-		return $response;	*/
+		return $response;*/
 		$items	=	$request->items;
 		if($items){
 			$datos	=	array();			

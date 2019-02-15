@@ -15,7 +15,7 @@
 					<header class="visible-xs">
 						<h4>Patr&oacute;n Menu</h4>
 					</header>
-				
+<ng-template [ngIf]="displayOldTiemposComida">
 				<div class="clearfix">
 					<div class="col-sm-6">
 						<div class="form-group with-icon dieta_desayuno">
@@ -171,6 +171,70 @@
 								maxlength="15000" 
 								[(ngModel)]="model.dieta_coicion_nocturna_ejemplo"
 							></textarea>
+						</div>
+					</div>
+				</div>
+</ng-template>
+<div class="clearfix">
+<ng-template ngFor let-tiempo_comidas [ngForOf]= "custom_tiempo_comidas" let-i="index">
+	<div class="col-sm-6">
+		<div class="form-group with-icon dieta_coicion_nocturna">
+			<label>{{tiempo_comidas.nombre}}</label>
+			<input 
+				name="custom_tiempo_comidas_{{tiempo_comidas.id}}"
+				type="text" 
+				class="form-control" 
+				readonly="readonly" 
+				[(ngModel)]="tiempo_comidas.summary"
+			>
+			<i></i>
+			<a class="link-modal" (click)="showModalPorcionesNew(tiempo_comidas.id)"><i></i></a>
+		</div>
+		<div class="form-group">
+			<textarea 
+				name="custom_tiempo_comidas_ejemplo_{{tiempo_comidas.id}}"
+				class="form-control" 
+				placeholder="Ejemplo" 
+				maxlength="15000" 
+				[(ngModel)]="tiempo_comidas.ejemplo"
+			></textarea>
+		</div>
+	</div>
+
+</ng-template>
+</div>
+
+				
+				<div class="clearfix">
+					<div class="container-form">
+						<div class="actions">
+							<a [ngClass]="{'form-close tiempos':nuevo, 'form-open': !nuevo }" (click)="showFormEdit()" href="javascript:void(0)"><i></i>Añadir Tiempo de Comida</a>
+						</div>					
+						<div class="form-edit objetivo" *ngIf="nuevo">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="ejercicio">Nombre Tiempo de Comida</label>
+										  <input type="text" class="form-control" 
+											id="nombre_tiempo_comida" 
+											name="nombre_tiempo_comida" 
+											placeholder="Tiempo Comida" 
+											[(ngModel)]="tiempo_comida_nombre"
+											required
+											/>
+										<span class="msg-validation">{{tiempo_comida_nombre_message}}</span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div class="actions">
+											<a (click)="adicionarNuevo()" class="btn btn-default btn-lg">Añadir</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 				</div>

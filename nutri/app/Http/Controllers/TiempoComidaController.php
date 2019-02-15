@@ -41,7 +41,36 @@ class TiempoComidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+		/*$response	=	Response::json($request, 201);
+		return $response;*/
+		$tiempoComida	=	TiempoComida::where('nombre', $request['tiempo_comida_nombre'])
+							->where('nutricionista_id', $request['nutricionista_id'])
+							->get()
+							->first();
+		if($tiempoComida){
+			$message	=	array(
+							'code'		=> '208',							
+							'message'	=> 'Ya haz registrado este Nombre'
+						);
+			$response	=	Response::json($message, 200, [], JSON_NUMERIC_CHECK);
+			return $response;
+		}
+		
+		$tiempoComida	=	TiempoComida::create([
+													'nombre' => $request['tiempo_comida_nombre'],
+													'nutricionista_id' => $request['nutricionista_id'],
+												]);
+		$tiempoComida['ejemplo']	=	'';
+		$tiempoComida['summary']	=	'';
+		$tiempoComida['menu']	=	'';
+		
+		$message	=	array(
+							'code'		=> '201',
+							'data'		=> $tiempoComida,
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
     }
 
     /**
@@ -88,4 +117,10 @@ class TiempoComidaController extends Controller
     {
         //
     }
+	
+    public function belongToNutricionista($id)
+    {
+        //
+    }
+	
 }

@@ -181,4 +181,7 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	/*	Recepcion	*/
 	Route::post('recepcion/importar', 'RecepcionController@importar');	
 	Route::get('reportes/recepcion/{nutricionista_id}', 'RecepcionController@reporte');
+	/*	Tiempo Comida	*/
+	Route::post('tiempocomidas', 'TiempoComidaController@store');	
+	Route::get('tiempocomidas/{nutricionista_id}', 'TiempoComidaController@belongToNutricionista');
 });

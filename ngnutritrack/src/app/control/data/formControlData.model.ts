@@ -13,8 +13,6 @@ export class FormControlData {
 	dieta_media_tarde_ejemplo:string		=	'';	
 	dieta_cena_ejemplo:string				=	'';
 	dieta_coicion_nocturna_ejemplo:string	=	'';
-	/*lastEstatura:number=0;
-	lastCircunferencia_muneca:number=0;*/
 	lastEstatura:string='';
 	lastCircunferencia_muneca:string='';
 
@@ -63,6 +61,8 @@ export class FormControlData {
 	valoracionDieteticaEjemplo:any[]	=	[];
 
 	patronmenu:any[]			=	[];
+	patron_menu_ejemplos:any[]	=	[];
+	tiempoComidas:any[]			=	[];
 
     clear() {
 		if(this.manejadorDatos.operacion!='nueva-consulta'){
@@ -91,6 +91,7 @@ export class FormControlData {
 		this.detalleMusculo				= 	new DetalleMusculo();
 		this.rdd						=	new Rdd();
 		this.patronmenu					=	[];
+		this.patron_menu_ejemplos		=	[];
 		this.dieta_desayuno_ejemplo			=	'';
 		this.dieta_media_manana_ejemplo		=	'';
 		this.dieta_almuerzo_ejemplo			=	'';
@@ -102,8 +103,11 @@ export class FormControlData {
 	setNutricionistaId(nutricionista_id){
 		this.nutricionista_id	=	nutricionista_id;
 	}
+	setTiempoComidaDeNutricionista(tiempoComidas){
+		this.tiempoComidas	=	tiempoComidas;
+	}
 	fill(data){
-		console.log('fcd::fill(data)...');console.log(data);
+		console.log('fill(data)');console.log(data);
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
@@ -190,7 +194,6 @@ export class FormControlData {
 /*	Dieta	*/
 		this.prescripcion.consulta_id	=	this.consulta.id;
 		this.prescripcion.items			=	[];
-		//this.prescripcion.otros			=	[];
 
 		if(data.dieta){
 			if(data.dieta.prescripcion){
@@ -200,10 +203,11 @@ export class FormControlData {
 			}			
 /*		Patron Menu	*/
 			if(data.dieta.patron_menu){
-				this.patronmenu			=	data.dieta.patron_menu;				
+				this.patronmenu			=	data.dieta.patron_menu;
 			}		
 /*		Patron Menu	Ejemplos	*/
 			if(data.dieta.patron_menu_ejemplos){
+				this.patron_menu_ejemplos			=	data.dieta.patron_menu_ejemplos;
 				for(var i in data.dieta.patron_menu_ejemplos){
 					let item	=	data.dieta.patron_menu_ejemplos[i];
 					switch(item.tiempo_comida_id){
@@ -284,8 +288,8 @@ export class FormControlData {
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
-			obj.alergia_id	=	item.id;//item.hcf_patologia_id;
-			obj.paciente_id			=	this.paciente.id;//item.paciente_id;
+			obj.alergia_id	=	item.id;
+			obj.paciente_id			=	this.paciente.id;
 			alergiasSelected[j]	=	obj;
 			j++;
 		}
@@ -347,8 +351,10 @@ export class FormControlData {
 	getFormDetalleMusculo(){
 		return this.detalleMusculo;
 	}
-
-	setLastValuesFormValoracionAntropometrica(va){/*console.log('setLastValuesFormValoracionAntropometrica');console.log(va);*/
+	getTiempoComidasDeNutricionista(){
+		return this.tiempoComidas;
+	}
+	setLastValuesFormValoracionAntropometrica(va){
 		this.valoracionAntropometrica.lastEstatura				=	va.estatura;
 		if(va.circunferencia_muneca==null)
 			va.circunferencia_muneca	=	'';
@@ -427,7 +433,7 @@ export class Persona{
 	edad_meses:number=0;
 	esMayor:boolean=true;
 	
-	setEdad(){/*console.log('setEdad:');console.log(this);*/
+	setEdad(){
 		this.edad	=	0;
 		if(!this.fecha_nac)
 			return ;
@@ -444,30 +450,21 @@ export class Persona{
 		var edadPaciente:number		=	Number(this.edad);
 		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
 		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
-//console.log(alturaPaciente + ' - ' + pesoPaciente + ' - ' + edadPaciente + ' - ' + edadPaciente_dias + ' - ' + edadPaciente_meses);		
 		if(this.fecha_nac){
 			var current_fecha = this.fecha_nac.split('/');
-			/*console.log(current_fecha);*/
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
 			var day		=	Number(current_fecha[0]);			
-			/*console.log('-------------------------');*/
 				var fechaInicio = new Date(year + '-' + month + '-' + day).getTime();
 				var fechaFin    = new Date().getTime();
-				/*console.log(fechaFin + ' - ' + fechaInicio);*/
 				var diff = fechaFin - fechaInicio;
-				/*console.log('diff->' + diff);*/
 				edadPaciente_dias	=	Math.round( diff/(1000*60*60*24) );
-				/*console.log( 'edadPaciente_dias:' + edadPaciente_dias );*/
-				/*edadPaciente_meses	=	Math.round( diff/(1000*60*60*24*30) );*/
 				var _anhos:any	=	Math.trunc( edadPaciente_dias/365.25 );
 				edadPaciente_meses	=	_anhos * 12;
 				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
 				if(_anhos>30)
 					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
 
-			/*	console.log( 'edadPaciente_meses:' + edadPaciente_meses );
-			console.log('-------------------------');*/
 		}
 		this.edad_dias	=	edadPaciente_dias;
 		this.edad_meses	=	edadPaciente_meses;
@@ -495,7 +492,6 @@ export class Paciente extends Persona{
 	responsable_email:string='';
 	usuario:string='';
 	contrasena:string='';
-	/*	helpers	*/
 	nombre:string='';
 
 	set(data:Paciente){
@@ -539,26 +535,7 @@ export class Paciente extends Persona{
 			this.setEdad();
 	}
 }
-export class ValoracionAntropometrica {
-/*    id: number = 0;
-    estatura: number = 0;
-    circunferencia_muneca: number = 0;
-    peso: number = 0;
-    grasa: number = 0;
-    musculo: number = 0;
-    agua: number = 0;
-    grasa_viceral: number = 0;
-    hueso: number = 0;
-    edad_metabolica: number = 0;
-    circunferencia_cintura: number = 0;
-	circunferencia_cadera: number = 0;
-	consulta_id: number = 0;
-	pesoIdeal: number = 0;
-	pesoIdealAjustado: number = 0;*/
-	/*detalleGrasa:DetalleGrasa	= 	new DetalleGrasa();
-	detalleMusculo:DetalleMusculo	= 	new DetalleMusculo();*/
-	
-	
+export class ValoracionAntropometrica {	
     id: number = 0;
     estatura:string='';
     circunferencia_muneca:string='';
@@ -576,21 +553,17 @@ export class ValoracionAntropometrica {
 	pesoIdealAjustado:string='';
 	historial:any[]=[];
 	
-	/*lastEstatura:number=0;
-	lastCircunferencia_muneca:number=0;*/
 	lastEstatura:string='';
 	lastCircunferencia_muneca:string='';
 	
 	metodo_valoracion:string='oms';
 	percentil_analisis:string='50';
 	graficando:boolean=false;
-
 	
 	set(data:ValoracionAntropometrica){
 		this.id						=	data.id;
 		this.estatura				=	data.estatura;
 		this.circunferencia_muneca	=	data.circunferencia_muneca;
-	//	this.estatura				=	data.estatura;
 		this.peso					=	data.peso;
 		this.grasa					=	data.grasa;
 		this.musculo				=	data.musculo;
@@ -603,28 +576,13 @@ export class ValoracionAntropometrica {
 		this.consulta_id			= 	data.consulta_id;
 		if(this.id){
 			this.metodo_valoracion		= 	data.metodo_valoracion;
-			/*console.log('data.percentil_analisis:' + data.percentil_analisis);*/
 			if(data.percentil_analisis)
 				this.percentil_analisis	=	String(data.percentil_analisis);
 		}
 		if(data.historial){
 			this.historial	=	data.historial;
 		}
-			
-/*		this.detalleGrasa.valoracion_antropometrica_id	=	data.id;
-		this.detalleMusculo.valoracion_antropometrica_id	=	data.id;
-		if(data.detalleGrasa)
-			this.detalleGrasa	=	data.detalleGrasa;
-		if(data.detalleMusculo)
-			this.detalleMusculo	=	data.detalleMusculo;
-		*/
 	}
-	/*getDetalleMusculo(){
-		return this.detalleMusculo;
-	}
-	getDetalleGrasa(){
-		return this.detalleGrasa;
-	}*/
 	setPesos(peso, estatura, genero){
 		var pesoIdeal	=	this.getPesoIdeal(estatura, genero);
 		this.getPesoIdealAjustado(peso, pesoIdeal);
@@ -641,56 +599,28 @@ export class ValoracionAntropometrica {
 			factor_2	=	2.72;
 		}
 		var _pesoIdeal	=	(estatura*100-152)*factor_2/2.5+factor_1;
-		//this.pesoIdeal	=	String();
-		
-		this.pesoIdeal	=	this.restarSumarAlPesoIdeal( _pesoIdeal, esMasculino );
-		
+		this.pesoIdeal	=	this.restarSumarAlPesoIdeal( _pesoIdeal, esMasculino );		
 		return this.pesoIdeal;
 	}
 	getPesoIdealAjustado(peso, pesoIdeal){
 /*
 =(PESO-PESO_IDEAL)/(4)+(PESO_IDEAL)
 */
-		//this.pesoIdealAjustado	=(peso-pesoIdeal)/(4)+(pesoIdeal);
-		/*console.log('getPesoIdealAjustado(' + peso + ',' + pesoIdeal + ')');*/
 		var _value	=	Number(peso) - pesoIdeal;
-		/*console.log(_value);*/
 		_value	=	_value/4;
-		/*console.log(_value);*/
 		_value	=	 _value + Number(pesoIdeal)
-		/*console.log(_value);
-		_value	=	_value/_value_2;		
-		console.log(_value);*/
 		this.pesoIdealAjustado	=	String(_value);
 		return this.pesoIdealAjustado;
 	}
 	restarSumarAlPesoIdeal(pesoIdeal, esMasculino){
-/*
-=SI(GENERO="M";SI(ESTRUCTURA_OSEA>10,4;"PEQUEÑA";SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE"));SI(ESTRUCTURA_OSEA>11;"PEQUEÑA";SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")))
-*/
 		var valor	=	'';
 		var valor_porcentaje_10	=	pesoIdeal*0.10;/*	10%	*/
 		var estructura_osea	=	this.calcularEstructuraOsea();
-/*
-=	SI(GENERO="M";SI_GENERO_M;SINO_GENERO_M)
-
-SI_GENERO_M->	SI(ESTRUCTURA_OSEA>10,4;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
-
-			SI_ESTRUCTURA_OSEA		->	"PEQUEÑA"
-			SINO_ESTRUCTURA_OSEA	->	SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE")
-
-SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
-
-			SI_ESTRUCTURA_OSEA		->	"PEQUEÑA"
-			SINO_ESTRUCTURA_OSEA	->	SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")
-*/
 		if( esMasculino ){
-//			SI(ESTRUCTURA_OSEA>10,4;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 			if(estructura_osea>10.4){
 				valor	=	'PEQUEÑA';
 				pesoIdeal	-=	valor_porcentaje_10;
 			}else{
-//				SI(ESTRUCTURA_OSEA>9,6;"MEDIANA";"GRANDE")
 				if(estructura_osea>9.6)
 					valor	=	'MEDIANA';
 				else{
@@ -699,12 +629,10 @@ SINO_GENERO_M->	SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 				}
 			}
 		}else{
-//			SI(ESTRUCTURA_OSEA>11;SI_ESTRUCTURA_OSEA;SINO_ESTRUCTURA_OSEA)
 			if(estructura_osea>11){
 				valor	=	'PEQUEÑA';
 				pesoIdeal	-=	valor_porcentaje_10;
 			}else{
-//				SI(ESTRUCTURA_OSEA>10,1;"MEDIANA";"GRANDE")
 				if(estructura_osea>10.1)
 					valor	=	'MEDIANA';
 				else{
@@ -762,11 +690,8 @@ export class Rdd{
 	setPaciente(paciente:Paciente){
 		this.paciente	=	paciente;
 	}
-	
-	
 	getTmbBenedict(){
 		var current_peso:any	=	0;
-		//console.log('this.recomendacion.peso_calculo->' + this.recomendacion.peso_calculo);
 		switch(this.peso_calculo){
 			case 'actual':
 				current_peso	=	this.va.peso;
@@ -778,7 +703,6 @@ export class Rdd{
 				current_peso	=	this.va.pesoIdealAjustado;
 				break;
 		}
-		//console.log('this.current_peso-> ' + this.current_peso);
 /*
 	Tasa Metabolica Basal Harris Benedict
 	=REDONDEAR(
@@ -791,22 +715,16 @@ export class Rdd{
 	;0)
 */
 		var result	=	0;
-		//console.log('BENEDICT: peso=' + this.current_peso + ', estatura=' + this.va.estatura + ', edad=' + this.paciente.edad);
 		var _estatura:any	=	Number(this.va.estatura)*100;
 		if(this.paciente.genero=='M')
 			result	=	66.5+(13.75*current_peso)+(5.003*_estatura)-(6.755*this.paciente.edad);
 		else{
-			/*result	=	655.1+(9.563*this.current_peso)+(1.85*_estatura-(4.676*this.paciente.edad);*/
 			var _peso		=	9.563*current_peso;
 			if(isNaN(_peso))
 				_peso	=	0;
-			//console.log(_peso);
 			var _edad		=	4.676*this.paciente.edad;
-			//console.log(_edad);
 			_estatura	=	1.85*_estatura;
-			//console.log(_estatura);
 			result	=	655.1 + _peso + ( _estatura - _edad );
-			//console.log(result);
 		}
 		return result;
 			
@@ -894,23 +812,11 @@ export class Rdd{
 				}
 			}
 		}
-		console.log('tmbRda:' + value);
 		return value;
 	}
 	getTmbSchofield(){
 		var value	=	0;
 		var current_peso:any	=	this.va.peso;
-		/*switch(this.recomendacion.peso_calculo){
-			case 'actual':
-				this.current_peso	=	this.va.peso;
-				break;
-			case 'ideal':
-				this.current_peso	=	this.va.pesoIdeal;
-				break;
-			case 'ideal-ajustado':
-				this.current_peso	=	this.va.pesoIdealAjustado;
-				break;
-		}*/
 /*
 		Edad	Formula
 Hombres	3-10	(19.6 x Peso) + (130.3 x Estatura) + 414.9
@@ -919,8 +825,6 @@ Hombres	3-10	(19.6 x Peso) + (130.3 x Estatura) + 414.9
 Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 		10-18	(19.6 x Peso) + (130.3 x Estatura) + 414.12
 */
-		//var result	=	(10*this.current_peso)+(6.25*(this.va.estatura*100))-(5*this.paciente.edad)+variable_msj;
-		
 		if( this.paciente.edad<3 || this.paciente.edad>18 )
 			return value;
 			
@@ -959,22 +863,10 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 			default:
 				result	=	0;
 		}
-		/*this._tasa_basal	=	result;*/
 	   return result;
    }
 	
 	getGastoCaloricoReal(){
-/*		Gasto Calórico Real
-		=REDONDEAR(
-			SI(METODO="HARRIS BENEDICT";
-				TMB_HARRIS_BENEDICT*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
-				SI(METODO="MIFFLIN-ST-JEOR";
-					TMB_MIFFLIN*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
-					SI(METODO="PROMEDIO";
-						TMB_PROMEDIO*FACTOR_ACT_SEDENT+PROM_GASTO_CAL_DIARIO;
-
-			"Método Inválido")));0)
-*/		
 		var result:any	=	0;
 		switch(this.metodo_calculo_gc){
 			case 'benedict-child':
@@ -1076,7 +968,7 @@ export class Prescripcion{
 		this.items	=	[];
 		this.otros	=	[];
 	}
-	set(prescripcion:Prescripcion){//console.log('set:prescripcion');console.log(prescripcion);
+	set(prescripcion:Prescripcion){
 		this.id				=	prescripcion.id;
 		this.carbohidratos	=	prescripcion.carbohidratos;
 		this.proteinas		=	prescripcion.proteinas;
@@ -1090,22 +982,9 @@ export class Prescripcion{
 
 		if(prescripcion.otros)
 			this.otros	=	prescripcion.otros;
-/*		if(!prescripcion.items){
-			this.prepareItems();
-			return ;
-		}
-		if(prescripcion.items.length>0){
-			this.items	=	prescripcion.items;
-		}else{
-			this.prepareItems();
-		}
-
-		if(prescripcion.otros.length>0)
-			this.otros	=	prescripcion.otros;
-*/
 	}
 	prepareItems(){
-		this.itemsByDefault	=[//id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal
+		this.itemsByDefault	=[/*id, nombre, slug, ngmodel, cantidad, carbohidratos, proteinas, grasas, kcal*/
 			new PrescripcionItem(1, 'Leche Descremada', 'leche-descremada'),
 			new PrescripcionItem(2, 'Leche 2%', 'leche-2'),
 			new PrescripcionItem(3, 'Leche entera', 'leche-entera'),
@@ -1201,7 +1080,7 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
 	}
 
-	fillDataForm(data, local=false){//console.log('Datos para formularios');console.log(data);
+	fillDataForm(data, local=false){
 		this.hcpPatologias	=	data.hcp_patologias;
 		this.hcfPatologias	=	data.hcf_patologias;
 		this.alergias		=	data.alergias;
@@ -1214,8 +1093,7 @@ export class ManejadorDatos{
 			this.storeLocal();
 	}
 
-	storeLocal(){//console.log('storeLocal');
-
+	storeLocal(){
 		var data	=	{};
 		data['hcp_patologias']	=	this.hcpPatologias;
 		data['hcf_patologias']	=	this.hcfPatologias;
@@ -1236,17 +1114,14 @@ export class ManejadorDatos{
 		var cant;
 		var dist;
 		if(!this.ubicaciones){
-			//console.log('NOT this.ubicaciones');
 			return ;
 		}
 		for(var i in this.ubicaciones){
 			ubicacion	=	this.ubicaciones[i];
-
 			var item = this.provincias.find(item => item.codigo_provincia === ubicacion.codigo_provincia);
 			if(!item){
 				prov	=	new Object();
 				prov.codigo_provincia		=	ubicacion.codigo_provincia;
-				/*prov.nombre_provincia		=	ubicacion.codigo_provincia + ' - ' + ubicacion.nombre_provincia;*/
 				prov.nombre_provincia		=	ubicacion.nombre_provincia;
 				this.provincias.push(prov);
 			}
@@ -1254,7 +1129,6 @@ export class ManejadorDatos{
 			if(!item){
 				cant	=	new Object();
 				cant.codigo_canton		=	ubicacion.codigo_canton;
-				/*cant.nombre_canton		=	ubicacion.codigo_provincia + '.' + ubicacion.codigo_canton + ' - ' + ubicacion.nombre_canton;*/
 				cant.nombre_canton		=	ubicacion.nombre_canton;
 				cant.codigo_provincia	=	ubicacion.codigo_provincia;
 				this.cantones.push(cant);
@@ -1265,14 +1139,11 @@ export class ManejadorDatos{
 				dist.codigo_provincia	=	ubicacion.codigo_provincia;
 				dist.codigo_canton		=	ubicacion.codigo_canton;
 				dist.codigo_distrito	=	ubicacion.codigo_distrito;
-				/*dist.nombre_distrito	=	ubicacion.codigo_provincia + '.' + ubicacion.codigo_canton + '.' + ubicacion.codigo_distrito + ' - ' + ubicacion.nombre_distrito;*/
 				dist.nombre_distrito	=	ubicacion.nombre_distrito;
 				this.distritos.push(dist);
 			}
 		}
-		//console.log('ubicaciones procesadas...');
 	}
-
 	setCurrentStepConsulta(step){
 		this.currentStepConsulta	=	step;
 	}
@@ -1309,7 +1180,6 @@ Modo de Uso
 			return true;
 
 		input = String.fromCharCode(e.which);		
-		//console.log(e.which + ' -> ' + input);		
 		return !!/[\d\s]/.test(input);
 	}
 	soloEnteros(e: any):boolean {
@@ -1327,7 +1197,6 @@ Modo de Uso
 			return true;
 
 		input = String.fromCharCode(e.which);		
-		//console.log(e.which + ' -> ' + input);		
 		return !!/[\d\s]/.test(input);
 	}
 /*
@@ -1352,8 +1221,6 @@ Modo de Uso
 	}
 	soloNumerosRange(evt, min=0, max=999.99) {
 		var charCode = (evt.which) ? evt.which : evt.keyCode;
-		/*console.log('charCode: ' + charCode);*/
-
 		if (charCode == 8 || (charCode>36 && charCode<41)) 
 			return true;
 		if (charCode == 46) {
@@ -1369,41 +1236,24 @@ Modo de Uso
 				return false;
 		}
 		var numero	=	evt.target.value;
-		//console.log(numero);
 		numero	=	numero.substring(0, numero.length-1); 
 		var _value 	=	Number(evt.target.value);
-		/*console.log(_value);*/
-		
+
 		if(_value > max){
 			evt.target.value	=	numero;
 			return false;
 		}
-			
 		return true;
 	}
-	
-	//soloNumerosNegativePositiveDecimal(e: any):boolean {
 	soloNumerosNegativePositiveDecimal(event: KeyboardEvent, text: string):boolean {
-		//var charCode = (e.which) ? e.which : e.keyCode;
 		var charCode = (event.which) ? event.which : event.keyCode;
-		/*console.log('charCode-> ' + charCode);*/
 		let input;
 		if(charCode==45 || charCode==46){
-			//var txt 	=	String(e.target.value);
 			var txt 	=	(<HTMLInputElement>event.target).value;
-			/*console.log('txt: ' + txt + ', charCode: ' + charCode);
-			console.log('text: ' + text + ', charCode: ' + charCode);*/
-			//input = String.fromCharCode(e.which);			
 			let index	=	txt.indexOf('.');
 			let indexx	=	text.indexOf('.');
-			/*console.log('index: ' + index);
-			console.log('indexx: ' + indexx);*/
 			return index==-1;
 		}
-/*		
-		if (event.metaKey || event.ctrlKey)
-			return true;
-*/
 		if (event.which === 32)
 			return false;
 
@@ -1413,19 +1263,12 @@ Modo de Uso
 		if (event.which < 33)
 			return true;
 
-		/*input = String.fromCharCode(e.which);
-		*/
 		input = String.fromCharCode(event.which);
 		var keyCode = [8,9,37,39,45,46,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105,110];
-		
-		/*var charCode = (e.which) ? e.which : e.keyCode;*/
-		var charCode = (event.which) ? event.which : event.keyCode;
-		
+		var charCode = (event.which) ? event.which : event.keyCode;		
 		var index = keyCode.indexOf( charCode );
 		if(index<0)
 			return false;
-	
-		//return input.replace(/(?!^-)[^0-9\.]/g, '');
 		
 		var re = /^-?\d*\.?\d{0,6}$/;
 		return (input.match(re) !== null);	
@@ -1442,9 +1285,6 @@ Modo de Uso
 
 		if(charCode < 45 || charCode > 57 )
 			return false;
-	
-		/*if(!this.validateKey(evt, charCode))
-			return false;*/
 
 		if(charCode == 46 )
 			return false;
@@ -1454,29 +1294,23 @@ Modo de Uso
 		var index	=	-100;
 		
 		if(charCode==45){
-			/*if(value.length==0)
-				return true;*/
 			index	=	value.indexOf( '-' );
-			/*console.log('index-> ' + index);*/
 			if(index>-1)
 				return false;
 
 			evt.target.value	=	'-' + evt.target.value;
 			value	=	evt.target.value;
-			/*return false;*/
 		}
 		var re = /^-?\d{0,3}$/;
 		return (value.match(re) !== null);
 	}
-	
-	
 	in_array(data, ele){
 		return data.indexOf(ele)>-1;
 	}
-	clone(obj){//console.log(obj);
+	clone(obj){
 		return (JSON.parse(JSON.stringify(obj)));
 	}
-	equals(obj1, obj2){//console.log(obj1);console.log(obj2);
+	equals(obj1, obj2){
 		return (JSON.stringify(obj1)==JSON.stringify(obj2));
 	}
 	scrollToForm(isConsulta=false){
@@ -1502,13 +1336,10 @@ Modo de Uso
 				_ampm	=	'pm';
 			
 			let h	=	Number(_hour) % 12;
-			/*console.log(_hour + ' -> ' + h);*/
 			if(h==0)
 				h	=	12;
-				/*_hour	=	'12';*/
-			/*time_formatted	=	_hour + ':' + _num.substring(2,4) + _ampm;*/
+
 			time_formatted	=	h + ':' + _num.substring(2,4) + _ampm;
-			/*_time		=	(i>12? i-12:i) + ':' + init + ' ' + (i>12? 'p':'a') + 'm';*/
 			return time_formatted;
 		}
 		return time_formatted;
@@ -1537,20 +1368,18 @@ Modo de Uso
 		return _class;
 	}
 	__getCocienteResiduo(numero,divisor){
-		/*console.log('__getCocienteResiduo(' + numero + ', ' + divisor +')');*/
 		let _div	=	Math.trunc(Number( numero/divisor ));
 		let _res	=	Math.trunc(Number( numero%divisor ));
 		let result	=	{d: _div, r:_res, n:numero,c:divisor};
-		/*console.log(result);*/
 		return result;
 	}
 	__getMinutesHM(minutos){
 		let _d	=	this.__getCocienteResiduo(minutos, 60);
-		/*console.log(_d);*/
+
 		let _mhm	=	(_d.d*100) + _d.r
 		if(_d.r>0)
 			_mhm	+=	40;
-		/*console.log('__getMinutesHM: ' + _mhm);*/
+
 		return _mhm;
 	}
 }
@@ -1585,17 +1414,6 @@ export class PatronMenuEjemplo{
 }
 export class DetalleGrasa{
 	id:number=0;
-/*	segmentado_abdominal:number=0;
-	segmentado_pierna_izquierda:number=0;
-	segmentado_pierna_derecha:number=0;
-	segmentado_brazo_izquierdo:number=0;
-	segmentado_brazo_derecho:number=0;
-
-	pliegue_tricipital:number=0;
-	pliegue_bicipital:number=0;
-	pliegue_subescapular:number=0;
-	pliegue_supraliaco:number=0;*/
-
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
  	valoracion_antropometrica_id:number=0;
@@ -1614,20 +1432,12 @@ export class DetalleGrasa{
 }
 export class DetalleMusculo{
 	id:number=0;
-/*	tronco:number=0;
-	pierna_izquierda:number=0;
-	pierna_derecha:number=0;
-	brazo_izquierdo:number=0;
-	brazo_derecho:number=0;*/
  	valoracion_antropometrica_id:number=0;
-	
-	
 	tronco:String='';
 	pierna_izquierda:String='';
 	pierna_derecha:String='';
 	brazo_izquierdo:String='';
 	brazo_derecho:String='';
-
 }
 export class Patologia{
 	constructor(public id:number, public nombre:string, public checked:boolean){}
@@ -1643,7 +1453,6 @@ export class Objetivo{
 	public fecha:string;
 	public descripcion:string;
 	public paciente_id:number;
-	/*constructor(public id:number, public fecha:string, public descripcion:string,public paciente_id:number){}*/
 }
 export class HcpOtros{
 		public id:number;
@@ -1708,7 +1517,6 @@ export class DetalleValoracionDieteticaTexto{
 	public textoEmbutidos:string='';
 }
 export class OtroAlimento{
-	//constructor( public nombre:string, public prescripcion_id:number, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public calorias:number=0){}
 	constructor( public nombre:string, public prescripcion_id:number){}
 }
 export class Reporte{
@@ -1789,25 +1597,6 @@ export class Agenda{
 	public editable:boolean;
 	public editing:boolean;
 
-	/*constructor(
-				public id:number=0,
-				public date:string='',
-				public militartime:number=0,
-				public notas:string='',
-				public status:number=-1,
-				public email:string='',
-				public telefono:string='',
-				public agenda_servicio_id:number=0,
-				public agenda_servicio_nombre:string='',
-				public agenda_servicio_duracion:number=0,
-				public persona_id:number=0,
-				public persona_nombre:string='',
-				public nutricionista_id:number=0,
-				public class:string='',
-				public time_formatted:string='',
-				public text:string='FREE'
-			){}*/
-	/*constructor(public id:number=0, public date:string='', public militartime:number=0, public notas:string='', public status:number=-1, public email:string='', public telefono:string='', public agenda_servicio_id:number=0, public agenda_servicio_nombre:string='', public agenda_servicio_duracion:number=0, public persona_id:number=0, public persona_nombre:string='', public nutricionista_id:number=0, public class:string='', public time_formatted:string='', public text:string=''){}*/
 	constructor(nutricionista_id:number=0){
 		this.id=0;
 		this.date='';

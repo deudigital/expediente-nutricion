@@ -542,6 +542,10 @@ endif;
 @php
 	$porciones	=	implode(', ', $patronmenu['menu'])
 @endphp
+
+@php
+	if(!empty($patronmenu['ejemplo']) || $porciones)	:
+@endphp
 						  <table bgcolor="#ffffff" align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td height="25"></td>
@@ -606,6 +610,10 @@ endif;
 						                                    <tr>
 						                                      <td height="10"></td>
 						                                    </tr>
+@php
+	if(!empty($patronmenu['ejemplo']))	:
+@endphp
+
 						                                    <tr>
 						                                      <td align="center">
 						                                        <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -645,6 +653,9 @@ endif;
 						                                        {{ $patronmenu['ejemplo'] }}
 						                                      </td>
 						                                    </tr>
+@php
+	endif;	
+@endphp
 						                                  </table>
 						                                </td>
 						                              </tr>
@@ -662,7 +673,12 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
+@php
+	endif;	
+@endphp
+
 @endforeach
+
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>

@@ -6,6 +6,7 @@ use App\Persona;
 use App\Nutricionista;
 use App\ReportesFacturas;
 use App\Documento;
+use App\TiempoComida;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use DB;
@@ -206,9 +207,15 @@ class ReportesFacturasController extends Controller
             ->join('personas', 'personas.id', '=', 'nutricionistas.persona_id')
             ->where('nutricionistas.persona_id', $id)
             ->get();
-        if(count($registros)>0)
-            $response = Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
-        else
+        if(count($registros)>0){
+            $tiempoComidas	=	TiempoComida::where('nutricionista_id', $id)
+								->select('*', DB::raw("'' as menu"), DB::raw("'' as ejemplo"), DB::raw("'' as summary"))
+								->get();
+			if($tiempoComidas)
+				$registros['tiempo_comidas']	=	$tiempoComidas->toArray();
+
+			$response = Response::json($registros, 200, [], JSON_NUMERIC_CHECK);			
+        }else
             $response = Response::json(['message' => 'Record not found'], 204);
         return $response;
     }
