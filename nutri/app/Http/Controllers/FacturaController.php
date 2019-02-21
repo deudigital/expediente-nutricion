@@ -822,7 +822,7 @@ die('testing');*/
 											'correo'	=>	$emisor['correo_electronico']
 										),
 						'receptor'	=>	array(
-											'correo'	=>	'danilo@deudigital.com;jaime@deudigital.com;inv_jaime@yahoo.com'
+											'correo'	=>	$_persona->email . ';' . $emisor['correo_electronico'] . ';danilo@deudigital.com'
 										),
 						'logo'		=>	$logo_base64,
 						'texto'		=>	$texto_base64

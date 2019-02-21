@@ -42,7 +42,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('agenda/servicios/{nutricionista_id}', 'AgendaController@selectServicios');
 	Route::get('consultas/{id}/resumen/{mode}', 'ConsultaController@testResumen');
 	Route::get('consultas/patronmenu/duplicados', 'PatronMenuController@duplicados');
-	
+	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	Route::get('form/data', 'FormController@dataform');

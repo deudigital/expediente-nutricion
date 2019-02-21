@@ -136,11 +136,13 @@ class DietaController extends Controller
 								->where('estado', '1')
 								->orderBy('fecha', 'DESC')
 								->get()
-								->first();		
+								->first();
 		if(!$consulta)
 			return	Response::json(['message' => 'Records not exist'], 204);
 
-		$tiempoComidas	=	TiempoComida::all();
+		$tiempoComidas	=	TiempoComida::where('nutricionista_id','199')
+								->orWhere('nutricionista_id','0')
+								->get();
 		$_tiempo_comidas	=	array();
 		if(count($tiempoComidas)>0){
 			$aTiempoComidas	=	$tiempoComidas->toArray();			
@@ -178,9 +180,11 @@ class DietaController extends Controller
 			}
 		}
 		$registros	=	array();
-		if($_tiempo_comidas){			
-			foreach($_tiempo_comidas as $tiempo=>$value)
-				$registros[]	=	$value;
+		if($_tiempo_comidas){
+			foreach($_tiempo_comidas as $tiempo=>$value){
+				if(!empty($value['ejemplo']) || count($value['alimentos'])>0 )
+					$registros[]	=	$value;
+			}
 		}
 		if(count($registros)>0)
 			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
