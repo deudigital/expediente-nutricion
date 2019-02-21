@@ -15,7 +15,6 @@ declare let jsPDF;
 })
 export class ReporteRecepcionComponent implements OnInit {
   private today: any = new Date();
-	//private formControlData: FormControlData = new FormControlData();
 	fcd:any;
 	private formControlData: any;
 	filter = {};
@@ -141,7 +140,6 @@ export class ReporteRecepcionComponent implements OnInit {
 				if(this.estado == this.doc_recepcionados[consulta].tipo_documento_id){
 					let _row	=	this.doc_recepcionados[consulta];
 					let _frow	=	this.estados.filter(x => x.id === Number(_row.tipo_documento_id));
-					console.log('_frow');console.log(_frow);
 					if(_frow)
 					_row.estado_text=	_frow[0].nombre;
 
@@ -191,9 +189,9 @@ export class ReporteRecepcionComponent implements OnInit {
       return value = '0px';
     }
   }
-  exportData(Data){console.log( this.resultArray );
+  exportData(Data){
   	switch(Data){
-		case 1: console.log('pdf build');
+		case 1:
 			let doc = new jsPDF({orientation:'l', format: 'a2'});
 			let col = ["# Documento", "Emisor", "Cedula","Estado","Fecha","Moneda","Monto"];
 			let rows = [];
@@ -205,7 +203,7 @@ export class ReporteRecepcionComponent implements OnInit {
 			doc.autoTable(col, rows);
 			doc.save('Reporte de Recepcion de documento.pdf');
 			break;
-		case 2: console.log('excel build');
+		case 2:
 			let excelArray = [];
 			for(let xi = 0;xi<this.resultArray.length;xi++){
 				let objecto = {

@@ -26,7 +26,6 @@ export class NavigationComponent implements OnInit {
 
 	ngOnInit() {
 		this.mng	=	this.formControlDataService.getFormControlData().getManejadorDatos();
-		//console.log('navigation');console.log(this.mng);
 		if(this.mng.operacion!='nuevo-paciente'){
 			this.isConsulta			=	true;
 			this.showMenuPaciente	=	this.mng.getMenuPacienteLastStatus();
@@ -38,7 +37,7 @@ export class NavigationComponent implements OnInit {
 	ngOnDestroy(){
 		this.mng.setMenuPacienteStatus(this.showMenuPaciente);
 	}
-	setMenuControl(currentStep){//console.log('currentStep-> ' + currentStep);
+	setMenuControl(currentStep){
 		this.control_va		=	false;
 		this.control_rdd	=	false;
 		this.control_dieta	=	false;

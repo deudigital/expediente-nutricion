@@ -51,12 +51,10 @@ export class InicioComponent implements OnInit {
 	}
 	
 	init(){
-		/**/
 		this.showMenuCircles	=	false;
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				/*console.log(response);*/
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
@@ -69,6 +67,7 @@ export class InicioComponent implements OnInit {
 			.catch((err) => {
 				console.log(JSON.parse(err._body));
 				this.showLoading	=	false;
+				this.showLoadingMenuCircles	=	false;
 			});
 	}
 	onSelect(consulta: Consulta) {
@@ -88,16 +87,12 @@ export class InicioComponent implements OnInit {
 		this.selectedConsulta = consulta;
 		this.hidePrompt	=	false;
 		this.tagBody.classList.add('open-modal');
-		/*this.remove(consulta)*/
 	}
 	remove(consulta){
 		var index	=	this.consultas.indexOf(consulta);
 		this.formControlDataService.delete('consultas', consulta).subscribe(
 			 response  => {
-						console.log('Service:Consultas Delete...');
-						console.log(response);
-						//if(response.code==204)
-							this.consultas.splice(index,1);
+						this.consultas.splice(index,1);
 						},
 			error =>  console.log(<any>error)
 		);
@@ -130,14 +125,14 @@ export class InicioComponent implements OnInit {
 		this.formControlDataService.getNutricionista()
 		.subscribe(
 			response => {
-				console.log('getAgregadoAPI');
-				console.log(response);
 				localStorage.setItem("agregadoAPI", response[0].agregadoAPI);
 				localStorage.setItem("enable_agenda", response[0].enable_agenda);
 				this.agregadoAPI = response[0].agregadoAPI;
 				this.enable_agenda = response[0].enable_agenda;
 				this.formControlDataService.getFormControlData().canAccessFacturacion	=	response[0].agregadoAPI;
 				this.formControlDataService.getFormControlData().canAccessAgenda			=	response[0].enable_agenda;
+				this.formControlDataService.getFormControlData().setTiempoComidaDeNutricionista(response['tiempo_comidas']);
+				
 				
 				if(this.agregadoAPI || this.enable_agenda){
 					if(this.agregadoAPI && this.enable_agenda)					
@@ -147,7 +142,6 @@ export class InicioComponent implements OnInit {
 				}
 				this.showLoadingMenuCircles	=	false;
 				this.showMenuCircles	=	true;
-				console.log(this.cols);
 			}, 
 			error => {
 				console.log(<any>error);
@@ -157,11 +151,9 @@ export class InicioComponent implements OnInit {
 	}
 
 	getConsultasPendientes__login() {
-		//console.log('get Consultas Pendientes');
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				console.log(response);
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
@@ -171,8 +163,6 @@ export class InicioComponent implements OnInit {
 				this.formControlDataService.getConsultasPendientes()
 					.subscribe(
 						 response  => {
-									/*console.log('Consultas Pendientes');
-									console.log(response);*/
 									this.showLoading	=	false;
 										if(response){
 											this.setConsultas(response);

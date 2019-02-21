@@ -189,12 +189,8 @@ export class ConsultasSinFacturarComponent implements OnInit {
   fillDataForm(data){
     this.mng.fillDataForm(data);
   }
-  //-----fin de codigo comentado ----- //
-
   filterQuery(){
   	this.resultArray = [];
-
-  	//filter dates			
   	let fromDate = new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
   	let uDate = new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);				
 

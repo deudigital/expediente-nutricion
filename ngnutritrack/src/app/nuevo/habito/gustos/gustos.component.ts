@@ -24,8 +24,6 @@ export class GustosComponent implements OnInit {
 		this.gusto		=	this.fcd.getFormPacienteHabitosGustos();
 		this.oGusto		=	new HabitosGusto();
 		this.paciente	=	this.fcd.getFormPaciente();
-		/*console.log('this.gusto');
-		console.log(this.gusto);*/
 		this.setInfoInit();
 	}
 	ngOnInit() {
@@ -34,10 +32,6 @@ export class GustosComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-habito');
-		/*if(this.infoEdited()){
-			this.gusto.paciente_id	=	this.paciente.id;
-			this.save(this.gusto);
-		}*/
 		this.saveForm();
 		this.helpers.scrollToForm();
 	}
@@ -61,10 +55,7 @@ export class GustosComponent implements OnInit {
 	save(data){
 		this.formControlDataService.store('gustos', data)
 		.subscribe(
-			 response  => {
-						console.log('store->response...');
-						console.log(response);
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}

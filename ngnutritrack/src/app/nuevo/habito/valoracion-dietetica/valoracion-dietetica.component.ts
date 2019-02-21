@@ -147,12 +147,8 @@ export class ValoracionDieteticaComponent implements OnInit {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.classList.add('menu-parent-habito');
 
-		//this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
 		this.menus			=	this.formControlDataService.getFormControlData().valoracionDietetica;
 		this.menusEjemplo	=	this.formControlDataService.getFormControlData().valoracionDieteticaEjemplo;
-		/*console.log('cargando valoracionDietetica');
-		console.log(this.menus);
-		console.log(this.menusEjemplo);*/
 		this.setInfoInit();
 		this.calcularPorcentajes();
 		this.setTotales();
@@ -174,27 +170,6 @@ export class ValoracionDieteticaComponent implements OnInit {
 		
 		var aMenu	=	{};
 		this.oMenu	=	{};
-/*
-categoria_valoracion_dietetica_id: 1
-grupo_alimento_nutricionista_id: 1
-paciente_id: 6
-porciones: 7
-
-this.			=	this.menusEjemplo.textoDesayuno;
-		this.		=	this.menusEjemplo.textoMediaManana;
-		this.			=	this.menusEjemplo.textoAlmuerzo;
-		this.		=	this.menusEjemplo.textoMediaTarde;
-		this.				=	this.menusEjemplo.textoCena;
-		this.	=	this.menusEjemplo.textoCoicionNocturna;
-
-		this.				=	this.menusEjemplo.textoAgua;
-		this.			=	this.menusEjemplo.textoGaseosa;
-		this.	=	this.menusEjemplo.textoJugosEmpacados;
-		this.	=	this.menusEjemplo.textoComidasRapidas;
-		this.=	this.menusEjemplo.textoAlimentosEmpacados;
-		this.textoEmbutidos			=	this.menusEjemplo.textoEmbutidos;
-		
-*/
 		for(var i in this.menusEjemplo){
 			var item	=	this.menusEjemplo[i];
 			var tiempo_de_comida	=	item.categoria_valoracion_dietetica_id;
@@ -359,18 +334,11 @@ this.			=	this.menusEjemplo.textoDesayuno;
 		for(var a in menus){
 			var data	=	menus[a];
 			var tiempoComida	=	Number(a) + 1;
-			//if(Number(a)>0){
-				myArray[j]	=	{'paciente_id': paciente_id, 'ejemplo': data, 'categoria_valoracion_dietetica_id': tiempoComida}
-				j++;
-			//}
+			myArray[j]	=	{'paciente_id': paciente_id, 'ejemplo': data, 'categoria_valoracion_dietetica_id': tiempoComida}
+			j++;
 		}
 		return myArray;
 	}
-	/*infoEdited(){		
-		
-		var result	=	this.infoEditedEjemplos() || this.infoEditedPorciones();
-		return result;
-	}*/
 	infoEdited(){		
 		var notasEdited		=	this.infoEditedNotas();
 		var ejemplosEdited		=	this.infoEditedEjemplos();
@@ -386,42 +354,6 @@ this.			=	this.menusEjemplo.textoDesayuno;
 			this.data['notas'][0]	=	this.paciente.notas_valoracion_dietetica;
 		}
 		return notas_changed;
-	}
-	infoEditedEjemplos__old(){
-		var i=0;
-		var tiempo_de_comidas	=	[];
-		tiempo_de_comidas[i]	=	{'tiempo_id':'0', 'ejemplo':''};
-		i++;
-		if(this.pme.dieta_desayuno_ejemplo !==	this.model.dieta_desayuno_ejemplo){
-			tiempo_de_comidas[i]	=	{'tiempo_id':'1', 'ejemplo':this.model.dieta_desayuno_ejemplo} ;
-			i++;
-		}
-		if(this.pme.dieta_media_manana_ejemplo !==	this.model.dieta_media_manana_ejemplo){
-			tiempo_de_comidas[i]	=	{'tiempo_id':'2', 'ejemplo':this.model.dieta_media_manana_ejemplo};
-			i++;
-		}
-		if(this.pme.dieta_almuerzo_ejemplo !==	this.model.dieta_almuerzo_ejemplo){
-			tiempo_de_comidas[i]	=	{'tiempo_id':'3', 'ejemplo':this.model.dieta_almuerzo_ejemplo};
-			i++;
-		}
-		if(this.pme.dieta_media_tarde_ejemplo !==	this.model.dieta_media_tarde_ejemplo){
-			tiempo_de_comidas[i]	=	{'tiempo_id':'4', 'ejemplo':this.model.dieta_media_tarde_ejemplo};
-			i++;
-		}
-		if(this.pme.dieta_cena_ejemplo !==	this.model.dieta_cena_ejemplo){
-			tiempo_de_comidas[i]	=	{'tiempo_id':'5', 'ejemplo':this.model.dieta_cena_ejemplo};
-			i++;
-		}
-		if(this.pme.dieta_coicion_nocturna_ejemplo	!==	this.model.dieta_coicion_nocturna_ejemplo){
-			tiempo_de_comidas[i]	=	{'tiempo_id':'6', 'ejemplo':this.model.dieta_coicion_nocturna_ejemplo};
-			i++;
-		}
-		if(tiempo_de_comidas.length>1){
-			this.data['tiempos']	=	tiempo_de_comidas;
-			return true;
-		}
-		
-		return false;
 	}
 	infoEditedEjemplos(){
 		var i=0;
@@ -553,7 +485,6 @@ this.			=	this.menusEjemplo.textoDesayuno;
 						break;
 				}
 				if(JSON.stringify(oItem) !== JSON.stringify(obj2)){
-					/*console.log('diferentes');console.log(oItem);console.log(obj2);*/
 					return true;
 				}
 			}
@@ -580,13 +511,9 @@ this.			=	this.menusEjemplo.textoDesayuno;
 	}
 	saveInfo_patronmenu(data){		
 		this.tagBody.classList.add('sending');
-		/*console.log('save Valoracion Dietetica...');
-		console.log(data);*/
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
 			 response  => {
-						/*console.log('Response Valoracion Dietetica');
-						console.log(response);*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
@@ -597,8 +524,6 @@ this.			=	this.menusEjemplo.textoDesayuno;
 		this.formControlDataService.store('habitos_valoracion_dietetica', data)
 		.subscribe(
 			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
 						this.tagBody.classList.remove('sending');
 						},
 			error =>  console.log(<any>error)
@@ -697,8 +622,6 @@ this.			=	this.menusEjemplo.textoDesayuno;
 					summary	+=	', ';
 				
 				summary	+=	aMenu[i] + ' ' + this.alimentos[i];
-				//key	=	i.match(/\d+/);
-				//summary	+=	aMenu[i] + ' ' + this.alimentos[key];
 			}
 		}
 		return summary;
@@ -713,7 +636,6 @@ this.			=	this.menusEjemplo.textoDesayuno;
 				summary	+=	aMenu[i] + ' ' + this.alimentos[i];
 			}
 		}
-		//this.inputModal	=	summary;
 		return summary;
   }
 	get summary_desayuno(){
@@ -859,81 +781,73 @@ this.			=	this.menusEjemplo.textoDesayuno;
 		var total_proteinas		=	this.calcularProteinas();
 		var total_grasas		=	this.calcularGrasas();
 		var total				=	total_carbohidratos	+	total_proteinas	+ total_grasas;
-		//console.log(total_carbohidratos	+ ' + ' +	total_proteinas	+ ' + ' + total_grasas + ' = ' + total);
 		this.porcentaje_carbohidratos	=	(total_carbohidratos*100)/total;
 		this.porcentaje_proteinas		=	(total_proteinas*100)/total;
 		this.porcentaje_grasas			=	(total_grasas*100)/total;
-		
 		this.kcal_value		=	this.calcularKcal();
 	}
 	calcularCarbohidratos(){
 		var sumatoria	=	0;
-		sumatoria	+=	this.getTotalAlimentos(1) * 12;//leche desc
-		sumatoria	+=	this.getTotalAlimentos(2) * 12;//leche 2%
-		sumatoria	+=	this.getTotalAlimentos(3) * 12;//leche int
-		sumatoria	+=	this.getTotalAlimentos(4) * 5;//vegetales
-		sumatoria	+=	this.getTotalAlimentos(5) * 15;//frutas
-		sumatoria	+=	this.getTotalAlimentos(6) * 15;//harinas
-		sumatoria	+=	0;//carne m
-		sumatoria	+=	0;//carne int
-		sumatoria	+=	0;//carne g
-		sumatoria	+=	this.getTotalAlimentos(10) * 10;//azucar
-		sumatoria	+=	0;//grasas
-		sumatoria	+=	0;//agua vasos
+		sumatoria	+=	this.getTotalAlimentos(1) * 12;/*leche desc*/
+		sumatoria	+=	this.getTotalAlimentos(2) * 12;/*leche 2%*/
+		sumatoria	+=	this.getTotalAlimentos(3) * 12;/*leche int*/
+		sumatoria	+=	this.getTotalAlimentos(4) * 5;/*vegetales*/
+		sumatoria	+=	this.getTotalAlimentos(5) * 15;/*frutas*/
+		sumatoria	+=	this.getTotalAlimentos(6) * 15;/*harinas*/
+		sumatoria	+=	0;/*carne m*/
+		sumatoria	+=	0;/*carne int*/
+		sumatoria	+=	0;/*carne g*/
+		sumatoria	+=	this.getTotalAlimentos(10) * 10;/*azucar*/
+		sumatoria	+=	0;/*grasas*/
+		sumatoria	+=	0;/*agua vasos*/
 		return sumatoria;
 	}
 	calcularProteinas(){
 		var sumatoria	=	0;
-		sumatoria	+=	this.getTotalAlimentos(1) * 8;//leche desc
-		sumatoria	+=	this.getTotalAlimentos(2) * 8;//leche 2%
-		sumatoria	+=	this.getTotalAlimentos(3) * 8;//leche int
-		sumatoria	+=	this.getTotalAlimentos(4) * 2;//vegetales
-		sumatoria	+=	0;//frutas
-		sumatoria	+=	this.getTotalAlimentos(6) * 3;//harinas
-		sumatoria	+=	this.getTotalAlimentos(7) * 7;//carne m
-		sumatoria	+=	this.getTotalAlimentos(8) * 7;//carne Int
-		sumatoria	+=	this.getTotalAlimentos(9) * 7;//carne g
-		sumatoria	+=	0;//azucar
-		sumatoria	+=	0;//grasas
-		sumatoria	+=	0;//agua vasos
-		//this.porcentaje_proteinas	=	sumatoria/100;
-	//	this.calcularPorcentajes();
+		sumatoria	+=	this.getTotalAlimentos(1) * 8;/*leche desc*/
+		sumatoria	+=	this.getTotalAlimentos(2) * 8;/*leche 2%*/
+		sumatoria	+=	this.getTotalAlimentos(3) * 8;/*leche int*/
+		sumatoria	+=	this.getTotalAlimentos(4) * 2;/*vegetales*/
+		sumatoria	+=	0;/*frutas*/
+		sumatoria	+=	this.getTotalAlimentos(6) * 3;/*harinas*/
+		sumatoria	+=	this.getTotalAlimentos(7) * 7;/*carne m*/
+		sumatoria	+=	this.getTotalAlimentos(8) * 7;/*carne Int*/
+		sumatoria	+=	this.getTotalAlimentos(9) * 7;/*carne g*/
+		sumatoria	+=	0;/*azucar*/
+		sumatoria	+=	0;/*grasas*/
+		sumatoria	+=	0;/*agua vasos*/
 		return sumatoria;
 	}
 	calcularGrasas(){
 		var sumatoria	=	0;
-		sumatoria	+=	this.getTotalAlimentos(1) * 1;//leche desc
-		sumatoria	+=	this.getTotalAlimentos(2) * 5;//leche 2%
-		sumatoria	+=	this.getTotalAlimentos(3) * 8;//leche int
-		sumatoria	+=	0;//vegetales
-		sumatoria	+=	0;//frutas
-		sumatoria	+=	this.getTotalAlimentos(6) * 1;//harinas
-		sumatoria	+=	this.getTotalAlimentos(7) * 3;//carne m
-		sumatoria	+=	this.getTotalAlimentos(8) * 5;//carne Int
-		sumatoria	+=	this.getTotalAlimentos(9) * 8;//carne g
-		sumatoria	+=	0;//azucar
-		sumatoria	+=	this.getTotalAlimentos(11) * 5;//grasas
-		sumatoria	+=	0;//agua vasos
-		//this.porcentaje_grasas	=	sumatoria/100;
-	//	this.calcularPorcentajes();
+		sumatoria	+=	this.getTotalAlimentos(1) * 1;/*leche desc*/
+		sumatoria	+=	this.getTotalAlimentos(2) * 5;/*leche 2%*/
+		sumatoria	+=	this.getTotalAlimentos(3) * 8;/*leche int*/
+		sumatoria	+=	0;/*vegetales*/
+		sumatoria	+=	0;/*frutas*/
+		sumatoria	+=	this.getTotalAlimentos(6) * 1;/*harinas*/
+		sumatoria	+=	this.getTotalAlimentos(7) * 3;/*carne m*/
+		sumatoria	+=	this.getTotalAlimentos(8) * 5;/*carne Int*/
+		sumatoria	+=	this.getTotalAlimentos(9) * 8;/*carne g*/
+		sumatoria	+=	0;/*azucar*/
+		sumatoria	+=	this.getTotalAlimentos(11) * 5;/*grasas*/
+		sumatoria	+=	0;/*agua vasos*/
 		return sumatoria;
 	}
 	calcularKcal(){
 		var sumatoria	=	0;
-		sumatoria	+=	this.getTotalAlimentos(1) * 90;//leche desc
-		sumatoria	+=	this.getTotalAlimentos(2) * 120;//leche 2%
-		sumatoria	+=	this.getTotalAlimentos(3) * 150;//leche int
-		sumatoria	+=	this.getTotalAlimentos(4) * 28;//vegetales
-		sumatoria	+=	this.getTotalAlimentos(5) * 60;//frutas
-		sumatoria	+=	this.getTotalAlimentos(6) * 80;//harinas
-		sumatoria	+=	this.getTotalAlimentos(7) * 55;//carne m
-		sumatoria	+=	this.getTotalAlimentos(8) * 75;//carne Int
-		sumatoria	+=	this.getTotalAlimentos(9) * 100;//carne g
-		sumatoria	+=	this.getTotalAlimentos(10) * 40;//azucar
-		sumatoria	+=	this.getTotalAlimentos(11) * 45;//grasas
-		sumatoria	+=	0;//agua vasos
-		//this.porcentaje_kcal	=	sumatoria/100;
-		
+		sumatoria	+=	this.getTotalAlimentos(1) * 90;/*leche desc*/
+		sumatoria	+=	this.getTotalAlimentos(2) * 120;/*leche 2%*/
+		sumatoria	+=	this.getTotalAlimentos(3) * 150;/*leche int*/
+		sumatoria	+=	this.getTotalAlimentos(4) * 28;/*vegetales*/
+		sumatoria	+=	this.getTotalAlimentos(5) * 60;/*frutas*/
+		sumatoria	+=	this.getTotalAlimentos(6) * 80;/*harinas*/
+		sumatoria	+=	this.getTotalAlimentos(7) * 55;/*carne m*/
+		sumatoria	+=	this.getTotalAlimentos(8) * 75;/*carne Int*/
+		sumatoria	+=	this.getTotalAlimentos(9) * 100;/*carne g*/
+		sumatoria	+=	this.getTotalAlimentos(10) * 40;/*azucar*/
+		sumatoria	+=	this.getTotalAlimentos(11) * 45;/*grasas*/
+		sumatoria	+=	0;/*agua vasos*/
 		return sumatoria;
 	}
 	get gramos_carbohidratos(){

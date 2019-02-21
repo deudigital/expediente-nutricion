@@ -43,18 +43,12 @@ export class NotasComponent implements OnInit {
 	  this._getNotasOfConsulta();
   }
 	ngOnDestroy() {
-		/*console.log('ngOnDestroy');*/
 		this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');	
 	}
 	setInfoInit(){
 		this.oConsulta.notas				=	this.consulta.notas;
 	}
-	
-	/*infoEdited(){
-		return this.oConsulta.notas !== this.consulta.notas;
-	}*/
-	
 	infoEdited(){
 		var notas_changed	=	false;
 		if(this.oConsulta.notas !== this.consulta.notas){
@@ -66,20 +60,13 @@ export class NotasComponent implements OnInit {
 	}
 	saveInfo(data){
 		this.tagBody.classList.add('sending');
-		/*console.log('save Notas...');
-		console.log(data);*/
 		this.formControlDataService.saveNotasConsulta(data)
 		.subscribe(
 			 response  => {
-						/*console.log('Response Notas');
-						console.log(response);*/
 						if(this.finalizar){
 							this.formControlDataService.resetFormControlData();
 							this.finalizar	=	false;
-							//this.openModalFactura();
 							this.modalPrompt(response);
-							
-							//this.router.navigate(['/inicio']);
 						}
 						this.tagBody.classList.remove('sending');
 						},
@@ -93,7 +80,6 @@ export class NotasComponent implements OnInit {
 		if(this.infoEdited() || this.finalizar){
 			if(this.finalizar)
 				this.data['finalizar']	=	true;
-			//this.saveInfo(this.consulta);
 			this.saveInfo(this.data);
 		}
 			
@@ -105,7 +91,6 @@ export class NotasComponent implements OnInit {
 	Next(){
 		this.finalizar	=	true;
 		this.saveForm();
-//		this.openModalFactura();
 	}
 	
 	modalPrompt(data){		
@@ -116,7 +101,6 @@ export class NotasComponent implements OnInit {
 		
 		this.hidePrompt	=	false;
 		this.tagBody.classList.add('open-modal');
-		/*this.remove(consulta)*/
 		this.currentModal	=	'prompt';
 	}
 	openModalFactura(){
@@ -126,7 +110,6 @@ export class NotasComponent implements OnInit {
 	promptYes(){
 		this.hidePrompt	=	true;
 		this.openModalFactura()
-		//this.promptCancelar();
 	}
 	promptCancelar(){
 		this.tagBody.classList.remove('open-modal');
@@ -148,7 +131,6 @@ export class NotasComponent implements OnInit {
 	showModal(modal){
 		this.hideModalDatos	=	true;
 		this.hidePrompt		=	true;
-		//this.showModalDatos		=	false;
 		switch(modal){
 			case 'notas':
 				this.hideModalDatos	=	false;
@@ -164,7 +146,6 @@ export class NotasComponent implements OnInit {
 		this.formControlDataService.select('consulta-paciente', data)
 		.subscribe(
 			 response  => {
-				/*console.log('_getNotasOfConsulta');*/
 				this.historialNotas		=	response;
 				this.disableButtonHistorial	=	this.historialNotas.length==0;
 			},

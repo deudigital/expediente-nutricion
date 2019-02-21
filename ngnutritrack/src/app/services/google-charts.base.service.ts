@@ -17,7 +17,7 @@ export class GoogleChartsBaseService {
     var func = (chartFunc, options) => {
 		var datatable = new google.visualization.DataTable();		
 		for(var i in columns)
-			datatable.addColumn(columns[i]);//datatable.addColumn(columns[i].type, columns[i].label);	
+			datatable.addColumn(columns[i]);
 
 		datatable.addRows(data);
 		chartFunc().draw(datatable, options);

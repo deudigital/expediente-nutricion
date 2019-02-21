@@ -30,9 +30,6 @@ export class MedicamentoComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-hcp');
-/*		if(this.isValid())
-			this.save(this.paciente);
-*/
 		this.saveForm();
 		this.helpers.scrollToForm();
 	}
@@ -42,10 +39,7 @@ export class MedicamentoComponent implements OnInit {
 	save(data){
 		this.formControlDataService.store('medicamentos', data)
 		.subscribe(
-			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}

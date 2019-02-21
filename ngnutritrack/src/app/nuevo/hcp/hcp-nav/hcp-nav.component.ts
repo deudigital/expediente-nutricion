@@ -15,7 +15,6 @@ export class HcpNavComponent implements OnInit {
 		this.fcData		=	formControlDataService.getFormControlData();
 		this.paciente	=	this.fcData.getFormPaciente();
 		this.esFemenino	=	this.paciente.genero=='F';
-		/*console.log(this.paciente);*/	  
   }
   ngOnInit() {
   }

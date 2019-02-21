@@ -103,19 +103,14 @@ export class ServiciosProductosComponent implements OnInit {
 						this.editableProduct.unidad_medida_id = this.unidades[tipo].id;
 					}
 				}
-				//this.editableProduct.unidad_medida_id = this.unidad_medida["id"];
-				//this.editableProduct. = this.unidad_medida["nombre"];			
-
 				this.formControlDataService.updateProducto(this.editableProduct)
 				.subscribe(
 					response => {
-						console.log(response);
 						this.form_errors.edit_product = false;
 						this.editableProduct.edit_mode = false;
 						localStorage.removeItem("previousProduct");
 					},
 					error => {
-						console.log(<any>error);
 						this.form_errors.edit_product = true;
 					}
 				);	
@@ -130,16 +125,14 @@ export class ServiciosProductosComponent implements OnInit {
 			response => {
 			 			this.unidades = response;			 			
 			},
-			error => {
-				console.log(error);
-			}
+			error => {}
 		)
 	}
 
 	obtenerProductos(){
 		this.formControlDataService.getProducts()
 		.subscribe(
-			 response  => {console.log('<-- getProducts');console.log(response);
+			 response  => {
 						if(response){
 							this.productos = response;
 
@@ -175,7 +168,6 @@ export class ServiciosProductosComponent implements OnInit {
 						this.unidad_medida["nombre"] = "Servicios Profesionales";
 					},
 			error =>  {
-						console.log(<any>error);
 						this.form_errors.save_product = true;
 					}
 		);
@@ -198,7 +190,6 @@ export class ServiciosProductosComponent implements OnInit {
 				for(let prod in this.productos){					
 					if(this.productos[prod].id === producto.id){
 						this.productos[prod] = producto;
-						console.log(this.productos[prod]);
 					}
 				}
 				producto.edit_mode = !producto.edit_mode;
@@ -239,7 +230,6 @@ export class ServiciosProductosComponent implements OnInit {
 				this.productos.splice(removedProduct.index, 1);	
 			},
 			error => {
-				console.log(<any>error);
 				this.form_errors.delete_product = true;
 			}
 		);	

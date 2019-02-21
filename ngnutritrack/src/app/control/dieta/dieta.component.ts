@@ -11,11 +11,9 @@ import { AuthService } from '../../services/auth.service';
   styles: []
 })
 export class DietaComponent implements OnInit {
-	/*@Input()*/
 	items:PrescripcionItem[]=[]; 
 	oItems:PrescripcionItem[]=[];
 	otrosItems:PrescripcionItem[]=[]; 
-	//oOtrosItems:PrescripcionItem[]=[];
 	extraInfoAlimentos:any[]=[];
 	aOtrosAlimentos:any[]=[];
 
@@ -94,9 +92,7 @@ export class DietaComponent implements OnInit {
 	this.otrosItems		=	this.prescripcion.otros;	
 	this.paciente		=	this.model.getFormPaciente();
 	this.rdd			=	this.model.getFormRdd();
-	console.log(this.rdd);	
 	this.va				=	this.model.getFormValoracionAntropometrica();	
-	console.log(this.va);
 	this.rdd.setPaciente(this.paciente);
 	this.rdd.setVA(this.va);
 	this.rdd.doAnalisis();
@@ -110,7 +106,6 @@ export class DietaComponent implements OnInit {
 	  this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				/*console.log(response);*/
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
@@ -198,27 +193,16 @@ export class DietaComponent implements OnInit {
 	createPrescripcion(prescripcion) {
 		if(!this.prescripcion.id)
 			this.addOtrosItems	=	true;
-		/*console.log('save Prescripcion...');
-		console.log(prescripcion);*/
+
 		this.formControlDataService.addPrescripcion(prescripcion)
 		.subscribe(
 			 response  => {
-						/*console.log('<!--Crud Prescripcion');
-						console.log(response);*/
 						if(this.addOtrosItems)
 							this.saveOtrosAlimentos(response);
 					},
 			error =>  console.log(<any>error)
 		);
 	}
-/*	openModalDatos() {
-		this.showModalDatos	=	!this.showModalDatos;
-		let body = document.getElementsByTagName('body')[0];
-		if(this.showModalDatos)
-			body.classList.add('open-modal');
-		else
-			body.classList.remove('open-modal');
-	}*/
 	openModalFactura(){
 		this.showModalFactura = !this.showModalFactura;
 		let body = document.getElementsByTagName('body')[0];
@@ -249,8 +233,6 @@ export class DietaComponent implements OnInit {
 		this.formControlDataService.select('prescripcion', paciente_id)
 		.subscribe(
 			 response  => {
-						/*console.log('<--S prescripcion');
-						console.log(response);*/
 						this.fillHistorial(response);
 						},
 			error =>  console.log(<any>error)
@@ -261,12 +243,10 @@ export class DietaComponent implements OnInit {
 	}
 	fillHistorial(historial){
 		var data	=	[];
-		for(var i in historial){/*console.log(historial[i]);*/
+		for(var i in historial){
 			historial[i].display	=	false;
 			data[i]		=	historial[i];
 		}
-		/*console.log('listo para el historial');
-		console.log(data);*/
 		this.historial	=	data;
 		this.disableButtonHistorial	=	this.historial.length==0;
 	}
@@ -276,23 +256,16 @@ export class DietaComponent implements OnInit {
 	showModalCopiar(prescripcion){
 		this.paraCopiar	=	prescripcion;
 		this.hideModalCopiar	=	false;
-		/*this.showModal('copiar');*/
-	}
-	
+	}	
 	copiarYes(){
-		this.copiando	=	true;
-		console.log(this.paraCopiar);
-		
+		this.copiando	=	true;		
 		let data	=	{
 			prescripcion_id: this.paraCopiar.id,
 			consulta_id: this.model.consulta.id
 		};
-		//let data	=	[this.paraCopiar.id,this.model.consulta.id];		
 		this.formControlDataService.store('copiar_prescripcion', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
 						this.formControlDataService.getConsultaSelected(this.model.consulta.id).subscribe(
 							data => {
 								this.model.fill(data);
@@ -315,19 +288,15 @@ export class DietaComponent implements OnInit {
 							},
 							error => console.log(<any>error)
 						);
-						
-						
 				},
 			error =>  {
 				console.log(<any>error)
 				this.copiando	=	false;
 			}
-				
 		);
 	}
 	copiarCancelar(){
 		this.hideModalCopiar	=	true;
-		/*this.tagBody.classList.remove('open-modal');*/
 	}
 	showModal(modal){
 		this.hideModalDatos		=	true;
@@ -374,21 +343,7 @@ export class DietaComponent implements OnInit {
 	}
 	adicionarNuevo(){
 		if(this.isValid()){
-			//this.otroAlimento.prescripcion_id	=	this.prescripcion.id;
 			this.save(this.otroAlimento);
-		}
-	}
-	setOtroAlimento__old(response){
-		if(response.code==201){
-			var item	=	response.data;
-			this.otrosItems.push(item);
-			this.otroAlimento.nombre	=	'';
-			this.otroAlimento.porciones	=	'';
-			this.otroAlimento.carbohidratos	=	'';
-			this.otroAlimento.proteinas	=	'';
-			this.otroAlimento.calorias	=	'';
-			this.otroAlimento.grasas	=	'';
-			this.nuevo	=	false;
 		}
 	}
 	setOtroAlimentoR(response){
@@ -411,38 +366,28 @@ export class DietaComponent implements OnInit {
 		}
 		this.formControlDataService.delete('otros_alimentos', otroAlimento).subscribe(
 			 response  => {
-						/*console.log('Eliminado');
-						console.log(response);*/
 						this.otrosItems.splice(index,1);
 						},
 			error =>  console.log(<any>error)
 		);
 	}
-	save(data){/*console.log('Crud OtroAlimento-->');console.log(data);*/
-	
+	save(data){
 		if(!this.prescripcion.id){
-			//console.log('saving in array');
 			this.setOtroAlimento(data);
 			return ;
 		}
 		this.formControlDataService.store('otros_alimentos', data)
 		.subscribe(
 			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
 						this.setOtroAlimentoR(response);
 				},
 			error =>  console.log(<any>error)
 		);
 	}
 	saveOtrosAlimentos(response){
-		/*console.log(response);*/
 		this.formControlDataService.store('otros_alimentos_multiples', {items:this.otrosItems, prescripcion_id:response.data.id})
 		.subscribe(
-			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}
@@ -475,21 +420,18 @@ export class DietaComponent implements OnInit {
 	   if(!this.prescripcion.carbohidratos)
 			return 0;
 		let gramos	=	this.kcalCarb/4;
-		/*console.log('Carbohidratos g/kg: ' + gramos + ' / ' + this.current_peso);*/
 		return gramos/this.current_peso;
    }
    getCalculoGKgProteinas(){
 	   if(!this.prescripcion.proteinas)
 			return 0;
 		let gramos	=	this.kcalProt/4;
-		/*console.log('Proteinas g/kg: ' + gramos + ' / ' + this.current_peso);*/
 		return gramos/this.current_peso;
    }  
    getCalculoGKgGrasas(){
 	   if(!this.prescripcion.grasas)
 			return 0;
 		let gramos	=	this.kcalGrasas/9;
-		/*console.log('Grasas g/kg: ' + gramos + ' / ' + this.current_peso);*/
 		return gramos/this.current_peso;
    }
    
@@ -552,73 +494,73 @@ export class DietaComponent implements OnInit {
 	   var grasa_factor	=	0;
 	   var kcal_factor	=	0;
 		switch(item.id){
-			case 1://Leche Descremada
+			case 1:/*Leche Descremada*/
 				cho_factor	=	12;
 				prot_factor	=	8;
 				grasa_factor=	1;
 				kcal_factor	=	90;
 				break;
-			case 2://Leche 2%
+			case 2:/*Leche 2%*/
 				cho_factor	=	12;
 				prot_factor	=	8;
 				grasa_factor=	5;
 				kcal_factor	=	120;				
 				break;
-			case 3://Leche Entera
+			case 3:/*Leche Entera*/
 				cho_factor	=	12;
 				prot_factor	=	8;
 				grasa_factor=	8;
 				kcal_factor	=	150;				
 				break;
-			case 4://Vegetales
+			case 4:/*Vegetales*/
 				cho_factor	=	5;
 				prot_factor	=	2;
 				grasa_factor=	0;
 				kcal_factor	=	28;				
 				break;
-			case 5://Frutas
+			case 5:/*Frutas*/
 				cho_factor	=	15;
 				prot_factor	=	0;
 				grasa_factor=	0;
 				kcal_factor	=	60;				
 				break;
-			case 6://Harinas
+			case 6:/*Harinas*/
 				cho_factor	=	15;
 				prot_factor	=	3;
 				grasa_factor=	1;
 				kcal_factor	=	80;				
 				break;
-			case 7://Carne Media
+			case 7:/*Carne Media*/
 				cho_factor	=	0;
 				prot_factor	=	7;
 				grasa_factor=	3;
 				kcal_factor	=	55;				
 				break;
-			case 8://Carne Intermedia
+			case 8:/*Carne Intermedia*/
 				cho_factor	=	0;
 				prot_factor	=	7;
 				grasa_factor=	5;
 				kcal_factor	=	75;				
 				break;
-			case 9://Carne Grasa
+			case 9:/*Carne Grasa*/
 				cho_factor	=	0;
 				prot_factor	=	7;
 				grasa_factor=	8;
 				kcal_factor	=	100;				
 				break;
-			case 10://Azúcares
+			case 10:/*Azúcares*/
 				cho_factor	=	10;
 				prot_factor	=	0;
 				grasa_factor=	0;
 				kcal_factor	=	40;				
 				break;
-			case 11://Grasas
+			case 11:/*Grasas*/
 				cho_factor	=	0;
 				prot_factor	=	0;
 				grasa_factor=	5;
 				kcal_factor	=	45;				
 				break;
-			case 12://Vasos Agua
+			case 12:/*Vasos Agua*/
 				cho_factor	=	0;
 				prot_factor	=	0;
 				grasa_factor=	0;
@@ -707,7 +649,6 @@ export class DietaComponent implements OnInit {
 		this.model.getFormPrescripcion().set(this.prescripcion);
 		this.formControlDataService.setFormControlData(this.model);		
 		if(this.existChanges()){
-			//console.log('HAY CAMBIOS, ENVIAR A LA API');
 			this.createPrescripcion(this.prescripcion);
 		}
 	}

@@ -48,14 +48,8 @@ export class LoginComponent {
 		this.tagBody.classList.remove('page-login');
 	}
 	onReminder(){
-		/*if(this.correo){
-			this.messages.reminder_correo	=	true;
-			return false;
-		}
-		*/
 		this.auth.reminder(this.user)
 			.then((response) => {
-				console.log(response.json());
 				var response	=	response.json();
 				if(response.code==201){
 					this.messages.reminder_sent	=	true;
@@ -82,8 +76,6 @@ export class LoginComponent {
 		this.auth.login(this.user)
 			.then((user) => {
 				var user	=	user.json();
-				//console.log(user);
-				//this.storeInfo(user);				
 				this.formControlDataService.setSession(user.nutricionista.id, user.access_token);				
 				this.message	=	'Cargando datos...';
 				this.loadDataForm();				
@@ -139,18 +131,7 @@ export class LoginComponent {
 		this.showFormReminder=false;
 		this.showFormLogin=true;
 	}
-	
-	_keyPress__old(event: any) {
-		const pattern = /[0-9\+\-\ ]/;
-		let inputChar = String.fromCharCode(event.charCode);
-		console.log(event.charCode + ' -> ' + inputChar);
-		if (!pattern.test(inputChar)) {
-		  // invalid character, prevent input
-		  event.preventDefault();
-		}
-	}
 	 onSubmit(){
-    // Mostramos el objeto usuario
-    console.log(this.usuario);
-  }
+		/*console.log(this.usuario);*/
+	}
 }

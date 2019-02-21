@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-//import { Alergia } from '../../../control/data/formControlData.model';
 import { FormControlDataService }     from '../../control/data/formControlData.service';
 
 @Component({
@@ -10,7 +8,6 @@ import { FormControlDataService }     from '../../control/data/formControlData.s
   styles: []
 })
 export class HcfComponent implements OnInit {
-
 	fcd:any;
 	helpers:any;
 	mng:any;
@@ -26,7 +23,6 @@ export class HcfComponent implements OnInit {
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 		this.paciente	=	this.fcd.getFormPaciente();
-		//console.log(this.paciente);
 		this.data['paciente_id']	=	this.paciente.id;		
 		this.oPatologias	=	[];		
 	}
@@ -36,10 +32,6 @@ export class HcfComponent implements OnInit {
 		this.setInfoInit();
 	}
 	ngOnDestroy(){		
-		/*if(this.infoEdited()){
-			this.data['items']	=	this.patologias;
-			this.save(this.data);
-		}*/
 		this.saveForm();
 		this.helpers.scrollToForm();
 	}
@@ -48,7 +40,6 @@ export class HcfComponent implements OnInit {
 		for(var i in this.patologias){
 			var orig	=	this.oPatologias[i];
 			var edit	=	this.patologias[i];
-			//console.log(orig);console.log(edit);
 			var notas_dif	=	orig.notas!== edit.notas;
 			var check_dif	=	orig.checked!== edit.checked;			
 			
@@ -69,18 +60,14 @@ export class HcfComponent implements OnInit {
 			obj.id		=	item.id;
 			obj.nombre	=	item.nombre;
 			obj.notas	=	item.notas;	
-			/**/
 			obj.checked	=	item.checked;		
 			obj.row	=	item.row;
-			/**/
 			this.oPatologias[i]	=	obj;
 		}
-		//console.log(this.oPatologias);
 	}
 	cargarHcfPatologiasDelPaciente(){		
 		this.patologias			=	this.mng.getHcfPatologias();
 		var hcfPatologias		=	this.fcd.getFormPacienteHcfPatologias();
-		//console.log(hcfPatologias);
 		var id;
 		var found;
 				
@@ -103,7 +90,6 @@ export class HcfComponent implements OnInit {
 				found.notas		=	hcfPatologias[i].notas;
 			}
 		}
-		//console.log(this.patologias);
 	}
 	saveTest(){
 		if(this.infoEdited()){
@@ -115,10 +101,7 @@ export class HcfComponent implements OnInit {
 		this.fcd.setFormPacienteHcfPatologias(this.patologias);
 		this.formControlDataService.store('hcf_patologis', data)
 		.subscribe(
-			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}

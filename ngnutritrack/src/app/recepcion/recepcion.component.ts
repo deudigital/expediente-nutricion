@@ -11,8 +11,7 @@ export class RecepcionComponent implements OnInit {
 	hideModalDatos:boolean=true;
 	fcd:any;
 	tagBody:any;
-	/* When we select file */
-	file_for_upload:any; /* property of File type */
+	file_for_upload:any;
 	tipo_documento_id:any;
 	mensaje:any;
 	sending:boolean=false;
@@ -36,7 +35,6 @@ export class RecepcionComponent implements OnInit {
 	}
 	
 	fileChange (event) {
-		console.log(event.target.files);
 		if(!this._validatiteXmlFile( event.target.files[0] )){
 			this._displayMessage('xml_wrong');
 			this.file_for_upload =	null;	
@@ -87,8 +85,6 @@ export class RecepcionComponent implements OnInit {
 		this.formControlDataService.upload('recepcion', formData)
 		.subscribe(
 			 response  => {
-						console.log('<!--upload Recepcion');
-						console.log(response);
 						this.sending	=	false;
 						this._displayMessageSubmit(response);
 

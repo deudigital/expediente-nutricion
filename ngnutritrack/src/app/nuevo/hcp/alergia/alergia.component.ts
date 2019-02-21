@@ -39,9 +39,6 @@ export class AlergiaComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-hcp');
-		/*if(this.infoEdited()){
-			this.save(this.data);
-		}*/
 		this.saveForm();
 		this.helpers.scrollToForm();
 	}
@@ -59,7 +56,6 @@ export class AlergiaComponent implements OnInit {
 		for(var i in this.alergias){
 			var orig	=	this.oAlergias[i];
 			var edit	=	this.alergias[i];
-			/*console.log(orig);console.log(edit);*/
 			var check_dif	=	orig.checked!== edit.checked;			
 			
 			if( check_dif ){
@@ -79,9 +75,7 @@ export class AlergiaComponent implements OnInit {
 			obj	=	new Object();
 			obj.id		=	item.id;
 			obj.nombre	=	item.nombre;
-			/**/
 			obj.checked	=	item.checked;		
-			/**/
 			this.oAlergias[i]	=	obj;
 		}
 	}
@@ -105,10 +99,7 @@ export class AlergiaComponent implements OnInit {
 		this.fcd.setFormPacienteHcpAlergias(this.alergias);
 		this.formControlDataService.store('alergias', data)
 		.subscribe(
-			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}

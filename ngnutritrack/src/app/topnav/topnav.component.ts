@@ -47,7 +47,6 @@ export class TopnavComponent implements OnInit {
 		this.toggle	=	!this.toggle;
 	}
 	displayTitle(){
-		//console.log(this.router.url);
 		switch(this.router.url){
 			case '/reportes':
 			case '/servicios-productos':

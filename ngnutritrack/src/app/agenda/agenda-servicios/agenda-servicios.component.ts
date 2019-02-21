@@ -26,11 +26,7 @@ export class AgendaServiciosComponent implements OnInit {
 					{id:150, nombre:"150 minutos"},
 					{id:180, nombre:"180 minutos"},
 					
-				];	
-	
-	/*habitosEjercicio=new HabitosEjercicio();
-	ejercicios:any[];
-	*/
+				];
 	fcd:any;
 	mng:any;	
 	body:any;
@@ -57,8 +53,6 @@ export class AgendaServiciosComponent implements OnInit {
 		this.formControlDataService.select('agenda-servicio', data)
 		.subscribe(
 			 response  => {
-						console.log('<--S agenda-servicio');
-						console.log(response);
 						this.agendaServicios	=	response;						
 						},
 			error =>  console.log(<any>error)
@@ -98,8 +92,6 @@ export class AgendaServiciosComponent implements OnInit {
 		var index	=	this.agendaServicios.indexOf(agendaServicio);
 		this.formControlDataService.delete('agenda-servicio', agendaServicio).subscribe(
 			 response  => {
-						console.log('Eliminado');
-						console.log(response);						
 						this.agendaServicios.splice(index,1);
 						},
 			error =>  console.log(<any>error)
@@ -108,7 +100,6 @@ export class AgendaServiciosComponent implements OnInit {
 	isNumberKey(evt) {
 		var charCode = (evt.which) ? evt.which : evt.keyCode;
 		if (charCode == 46) {
-			//Check if the text already contains the . character
 			var txt 	=	String(this.newAgendaServicio.duracion)
 			if (txt.indexOf('.') === -1) {
 				return true;

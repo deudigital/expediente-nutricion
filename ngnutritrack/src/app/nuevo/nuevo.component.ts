@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { ManejadorDatos } from '../control/data/formControlData.model';
 import { FormControlDataService }     from '../control/data/formControlData.service';
-//import {Observable} from 'rxjs/Observable';
 import { Router }              from '@angular/router';
 
 @Component({

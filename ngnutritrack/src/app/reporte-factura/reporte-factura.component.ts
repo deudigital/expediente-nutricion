@@ -14,7 +14,6 @@ declare let jsPDF;
 })
 export class ReporteFacturaComponent implements OnInit {
   private today: any = new Date();
-	//private formControlData: FormControlData = new FormControlData();
 	private formControlData: any;
 	filter = {};
 	factura = [];
@@ -101,7 +100,6 @@ export class ReporteFacturaComponent implements OnInit {
 			 response  => {
 
           this.factura = response;
-          console.log(this.factura)
           for(let doc in this.factura){
             for(let item in this.tipos){
               if(this.factura[doc].tipo_documento_id === this.tipos[item].id){
@@ -192,55 +190,13 @@ export class ReporteFacturaComponent implements OnInit {
       window.open(item.pdf, "_blank");
     }
   }
-
-	/*filterQuery(){
-		this.resultArray = [];
-		console.log(this.fromDate.date);
-		var fromDate	=	new Date(this.fromDate.date.year, this.fromDate.date.month-1, this.fromDate.date.day);
-		fromDate	=	new Date(fromDate.getTime());
-		var uDate	=	new Date(this.untilDate.date.year, this.untilDate.date.month, this.untilDate.date.day);
-		uDate.setSeconds(86400);
-		uDate	=	new Date(uDate.getTime());
-		var _fromDate	=	fromDate.getTime();
-		var _uDate		=	uDate.getTime();
-		for(let consulta in this.factura){
-			let queryDate	=	new Date(this.factura[consulta].fecha);
-			let _queryDate	=	queryDate.getTime();
-			var sw	=	String(this.factura[consulta].nombre).toLowerCase().includes(this.nombre.toLowerCase());
-			if(_queryDate > _fromDate && _queryDate < _uDate && sw){
-				var factura	=	Object.create(this.factura[consulta]);
-				let dia		=	this.fillWithZero(queryDate.getDate());
-				let mes		=	this.fillWithZero(queryDate.getMonth()+1);
-				let hora	=	this.fillWithZero(queryDate.getHours());
-				let minuto	=	this.fillWithZero(queryDate.getMinutes());
-				let _fecha	=	dia + '/' + mes + '/' + queryDate.getFullYear() + ' ' + hora + ':' + minuto + ':' + queryDate.getSeconds();
-				factura.fecha	=	_fecha;
-				this.factura[consulta].fecha_processed	=	_fecha;
-
-				this.factura[consulta].showDelete		=	true;
-				if(this.factura[consulta].tipo_documento_id==3 || !this.factura[consulta].estado){
-					this.factura[consulta].showDelete		=	false;
-				}
-
-				if(this.tipo === this.factura[consulta].nombre_tipo)
-					this.resultArray.push(this.factura[consulta]);
-				else if(this.tipo === "Todos")
-					this.resultArray.push(this.factura[consulta]);
-
-			}
-		}
-  }*/
   fillWithZero(valor){
-	  /*console.log(valor);
-	  console.log(String(valor).length);*/
 	  valor	=	((String(valor).length==1)? '0':'' ) + valor;
 	  return valor;
   }
   filterQuery(){
 
     this.resultArray = [];
-
-    //filter dates
     let fromDate = new Date(this.fromDate.date.year + '-' + this.fromDate.date.month + '-' + this.fromDate.date.day);
     let uDate = new Date(this.untilDate.date.year + '-' + this.untilDate.date.month + '-' + this.untilDate.date.day);
 
@@ -255,8 +211,6 @@ export class ReporteFacturaComponent implements OnInit {
     if(this.nombre === ""){
       for(let consulta in this.factura){
         let queryDate =  new Date(this.factura[consulta].fecha);
-        //queryDate =  new Date(queryDate.setDate(queryDate.getDate() + 1));
-
         if(queryDate >= fromDate && queryDate <= uDate){
           this.factura[consulta].showDelete    =  true;
           if(this.factura[consulta].tipo_documento_id==3 || !this.factura[consulta].estado){
@@ -288,7 +242,7 @@ export class ReporteFacturaComponent implements OnInit {
 
   exportData(Data){
   	switch(Data){
-  		case 1: console.log('pdf build');
+  		case 1:
   			let doc = new jsPDF({orientation:'l', format: 'a2'});
   			let col = ["# Documento", "Cedula",, "Receptor","Tipo","Fecha","Moneda","Monto"];
   			let rows = [];
@@ -306,7 +260,7 @@ export class ReporteFacturaComponent implements OnInit {
   			doc.autoTable(col, rows);
   			doc.save('Reporte de Factura.pdf');
   			break;
-		  case 2: console.log('excel build');
+		  case 2:
         let excelArray = [];
         for(let xi = 0;xi<this.resultArray.length;xi++){
           if (this.resultArray[xi].tipo_documento_id===3){

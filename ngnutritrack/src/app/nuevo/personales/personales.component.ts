@@ -24,37 +24,26 @@ export class PersonalesComponent implements OnInit {
 	pacienteNuevo:boolean;
 	
 	private selDate: IMyDate = {year: 0, month: 0, day: 0};
-	public fecha_nac: any;/* = { date: {year: 2000, month: 10, day:15 } };;*/
+	public fecha_nac: any;
 
 	public birthdayOptions: IMyDpOptions = {
 		dateFormat: 'dd/mm/yyyy',
 		editableDateField: false,
 		showClearDateBtn: false
 	};
-  
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
-		this.fcData		=	formControlDataService.getFormControlData();/*console.log(this.fcData);*/
+		this.fcData		=	formControlDataService.getFormControlData();
 		this.mng		=	this.fcData.getManejadorDatos();
 		this.paciente	=	this.fcData.getFormPaciente();
-		
 		this.helpers	=	this.fcData.getHelpers();
-		/*console.log(this.paciente);*/
-		
-		/*let d: Date = new Date();
-        this.fecha_nac = {date: {year: d.getFullYear(), 
-                             month: d.getMonth() + 1, 
-                             day: d.getDate()}};*/
 	}
-
 	ngOnInit() {
 		this.btnNavigation_pressed	=	false;
-		//this.verificarEdad();
 		this.pacienteNuevo	=	this.mng.operacion=='nuevo-paciente';
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				console.log(response);
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
@@ -80,19 +69,13 @@ export class PersonalesComponent implements OnInit {
 			this.paciente.nutricionista_id	=	this.fcData.nutricionista_id;
 		
 		if(this.paciente.fecha_nac){
-			console.log('this.paciente.fecha_nac: ' + this.paciente.fecha_nac);
 			var current_fecha = this.paciente.fecha_nac.split('/');
-			console.log('current_fecha: ');
-			console.log(current_fecha);
 			var year	=	Number(current_fecha[2]);
 			var month	=	Number(current_fecha[1]);
 			var day		=	Number(current_fecha[0]);
 
 			this.fecha_nac		= { date: {year: year, month: month, day:day } };
-			/*this.selDate		= {year: year, month: month, day:day };*/
-			console.log( this.fecha_nac );
-		}
-		
+		}		
 		this.oPaciente.cedula				=	this.paciente.cedula;
 		this.oPaciente.nombre				=	this.paciente.nombre;
 		this.oPaciente.genero				=	this.paciente.genero;
@@ -103,14 +86,6 @@ export class PersonalesComponent implements OnInit {
 	}
 	
 	infoEdited(){
-/*		console.log(this.oPaciente.cedula + ' !==' + this.paciente.cedula);
-		console.log(this.oPaciente.nombre + ' !==' + this.paciente.nombre);
-		console.log(this.oPaciente.genero + ' !==' + this.paciente.genero);
-		console.log(this.oPaciente.fecha_nac + ' !==' + this.paciente.fecha_nac);
-		console.log(this.oPaciente.responsable_cedula + ' !==' + this.paciente.responsable_cedula);
-		console.log(this.oPaciente.responsable_nombre + ' !==' + this.paciente.responsable_nombre);
-		console.log(this.oPaciente.responsable_parentezco + '!==' + this.paciente.responsable_parentezco);*/
-
 		return 	(
 			this.oPaciente.cedula					!==	this.paciente.cedula || 
 			this.oPaciente.nombre					!==	this.paciente.nombre || 
@@ -123,16 +98,10 @@ export class PersonalesComponent implements OnInit {
 
 	}
 	saveInfo(data){
-		/*console.log('Crud Datos Personales-->');
-		console.log(data);*/
 		this.formControlDataService.saveDatosPersonales(data)
 		.subscribe(
 			 response  => {
-						/*console.log('<--Crud Datos Personales');
-						console.log(response);*/
 						this.updatePacienteInfo(response);
-						//this.mng.setEnableLink(true);
-						//this.router.navigate(['/contacto']);
 						this.goTo(this.page);
 						this.btnNavigation_pressed	=	false;
 					},
@@ -165,19 +134,14 @@ export class PersonalesComponent implements OnInit {
 		this.paciente.id		=	data.id;
 		this.paciente.persona_id=	data.id;
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.paciente);
-		//this.formControlDataService.getFormPaciente.id	=	data.id;
-		//this.mng.setEnableLink(true);
 	}
 	get mostrarFormParentezco(){
 		return this.verificarEdad();
-		/*return this.paciente.esMenor();*/
 	}
 	verificarEdad() {
-		//console.log(this.paciente.fecha_nac);
 		this.esMenor	=	false;
 		
 		if (this.fecha_nac) {
-			//console.log(this.fecha_nac.date);
 			this.paciente.fecha_nac	=	this.fecha_nac.date.day + '/' + this.fecha_nac.date.month + '/' + this.fecha_nac.date.year;;
 			var fecha	=	new Date(this.fecha_nac.date.year, this.fecha_nac.date.month, this.fecha_nac.date.day).getTime();
 			var timeDiff = Math.abs(Date.now() - fecha);
@@ -186,24 +150,5 @@ export class PersonalesComponent implements OnInit {
 			return !this.paciente.esMayor;			
 		}
 		return false;
-		/*return this.paciente.esMenor();*/
 	}
-
-	verificarEdad__old() {
-		this.esMenor	=	false;
-		if (this.paciente.fecha_nac) {
-			var current_fecha = this.paciente.fecha_nac.split('/');	
-			var year	=	Number(current_fecha[2]);
-			var month	=	Number(current_fecha[1]);
-			var day		=	Number(current_fecha[0]);
-			var fecha	=	new Date(year, month, day).getTime();
-			var timeDiff = Math.abs(Date.now() - fecha);
-			var edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);		
-			this.paciente.esMayor	=	edad>17;			
-			return !this.paciente.esMayor;			
-		}
-		return false;
-		/*return this.paciente.esMenor();*/
-	}
-	
 }

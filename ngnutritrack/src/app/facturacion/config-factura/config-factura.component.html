@@ -39,8 +39,6 @@
 							
             </div>
 					</div>
-						                
-                  	<!-- First Input Row -->
               		<div class="form-group">
                   		<div class="row">
                   			<div class="col-md-3 col-sm-12 col-xs-12">
@@ -74,7 +72,7 @@
 																	(keyup)="validarCedula()"
 																	(keypress)="helpers.onKeyPress($event)" 
 																	maxlength="20" 
-																	required><!-- (keypress)="_keyPress($event)" -->
+																	required>
 													<span style="color:red;font-size: 10px;" *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>
                   			</div>
                   			<div class="col-md-3 col-sm-12 col-xs-12">
@@ -85,7 +83,6 @@
 																		[(ngModel)]="data.nombre">
                   			</div>
                   		</div>
-                  		<!-- Second Input Row -->
                   		<div class="row">
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="postal">Apartado Postal</label>
@@ -130,7 +127,6 @@
 													</select>
                   			</div>
                   		</div>
-                  		<!-- Third Input Row -->
                   		<div class="row">                  			                   			
                   			<div class="col-md-3 col-sm-12 col-xs-12">
                   				<label class="col-form-label" for="canton">Cantón</label>
@@ -175,56 +171,6 @@
               										required>
                   			</div>
                   		</div>
-                  		<!-- Fourth Input Row -->
-                  		<!--<div class="row">                  	
-                  			<div class="col-md-3 col-sm-12 col-xs-12">
-                  				<label class="col-form-label" for="access_id">Identificación de Ingreso (Generado por ATV)</label>
-	                				<input class="form-control" 
-	                								id="access_id" 
-	                								type="text"  
-	                								[(ngModel)]="data.atv_ingreso_id"
-	                								(keyup) = "validarIdATV()"
-	              									(focusout) = "validarIdATV()"
-	              									required>
-        									<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_idAtv">Ingrese la identificación de ingreso</span>
-                  			</div>
-                  			<div class="col-md-3 col-sm-12 col-xs-12">
-	                  			<label class="col-form-label" for="access_password">Contraseña de Ingreso (Generado por ATV)</label>
-                        	<input class="form-control" 
-                        					id="access_password" 
-                        					type="password" 
-                        					[(ngModel)]="data.atv_ingreso_contrasena"
-                        					(keyup) = "validarPassATV()"
-          												(focusout) = "validarPassATV()"
-                        					required>
-													<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_passAtv">Ingrese la contraseña de ingreso</span>
-                  			</div>
-                  			<div class="col-md-3 col-sm-12 col-xs-12">
-                  				<label class="col-form-label" for="crypt_key">Llave Criptográfica</label>
-		                        <div style="padding:0% 0% 0% 6%;">
-		                        	<input #fileCrypto type="file" 
-		                        										accept=".p12" 
-		                        										id="button4" 
-		                        										class="btn btn-default" 
-		                        										(change)="addCryptograficKey()"
-		                        										style="margin:0.8% 0% 0% 5%; display: none;"/>
-                        			<span style="color: green;font-size: 10px" *ngIf="crytoName">{{crytoName}}</span><br>
-                            	<button id="button2" class="btn btn-default" id="crypt_key" (click)="input('button4')">CARGAR</button>
-		                        </div>
-                  			</div>    
-                  			<div class="col-md-3 col-sm-12 col-xs-12">
-                  				<label class="col-form-label" for="PIN">Clave o PIN de la llave criptográfica</label>
-                      		<input class="form-control" 
-                      						id="PIN" 
-                      						type="text" 
-                      						[(ngModel)]="data.atv_clave_llave_criptografica"
-                      						(keyup) = "validarPinATV()"
-              										(focusout) = "validarPinATV()"
-                      						required>
-              						<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_pinAtv">Ingrese el pin de la llave criptográfica</span>
-                  			</div>             			
-                  		</div> -->
-                  		<!-- Fifth Input Row -->
                   		<div class="row">                  			
 	                    	<div class="col-xs-12 col-md-offset-4 col-md-4 col-sm-12" style="margin-top:1.5%">
 	                        	<button id="button3" class="btn btn-default btn-block" (click)="saveConfigData()">GUARDAR</button>

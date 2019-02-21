@@ -11,7 +11,7 @@ export class AuthService {
 	private headers: Headers = new Headers({'Content-Type': 'application/json'});
 	constructor(private http: Http) {}
 	login(user: User): Promise<any> {
-		let url: string = `${this.BASE_URL}login`;//console.log(url);
+		let url: string = `${this.BASE_URL}login`;
 		return this.http.post(url, user, {headers: this.headers}).toPromise();
 	}
 	reminder(user: User): Promise<any> {
@@ -22,7 +22,7 @@ export class AuthService {
 		let url: string = `${this.BASE_URL}/register`;
 		return this.http.post(url, user, {headers: this.headers}).toPromise();
 	}
-	ensureAuthenticated(token): Promise<any> {console.log('auth.service - ensureAuthenticated');
+	ensureAuthenticated(token): Promise<any> {
 		let url: string = `${this.BASE_URL}/status`;
 		let headers: Headers = new Headers({
 			'Content-Type': 'application/json',
@@ -30,13 +30,8 @@ export class AuthService {
 		});
 		return this.http.get(url, {headers: headers}).toPromise();
 	}
-	verifyUser(user_id): Promise<any> {/*console.log('auth.service - verifyUser');*/
+	verifyUser(user_id): Promise<any> {
 		let url: string = `${this.BASE_URL}status`;
-		/*let headers: Headers = new Headers({
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`
-		});*/
-		//return this.http.get(url, {headers: headers}).toPromise();
 		return this.http.post(url, {'user_id':user_id}).toPromise();
 	}
 }

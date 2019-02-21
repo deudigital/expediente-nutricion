@@ -15,13 +15,9 @@ export class BioquimicaComponent implements OnInit {
 	helpers:any;
 	paciente:any;
 	bioquimicas:any;
-	body:any;
-	
-	/* When we select file */
-	examen:any; /* property of File type */
-
-	sending:boolean; /* property of File type */
-
+	body:any;	
+	examen:any;
+	sending:boolean;
 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.model		=	formControlDataService.getFormControlData();
@@ -46,7 +42,6 @@ export class BioquimicaComponent implements OnInit {
 
 	fileChange (event) {
 		this.examen =	event.target.files;
-		/*console.log(this.examen);*/
 		this.onSubmit();
 		this.sending	=	true;
 	}
@@ -60,8 +55,6 @@ export class BioquimicaComponent implements OnInit {
 		this.formControlDataService.upload('bioquimicas', formData)
 		.subscribe(
 			 response  => {
-						/*console.log('<!--upload bioquimica');
-						console.log(response);*/
 						this.setData(response);
 						this.sending	=	false;
 					},
@@ -72,32 +65,15 @@ export class BioquimicaComponent implements OnInit {
 		if(response.code!=422)
 			this.bioquimicas.push(response.data);
 	}
-	
-	
-	
 	dragStart(event) {
-		//event.dataTransfer.setData("Text", event.target.id);
-		//document.getElementById("demo").innerHTML = "Started to drag the p element";
 		event.stopPropagation();
-		/*console.log('dragStart');
-		console.log(event);*/
 	}
 
 	allowDrop(event) {
-		//event.preventDefault();
 		event.stopPropagation();
-		/*console.log('allowDrop');
-		console.log(event);*/
 	}
-
 	drop(event) {
 		event.stopPropagation();
-		//event.preventDefault();
-		//var data = event.dataTransfer.getData("Text");
-//		event.target.appendChild(document.getElementById(data));
-//		document.getElementById("demo").innerHTML = "The p element was dropped";
-		/*console.log('drop');
-		console.log(event);*/
 	}
 	
 	

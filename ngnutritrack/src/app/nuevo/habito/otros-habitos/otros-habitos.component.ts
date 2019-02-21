@@ -28,8 +28,6 @@ export class OtrosHabitosComponent implements OnInit {
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.otros		=	this.fcd.getFormPacienteHabitosOtros();
 		this.paciente	=	this.fcd.getFormPaciente();
-		/*console.log(this.otros);*/
-		//this.oOtros		=	new HabitosOtro();
 		this.setInfoInit();
 	}
 
@@ -41,10 +39,6 @@ export class OtrosHabitosComponent implements OnInit {
 	}
 	ngOnDestroy(){
 		this.body.classList.remove('menu-parent-habito');
-		/*if(this.infoEdited()){
-			this.otros.paciente_id	=	this.paciente.id;
-			this.save(this.otros);		
-		}*/
 		if(!this.navitation)
 			this.saveForm();
 		this.helpers.scrollToForm();
@@ -82,10 +76,7 @@ export class OtrosHabitosComponent implements OnInit {
 	save(data){
 		this.formControlDataService.store('habitos_otros', data)
 		.subscribe(
-			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}
@@ -116,8 +107,6 @@ export class OtrosHabitosComponent implements OnInit {
 		this.formControlDataService.store('consulta', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
 						this.formControlDataService.setSelectedConsuta(response['data']);
 						this.mng.setOperacion('nueva-consulta');
 						this.mng.setMenuPacienteStatus(false);

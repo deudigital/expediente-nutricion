@@ -19,13 +19,11 @@ export class OtrosComponent implements OnInit {
 	oHcpOtros=new HcpOtros();
 	body:any;
 	btnNavigation_pressed:boolean;
-	//id 	ciclos_menstruales 	notas 	paciente_id 
 	constructor(private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	this.formControlDataService.getFormControlData();
 		this.helpers	=	this.fcd.getHelpers();
 		this.paciente	=	this.fcd.getFormPaciente();
 		this.hcpOtros	=	this.fcd.getFormPacienteHcpOtros();
-		/*console.log(this.hcpOtros);*/
 		this.mng		=	this.fcd.getManejadorDatos();
 		this.mng.setMenuPacienteStatus(true);
 		this.setInfoInit();
@@ -58,15 +56,11 @@ export class OtrosComponent implements OnInit {
 	}
 	saveInfo(data){
 		if(!this.paciente.id){
-			/*console.log('sin datos de paciente id');*/
 			return ;
-		}
-		
+		}		
 		this.formControlDataService.store('hcp_otros', data)
 		.subscribe(
 			 response  => {
-						/*console.log('<--Crud:hcp_otros');
-						console.log(response);*/
 						this.setHcpOtros(response);						
 						},
 			error =>  console.log(<any>error)

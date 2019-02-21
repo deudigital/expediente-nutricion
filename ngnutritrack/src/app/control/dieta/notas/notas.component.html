@@ -55,7 +55,6 @@
 		</div>
 	</div>
 </div>
-<!-- Modal Prompt -->
 <div class="esc-modalbox prompt" *ngIf="!hidePrompt">
 	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
 	<header class="text-center">
@@ -70,7 +69,6 @@
 		</div>
 	</div>
 </div>
-<!--<div class="overlay" (click)="promptCancelar()"></div>-->
 <div class="overlay" (click)="hideModal()"></div>
 <div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
 	<a class="modal-close" (click)="hideModal('notas')"><i></i></a>

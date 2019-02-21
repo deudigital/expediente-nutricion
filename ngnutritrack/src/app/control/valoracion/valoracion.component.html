@@ -15,9 +15,6 @@
 			</header>
 			<section>
 				<div class="row">
-					<!--<div class="fill-data-valoracion">
-						Importar datos - arrastre archivo en formato csv a este cuadro
-					</div>-->
 					<div class="buttons">
 						<button 
 							class="btn btn-default" 
@@ -409,29 +406,10 @@
 							</div>
 						</ng-template>
 					</div>
-					<!--<div class="buttons">
-						<button 
-							id="zoom-button-childrem" 
-							class="btn btn-default" 
-							(click)="doZoom('children')" 
-							[disabled]="graficandoChildren"
-						>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>						
-					<ng-template [ngIf]="graficandoChildren">
-						<span class="fa fa-spinner fa-spin"></span>
-					</ng-template>
-						</button>
-					</div>-->
 			</ng-template>				
 				</div>
 	</ng-template>
 </ng-template>
-
-
-
-
-
-
-
 			</section>
 <section>
 				<header>
@@ -507,7 +485,6 @@
 						<i></i>
 						<br>
 						Estatura Ideal
-						<!--<strong>{{ analisis.estaturaIdeal | number : '1.2-2'}} cm</strong>-->
 						<strong>{{ analisis.estaturaIdeal/100 | number : '1.2-2'}} m</strong>
 					</div>
 					<div *ngIf="showBoxIndicadorEstaturaEdad" class="box peso-ideal indicador-estatura-para-edad">
@@ -680,26 +657,7 @@
 				</ng-template>
 			</div>
 </ng-template>				
-				
-				
-				
-			
-			
-			
-			
-			
 			</div>
-			
-<!--			<button 
-					id="zoom-button-historial" 
-					class="btn btn-default" 
-					(click)="doZoom('historial')" 
-					[disabled]="graficandoHistorialChildren"
-					>Zoom <span *ngIf="zoom">Out</span><span *ngIf="!zoom">In</span>
-					<span *ngIf="graficandoHistorialChildren" class="fa fa-spinner fa-spin"></span>
-					</button>
-			-->
-			
 		</div>
 	</div>
 </div>
@@ -929,6 +887,4 @@
 			</div>
 	</div>
 </div>
-
 <div class="overlay" (click)="hideModal()"></div>
-<!--<div class="dev-info">{{devInfo}}</div>-->

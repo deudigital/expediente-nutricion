@@ -49,11 +49,10 @@ import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 import { LoginRedirect } from './services/login-redirect.service';
 
 export const appRoutes: Routes = [
-    
     { path: 'login',  component: LoginComponent, canActivate: [LoginRedirect] },
     { path: 'logout',  component: LogoutComponent, canActivate: [EnsureAuthenticated] },
     { path: 'reset',  component: ResetComponent, canActivate: [EnsureAuthenticated] },
-    { path: 'inicio',  component: InicioComponent, canActivate: [EnsureAuthenticated] },//, canActivate: [WorkflowGuard] },
+    { path: 'inicio',  component: InicioComponent, canActivate: [EnsureAuthenticated] },
 	{ path: 'nuevo',  component: NuevoComponent, canActivate: [EnsureAuthenticated] },
 		{ path: 'personales',  component: PersonalesComponent, canActivate: [EnsureAuthenticated] },
 		{ path: 'contacto',  component: ContactoComponent, canActivate: [EnsureAuthenticated] },
@@ -80,23 +79,18 @@ export const appRoutes: Routes = [
 	
     { path: 'agenda',  component: AgendaComponent, canActivate: [EnsureAuthenticated] },
     { path: 'agenda-servicios',  component: AgendaServiciosComponent, canActivate: [EnsureAuthenticated] },
-
     { path: 'recepcion',  component: RecepcionComponent, canActivate: [EnsureAuthenticated] },
 	{ path: 'reportes-recepcion', component: ReporteRecepcionComponent, canActivate: [EnsureAuthenticated] },
-	//{ path: '',   redirectTo: '/inicio', pathMatch: 'full' },
 	{ path: 'reportes', component: ReporteFacturaComponent, canActivate: [EnsureAuthenticated] },
     { path: 'servicios-productos', component: ServiciosProductosComponent, canActivate: [EnsureAuthenticated] },
     { path: 'sinfacturar', component: ConsultasSinFacturarComponent, canActivate: [EnsureAuthenticated] },
     { path: 'config-factura', component: ConfigFacturaComponent, canActivate: [EnsureAuthenticated] },
 	{ path: '',   redirectTo: '/login', pathMatch: 'full' },
-    // 6th Route
     { path: '**', component: InicioComponent }
 ];
-/*, { useHash: true}*/
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes )],
-  exports: [RouterModule],
-  //providers: [WorkflowGuard]
+  exports: [RouterModule]
 })
 
 export class AppRoutingModule {}

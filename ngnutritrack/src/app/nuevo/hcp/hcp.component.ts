@@ -32,9 +32,6 @@ export class HcpComponent implements OnInit {
 		this.setInfoInit();
 	}
 	ngOnDestroy(){		
-		/*if(this.infoEdited()){
-			this.save(this.data);
-		}*/
 		this.saveForm();
 		this.helpers.scrollToForm();
 	}
@@ -51,7 +48,6 @@ export class HcpComponent implements OnInit {
 		for(var i in this.patologias){
 			var orig	=	this.oPatologias[i];
 			var edit	=	this.patologias[i];
-			/*console.log(orig);console.log(edit);*/
 			var check_dif	=	orig.checked!== edit.checked;			
 			
 			if( check_dif ){
@@ -60,17 +56,8 @@ export class HcpComponent implements OnInit {
 			}
 				
 		}
-					
-		/*return false;*/
 		return notas_changed;
 	}
-/*
-paciente_id	6
-hcp_patologia_id	1
-id	1
-nombre	"Estreñimiento"
-1
-*/
 	setInfoInit(){
 		var obj;
 		var item;
@@ -80,9 +67,7 @@ nombre	"Estreñimiento"
 			obj	=	new Object();
 			obj.id		=	item.id;
 			obj.nombre	=	item.nombre;
-			/**/
 			obj.checked	=	item.checked;		
-			/**/
 			this.oPatologias[i]	=	obj;
 		}
 	}
@@ -112,10 +97,7 @@ nombre	"Estreñimiento"
 		this.fcd.setFormPacienteHcpPatologias(this.patologias);
 		this.formControlDataService.store('hcp_patologis', data)
 		.subscribe(
-			 response  => {
-						/*console.log('store->response...');
-						console.log(response);*/
-						},
+			 response  => {},
 			error =>  console.log(<any>error)
 		);
 	}

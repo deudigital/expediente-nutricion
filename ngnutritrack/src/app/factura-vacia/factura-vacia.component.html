@@ -86,7 +86,6 @@
 										{{paciente.nombre}}
 										<span>ID: {{paciente.cedula}}</span>
 									</a>
-									<!--<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.cedula}}</span>-->
 								</li>
 							</ul>
 						</div>						
@@ -332,109 +331,6 @@
 								   required>
 						</div>
 					</div>
-<!--					<div id="linea_detalle" class="row">
-						<div class="col-md-2 col-sm-12">
-			              <label id="row-margin" for="descripcion">Descripción</label>
-						   <input type="text" 
-						   		  id="descripcion" 
-						   		  class="form-control" 
-						   		  name="proteina" 
-						   		  placeholder="Ingrese descripción"
-						   		  [(ngModel)]="query"
-						   		  (keyup)="suggest()">
-						</div>
-						<div class="autocomplete-div" *ngIf="filteredList.length > 0">
-							<ul class="dropdown-menu dropdown-autocomplete" *ngFor="let item of filteredList">
-								<li>
-									<a href="javascript:void(0)" (click)="select(item)">							
-										<div style="margin-bottom:-8%">
-											<h5>{{item.descripcion}}</h5>
-										</div>				
-										<span style="font-size: 8px;">Costo: ₡ {{item.precio}}</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div class="col-md-2 col-sm-12">
-              				<label id="row-margin" for="unidad">Unidad</label>
-							<select class="form-control" [(ngModel)]="unidad_medida">
-	                            <option *ngFor="let unidad_medida of unidades" 
-	                            		[attr.value]="unidad_medida.nombre" 
-										[attr.selected]="unidad_medida.nombre == 'Servicios Profesionales' ? true : null">
-									{{unidad_medida.nombre}}
-								</option>
-	                        </select>
-						</div>
-						<div class="col-md-2 col-sm-6">
-              				<label id="row-margin" for="precio">Precio</label>
-							<input type="text" 
-								   id="precio" 
-								   class="form-control" 
-								   placeholder="₡16,500" 
-								   name="precio"
-								   style="width:75%;"
-								   (keyup)="calcularSubtotalProducto()"
-								   [(ngModel)]="producto.precio"
-								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
-								   required>
-						</div>
-            			<div class="col-md-1 col-sm-6" style="margin-left: -4%;">
-             			    <label id="row-margin" for="cantidad">Cantidad</label>
-							<input type="number" 
-								   id="cantidad" 
-								   class="form-control" 
-								   [(ngModel)]="producto.cantidad" 
-								   (keyup)="calcularSubtotalProducto()"
-								   (change)="calcularSubtotalProducto()"
-								   name="cantidad" 
-								   min="1" 
-								   placeholder="Cantidad">
-						</div>
-						<div class="col-md-1 col-sm-6" style="width: 13%;">
-             			    <label id="row-margin" for="descuento">Descuento</label>
-							<input type="text" 
-								   id="descuento" 
-								   class="form-control" 
-								   placeholder="₡0" 
-								   (keyup)="calcularSubtotalProducto()"
-								   name="descuento"
-								   [(ngModel)]="producto.descuento"
-								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }">	
-							<span style="color:red;font-size: 10px;" *ngIf="form_errors.negativeSubtotal_product">
-								El descuento no debe ser mayor al subtotal.
-							</span>							   
-						</div>
-						<div class="col-md-2 col-sm-6" style="margin-top:-0.3999%;width: 15.5%;margin-right: -3%;">
-              				<label id="row-margin" for="impuesto">
-              					<input type="checkbox" [checked]="impuesto" (change)="aplicarImpuestoProducto()"/>Impuesto (13%)
-              				</label>
-							<input type="text" 
-								   id="impuesto" 
-								   class="form-control" 
-								   style="width: 75%;"
-								   placeholder="₡2,145" 
-								   name="impuesto"
-								   disabled="true" 
-								   [(ngModel)]="producto.impuesto"
-								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
-								   required>
-						</div>
-						<div class="col-md-2 col-sm-6">
-              				<label id="row-margin" for="subtotal">Subtotal</label>
-							<input id="subtotal" 
-								   class="form-control" 
-								   style="width: 75%;"
-								   placeholder="₡18,645"
-								   disabled="true" 
-								   [(ngModel)]="producto.subtotal"
-								   currencyMask 
-								   [options]="{ prefix: '₡ ', thousands: '.', decimal: ',' }"
-								   required>
-						</div>
-					</div>-->
 					<div class="row">
         				<div class="col-md-offset-4 col-md-4" style="margin-top: 2%;">
   							<button class="btn btn-success no-border"

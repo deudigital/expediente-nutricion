@@ -29,9 +29,7 @@ export class ActividadFisicaComponent implements OnInit {
 	ngOnInit() {
 		this.body = document.getElementsByTagName('body')[0];
 		this.ejercicios	=	this.mng.getEjercicios();
-		console.log(this.ejercicios);
 		this.cargarActividadesDelPaciente();
-		
 	}  
 	ngOnDestroy(){
 
@@ -53,8 +51,6 @@ export class ActividadFisicaComponent implements OnInit {
 		var index	=	this.habitosEjercicios.indexOf(habitosEjercicio);
 		this.formControlDataService.delete('ejercicios', habitosEjercicio).subscribe(
 			 response  => {
-						console.log('Eliminado');
-						console.log(response);						
 						this.habitosEjercicios.splice(index,1);
 						},
 			error =>  console.log(<any>error)
@@ -64,8 +60,6 @@ export class ActividadFisicaComponent implements OnInit {
 		this.formControlDataService.store('habitos_ejercicios', data)
 		.subscribe(
 			 response  => {
-						console.log('store->response...');
-						console.log(response);
 						this.setHabitosEjercicio(response);
 						},
 			error =>  console.log(<any>error)
@@ -95,7 +89,6 @@ export class ActividadFisicaComponent implements OnInit {
 	isNumberKey(evt) {
 		var charCode = (evt.which) ? evt.which : evt.keyCode;
 		if (charCode == 46) {
-			//Check if the text already contains the . character
 			var txt 	=	String(this.newHabitosEjercicio.horas_semanales)
 			if (txt.indexOf('.') === -1) {
 				return true;

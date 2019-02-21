@@ -10,7 +10,6 @@ export class PatologiaComponent implements OnInit {
 	paciente:any;
 	model:any;
 	constructor(private formControlDataService: FormControlDataService) {
-		/*this.model		=	formControlDataService.getFormControlData().getFormHcpPatologias();*/
 		this.paciente	=	formControlDataService.getFormControlData().getFormPaciente();
 	}
   ngOnInit() {

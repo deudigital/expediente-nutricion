@@ -10,9 +10,7 @@ import { FormControlDataService }     from '../control/data/formControlData.serv
   templateUrl: './factura-vacia.component.html'
 })
 export class FacturaVaciaComponent implements OnInit {
-
 	loading:boolean = false;
-
 	private subscription: Subscription;
 	showModalDatos:boolean = false;
 
@@ -59,15 +57,12 @@ export class FacturaVaciaComponent implements OnInit {
 		successful_operation: false,
 		ajax_failure: false
 	};
-// AutoComplete Pacientes
 	showFilter:boolean=false;
 	seleccionado:boolean=false;
 	public queryPerson = '';
 	public filteredListPerson = [];
 	hidePrompt:boolean = true;
 
-
-// Autocomplete variables
     public query = '';
     public filteredList = [];
     results: any = [];
@@ -120,7 +115,6 @@ export class FacturaVaciaComponent implements OnInit {
 	  				this.consulta_id = null;
 	  				  			
 	  			this.obtenerProductos();
-	  		// Comentar para subir
 	  			this.ubicaciones	=	this.mng.getUbicaciones();
 				this._provincias	=	this.mng.getProvincias();
 				this._cantones	=	this.mng.getCantones();
@@ -128,7 +122,6 @@ export class FacturaVaciaComponent implements OnInit {
 
 				if(this.ubicaciones)
 						this.setUbicacion(1);
-			//--------------------------------------//		
 
 				this.obtenerUnidades();				
 				this.getTipo_ID();
@@ -143,8 +136,6 @@ export class FacturaVaciaComponent implements OnInit {
 	  	});
 		this.unidad_medida = 'Servicios Profesionales';		
 	}
-
-  	// Autocomplete 
   	suggest(){
 	 	if(this.query !== ""){
 			if(this.productosDB.length>0){	
@@ -192,49 +183,19 @@ export class FacturaVaciaComponent implements OnInit {
 		if(this.persona.ubicacion_id>0)
 			ubicacion_id	=	this.persona.ubicacion_id;
 
-		
 		var ubicacion	=	this.ubicaciones.filter(x => x.id === ubicacion_id);
 		ubicacion = ubicacion[0];
-		
-		 //setTimeout(() => {
-                //this.provincia	=	2;
-           // }, 1000);
-		
-		
-		
-		//this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_provincia === 1 && x.codigo_canton === 1 && x.codigo_distrito === 1);
-				
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === ubicacion.codigo_provincia);		
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_provincia === ubicacion.codigo_provincia && x.codigo_canton === ubicacion.codigo_canton);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_provincia === ubicacion.codigo_provincia && x.codigo_canton === ubicacion.codigo_canton && x.codigo_distrito === ubicacion.codigo_distrito);
 		this.canton		=	ubicacion.codigo_canton;
 		this.distrito	=	ubicacion.codigo_distrito;
 		this.provincia	=	ubicacion.codigo_provincia;
-		
-		
 		this.persona.ubicacion_id	=	ubicacion_id;
 		return ;
-/*		
-		
-
-		var prov	=	new Provincia(ubicacion.codigo_provincia, ubicacion.nombre_provincia);
-		/ *prov.codigo_provincia		=	ubicacion.codigo_provincia;
-		prov.nombre_provincia		=	ubicacion.nombre_provincia;* /
-		this.provincia	=	prov;
-		
-		this.setCantones(ubicacion.codigo_provincia);
-		var cant	=	new Canton(ubicacion.codigo_canton, ubicacion.nombre_canton, ubicacion.codigo_provincia);
-		this.canton		=	cant;
-		
-		this.setDistritos(ubicacion.codigo_provincia, ubicacion.codigo_canton);
-		var dist	=	new Distrito(ubicacion.codigo_distrito, ubicacion.nombre_distrito, ubicacion.codigo_canton, ubicacion.codigo_provincia);
-		this.distrito	=	dist;*/
-
 	}
 
-	selectCantones(event:Event):void {console.log('selectCantones de provincia->' + this.provincia);
-		//this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia.codigo_provincia);
-
+	selectCantones(event:Event):void {
 		this.filter_cantones	=	this._cantones.filter(x => x.codigo_provincia === this.provincia);
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
@@ -242,18 +203,16 @@ export class FacturaVaciaComponent implements OnInit {
 		this.distrito = 1;
 		this.persona.ubicacion_id = this.filter_barrios[0].id;
 	}
-	selectDistritos(event:Event):void {console.log('selectDistritos de canton->' + this.canton);		
+	selectDistritos(event:Event):void {
 		this.filter_distritos	=	this._distritos.filter(x => x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);	
 		this.filter_barrios		=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.distrito = 1;
 		this.persona.ubicacion_id = this.filter_barrios[0].id;
 	}
-	selectBarrios(event:Event):void {console.log('selectBarrios de Distrito->' + this.distrito);
+	selectBarrios(event:Event):void {
 		this.filter_barrios	=	this.ubicaciones.filter(x => x.codigo_distrito === this.distrito && x.codigo_canton === this.canton && x.codigo_provincia === this.provincia);
 		this.persona.ubicacion_id = this.filter_barrios[0].id;
-		console.log(this.filter_barrios);
 	}
-
   	closeModal(){  		
 		let body = document.getElementsByTagName('body')[0];
 		body.classList.remove('open-modal');
@@ -316,11 +275,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.formControlDataService.getMeasures()
 		.subscribe(
 			response => {
-						/*let res = response.text();
-			 			let resArray = [] 
-
-			 			resArray = res.split('<br />');			 			
-			 			this.unidades = JSON.parse(resArray[2]);*/
 			 			this.unidades = response;
 			},
 			error => {
@@ -370,9 +324,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.formControlDataService.getNutricionista()
 		.subscribe(
 			response => {				
-				/*let resArray = [];
-				resArray = response.text().split('<br />');							
-			 	this.nutricionista = JSON.parse(resArray[2])[0];	*/		 	
 			 	this.nutricionista = response[0];			 	
 			 	this.getUbicacion_Nutricionista();	
 
@@ -390,9 +341,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.formControlDataService.getPacientesDeNutricionista()
 		.subscribe(
 			response => {				
-				/*let resArray = [];
-				resArray = response.text().split('<br />');							
-			 	this.persona = JSON.parse(resArray[2]);		*/	 				 	
 			 	this.resultArray = response;	
 			 	this.showFilter=false;				 		 		 			
 			},
@@ -406,9 +354,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.formControlDataService.getTipo_ID()
 		.subscribe(
 			response => {
-				/*let resArray = [];
-				resArray = response.text().split('<br />');							
-			 	this.tipos_ID = JSON.parse(resArray[2]);*/	
 				this.tipos_ID = response;
 				this.persona.identification_nombre="Cedula Fisica";				
 			},
@@ -438,9 +383,7 @@ export class FacturaVaciaComponent implements OnInit {
 		this.queryPerson = paciente.nombre;	 	
 	 	this.filteredListPerson = [];
 	 	this.showFilter= false;
-	 		 	
 	 	this.persona = paciente;
-	 	console.log(paciente);
 	 	this.seleccionado = true;	
 
 	 	if (this.persona.tipo_idenfificacion_id===null) {
@@ -452,13 +395,7 @@ export class FacturaVaciaComponent implements OnInit {
 			 			this.persona.identification_nombre = this.tipos_ID[tipo].nombre;
 			 		}
 			 	}					
-
-			 // Validar carga de datos
 	  			this.validarNombre();
-				/*this.validarCorreo();
-				this.validarTelefono();
-				this.validarCedula();*/
-
 				if(!this.persona.cedula){
 					this.form_errors.empty_id = true;
 				}
@@ -471,9 +408,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.formControlDataService.getMedio_Pagos()
 		.subscribe(
 			response => {
-				/*let resArray = [];
-				resArray = response.text().split('<br />');	
-				this.medios_pagos = JSON.parse(resArray[2]);*/				
 				this.medios_pagos = response;
 			},
 			error => {
@@ -646,12 +580,6 @@ export class FacturaVaciaComponent implements OnInit {
 			this.form_errors.empty_products = false;
 		}
 
-		
-
-		/*if((this.persona.cedula && this.persona.nombre) && (this.persona.telefono && this.persona.email) 
-			&& (!this.form_errors.invalid_id && !this.form_errors.invalid_phone) && !this.form_errors.invalid_email){	*/
-		console.log(this.form_errors.empty_name)
-
 		if(this.persona.nombre && !this.form_errors.empty_products && !this.form_errors.empty_name){
 
 			this.loading = true;
@@ -685,10 +613,6 @@ export class FacturaVaciaComponent implements OnInit {
 					factura: this.factura,
 					consulta: this.consulta_id
 				}
-
-				console.log(this.persona);
-				
-
 				this.formControlDataService.generarFactura(data)
 				.subscribe(
 					response => {					   
@@ -823,8 +747,6 @@ export class FacturaVaciaComponent implements OnInit {
 		this.persona.id		=	data.id;
 		this.persona.persona_id=	data.id;
 		this.formControlDataService.getFormControlData().getFormPaciente().set(this.persona);
-		//this.formControlDataService.getFormPaciente.id	=	data.id;
-		//this.mng.setEnableLink(true);
 	}
 
 	regexEmail(email) {
@@ -833,7 +755,6 @@ export class FacturaVaciaComponent implements OnInit {
 	}
 
 	validarNombre(){
-		console.log(this.persona);
 		if(this.persona.nombre){
 			this.form_errors.empty_name = false;
 		}else{
@@ -910,7 +831,6 @@ export class FacturaVaciaComponent implements OnInit {
 	    let inputChar = String.fromCharCode(event.charCode);
 
 	    if (!pattern.test(inputChar)) {
-	      // invalid character, prevent input
 	      event.preventDefault();
 	    }
 	}

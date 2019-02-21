@@ -4,7 +4,6 @@ import {IMyDpOptions, IMyDayLabels, IMyMonthLabels, IMyDateModel} from 'mydatepi
 
 import { ManejadorDatos, Agenda, Paciente } from '../control/data/formControlData.model';
 import { FormControlDataService }     from '../control/data/formControlData.service';
-//import {Observable} from 'rxjs/Observable';
 import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-agenda',
@@ -87,29 +86,14 @@ export class AgendaComponent implements OnInit {
 	};
 	
 	private fieldArray: Array<any> = [];
-	private filter_time_availables: Array<any> = [];
+	public filter_time_availables: Array<any> = [];
 	
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.fcd		=	formControlDataService.getFormControlData();
 		this.helpers	=	this.fcd.getHelpers();
 		this.mng		=	this.fcd.getManejadorDatos();
-		/*window.onresize = ( e ) => {
-					clearTimeout(this.doitresize);
-					this.doitresize	=	setTimeout(() => {
-										this._getScreenSize();
-									}, 1000);
-				}*/
-		
     }
-	/*_getScreenSize(){
-		try {
-			this.isMobile	=	this.tagBody.offsetWidth<768;
-		}
-		catch(err) {
-				console.log( 'E:_getScreenSize(' + err.message + ')' );
-		}
-	}*/
 	ngOnInit() {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.classList.add('hide-main-title');
@@ -117,7 +101,6 @@ export class AgendaComponent implements OnInit {
 		this.auth.verifyUser(localStorage.getItem('nutricionista_id'))
 			.then((response) => {
 				var response	=	response.json();
-				/*console.log(response);*/
 				if(!response.valid){
 					localStorage.clear();
 					this.formControlDataService.getFormControlData().message_login	=	response.message;
@@ -154,7 +137,6 @@ export class AgendaComponent implements OnInit {
 				console.log(JSON.parse(err._body));
 
 			});
-		/*this._getScreenSize();*/
 	}
 	ngOnDestroy() {
 		this.tagBody.classList.remove('hide-main-title');
@@ -171,7 +153,6 @@ export class AgendaComponent implements OnInit {
 		this.procesandoAgenda	=	false;
 		
 		let d: Date = new Date();
-		/*this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() / 1000 };*/
 		this.fecha_event =	{ date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}, epoc: d.getTime() };
 		this.printDateSelected();
 	}
@@ -181,10 +162,8 @@ export class AgendaComponent implements OnInit {
 		if(cita.editing)
 			return ;
 
-		/*console.log(cita);*/
 		this.cita	=	cita;
 		this.cita_reserva_hora	=	cita.time_formatted;
-		/*this.servicio_nombre	=	this.servicio.nombre;*/
 		this.cita.editing	=	true;
 		var index	=	this.fieldArray.indexOf(this.cita);
 		if(cita.id>0){
@@ -196,7 +175,6 @@ export class AgendaComponent implements OnInit {
 			this.editar_cita.email		=	cita.email;
 			this.editar_cita.notas		=	cita.notas;
 			this.servicio_nombre		=	cita.agenda_servicio_nombre;
-			/*var index	=	this.fieldArray.indexOf(this.cita);*/
 			this.setAllTimesAvailable(index);
 		
 		}else{
@@ -204,7 +182,6 @@ export class AgendaComponent implements OnInit {
 			this.editar_cita		=	new Agenda();
 			this.editar_cita_nuevo	=	false;
 			this.servicio_nombre	=	this.servicio.nombre;
-			/*var index	=	this.fieldArray.indexOf(this.cita);*/
 			this.setTimesAvailable(	index, this.servicio.duracion );
 		}
 		
@@ -213,9 +190,6 @@ export class AgendaComponent implements OnInit {
 		this.hideModalDatos	=	false;
 		
 		this._resetFormModal()
-		
-		/*var index	=	this.fieldArray.indexOf(this.cita);
-		this.setTimesAvailable(	index );*/
 		this.tagBody.classList.add('open-modal');
 		this.tagBody.classList.add('datos');
 
@@ -244,7 +218,6 @@ export class AgendaComponent implements OnInit {
 			if(_next.length>0){
 				index	=	this.fieldArray.indexOf( _next[0] );
 				if((index-1)>previous_index){
-					/*this.setTimesAvailable( index -1, true );*/
 					this.setTimesAvailable( index -1, this.fieldArray[selected_index].agenda_servicio_duracion, true );
 				}
 
@@ -259,12 +232,11 @@ export class AgendaComponent implements OnInit {
 	}
 	setTimesAvailable( index_cita_selected, servicio_duracion, all=false ){
 		var _hora_init	=	Number( (this.hour_from*100));
-		/*var _hora_limit	=	Number( (this.hour_to*100)) - (this.servicio.duracion+40);*/
 		var _hora_limit	=	Number( (this.hour_to*100)) - (servicio_duracion+40);
 		if(this.citas.length>0){
 			_hora_init	=	this.__get_init_section(index_cita_selected);
 			_hora_limit	=	this.__get_limit_section(index_cita_selected, servicio_duracion);
-		}
+		}console.log(_hora_init + ' -> ' + _hora_limit);
 		if(!all)
 			this.filter_time_availables	=	[];
 		var _index	=	0;
@@ -315,7 +287,6 @@ export class AgendaComponent implements OnInit {
 		}
 		if(_index_limit==this.fieldArray.length){
 			let _hour_to	=	Number(this.hour_to*100);
-			/*let _mhm	=	this.helpers.__getMinutesHM( this.servicio.duracion );*/
 			let _mhm	=	this.helpers.__getMinutesHM( servicio_duracion );
 			let _return	=	_hour_to - _mhm;
 			return	_return;
@@ -324,91 +295,16 @@ export class AgendaComponent implements OnInit {
 		let _nexttime	=	this.helpers.__getCocienteResiduo(next_time.militartime,100);
 		let _return	=	0;
 		let _aux	=	0;
-		console.log(_duracion.r + ' > ' + _nexttime.r);
+		/*console.log(_duracion.r + ' > ' + _nexttime.r);*/
 		if(_duracion.r>_nexttime.r)
 			_aux	=	_duracion.d*40+40;
 		else
 			_aux	=	_duracion.d*40;
 
-		/*_return	=	next_time.militartime - (this.servicio.duracion + _aux);*/
 		_return	=	next_time.militartime - (servicio_duracion + _aux);
 		return _return;
 	}
-/*	setTimesAvailable__ok( index_cita_selected, all=false ){
-		var _hora_init	=	Number( (this.hour_from*100));
-		var _hora_limit	=	Number( (this.hour_to*100)) - (this.servicio.duracion+40);
-		if(this.citas.length>0){
-			_hora_init	=	this.__get_init_section(index_cita_selected);
-			_hora_limit	=	this.__get_limit_section(index_cita_selected);
-		}
-		if(!all)
-			this.filter_time_availables	=	[];
-		var _index	=	0;
-		var _i = _hora_init;
-		var _d	=	100;
-		var _res=	0;
-		var _div=	0;
-		var _time_standard	=	'';
-		while( _i <= _hora_limit ) {						
-			this.filter_time_availables.push({id:_i,text: this.helpers.formatTime( _i )});
-				_d	=	100;
-			_res	=	_i%_d;
-			_div	=	_i/_d;
-			if(_res==55)
-				_i	+=	40;
 
-			_i	=	_i + 5;
-		}
-		this.hora_custom	=	this.cita.militartime;
-	}
-	__get_init_section__ok(index_cita_selected){
-		var _index_init	=	index_cita_selected - 1;
-		var found	=	false;
-		while( (_index_init>=0 ) && !found){
-			let prev_time =	this.fieldArray[_index_init];
-			if(prev_time.status>0 && prev_time.status<3){
-				found	=	true;
-				_index_init++;
-			}else
-				_index_init--;
-		}
-		if(_index_init==-1)
-			_index_init	=	0;
-		return this.fieldArray[_index_init].militartime;
-	}
-	__get_limit_section__ok(index_cita_selected){
-		var _index_limit	=	index_cita_selected + 1;
-		var found	=	false;		
-		var next_time:any;
-		while((_index_limit < this.fieldArray.length) && !found){
-			next_time =	this.fieldArray[_index_limit];
-			if(next_time.status>0 && next_time.status<3){
-				found	=	true;
-				_index_limit--;
-			}
-			else
-				_index_limit++;
-		}
-		if(_index_limit==this.fieldArray.length){
-			let _hour_to	=	Number(this.hour_to*100);
-			let _mhm	=	this.helpers.__getMinutesHM( this.servicio.duracion );
-			let _return	=	_hour_to - _mhm;
-			return	_return;
-		}
-		let _duracion	=	this.helpers.__getCocienteResiduo(this.servicio.duracion,60);
-		let _nexttime	=	this.helpers.__getCocienteResiduo(next_time.militartime,100);
-		let _return	=	0;
-		let _aux	=	0;
-		console.log(_duracion.r + ' > ' + _nexttime.r);
-		if(_duracion.r>_nexttime.r)
-			_aux	=	_duracion.d*40+40;
-		else
-			_aux	=	_duracion.d*40;
-
-		_return	=	next_time.militartime - (this.servicio.duracion + _aux);
-		return _return;
-	}
-*/
 	saveCita(form){
 		this._form	=	form;
 		this.btn_save_presionado	=	true;
@@ -422,7 +318,6 @@ export class AgendaComponent implements OnInit {
 		}
 
 		nueva_cita.date					=	this.fecha_event.epoc;
-		/*nueva_cita.militartime			=	this.cita.militartime;*/
 		nueva_cita.militartime			=	this.hora_custom;
 		nueva_cita.nutricionista_id		=	this.fcd.nutricionista_id;
 		nueva_cita.notas				=	this.editar_cita.notas;
@@ -432,14 +327,10 @@ export class AgendaComponent implements OnInit {
 			nueva_cita.persona_id			=	this.selectedPaciente.id;
 
 		nueva_cita.persona_nombre		=	this.q;
-		
-		console.log(nueva_cita);
 		this.formControlDataService.store('agenda', nueva_cita)
 		.subscribe(
 			 response  => {
-						/*console.log('saveCita::response');*/
-						this.setAgenda(response);
-						
+						this.setAgenda(response);						
 						},
 			error =>  {
 					console.log('saveCita::error');
@@ -453,7 +344,6 @@ export class AgendaComponent implements OnInit {
 									}, 5000);
 					},					
 			() =>{
-				/*console.log('saveCita::Complete');*/
 				this.btn_save_presionado=false;
 				}
 
@@ -517,7 +407,6 @@ export class AgendaComponent implements OnInit {
 		let _time_label	=	'';
 		
 		var j=0;
-		/*var h=hour_from;*/
 		var h=this.hour_from;
 		let cita:any;
 		
@@ -545,7 +434,6 @@ export class AgendaComponent implements OnInit {
 						_minutos	=	aux%_horaEnMinutos;
 					}else{
 						h	=	_t.hour;
-						/*_minutos	=	citaReservada.agenda_servicio_duracion;*/
 						_minutos	=	aux;
 					}
 					if(_citas.length>0){
@@ -560,7 +448,6 @@ export class AgendaComponent implements OnInit {
 					_minutos	+=	this.servicio.duracion;
 				}
 				if(cita_prepared!=null){
-					/*console.log(cita_prepared.militartime)*/
 					cita_prepared.editable	=	cita_prepared.status < 3;
 					this.fieldArray.push( cita_prepared );
 				}
@@ -575,8 +462,8 @@ export class AgendaComponent implements OnInit {
 			_minutos	=	_minutos%_horaEnMinutos;
 		}
 		if(cita_prepared!=null ){
-			hour_to	=	Number( (hour_to*100));/*	2200	*/
-			let _time	=	cita_prepared.militartime;/*	2145	*/
+			hour_to	=	Number( (hour_to*100));
+			let _time	=	cita_prepared.militartime;
 			if( this.servicio.duracion>=_horaEnMinutos){
 				let div	=	Math.trunc(Number( this.servicio.duracion/_horaEnMinutos ));
 				_time	=	cita_prepared.militartime + (div*100);
@@ -590,7 +477,6 @@ export class AgendaComponent implements OnInit {
 			if( (_time > hour_to) ){
 				cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
 				cita_prepared.class		=	'unavailable';
-				/*cita_prepared.editable	=	false;*/
 				cita_prepared.status	=	3;
 			}
 			cita_prepared.editable	=	cita_prepared.status < 3;
@@ -602,8 +488,6 @@ export class AgendaComponent implements OnInit {
 	mostrarCitasAgendadas__old(){
 		console.clear();
 		this.fieldArray = [];
-		/*let hour_from	=	4;*/
-		/*let hour_to		=	22;*/
 		let hour_to		=	this.hour_to;
 		let _minutos	=	0;
 		let _horaEnMinutos	=	60;
@@ -621,7 +505,6 @@ export class AgendaComponent implements OnInit {
 		let _time_label	=	'';
 		
 		var j=0;
-		/*var h=hour_from;*/
 		var h=this.hour_from;
 		let cita:any;
 		
@@ -649,7 +532,6 @@ export class AgendaComponent implements OnInit {
 						_minutos	=	aux%_horaEnMinutos;
 					}else{
 						h	=	_t.hour;
-						/*_minutos	=	citaReservada.agenda_servicio_duracion;*/
 						_minutos	=	aux;
 					}
 					if(this.citas.length>0){
@@ -664,7 +546,6 @@ export class AgendaComponent implements OnInit {
 					_minutos	+=	this.servicio.duracion;
 				}
 				if(cita_prepared!=null){
-					/*console.log(cita_prepared.militartime)*/
 					cita_prepared.editable	=	cita_prepared.status < 3;
 					this.fieldArray.push( cita_prepared );
 				}
@@ -679,8 +560,8 @@ export class AgendaComponent implements OnInit {
 			_minutos	=	_minutos%_horaEnMinutos;
 		}
 		if(cita_prepared!=null ){
-			hour_to	=	Number( (hour_to*100));/*	2200	*/
-			let _time	=	cita_prepared.militartime;/*	2145	*/
+			hour_to	=	Number( (hour_to*100));
+			let _time	=	cita_prepared.militartime;
 			if( this.servicio.duracion>=_horaEnMinutos){
 				let div	=	Math.trunc(Number( this.servicio.duracion/_horaEnMinutos ));
 				_time	=	cita_prepared.militartime + (div*100);
@@ -694,18 +575,14 @@ export class AgendaComponent implements OnInit {
 			if( (_time > hour_to) ){
 				cita_prepared.text		=	'Tiempo insuficiente para el servicio seleccionado';
 				cita_prepared.class		=	'unavailable';
-				/*cita_prepared.editable	=	false;*/
 				cita_prepared.status	=	3;
 			}
 			cita_prepared.editable	=	cita_prepared.status < 3;
 			this.fieldArray.push( cita_prepared );
 		}
-		
 		this.procesandoAgenda	=	false;
 	}
 	servicioChanged(event){
-		/*console.log('servicioChanged');		
-		console.log(event);*/
 		clearTimeout(this.doit);
 		this.doit	=	setTimeout(() => {
 							console.log(this.fecha_event);
@@ -716,7 +593,6 @@ export class AgendaComponent implements OnInit {
 	}	
 	onDateChanged(event: IMyDateModel) {
 		setTimeout(() => {
-						/*console.log('onDateChanged');*/
 						this.printDateSelected();
 					}, 100);
 
@@ -757,7 +633,6 @@ export class AgendaComponent implements OnInit {
 		let inputs	=	document.getElementsByClassName('form-control-modal');
 		for(var i in inputs){
 			if( inputs[i].classList ){
-				/*console.log( inputs[i].classList );*/
 				inputs[i].classList.remove('ng-invalid');
 				inputs[i].classList.remove('ng-touched');
 				inputs[i].classList.remove('ng-dirty');
@@ -767,7 +642,7 @@ export class AgendaComponent implements OnInit {
 	onFilter(){
 		if(!this.canFilter || this.cita.status>0)
 			return ;
-		/*this.q	=	this.q.trim();*/
+
 		if(this.q.length==0){
 			this.editar_cita.email		=	'';
 			this.editar_cita.telefono	=	'';
@@ -815,7 +690,6 @@ export class AgendaComponent implements OnInit {
 				this.formControlDataService.store('confirmar_cita', this.cita)
 				.subscribe(
 					 response  => {
-								/*console.log('response');*/
 								this.setAgenda(response);
 								
 								},
@@ -825,7 +699,6 @@ export class AgendaComponent implements OnInit {
 							this.btn_prompt_yes_presionado=false;
 							},					
 					() =>{
-							/*console.log('Complete');*/
 							this.hidePrompt	=	true;
 							this.promptCancelar();
 							this.btn_prompt_yes_presionado=false;
@@ -860,8 +733,6 @@ export class AgendaComponent implements OnInit {
 		this.tagBody.classList.remove('open-modal');
 	}
 	printDateSelected(){
-		/*console.log('printDateSelected');
-		console.log(this.fecha_event.date);*/
 		let date	=	this.fecha_event.date;
 		this.cita_reserva_fecha	=	this._months[date.month] + ' ' + date.day + ', ' + date.year;
 	}

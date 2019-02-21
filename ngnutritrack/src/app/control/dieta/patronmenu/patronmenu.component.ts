@@ -128,6 +128,8 @@ export class PatronmenuComponent implements OnInit {
 	
 	
 	let _withOldInfo	=	this.menus.filter(x => x.tiempo_comida_id < 7);
+	console.log('_withOldInfo');
+	console.log(_withOldInfo);
 	if(_withOldInfo[0])
 		this.displayOldTiemposComida	=	true;
 
