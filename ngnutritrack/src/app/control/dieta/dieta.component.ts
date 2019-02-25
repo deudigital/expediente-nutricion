@@ -247,7 +247,7 @@ export class DietaComponent implements OnInit {
 			historial[i].display	=	false;
 			data[i]		=	historial[i];
 		}
-		this.historial	=	data;
+		this.historial	=	data;console.log(this.historial);
 		this.disableButtonHistorial	=	this.historial.length==0;
 	}
 	displayDetails(item){

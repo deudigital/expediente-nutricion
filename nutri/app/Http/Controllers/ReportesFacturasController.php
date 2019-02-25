@@ -209,6 +209,7 @@ class ReportesFacturasController extends Controller
             ->get();
         if(count($registros)>0){
             $tiempoComidas	=	TiempoComida::where('nutricionista_id', $id)
+								->orWhere('nutricionista_id','0')
 								->select('*', DB::raw("'' as menu"), DB::raw("'' as ejemplo"), DB::raw("'' as summary"))
 								->get();
 			if($tiempoComidas)

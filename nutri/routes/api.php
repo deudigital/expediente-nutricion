@@ -43,6 +43,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('consultas/{id}/resumen/{mode}', 'ConsultaController@testResumen');
 	Route::get('consultas/patronmenu/duplicados', 'PatronMenuController@duplicados');
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
+	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
 	Route::get('form/data', 'FormController@dataform');

@@ -419,25 +419,29 @@
 							<td>{{historia.proteinas}} %</td>
 							<td>{{historia.grasas}} %</td>
 					<ng-template [ngIf]="historia.items" [ngIfElse]="historia_items_loading">
-							<td *ngIf="!historia.display">{{historia.items[1] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[2] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[3] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[4] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[5] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[6] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[7] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[8] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[9] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[10] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[11] || '' }}</td>
-							<td *ngIf="!historia.display">{{historia.items[12] || '' }}</td>
+						<ng-template ngFor let-historia_item [ngForOf]= "historia.items" let-i="index">
+							<ng-template [ngIf]="i>0">
+							<td *ngIf="!historia.display">{{historia_item || '' }}</td>
+							</ng-template>
+						</ng-template>
 					</ng-template>
 					<ng-template #historia_items_loading>
 							<td colspan="12">&nbsp;</td>
 					</ng-template>
 						</tr>
 						
-			<ng-template [ngIf]="historia.patron_menu">
+			<ng-template [ngIf]="historia.patron_menu">					
+					<ng-template ngFor let-historia_patron_menu_item [ngForOf]= "historia.patron_menu">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">{{historia_patron_menu_item.nombre || '' }}</td>
+						<ng-template ngFor let-historia_patronmenu [ngForOf]= "historia_patron_menu_item.items" let-k="index">
+							<ng-template [ngIf]="k>0">
+							<td>{{historia_patronmenu || '' }}</td>
+							</ng-template>
+						</ng-template>
+						</tr>
+					</ng-template>
+<!--
 					<ng-template [ngIf]="historia.patron_menu[1]">
 						<tr class="detalle_prescripcion" *ngIf="historia.display">
 							<td colspan="4">Desayuno</td>
@@ -540,6 +544,7 @@
 							<td>{{historia.patron_menu[6][12] || '' }}</td>
 						</tr>
 					</ng-template>
+			-->
 			</ng-template>
 </ng-template>
 
