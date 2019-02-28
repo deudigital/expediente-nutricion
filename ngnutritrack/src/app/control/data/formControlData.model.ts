@@ -363,6 +363,9 @@ export class FormControlData {
 	setPatronMenu(patron_menu){
 		this.patronmenu			=	patron_menu;
 	}
+	setPatronMenuEjemplos(patron_menu_ejemplos){
+		this.patron_menu_ejemplos			=	patron_menu_ejemplos;
+	}
 	setValoracionDietetica(data){
 		this.valoracionDietetica=	data;
 	}

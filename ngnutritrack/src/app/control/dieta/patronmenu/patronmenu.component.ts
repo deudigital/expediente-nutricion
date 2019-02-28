@@ -21,6 +21,7 @@ export class PatronmenuComponent implements OnInit {
   
   prescripcion=new Prescripcion();
   items:PrescripcionItem[]=[]; 
+  patron_menu_ejemplos:any[]=[]; 
   
   showTabGrafico:boolean=false;
   showTabDatos:boolean=true;
@@ -97,13 +98,13 @@ export class PatronmenuComponent implements OnInit {
 	this.alimentos['11']=	'Grasas';
 	this.alimentos['12']=	'Vasos con Agua';
 
-	this.tiempos['']	=	'';
+	/*this.tiempos['']	=	'';
 	this.tiempos['1']	=	'Desayuno';
 	this.tiempos['2']	=	'Media Mañana';
 	this.tiempos['3']	=	'Almuerzo';
 	this.tiempos['4']	=	'Media Tarde';
 	this.tiempos['5']	=	'Cena';
-	this.tiempos['6']	=	'Coición Nocturna';
+	this.tiempos['6']	=	'Coición Nocturna';*/
 	
 	this.tagBody = document.getElementsByTagName('body')[0];
 	this.tagBody.classList.add('menu-parent-dieta');
@@ -116,21 +117,6 @@ export class PatronmenuComponent implements OnInit {
 	this.setTotales();
 	this.tiempo_comida_nombre	=	'';
   }
-	setAsignaciones(){
-		this.prescripcion	=	this.model.getFormPrescripcion();
-		this.items			=	this.prescripcion.items;
-		/*	this.prescritos		=	this.prescritos.fill(0, 12, 0);*/
-		for(var i=0;i<13;i++)
-			this.prescritos[i]	=	0;
-
-		console.log('this.prescritos s');console.log(this.prescritos);
-
-		var obj;
-		for(var i =0;i<this.items.length;i++){
-			obj	=	this.items[i];
-			this.prescritos[obj.id]	=	obj.porciones;
-		}
-	}
 	ngOnDestroy() {
 		if(!this.navitation)
 			this.saveForm();
@@ -168,6 +154,21 @@ export class PatronmenuComponent implements OnInit {
 			this.oMenu[this.custom_tiempo_comidas[j].id]	=	this.copy( this.custom_tiempo_comidas[j].menu );		
 		}
 	}
+	setAsignaciones(){
+		this.prescripcion	=	this.model.getFormPrescripcion();
+		this.items			=	this.prescripcion.items;
+		/*	this.prescritos		=	this.prescritos.fill(0, 12, 0);*/
+		for(var i=0;i<13;i++)
+			this.prescritos[i]	=	0;
+
+		console.log('this.prescritos s');console.log(this.prescritos);
+
+		var obj;
+		for(var i =0;i<this.items.length;i++){
+			obj	=	this.items[i];
+			this.prescritos[obj.id]	=	obj.porciones;
+		}
+	}
 	copy(data){
 		var myArray={};
 		for(var i in data){
@@ -197,6 +198,14 @@ export class PatronmenuComponent implements OnInit {
 		}
 		console.log('prepare:');console.log(myArray);
 		return myArray;
+	}
+	prepareEjemplos(id_consulta){
+		var i=0;
+		var tiempo_de_comidas_ejemplos	=	[];
+		for(var j in this.custom_tiempo_comidas){
+			tiempo_de_comidas_ejemplos.push( {'consulta_id': id_consulta, 'ejemplo': this.custom_tiempo_comidas[j].ejemplo, 'id': 0, 'tiempo_comida_id': this.custom_tiempo_comidas[j].id} );
+		}				
+		return tiempo_de_comidas_ejemplos;
 	}
 	infoEdited(){
 		var result1	=	this.infoEditedEjemplos();
@@ -273,8 +282,10 @@ export class PatronmenuComponent implements OnInit {
 		this.menus		=	{};
 		this.menus[0]	=	'';
 		var id_consulta	=	this.model.getFormConsulta().id;
-		this.menus		=	this.prepare(id_consulta)
+		this.menus		=	this.prepare(id_consulta);
+		this.patron_menu_ejemplos		=	this.prepareEjemplos(id_consulta);
 		this.model.setPatronMenu(this.menus);
+		this.model.setPatronMenuEjemplos(this.patron_menu_ejemplos);
 		this.formControlDataService.setFormControlData(this.model);		
 	}
 	saveInfo(data){console.log('saveInfo');console.log(data);
