@@ -890,7 +890,7 @@ Enviar usuario y contrasena?????? por ahora si...
 			}
 			$blade['prescripcion']	=	$aPrescripcionItems;
 		}
-		$tiempoComidas	=	TiempoComida::all();
+		$tiempoComidas	=	Helper::getTiposComida($paciente->nutricionista_id);
 		if(count($tiempoComidas)>0){
 			$aTiempoComidas	=	$tiempoComidas->toArray();
 			$_tiempo_comidas	=	array();
@@ -900,13 +900,18 @@ Enviar usuario y contrasena?????? por ahora si...
 				$_tiempo_comidas[$value['id']]['menu']		=	array();
 			}
 		}
+/*Helper::_print($_tiempo_comidas);*/
 		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta->id)
 									->get();
+/*Helper::_print($patronMenuEjemplo);*/
 		if(count($patronMenuEjemplo)>0){
 			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
-			foreach($aPatronMenuEjemplo as $key=>$value)
-				$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+			foreach($aPatronMenuEjemplo as $key=>$value){
+				if(isset($_tiempo_comidas[$value['tiempo_comida_id']]))
+					$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+			}
 		}
+/*Helper::_print($_tiempo_comidas);exit;*/
 		$patronMenu	=	DB::table('patron_menus')
 							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
 							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
@@ -957,7 +962,7 @@ Enviar usuario y contrasena?????? por ahora si...
 			$data['bprescripcion']	=	$blade['prescripcion'];
 		if(isset($blade['patron_menu']))
 			$data['bpatronmenu']	=	$blade['patron_menu'];
-/*Helper::_print($data);*/
+
 		return $data;
 	}
 	

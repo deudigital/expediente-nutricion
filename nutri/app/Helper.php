@@ -150,10 +150,13 @@ class Helper
 		return $return;
 	}
 	public static function getTiposComida($nutricionista_id){
-		$return	=	DB::table('tiempo_comidas')
+/*		$return	=	DB::table('tiempo_comidas')
 							->where('nutricionista_id', $nutricionista_id)
 							->orWhere('nutricionista_id','0')
-							->get();
+							->get();*/
+		$return	=	TiempoComida::where('nutricionista_id', $nutricionista_id)
+								->orWhere('nutricionista_id','0')
+								->get();
 		return $return;
 	}
 /*	API APP	*/

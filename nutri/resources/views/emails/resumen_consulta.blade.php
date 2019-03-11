@@ -544,6 +544,8 @@ endif;
 		                    </table>
 @foreach ($bpatronmenu as $patronmenu)
 @php
+$porciones	=	'';
+if(isset($patronmenu['menu']))
 	$porciones	=	implode(', ', $patronmenu['menu'])
 @endphp
 

@@ -8,6 +8,8 @@ use App\PatronMenu;
 use App\PatronMenuEjemplo;
 use App\TiempoComida;
 use App\Consulta;
+use App\Paciente;
+use App\Helper;
 use DB;
 
 class DietaController extends Controller
@@ -131,7 +133,7 @@ class DietaController extends Controller
     {
         //
     }
-	function belongsToPaciente($id){				
+	function belongsToPaciente($id){
 		$consulta	=	Consulta::where('paciente_id', $id)
 								->where('estado', '1')
 								->orderBy('fecha', 'DESC')
@@ -140,9 +142,11 @@ class DietaController extends Controller
 		if(!$consulta)
 			return	Response::json(['message' => 'Records not exist'], 204);
 
-		$tiempoComidas	=	TiempoComida::where('nutricionista_id','199')
+		$paciente	=	Paciente::find($id);
+		/*$tiempoComidas	=	TiempoComida::where('nutricionista_id','199')
 								->orWhere('nutricionista_id','0')
-								->get();
+								->get();*/
+		$tiempoComidas	=	Helper::getTiposComida($paciente->nutricionista_id);
 		$_tiempo_comidas	=	array();
 		if(count($tiempoComidas)>0){
 			$aTiempoComidas	=	$tiempoComidas->toArray();			
@@ -158,8 +162,10 @@ class DietaController extends Controller
 		
 		if(count($patronMenuEjemplo)>0){
 			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
-			foreach($aPatronMenuEjemplo as $key=>$value)
-				$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+			foreach($aPatronMenuEjemplo as $key=>$value){
+				if(isset($_tiempo_comidas[$value['tiempo_comida_id']]))
+					$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+			}
 		}
 
 		$patronMenu	=	DB::table('patron_menus')
