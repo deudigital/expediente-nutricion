@@ -918,8 +918,10 @@ Enviar usuario y contrasena?????? por ahora si...
 			$aPatronMenu	=	$patronMenu->toArray();
 			foreach($aPatronMenu as $key=>$value)
 				$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	($value->porciones + 0) . ' ' . $value->alimento;
+
+			$blade['patron_menu']	=	$_tiempo_comidas;		
 		}
-		$blade['patron_menu']	=	$_tiempo_comidas;		
+/*		$blade['patron_menu']	=	$_tiempo_comidas;*/
 		$nutricionista	=	DB::table('nutricionistas')
 								->join('personas', 'personas.id', 'nutricionistas.persona_id')
 								->where('nutricionistas.persona_id', $paciente->nutricionista_id)
@@ -985,7 +987,7 @@ Enviar usuario y contrasena?????? por ahora si...
 			$paciente->email	=	'danilo@deudigital.com';
 		}
 		/*Helper::_print($paciente);
-		Helper::_print($data);		
+		Helper::_print($data);
 		die('sending email');*/
 
 		Mail::send('emails.resumen_consulta', $data, function($message) use ($paciente) {

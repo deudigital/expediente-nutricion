@@ -62,7 +62,7 @@ class TiempoComidaController extends Controller
 												]);
 		$tiempoComida['ejemplo']	=	'';
 		$tiempoComida['summary']	=	'';
-		$tiempoComida['menu']	=	'';
+		$tiempoComida['menu']		=	array();
 		
 		$message	=	array(
 							'code'		=> '201',

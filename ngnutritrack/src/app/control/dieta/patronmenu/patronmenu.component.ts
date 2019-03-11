@@ -111,7 +111,7 @@ export class PatronmenuComponent implements OnInit {
 	this.navitation	=	false;
 	
 	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
-	console.log('this.menus');console.log(this.menus);
+	/*console.log('this.menus');console.log(this.menus);*/
 	this.setInfoInit();
 	this.setAsignaciones();
 	this.setTotales();
@@ -148,11 +148,15 @@ export class PatronmenuComponent implements OnInit {
 			}
 		}
 		this.abkp	=	this.helpers.clone(this.custom_tiempo_comidas);
+		/*console.log('array initialization');
+		console.log(this.custom_tiempo_comidas);
+		console.log(this.abkp);*/
 		var aMenu	=	{};
 		this.oMenu	=	{};
 		for(var j in this.custom_tiempo_comidas){
-			this.oMenu[this.custom_tiempo_comidas[j].id]	=	this.copy( this.custom_tiempo_comidas[j].menu );		
+			this.oMenu[this.custom_tiempo_comidas[j].id]	=	this.copy( this.custom_tiempo_comidas[j].menu );
 		}
+		/*console.log(this.oMenu);*/
 	}
 	setAsignaciones(){
 		this.prescripcion	=	this.model.getFormPrescripcion();
@@ -161,7 +165,7 @@ export class PatronmenuComponent implements OnInit {
 		for(var i=0;i<13;i++)
 			this.prescritos[i]	=	0;
 
-		console.log('this.prescritos s');console.log(this.prescritos);
+		/*console.log('this.prescritos s');console.log(this.prescritos);*/
 
 		var obj;
 		for(var i =0;i<this.items.length;i++){
@@ -182,7 +186,7 @@ export class PatronmenuComponent implements OnInit {
 		for(var k in this.custom_tiempo_comidas){
 			menus.push(this.custom_tiempo_comidas[k]);
 		}
-		console.log('menus');console.log(menus);
+		/*console.log('menus');console.log(menus);*/
 		var j=0;
 		var grupoAlimentoNutricionista	=	0;
 		for(var a in menus){
@@ -196,7 +200,7 @@ export class PatronmenuComponent implements OnInit {
 				}
 			}
 		}
-		console.log('prepare:');console.log(myArray);
+		/*console.log('prepare:');console.log(myArray);*/
 		return myArray;
 	}
 	prepareEjemplos(id_consulta){
@@ -216,45 +220,43 @@ export class PatronmenuComponent implements OnInit {
 		console.log('infoEdited: ' + result);
 		return result;
 	}
-	infoEditedEjemplos(){
+	infoEditedEjemplos(){/*console.log('infoEditedEjemplos()');*/
 		var i=0;
 		var tiempo_de_comidas	=	[];
 		/*tiempo_de_comidas[i]	=	{'tiempo_id':'0', 'ejemplo':''};
 		i++;*/
 		for(var j in this.custom_tiempo_comidas){
-/*console.log(this.abkp[j].ejemplo + '!==' + this.custom_tiempo_comidas[j].ejemplo + '-> ' + (this.abkp[j].ejemplo!==this.custom_tiempo_comidas[j].ejemplo));*/
-			if(this.abkp[j].ejemplo!==this.custom_tiempo_comidas[j].ejemplo)
-				/*tiempo_de_comidas[++i]	=	{'tiempo_id':this.custom_tiempo_comidas[j].id, 'ejemplo': this.custom_tiempo_comidas[j].ejemplo };*/
+			if(this.abkp[j].ejemplo!==this.custom_tiempo_comidas[j].ejemplo){
 				tiempo_de_comidas.push( {'tiempo_id':this.custom_tiempo_comidas[j].id, 'ejemplo': this.custom_tiempo_comidas[j].ejemplo } );
-		}		
-/*console.log('infoEditedEjemplos:tiempo_de_comidas');console.log(tiempo_de_comidas);*/
-		/*if(tiempo_de_comidas.length>1){*/
+			}
+		}
 		if(tiempo_de_comidas.length>0){
+			/*console.log('Hay Cambios');
+			console.log(tiempo_de_comidas);*/
 			this.data['tiempos']	=	tiempo_de_comidas;
 			return true;
 		}
 		return false;
 	}
-	infoEditedPorciones(){
+	infoEditedPorciones(){/*console.log('infoEditedPorciones()');*/
 		if(this.chechChangesItems()){
 			var k	=	0;
-			console.log('infoEditedPorciones: this.custom_tiempo_comidas');
-			console.log(this.custom_tiempo_comidas);
+			/*console.log('infoEditedPorciones: this.custom_tiempo_comidas');
+			console.log(this.custom_tiempo_comidas);*/
 			for(var j in this.custom_tiempo_comidas){
-/*				this.asignacionPorciones[++k]	=	{'tiempo_id':this.custom_tiempo_comidas[j].id, 'porciones': this.custom_tiempo_comidas[j].menu };*/
 				let item	=	this.custom_tiempo_comidas[j];
-				console.log(item);
-				/*this.asignacionPorciones.push(	{'tiempo_id':item.id, 'porciones': item.menu } );*/
+				/*console.log(item);*/
 				this.asignacionPorciones[k]	=	{'tiempo_id':item.id, 'porciones': item.menu };
 				k++;
 			}
+			/*console.log(this.asignacionPorciones);*/
 			this.data['items']		=	this.asignacionPorciones;
 			return 	true;
 		}
 		return false;		
 	}
 	
-	chechChangesItems(){
+	chechChangesItems(){/*console.log('chechChangesItems()');console.log(this.oMenu);*/
 		var obj2	=	{};
 		for(var i in this.oMenu){
 			if(Number(i)>0){
@@ -288,7 +290,7 @@ export class PatronmenuComponent implements OnInit {
 		this.model.setPatronMenuEjemplos(this.patron_menu_ejemplos);
 		this.formControlDataService.setFormControlData(this.model);		
 	}
-	saveInfo(data){console.log('saveInfo');console.log(data);
+	saveInfo(data){/*console.log('saveInfo');console.log(data);*/
 		this.tagBody.classList.add('sending');
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
@@ -371,7 +373,7 @@ export class PatronmenuComponent implements OnInit {
 		this.currentTiempoComida	=	tiempoComida;
 		var aMenu	=	{};
 		var oTiempoComida	=	this.custom_tiempo_comidas.filter(x => x.id === tiempoComida);
-		console.log(oTiempoComida);
+		/*console.log(oTiempoComida);*/
 		aMenu	=	oTiempoComida[0].menu;
 		this.porciones_leche_descremada	=	aMenu[1];
 		this.porciones_leche_2			=	aMenu[2];
@@ -453,7 +455,7 @@ export class PatronmenuComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	setTiempoComida(response){
+	setTiempoComida(response){/*console.log('setTiempoComida:response');console.log(response);*/
 		if(response.code==208){
 			this.tiempo_comida_nombre_message	=	response.message;
 			return ;
@@ -461,7 +463,11 @@ export class PatronmenuComponent implements OnInit {
 		if(response.code==201){
 			this.tiempo_comida_nombre	=	'';
 			this.custom_tiempo_comidas.push(response.data);
-			this.abkp.push(response.data);
+			/*console.log(this.custom_tiempo_comidas);*/
+			this.abkp.push(this.helpers.clone(response.data));
+			/*console.log(this.abkp);*/
+			this.oMenu[response.data.id]	=	this.copy( response.data.menu );
+			/*console.log(this.oMenu);*/
 			this.nuevo	=	false;
 		}
 	}

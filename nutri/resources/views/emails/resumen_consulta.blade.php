@@ -370,6 +370,8 @@ endif;
 	}
 @endphp
 @endisset
+
+@isset($bprescripcion)
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>
@@ -395,7 +397,7 @@ endif;
 		                        </td>
 		                      </tr>
 		                    </table>
-@isset($bprescripcion)
+
 						  <table align="center" bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td align="center">
@@ -513,6 +515,8 @@ endif;
 						    </tr>
 						  </table>
 @endisset
+
+@isset($bpatronmenu)
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>
@@ -678,6 +682,8 @@ endif;
 @endphp
 
 @endforeach
+
+@endisset
 
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
