@@ -501,12 +501,24 @@ export class ValoracionComponent implements OnInit {
 
 		var k=0;		
 		var _va	=	this.historial[0];
+		console.log(_va);
 
 		
 		this._getScreenSize();
+		
+		var mdg	=	document.getElementById('modal-dato-grafico').offsetWidth;
+		console.log(mdg);
+		mdg	=	mdg - 350;
+		console.log(mdg);
+		var _headers	=	['imc','peso', 'estatura', 'grasa', 'grasa_viceral', 'musculo', 'agua', 'hueso', 'edad_metabolica', 'circunferencia_cintura', 'circunferencia_cadera', 'circunferencia_muneca'];
+
 		for(var i in _va) {
+/*
 			if(i=='fecha' || i=='date')
 				continue ;
+*/
+			if(!this.helpers.in_array(_headers, i))
+				continue;
 
 			data	=	[];
 			for(var j in this.historial){
@@ -524,8 +536,38 @@ export class ValoracionComponent implements OnInit {
 				data.push([new_date,parseInt(value), toolTipHtml]);
 			}
 			toGraph	=	headerGraficos[i];
+			console.log('toGraph');
+			console.log(toGraph);
 			options = {
+				width: 1090,
+				tooltip: {isHtml: true},
+				titleTextStyle: {
+					color: '#cc1f25',
+					fontName: 'Verdana',
+					fontSize: 18, 
+					bold: true,   
+					italic: false
+				},
+				pointShape: 'circle', pointSize: 10,
+				hAxis: {
+					title: 'Fecha',
+				},
+				vAxis: {
+					title: toGraph,
+					minValue: 0,
+				},
+				chartArea: {
+					top:'15%',
+					left:'5%',
+					width: '90%',
+					height: '50%'
+				},
+				legend: {position:'top',alignment:'center'},
+				colors: ['#cc1f25']
+			};
+/*			options = {
 				width: this.historialParentWidth,
+				height: 200,
 				animation: {
 					duration: 1000,
 					easing: 'out'
@@ -534,20 +576,25 @@ export class ValoracionComponent implements OnInit {
 				titleTextStyle: {
 					color: '#cc1f25',
 					fontName: 'Verdana',
-					fontSize: 20, 
+					fontSize: 18, 
 					bold: true,   
 					italic: false
 				},
 				pointShape: 'circle', pointSize: 10,
 				hAxis: {
-					title: 'Fecha'
+					title: 'Fecha',
 				},
 				vAxis: {
-					title: toGraph
+					title: toGraph,
+					minValue: 0,
 				},
-				chartArea: {width: '90%',height: '80%'},
+				chartArea: {
+					top:0,
+					width: mdg,
+					height: '50%'
+				},
 				colors: ['#cc1f25']
-			};
+			};*/
 			columns	= [
 							{label: 'date', type: 'date'},
 							{label: toGraph, type: 'number'},
@@ -559,7 +606,7 @@ export class ValoracionComponent implements OnInit {
 			item	=	{'data':data, 'config': config, 'elementId':'element_' + i, 'key': 'container_' + i, 'class':i=='imc'? 'active':''};
 			items.push(item);
 		}
-		this.graficosH	=	headers;
+		this.graficosH	=	headers;console.log(this.graficosH);
 		this.graficos	=	items;
 		this.tagBody.classList.add('grafico-selected-imc');
 	}
