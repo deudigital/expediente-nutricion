@@ -501,18 +501,12 @@ export class ValoracionComponent implements OnInit {
 
 		var k=0;		
 		var _va	=	this.historial[0];
-		/*console.log(_va);*/
-
-		
 		this._getScreenSize();
-		
-		var mdg	=	document.getElementById('modal-dato-grafico').offsetWidth;
-		/*console.log(mdg);*/
-		mdg	=	mdg - 350;
-		/*console.log(mdg);*/
+		var padding	=	30;
+		if(this.tagBody.offsetWidth>767)
+			padding	=	100;
+		var cmtg	=	Number(this.historialParentWidth) - padding;
 		var _headers	=	['imc','peso', 'estatura', 'grasa', 'grasa_viceral', 'musculo', 'agua', 'hueso', 'edad_metabolica', 'circunferencia_cintura', 'circunferencia_cadera', 'circunferencia_muneca'];
-		/*var _headers	=	['peso'];*/
-
 		for(var i in _va) {
 			if(!this.helpers.in_array(_headers, i))
 				continue;
@@ -532,14 +526,11 @@ export class ValoracionComponent implements OnInit {
 				toolTipHtml	+=	'</ul>';
 				if(!value)
 					value=0;
-				/*console.log(i + ': ' + new_date + ', ' + value + ', ' + parseInt(value));*/
 				data.push([new_date,parseInt(value), toolTipHtml]);
 			}			
 			toGraph	=	headerGraficos[i];
-			/*console.log('toGraph');
-			console.log(toGraph);*/
 			options = {
-				width: 1090,
+				width: cmtg,
 				height: 450,
 				tooltip: {isHtml: true},
 				titleTextStyle: {
@@ -552,50 +543,23 @@ export class ValoracionComponent implements OnInit {
 				pointShape: 'circle', pointSize: 10,
 				hAxis: {
 					title: 'Fecha',
-				},
+					slantedText: true,
+					slantedTextAngle: 45,
+					textStyle: {
+						fontSize: 12
+					},
+				},				
 				vAxis: {
 					title: toGraph,
-					minValue: 0,
 				},
 				chartArea: {
-					top:'15%',
+					top:'5%',
 					left:'5%',
 					width: '90%',
-					height: '50%'
 				},
 				legend: {position:'top',alignment:'center'},
 				colors: ['#cc1f25']
 			};
-/*			options = {
-				width: this.historialParentWidth,
-				height: 200,
-				animation: {
-					duration: 1000,
-					easing: 'out'
-				},
-				tooltip: {isHtml: true},
-				titleTextStyle: {
-					color: '#cc1f25',
-					fontName: 'Verdana',
-					fontSize: 18, 
-					bold: true,   
-					italic: false
-				},
-				pointShape: 'circle', pointSize: 10,
-				hAxis: {
-					title: 'Fecha',
-				},
-				vAxis: {
-					title: toGraph,
-					minValue: 0,
-				},
-				chartArea: {
-					top:0,
-					width: mdg,
-					height: '50%'
-				},
-				colors: ['#cc1f25']
-			};*/
 			columns	= [
 							{label: 'date', type: 'date'},
 							{label: toGraph, type: 'number'},
@@ -634,7 +598,7 @@ export class ValoracionComponent implements OnInit {
 			return ;
 
 		this.displayErrorPesoEstatura();
-		if(this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
+		if(!this.valoracion.peso || !this.valoracion.estatura || this.valoracion.peso.length==0 || this.valoracion.estatura.length==0){
 				this.graficandoChildren				=	false;
 			return ;
 		}

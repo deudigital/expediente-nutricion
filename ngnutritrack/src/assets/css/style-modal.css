@@ -160,7 +160,7 @@ body.open-modal .esc-modal.transparent {top: 50%;}
 	.esc-modalbox:not(.wide){left: 50%;}
 	.esc-modal,
 	.esc-modalbox{top: -100%;padding: 30px 55px;}
-	.esc-modalbox .container-graficos{text-align:center}
+	.esc-modalbox .container-graficos {text-align: center;overflow: hidden;height: 495px;}
 	.esc-modalbox .container-graficos .menu {	width: 100%;}
 	.esc-modalbox .container-graficos .menu > li {float: none;display: inline-block;}
 	.esc-modalbox .modal-close{right:30px;top:30px;}

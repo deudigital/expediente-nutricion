@@ -291,7 +291,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 .esc-modalbox .expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;	display: block;top: 0;}
 .expand-patron-menu.open i{background-position: -531px -506px;}
 .select-ubicacion select {margin-bottom: 15px;}
-.esc-grafico-boxes > div:not(.active) {display: none;}
+.esc-grafico-boxes > div:not(.active) {/*display: none;*/visibility: hidden;position:absolute;}
 .esc-grafico-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
 .esc-grafico-children-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
 .content-form .analisis > .box{width:50%;}
