@@ -511,12 +511,9 @@ export class ValoracionComponent implements OnInit {
 		mdg	=	mdg - 350;
 		console.log(mdg);
 		var _headers	=	['imc','peso', 'estatura', 'grasa', 'grasa_viceral', 'musculo', 'agua', 'hueso', 'edad_metabolica', 'circunferencia_cintura', 'circunferencia_cadera', 'circunferencia_muneca'];
+		/*var _headers	=	['peso'];*/
 
 		for(var i in _va) {
-/*
-			if(i=='fecha' || i=='date')
-				continue ;
-*/
 			if(!this.helpers.in_array(_headers, i))
 				continue;
 
@@ -533,8 +530,11 @@ export class ValoracionComponent implements OnInit {
 				toolTipHtml	+=	'	<li>Fecha: <strong>' + new_date_format + '</strong></li>';
 				toolTipHtml	+=	'	<li>' + headerGraficos[i] + ': <strong>' + value + '</strong></li>';
 				toolTipHtml	+=	'</ul>';
+				if(!value)
+					value=0;
+				/*console.log(i + ': ' + new_date + ', ' + value + ', ' + parseInt(value));*/
 				data.push([new_date,parseInt(value), toolTipHtml]);
-			}
+			}			
 			toGraph	=	headerGraficos[i];
 			console.log('toGraph');
 			console.log(toGraph);
