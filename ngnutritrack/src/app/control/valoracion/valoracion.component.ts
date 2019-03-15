@@ -501,15 +501,15 @@ export class ValoracionComponent implements OnInit {
 
 		var k=0;		
 		var _va	=	this.historial[0];
-		console.log(_va);
+		/*console.log(_va);*/
 
 		
 		this._getScreenSize();
 		
 		var mdg	=	document.getElementById('modal-dato-grafico').offsetWidth;
-		console.log(mdg);
+		/*console.log(mdg);*/
 		mdg	=	mdg - 350;
-		console.log(mdg);
+		/*console.log(mdg);*/
 		var _headers	=	['imc','peso', 'estatura', 'grasa', 'grasa_viceral', 'musculo', 'agua', 'hueso', 'edad_metabolica', 'circunferencia_cintura', 'circunferencia_cadera', 'circunferencia_muneca'];
 		/*var _headers	=	['peso'];*/
 
@@ -536,10 +536,11 @@ export class ValoracionComponent implements OnInit {
 				data.push([new_date,parseInt(value), toolTipHtml]);
 			}			
 			toGraph	=	headerGraficos[i];
-			console.log('toGraph');
-			console.log(toGraph);
+			/*console.log('toGraph');
+			console.log(toGraph);*/
 			options = {
 				width: 1090,
+				height: 450,
 				tooltip: {isHtml: true},
 				titleTextStyle: {
 					color: '#cc1f25',
@@ -602,13 +603,14 @@ export class ValoracionComponent implements OnInit {
 						];
 
 			config	=	new LineChartConfig('title ' + toGraph, options, columns);
+			
 			headers.push({'id':i, 'nombre':toGraph, 'class': 'grafico-' + i});
-			item	=	{'data':data, 'config': config, 'elementId':'element_' + i, 'key': 'container_' + i, 'class':i=='imc'? 'active':''};
+			item	=	{'data':data, 'config': config, 'elementId':'element_' + i, 'key': 'container_' + i, 'class':i==_headers[0]? 'active':''};
 			items.push(item);
 		}
-		this.graficosH	=	headers;console.log(this.graficosH);
+		this.graficosH	=	headers;
 		this.graficos	=	items;
-		this.tagBody.classList.add('grafico-selected-imc');
+		this.tagBody.classList.add('grafico-selected-' + _headers[0]);
 	}
 
 	puedeGraficar(){
