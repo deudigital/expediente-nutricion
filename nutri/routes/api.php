@@ -43,6 +43,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('consultas/{id}/resumen/{mode}', 'ConsultaController@testResumen');
 	Route::get('consultas/patronmenu/duplicados', 'PatronMenuController@duplicados');
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
+	Route::get('patronmenu/paciente/{id}', 'DietaController@patronmenuBelongsToPaciente');
 	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
 });
 Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
@@ -97,6 +98,8 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::get('mensajes', 'MensajeController@index');
 
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
+	Route::get('patronmenu/paciente/{id}', 'DietaController@patronmenuBelongsToPaciente');
+	
 	Route::post('pacientes/cambiarcontrasena', 'PacienteController@updateContrasena');
 	Route::post('pacientes/patologiashcp', 'PacienteController@patologiashcp');
 	Route::resource('patologiashcp', 'HcpPatologiaPacienteController');

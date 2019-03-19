@@ -133,7 +133,65 @@ class DietaController extends Controller
     {
         //
     }
-	function belongsToPaciente($id){
+		function belongsToPaciente($id){				
+		$consulta	=	Consulta::where('paciente_id', $id)
+								->where('estado', '1')
+								->orderBy('fecha', 'DESC')
+								->get()
+								->first();		
+		if(!$consulta)
+			return	Response::json(['message' => 'Records not exist'], 204);
+
+		$tiempoComidas	=	TiempoComida::all();
+		$_tiempo_comidas	=	array();
+		if(count($tiempoComidas)>0){
+			$aTiempoComidas	=	$tiempoComidas->toArray();			
+			foreach($aTiempoComidas as $key=>$value){
+				$_tiempo_comidas[$value['id']]['tiempo_comida_id']		=	$value['id'];
+				$_tiempo_comidas[$value['id']]['tiempo_comida_nombre']	=	$value['nombre'];
+				$_tiempo_comidas[$value['id']]['ejemplo']				=	'';
+				$_tiempo_comidas[$value['id']]['alimentos']				=	array();
+			}
+		}
+		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta->id)
+									->get();
+		
+		if(count($patronMenuEjemplo)>0){
+			$aPatronMenuEjemplo	=	$patronMenuEjemplo->toArray();
+			foreach($aPatronMenuEjemplo as $key=>$value)
+				$_tiempo_comidas[$value['tiempo_comida_id']]['ejemplo']	=	$value['ejemplo'];
+		}
+
+		$patronMenu	=	DB::table('patron_menus')
+							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
+							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
+							->where('patron_menus.consulta_id', $consulta->id)
+							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
+							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
+							->get();
+		if(count($patronMenu)>0){
+			$aPatronMenu	=	$patronMenu->toArray();
+			foreach($aPatronMenu as $key=>$value){
+				$_tiempo_comidas[$value->tiempo_comida_id]['alimentos'][]	=	array(
+																					'grupo_alimento_id'		=>	$value->grupo_alimento_nutricionista_id,
+																					'grupo_alimento_nombre'	=>	$value->alimento,
+																					'porciones'				=>	$value->porciones
+																				);
+			}
+		}
+		$registros	=	array();
+		if($_tiempo_comidas){			
+			foreach($_tiempo_comidas as $tiempo=>$value)
+				$registros[]	=	$value;
+		}
+		if(count($registros)>0)
+			$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		else
+			$response	=	Response::json(['message' => 'Records not found'], 204);
+
+		return $response;
+	}
+	function patronmenuBelongsToPaciente($id){
 		$consulta	=	Consulta::where('paciente_id', $id)
 								->where('estado', '1')
 								->orderBy('fecha', 'DESC')
