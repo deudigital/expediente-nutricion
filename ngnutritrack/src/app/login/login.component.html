@@ -1,0 +1,61 @@
+<div class="container main page-login content-form">
+	<section class="login">
+		<figure class="container-logo">
+			<img src="assets/images/logo.png" alt="nutritrack" width="236"/>
+		</figure>
+		<form *ngIf="showFormLogin" #loginForm="ngForm" class="editForm" (ngSubmit)="onLogin()" novalidate>
+			<div class="form-group with-icon userlogin">
+				<label for="user_login">Correo Electr&oacute;nico</label>
+				<input 
+					type="text" 
+					class="form-control" 
+					id="email" 
+					name="email" 
+					[(ngModel)]="user.email" 
+					required>
+				<i></i>
+			</div>
+			<div class="form-group with-icon passlogin">
+				<label for="pass_login">Contraseña</label>
+				<input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required>
+				<i></i>
+			</div>
+			<div class="buttons">
+				<div class="form-group">
+					<button 
+						type="submit" 
+						class="btn btn-default red" 
+						[disabled]="!loginForm.valid" 
+					> INGRESAR
+					</button>
+					<div [ngClass]="{'show': message }" class="message">{{message}}</div>
+				</div>
+				<a href="javascript:void(0)" class="link" (click)="showReminder()">¿Olvid&oacute; su Contraseña?</a>
+			</div>
+		</form>
+		<form *ngIf="showFormReminder" #reminderForm="ngForm" class="editForm" (ngSubmit)="onReminder()" novalidate>
+			<header class="text-center">
+				<h4>¿Olvid&oacute; su Contraseña?</h4>
+			</header>
+			<div class="form-group">
+				<label for="nueva_contrasena">Ingresar su correo electr&oacute;nico</label>
+				<input class="form-control" type="email" name="email" id="email" 
+				[(ngModel)]="user.reminder" 
+				required email>
+				 <div class="form-message alert alert-success" *ngIf="messages.reminder_sent">Si el correo electr&oacute;nico esta registrado, te reenviaremos tus credenciales al mismo.</div>
+				 <div class="form-message alert alert-danger" *ngIf="messages.reminder_message">El correo electr&oacute;nico no esta registrado.</div>
+			</div>
+			<div class="buttons">
+				<div class="form-group">
+					<button 
+						type="submit" 
+						class="btn btn-default red" 
+						[disabled]="!reminderForm.valid" 
+					> REENVIAR 
+					</button>
+				</div>				
+				<a href="javascript:void(0)" class="link" (click)="showLogin()">Ingresar</a>
+			</div>
+		</form>
+	</section>
+</div>

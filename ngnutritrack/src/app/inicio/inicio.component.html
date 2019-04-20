@@ -1,0 +1,74 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<div class="container main page-inicio content-form">
+	<figure class="container-logo">
+		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
+	</figure>
+	<div *ngIf="showLoadingMenuCircles" class="text-center">...</div>
+	<div *ngIf="showMenuCircles" [ngClass]="{'four': agregadoAPI}" class="row links">
+		<div class="box {{ cols }}">
+			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
+				<figure class="img-circle transition main-nuevo">
+					<i></i>
+				</figure>
+				<strong>Paciente Nuevo</strong>
+			</a>
+		</div>
+		<div class="box {{cols}}">
+			<a routerLink="/control" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Control">
+				<figure class="img-circle transition main-control">
+					<i></i>
+				</figure>
+				<strong>Control</strong>
+			</a>
+		</div>
+		<div class="box {{ cols }}" *ngIf="enable_agenda">
+			<a routerLink="/agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Agenda">
+				<figure class="img-circle transition main-agenda">
+					<i></i>
+				</figure>
+				<strong>Agenda</strong>
+			</a>
+		</div>
+		<div class="box {{ cols }}" *ngIf="agregadoAPI">
+			<a href="javascript:void(0)" (click)="openFactura()" data-toggle="tab" title="Facturacion">
+				<figure class="img-circle transition main-facturacion">
+					<i></i>
+				</figure>
+				<strong>Facturaci&oacute;n</strong>
+			</a>
+		</div>
+	</div>
+	<section *ngIf="showLoading" class="text-center">Cargando Consulta(s) Sin Finalizar...</section>
+	<section class="listado consultas" *ngIf="showBoxConsultasPendientes">
+		<div class="row">
+			<header>
+				<h2 class="title"><i></i>Consulta(s) Sin Finalizar</h2>
+			</header>			
+			<ul>
+				<li *ngFor="let consulta of consultas">
+					<i class="calendar"></i> {{consulta.fecha | date:'dd/MM/yyyy'}} <i class="fullname"></i>{{consulta.paciente_nombre}} 
+					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="btn btn-default action continuar" (click)="onSelect(consulta)">CONTINUAR</a>
+					<a title="Consulta ID: {{consulta.id}}" href="javascript:void(0);" class="remove-item big action eliminar" (click)="onDelete(consulta)"><i></i></a>
+				</li>
+			</ul>
+		</div>
+	</section>
+</div>
+<div class="esc-modalbox prompt" *ngIf="!hidePrompt">
+	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
+	<header class="text-center">
+		<h4>¿Est&aacute; seguro de eliminar esta consulta?</h4>
+	</header>
+	<div class="body row">
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block" (click)="promptYes()">SI</button>
+		</div>
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
+		</div>
+	</div>
+</div>

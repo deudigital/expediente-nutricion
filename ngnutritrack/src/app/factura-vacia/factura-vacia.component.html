@@ -1,0 +1,384 @@
+<div class="overlay" (click)="openModalDatos()"></div>
+
+<div class="esc-modal transparent loading-modal" style="position: fixed;top: 50%" *ngIf="loading">
+	<img src="assets/images/loading-bars.svg" style="width:75px;" />
+</div>
+<div class="esc-modal transparent success_ajax" style="position: fixed;top: 50%" *ngIf="form_errors.successful_operation">
+	<img src="assets/images/success.png" width="75" />
+</div>
+<div class="esc-modal transparent success_ajax" style="position: fixed;top: 50%" *ngIf="form_errors.ajax_failure">
+	<img src="assets/images/error.png" width="75" />
+</div>
+
+<div class="esc-modal wide" style="display: none" *ngIf="!loading">
+			<div class="box">
+				<a class="modal-close" (click)="openModalDatos()">X</a>
+				<header class="header" style="height: 70px;">				
+					<div class="col-md-6 col-sm-12 col-xs-12 first_header">
+	            		<header style="text-align: left !important;">
+	              			<b>{{nutricionista.nombre}}</b><br>
+	  						Cedula {{nutricionista.cedula}}<span *ngIf="!nutricionista.cedula">N/A</span><br>
+	  						Direccion: {{nutricionista.detalles_direccion}}, {{nutricionista.barrio}}
+	  						<span *ngIf="!nutricionista.canton && !nutricionista.distrito && !nutricionista.provincia && !nutricionista.detalles_direccion"> N/A </span><br>
+	  						<span *ngIf="nutricionista.canton"> {{nutricionista.canton}},   </span>
+	  						<span *ngIf="nutricionista.distrito"> {{nutricionista.distrito}}, </span>
+	  						<span *ngIf="nutricionista.provincia"> {{nutricionista.provincia}} </span>
+	  						<br>
+	  						Tel: {{nutricionista.telefono}} <span *ngIf="!nutricionista.telefono">N/A</span><br>
+	  						Correo: {{nutricionista.email}} <span *ngIf="!nutricionista.email">N/A</span><br>
+	            		</header>
+					</div>
+					<div class="col-md-offset-4 col-md-2 col-sm-12 col-xs-12 second_header">
+						<a class="navbar-brand">
+					    	<img alt="nutritrack" class="img_header" src="{{nutricionista.imagen}}" width="125">
+				    	</a>
+					</div>
+				</header>
+				<div class="content-form">
+		         <section style="margin-top:5%">
+					<div class="row">
+						<div clas="col-md-12 col-sm-12 col-xs-12" style="text-align: center;"><h3>Datos del Cliente</h3></div>
+					</div>
+					<div id="paciente" class="row" style="margin-bottom:2%;">
+						<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="tipo_indentificacion">Tipo de Identificación</label>
+							<select class="form-control" 
+									id="tipo_indentificacion" 
+									[(ngModel)]="persona.identification_nombre"
+									name="tipo_indentificacion">
+								<option *ngFor = "let option of tipos_ID" 
+										[ngValue]="option.nombre"
+										[selected]="option.nombre === persona.identification_nombre">{{option.nombre}}</option>
+							</select>	
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="cedula">Cédula</label>
+							<input id="row-margin cedula" 
+								   type="text" 
+								   class="form-control" 
+								   name="cedula" 								   
+								   (keypress)="_keyPress($event)"
+								   [(ngModel)] = "persona.cedula"
+								   placeholder="Cédula"
+								   >
+							<span style="color:red;font-size: 10px;" 
+								  *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>  
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="nombre">Ingresar Nombre</label>
+							<input id="row-margin nombre"
+								   autocomplete="off" 
+								   type="text" 
+								   placeholder="Nombre Completo"
+								   class="form-control" 
+								   [(ngModel)] = "queryPerson"
+								   (keyup) = "suggestPersona()"
+								   name="nombre"
+								   required>
+								   <span style="color:red;font-size: 10px;" 
+								  *ngIf="form_errors.empty_name">Ingrese el nombre del cliente.</span>
+							
+						</div>
+						<div class="autocomplete-div" *ngIf="showFilter" style="top: 280px; left: 68%;">
+							<ul class="dropdown-menu dropdown-autocomplete">
+								<li  *ngFor="let paciente of filteredListPerson" (click)="onSelect(paciente)">
+									<a href="javascript:void(0)">							
+										{{paciente.nombre}}
+										<span>ID: {{paciente.cedula}}</span>
+									</a>
+								</li>
+							</ul>
+						</div>						
+					</div>
+          		<div class="row" style="margin-bottom:2%;">
+          			<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="provincia">Provincia</label>
+							<select id="row-margin" 
+									class="form-control" 
+									id="provincia" 
+									name="provincia"
+									[(ngModel)]="provincia"
+									(change)="selectCantones($event)">
+								<option *ngFor = "let prov of _provincias" [ngValue]="prov.codigo_provincia">
+									{{prov.nombre_provincia}}
+								</option>
+							</select>
+					</div>
+					<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="canton">Cantón</label>
+							<select id="row-margin" 
+									class="form-control" 
+									id="canton" 
+									name="canton"
+									[(ngModel)]="canton"
+									(change)="selectDistritos($event)">
+								<option *ngFor="let can of filter_cantones" [ngValue]="can.codigo_canton">
+									{{can.nombre_canton}}
+								</option>
+							</select>
+					</div>
+					<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="distrito">Distrito</label>
+							<select id="row-margin" 
+									class="form-control" 
+									id="distrito" 
+									name="distrito"
+									[(ngModel)]="distrito"
+									(change)="selectBarrios($event)">
+								<option *ngFor="let dis of filter_distritos" [ngValue]="dis.codigo_distrito">
+									{{dis.nombre_distrito}}
+								</option>
+							</select>
+					</div>           			
+			    </div>
+					<div class="row" style="margin-bottom:2%;">	
+						<div class="col-md-4 col-sm-4">
+			              <label id="row-margin" for="barrio">Barrio</label>
+			              <select type="text" 
+			              		  id="barrio" 
+			              		  class="form-control" 
+			              		  name="barrio" 
+			              		  [(ngModel)]="persona.ubicacion_id">
+			              	<option *ngFor="let bar of filter_barrios" [ngValue]="bar.id">
+			              		{{bar.nombre_barrio}}
+			              	</option>		  	
+			              </select>
+	           			</div>	
+					   <div class="col-md-4 col-sm-4">
+		              	  <label id="row-margin" for="direccion">Dirección</label>
+			              <input type="text"              		 
+			              		 id="direccion" 
+			              		 class="form-control" 
+			              		 name="direccion" 
+			              		 [(ngModel)] = "persona.detalles_direccion"
+			              		 placeholder="Dirección" value="">
+	            		</div>									
+            			<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="telefono">Teléfono</label>
+							<input id="row-margin" 
+								   type="text" 
+								   placeholder="eg. 41264564" 
+								   class="form-control" 
+								   id="telefono" 
+								   [(ngModel)] = "persona.telefono"								   
+								   mask="00000000"
+								   name="telefono"
+								   >
+							<span *ngIf="form_errors.invalid_phone" style="color:red;">Por favor, ingrese un teléfono válido.</span>	   
+						</div>
+					</div> 
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<label id="row-margin" for="email">Correo Electrónico</label>
+							<input id="row-margin" 
+								   type="email" 
+								   placeholder="Correo Electrónico" 
+								   class="form-control" 
+								   id="email" 
+								   [(ngModel)] = "persona.email"								   
+								   name="email"
+								   >
+							<span *ngIf = "form_errors.invalid_email" style="color:red;">Por favor, ingrese un e-mail válido.</span>	   
+						</div>
+					</div>
+					<hr style="border-color:#d7dbdd">
+					<div id="row-margin" class="row">
+						<div clas="col-md-12 col-sm-12 col-xs-12" style="text-align: center;"><h3>Detalle</h3></div>
+					</div>
+					<div class="row" *ngIf="productos.length > 0">
+						<div class="col-md-12 col-sm-12">
+                            <table class="table-responsive table asignacion-linea_detalle">
+                                <thead>
+                                    <tr>
+                                    	<th></th>
+                                        <th>Descripción</th>
+                                        <th>Unidad</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Descuento</th>
+                                        <th>Impuesto</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let pr of productos; let i = index " style="border-collapse: unset !important;">
+                                    	<td [ngStyle]="{ 'border-radius': setLeftBorder(i) }" style="border-left: none">                                        
+  	                                		<a href="javascript:void(0)" (click)="removeProduct(pr)">
+			                                    <i class="fa fa-close" style="font-size:20px;color:red;background:none;"></i>
+			                                </a>
+                                		</td>
+                                    	<td>
+                                    		<span>{{pr.descripcion}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>{{pr.unidad_nombre}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>₡ {{pr.precio | thousandsPipe}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>{{pr.cantidad}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>₡ {{pr.descuento | thousandsPipe}}</span>
+                                    	</td>
+                                    	<td>
+                                    		<span>₡ {{pr.impuesto | thousandsPipe}}</span>
+                                    	</td>
+                                    	<td [ngStyle]="{ 'border-radius': setRightBorder(i) }"> 
+                                    		<span>₡ {{pr.subtotal | thousandsPipe }}</span>
+                                    	</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+	                    </div>    
+	                </div>  
+					<div id="linea_detalle" class="row">
+						<div class="">
+			              <label id="row-margin" for="descripcion">Descripción</label>
+						   <input type="text" 
+						   		  id="descripcion" 
+						   		  class="form-control" 
+						   		  name="proteina" 
+						   		  placeholder="Ingrese descripción"
+						   		  [(ngModel)]="query"
+						   		  (keyup)="suggest()">
+							<div class="autocomplete-div" *ngIf="filteredList.length > 0">
+								<ul class="dropdown-menu dropdown-autocomplete">
+									<li *ngFor="let item of filteredList">
+										<a href="javascript:void(0)" (click)="select(item)">							
+											{{item.descripcion}}
+											<span>Costo: ₡ {{item.precio}}</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="">
+              				<label id="row-margin" for="unidad">Unidad</label>
+							<select class="form-control" [(ngModel)]="unidad_medida">
+	                            <option *ngFor="let unidad_medida of unidades" 
+	                            		[attr.value]="unidad_medida.nombre" 
+										[attr.selected]="unidad_medida.nombre == 'Servicios Profesionales' ? true : null">
+									{{unidad_medida.nombre}}
+								</option>
+	                        </select>
+						</div>
+						<div class="">
+              				<label id="row-margin" for="precio">Precio</label>
+							<input type="text" 
+								   id="precio" 
+								   class="form-control" 
+								   placeholder="₡16,500" 
+								   name="precio"
+								   (keyup)="calcularSubtotalProducto()"
+								   [(ngModel)]="producto.precio"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"
+								   required>
+						</div>
+            			<div class="">
+             			    <label id="row-margin" for="cantidad">Cantidad</label>
+							<input type="number" 
+								   id="cantidad" 
+								   class="form-control text-center" 
+								   [(ngModel)]="producto.cantidad" 
+								   (keyup)="calcularSubtotalProducto()"
+								   (change)="calcularSubtotalProducto()"
+								   name="cantidad" 
+								   min="1" 
+								   placeholder="Cantidad">
+						</div>
+						<div class="">
+             			    <label id="row-margin" for="descuento">Descuento</label>
+							<input type="text" 
+								   id="descuento" 
+								   class="form-control" 
+								   placeholder="₡0" 
+								   (keyup)="calcularSubtotalProducto()"
+								   name="descuento"
+								   [(ngModel)]="producto.descuento"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }">	
+							<span style="color:red;font-size: 10px;" *ngIf="form_errors.negativeSubtotal_product">
+								El descuento no debe ser mayor al subtotal.
+							</span>							   
+						</div>
+						<div class="">
+              				<label id="row-margin" for="impuesto">
+              					<input type="checkbox" [checked]="impuesto" (change)="aplicarImpuestoProducto()"/>Impuesto (13%)
+              				</label>
+							<input type="text" 
+								   id="impuesto" 
+								   class="form-control" 
+								   placeholder="₡2,145" 
+								   name="impuesto"
+								   disabled="true" 
+								   [(ngModel)]="producto.impuesto"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"
+								   required>
+						</div>
+						<div class="">
+              				<label id="row-margin" for="subtotal">Subtotal</label>
+							<input id="subtotal" 
+								   class="form-control" 
+								   placeholder="₡18,645"
+								   disabled="true" 
+								   [(ngModel)]="producto.subtotal"
+								   currencyMask 
+								   [options]="{ prefix: '₡ ', thousands: ',', decimal: '.' }"
+								   required>
+						</div>
+					</div>
+					<div class="row">
+        				<div class="col-md-offset-4 col-md-4" style="margin-top: 2%;">
+  							<button class="btn btn-success no-border"
+  									style="width:100%; border-color: #8bc23f !important;" 
+  									(click)="addProducto()"
+  									id="button3"> Añadir Línea </button>
+  						</div>
+					</div>
+					<hr style="border-color:#d7dbdd">
+					<div class="row">
+						<div class="col-md-3">
+							<div id="row-margin" class="row" style="margin-bottom: 20px;">
+								<label id="row-margin" for="metodo"> Medio de Pago</label>							
+								<select id="metodo" 
+										class="form-control"
+										name="medio"
+										[(ngModel)]="factura.medio_nombre">
+									<option *ngFor="let medio of medios_pagos" 
+											[attr.value]="medio.nombre" 
+											[attr.selected]="medio.nombre == 'Tarjeta' ? true : null">
+										{{medio.nombre}}
+									</option>
+								</select>
+							</div>
+							<div id="row-margin" class="row">
+								<div class="col-md-12">Notas</div>
+								<textarea id="notas" class="form-control" [(ngModel)]="factura.notas"></textarea>
+							</div>
+						</div>
+						
+						<div class="col-md-offset-6 col-md-3" style="margin-top: 2%;">
+							<div class="row invoice-resume">Subtotal Neto: ₡{{factura.subtotal|thousandsPipe}}</div>
+							<div class="row invoice-resume">Descuento: ₡{{factura.descuento|thousandsPipe}}</div>
+							<div class="row invoice-resume">I.V.E.: ₡{{factura.ive|thousandsPipe}}</div>
+							<div class="row invoice-resume">Monto Total: ₡{{factura.total|thousandsPipe}}</div>
+						</div>
+					</div>
+					<div class="row">
+						
+						<div class="col-md-offset-4 col-md-2" style="margin-top:5%">
+							<button class="btn btn-success no-border" style="background-color:#cf2e34; border-color:#cf2e34; width:100%" id="save_product_button" (click)="facturar()"> Facturar </button>  							
+						</div>
+  						<div class="col-md-2" style="margin-top:5%">
+  							<button class="btn btn-success no-border" style="width:100%;background-color:#aca9a9;border-color:#aca9a9;" (click) = "openModalDatos()" id="button3"> Cancelar </button>
+  						</div>
+  						<span style="color:red;" *ngIf="form_errors.empty_products">Debe por lo menos añadir un producto o servicio.</span>
+					</div>
+			</section>
+		</div>
+	</div>
+</div>

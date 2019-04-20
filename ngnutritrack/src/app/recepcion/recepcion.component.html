@@ -1,0 +1,113 @@
+<div class="esc-modal transparent icon-messages loading-modal" *ngIf="sending">
+	<img src="assets/images/loading-bars.svg" style="width:75px;" />
+</div>		
+<div class="esc-modal transparent icon-messages success_ajax" *ngIf="form_errors.successful_operation">
+	<img src="assets/images/success.png" width="75" />
+</div>
+<div class="esc-modal transparent icon-messages success_ajax" *ngIf="form_errors.ajax_failure">
+	<img src="assets/images/error.png" width="75" />
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="content-form recepcion">
+			<section>
+				<ul class="nav submenu navigation-recepcion">
+					<li class="col-xs-3 hcp-menu">
+						<a routerLink="/recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Recepcion de Documento">
+							<i></i>
+							<span>Cargar Factura</span>
+						</a>
+					</li>
+					<li class="col-xs-3">
+						<a routerLink="/reportes-recepcion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Reporte">
+							<i></i>
+							<span>Reporte</span>
+						</a>
+					</li>
+				</ul>
+				<header>
+					<h3 class="title">Recepci&oacute;n  de documentos</h3>
+				</header>
+				<div class="recepcion-container-button-nuevo">
+					<button class="btn btn-primary btn-lg" (click)="showModal('datos')">Nuevo Documento</button>
+				</div>
+			</section>
+
+
+		</div>
+	</div>
+</div>
+
+
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox recepcion">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<header class="text-center">
+		<h4>Nueva Factura</h4>
+	</header>	
+	<div class="body content-form">
+<form #uploadForm="ngForm" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="customFile" for="custom_file">Cargar XML</label>
+				</div>
+				<div class="col-sm-9">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" #custom_file name="custom_file" (change)="fileChange($event)" accept=".xml" required/>
+						<label class="custom-file-label" for="custom_file">Seleccionar Archivo</label>
+					</div>
+					<div *ngIf="upload_error || upload_success" [ngClass]="{'alert-danger': upload_error, 'alert-success': upload_success }" class="alert">
+						<span *ngIf="upload_error"><strong>&#x2716; Formato No aceptado: </strong> Carga tu archivo en formato XML</span>
+						<span *ngIf="upload_success">{{filename_xml}} &#x2714;</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="estado">Estado</label>
+				</div>
+				<div class="col-sm-9">
+					<select class="form-control" [(ngModel)]="tipo_documento_id" id="estado" name="estado" required>
+						<option value="5">aceptado</option>
+						<option value="6">aceptado parcial</option>
+						<option value="7">rechazado</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="mensaje">Mensaje</label>
+				</div>
+				<div class="col-sm-9">				
+					<textarea class="form-control" [(ngModel)]="mensaje" id="mensaje" name="mensaje" rows="5" maxlength="80" lang="es" required></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label>&nbsp;</label>
+				</div>
+				<div class="col-sm-9">			
+					<button 
+						type="button" 
+						class="btn btn-primary btn-lg btn-block" 
+						[disabled]="!uploadForm.valid || sending"
+						(click)="onSubmit()">Cargar</button>
+					<div class="alert alert-danger" *ngIf="submit_message">
+						&#x2716; {{	submit_message	}}
+					</div>
+				</div>
+			</div>
+		</div>
+</form>
+		
+	</div>
+</div>
+
+<div class="overlay" (click)="hideModal()"></div>

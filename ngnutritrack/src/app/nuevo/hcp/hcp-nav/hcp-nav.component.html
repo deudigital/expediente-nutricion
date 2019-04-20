@@ -1,0 +1,58 @@
+<ul class="nav submenu navigation-hcp" *ngIf="!esFemenino">
+	<li class="col-xs-3 hcp-menu">
+		<a routerLink="/hcp" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Patologias">
+			<i></i>
+			<span>Patolog&iacute;as</span>
+		</a>
+	</li>
+	<li class="col-xs-3 alergias">
+		<a routerLink="/alergias" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Alergias">
+			<i></i>
+			<span>Alergias</span>
+		</a>
+	</li>
+	<li class="col-xs-3 medicamentos">
+		<a routerLink="/medicamentos" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Medicamentos">
+			<i></i>
+			<span>Medicamentos</span>
+		</a>
+	</li>
+	<li class="col-xs-3 bioquimica">
+		<a routerLink="/bioquimica" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Bioqu&iacute Cl&iacute">
+			<i></i>
+			<span>Bioqu&iacute;mica Cl&iacute;nica</span>
+		</a>
+	</li>
+</ul>
+<ul class="nav submenu navigation-hcp esfemenino" *ngIf="esFemenino">
+	<li class="col-xs-2 hcp-menu">
+		<a routerLink="/hcp" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Patologias">
+			<i></i>
+			<span>Patolog&iacute;as</span>
+		</a>
+	</li>
+	<li class="col-xs-2 alergias">
+		<a routerLink="/alergias" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Alergias">
+			<i></i>
+			<span>Alergias</span>
+		</a>
+	</li>
+	<li class="col-xs-2 medicamentos">
+		<a routerLink="/medicamentos" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Medicamentos">
+			<i></i>
+			<span>Medicamentos</span>
+		</a>
+	</li>
+	<li class="col-xs-2 bioquimica">
+		<a routerLink="/bioquimica" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Bioqu&iacute Cl&iacute">
+			<i></i>
+			<span>Bioqu&iacute;mica Cl&iacute;nica</span>
+		</a>
+	</li>
+	<li class="col-xs-2 hcp-otros">
+		<a routerLink="/hcp-otros" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Otros">
+			<i></i>
+			<span>Otros</span>
+		</a>
+	</li>
+</ul>

@@ -1,0 +1,193 @@
+.overlay { background-color:rgba(0, 0, 0, 0.33); position: fixed;left: 0;top: 0;z-index: 1000;width: 100%;height: 100%;display:none; /*-webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease;*/ }
+
+.esc-modal { position: absolute; z-index: 10001;max-width: 100%; background-color: #fff;top: -150%; padding: 30px; border-radius: 15px; -webkit-transition: all 2s ease;-moz-transition: all 2s ease;-ms-transition: all 2s ease;-o-transition: all 2s ease;transition: all 2s ease; overflow: hidden;width:90%;left:5% }
+.esc-modal a.modal-close { position: absolute; right: 25px; top: 10px; font-weight: 300; font-size: 25px; cursor: pointer; text-decoration: none; text-indent: 0; z-index:500;}
+.esc-modal a.modal-close i{background-position:0 350px}
+
+.esc-modal header {text-align: center;margin-bottom: 15px;}
+.esc-modal header h3 {margin: 0;font-size: 20px;font-weight:600;}
+
+.esc-modal .label-modal-porciones {font-size: 14px;margin-bottom:15px}
+.esc-modal .alimentos > div {min-height: 150px;/* border: 1px solid; */}
+
+body.open-modal .overlay {display:block}
+body.open-modal .esc-modal {top:5%}
+
+.esc-modal .navigation-dieta {border-bottom: 1px solid #dcdcdc;/*margin-bottom: 0;*/}
+.esc-modal .navigation-dieta a{display:block;padding-bottom:10px;}
+.esc-modal .navigation-dieta a.active{border-bottom-width:5px;}
+.esc-modal .navigation-dieta a i.datos {background-position: -499px -114px;width: 32px;height: 25px;}
+.esc-modal .navigation-dieta a i.grafico {background-position: -465px -114px;width: 31px;height: 26px;}
+.esc-modal .navigation-dieta a.active i.datos {background-position: -499px -144px;}
+.esc-modal .navigation-dieta a.active i.grafico {background-position: -465px -144px;}
+/*	alimentos	*/
+.esc-modal .alimentos .form-control{text-align:center;}
+.esc-modal .alimentos i.leche-descremada {background-position: 0 -688px;width: 30px;height: 53px;}
+.esc-modal .alimentos i.leche-2 {background-position: -42px -688px;width: 30px;height: 53px;}
+.esc-modal .alimentos i.leche-entera {background-position: -84px -688px;width: 30px;height: 53px;}
+.esc-modal .alimentos i.vegetales {background-position: -127px -688px;width: 50px;height: 53px;}
+.esc-modal .alimentos i.frutas {background-position: -185px -688px;width: 46px;height: 53px;}
+.esc-modal .alimentos i.harinas {background-position: -245px -688px;width: 50px;height: 55px;}
+.esc-modal .alimentos i.carne-magra {background-position: -311px -688px;width: 65px;height: 40px;margin-top: 10px;}
+.esc-modal .alimentos i.carne-intermedia {background-position: -388px -685px;width: 66px;height: 50px;}
+.esc-modal .alimentos i.carne-grasa {background-position: -467px -686px;width: 63px;height: 54px;}
+.esc-modal .alimentos i.azucares {background-position: 1px -756px;width: 60px;height: 65px;}
+.esc-modal .alimentos i.grasas {background-position: -64px -758px;width: 40px;height: 60px;}
+.esc-modal .alimentos i.vaso-agua {background-position: -119px -759px;width: 41px;height: 52px;}
+
+.alimentos .warning:not(.black){color:#cc2026}
+.alimentos .success:not(.black){color:#8bc23f}
+/*	modalbox	*/
+.esc-modalbox{max-width: 100%;padding: 30px 15px;left: 3%;width:94%;position:absolute;top:-100%;z-index: 10001;background-color: #fff;border-radius: 15px;
+-webkit-transition: all 0.4s ease;-moz-transition: all 1s ease;-ms-transition: all 1s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;
+}
+.esc-modalbox .modal-close{position:absolute;right:15px;top:15px;cursor:pointer;z-index:10}
+.esc-modalbox .modal-close > i {background-position: -469px 0;height: 18px;width: 18px;display: block;}
+
+.esc-modalbox .menu {text-align:center;margin-bottom:40px;}
+.esc-modalbox .modal-nav .menu {border-bottom: 1px solid #dcdcdc;}
+.esc-modalbox .menu > li {padding:0;position:relative;}
+.esc-modalbox .menu > li:not(:first-child)::before {top: 20px;border-left: 1px solid #ccc;content: "";left: 0;position: absolute;width: 1px;height: 20px;}
+.esc-modalbox .menu > li > a{display:block;padding-bottom:10px;font-size:16px;color:#b1b1b1}
+.esc-modalbox .modal-nav .menu > li > a.active{border-bottom:5px solid #8bc23f;color:#8bc23f;}
+.esc-modalbox .nav > li > a:focus, 
+.esc-modalbox .nav > li > a:hover {background-color: transparent;color:#8bc23f;}
+.esc-modalbox i{display: inline-block;margin-right:10px;position:relative;top:5px;}
+
+.esc-modalbox .menu > li > a > i.segmentado {background-position: -537px -115px;width: 24px;height: 25px;}
+.esc-modalbox .menu > li > a > i.pliegues {background-position: -465px -114px;width: 31px;height: 26px;}
+.esc-modalbox .menu > li > a:focus > i.segmentado,
+.esc-modalbox .menu > li > a:hover > i.segmentado,
+.esc-modalbox .menu > li > a.active > i.segmentado {background-position: -537px -142px;}
+.esc-modalbox .menu > li > a:focus > i.pliegues,
+.esc-modalbox .menu > li > a:hover > i.pliegues,
+.esc-modalbox .menu > li > a.active > i.pliegues {background-position: -465px -144px;}
+
+.esc-modalbox .menu > li > a > i.datos {background-position: -499px -114px;width: 32px;height: 25px;}
+.esc-modalbox .menu > li > a > i.grafico {background-position: -465px -114px;width: 31px;height: 26px;}
+.esc-modalbox .menu > li > a:focus > i.datos,
+.esc-modalbox .menu > li > a:hover > i.datos,
+.esc-modalbox .menu > li > a.active > i.datos {background-position: -499px -144px;}
+.esc-modalbox .menu > li > a:focus > i.grafico,
+.esc-modalbox .menu > li > a:hover > i.grafico,
+.esc-modalbox .menu > li > a.active > i.grafico {background-position: -465px -144px;}
+
+.esc-modalbox .result {text-align: center;font-size: 23px;color: #ccc;margin-top:30px;}
+.esc-modalbox .result i {background-position: -421px -758px;width: 60px;height: 60px;}
+
+body.open-modal .esc-modalbox {top:10%}
+body.open-modal .esc-modalbox.prompt {top:30%;position:fixed}
+/*	prompt	*/
+.esc-modalbox.prompt{padding-top:50px;}
+.esc-modalbox.prompt > .body {padding-top: 15px;text-align: center;}
+/*	grafico	*/
+.esc-modalbox .menu.grafico > li:before {border:none}
+.esc-modalbox .menu.grafico > li > a{padding-left:0;padding-right:0;}
+.esc-modalbox .menu.grafico > li > a > span {display: block;padding: 3px 15px;border-radius: 15px;font-size: 14px;border:none;color:#6c6c6c}
+
+.esc-modalbox .table {font-weight:500;}
+.esc-modalbox .table.margin {margin-left:10px;margin-right:10px}
+.esc-modalbox .table th {background-color: #646464;color: #fff;font-weight:normal;text-align:center;}
+.esc-modalbox .table thead tr > th:first-child{border-radius:15px 0 0 0}
+.esc-modalbox .table thead tr > th:last-child{border-radius: 0 15px 0 0;}
+.esc-modalbox .table tbody tr > td{text-align:center;position:relative;}
+.esc-modalbox .table tbody tr:nth-child(even) > td{background-color:#cfcfcf;border-left: 1px solid #e7e7e7;}
+.esc-modalbox .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
+.esc-modalbox .table tbody tr > td:first-child{border-left: none;}
+
+.esc-modalbox .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
+.esc-modalbox .table.historial.prescripcion tbody tr{position:relative;}
+.esc-modalbox .table tr.detalle_prescripcion > td {color:#fff}
+
+.esc-modalbox .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
+.esc-modalbox .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
+.esc-modalbox .addpadding5{padding:0 5px;}
+.esc-modalbox .addpaddingprescripcion {padding: 0 0 0 6px;margin-right: 0;}
+body.grafico-selected-imc .grafico-imc > span,
+body.grafico-selected-peso .grafico-peso > span,
+body.grafico-selected-estatura .grafico-estatura > span,
+body.grafico-selected-grasa .grafico-grasa > span,
+body.grafico-selected-grasa_viceral .grafico-grasa_viceral > span,
+body.grafico-selected-musculo .grafico-musculo > span,
+body.grafico-selected-agua .grafico-agua > span,
+body.grafico-selected-hueso .grafico-hueso > span,
+body.grafico-selected-edad_metabolica .grafico-edad_metabolica > span,
+body.grafico-selected-circunferencia_cintura .grafico-circunferencia_cintura > span,
+body.grafico-selected-circunferencia_cadera .grafico-circunferencia_cadera > span,
+body.grafico-selected-circunferencia_muneca .grafico-circunferencia_muneca > span{background-color: #8bc23f;color: #fff !important;}
+
+body.grafico-selected-promedio_gc_diario .grafico-promedio_gc_diario > span,
+body.grafico-selected-tmb .grafico-tmb > span,
+body.grafico-selected-gc_real .grafico-gc_real > span,
+body.grafico-selected-variacion_calorica .grafico-variacion_calorica > span,
+body.grafico-selected-gc_recomendado .grafico-gc_recomendado > span{background-color: #8bc23f;color: #fff !important;}
+.esc-grafico-boxes {	margin-top: -50px;}
+
+/*body.grafico-by-selected-estatura-edad .active > span{background-color: #8bc23f;color: #fff !important;}*/
+
+.esc-grafico-boxes > div,
+.esc-grafico-by-indicator > div {max-width: 100%;overflow: hidden;width: 100%;}
+.esc-grafico-boxes > div rect:first-of-type {fill: transparent;}
+
+.menu.grafico.by-indicator {margin-bottom:30px;margin-top:30px;float:none;display:inline-block;}
+.menu.grafico.by-indicator > li:before {border:none}
+.menu.grafico.by-indicator > li > a{padding:0;}
+.menu.grafico.by-indicator > li > a:hover{background-color:transparent;}
+.menu.grafico.by-indicator > li > a > span {display: block;padding: 3px 15px;border-radius: 15px;font-size: 14px;border:none;color:#6c6c6c}
+.menu.grafico.by-indicator > li > a.active > span{background-color: #8bc23f;color: #fff !important;}
+
+.menu.grafico-children.by-indicator {margin-bottom:30px;margin-top:30px;}
+.menu.grafico-children.by-indicator > li:before {border:none}
+.menu.grafico-children.by-indicator > li > a{padding:0;}
+.menu.grafico-children.by-indicator > li > a:hover{background-color:transparent;}
+.menu.grafico-children.by-indicator > li > a > span {display: block;padding: 3px 15px;border-radius: 15px;font-size: 14px;border:none;color:#6c6c6c}
+.menu.grafico-children.by-indicator > li > a.active > span{background-color: #8bc23f;color: #fff !important;}
+
+
+.esc-grafico-by-indicator{position: relative;}
+.esc-grafico-by-indicator:before{position: absolute;content: "procesando...";top: 49%;text-align: center;width: 100%;}
+
+.esc-grafico-by-indicator rect:first-of-type{fill:#f3f3f3;}
+
+.grafico-lista{margin:15px;padding:0;list-style:none;text-align:left;white-space: nowrap;}
+.grafico-lista > li:not(:first-child)> strong{color:#cc1f25;}
+body.open-modal .esc-modal.transparent {top: 50%;}
+.esc-modal.transparent {left: 50%;padding: 0;width: 116px;margin-left: -58px;top: 50%;margin-top: -58px;text-align: center;	height: 116px;	padding-top: 20px;}
+@media (min-width:768px){
+	.esc-modal:not(.wide):not(.transparent),
+	.esc-modalbox:not(.wide):not(.transparent){width: 660px;margin-left: -330px;}
+	.esc-modal:not(.wide),
+	.esc-modalbox:not(.wide){left: 50%;}
+	.esc-modal,
+	.esc-modalbox{top: -100%;padding: 30px 55px;}
+	.esc-modalbox .container-graficos {text-align: center;overflow: hidden;height: 495px;}
+	.esc-modalbox .container-graficos .menu {	width: 100%;}
+	.esc-modalbox .container-graficos .menu > li {float: none;display: inline-block;}
+	.esc-modalbox .modal-close{right:30px;top:30px;}
+
+	
+	.esc-modalbox .table tbody tr > td:first-child{border-radius:15px 0 0 15px}
+	.esc-modalbox .table tbody tr > td:last-child{border-radius: 0 15px 15px 0;}
+	
+	.esc-modalbox .table tr.detalle_prescripcion > td:first-child {text-align:left;border-radius: 10px 0 0 10px;}
+	.esc-modalbox .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
+	.esc-modalbox .addpaddingprescripcion {padding: 0 0 0 30px;}
+}
+@media (min-width:1240px){
+	.esc-modal.wide,
+	.esc-modalbox.wide{left: 50%;}
+	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}	
+	.esc-modalbox.wide{width: 1200px;margin-left: -600px;}
+}
+@media(max-width:767px){
+	.esc-modalbox .menu > li > a > span {display: none;}
+
+	.nav.navbar-nav.menu.grafico {}
+	.esc-modalbox .menu.grafico > li {width: 33.33%;display: inline-block;margin-bottom:5px}
+	.esc-modalbox .menu.grafico > li:empty {display: none;}
+	.esc-modalbox .menu.grafico > li > a{padding:0;}
+	.esc-modalbox .menu.grafico > li > a:empty {display: none;}
+	.esc-modalbox .menu.grafico > li > a > span {font-size: 12px;padding: 3px;}
+	.esc-modalbox .menu.grafico > li > a > span:empty {display: none;}
+	.esc-modalbox .addpaddingprescripcion {margin-left:-6px;border:none;}
+}

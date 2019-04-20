@@ -1,0 +1,184 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>
+</div>
+<app-topnav></app-topnav>
+<div class="loading-div" style="position: fixed;top: 0" *ngIf="showOverlay">
+    <div class="esc-modal transparent loading-modal" *ngIf="loading">
+        <img src="assets/images/loading-bars.svg" width="75" />
+	</div> 
+	<div class="esc-modal transparent success_ajax_" *ngIf="form_errors.successful_operation">
+		<img src="assets/images/success.png" width="75" />
+	</div>
+	<div class="esc-modal transparent success_ajax_" *ngIf="form_errors.ajax_failure">
+		<img src="assets/images/error.png" width="75" />
+	</div>
+</div>
+<div class="overlay" *ngIf="showOverlay"></div>
+<div class="container">
+	<div class="row">
+		 <div class="col-sm-offset-4 col-sm-8">
+        <h3 class="title">Configuración de Factura</h3>
+      </div>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="col-md-12 col-sm-12 col-xs-12 content-form">
+				<section>
+					<div class="row">
+						<div class="col-md-2">
+        			<img alt="nutritrack" src="{{data.imagen}}" style="width: 180px;">
+            </div>
+            <div class="col-md-10" style="padding:1.5% 0% 0% 0%">	                       
+							<input #fileInput type="file" accept="image/* " id="button1" class="btn btn-default" style="margin:0.8% 0% 0% 5%; display: none;" (change)="addFile()"/>
+							<button class="btn btn-default" style="margin:0.8% 0% 0% 5%" (click)="input('button1')">CARGAR</button>
+							<span style="color:red;font-size: 10px;" *ngIf="form_errors.invalid_file">El archivo tiene que tener formato de imagen y no ser mayor a 2MB.</span>
+							
+            </div>
+					</div>
+              		<div class="form-group">
+                  		<div class="row">
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="nombre_comercial">Nombre Comercial</label>
+						  						<input class="form-control"
+																	id="nombre_comercial"
+																	type="text"
+																	[(ngModel)]="data.nombre_comercial"
+																	(keyup)="validarNombreComercial()"
+																	(focusout) = "validarNombreComercial()"
+																	required>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_comercialName">Ingrese el nombre comercial.</span>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="id_type">Tipo de Identificación</label>
+                          		<select class="form-control ng-pristine ng-valid ng-touched"
+																			[(ngModel)]="data.identification_nombre"
+																			(change)="validarCedula()"
+																			id="tipo"
+																			name="tipo">
+                          			<option *ngFor="let item of tipos" 
+                          							[ngValue]="item.nombre"
+																				[selected]="item.nombre === data.identification_nombre">{{item.nombre}}</option>
+                          		</select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="id_number">Número de Identificación</label>
+                      		<input class="form-control"
+																	id="id_number"
+																	[(ngModel)]="data.cedula"
+																	(keyup)="validarCedula()"
+																	(keypress)="helpers.onKeyPress($event)" 
+																	maxlength="20" 
+																	required>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.invalid_id">El número de documento ingresado es inválido.</span>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="social">Razón Social</label>
+                      			<input class="form-control"
+																		id="social"
+																		type="text"
+																		[(ngModel)]="data.nombre">
+                  			</div>
+                  		</div>
+                  		<div class="row">
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="postal">Apartado Postal</label>
+						  						<input class="form-control"
+																	id="postal"
+																	type="text"
+																	[(ngModel)]="data.apartado_postal"
+																	(keyup)="validarApartado()"
+																	(focusout) = "validarApartado()"
+																	required>
+													<span style="color:red;font-size: 10px;" *ngIf="form_errors.empty_postal">Ingrese el apartado postal</span>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="phone">Teléfono</label>
+                      		<input class="form-control"
+																	id="phone"
+																	placeholder="eg. 4126-4564"
+																	type="text"
+																	[(ngModel)]="data.telefono"
+																	(keyup) = "validarTelefono()"
+																	mask="00000000"
+							 								   	name="telefono"
+																	required>
+													<span *ngIf="form_errors.invalid_phone" style="color:red;">Por favor, ingrese un teléfono válido.</span>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="email">Email</label>
+                          		<input class="form-control"
+																			id="email"
+																			type="email"
+																			[(ngModel)]="data.email"
+																			(keyup)="validarCorreo()"
+																			required>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="state">Provincia</label>
+						  						<select class="form-control"
+													 				id="state"
+																	[(ngModel)]="provincia"
+																	(change)="selectCantones($event)">
+														<option *ngFor="let item of _provincias"  [ngValue]="item.codigo_provincia">{{item.nombre_provincia}}</option>
+													</select>
+                  			</div>
+                  		</div>
+                  		<div class="row">                  			                   			
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="canton">Cantón</label>
+                      		<select class="form-control"
+																	id="canton"
+																	[(ngModel)]="canton"
+																	(ngModelChange)="selectDistritos($event)">
+														<option *ngFor="let item of filter_cantones" [ngValue]="item.codigo_canton">{{item.nombre_canton}}</option>
+													</select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="district">Distrito</label>
+                          		<select class="form-control"
+																			id="district"
+																			name="distrito"
+																			[(ngModel)]="distrito"
+																			(change)="selectBarrios($event)">
+																<option *ngFor="let dis of filter_distritos" [ngValue]="dis.codigo_distrito">
+																	{{dis.nombre_distrito}}
+																</option>
+															</select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="barrio">Barrio</label>
+                          		<select class="form-control"
+																			id="barrio"
+																			name="barrio"
+																			[(ngModel)]="data.ubicacion_id">
+																<option *ngFor="let bar of filter_barrios" [ngValue]="bar.id">
+																	{{bar.nombre_barrio}}
+																</option>
+															</select>
+                  			</div>
+                  			<div class="col-md-3 col-sm-12 col-xs-12">
+                  				<label class="col-form-label" for="address">Dirección</label>
+              						<input class="form-control" 
+              										id="address" 
+              										type="text" 
+              										[(ngModel)] = "data.detalles_direccion" 
+              										(keyup) = "validarDireccion()"
+              										(focusout) = "validarDireccion()"
+              										required>
+                  			</div>
+                  		</div>
+                  		<div class="row">                  			
+	                    	<div class="col-xs-12 col-md-offset-4 col-md-4 col-sm-12" style="margin-top:1.5%">
+	                        	<button id="button3" class="btn btn-default btn-block" (click)="saveConfigData()">GUARDAR</button>
+		          					</div>
+		                	</div>
+                  	</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

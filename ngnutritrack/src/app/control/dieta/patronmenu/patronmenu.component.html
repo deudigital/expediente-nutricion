@@ -1,0 +1,554 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">
+			<section class="form-patron-menu">
+				<app-dieta-nav></app-dieta-nav>
+					<header class="visible-xs">
+						<h4>Patr&oacute;n Menu</h4>
+					</header>
+<div class="clearfix">
+<ng-template ngFor let-tiempo_comidas [ngForOf]= "custom_tiempo_comidas" let-i="index">
+	<div class="col-sm-6">
+		<div class="form-group with-icon dieta_coicion_nocturna">
+			<label>{{tiempo_comidas.nombre}}</label>
+			<input 
+				name="custom_tiempo_comidas_{{tiempo_comidas.id}}"
+				type="text" 
+				class="form-control" 
+				readonly="readonly" 
+				[(ngModel)]="tiempo_comidas.summary"
+			>
+			<i></i>
+			<a class="link-modal" (click)="showModalPorcionesNew(tiempo_comidas.id)"><i></i></a>
+		</div>
+		<div class="form-group">
+			<textarea 
+				name="custom_tiempo_comidas_ejemplo_{{tiempo_comidas.id}}"
+				class="form-control" 
+				placeholder="Ejemplo" 
+				maxlength="15000" 
+				[(ngModel)]="tiempo_comidas.ejemplo"
+			></textarea>
+		</div>
+	</div>
+
+</ng-template>
+</div>
+
+				
+				<div class="clearfix">
+					<div class="container-form">
+						<div class="actions">
+							<a [ngClass]="{'form-close tiempos':nuevo, 'form-open': !nuevo }" (click)="showFormEdit()" href="javascript:void(0)"><i></i>Añadir Tiempo de Comida</a>
+						</div>					
+						<div class="form-edit objetivo" *ngIf="nuevo">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="ejercicio">Nombre Tiempo de Comida</label>
+										  <input type="text" class="form-control" 
+											id="nombre_tiempo_comida" 
+											name="nombre_tiempo_comida" 
+											placeholder="Tiempo Comida" 
+											[(ngModel)]="tiempo_comida_nombre"
+											required
+											/>
+										<span class="msg-validation">{{tiempo_comida_nombre_message}}</span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div class="actions">
+											<a (click)="adicionarNuevo()" class="btn btn-default btn-lg">Añadir</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+				<div class="esc-modal tabs" *ngIf="showmodalgraficos">
+						<div class="overlay" (click)="fxshowmodalgraficos()"></div>
+						<div class="body">
+							<a class="modal-close" (click)="fxshowmodalgraficos()">X</a>					
+							<ul class="row nav submenu navigation-dieta">
+								<li class="col-sm-6">
+									<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}"><i></i>Datos Generales</a>
+								</li>
+								<li class="col-sm-6">
+									<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}"><i></i>Graficoss</a>
+								</li>
+						</ul>
+
+						<div *ngIf="showTabDatos">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>IMC</th>
+										<th>Peso</th>
+										<th>Estatura</th>
+										<th>Grasa</th>
+										<th>Grasa Viceral</th>
+										<th>M&uacute;sculo</th>
+										<th>Agua</th>
+										<th>Hueso</th>
+										<th>Edad Metabolica</th>
+										<th>Cintura</th>
+										<th>Cadera</th>
+										<th>Muñeca</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+									<tr>
+										<th>18/05/2017</th>
+										<th>33.1</th>
+										<th>90Kg</th>
+										<th>1.79m</th>
+										<th>22%</th>
+										<th>6</th>
+										<th>64.2</th>
+										<th>%60</th>
+										<th>5kg</th>
+										<th>45 años</th>
+										<th>97cm</th>
+										<th>90cm</th>
+										<td>18cm</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div *ngIf="showTabGrafico">
+							Graficos AQUI
+						</div>
+					</div>
+				  </div>
+			</section>
+		<section class="patron-menu">
+				<header>
+					<h3 class="title">Asignaciones</h3>
+				</header>
+				
+			<div class="alimentos row">
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="leche-descremada"></i>
+				</figure>
+				  <label>Leche Descremada</label>
+				 <strong [ngClass]="{'success': total_leche_descremada==prescritos[1],  'warning': total_leche_descremada > prescritos[1], 'black': total_leche_descremada==0 && prescritos[1]==0 }">{{total_leche_descremada}}/{{prescritos[1]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="leche-2"></i>
+				  
+				</figure>
+				  <label>Leche 2%</label>
+				  <strong [ngClass]="{'success': total_leche_2==prescritos[2],  'warning': total_leche_2 > prescritos[2], 'black': total_leche_2==0 && prescritos[2]==0 }">{{total_leche_2}}/{{prescritos[2]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="leche-entera"></i>
+				  
+				</figure>
+				  <label>Leche Entera</label>
+				  <strong [ngClass]="{'success': total_leche_entera==prescritos[3],  'warning': total_leche_entera > prescritos[3], 'black': total_leche_entera==0 && prescritos[3]==0 }">{{total_leche_entera}}/{{prescritos[3]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="vegetales"></i>
+				  
+				</figure>
+				  <label>Vegetales</label>
+				  <strong [ngClass]="{'success': total_vegetales==prescritos[4],  'warning': total_vegetales > prescritos[4], 'black': total_vegetales==0 && prescritos[4]==0 }">{{total_vegetales}}/{{prescritos[4]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="frutas"></i>
+				  
+				</figure>
+				  <label>Frutas</label>
+				  <strong [ngClass]="{'success': total_frutas==prescritos[5],  'warning': total_frutas > prescritos[5], 'black': total_frutas==0 && prescritos[5]==0 }">{{total_frutas}}/{{prescritos[5]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="harinas"></i>
+				  
+				</figure>
+				  <label>Harinas</label>
+				  <strong [ngClass]="{'success': total_harinas==prescritos[6],  'warning': total_harinas > prescritos[6], 'black': total_harinas==0 && prescritos[6]==0 }">{{total_harinas}}/{{prescritos[6]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="carne-magra"></i>
+				  
+				</figure>
+				  <label>Carne Magra</label>
+				  <strong [ngClass]="{'success': total_carne_magra==prescritos[7],  'warning': total_carne_magra > prescritos[7], 'black': total_carne_magra==0 && prescritos[7]==0 }">{{total_carne_magra}}/{{prescritos[7]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="carne-intermedia "></i>
+				  
+				</figure>
+				  <label>Carne Intermedia </label>
+				  <strong [ngClass]="{'success': total_carne_intermedia==prescritos[8],  'warning': total_carne_intermedia > prescritos[8], 'black': total_carne_intermedia==0 && prescritos[8]==0 }">{{total_carne_intermedia}}/{{prescritos[8]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="carne-grasa"></i>
+				  
+				</figure>
+				  <label>Carne Grasa</label>
+				  <strong [ngClass]="{'success': total_carne_grasa==prescritos[9],  'warning': total_carne_grasa > prescritos[9], 'black': total_carne_grasa==0 && prescritos[9]==0 }">{{total_carne_grasa}}/{{prescritos[9]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="azucares"></i>
+				  
+				</figure>
+				  <label>Az&uacute;cares</label>
+				  <strong [ngClass]="{'success': total_azucares==prescritos[11],  'warning': total_azucares > prescritos[10], 'black': total_azucares==0 && prescritos[10]==0 }">{{total_azucares}}/{{prescritos[10]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="grasas"></i>
+				  
+				</figure>
+				  <label>Grasas</label>
+				  <strong [ngClass]="{'success': total_grasas==prescritos[11], 'warning': total_grasas > prescritos[11], 'black': total_grasas==0 && prescritos[11]==0 }">{{total_grasas}}/{{prescritos[11]}}</strong>
+			  </div>
+			  <div class="col-sm-2 col-xs-6">
+				<figure>
+				  <i class="vaso-agua"></i>
+				  
+				</figure>
+				  <label>Vasos con Agua</label>
+				  <strong [ngClass]="{'warning': total_vaso_agua > prescritos[12], 'success': total_vaso_agua==prescritos[12], 'black': total_vaso_agua==0 && prescritos[12]==0}">{{total_vaso_agua}}/{{prescritos[12]}}</strong>
+			  </div>
+			</div>
+	
+			</section>
+		
+		
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+<div class="overlay" (click)="closeModalPorciones()"></div>
+<div [ngClass]="{'open': displayModalPorciones }" class="esc-modal" *ngIf="displayModalPorciones">
+	
+	<div class="box">
+		<a class="modal-close" (click)="closeModalPorciones()">X</a>
+		<header>
+			<h3>Cantidad de Porciones</h3>
+		</header>
+		<div class="body content-form">			
+
+			<div class="form-group">
+			  <label class="label-modal-porciones">{{label_modal_porciones}}</label>
+				<input 
+				id="modal-text" 
+				type="text" 
+				class="form-control" 
+				value=""   
+				maxlength="3" 
+				[(ngModel)]="inputModal"
+				>			  
+			</div>
+	  
+			<div class="alimentos">
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="leche-descremada"></i>
+				  <label>Leche Descremada</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 
+						[(ngModel)]="porciones_leche_descremada"
+						(change)="porciones('leche_descremada', 1)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="leche-2"></i>
+				  <label>Leche 2%</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+					  [(ngModel)]="porciones_leche_2"
+					  (change)="porciones('leche_2', 2)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="leche-entera"></i>
+				  <label>Leche Entera</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_leche_entera"
+						(change)="porciones('leche_entera', 3)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="vegetales"></i>
+				  <label>vegetales</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_vegetales"
+						(change)="porciones('vegetales', 4)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="frutas"></i>
+				  <label>Frutas</label>
+				  <input 
+					type="number" 
+					class="form-control" 
+					value="0" 
+					min="0" 
+					maxlength="3" 
+					(keypress)="helpers.soloNumeros($event)"
+					[(ngModel)]="porciones_frutas"
+					(change)="porciones('frutas', 5)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="harinas"></i>
+				  <label>Harinas</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_harinas"
+						(change)="porciones('harinas', 6)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="carne-magra"></i>
+				  <label>Carne Magra</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+					   [(ngModel)]="porciones_carne_magra"
+					  (change)="porciones('carne_magra', 7)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="carne-intermedia "></i>
+				  <label>Carne Intermedia </label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_carne_intermedia"
+						(change)="porciones('carne_intermedia', 8)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="carne-grasa"></i>
+				  <label>Carne Grasa</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_carne_grasa"
+						(change)="porciones('carne_grasa', 9)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="azucares"></i>
+				  <label>Az&uacute;cares</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_azucares"
+						(change)="porciones('azucares', 10)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="grasas"></i>
+				  <label>Grasas</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_grasas"
+						(change)="porciones('grasas', 11)"
+				  >
+				</figure>
+			  </div>
+			  <div class="col-sm-4 col-xs-6">
+				<figure>
+				  <i class="vaso-agua"></i>
+				  <label>Vasos con Agua</label>
+				  <input 
+						type="number" 
+						class="form-control" 
+						value="0" 
+						min="0" 						
+						maxlength="3" 
+						(keypress)="helpers.soloNumeros($event)"
+						[(ngModel)]="porciones_vaso_agua"
+						(change)="porciones('vaso_agua', 12)"
+				  >
+				</figure>
+			  </div>
+			</div>
+	
+		</div>
+	</div>
+</div>

@@ -1,0 +1,61 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Historia Clinica Personal</h4>
+			</header>
+			<section>
+				<app-hcp-nav></app-hcp-nav>
+					<header class="visible-xs">
+						<h4>Otros</h4>
+					</header>
+				
+					<div class=" wrap-patologias">
+						<div class="form-group ciclos_menstruales">
+							<label for="ciclos_menstruales" class="col-form-label">Ciclos Menstruales</label>
+							<div class="checkbox row">
+								<div class="col-xs-6">
+									<label class="regular">
+										<input type="radio" name="ciclos_menstruales" value="regular"
+										[(ngModel)]="hcpOtros.ciclos_menstruales"
+										required
+										>
+										<span>Regular</span>
+									</label>
+								</div>
+								<div class="col-xs-6">
+									<label class="irregular">
+										<input type="radio" name="ciclos_menstruales" value="irregular"
+										[(ngModel)]="hcpOtros.ciclos_menstruales">
+										<span>Irregular</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>					
+					<div class="form-group">
+						<label>Notas</label>
+						<textarea name="notas" class="form-control" rows="7"
+						[(ngModel)]="hcpOtros.notas"
+						></textarea>
+					</div>
+			</section>
+			
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+		</div>
+	</div>
+</div>

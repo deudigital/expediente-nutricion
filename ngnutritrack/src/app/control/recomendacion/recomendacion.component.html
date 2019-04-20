@@ -1,0 +1,391 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Recomendaciones Diet&eacute;ticas Diarias</h4>
+			</header>
+				<section>
+		<div class="row">
+			<div class="form-group">
+				<label class="col-form-label">¿Como desea calcular gasto cal&oacute;rico?</label>
+				<div class="radio clearfix">
+			<ng-template [ngIf]="esAdulto">
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"
+								value="benedict" 
+								(change)="_analisis()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>Harris Benedict</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"	
+								value="mifflin" 
+								(change)="_analisis()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"							
+							>
+							<span>Mifflin-St Jeor</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio" 
+								value="promedio" 
+								(change)="_analisis()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>Promedio de Ambas</span>
+						</label>
+					</div>
+			</ng-template>
+			<ng-template [ngIf]="esMenor">
+					<div class="col-sm-4" *ngIf="displayBenedict">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"
+								value="benedict-child" 
+								(change)="changeMethod()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>Harris Benedict(niños)</span>
+						</label>
+					</div>
+					<div class="col-sm-4" *ngIf="displaySchofield">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio"	
+								value="schofield" 
+								(change)="changeMethod()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"							
+							>
+							<span>Schofield</span>
+						</label>
+					</div>
+					<div class="col-sm-4" *ngIf="displayRDA">
+						<label>
+							<input 
+								name="metodo-calculo-calorico" 
+								type="radio" 
+								value="rda" 
+								(change)="changeMethod()"
+								[(ngModel)]="recomendacion.metodo_calculo_gc"
+							>
+							<span>RDA</span>
+						</label>
+					</div>
+			</ng-template>
+				</div>
+			</div>
+			<div class="form-group" *ngIf="mostrarFilaPeso">
+				<label for="peso-calculo-calorico" class="col-form-label">¿Con cu&aacute;l peso desea hacer el c&aacute;lculo?</label>
+				<div class="radio clearfix">
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="peso-calculo-calorico" 
+								type="radio"
+								value="actual" 
+								checked 
+								(change)="_analisis()"
+								[(ngModel)]="recomendacion.peso_calculo"															
+								>
+							<span>Peso Actual</span>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label>
+							<input 
+								name="peso-calculo-calorico" 
+								type="radio"	
+								value="ideal" 
+								(change)="_analisis()"
+								[(ngModel)]="recomendacion.peso_calculo"							
+								>
+							<span>Peso Ideal</span>
+						</label>
+					</div>
+					<div class="col-sm-4" *ngIf="esAdulto">
+						<label>
+							<input 
+								name="peso-calculo-calorico" 
+								type="radio"
+								value="ideal-ajustado" 
+								(change)="_analisis()"
+								[(ngModel)]="recomendacion.peso_calculo"								
+								>
+							<span>Peso Ideal Ajustado</span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row factores">
+			<div class="col-sm-6" *ngIf="displayFactor">
+				<div class="form-group with-icon factor-actividad">
+					<label for="factor-actividad" class="col-form-label">Factor de actividad sedentaria y t&eacute;rmico de los alimentos</label>
+					<input 
+						id="factor-actividad" 
+						name="factor-actividad" 
+						type="number" 
+						class="form-control"  
+						maxlength="6" 
+						min="0" 
+						(keyup)="_analisis()"
+						(change)="_analisis()"
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="recomendacion.factor_actividad_sedentaria"
+						>
+					<i></i>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group with-icon promedio-gc">
+					<label for="promedio-gc" class="col-form-label">Promedio de gasto cal&oacute;rico diario por actividad F&iacute;sica</label>
+					<input 
+						id="promedio-gc" 
+						name="promedio-gc" 
+						type="number" 
+						class="form-control"  
+						maxlength="6" 
+						min="0" 
+						(keyup)="_analisis()"
+						(change)="_analisis()"
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="recomendacion.promedio_gc_diario"
+						>
+					<i></i>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-6" *ngIf="displayFactor">
+				<small>
+					Por defecto se utiliza un factor de 1.4 para actividades diarias sedentarias,
+					tales como dormir, trabajo de oficina, ver televisi&oacute;n, etc. Si lo desea,
+					puede cambiar este factor para este paciente.
+				</small>
+			</div>
+			<div class="form-group col-sm-6">
+				<small>
+					Este gasto cal&oacute;rico es calculado seg&uacute;n la informaci&oacute;n de los h&aacute;bitos de 
+					actividad f&iacute;sica del paciente ingresados anteriormente, si desea puede 
+					cambiar este gasto cal&oacute;rico manualmente.
+				</small>
+			</div>
+		</div>
+		<div class="row text-center">
+			<button 
+				class="btn btn-default" 
+				(click)="showModal('datos')"
+				[disabled]="disableButtonHistorial"
+			>Ver Historial RDDs</button>
+		</div>
+	</section>
+	<section>
+		<div class="calculo-calorico">		
+			<header>
+				<h3 class="title">Cálculo Cal&oacute;rico Actual</h3>
+			</header>
+			<div class="row">
+				<div *ngIf="esAdulto" class="form-group col-lg-offset-2 col-lg-4 col-md-6">
+					<div class="tasa-metabolica col-sm-6">
+						<i></i>
+						Tasa Metab&oacute;lica<br>Basal
+					</div>
+					<div class="tasa-metabolica-value with-cicle col-sm-6">
+						<div class="inner">
+							<i>
+								<strong>
+									{{ _tasa_basal | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6" [ngClass]="{'col-md-offset-3': !esAdulto, 'col-lg-4':esAdulto }">
+					<div class="gasto-calorico-real col-sm-6">
+						<i></i>
+						Gasto Cal&oacute;rico<br>Real
+					</div>
+					<div class="gasto-calorico-real-value with-cicle col-sm-6">
+						<div class="inner">
+							<i>
+								<strong>
+									{{ _gasto_calorico_real | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="calculo-calorico-recomendadas">
+			<header>
+				<h3 class="title">Calorías Recomendadas según metas del paciente</h3>
+			</header>
+		  <div class="row">
+			<div class="col-md-5">
+				<div class="form-group with-icon variacion-calorica">
+					<label for="variacion_calorica" class="col-form-label">Variación Calórica</label>
+					<input 
+						id="variacion_calorica" 
+						name="variacion_calorica" 
+						type="number" 
+						class="form-control" 
+						placeholder="En calorías" 
+						maxlength="6" 
+						min="0" 
+						(keyup)="_analisis()"
+						(change)="_analisis()"
+						(keypress)="helpers.onlyIntNegPos($event)"
+						[(ngModel)]="recomendacion.variacion_calorica"
+					>
+					<i></i>				
+				</div>
+			</div>
+			<div class="form-group col-md-offset-1 col-md-6">
+				<div class="ingesta-calorica col-sm-6">
+					<i></i>
+					Ingesta Cal&oacute;rica Recomendada
+				</div>
+				<div class="ingesta-calorica-recomendada with-cicle col-sm-6">
+					<div class="inner">
+						<i>
+							<strong>
+								{{ _ingesta_calorica_recomendada | number : '1.0-0'}}
+								<span>Kcal</span>							
+							</strong>						
+						</i>
+					</div>
+				</div>
+			</div>
+		  </div>
+		</div>
+	</section>
+	
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+	
+		</div>
+	</div>
+</div>
+
+<div class="overlay" (click)="hideModal('datos')" href="#"></div>
+<div class="esc-modalbox wide" [ngClass]="{'invisible': hideModalDatos }">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<div class="body">
+		<nav class="modal-nav">
+			<ul class="nav nabvar menu">
+				<li class="col-xs-6">
+					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
+						<i class="datos"></i>
+						<span>Datos Generales</span>
+					</a>
+				</li>
+				<li class="col-xs-6">
+					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
+						<i class="grafico"></i>
+						<span>Gr&aacute;ficos</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="visible-xs">
+			<strong class="abrev-gc">G.C. = Gasto Cal&oacute;rico</strong>
+		</div>
+		<div *ngIf="showModalTabDatos" class="container-datos">
+			<header class="visible-xs">
+				<h4>Datos Generales</h4>				
+			</header>
+			<div class="table-responsive">
+				<table class="table separate table-mobile historial rdd">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Gasto Cal&oacute;rico Actividad F&iacute;sica</th>
+							<th>TMB</th>
+							<th>Gasto Cal&oacute;rico Real</th>
+							<th>Variaci&oacute;n Cal&oacute;rica</th>
+							<th>Gasto Cal&oacute;rico Recomendado</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let historia of historial">
+							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+							<td>{{historia.promedio_gc_diario | number : '1.0-0'}} Kcal</td>
+							<td>{{historia.tmb | number : '1.0-0'}} Kcal</td>
+							<td>{{historia.gc_real | number : '1.0-0'}}</td>
+							<td>{{historia.variacion_calorica | number : '1.0-0'}} Kcal</td>
+							<td>{{historia.gc_recomendado | number : '1.0-0'}} Kcal</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div *ngIf="showModalTabGrafico" class="container-graficos">
+			<header class="visible-xs">
+				<h4>Gr&aacute;ficos</h4>
+			</header>
+			<nav class="clearfix">
+				<ul class="nav navbar-nav menu grafico">
+					<li *ngFor="let header of graficosH">
+						<a class="{{header.class}}" href="javascript:void(0)" (click)="graficoSelected(header)">
+							<span>{{header.nombre}}	</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="esc-grafico-boxes row">
+<ng-template [ngIf]="graficos" [ngIfElse]="loading">
+	<ng-template ngFor let-grafico [ngForOf]= "graficos">
+	<div id="{{grafico.key}}" class="{{grafico.class}}">
+		<line-chart 
+			[data]="grafico.data" 
+			[config]="grafico.config" 
+			[elementId]="grafico.elementId"
+		></line-chart>
+	</div>
+	</ng-template>
+	<ng-template #loading>
+		processing...
+	</ng-template>
+</ng-template>
+			</div>
+		</div>
+	</div>
+</div>

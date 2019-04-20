@@ -1,0 +1,136 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Datos Personales</h4>
+			</header>
+
+		<form #personalForm="ngForm" class="editForm" method="post" novalidate>
+			<section>
+				<div class="row">
+					<app-factura-vacia></app-factura-vacia>
+					<div class="col-md-6">
+						<div class="form-group with-icon paciente_cedula">
+						  <label for="cedula" class="col-form-label">C&eacute;dula</label>
+						  <input type="text" class="form-control" id="cedula" name="cedula" maxlength="20" 
+						  (keypress)="helpers.onKeyPress($event)"
+						  [(ngModel)]="paciente.cedula"						  
+						  >
+						  <i></i>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon paciente_nombre">
+						  <label for="nombre" class="col-form-label">Nombre Completo</label>
+						  <input type="text" class="form-control" id="nombre" name="nombre" required
+						  [(ngModel)]="paciente.nombre"
+						  >
+						  <i></i>
+						  <span class="msg-validation">Ingresa tu nombre</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group genero">
+							<label for="genero" class="col-form-label">G&eacute;nero</label>						
+							<div class="checkbox row">
+								<div class="col-xs-6">
+									<label class="femenino">
+										<input type="radio" name="genero" value="F"
+										[(ngModel)]="paciente.genero"
+										required
+										>
+										<span>Femenino</span>
+									</label>
+								</div>
+								<div class="col-xs-6">
+									<label class="masculino">
+										<input type="radio" name="genero" value="M"
+										[(ngModel)]="paciente.genero">
+										<span>Masculino</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon nacimiento">
+							<label class="col-form-label" for="fecha_nac">Fecha de Nacimiento</label>
+							<my-date-picker 
+								name="fecha_nac" 
+								class="form-control esc-dp" 
+								[options]="birthdayOptions"
+								[(ngModel)]="fecha_nac"                                         
+								(dateChanged)="verificarEdad()"
+								required></my-date-picker>
+							 <i></i>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section *ngIf="mostrarFormParentezco">
+				  <div class="row">
+					<header class="text-center">
+						<h3 class="title">Datos del Responsable</h3>
+					</header>
+					<div class="col-md-6">
+						<div class="form-group with-icon responsable_cedula">
+						  <label for="inputCity" class="col-form-label">Cédula del responsable</label>
+						  <input type="text" class="form-control" id="responsable_cedula" name="responsable_cedula"
+						  [(ngModel)]="paciente.responsable_cedula"
+						  >
+						  <i></i>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon responsable">
+						  <label for="inputState" class="col-form-label">Nombre Completo</label>
+						  <input type="text" class="form-control" id="responsable_nombre" name="responsable_nombre" placeholder=""
+						  [(ngModel)]="paciente.responsable_nombre" required
+						  >
+						  <i></i>
+						  <span class="msg-validation">Requerido</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon parentezco">
+						  <label for="inputZip" class="col-form-label">Parentezco</label>
+						  <input type="text" class="form-control" id="responsable_parentezco" name="responsable_parentezco"
+						  [(ngModel)]="paciente.responsable_parentezco" required
+						  >
+						  <i></i>
+						  <span class="msg-validation">Requerido</span>
+						</div>
+					</div>
+				  </div>
+			</section>
+
+
+			<div class="buttons-navigation">
+
+				<button 
+					class="btn btn-default previous hide" 
+					disabled="disabled"
+				> ANTERIOR 
+				</button>
+				<button 
+					type="button" 
+					class="btn btn-success next" 
+					[disabled]="!personalForm.valid || btnNavigation_pressed"
+					(click)="Next()"
+					
+				> SIGUIENTE <span *ngIf="btnNavigation_pressed" class="fa fa-spinner fa-spin"></span>
+				</button>
+			</div>
+
+		</form>
+
+		</div>
+	</div>
+
+
+</div>

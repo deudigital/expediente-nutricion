@@ -1,0 +1,123 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControlDataService }     from '../../control/data/formControlData.service';
+
+@Component({
+  selector: 'app-hcf',
+  templateUrl: './hcf.component.html',
+  styles: []
+})
+export class HcfComponent implements OnInit {
+	fcd:any;
+	helpers:any;
+	mng:any;
+	paciente:any;
+	body:any;
+	patologias:any[];
+	oPatologias:any[];
+	
+	data:{ [id: string]: any; } = {'0':''};
+  constructor(private router: Router, private formControlDataService: FormControlDataService) {
+		this.fcd		=	formControlDataService.getFormControlData();
+		this.helpers	=	this.fcd.getHelpers();
+		this.mng		=	this.fcd.getManejadorDatos();
+		this.mng.setMenuPacienteStatus(true);
+		this.paciente	=	this.fcd.getFormPaciente();
+		this.data['paciente_id']	=	this.paciente.id;		
+		this.oPatologias	=	[];		
+	}
+	ngOnInit() {
+		this.body = document.getElementsByTagName('body')[0];
+		this.cargarHcfPatologiasDelPaciente();
+		this.setInfoInit();
+	}
+	ngOnDestroy(){		
+		this.saveForm();
+		this.helpers.scrollToForm();
+	}
+	
+	infoEdited(){
+		for(var i in this.patologias){
+			var orig	=	this.oPatologias[i];
+			var edit	=	this.patologias[i];
+			var notas_dif	=	orig.notas!== edit.notas;
+			var check_dif	=	orig.checked!== edit.checked;			
+			
+			if( notas_dif || check_dif ){
+				if(notas_dif && edit.checked)
+					return true;
+				return check_dif;					
+			}
+		}
+		return false;
+	}
+	setInfoInit(){
+		var obj;
+		var item;
+		for(var i in this.patologias){
+			item	=	this.patologias[i];
+			obj	=	new Object();
+			obj.id		=	item.id;
+			obj.nombre	=	item.nombre;
+			obj.notas	=	item.notas;	
+			obj.checked	=	item.checked;		
+			obj.row	=	item.row;
+			this.oPatologias[i]	=	obj;
+		}
+	}
+	cargarHcfPatologiasDelPaciente(){		
+		this.patologias			=	this.mng.getHcfPatologias();
+		var hcfPatologias		=	this.fcd.getFormPacienteHcfPatologias();
+		var id;
+		var found;
+				
+		var index=1;
+		for(var i in this.patologias){
+			this.patologias[i].checked		=	false;
+			this.patologias[i].row			=	false;
+			if(index%2==0){
+				this.patologias[i].row		=	true;
+			}
+			
+			index++;
+		}
+		
+		for(var i in hcfPatologias){
+			id		=	hcfPatologias[i].hcf_patologia_id;
+			found			=	this.patologias.filter(function(arr){return arr.id == id})[0];
+			if(found){
+				found.checked	=	true;
+				found.notas		=	hcfPatologias[i].notas;
+			}
+		}
+	}
+	saveTest(){
+		if(this.infoEdited()){
+			this.data['items']	=	this.patologias;
+			this.save(this.data);
+		}
+	}
+	save(data){
+		this.fcd.setFormPacienteHcfPatologias(this.patologias);
+		this.formControlDataService.store('hcf_patologis', data)
+		.subscribe(
+			 response  => {},
+			error =>  console.log(<any>error)
+		);
+	}
+	
+	saveForm(){
+		if(this.infoEdited()){
+			this.data['items']	=	this.patologias;
+			this.save(this.data);
+		}
+	}
+	Previous(){
+		this.saveForm();
+		this.router.navigate(['/hcp-otros']);
+	}
+	Next(){
+		this.saveForm();
+		this.router.navigate(['/objetivo']);
+	}
+}

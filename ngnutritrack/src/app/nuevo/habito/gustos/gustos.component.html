@@ -1,0 +1,89 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>H&aacute;bitos</h4>
+			</header>
+			<section>
+				<app-habito-nav></app-habito-nav>
+					<header class="visible-xs">
+						<h4>Gustos</h4>
+					</header>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="comidas_favoritas">Comidas Favoritas</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="comidas_favoritas" 
+								name="comidas_favoritas" 
+								[(ngModel)]="gusto.comidas_favoritas"
+								>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="comidas_no_gustan">Comidas que no le gustan</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="comidas_no_gustan" 
+								name="comidas_no_gustan" 
+								[(ngModel)]="gusto.comidas_no_gustan"
+								>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="lugar_acostumbra_comer">Lugar(es) donde acostumbra a comer</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="lugar_acostumbra_comer" 
+								name="lugar_acostumbra_comer" 
+								[(ngModel)]="gusto.lugar_acostumbra_comer"
+								>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="lugar_caen_mal">Intolerancias/comidas que le caen mal</label>
+							<input 
+								type="text" 
+								class="form-control" 
+								id="lugar_caen_mal" 
+								name="lugar_caen_mal" 
+								[(ngModel)]="gusto.lugar_caen_mal"
+								>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="notas">Notas</label>
+						<textarea 
+							id="notas" 
+							name="notas" 
+							class="form-control" 
+							rows="8"
+							[(ngModel)]="gusto.notas"
+					></textarea>
+					</div>
+					
+			</section>
+			
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+		</div>
+	</div>
+</div>

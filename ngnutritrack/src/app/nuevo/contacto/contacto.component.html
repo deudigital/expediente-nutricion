@@ -1,0 +1,126 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-navigation></app-navigation>
+		</div>
+		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Contacto</h4>
+			</header>
+		
+		<form #contactForm="ngForm" class="editForm" novalidate>
+			<section>
+				<div class="row">
+					<div class="col-md-6">					  
+					  <div class="form-group with-icon telefono">
+							<label for="cedula" class="col-form-label">Tel&eacute;fonos</label>
+						  <input type="text" class="form-control" id="phone" name="phone" placeholder="" 
+						  [(ngModel)]="paciente.telefono"
+						  (keypress)="helpers.onKeyPress($event)" 
+						  maxlength="8"
+						  >
+						  <i></i>
+					  </div>
+					  <div class="form-group with-icon celular">
+						  <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder=""
+						   [(ngModel)]="paciente.celular"
+						  (keypress)="helpers.onKeyPress($event)" 
+						  maxlength="8"
+						  >
+						  <i></i>
+					  </div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon correo">
+							  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico</label>
+							  <input type="text" class="form-control" id="email" name="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" email
+							  [(ngModel)]="paciente.email"
+							  >
+							  <i></i>
+							   <span class="msg-validation">El correo electr&oacute;nico es inv&aacute;lido</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="genero" class="col-form-label">Dirección</label>
+						<div class="row select-ubicacion">
+							<div class="col-md-6">
+								<select [(ngModel)]="provincia" class="form-control" (change)="selectCantones($event)" name="provincia">
+									<option *ngFor="let o of _provincias" [ngValue]="o.codigo_provincia">{{o.nombre_provincia}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								 <select [(ngModel)]="canton" class="form-control" (change)="selectDistritos($event)" name="canton">
+									<option *ngFor="let o of filter_cantones" [ngValue]="o.codigo_canton">{{o.nombre_canton}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								 <select [(ngModel)]="distrito" class="form-control" (change)="selectBarrios($event)" name="distrito">
+									<option *ngFor="let o of filter_distritos" [ngValue]="o.codigo_distrito">{{o.nombre_distrito}}</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								 <select [(ngModel)]="paciente.ubicacion_id" class="form-control" name="barrio">
+									<option *ngFor="let o of filter_barrios" [ngValue]="o.id">{{o.nombre_barrio}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon detalles">
+						  <label for="nombre" class="col-form-label">&nbsp;</label>
+						  <input type="text" class="form-control" id="detalles" name="detalles" placeholder="Detalles"
+						  [(ngModel)]="paciente.detalles_direccion"
+						  >
+						  <i></i>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section *ngIf="!paciente.esMayor">
+				<header>
+					<h3>Contacto del responsable</h3>
+				</header>
+				  <div class="row">
+					<div class="col-md-6">
+						<div class="form-group with-icon contacto_telefono">
+						  <label for="cedula" class="col-form-label">Teléfono del responsable</label>
+						  <input type="text" class="form-control" id="phone" name="phone_responsable" placeholder=""
+						  [(ngModel)]="paciente.responsable_telefono"
+						  (keypress)="helpers.onKeyPress($event)" 
+						  maxlength="8"
+						  >
+						  <i></i>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group with-icon correo">
+						  <label for="nombre" class="col-form-label">Correo Electr&oacute;nico del responsable</label>
+						  <input type="text" class="form-control" id="responsable_email" name="responsable_email" placeholder="" email
+						  [(ngModel)]="paciente.responsable_email"
+						  >
+						  <i></i>
+						</div>
+					</div>
+				  </div>
+			</section>
+			<div class="buttons-navigation">
+					<button 
+						class="btn btn-default previous" 
+						(click)="Previous()"
+					> ANTERIOR 
+					</button>
+					<button class="btn btn-success next" 
+						[disabled]="!contactForm.valid || btnNavigation_pressed"
+						(click)="Next()"
+						> SIGUIENTE <span *ngIf="btnNavigation_pressed" class="fa fa-spinner fa-spin"></span>
+						</button>
+				</div>
+
+
+		</form>
+		</div>
+	</div>
+</div>

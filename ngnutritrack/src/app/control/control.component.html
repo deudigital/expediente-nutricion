@@ -1,0 +1,45 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-control-nav-center></app-control-nav-center>
+<div class="back-button"><a routerLink="/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente"><i class="menu-icon nuevo"></i></a></div>
+<div class="container main page-busqueda content-form">	
+	<figure class="text-center">
+		<i class="searching"></i>
+		<h2 class="main-title">Digite el nombre del paciente</h2>
+	</figure>
+
+	<div class="listado pacientes">
+
+		<div class="row">			
+			<div class="form-group with-icon search">
+				<input 
+					type="text" 
+					class="form-control" 
+					[(ngModel)]="q"
+					(keyup)="onFilter()"
+					/>
+					<i></i>
+			</div> 
+			<ul *ngIf="showFilter">
+				<li  *ngFor="let paciente of filter_pacientes" (click)="onSelect(paciente)">
+					<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.cedula}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+	<div class="container-fluid">
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <div class="col-xs-12 col-md-12 col-sm-12 content-form">
+	            	<section class="np">
+	                 <div class="row">
+	                    <app-factura-vacia></app-factura-vacia>
+	                </div>
+	            </section>
+	        </div>
+	    </div>
+	</div>

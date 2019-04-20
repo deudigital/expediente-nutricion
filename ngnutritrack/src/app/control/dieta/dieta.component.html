@@ -1,0 +1,582 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">
+			<header class="visible-xs text-center">
+				<h4>Dieta</h4>
+			</header>
+	<section>
+		<app-dieta-nav></app-dieta-nav>	
+		<header class="visible-xs">
+			<h4>Prescripci&oacute;n</h4>
+		</header>	
+	
+		<div class="buttons">
+			<button 
+				class="btn btn-default" 
+				[disabled]="disableButtonHistorial"
+				(click)="showModal('datos')"
+				>Ver Historial Prescripciones</button>
+		</div>
+		<header>
+			<h3 class="title">Distribuci&oacute;n de Macronutrientes</h3>
+		</header>
+		
+		
+		<div class="row division-nutricional s-80">
+		
+				<div class="col-md-5">
+					<div class="ingesta-calorica-recomendada col-sm-6">
+						<i></i>
+						Ingesta Cal&oacute;rica<br>Recomendada
+					</div>
+					<div class="ingesta-calorica-recomendada-value with-cicle col-sm-6">
+						<div class="inner">
+							<i>
+								<strong>
+									{{ rdd.icr | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7 distribucion">
+					<div class="col-sm-4">						
+						<div class="carbohidratos with-cicle">						
+							<div class="inner">
+								<i>
+									<span>Gramos</span>
+									<strong>{{gramos_carbohidratos | number : '1.0-0'}}</strong>
+									<span>Kcal</span>
+									<strong>{{kcal_carbohidratos | number : '1.0-0'}}</strong>
+									<span>g/Kg</span>
+									<strong>{{g_kg_carbohidratos | number : '1.1-1'}}</strong>
+								</i>
+							</div>
+							<h5>Carbohidratos</h5>
+							<input 
+								id="carbohidratos" 
+								name="carbohidratos" 
+								type="text" 
+								class="form-control" 
+								placeholder="Porcentaje"  
+								maxlength="5" 
+								 currencyMask 
+								 [options]="{ prefix: '', suffix: ' %', precision:0,align:'center' }" 
+								 [(ngModel)]="prescripcion.carbohidratos"
+								 /> 
+						</div>
+					</div>
+					<div class="col-sm-4">						
+						<div class="proteinas with-cicle">						
+							<div class="inner">
+								<i>
+									<span>Gramos</span>
+									<strong>{{gramos_proteinas | number : '1.0-0'}}</strong>
+									<span>Kcal</span>
+									<strong>{{kcal_proteinas | number : '1.0-0'}}</strong>	
+									<span>g/Kg</span>
+									<strong>{{g_kg_proteinas | number : '1.1-1'}}</strong>
+								</i>
+							</div>
+							<h5>Proteínas</h5>
+							<input 
+								id="proteinas" 
+								name="proteinas" 
+								type="text" 
+								class="form-control" 
+								placeholder="Porcentaje"  
+								maxlength="5"
+
+								currencyMask 
+								[options]="{ prefix: '', suffix: ' %', precision:0,align:'center' }" 
+								[(ngModel)]="prescripcion.proteinas"
+							/>
+						</div>
+					</div>
+					<div class="col-sm-4">						
+						<div class="grasas with-cicle">						
+							<div class="inner">
+								<i>
+									<span>Gramos</span>
+									<strong>{{gramos_grasas | number : '1.0-0'}}</strong>
+									<span>Kcal</span>
+									<strong>{{kcal_grasas | number : '1.0-0'}}</strong>	
+									<span>g/Kg</span>
+									<strong>{{g_kg_grasas | number : '1.1-1'}}</strong>
+								</i>
+							</div>
+							<h5>Grasas</h5>
+							<input 
+								id="grasas" 
+								name="grasas" 
+								type="text" 
+								class="form-control" 
+								placeholder="Porcentaje"  
+								maxlength="5" 
+								currencyMask 
+								[options]="{ prefix: '', suffix: ' %', precision:0,align:'center' }" 
+								[(ngModel)]="prescripcion.grasas"
+							/>
+						</div>
+					</div>
+					<div class="col-sm-offset-4 col-sm-4">
+						<div [ngClass]="{'red': sumatoria_distribucion>100 }" class="sumatoria-distribucion">{{sumatoria_distribucion}}</div>
+					</div>
+				
+				</div>			
+		</div>	
+	</section>
+	<section>
+		<header>
+			<h3 class="title">Distribuci&oacute;n de Porciones</h3>
+		</header>
+		
+			<table class="table table-responsive separate asignacion-porciones">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>Porciones</th>
+						<th>Carbohidratos</th>
+						<th>Proteínas</th>
+						<th>Grasas</th>
+						<th>Kcal</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of items">
+						<td scope="row">
+							<label for="{{item.slug}}">
+								<i class="{{item.slug}} item-{{item.id}}"></i>
+								{{item.nombre}}
+							</label>
+						</td>
+						<td>
+							<input 
+								name="cantidad"
+								type="number" 
+								class="form-control"  
+								maxlength="6" 
+								min="0" 
+								max="99" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="item.porciones" 
+								(ngModelChange)="calculate(item)" 		
+								(click)="$event.target.select()"								
+							/>
+						</td>
+						<td>{{item.carbohidratos}}</td>
+						<td>{{item.proteinas}}</td>
+						<td>{{item.grasas}}</td>
+						<td>{{item.kcal}}</td>
+					</tr>
+					<tr *ngFor="let item of otrosItems">
+						<td scope="row">
+							<a 
+								href="javascript:void(0);" 
+								class="remove-item" 
+								(click)="remove(item)" 
+							><i></i></a>
+							<label>
+								{{item.nombre}}
+							</label>
+						</td>
+						<td>
+							<input 
+								name="porciones"
+								type="number" 
+								class="form-control"  
+								maxlength="6" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="item.porciones" 
+							/>
+						</td>
+						<td>{{item.carbohidratos}}</td>
+						<td>{{item.proteinas}}</td>
+						<td>{{item.grasas}}</td>
+						<td>{{item.calorias}}</td>
+					</tr>
+				</tbody>
+			</table>
+	
+			<div class="container-form otros-alimentos container-fluid ">
+			
+					<div [ngClass]="{'open': nuevo }" class="actions">
+						<a [ngClass]="{'form-close':nuevo, 'form-open': !nuevo }" (click)="showFormEdit()" href="javascript:void(0)"><i></i>Añadir Otro</a>
+					</div>					
+					<div class="form-edit">
+						<div class="row">
+							
+							<table class="table separate asignacion-porciones otro-alimento">
+								<thead>
+									<tr>
+										<th colspan="2">&nbsp;</th>
+										<th>Porciones</th>
+										<th>Carbohidratos</th>
+										<th>Proteínas</th>
+										<th>Grasas</th>
+										<th>Kcal</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="2" scope="row">
+											<input 
+												id="nombre" 
+												name="nombre"
+												type="text" 
+												class="form-control" 
+												maxlength="191" 							
+												[(ngModel)]	=	"otroAlimento.nombre"
+											>
+											<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.nombre">Escriba Nombre</span>
+										</td>
+										<td>
+											<input 
+												id="porciones" 
+												name="porciones" 
+												type="text" 
+												class="form-control"  
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
+												[(ngModel)]	=	"otroAlimento.porciones"
+											>
+											<span style="color: red;font-size: smaller;margin: 10px;" *ngIf="errors.porciones">Escriba la cantidad</span>
+										</td>
+										<td>
+											<input 
+												id="carbohidratos" 
+												name="carbohidratos" 
+												type="text" 
+												class="form-control" 
+												placeholder="gramos" 
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
+												[(ngModel)]	=	"otroAlimento.carbohidratos"
+											>
+										</td>
+										<td>
+											<input 
+												id="proteinas" 
+												name="proteinas" 
+												type="text" 
+												class="form-control" 
+												placeholder="gramos" 
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
+												[(ngModel)]	=	"otroAlimento.proteinas"
+											>
+										</td>
+										<td>
+											<input 
+												id="grasas" 
+												name="grasas" 
+												type="text" 
+												class="form-control" 
+												placeholder="gramos" 
+												maxlength="5" 
+												(keypress)="helpers.soloNumeros($event)"
+												[(ngModel)]	=	"otroAlimento.grasas"
+											>
+										</td>
+										<td>
+												<input type="text" class="form-control" id="calorias" name="calorias" placeholder=""
+												[(ngModel)]	=	"otroAlimento.calorias">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="actions text-center">
+							<a (click)="adicionarNuevo()" class="btn btn-default">AÑADIR</a>
+						</div>
+					</div>
+				</div>
+	</section>	
+	<section>
+		<header>
+			<h3 class="title">Resumen</h3>
+		</header>
+		<table class="table table-mobile separate asignacion-porciones resumen">
+			<thead>
+				<tr>
+					<th colspan="2">&nbsp;</th>
+					<th>Carbohidratos</th>
+					<th>Proteínas</th>
+					<th>Grasas</th>
+					<th>Kcal</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="2">Totales</td>
+					<td>{{total_carbohidratos}}</td>
+					<td>{{total_proteinas}}</td>
+					<td>{{total_grasas}}</td>
+					<td>{{total_kcal}}</td>
+				</tr>
+				<tr>
+					<td colspan="2">Faltante</td>
+					<td>{{total_faltante_carbohidratos | number : '1.0-0'}}</td>
+					<td>{{total_faltante_proteinas | number : '1.0-0'}}</td>
+					<td>{{total_faltante_grasas | number : '1.0-0'}}</td>
+					<td>{{total_faltante_kcal | number : '1.0-0'}}</td>
+				</tr>
+				<tr>
+					<td colspan="2">Ideal</td>
+					<td>{{total_ideal_carbohidratos | number : '1.0-0'}}</td>
+					<td>{{total_ideal_proteinas | number : '1.0-0'}}</td>
+					<td>{{total_ideal_grasas | number : '1.0-0'}}</td>
+					<td>{{ rdd.icr | number : '1.0-0'}}</td>
+				</tr>
+				<tr>
+					<td colspan="2">% de adecuaci&oacute;n</td>
+					<td>{{total_adecuacion_carbohidratos | number : '1.0-0'}}</td>
+					<td>{{total_adecuacion_proteinas | number : '1.0-0'}}</td>
+					<td>{{total_adecuacion_grasas | number : '1.0-0'}}</td>
+					<td>{{total_adecuacion_kcal | number : '1.0-0'}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+		
+		
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="overlay" (click)="hideModal('datos')"></div>
+<div [ngClass]="{'invisible': hideModalDatos }" class="esc-modalbox wide">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<header class="text-center">
+		<h4>Historial de Prescripciones</h4>
+	</header>
+	<div class="body">
+		<div *ngIf="showModalTabDatos">
+			<div class="table-responsive addpaddingprescripcion">
+				<table class="table separate table-mobile historial prescripcion">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Carbohidratos</th>
+							<th>Proteínas</th>
+							<th>Grasas</th>
+							<th>Leche Desc.</th>
+							<th>Leche 2%</th>
+							<th>Leche Entera</th>
+							<th>Vegetales</th>
+							<th>Frutas</th>
+							<th>Harinas</th>
+							<th>Carne Magra</th>
+							<th>Carne Int</th>
+							<th>Carne grasa</th>
+							<th>Az&uacute;cares</th>
+							<th>Grasas</th>
+							<th>Agua</th>
+						</tr>
+					</thead>
+					<tbody>
+<ng-template ngFor let-historia [ngForOf]= "historial">
+						<tr>
+							<td>
+							<div class="actions">
+								<a 
+									class="button-copy" 
+									title="{{historia.id}}"
+									href="javascript:void(0)"
+									(click)="showModalCopiar(historia)"
+								><i></i></a>
+							</div>
+					<ng-template [ngIf]="historia.patron_menu">
+								<a [ngClass]="{'open ': historia.display }"  class="expand-patron-menu" href="javascript:void(0)" (click)="displayDetails(historia)">
+									<i></i>
+								</a>
+					</ng-template>
+								{{historia.fecha}}
+							</td>
+							<td>{{historia.carbohidratos}} %</td>
+							<td>{{historia.proteinas}} %</td>
+							<td>{{historia.grasas}} %</td>
+					<ng-template [ngIf]="historia.items" [ngIfElse]="historia_items_loading">
+						<ng-template ngFor let-historia_item [ngForOf]= "historia.items" let-i="index">
+							<ng-template [ngIf]="i>0">
+							<td *ngIf="!historia.display">{{historia_item || '' }}</td>
+							</ng-template>
+						</ng-template>
+					</ng-template>
+					<ng-template #historia_items_loading>
+							<td colspan="12">&nbsp;</td>
+					</ng-template>
+						</tr>
+						
+			<ng-template [ngIf]="historia.patron_menu">					
+					<ng-template ngFor let-historia_patron_menu_item [ngForOf]= "historia.patron_menu">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">{{historia_patron_menu_item.nombre || '' }}</td>
+						<ng-template ngFor let-historia_patronmenu [ngForOf]= "historia_patron_menu_item.items" let-k="index">
+							<ng-template [ngIf]="k>0">
+							<td>{{historia_patronmenu || '' }}</td>
+							</ng-template>
+						</ng-template>
+						</tr>
+					</ng-template>
+<!--
+					<ng-template [ngIf]="historia.patron_menu[1]">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">Desayuno</td>
+							<td>{{historia.patron_menu[1][1] || '' }}</td>
+							<td>{{historia.patron_menu[1][2] || '' }}</td>
+							<td>{{historia.patron_menu[1][3] || '' }}</td>
+							<td>{{historia.patron_menu[1][4] || '' }}</td>
+							<td>{{historia.patron_menu[1][5] || '' }}</td>
+							<td>{{historia.patron_menu[1][6] || '' }}</td>
+							<td>{{historia.patron_menu[1][7] || '' }}</td>
+							<td>{{historia.patron_menu[1][8] || '' }}</td>
+							<td>{{historia.patron_menu[1][9] || '' }}</td>
+							<td>{{historia.patron_menu[1][10] || '' }}</td>
+							<td>{{historia.patron_menu[1][11] || '' }}</td>
+							<td>{{historia.patron_menu[1][12] || '' }}</td>
+						</tr>
+					</ng-template>
+					<ng-template [ngIf]="historia.patron_menu[2]">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">Media Mañana</td>
+							<td>{{historia.patron_menu[2][1] || '' }}</td>
+							<td>{{historia.patron_menu[2][2] || '' }}</td>
+							<td>{{historia.patron_menu[2][3] || '' }}</td>
+							<td>{{historia.patron_menu[2][4] || '' }}</td>
+							<td>{{historia.patron_menu[2][5] || '' }}</td>
+							<td>{{historia.patron_menu[2][6] || '' }}</td>
+							<td>{{historia.patron_menu[2][7] || '' }}</td>
+							<td>{{historia.patron_menu[2][8] || '' }}</td>
+							<td>{{historia.patron_menu[2][9] || '' }}</td>
+							<td>{{historia.patron_menu[2][10] || '' }}</td>
+							<td>{{historia.patron_menu[2][11] || '' }}</td>
+							<td>{{historia.patron_menu[2][12] || '' }}</td>
+						</tr>
+					</ng-template>
+					<ng-template [ngIf]="historia.patron_menu[3]">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">Almuerzo</td>
+							<td>{{historia.patron_menu[3][1] || '' }}</td>
+							<td>{{historia.patron_menu[3][2] || '' }}</td>
+							<td>{{historia.patron_menu[3][3] || '' }}</td>
+							<td>{{historia.patron_menu[3][4] || '' }}</td>
+							<td>{{historia.patron_menu[3][5] || '' }}</td>
+							<td>{{historia.patron_menu[3][6] || '' }}</td>
+							<td>{{historia.patron_menu[3][7] || '' }}</td>
+							<td>{{historia.patron_menu[3][8] || '' }}</td>
+							<td>{{historia.patron_menu[3][9] || '' }}</td>
+							<td>{{historia.patron_menu[3][10] || '' }}</td>
+							<td>{{historia.patron_menu[3][11] || '' }}</td>
+							<td>{{historia.patron_menu[3][12] || '' }}</td>
+						</tr>
+					</ng-template>
+					<ng-template [ngIf]="historia.patron_menu[4]">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">Media Tarde</td>								
+							<td>{{historia.patron_menu[4][1] || '' }}</td>
+							<td>{{historia.patron_menu[4][2] || '' }}</td>
+							<td>{{historia.patron_menu[4][3] || '' }}</td>
+							<td>{{historia.patron_menu[4][4] || '' }}</td>
+							<td>{{historia.patron_menu[4][5] || '' }}</td>
+							<td>{{historia.patron_menu[4][6] || '' }}</td>
+							<td>{{historia.patron_menu[4][7] || '' }}</td>
+							<td>{{historia.patron_menu[4][8] || '' }}</td>
+							<td>{{historia.patron_menu[4][9] || '' }}</td>
+							<td>{{historia.patron_menu[4][10] || '' }}</td>
+							<td>{{historia.patron_menu[4][11] || '' }}</td>
+							<td>{{historia.patron_menu[4][12] || '' }}</td>
+						</tr>
+					</ng-template>
+					<ng-template [ngIf]="historia.patron_menu[5]">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">Cena</td>
+							<td>{{historia.patron_menu[5][1] || '' }}</td>
+							<td>{{historia.patron_menu[5][2] || '' }}</td>
+							<td>{{historia.patron_menu[5][3] || '' }}</td>
+							<td>{{historia.patron_menu[5][4] || '' }}</td>
+							<td>{{historia.patron_menu[5][5] || '' }}</td>
+							<td>{{historia.patron_menu[5][6] || '' }}</td>
+							<td>{{historia.patron_menu[5][7] || '' }}</td>
+							<td>{{historia.patron_menu[5][8] || '' }}</td>
+							<td>{{historia.patron_menu[5][9] || '' }}</td>
+							<td>{{historia.patron_menu[5][10] || '' }}</td>
+							<td>{{historia.patron_menu[5][11] || '' }}</td>
+							<td>{{historia.patron_menu[5][12] || '' }}</td>
+						</tr>
+					</ng-template>
+					<ng-template [ngIf]="historia.patron_menu[6]">
+						<tr class="detalle_prescripcion" *ngIf="historia.display">
+							<td colspan="4">Colacion Nocturna</td>
+							<td>{{historia.patron_menu[6][1] || '' }}</td>
+							<td>{{historia.patron_menu[6][2] || '' }}</td>
+							<td>{{historia.patron_menu[6][3] || '' }}</td>
+							<td>{{historia.patron_menu[6][4] || '' }}</td>
+							<td>{{historia.patron_menu[6][5] || '' }}</td>
+							<td>{{historia.patron_menu[6][6] || '' }}</td>
+							<td>{{historia.patron_menu[6][7] || '' }}</td>
+							<td>{{historia.patron_menu[6][8] || '' }}</td>
+							<td>{{historia.patron_menu[6][9] || '' }}</td>
+							<td>{{historia.patron_menu[6][10] || '' }}</td>
+							<td>{{historia.patron_menu[6][11] || '' }}</td>
+							<td>{{historia.patron_menu[6][12] || '' }}</td>
+						</tr>
+					</ng-template>
+			-->
+			</ng-template>
+</ng-template>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="esc-modalbox prompt" *ngIf="!hideModalCopiar">
+	<a class="modal-close" (click)="copiarCancelar()"><i></i></a>
+	
+<ng-template #promptCopiar>	
+	<header class="text-center">
+		<h4>¿Est&aacute; seguro de copiar estos datos?</h4>
+	</header>
+	<div class="body row">
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block" (click)="copiarYes()">SI</button>
+		</div>
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block red" (click)="copiarCancelar()">No</button>
+		</div>
+	</div>
+</ng-template>	
+<ng-template [ngIf]="copiando" [ngIfElse]="promptCopiar">
+
+	<header class="text-center">
+		<h4>Copiando datos...</h4>
+	</header>
+	<div class="body row">
+		<img src="assets/images/loading-bars.svg" width="75" />
+	</div>
+</ng-template>	
+</div>

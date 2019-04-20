@@ -1,0 +1,170 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>
+</div>		
+<app-topnav></app-topnav>
+<div class="esc-modal transparent loading-modal" style="position: fixed;top: 50%" *ngIf="form_errors.loading">
+	<img src="assets/images/loading-bars.svg" width="75" />
+</div>
+<div class="esc-modal transparent success_ajax" style="position: fixed;top: 50%" *ngIf="form_errors.successful_operation">
+	<img src="assets/images/success.png" width="75" />
+</div>
+<div class="esc-modal transparent success_ajax" style="position: fixed;top: 50%" *ngIf="form_errors.ajax_failure">
+	<img src="assets/images/error.png" width="75" />
+</div>
+
+<!-- Modal Confirmacion Borrado de Item -->
+<div class="overlay" *ngIf="show_deleteConfirmation || form_errors.loading || form_errors.successful_operation || form_errors.ajax_failure"></div>
+<div class="esc-modal" style="position: fixed;top: 50%" *ngIf="show_deleteConfirmation">
+	<div class="box">
+		<a class="modal-close" (click)="confirmDeleteFactura()">X</a>
+		<header>
+			¿Está seguro que desea anular esta factura? 			
+		</header>
+		<div class="body content-form">
+			<div class="buttons-navigation">
+            	<div class="col-md-5">
+					<button class="btn btn-success no-border" 
+							style="width: 100%; background-color:#8BC23F" 
+							id="button2"
+							(click)="anularFactura()">Si</button>
+				</div>
+				<div class="col-md-offset-2 col-md-5">
+					<button class="btn btn-success no-border" style="width: 100%" (click)="confirmDeleteFactura()" id="button3">No</button>
+				</div>
+          	</div>
+		</div>
+	</div>
+</div>
+<!-- End Modal Borrado de Item -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-8">
+            <h3>Reporte de Facturación</h3>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-12 content-form">
+			<section>
+				<div class="row">
+                    <div class="col-md-3 col-sm-3">
+						<div class="form-group with-icon paciente_nombre">
+						  <label class="col-form-label" for="cliente">Cliente</label>
+						  <input class="form-control" [(ngModel)]="nombre" id="cliente" name="cliente" type="text">
+						  <i></i>
+						</div>
+				    </div>
+                    <div class="col-md-2 col-sm-3">
+                        <div class="form-group with-icon nacimiento">
+                          <label class="col-form-label" for="desde">Desde</label>
+							<my-date-picker name="desde"
+											class="form-control esc-dp"
+	                                        [options]="fromOptions"
+	                                        [(ngModel)]="fromDate"
+	                                        (dateChanged)="refreshDateFromLimits($event)"
+	                                        required>
+	                        </my-date-picker>
+	                        <i style="margin-left: -2%;margin-bottom: 1%;"></i>       
+                        </div>
+					</div>
+                    <div class="col-md-2 col-sm-3">
+                        <div class="form-group with-icon nacimiento">
+                          <label class="col-form-label" for="hasta">Hasta</label>
+							<my-date-picker name="hasta"
+											class="form-control esc-dp"
+	                                        [options]="untilOptions"
+	                                        [(ngModel)]="untilDate"
+	                                        (dateChanged)="refreshUntilDateLimits($event)"
+	                                        required>
+	                        </my-date-picker>
+	                        <i id="icon-from" style="margin-left: -2%;margin-bottom: 1%;"></i>
+                        </div>
+					</div>
+					<div class="col-md-3 col-sm-3">
+                        <div class="form-group with-icon parentezco">
+                          <label class="col-form-label" for="tipo">Tipo</label>
+                          <select class="form-control ng-pristine ng-valid ng-touched" [(ngModel)]="tipo" id="tipo" name="tipo">
+                          	<option>Todos</option>
+                            <option *ngFor="let item of tipos">{{item.nombre}}</option>
+                          </select>
+                          <i></i>
+                        </div>
+					</div>
+                    <div class="col-md-2" style="margin-top:20px;">
+                        <button class="btn btn-default btn-block" id="search_button" (click)="filterQuery()"> BUSCAR </button>
+                    </div>
+                 </div>
+			</section>
+			<section *ngIf="resultArray.length > 0">
+            	<div class="row">
+                    <div class="container-fluid">
+                    	<div class="table-responsive">
+	                        <table class="table reporte-factura">
+	                            <thead>
+	                                <tr>
+	                                    <th width="100">&nbsp;</th>
+	                                    <th># Documento</th>
+	                                    <th>Cedula</th>
+	                                    <th>Receptor</th>
+	                                    <th>Tipo</th>
+	                                    <th>Fecha</th>
+	                                    <th>Moneda</th>
+	                                    <th>Monto</th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr *ngFor="let item of resultArray; let i = index ">
+										<td>
+<div class="actions reporte">
+	<a class="edit-item" href="javascript:void(0)" routerLinkActive="active" (click)='showPDF(item)'>
+		<i class="fa fa-file-pdf-o"></i>
+	</a>
+	<a class="remove-item" href="javascript:void(0)" routerLinkActive="active" (click)='confirmDeleteFactura(item)' *ngIf="item.showDelete">
+		<i></i>
+	</a>
+</div>
+										
+										</td>
+	                                    <td>{{item.numeracion_consecutiva}}</td>
+	                                    <td>{{item.cedula}}</td>
+	                                    <td>{{item.nombre}}</td>
+	                                    <td>{{item.nombre_tipo}}</td>
+	                                    <td>{{item.fecha}}</td>
+	                                    <td>Colones</td>
+	                                    <td [ngStyle]="{ 'border-radius': setRightBorder(i) }"><span *ngIf="item.tipo_documento_id==3">-</span>₡{{item.monto | thousandsPipe}}</td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+                    </div>
+            	</div>
+
+
+                <div class="actions">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4 href="javascript:void(0)" class="form-open">
+                                <span class="glyphicon glyphicon-floppy-save"></span>
+                                Exportar a
+                            </h4>
+                        </div>
+                        <div class="col-md-1">
+                            <a routerLinkActive="active" (click)='exportData(1)'  href="javascript:void(0)">
+                                <i class="fa fa-file-pdf-o" style="font-size:48px;color:red;background:none;"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-1">
+                            <a routerLinkActive="active" (click)='exportData(2)' href="javascript:void(0)">
+                                <i class="fa fa-file-excel-o" style="font-size:48px;color:green;background:none;"></i>
+                            </a>
+                        </div>
+                    </div>
+				</div>
+            </section>
+		</div>
+	</div>
+</div>

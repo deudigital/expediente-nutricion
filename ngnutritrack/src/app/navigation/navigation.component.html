@@ -1,0 +1,91 @@
+<div class="board-inner control" id="status-buttons">
+
+<div class="half esc-nav ">
+    <div class="tab">
+     <div *ngIf="isConsulta" class="sidebar-toggle-button">
+		<ul class="list-group">
+			<li class="list-group-item datos-paciente{{class_toggle}}">			
+				<a href="javascript:void(0)" (click)="toggleDatosPaciente()">				
+					<span>Datos del Paciente</span>
+					<div id="nav-icon2" [ngClass]="{'open': showMenuPaciente }">
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					  <span></span>
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div [ngClass]="{'open': showMenuPaciente }" class="sidebar-left">	
+		<div class="tab-content">
+        
+			<ul class="list-group menu-datos-paciente">
+				<li class="list-group-item personales">
+					<a routerLink="/personales" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
+						<span>Datos Personales</span>
+						<i></i>
+					</a>
+				</li>
+				<li class="list-group-item contacto">
+					<a routerLink="/contacto" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }" >
+						<span>Contacto</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item hcp">
+					<a routerLink="/hcp" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
+						<span>Historia Cl&iacute;nica Personal</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item hcf">
+					<a routerLink="/hcf" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
+						<span>Historia Cl&iacute;nica Familiar</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item objetivo">
+					<a routerLink="/objetivo" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
+						<span>Objetivos del Paciente</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+				<li class="list-group-item habito">
+					<a routerLink="/actividad" routerLinkActive="active" [ngClass]="{'disabled': !enableLink }">
+						<span>H&aacute;bitos</span>
+						<i class="icon"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+     </div>
+    </div>
+  </div>
+
+	<div *ngIf="isConsulta">
+		<h3 class="current-menu">Consulta en Curso</h3>
+		<ul class="list-group consulta">
+			<li class="list-group-item valoracion" [ngClass]="{'current-step-consulta': control_va }">
+				<a routerLink="/valoracion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Valoración Antropométrico">
+					<span>Valoración Antropom&eacute;trica</span>
+					<i></i>
+				</a>
+			</li>
+			<li class="list-group-item recomendacion" [ngClass]="{'current-step-consulta': control_rdd }">
+				<a routerLink="/recomendacion" routerLinkActive="active">
+					<span>Recomendaciones diet&eacute;ticas diarias</span>
+					<i class="icon"></i>
+				</a>
+			</li>
+			<li class="list-group-item dieta" [ngClass]="{'current-step-consulta': control_dieta }">
+				<a routerLink="/dieta" routerLinkActive="active">
+					<span>Dieta</span>
+					<i class="icon"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

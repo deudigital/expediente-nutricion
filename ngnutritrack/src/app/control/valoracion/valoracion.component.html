@@ -1,0 +1,890 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-factura-vacia></app-factura-vacia>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-navigation></app-navigation>
+		</div>
+		<div id="content-form" class="col-sm-9 content-form">	
+			<header class="visible-xs text-center">
+				<h4>Valoraci&oacute;n Antropom&eacute;trica</h4>
+			</header>
+			<section>
+				<div class="row">
+					<div class="buttons">
+						<button 
+							class="btn btn-default" 
+							[disabled]="disableButtonHistorial"
+							(click)="showModal('datos')" 
+						>Ver Historial Antropom&eacute;trico</button>
+					</div>
+				</div>
+<ng-template [ngIf]="displayMethods">
+				<div class="form-group">
+					<label for="metodo-valoracion" class="col-form-label">{{paciente.nombre}} tiene {{ paciente.edad | number : '1.0-0'}} años, indique como desea hacer la valoraci&oacute;n</label>
+					<div class="radio clearfix">
+						<div class="col-sm-4" *ngIf="displayMethodOms">
+							<label>
+								<input 
+									name="metodo-valoracion" 
+									type="radio"
+									value="oms" 
+									(change)="changeMethod()"
+									[(ngModel)]="valoracion.metodo_valoracion"
+								>
+								<span>OMS</span>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label>
+								<input 
+									name="metodo-valoracion" 
+									type="radio"	
+									value="cdc" 
+									(change)="changeMethod()"
+									[(ngModel)]="valoracion.metodo_valoracion"							
+								>
+								<span>CDC</span>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label>
+								<input 
+									name="metodo-valoracion" 
+									type="radio" 
+									value="adulto" 
+									(change)="changeMethod()"
+									[(ngModel)]="valoracion.metodo_valoracion"
+								>
+								<span>Adulto</span>
+							</label>
+						</div>
+					</div>
+				</div>
+</ng-template>
+<ng-template [ngIf]="displayoptionsForAdulto">
+				<div class="row">
+					<div class="col-sm-6 with-icon estatura">
+						<div class="form-group with-icon estatura">
+							<label class="col-form-label" for="estatura">Estatura</label>
+							<input 
+								id="estatura" 
+								name="estatura" 
+								type="text" 
+								class="form-control" 
+								placeholder="En metros" 
+								maxlength="5" 
+								(keyup)="_analisis()"
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.estatura"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon muneca">
+							<label class="col-form-label" for="cedula">Circunferencia Muñeca</label>
+							<input 
+								id="muneca" 
+								name="muneca" 
+								type="text" 
+								class="form-control" 
+								placeholder="En centímetros" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.circunferencia_muneca"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon peso">
+							<label class="col-form-label" for="peso">Peso</label>
+							<input 
+								id="peso" 
+								name="peso" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="5" 
+								(keyup)="_analisis()"
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.peso"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon grasa">
+							<label class="col-form-label" for="grasa">Grasa</label>						
+							<input 
+								id="grasa" 
+								name="grasa" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.grasa"
+								>
+							<i></i>
+							<a 
+								class="link-modal pen"
+								[ngClass]="{'awaiting-delivery': loading_data_form }" 
+								(click)="showModal('grasa')" 
+								><i></i></a>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon musculo">
+							<label class="col-form-label" for="musculo">Músculo</label>
+							<input 
+								id="musculo" 
+								name="musculo" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.musculo"
+								>
+							<i></i>
+							<a 
+								class="link-modal pen" 
+								[ngClass]="{'awaiting-delivery': loading_data_form }"
+								(click)="showModal('musculo')" 
+								><i></i></a>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon agua">
+							<label class="col-form-label" for="agua">Agua</label>
+							<input 
+								id="agua" 
+								name="agua" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.agua"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon viceral">
+							<label class="col-form-label" for="viceral">Grasa Viceral</label>
+							<input 
+								id="viceral" 
+								name="viceral" 
+								type="text"
+								class="form-control" 
+								placeholder="Porcentaje" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.grasa_viceral"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon hueso">
+							<label class="col-form-label" for="hueso">Hueso</label>
+							<input 
+								id="hueso" 
+								name="hueso" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.hueso"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon edad_metabolica">
+							<label class="col-form-label" for="edad_metabolica">Edad Metabólica</label>
+							<input 
+								id="edad_metabolica" 
+								name="edad_metabolica" 
+								type="text"
+								class="form-control" 
+								placeholder="Años" 
+								maxlength="5" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.edad_metabolica"
+								>
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon cintura">
+							<label class="col-form-label" for="cintura">Circunferencia Cintura</label>
+							<input 
+								id="cintura" 
+								name="cintura" 
+								type="text"
+								class="form-control" 
+								placeholder="En centímetros" 
+								maxlength="5" 
+								(keyup)="_analisis()"
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.circunferencia_cintura">
+							<i></i>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon cadera">
+							<label class="col-form-label" for="cadera">Circunferencia Cadera</label>
+							<input 
+								id="cadera" 
+								name="cadera" 
+								type="text"
+								class="form-control" 
+								placeholder="En centímetros" 
+								maxlength="5" 
+								(keyup)="_analisis()"
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.circunferencia_cadera"
+								>
+							<i></i>
+						</div>
+					</div>
+				</div>
+</ng-template>
+<ng-template [ngIf]="displayGraphicChildren">			
+				<div class="form-group ">
+					<label for="percentil-analisis" class="col-form-label">¿con cu&aacute;l percentil desea hacer el an&aacute;lisis?</label>
+					<div class="radio clearfix percentiles">
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="10" 
+									(change)="_analisis()" 
+									checked 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>10%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"	
+									value="25" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>25%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="50" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>50%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="75" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>75%</span>
+							</label>
+						</div>
+						<div class="col-sm-2">
+							<label>
+								<input 
+									name="percentil-analisis" 
+									type="radio"
+									value="90" 
+									(change)="_analisis()" 
+									[(ngModel)]="valoracion.percentil_analisis"
+									>
+								<span>90%</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 with-icon estatura">
+						<div class="form-group with-icon estatura">
+							<label class="col-form-label" for="estatura">Estatura</label>
+							<input 
+								id="estatura" 
+								name="estatura" 
+								type="text" 
+								class="form-control" 
+								placeholder="En metros" 
+								maxlength="6"
+								ng-blur="displayErrorPesoEstatura()" 
+								(keyup)="_analisis()" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.estatura"
+								required
+								>
+							<i></i>
+							<span *ngIf="mostrarErrorEstatura" class="error">Dato Requerido</span>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group with-icon peso">
+							<label class="col-form-label" for="peso">Peso</label>
+							<input 
+								id="peso" 
+								name="peso" 
+								type="text"
+								class="form-control" 
+								placeholder="Kilogramos" 
+								maxlength="5" 
+								ng-blur="displayErrorPesoEstatura()" 
+								(keyup)="_analisis()" 
+								(keypress)="helpers.soloNumeros($event)"
+								[(ngModel)]="valoracion.peso"
+								required
+								>
+							<i></i>
+							<span *ngIf="mostrarErrorPeso" class="error required">Dato Requerido</span>
+						</div>
+					</div>
+				</div>
+				<div class="buttons">
+					<button 
+						href="javascript:void()" 
+						(click)="graficar()" 
+						class="btn btn-default"
+						[disabled]="!valoracion.peso || !valoracion.estatura"
+						>Graficar 
+						<span *ngIf="graficandoChildren" class="fa fa-spinner fa-spin"></span>
+						</button>
+				</div>
+	<ng-template [ngIf]="graficandoChildren" [ngIfElse]="mostrarGraficos">
+				<div class="loading-graphic container-fluid text-center">
+					<img src="assets/images/loading-bars.svg" width="32" height="32" />
+				</div>
+	</ng-template>
+	<ng-template #mostrarGraficos>
+				<nav class="clearfix text-center">
+					<ul class="nav navbar-nav menu grafico by-indicator">
+						<li *ngFor="let g_indicador of grafico_indicator">
+							<a id="{{g_indicador.id}}" class="{{g_indicador.class}}" href="javascript:void(0)" (click)="graficoxSelected(g_indicador, $event)">
+								<span>{{g_indicador.nombre}}	</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<div id="container_children_graphics">
+			<ng-template [ngIf]="grafico_items">
+					<div class="esc-grafico-by-indicator">
+						<ng-template ngFor let-grafico_item [ngForOf]= "grafico_items">
+							<div id="{{grafico_item.key}}" class="{{grafico_item.class}}">
+								<line-chart 
+									[data]="grafico_item.data" 
+									[config]="grafico_item.config" 
+									[elementId]="grafico_item.elementId"
+								></line-chart>
+							</div>
+						</ng-template>
+					</div>
+			</ng-template>				
+				</div>
+	</ng-template>
+</ng-template>
+			</section>
+<section>
+				<header>
+					<h3 class="title">An&aacute;lisis</h3>
+				</header>
+				<div class="row analisis" [ngClass]="{'menores': displayGraphicChildren, 'nopi': !displayAnalisisPesoIdeal }">
+	<ng-template [ngIf]="esAdulto || esMenor">
+					<div class="box imc">
+						<i></i>
+						<br>
+						IMC
+						<strong>{{ analisis_imc | number : '1.2-2' }}<br>{{ imc }}</strong>
+					</div>
+					<div *ngIf="displayAnalisisPesoIdeal" class="box peso-ideal">
+						<i></i>
+						<br>
+						Peso Ideal
+						<strong>{{ analisis.pesoIdeal | number : '1.2-2'}} kg</strong>
+					</div>
+	</ng-template>
+	<ng-template [ngIf]="displayoptionsForAdulto">
+					<div class="box peso-ideal-ajustado">
+						<i></i>
+						<br>
+						Peso Ideal Ajustado
+						<strong>{{ analisis.pesoIdealAjustado | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box diferencia-peso">
+						<i></i>
+						<br>
+						Diferencia Peso
+						<strong>{{ analisis.diferenciaPeso | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box adecuacion">
+						<i></i>
+						<br>
+						Adecuación
+						<strong>{{ model.adecuacion | number : '1.2-2'}} <small>%</small></strong>
+					</div>
+					<div class="box cintura-cadera">
+						<i></i>
+						<br>
+						Relación Cintura-Cadera
+						<strong>{{ model.relacionCinturaCadera | number : '1.2-2'}}</strong>
+					</div>
+					<div class="box porcentaje-sobrepeso">
+						<i></i>
+						<br>
+						Porcentaje de Sobrepeso
+						<strong>{{ analisis.porcentajePeso | number : '1.2-2'}} %</strong>
+					</div>
+					<div class="box grado-sobrepeso">
+						<i></i>
+						<br>
+						Grado de Sobrepeso
+						<strong>{{ analisis_gradoSobrepeso }}</strong>
+					</div>
+					<div class="box peso-meta-maximo">
+						<i></i>
+						<br>
+						Peso Meta M&aacute;ximo
+						<strong>{{ analisis.pesoMetaMaximo | number : '1.2-2'}} kg</strong>
+					</div>
+					<div class="box peso-meta-minimo">
+						<i></i>
+						<br>
+						Peso Meta M&iacute;nimo
+						<strong>{{ analisis.pesoMetaMinimo | number : '1.2-2'}} kg</strong>
+					</div>
+	</ng-template>
+	<ng-template [ngIf]="displayGraphicChildren">
+					<div class="box peso-ideal estatura-ideal">
+						<i></i>
+						<br>
+						Estatura Ideal
+						<strong>{{ analisis.estaturaIdeal/100 | number : '1.2-2'}} m</strong>
+					</div>
+					<div *ngIf="showBoxIndicadorEstaturaEdad" class="box peso-ideal indicador-estatura-para-edad">
+						<i></i>
+						<br>
+						Indicador Estatura para Edad
+						<strong>{{ analisis.pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+					<div *ngIf="showBoxIndicadorPesoEdad" class="box peso-ideal indicador-peso-para-edad">
+						<i></i>
+						<br>
+						Indicador Peso para Edad
+						<strong>{{ analisis.pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+					<div *ngIf="showBoxIndicadorPesoEstatura" class="box peso-ideal indicador-peso-para-estatura">
+						<i></i>
+						<br>
+						Indicador Peso para Estatura
+						<strong>{{ analisis.pesoIdeal | number : '1.2-2'}} m</strong>
+					</div>
+	</ng-template>
+				
+					<ng-template [ngIf]="loading_section_analisis">
+						loading section analisis...
+					</ng-template>
+				
+				</div>
+			</section>
+		<ng-template [ngIf]="displayNavigation">
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous invisible" 
+					disabled="disabled"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					(click)="Next()"
+					> SIGUIENTE 
+					</button>
+			</div>
+		</ng-template>
+		</div>
+	</div>
+</div>
+
+
+
+<div id="modal-dato-grafico" [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<div class="body">
+		<nav class="modal-nav">
+			<ul class="nav nabvar menu">
+				<li class="col-xs-6">
+					<a href="javascript:void(0)" (click)="tabSelected('datos')" class="{{tab_class_datos}}">
+						<i class="datos"></i>
+						<span>Datos Generales</span>
+					</a>
+				</li>
+				<li class="col-xs-6">
+					<a href="javascript:void(0)" (click)="tabSelected('graficos')" class="{{tab_class_graficos}}">
+						<i class="grafico"></i>
+						<span>Gr&aacute;ficos</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+			
+		<div *ngIf="showModalTabDatos" class="container-datos">
+			<header class="visible-xs">
+				<h4>Datos Generales</h4>
+			</header>
+			<div class="table-responsive">
+				<table class="table separate table-mobile historial va">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>IMC</th>
+							<th>Peso</th>
+							<th>Estatura</th>
+							<th>Grasa</th>
+							<th>Grasa Viceral</th>
+							<th>M&uacute;sculo</th>
+							<th>Agua</th>
+							<th>Hueso</th>
+							<th>Edad Metabolica</th>
+							<th>Cintura</th>
+							<th>Cadera</th>
+							<th>Muñeca</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let historia of historial">
+							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+							<td>{{historia.imc}}</td>
+							<td>{{historia.peso}}Kg</td>
+							<td>{{historia.estatura}}m</td>
+							<td>{{historia.grasa}}%</td>
+							<td>{{historia.grasa_viceral}}</td>
+							<td>{{historia.musculo}}</td>
+							<td>{{historia.agua}}</td>
+							<td>{{historia.hueso}}</td>
+							<td>{{historia.edad_metabolica}} años</td>
+							<td>{{historia.circunferencia_cintura}}</td>
+							<td>{{historia.circunferencia_cadera}}</td>
+							<td>{{historia.circunferencia_muneca}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div *ngIf="showModalTabGrafico" class="container-graficos">
+			<header class="visible-xs">
+				<h4>Gr&aacute;ficos</h4>
+			</header>
+			<div id="container_modal_tab_graphic">
+				
+<ng-template [ngIf]="displayoptionsForAdulto">
+				<div  id="container_historial_children_graphics">
+					<nav class="clearfix">
+						<ul class="nav navbar-nav menu grafico">
+							<li *ngFor="let header of graficosH">
+								<a class="{{header.class}}" href="javascript:void(0)" (click)="graficoSelected(header)">
+									<span>{{header.nombre}}	</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+					<div class="esc-grafico-boxes rrow">
+						<ng-template [ngIf]="graficos">
+							<ng-template ngFor let-grafico [ngForOf]= "graficos">
+							<div id="{{grafico.key}}" class="{{grafico.class}}">
+								<line-chart 
+									[data]="grafico.data" 
+									[config]="grafico.config" 
+									[elementId]="grafico.elementId"
+								></line-chart>
+							</div>
+							</ng-template>
+							<ng-template #loading>
+								processing...
+							</ng-template>
+						</ng-template>
+					</div>
+				</div>
+</ng-template>
+<ng-template [ngIf]="displayGraphicChildren">
+			<nav class="clearfix">
+				<ul class="nav navbar-nav menu grafico-children by-indicator">
+					<li *ngFor="let gchildren_indicador of grafico_children_indicator">
+						<a id="{{gchildren_indicador.id}}" class="{{gchildren_indicador.class}}" href="javascript:void(0)" (click)="graficoChildrenxSelected(gchildren_indicador, $event)">
+							<span>{{gchildren_indicador.nombre}}	</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<div id="container_modal_children_graphics">
+				<ng-template [ngIf]="grafico_children_items">
+				<div class="esc-grafico-children-by-indicator">
+					<ng-template ngFor let-grafico_childre_item [ngForOf]= "grafico_children_items">
+						<div id="{{grafico_childre_item.key}}" class="{{grafico_childre_item.class}}">
+							<line-chart 
+								[data]="grafico_childre_item.data" 
+								[config]="grafico_childre_item.config" 
+								[elementId]="grafico_childre_item.elementId"
+							></line-chart>
+						</div>
+					</ng-template>
+				</div>
+				</ng-template>
+			</div>
+</ng-template>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div [ngClass]="{'invisible ': hideModalGrasa }" class="esc-modalbox grasa">
+	<a class="modal-close" (click)="hideModal('grasa')"><i></i></a>
+	<header class="text-center">
+		<h4>Detalle Grasa</h4>
+	</header>	
+	<div class="body content-form">
+		<nav class="modal-nav">
+			<ul class="nav nabvar menu">
+				<li class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabGrasaSelected('segmentado')" class="{{tab_grasa_class_segmentado}}">
+						<i class="segmentado"></i>
+						Segmentado
+					</a>
+				</li>
+				<li class="col-sm-6">
+					<a href="javascript:void(0)" (click)="tabGrasaSelected('pliegues')" class="{{tab_grasa_class_pliegues}}">
+						<i class="pliegues"></i>
+						Pliegues
+					</a>
+				</li>
+			</ul>
+		</nav>
+			
+			
+		<div *ngIf="showModalGrasaTabSegmentado">
+			<div class="form-group">
+				<label>Abdominal</label>
+				<input 
+					name="grasa_abdominal" 
+					type="text" 
+					class="form-control"  
+					maxlength="5" 
+					(keypress)="helpers.soloNumerosRange($event)"
+					[(ngModel)]="grasa.segmentado_abdominal"
+				>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label>Piernas</label>
+						<input 
+							name="grasa_piernaDerecha" 
+							type="text" 
+							class="form-control" 
+							placeholder="Derecha" 
+							maxlength="5" 
+							(keypress)="helpers.soloNumerosRange($event)"
+							[(ngModel)]="grasa.segmentado_pierna_derecha"
+						>
+					</div>
+					<div class="form-group">
+						<input 
+							name="grasa_piernaIzquierda" 
+							type="text" 
+							class="form-control" 
+							placeholder="Izquierda"		
+							maxlength="5" 
+							(keypress)="helpers.soloNumerosRange($event)"
+							[(ngModel)]="grasa.segmentado_pierna_izquierda"
+						>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label>Brazos</label>
+						<input 
+							name="grasa_brazoDerecho" 
+							type="text" 
+							class="form-control" 
+							placeholder="Derecha"	
+							maxlength="5" 
+							(keypress)="helpers.soloNumerosRange($event)"
+							[(ngModel)]="grasa.segmentado_brazo_derecho"
+						>
+					</div>
+					<div class="form-group">
+						<input 
+							name="grasa_brazoIzquierdo" 
+							type="text" 
+							class="form-control" 
+							placeholder="Izquierda"		
+							maxlength="5" 
+							(keypress)="helpers.soloNumerosRange($event)"	
+							[(ngModel)]="grasa.segmentado_brazo_izquierdo"								
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="row result">
+				<i></i><!--{{grasaSegmentado}} %-->
+			</div>
+		</div>
+		<div *ngIf="showModalGrasaTabPliegues">
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label>Tricipital</label>						
+					<input 
+						name="pliegue_tricipital"
+						type="text" 
+						class="form-control"  
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="grasa.pliegue_tricipital"
+					>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Bicipital</label>						
+					<input 
+						name="pliegue_bicipital"
+						type="text" 
+						class="form-control" 
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="grasa.pliegue_bicipital"
+					>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Subescapular</label>						
+					<input 
+						name="pliegue_subescapular"
+						type="text" 
+						class="form-control"  
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="grasa.pliegue_subescapular"
+					>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Suprailiaco</label>						
+					<input 
+						name="pliegue_suprailiaco"
+						type="text" 
+						class="form-control" 
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="grasa.pliegue_supraliaco"
+					>
+				</div>
+			</div>
+			<div class="row result">
+				<i></i>{{grasaPiegues}} %
+			</div>
+		</div>
+	</div>
+</div>
+<div [ngClass]="{'invisible ': hideModalMusculo }" class="esc-modalbox musculo">
+	<a class="modal-close" (click)="hideModal('musculo')"><i></i></a>
+	<header class="text-center">
+		<h4>Detalle M&uacute;sculo</h4>
+	</header>	
+	<div class="body content-form">
+		<div class="form-group">
+			<label>Tronco</label>
+			<input 
+				id="musculo_tronco"
+				name="musculo_tronco"
+				type="text" 
+				class="form-control" 
+				maxlength="5" 
+				(keypress)="helpers.soloNumerosRange($event)"
+				[(ngModel)]="detalleMusculo.tronco"
+				>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label>Piernas</label>
+				<div class="form-group">
+					<input 
+						id="musculo_pierna_derecha"
+						name="musculo_pierna_derecha"
+						type="text" 
+						class="form-control" 
+						placeholder="Derecha"		
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="detalleMusculo.pierna_derecha"
+					>
+				</div>
+				<div class="form-group">
+					<input 
+						id="musculo_pierna_izquierda"
+						name="musculo_pierna_izquierda"
+						type="text" 
+						class="form-control" 
+						placeholder="Izquierda"		
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="detalleMusculo.pierna_izquierda"
+					>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<label>Brazos</label>
+				<div class="form-group">
+					<input 
+						id="musculo_brazo_derecho"
+						name="musculo_brazo_derecho"
+						type="text" 
+						class="form-control" 
+						placeholder="Derecha"	
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"
+						[(ngModel)]="detalleMusculo.brazo_derecho"
+					>
+				</div>
+				<div class="form-group">
+					<input 
+						id="musculo_brazo_izquierdo"								
+						name="musculo_brazo_izquierdo"		
+						type="text" 
+						class="form-control" 
+						placeholder="Izquierda"			
+						maxlength="5" 
+						(keypress)="helpers.soloNumerosRange($event)"						
+						[(ngModel)]="detalleMusculo.brazo_izquierdo"								
+					>
+				</div>
+			</div>
+		</div>
+		 <div class="row result">
+				<i></i><!--{{musculoSegmentado}} %-->
+			</div>
+	</div>
+</div>
+<div class="overlay" (click)="hideModal()"></div>

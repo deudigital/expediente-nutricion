@@ -1,0 +1,266 @@
+.with-icon{position:relative;}
+.with-icon i{content: "";position: absolute;display: block;z-index: 100;left: 15px;bottom: 7px;}
+.with-icon .input-group i{left: 15px;}
+.with-icon .form-control:not(textarea) {padding-left: 50px;}
+
+.with-icon.userlogin i {background-position: -446px 0;width: 18px;height: 21px;}
+.with-icon.passlogin i {background-position: -422px 0;width: 18px;height: 23px;}
+
+.with-icon.responsable_cedula i,
+.with-icon.paciente_cedula i {background-position: -141px 0;width: 32px;height: 21px;}
+.with-icon.responsable i,
+.with-icon.paciente_nombre i {background-position: -184px 0;width: 32px;height: 19px;}
+.with-icon.parentezco i {background-position: -253px 0;width: 23px;height: 19px;}
+.with-icon.nacim i {background-position: -253px 0;width: 23px;height: 19px;}
+.with-icon.nacimiento i {background-position: -223px 0px;width: 26px;height: 21px;}
+
+.genero span {position:relative}
+.genero span:before {position: absolute;content: "";display: inline-block;z-index: 100;height: 25px;width: 20px;margin-left: -30px;}
+.genero .femenino span:before {background-position: -423px -70px;}
+.genero .femenino input:checked + span:before {background-position: -423px -105px;}
+.genero .masculino span:before {background-position: -442px -70px;}
+.genero .masculino input:checked + span:before {background-position: -442px -105px;}
+
+.with-icon.telefono i {background-position: -283px 0px;width: 28px;height: 23px;left:15px;}
+.with-icon.celular i {background-position: -349px 0px;width: 16px;height: 23px;left:15px;}
+.with-icon.correo i {	background-position: -319px 3px;width: 26px;height: 23px;}
+.with-icon.detalles i {background-position: -368px 0px;width: 23px;height: 23px;}
+.with-icon.contacto_telefono i {background-position: -397px 2px;width: 16px;height: 26px;}
+
+.with-icon.estatura i{background-position: 0 -35px;width: 17px;height: 22px;}
+.with-icon.muneca i {background-position: -85px -35px;width: 15px;height: 22px;}
+.with-icon.peso i {background-position: -56px -35px;width: 21px;height: 21px;}
+.with-icon.grasa i {background-position: -106px -35px;width: 22px;height: 22px;}
+.with-icon.musculo i {background-position: -134px -35px;width: 22px;height: 22px;}
+.with-icon.agua i {background-position: -163px -35px;width: 15px;height: 22px;}
+.with-icon.viceral i {background-position: -184px -35px;width: 24px;height: 22px;}
+.with-icon.hueso i {background-position: -213px -35px;width: 25px;height: 25px;}
+.with-icon.edad_metabolica i {background-position: -248px -35px;width: 21px;height: 22px;}
+.with-icon.cadera i{background-position: -519px -70px;width: 40px;height: 20px;left:10px;}
+.with-icon.cintura i {background-position: -277px -35px;width: 27px;height: 20px;}
+
+.with-icon.factor-actividad i {background-position: -311px -35px;width: 18px;height: 18px;bottom:11px;}
+.with-icon.promedio-gc i {background-position: -336px -35px;width: 19px;height: 19px;}
+.with-icon.variacion-calorica i {background-position: -364px -35px;width: 17px;height: 19px;}
+
+.with-icon.search {margin-top: -13px;position: relative;}
+.with-icon.search i {background-position: -469px -71px;width: 14px;height: 14px;bottom: 18px;left: 25px;}
+
+.ingesta-calorica {text-align:center;font-weight:600;}
+
+.with-cicle i{display: table-cell;vertical-align: middle;text-align: center;line-height:1.5em}
+.with-cicle i strong {font-weight: 500;font-size: 1.8em;position: relative;top: -5px;}
+.with-cicle i span {font-size: 0.6em;position: absolute;bottom: -10px;right: 6px;display: block;width: 100%;text-align: right;}
+
+.ingesta-calorica i {background-position: -389px -140px;width: 39px;height: 39px;display: block;margin: 0 auto 10px;}
+.ingesta-calorica-recomendada i {background-position: -460px -304px;width: 104px;height: 108px;color:#8bc23f;}
+
+.tasa-metabolica i {background-position: -489px -482px;width: 33px;height: 55px;display: block;margin: 0 auto;}
+.tasa-metabolica-value i {background-position: -339px -304px;width: 110px;height: 110px;color:#3b6cea;}
+
+.gasto-calorico-real i {background-position: -489px -425px;width: 32px;height: 55px;display: block;margin: 0 auto;}
+.gasto-calorico-real-value i {background-position: -371px -429px;width: 110px;height: 110px;color:#b21414;}
+
+
+.with-icon.dieta_desayuno i {background-position: -416px -36px;height: 19px;width: 30px;display: block;}
+.with-icon.dieta_media_manana i {	background-position: -445px -36px;height: 19px;width: 27px;display: block;}
+.with-icon.dieta_almuerzo i {	background-position: -474px -36px;height: 19px;width: 32px;display: block;}
+.with-icon.dieta_media_tarde i {background-position: -506px -36px;height: 21px;width: 33px;display: block;}
+.with-icon.dieta_cena i {background-position: -542px -36px;height: 19px;width: 30px;display: block;}
+.with-icon.dieta_coicion_nocturna i {background-position: -517px 0;height: 21px;width: 21px;display: block;}
+
+.with-icon.dieta_agua i {	background-position: -169px -800px;height: 24px;width: 20px;display: block;}
+.with-icon.dieta_gaseosas i {	background-position: -191px -801px;height: 24px;width: 16px;display: block;}
+.with-icon.dieta_jugos_empacados i {background-position: -209px -800px;height: 26px;width: 20px;display: block;}
+.with-icon.dieta_comidas_rapidas i {background-position: -233px -800px;height: 20px;width: 25px;display: block;}
+.with-icon.dieta_alimentos_empacados i {background-position: -269px -800px;height: 24px;width: 20px;display: block;}
+.with-icon.dieta_embutidos i {background-position: -298px -800px;height: 21px;width: 21px;	display: block;}
+
+
+.division-nutricional .distribucion .with-cicle {font-size:14px;}
+.division-nutricional .distribucion .with-cicle .inner{display:inline-block;}
+.division-nutricional .distribucion .with-cicle i strong {top:0;}
+.division-nutricional .distribucion .with-cicle i span {font-size: 0.7em;position: inherit;text-align: inherit;}
+.division-nutricional .distribucion .form-control {text-align: center !important;}
+.division-nutricional i {line-height:1.1em}
+.division-nutricional i strong {font-size:1.2em}
+.division-nutricional .ingesta-calorica-recomendada {text-align:center;font-weight:500}
+.division-nutricional .ingesta-calorica-recomendada i {background-position: -389px -140px;width: 39px;height: 39px;display: block;margin: 0 auto 10px;}
+.division-nutricional .ingesta-calorica-recomendada-value i {background-position: 0px -454px;width: 83px;height: 86px;	color: #8bc23f;}
+.division-nutricional .ingesta-calorica-recomendada-value i strong {font-size:1.5em}
+
+.division-nutricional .carbohidratos i {background-position: -92px -453px;width: 82px;height: 80px;color: #0aa4d8;}
+.division-nutricional .proteinas i {background-position: -185px -453px;width: 82px;height: 80px;color: #d8b80a;}
+.division-nutricional .grasas i {background-position: -275px -453px;width: 82px;height: 80px;color: #f34026;}
+
+.content-form.vd .division-nutricional .kcal i {background-position: -275px -830px;width: 82px;height: 80px;color: #6c27ea;}
+
+.content-form.vd .division-nutricional .inner + span {display: block;width: 50px;margin: 5px auto;border-radius: 8px;color: #fff;padding:5px 10px}
+.content-form.vd .division-nutricional .inner + span::after {content: "%";}
+.content-form.vd .division-nutricional .carbohidratos .inner + span {background-color:#0aa4d8;}
+.content-form.vd .division-nutricional .proteinas .inner + span {background-color:#d8b80a;}
+.content-form.vd .division-nutricional .grasas .inner + span {background-color:#f34026;}
+
+
+.division-nutricional.s-75 .with-cicle i {background-size: 855px 1575px;}
+.division-nutricional.s-75 .with-cicle.carbohidratos i {background-position: -138px -680px;width: 120px;height: 120px;}
+.division-nutricional.s-75 .with-cicle.proteinas i {background-position: -276px -680px;width: 120px;height: 120px;}
+.division-nutricional.s-75 .with-cicle.grasas i {background-position: -413px -680px;width: 120px;height: 120px;}
+.division-nutricional.s-75 .with-cicle.ingesta-calorica-recomendada-value i {background-position: 0px -681px;width: 125px;height: 130px;}
+.division-nutricional.s-75 .with-cicle.kcal i {background-position: -415px -1245px;width: 120px;height: 120px;}
+.content-form.vd .division-nutricional .distribucion .with-cicle {font-size: 17px;}
+.content-form.vd .division-nutricional.s-75 .inner + span {width: 70px;margin: 10px auto;border-radius: 12px;}
+
+.division-nutricional.s-80 .with-cicle i {background-size: 912px 1680px;}
+.division-nutricional.s-80 .with-cicle.carbohidratos i {background-position: -146px -722px;width: 130px;height: 130px;}
+.division-nutricional.s-80 .with-cicle.proteinas i {background-position: -294px -725px;width: 130px;height: 130px;}
+.division-nutricional.s-80 .with-cicle.grasas i {background-position: -440px -723px;width: 130px;height: 130px;}
+.division-nutricional.s-80 .with-cicle.ingesta-calorica-recomendada-value i {background-position: 1px -724px;width: 137px;height: 140px;}
+.division-nutricional.s-80 .with-cicle.kcal i {background-position: -415px -1245px;width: 130px;height: 130px;}
+/*.content-form.vd .division-nutricional .distribucion .with-cicle {font-size: 17px;}*/
+.content-form.vd .division-nutricional.s-80 .inner + span {width: 70px;margin: 10px auto;border-radius: 12px;}
+
+
+.link-modal {}
+.with-icon a.link-modal > i {background-position: -495px 0;width: 16px;height: 16px;position: absolute;left: inherit;right: 15px;bottom: 9px;-webkit-transition: all 0.5s ease;-moz-transition: all 0.5s ease;-ms-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;cursor:pointer;}
+.with-icon a.link-modal.pen > i {background-position: -27px -30px;width: 21px;height: 25px;right: 30px;bottom: 7px;}
+.with-icon a.link-modal:hover > i {transform:scale(1.3)}
+
+.with-icon .error{color:#cc2026;position:absolute;left:50px;}
+.with-icon .ng-untouched ~ .error {display: none;}
+
+.submenu{margin-bottom:20px;font-weight:500;}
+.submenu > li > a{color:#727272;position:relative;border-bottom:2px solid transparent;text-decoration:none;}
+.submenu > li > a:focus, 
+.submenu > li > a:hover,
+.submenu > li > a.active{color:#8bc23f !important;border-color:#8bc23f;background-color:transparent;}
+.submenu > li > a > i {display: inline-block;margin-right:10px;position:relative;top:5px;}
+.submenu > li > a > span {position:relative;top:-7px;white-space:nowrap;}
+.esc-modal .submenu > li {padding-left:0;padding-right:0}
+.esc-modal .submenu > li > a{font-size:16px;color:#b9b9b9}
+.submenu > li:not(:first-child):before{ width: 1px; border-left: 1px solid #ccc; content: ""; height: 20px; display: block; position: absolute; left: 0; top: 10px; }
+.submenu > li.hcp-otros > a {top: 15px;position: relative;}
+.submenu > li.hcp-otros > a > i {background-position: -127px -71px;width: 16px;height: 4px;top: -9px;position: relative;}
+
+.navigation-dieta .notas a > i {background-position: -155px -70px;width: 16px;height: 25px;}
+.navigation-dieta .prescripcion a > i{background-position: -155px -70px;width: 20px;height: 25px;}
+.navigation-dieta .patron-menu a > i {background-position: -183px -70px;width: 24px;	height: 22px;}
+
+.navigation-hcp .hcp-menu a > i {background-position: 0 -71px;width: 25px;height: 26px;}
+.navigation-hcp .alergias a > i {background-position: -35px -71px;width: 25px;height: 26px;}
+.navigation-hcp .medicamentos a > i {background-position: -70px -71px;width: 25px;height: 26px;}
+.navigation-hcp .bioquimica a > i {background-position: -100px -71px;width: 25px;height: 26px;}
+/*
+.navigation-habito .hcp-otros a > i,
+.navigation-hcp .hcp-otros a > i {background-position: -127px -71px;width: 16px;height: 4px;top: -9px;position: relative;}
+*/
+.navigation-hcp .hcp-menu a.active > i ,
+.navigation-hcp .hcp-menu a:hover > i {background-position: 0 -105px;width: 25px;height: 26px;}
+.navigation-hcp .alergias a.active > i ,
+.navigation-hcp .alergias a:hover > i {background-position: -35px -105px;width: 25px;height: 26px;}
+.navigation-hcp .medicamentos a.active > i ,
+.navigation-hcp .medicamentos a:hover > i {background-position: -70px -105px;width: 25px;height: 26px;}
+.navigation-hcp .bioquimica a.active > i,
+.navigation-hcp .bioquimica a:hover> i {background-position: -100px -105px;width: 25px;height: 26px;}
+
+.navigation-habito .hcp-otros a:hover > i ,
+.navigation-habito .hcp-otros a.active > i ,
+.navigation-hcp .hcp-otros a.active > i ,
+.navigation-hcp .hcp-otros a:hover > i {background-position: -127px -77px;}
+
+.navigation-dieta .notas a.active > i,
+.navigation-dieta .notas a:hover > i {background-position: -155px -105px;width: 16px;height: 25px;}
+.navigation-dieta .prescripcion a.active > i,
+.navigation-dieta .prescripcion a:hover > i{background-position: -155px -105px;width: 20px;height: 25px;}
+.navigation-dieta .patron-menu a.active > i ,
+.navigation-dieta .patron-menu a:hover > i {background-position: -183px -105px;width: 24px;	height: 22px;}
+
+.navigation-habito .actividad a > i {background-position: -333px -70px;width: 25px;height: 25px;}
+.navigation-habito .valoracion-dietetica a > i {background-position: -368px -70px;width: 25px;height: 25px;}
+.navigation-habito .gustos a > i {background-position: -396px -70px;width: 25px;height: 25px;}
+/*.navigation-habito .hcp-otros a > i {background-position: -333px -70px;width: 25px;height: 25px;}*/
+
+.navigation-habito .actividad a.active > i,
+.navigation-habito .actividad a:hover > i  {background-position: -333px -105px;	}
+.navigation-habito .valoracion-dietetica a.active > i,
+.navigation-habito .valoracion-dietetica a:hover > i  {background-position: -368px -105px;	}
+.navigation-habito .gustos a.active > i  {background-position: -396px -105px;	}
+.navigation-habito .gustos a:hover > i  {background-position: -396px -105px;	}
+/*.navigation-habito .hcp-otros a:hover > i  {background-position: -333px -105px;	}*/
+/*.navigation-dieta a:hover:before{border-bottom:1px solid #8bc23f;bottom:10px;}*/
+
+.analisis .box i {content: "";display: inline-block;z-index: 100;margin-bottom:10px}
+.analisis .box.imc i {background-position: 1px -303px;width: 60px;height: 60px;}
+.analisis .box.peso-ideal i {background-position: -68px -303px;width: 59px;height: 60px;}
+.analisis .box.peso-ideal-ajustado i {background-position: -141px -303px;width: 50px;height: 60px;}
+.analisis .box.diferencia-peso i {background-position: -204px -303px;width: 53px;height: 60px;}
+.analisis .box.adecuacion i {background-position: -268px -303px;width: 59px;height: 60px;}
+.analisis .box.cintura-cadera i {background-position: 0 -370px;width: 41px;height: 70px;}
+.analisis .box.porcentaje-sobrepeso i {background-position: -55px -374px;width: 56px;height: 70px;}
+.analisis .box.grado-sobrepeso i {background-position: -120px -374px;width: 56px;height: 70px;}
+.analisis .box.peso-meta-maximo i {background-position: -191px -374px;width: 63px;height: 70px;}
+.analisis .box.peso-meta-minimo i {background-position: -268px -374px;width: 64px;height: 70px;}
+
+/**/
+.analisis .box.estatura-ideal i {background-position: -526px -758px;height: 46px;width: 44px;margin-top:14px;}
+.analisis .box.indicador-estatura-para-edad i {background-position: -374px -836px;height: 58px;width: 63px;}
+.analisis .box.indicador-peso-para-edad i {background-position: -454px -836px;height: 57px;width: 62px;}
+.analisis .box.indicador-peso-para-estatura i {background-position: -256px -919px;height: 58px;width: 68px;}
+
+
+.add-item {color: #000;font-weight: 500;}
+.add-item:active,
+.add-item:focus,
+.add-item:hover{text-decoration:none;color:inherit}
+.add-item > i {height: 20px;width: 20px;background-position: -532px -481px;display: inline-block;position: relative;top: 7px;	margin-right: 10px;}
+.remove-item > i {height: 20px;width: 20px;background-position: -532px -425px;display: inline-block;position: relative;top: 8px;margin-right: 5px;}
+.remove-item.big > i {height: 20px;width: 20px;background-position: -531px -446px;display: inline-block;position: relative;top: 5px;margin-right: 5px;}
+
+.navigation-hcp  a > i {margin-right:0}
+.main-title{font-size:22px;}
+.back-button {position: absolute;left: 20px;top: 80px;display: block;}
+.back-button > a {display: block;padding: 10px;}
+.back-button > a > i {background-position: -544px 0;width: 15px;height: 15px;display: block;}
+
+.navigation-hcp.esfemenino > li {width: 20%;padding:0}
+/*
+.button-copy {position: absolute;overflow:hidden;text-indent: -100px;
+	width: 25px;height: 25px;right: -25px;
+	background: url(../images/icon-copy.png) no-repeat center top transparent;
+	background-size:25px;
+}
+*/
+@media(min-width:768px){
+	.navigation-hcp > div {padding: 0;margin: 0;}
+	.submenu{text-align:center;}
+	.submenu > li > a{font-size:12px;display:inline-block;padding-left:0;padding-right:0;}
+}
+@media(min-width:768px) and (max-width:1369px){
+	.division-nutricional > div{margin:30px 0 0;padding:0}
+	.division-nutricional .with-cicle{padding:0;}
+	/*.distribucion > div{padding:0}*/
+
+}
+@media (max-width:1369px){
+	.distribucion > [class*="col-"] {padding: 0;margin-top:15px;}
+}
+@media (max-width:767px){
+	.submenu > li > a  {text-align:center;}
+	.submenu > li > a > span {display:none;}	
+	/*.button-copy {top:5px;}*/
+}
+@media (max-width:549px){
+	.main .links .box a figure {width: 140px;height: 140px;}
+	.main .links .box {padding: 0;}
+	.main .links .box a figure i{background-size:399px 735px}
+	.main .links .box a figure.main-nuevo i {background-position: 0 -385px;width: 34px;height: 42px;}
+	.main .links .box a figure.main-control i {background-position: -87px -385px;width: 52px;height: 40px;}
+	.main .links .box a figure.main-facturacion i {background-size: 285px 525px;background-position: 0 -459px;width: 53px;height: 54px;}
+	
+	.main .links .box a:hover figure.main-nuevo i {background-position: 0 -437px;}
+	.main .links .box a:hover figure.main-control i {background-position: -86px -437px;}
+	.main .links .box a:hover figure.main-facturacion i {background-position: -62px -460px;}
+}
+@media (max-width:479px){
+	.main .links .box a figure {width: 120px;height: 120px;}
+}

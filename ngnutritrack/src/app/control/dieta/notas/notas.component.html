@@ -1,0 +1,96 @@
+<div class="container-fluid" style="position: absolute; top: 30%; width: 100%">
+	<div class="row">
+		<app-facturacion></app-facturacion>
+	</div>	
+</div>
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 content-nav">
+			<app-control-nav></app-control-nav>
+		</div>
+		<div class="col-sm-9 content-form">			
+			<section>
+				<app-dieta-nav></app-dieta-nav>
+					<header class="visible-xs">
+						<h4>Notas</h4>
+					</header>
+					
+					<div class="row">
+						<div class="buttons">
+							<button class="btn btn-default" 
+								[disabled]="disableButtonHistorial"
+								(click)="showModal('notas')" 
+								>Ver Historial Notas</button>
+						</div>
+					</div>
+				<div class="form-group">
+					
+					<label for="dieta_notas">Notas finales de la consulta</label>
+					<textarea 
+						id="dieta_notas"
+						name="dieta_notas"
+						class="form-control" 
+						rows="5"						
+						maxlength="1000" 
+						[(ngModel)]="consulta.notas"
+					></textarea>
+				</div>
+			</section>
+			
+			<div class="buttons-navigation">
+				<button 
+					class="btn btn-default previous" 
+					[disabled]="finalizar"
+					(click)="Previous()"
+				> ANTERIOR 
+				</button>
+				<button class="btn btn-success next"
+					[disabled]="finalizar"
+					(click)="Next()"
+					> FINALIZAR  <span *ngIf="finalizar" class="fa fa-spinner fa-spin"></span>
+					</button>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div class="esc-modalbox prompt" *ngIf="!hidePrompt">
+	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
+	<header class="text-center">
+		<h4>¿Desea crear factura electr&oacute;nica para esta consulta?</h4>
+	</header>
+	<div class="body row">
+		<div class="col-xs-6">
+			<button class="btn btn-default btn-block" (click)="promptYes()">SI</button>
+		</div>
+		<div class="col-xs-6">
+			<button class="btn btn-default btn-block red" (click)="promptCancelar()">No</button>
+		</div>
+	</div>
+</div>
+<div class="overlay" (click)="hideModal()"></div>
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox wide">
+	<a class="modal-close" (click)="hideModal('notas')"><i></i></a>
+	<div class="body">
+		<header class="text-center">
+			<h4>Historial Notas de Consultas</h4>
+		</header>
+			<div class="table-responsive">
+				<table class="table separate table-mobile historial notas">
+					<thead>
+						<tr>
+							<th width="100">Fecha</th>
+							<th>Notas</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let historia of historialNotas">
+							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+							<td>{{historia.notas}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	</div>
+</div>

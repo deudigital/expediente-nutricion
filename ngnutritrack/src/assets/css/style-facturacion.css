@@ -1,0 +1,171 @@
+.navbar.top .navbar-nav > li.facturacion > a > i {background-position: -335px -800px;width: 24px;height: 22px;}
+.form-errors{color: red;font-size: smaller;}
+.autocomplete-div{top: 65%;position: absolute;z-index: 1000;min-width: 160px;padding: 5px 0;
+    margin: 2px 0 0;text-align: left;list-style: none;background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+}
+.dropdown-autocomplete{display: list-item;position: unset;}
+.loading-modal{width: 12%; margin: 5% 0% 0% -3%;}
+.success_ajax{width: 29%;margin: 5% 0% 0% -15%;box-shadow: 3px 2px grey;}
+.loading-div{width: 100%;background: #000;position: absolute;height: 100%;top: 0;z-index: 1;}
+.btn-success:hover {color: #fff;background-color: #cf2e34 !important;border-color: #cf2e34 !important;}
+.facturar-buttons{padding: 5% 0% 0% 0%;margin-left: 23%;margin-right: -30%;}
+.invoice-resume{font-size: 17px;}
+
+.table.asignacion-linea_detalle{border-spacing: 0 20px;}
+
+.table.asignacion-linea_detalle > tbody > tr > td:first-child {border-radius: 30px 0 0 30px}
+.table.asignacion-linea_detalle > tbody > tr > td:last-child {border-radius: 0 30px 30px 0;}
+.table.asignacion-linea_detalle.resumen{border-spacing: 0 5px;}
+
+
+.table.asignacion-linea_detalle tbody tr td{position:relative;}
+.table.asignacion-linea_detalle tbody tr td .remove-item {position: absolute;top: 50%;left: -5px;margin-top: 0;}
+
+#product_editor_column {line-height: 2.2em;padding-left: 2%;margin-top: 3%;}
+
+.main .links .box a figure:before {
+    background-color: transparent;
+    content: "";
+    display: block;
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    border-radius: 50%;
+    top: 5%;
+    left: 5%;
+    z-index: -1;
+}
+/*	servicios-productos	*/
+.table.crud tbody tr td:first-child {padding-left: 100px;position:relative}
+.table.crud.productos tbody tr td .actions {position: absolute;left: 15px;top: 0;}
+.table.crud tbody tr td .actions > a:not(:first-child){margin-left:10px}
+
+/*	icons	*/
+.edit-item > i {height: 20px;width: 20px;background-position: -28px -35px;display: inline-block;position: relative;top: 7px;}
+.main .links .box a figure.main-facturacion i {background-position: 0 -735px;width: 86px;height: 85px;background-size: 456px 840px;}
+.main .links .box a:hover figure.main-facturacion i {background-position: -100px -735px;}
+
+/*	consultas-sin-facturar	*/
+.consultas-sin-facturar .filtros .esc-dp{}
+/*	Factura	*/
+#linea_detalle {/*background-color:#ccc*/}
+#linea_detalle > div label{padding-left: 0}
+#linea_detalle > div input[type=checkbox]{padding: 0;margin: 3px 0 0 -17px;position: absolute;cursor:pointer;}
+#linea_detalle > div:first-child{padding-left: 0;position:relative;}
+#linea_detalle > div:first-child > input{position:relative;z-index:5}
+
+#linea_detalle .dropdown-autocomplete {
+	width: 100%;
+	background-color: #e6e6e6;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: none;
+	padding: 20px 0 0;
+	top: 100%;
+	margin-top: -15px;
+}
+#linea_detalle .autocomplete-div {
+	top: 100% !important;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: none;
+	padding: 0;
+	width: 99%;
+	z-index:1;
+}
+
+#paciente .dropdown-menu {
+    max-height: 300px;
+    overflow: auto;
+    height: auto;
+}
+#paciente .dropdown-autocomplete {
+    width: 100%;
+    background-color: #e6e6e6;
+    box-shadow: none;
+    border: none;
+    padding: 20px 0 0;
+    top: 100%;
+    margin-top: -15px;
+}
+
+
+#linea_detalle .dropdown-menu {max-height:300px;overflow:auto;height:auto;}
+#linea_detalle .dropdown-menu > li > a {padding: 5px 15px 8px 25px;font-weight:500}
+#linea_detalle .dropdown-menu > li > a:focus, 
+#linea_detalle .dropdown-menu > li > a:hover {background-color: #7fb831;color: #fff;border-radius: 25px;}
+#linea_detalle .dropdown-menu > li > a span {font-size:10px;display:block}
+/*	Report	*/
+.actions.reporte {padding-left: 15px;height: auto;margin-top: -10px;}
+.actions.reporte > a.edit-item > i{font-size: 24px;color: darkgreen;background: none;}
+.actions a.export-pdf > i {background-position: -219px -622px;width: 51px;height: 63px;display: inline-block;margin-bottom: 15px;}
+.actions.reporte .remove-item {margin-left: 15px;}
+
+@media(min-width:768px){  
+  
+#linea_detalle > div{width:25%; float:left;padding-left: 3px;padding-right: 3px;text-align:center}
+#linea_detalle > div:first-child{width:43%;}
+#linea_detalle > div:nth-child(2){width:35%}
+
+}
+@media(min-width:992px){
+	/*.table.crud.productos {width: 90%;margin-left:5%}*/
+}
+@media(min-width:1200px){
+	/*.table.crud.productos {width: 70%;margin-left:15%}*/
+	#linea_detalle > div{width:13%; float:left;padding-left: 3px;padding-right: 3px;text-align:center}
+	#linea_detalle > div:first-child{width:20%;padding-left: 0}
+	#linea_detalle > div:nth-child(2){width:20%}
+	#linea_detalle > div:nth-child(4){width:8%;}
+}
+@media(min-width:768px) and (max-width:1199px){
+	#linea_detalle > div:nth-child(3) ~ div{margin-top:3%;}
+	#linea_detalle > div:nth-child(3){width:22%;}
+}
+@media(max-width:767px){
+	#linea_detalle > div {margin: 3% 1%;}
+	#linea_detalle > div:nth-child(2) ~ div {width: 48%;float: left;}
+	#linea_detalle > div label {padding-left: 15px;}
+	.row > div{padding-bottom: 10px;}	
+	.header { 
+		height: 270px !important;
+	 }
+
+	.first_header{
+		top: 100px;
+	}
+	.second_header{
+		top: -180px;
+	}
+	.img_header{
+		margin-left: 50%
+	}
+
+
+	.table-responsive.table.asignacion-linea_detalle, .table-responsive.table.asignacion-linea_detalle thead, .table-responsive.table.asignacion-linea_detalle tbody, .table-responsive.table.asignacion-linea_detalle th, .table-responsive.table.asignacion-linea_detalle td, .table-responsive.table.asignacion-linea_detalle tr {display: block;}
+	.table-responsive.table.asignacion-linea_detalle thead tr {position: absolute;top: -9999px;left: -9999px;}
+	.table-responsive.table.asignacion-linea_detalle tr { border: 1px solid #ccc; }
+	.table-responsive.table.asignacion-linea_detalle td {border: none;border-bottom: 1px solid #eee;position: relative;padding-left: 50% !important;}
+	.table-responsive.table.asignacion-linea_detalle tr:nth-child(even),
+	.table-responsive.table.asignacion-linea_detalle tr:nth-child(odd) { height:auto; }
+	.table-responsive.table.asignacion-linea_detalle td:before {position: absolute;top: 6px;left: 6px;width: 45%;padding-right: 10px;/*white-space: nowrap;*/}
+
+	.table-responsive.asignacion-linea_detalle td:first-child {padding-left: 15px !important;}
+	.table-responsive.table.asignacion-linea_detalle > tbody > tr > td:first-child {border-radius: 0;}
+	.table-responsive.table.asignacion-linea_detalle > tbody > tr > td:last-child {border-radius: 0;}
+	.table-responsive.table.asignacion-linea_detalle > tbody > tr > td > label {padding-left: 30px;}
+	.table-responsive.table.asignacion-linea_detalle td:before{text-align:left;}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(2):before{content: 'Descripción';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(3):before{content: 'Unidad';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(4):before{content: 'Precio';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(5):before{content: 'Cantidad';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(6):before{content: 'Descuento';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(7):before{content: 'Impuesto';}
+	.table-responsive.table.asignacion-linea_detalle td:nth-of-type(8):before{content: 'Subtotal';}
+}

@@ -1,0 +1,200 @@
+<app-topnav></app-topnav>
+<div class="container-fluid">
+	<div class="rows">
+		<div class="content-form">
+			<header class="visible-xs text-center">
+				<h4>Agendar Cita</h4>
+			</header>
+			<section>
+				<app-agenda-nav></app-agenda-nav>
+				<header class="visible-xs">
+					<h4>Agendar Cita</h4>
+				</header>
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<div class="container-form agenda">			
+<ng-template [ngIf]="cargandoServicios">
+							<div class="loading-graphic container-fluid text-center">
+								<img src="assets/images/loading-bars.svg" width="32" height="32" />
+							</div>
+</ng-template>
+<ng-template [ngIf]="mostrarServicios">
+							<div class="form-group">
+								<label for="servicios">Seleccione el servicio para esta cita</label>
+								<select [(ngModel)]="servicio" class="form-control" name="servicio" (change)="servicioChanged($event)">
+									<option *ngFor="let serv of servicios" [ngValue]="serv">{{serv.nombre}} - {{serv.duracion}} minutos</option>
+								</select>
+							</div>	
+</ng-template>				
+<ng-template [ngIf]="sinServicio">
+							<p>Antes de agendar citas debe ingresar servicios.</p>
+</ng-template>
+<ng-template [ngIf]="servicio">
+							<div class="form-group">
+								<label for="servicios">Seleccione fecha y hora para esta cita</label>
+								<my-date-picker name="fecha_event" 
+											class="agenda_calendar"
+											[options]="myDatePickerOptions"
+											[(ngModel)]="fecha_event"                                         
+											(dateChanged)="onDateChanged($event)"
+											required>
+								</my-date-picker>
+							</div>
+</ng-template>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-offset-1 col-lg-7">
+<ng-template [ngIf]="servicio">
+						<h3>{{cita_reserva_fecha}}</h3>
+						<div *ngIf="procesandoAgenda" class="loading-graphic container-fluid text-center">
+							<img src="assets/images/loading-bars.svg" width="32" height="32" />
+						</div>
+						<table *ngIf="!procesandoAgenda" class="table citas">
+						<tbody>
+							<tr *ngFor="let field of fieldArray; let i = index">
+								<th id="cita_{{field.militartime}}">{{field.time_formatted}}</th>
+								<td class="{{field.html_id}}" class="{{field.class}}">
+									<label (click)="editarCita(field)">
+<ng-template [ngIf]="field.editable">
+										<input 
+											name="time" 
+											type="radio"
+											value="field.militartime" 
+											
+										>
+</ng-template>
+										<span [ngClass]="{'cita-highlight': field.editing }">{{field.text}}</span>
+									</label>
+									<div *ngIf="field.status>0 && field.status<3" class="actions">
+										<a *ngIf="field.status==1" href="javascript:void(0);" class="add-item" (click)="confirmarCita(field)" title="Confirmar Cita"><i></i></a>
+										<a href="javascript:void(0);" class="remove-item" (click)="cancelarCita(field)" title="Cancelar Cita"><i></i></a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						</table>
+</ng-template>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
+
+
+<div [ngClass]="{'invisible ': hideModalDatos }" class="esc-modalbox agenda" id="modal_agenda">
+	<a class="modal-close" (click)="hideModal('datos')"><i></i></a>
+	<header class="text-center">
+		<h3>{{cita_reserva_fecha}} :  </h3>
+		<select [(ngModel)]="hora_custom" class="form-control" name="hora_custom">
+			<option *ngFor="let hora of filter_time_availables" [ngValue]="hora.id">{{hora.text}}</option>
+		</select>
+		<h4>Servicio: {{servicio_nombre}}</h4>
+	</header>
+	<div class="body content-form">
+		<form #citaForm="ngForm" class="editForm" novalidate>
+			<div class="form-group row">
+				<label class="col-xs-2">Paciente</label>
+				<div class="col-xs-10">
+					<div class="row filter pacientes">
+						<div class="form-group with-icon search">
+							<input 
+								name="input_filter_pacientes" 
+								type="text" 
+								class="form-control form-control-modal" 
+								[(ngModel)]="q"
+								(keyup)="onFilter()"
+								required
+								/>
+								<i></i>
+						</div> 
+						<ul *ngIf="showFilter">
+							<li  *ngFor="let paciente of filter_pacientes" (click)="onSelect(paciente)">
+								<i class="fullname"></i> {{paciente.nombre}} <span class="pull-right"><i class="card"></i> {{paciente.cedula}}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				
+			</div>
+			<div class="form-group row">
+				<label class="col-xs-2">Correo</label>
+				<div class="col-xs-10">
+					<input 				
+						name="cita_email"
+						type="text" 
+						class="form-control form-control-modal col-sm-10" 
+						[(ngModel)]="editar_cita.email" 
+						required
+						>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-xs-2">Tel&eacute;fono</label>
+				<div class="col-xs-10">
+					<input 				
+						name="cita_telefono"
+						type="text" 
+						class="form-control form-control-modal" 
+						[(ngModel)]="editar_cita.telefono"
+						required
+						>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-xs-2">Notas</label>
+				<div class="col-xs-10">
+					<textarea 				
+						name="cita_notas"
+						class="form-control form-control-modal col-sm-10" 
+						[(ngModel)]="editar_cita.notas"
+						></textarea>
+				</div>
+			</div>
+			<div *ngIf="display_submit_modal" class="form-group row">
+				<label class="col-xs-2">&nbsp;</label>
+				<div class="col-xs-10">
+					<div *ngIf="show_editar_cita_message" class="alert alert-danger text-center">{{editar_cita_message}}</div>
+					<button 
+						class="btn btn-primary btn-block" 
+						[disabled]="!citaForm.valid || btn_save_presionado"
+						(click)="saveCita(citaForm)"
+						>
+						<span *ngIf="editar_cita_nuevo">CONFIRMAR </span>
+						<span *ngIf="!editar_cita_nuevo">GUARDAR </span>
+						 <span *ngIf="btn_save_presionado" class="fa fa-spinner fa-spin"></span>
+						</button>
+						<div [ngClass]="{'success': display_successfully_icon_animated }" class="display-icon">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+							  <circle [ngClass]="{'circle': display_successfully_icon_animated }" class="path" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+							  <polyline [ngClass]="{'check': display_successfully_icon_animated }" class="path" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+							</svg>
+						</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="overlay" (click)="hideModal()"></div>
+<div class="esc-modalbox prompt" *ngIf="!hidePrompt">
+	<a class="modal-close" (click)="promptCancelar()"><i></i></a>
+	<header class="text-center">
+		<h4>{{title_prompt}}</h4>
+	</header>
+	<div class="body row">
+		<div class="col-sm-6">
+			<button class="btn btn-default btn-block" (click)="promptYes()">SI
+				<span *ngIf="btn_prompt_yes_presionado" class="fa fa-spinner fa-spin"></span>
+			</button>
+		</div>
+		<div class="col-sm-6">
+			<button 
+				class="btn btn-default btn-block red" 
+				[disabled]="btn_prompt_yes_presionado"
+				(click)="promptCancelar()"
+			>No</button>
+		</div>
+	</div>
+</div>
