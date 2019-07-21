@@ -71,6 +71,7 @@ typings/
 # dotenv environment variables file 
 # .envv
 
+/src/environments/**
 ngnutritrack/src/html_dev.html
 ngnutritrack/src/environment/
 nutri/public/recepcion/
