@@ -35,7 +35,7 @@ export class NotasComponent implements OnInit {
 
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
-	  this.tagBody.classList.add('menu-parent-dieta');
+	  this.tagBody.classList.add('menu-parent-notas');
 	  this.finalizar	=	false;
 	  this.hidePrompt	=	false;
 	  this.data			=	{'0':''};
@@ -44,7 +44,7 @@ export class NotasComponent implements OnInit {
   }
 	ngOnDestroy() {
 		this.saveForm();
-		this.tagBody.classList.remove('menu-parent-dieta');	
+		this.tagBody.classList.remove('menu-parent-notas');	
 	}
 	setInfoInit(){
 		this.oConsulta.notas				=	this.consulta.notas;

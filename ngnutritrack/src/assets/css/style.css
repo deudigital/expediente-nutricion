@@ -69,6 +69,7 @@ i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-
 .content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";}
 .content-nav .list-group > li > a {padding-right: 50px;position: relative;display: block;outline:0;text-decoration:none;color:#000;}
 body.menu-parent-hcp .content-nav .list-group > li.hcp > a, 
+body.menu-parent-notas .content-nav .list-group > li.notas > a, 
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a, 
 body.menu-parent-habito .content-nav .list-group > li.habito > a, 
 .content-nav .list-group > li > a:hover,
@@ -78,10 +79,13 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a,
 .content-nav .list-group > li.valoracion > a > i {background-position: -366px -183px;width: 46px;	height: 46px;}
 .content-nav .list-group > li.recomendacion > a > i {background-position: -425px -183px;	width: 46px;height: 46px;}
 .content-nav .list-group > li.dieta > a > i {background-position: -482px -183px;	width: 46px;height: 46px;}
+.content-nav .list-group > li.notas > a > i {background-position: -337px -913px;	width: 46px;height: 46px;}
 .content-nav .list-group > li.valoracion > a.active > i {background-position: -366px -238px;	width: 45px;height: 46px;}
 .content-nav .list-group > li.recomendacion > a.active > i {background-position: -425px -238px;	width: 45px;height: 46px;}
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a > i,
 .content-nav .list-group > li.dieta > a.active > i {background-position: -482px -238px;	width: 45px;height: 46px;}
+body.menu-parent-notas .content-nav .list-group > li.notas > a > i,
+.content-nav .list-group > li.notas > a.active > i {background-position: -337px -973px;	width: 45px;height: 46px;}
 .content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;right: -5px;}
 .content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;}
 .content-nav .list-group > li.personales > a > i {background-position: 0 -183px;width: 44px;height: 46px;}
