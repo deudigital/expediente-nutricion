@@ -7,6 +7,7 @@ use App\Persona;
 use App\Nutricionista;
 use App\ValoracionAntropometrica;
 use App\Rdd;
+use App\Dieta;
 use App\Prescripcion;
 use App\DetalleDescripcion;
 use App\OtrosAlimento;
@@ -196,6 +197,30 @@ class ConsultaController extends Controller
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
+	function pendientes__($id){
+		try{
+		$registros = DB::table('consultas')
+            ->join('dietas', 'dietas.consulta_id', '=', 'consultas.id')
+            ->join('prescripcions', 'prescripcions.dieta_id', '=', 'dietas.id')
+            ->join('pacientes', 'pacientes.persona_id', '=', 'consultas.paciente_id')
+            ->join('personas', 'personas.id', '=', 'pacientes.persona_id')
+            ->where('consultas.estado', 0)
+            ->where('pacientes.nutricionista_id', $id)
+            ->select('consultas.id', 'consultas.fecha', 'consultas.notas', 'personas.id as persona_id', 'personas.nombre as paciente_nombre', 'personas.telefono', 'pacientes.nutricionista_id as nutricionista', DB::raw('TIMESTAMPDIFF(YEAR,personas.fecha_nac,now()) as edad'), 'personas.genero')
+			->orderBy('consultas.id', 'DESC')
+            ->get();
+			if(count($registros)>0)
+				$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+			else
+				$response	=	Response::json(['message' => 'Record not found'], 204);
+		}
+		catch (Illuminate\Database\QueryException $e) {
+			dd($e);
+		} catch (PDOException $e) {
+			dd($e);
+		}
+		return $response;
+	}
 	function pendientes($id){
 		try{
 		$registros = DB::table('consultas')
@@ -248,6 +273,12 @@ class ConsultaController extends Controller
 										->get();
 		if(count($patronMenu)>0)
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
+		
+		if(count($prescripcion)>0)
+			$registros['dieta']['items']['prescripcion']	=	$prescripcion->toArray();
+		if(count($patronMenu)>0)
+			$registros['dieta']['items']['patron_menu']		=	$patronMenu->toArray();
+		
 		return true;
 	}
 	function all($id){
@@ -390,42 +421,59 @@ Enviar usuario y contrasena?????? por ahora si...
 		if(count($rdd)>0)
 			$registros['rdd']	=	$rdd->toArray();
 
-		$prescripcion	=	Prescripcion::where('consulta_id', $id)
-										->get()
-										->first();
-
-		if(count($prescripcion)>0){
-			$registros['dieta']['prescripcion']	=	$prescripcion->toArray();
-			$detalleDescripcion	=	DB::table('detalle_prescripcion')
-										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
-										->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
-										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+		$aDietas	=	array();
+		$dietas		=	Dieta::where('consulta_id', $id)
 										->get();
-			if(count($detalleDescripcion)>0){
-				$registros['dieta']['prescripcion']['items']	=	$detalleDescripcion->toArray();
-			}
 
-			$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
-											->get();
-			if(count($otrosAlimento)>0){
-				$registros['dieta']['prescripcion']['otros']	=	$otrosAlimento->toArray();
-			}else
-				$registros['dieta']['prescripcion']['otros']	=	array();
-
-		}
-		$patronMenu	=	PatronMenu::where('consulta_id', $id)
-										->get();
-		if(count($patronMenu)>0)
-			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
-			
-//										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
-		$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
-									->where('consulta_id',$id)
-									->orderBy('tiempo_comida_id', 'ASC')
+		/*return Helper::printResponse($dietas);*/
+		if(count($dietas)>0){
+			foreach($dietas as $dieta){
+				$items	=	array();
+				$items['dieta_id']	=	$dieta->id;
+				$items['nombre']	=	$dieta->nombre;
+				$items['variacion_calorica']	=	$dieta->variacion_calorica;
+				$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
+									->get()
+									->first();
+				
+				if(count($prescripcion)>0){
+					$items['prescripcion']	=	$prescripcion->toArray();
+					$detalleDescripcion	=	DB::table('detalle_prescripcion')
+												->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+												->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
+												->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+												->get();
+					if(count($detalleDescripcion)>0){
+						$items['prescripcion']['items']	=	$detalleDescripcion->toArray();
+					}
+					$items['prescripcion']['otros']	=	array();
+					$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
+													->get();
+					if(count($otrosAlimento)>0){
+						$items['prescripcion']['otros']	=	$otrosAlimento->toArray();
+					}
+				}
+				$patronMenu	=	PatronMenu::where('dieta_id', $dieta->id)
 									->get();
+				if(count($patronMenu)>0)
+					$items['patron_menu']	=	$patronMenu->toArray();
+					
+		//										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+				$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
+											->where('dieta_id',$dieta->id)
+											->orderBy('tiempo_comida_id', 'ASC')
+											->get();
 
-		if(count($patronMenuEjemplos)>0)
-			$registros['dieta']['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
+				if(count($patronMenuEjemplos)>0)
+					$items['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
+
+				if(count($items)>0)
+				$registros['dieta'][]	=	$items;
+
+			}
+		}
+
+		
 
 		$prom_mes		=	'30.4375';
 		$prom_anho		=	'365.25';

@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PatronMenu extends Model
+class Dieta extends Model
 {
     protected $fillable = [
-        'grupo_alimento_nutricionista_id',  'tiempo_comida_id',  'dieta_id', 'porciones', 'ejemplo'
+        'nombre', 'variacion_calorica', 'consulta_id'
     ];
 	public $timestamps = false;
 }

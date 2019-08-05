@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prescripcion extends Model
 {
     protected $fillable = [
-        'carbohidratos',  'proteinas', 'grasas', 'consulta_id'
+        'carbohidratos',  'proteinas', 'grasas', 'dieta_id'
     ];
 	public $timestamps = false;
 }
