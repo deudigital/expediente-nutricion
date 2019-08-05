@@ -13,7 +13,18 @@
 			<header class="visible-xs text-center">
 				<h4>Dieta</h4>
 			</header>
+			
 	<section>
+		
+		<ul id="dietas_navigation" class="nav navigation-dietas-tab nav-justified">
+			<li *ngFor="let dieta of model.dietas; let i = index" [ngClass]="{'active ': model.current_dieta_id==dieta.dieta_id }">
+				<a id="{{dieta.id}}" href="javascript:void(0)" (click)="dietaxSelected(dieta, $event)">
+					{{dieta.dieta_id}}:{{dieta.nombre}} - {{dieta.variacion_calorica}}
+				</a>
+			</li>
+		</ul>
+	
+	
 		<app-dieta-nav></app-dieta-nav>	
 		<header class="visible-xs">
 			<h4>Prescripci&oacute;n</h4>
@@ -546,6 +557,7 @@
 					</ng-template>
 			-->
 			</ng-template>
+
 </ng-template>
 
 					</tbody>

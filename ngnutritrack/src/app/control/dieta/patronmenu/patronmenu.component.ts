@@ -78,6 +78,7 @@ export class PatronmenuComponent implements OnInit {
 	tiempo_comida_nombre:string;
 	tiempo_comida_nombre_message:string;
 	custom_tiempo_comidas:any;
+	current_dieta_id:number=0;
 	
   constructor(private router: Router, private formControlDataService: FormControlDataService) {
 	this.model	=	formControlDataService.getFormControlData();
@@ -98,18 +99,10 @@ export class PatronmenuComponent implements OnInit {
 	this.alimentos['11']=	'Grasas';
 	this.alimentos['12']=	'Vasos con Agua';
 
-	/*this.tiempos['']	=	'';
-	this.tiempos['1']	=	'Desayuno';
-	this.tiempos['2']	=	'Media Mañana';
-	this.tiempos['3']	=	'Almuerzo';
-	this.tiempos['4']	=	'Media Tarde';
-	this.tiempos['5']	=	'Cena';
-	this.tiempos['6']	=	'Coición Nocturna';*/
-	
 	this.tagBody = document.getElementsByTagName('body')[0];
 	this.tagBody.classList.add('menu-parent-dieta');
 	this.navitation	=	false;
-	
+	this.current_dieta_id	=	this.formControlDataService.getFormControlData().current_dieta_id;
 	this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
 	/*console.log('this.menus');console.log(this.menus);*/
 	this.setInfoInit();
@@ -117,7 +110,7 @@ export class PatronmenuComponent implements OnInit {
 	this.setTotales();
 	this.tiempo_comida_nombre	=	'';
   }
-	ngOnDestroy() {
+	ngOnDestroy() {console.log('ngOnDestroy');
 		if(!this.navitation)
 			this.saveForm();
 		this.tagBody.classList.remove('menu-parent-dieta');
@@ -125,8 +118,11 @@ export class PatronmenuComponent implements OnInit {
 	}
 	setInfoInit(){		
 		this.custom_tiempo_comidas	=	this.model.getTiempoComidasDeNutricionista();
+		/*console.log( 'this.custom_tiempo_comidas' );
+		console.log( this.custom_tiempo_comidas );*/
 		var ejemplos	=	this.formControlDataService.getFormControlData().patron_menu_ejemplos;
-
+		/*console.log('ejemplos');
+		console.log(ejemplos);*/
 		for(var j in this.custom_tiempo_comidas){
 			if(ejemplos){
 				var __aEjemplo	=	ejemplos.filter(x => x.tiempo_comida_id === this.custom_tiempo_comidas[j].id);
@@ -215,9 +211,9 @@ export class PatronmenuComponent implements OnInit {
 		var result1	=	this.infoEditedEjemplos();
 		var result2	=	this.infoEditedPorciones();
 		var result	=	result1 || result2;
-		console.log('infoEditedEjemplos: ' + result1);
+		/*console.log('infoEditedEjemplos: ' + result1);
 		console.log('infoEditedPorciones: ' + result2);
-		console.log('infoEdited: ' + result);
+		console.log('infoEdited: ' + result);*/
 		return result;
 	}
 	infoEditedEjemplos(){/*console.log('infoEditedEjemplos()');*/
@@ -276,6 +272,8 @@ export class PatronmenuComponent implements OnInit {
 			this.updateItems();
 			this.data['0']				=	'';
 			this.data['consulta_id']	=	 this.model.getFormConsulta().id;
+			/*this.data['dieta_id']		=	 this.current_dieta_id;*/
+			this.data['dieta_id']		=	 this.model.current_dieta_id;
 			this.saveInfo(this.data);
 			
 		}
@@ -290,7 +288,7 @@ export class PatronmenuComponent implements OnInit {
 		this.model.setPatronMenuEjemplos(this.patron_menu_ejemplos);
 		this.formControlDataService.setFormControlData(this.model);		
 	}
-	saveInfo(data){/*console.log('saveInfo');console.log(data);*/
+	saveInfo(data){console.log('saveInfo');console.log(data);
 		this.tagBody.classList.add('sending');
 		this.formControlDataService.saveDatosPatronMenu(data)
 		.subscribe(
@@ -493,4 +491,25 @@ export class PatronmenuComponent implements OnInit {
 		this.saveForm();
 		this.router.navigate(['/notas']);
 	}
+	dietaxSelected(dieta, $event){
+		this.navitation	=	true;
+		this.saveForm();
+
+		for(var j in this.custom_tiempo_comidas){			
+			this.custom_tiempo_comidas[j].ejemplo	=	null;
+			this.custom_tiempo_comidas[j].menu	=	{};		
+			this.custom_tiempo_comidas[j].summary	=	null;
+		}		
+		this.model.setPrescripcionPatronMenu( dieta.dieta_id );
+		
+		
+		this.custom_tiempo_comidas	=	[];
+		this.menus	=	this.formControlDataService.getFormControlData().patronmenu;
+		/*console.log('this.menus');console.log(this.menus);*/
+		this.setInfoInit();
+		this.setAsignaciones();
+		this.setTotales();
+		this.tiempo_comida_nombre	=	'';
+	}
+
 }

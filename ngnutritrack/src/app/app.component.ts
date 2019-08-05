@@ -41,6 +41,9 @@ export class AppComponent implements OnInit {
 			if(this.consulta.id){
 				summary	+=	'Consulta: ' + this.consulta.id;
 			}
+			if(this.fcd.current_dieta_id){
+				summary	+=	'  |  Dieta: ' + this.fcd.current_dieta_id;
+			}
 			if(this.prescripcion.id){
 				summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
 			}

@@ -87,6 +87,7 @@ export class DietaComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 	this.model			=	formControlDataService.getFormControlData();
 	this.helpers		=	this.model.getHelpers();	
+	/*this.prescripcion	=	this.model.getFormPrescripcion();	*/
 	this.prescripcion	=	this.model.getFormPrescripcion();	
 	this.items			=	this.prescripcion.itemsByDefault;	
 	this.otrosItems		=	this.prescripcion.otros;	
@@ -135,7 +136,7 @@ export class DietaComponent implements OnInit {
 				console.log(JSON.parse(err._body));
 			});	  
   }
-	ngOnDestroy() {
+	ngOnDestroy() {console.log( 'ngOnDestroy' );
 		if(!this.navitation)
 			this.saveForm();
 
@@ -242,12 +243,12 @@ export class DietaComponent implements OnInit {
 		return _array.indexOf(ele)>-1;
 	}
 	fillHistorial(historial){
-		var data	=	[];
+		var data	=	[];console.log('historial');console.log(historial);
 		for(var i in historial){
 			historial[i].display	=	false;
 			data[i]		=	historial[i];
 		}
-		this.historial	=	data;console.log(this.historial);
+		this.historial	=	data;/*console.log(this.historial);*/
 		this.disableButtonHistorial	=	this.historial.length==0;
 	}
 	displayDetails(item){
@@ -644,7 +645,8 @@ export class DietaComponent implements OnInit {
 		else
 			this.total_adecuacion_kcal	=	0;
    }
-	saveForm(){
+
+	saveForm(){console.log('saveForm');
 		this.prescripcion.items	=	this.items;
 		this.model.getFormPrescripcion().set(this.prescripcion);
 		this.formControlDataService.setFormControlData(this.model);		
@@ -661,5 +663,30 @@ export class DietaComponent implements OnInit {
 		this.navitation	=	true;
 		this.saveForm();
 		this.router.navigate(['/patron-menu']);
+	}
+	dietaxSelected(dieta, $event){
+		this.navitation	=	true;
+		this.saveForm();
+		/*console.log('dietaxSelected');
+		console.log(dieta);*/
+/*		var	c	=	document.getElementById("dietas_navigation").children;
+		var i;
+		for (i = 0; i < c.length; i++) {
+			c[i].classList.remove("active"); 
+		}*/
+		/*var ele	=	$event.target.parentElement.parentElement;*/
+/*		var ele	=	$event.target.parentElement;
+		ele.className	=	'active';*/
+		/*console.log( ele );*/
+		/*this.model.setCurrentDieta(dieta.dieta_id);*/
+		this.model.setPrescripcionPatronMenu( dieta.dieta_id );		
+		this.prescripcion	=	this.model.getFormPrescripcion();	
+		this.items			=	this.prescripcion.itemsByDefault;	
+		this.otrosItems		=	this.prescripcion.otros;	
+/*		this.rdd.doAnalisis();	*/
+		this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
+		this.createOriginal();	
+		this.calculateItems();
+		this.total();
 	}
 }

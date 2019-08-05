@@ -2,6 +2,7 @@ export class FormControlData {
 	aaa:string='class FormControlData';
 	dataFilled:boolean=false;
 	paciente_id:number=0;
+	current_dieta_id:number=0;
 	nutricionista_id:number=0;
 	canAccessAgenda:boolean=false;
 	canAccessFacturacion:boolean=false;
@@ -39,6 +40,7 @@ export class FormControlData {
 	detalleGrasa				= 	new DetalleGrasa();
 	detalleMusculo				= 	new DetalleMusculo();	
 	
+	dietas:any[]				=	[];/*new Dieta();*/
 	prescripcion:Prescripcion	=	new Prescripcion();
 	rdd:Rdd						=	new Rdd();
 
@@ -85,6 +87,7 @@ export class FormControlData {
 			this.habitosOtro		=	new HabitosOtro();			
 		}
 		this.consulta					=	new Consulta();			
+		this.dietas						=	[];/*new Dieta();*/
 		this.prescripcion				=	new Prescripcion();
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
 		this.detalleGrasa				= 	new DetalleGrasa();
@@ -192,24 +195,35 @@ export class FormControlData {
 			this.rdd.set(rdd);
 		}
 /*	Dieta	*/
-		this.prescripcion.consulta_id	=	this.consulta.id;
-		this.prescripcion.items			=	[];
+		/*this.prescripcion.consulta_id	=	this.consulta.id;
+		this.prescripcion.items			=	[];*/
 
-		if(data.dieta){
-			if(data.dieta.prescripcion){
-/*		Prescripcion */
+		if(data.dieta){/*console.log(data.dieta);*/
+			this.dietas	=	data.dieta;
+			var first_dieta	=	this.dietas[0];
+			this.current_dieta_id	=	first_dieta.dieta_id;
+			
+			/*if(data.dieta.prescripcion){
 				var prescripcion		=	data.dieta.prescripcion;
 				this.prescripcion.set(prescripcion);
-			}			
+			}*/
+			if(first_dieta.prescripcion){
+				var prescripcion		=	first_dieta.prescripcion;
+				this.prescripcion.set(prescripcion);
+			}
 /*		Patron Menu	*/
-			if(data.dieta.patron_menu){
+			/*if(data.dieta.patron_menu){
 				this.patronmenu			=	data.dieta.patron_menu;
-			}		
+			}*/
+			if(first_dieta.patron_menu){
+				this.patronmenu			=	first_dieta.patron_menu;
+			}
 /*		Patron Menu	Ejemplos	*/
-			if(data.dieta.patron_menu_ejemplos){
-				this.patron_menu_ejemplos			=	data.dieta.patron_menu_ejemplos;
-				for(var i in data.dieta.patron_menu_ejemplos){
-					let item	=	data.dieta.patron_menu_ejemplos[i];
+			/*if(data.dieta.patron_menu_ejemplos){*/
+			if(first_dieta.patron_menu_ejemplos){
+				this.patron_menu_ejemplos			=	first_dieta.patron_menu_ejemplos;
+				for(var i in this.patron_menu_ejemplos){
+					let item	=	this.patron_menu_ejemplos[i];
 					switch(item.tiempo_comida_id){
 						case 1:
 							this.dieta_desayuno_ejemplo			=	item.ejemplo;
@@ -406,14 +420,79 @@ export class FormControlData {
 	getFormRdd():Rdd{
 		return this.rdd;
 	}
+	getFormDietas(){
+		return this.dietas;
+	}
 	getFormPrescripcion():Prescripcion{
 		return this.prescripcion;
 	}
+	/*getFormPrescripcion1():Prescripcion{
+		console.log(this.dietas);
+		this.prescripcion.set(this.dietas[0].prescripcion);
+		return this.prescripcion;
+	}*/
 	getManejadorDatos():ManejadorDatos{
 		return this.manejadorDatos;
 	}
 	getHelpers():Helpers{
 		return this.helpers;
+	}
+	getCurrentDieta(){
+		return this.current_dieta_id;
+	}
+	setCurrentDieta(dieta_id){
+		this.current_dieta_id	=	dieta_id;
+	}
+	setPrescripcionPatronMenu(dieta_id){
+		/*console.log('setPrescripcionPatronMenu');
+		console.log(this.dietas);*/
+		var filter_dieta	=	this.dietas.filter(x => x.dieta_id === dieta_id);
+		var first_dieta		=	filter_dieta[0];
+		/*console.log('first_dieta');
+		console.log(first_dieta);*/
+		
+		this.prescripcion				=	new Prescripcion();
+		this.prescripcion.dieta_id		=	first_dieta.dieta_id;
+		
+		this.patronmenu					=	[];
+		this.patron_menu_ejemplos		=	[];
+		
+		this.current_dieta_id	=	first_dieta.dieta_id;
+		if(first_dieta.prescripcion){
+			var prescripcion		=	first_dieta.prescripcion;
+			this.prescripcion.set(prescripcion);
+		}
+		if(first_dieta.patron_menu){
+			this.patronmenu			=	first_dieta.patron_menu;
+		}
+		if(first_dieta.patron_menu_ejemplos){
+			this.patron_menu_ejemplos			=	first_dieta.patron_menu_ejemplos;
+			for(var i in this.patron_menu_ejemplos){
+				let item	=	this.patron_menu_ejemplos[i];
+				switch(item.tiempo_comida_id){
+					case 1:
+						this.dieta_desayuno_ejemplo			=	item.ejemplo;
+						break;
+					case 2:
+						this.dieta_media_manana_ejemplo		=	item.ejemplo;
+						break;
+					case 3:
+						this.dieta_almuerzo_ejemplo			=	item.ejemplo;
+						break;
+					case 4:
+						this.dieta_media_tarde_ejemplo		=	item.ejemplo;
+						break;
+					case 5:
+						this.dieta_cena_ejemplo				=	item.ejemplo;
+						break;
+					case 6:
+						this.dieta_coicion_nocturna_ejemplo	=	item.ejemplo;
+						break;
+				}
+			}
+			
+		}
+	
 	}
 }
 export class Persona{
@@ -961,7 +1040,8 @@ export class Prescripcion{
 	carbohidratos:number=0;
 	proteinas:number=0;
 	grasas:number=0;
-	consulta_id:number;
+	/*consulta_id:number;*/
+	dieta_id:number;
 	itemsByDefault:PrescripcionItem[]=[];
 	items:any[]=[];
 	otros:any[]=[];
@@ -976,7 +1056,8 @@ export class Prescripcion{
 		this.carbohidratos	=	prescripcion.carbohidratos;
 		this.proteinas		=	prescripcion.proteinas;
 		this.grasas			=	prescripcion.grasas;
-		this.consulta_id	=	prescripcion.consulta_id;
+		/*this.consulta_id	=	prescripcion.consulta_id;*/
+		this.dieta_id	=	prescripcion.dieta_id;
 		
 		if(prescripcion.items){
 			this.items	=	prescripcion.items;
@@ -1007,6 +1088,7 @@ export class ManejadorDatos{
 	aarchivo:string='class ManejadorDatos';
 	operacion:string='nuevo-paciente';
 	consulta_id:number=0;
+	dieta_id:number=0;
 	nutricionista_id:number=0;
 	paciente_id:number=0;
 	lastStatusMenuPaciente:boolean=false;
@@ -1153,6 +1235,7 @@ export class ManejadorDatos{
 	getCurrentStepConsulta(){
 		return this.currentStepConsulta;
 	}
+	
 }
 export class Helpers{
 /*
@@ -1456,6 +1539,12 @@ export class Objetivo{
 	public fecha:string;
 	public descripcion:string;
 	public paciente_id:number;
+}
+export class Dieta{
+	public id:number;
+	public nombre:string;
+	public variacion_calorica:Number;
+	public consulta_id:number;
 }
 export class HcpOtros{
 		public id:number;

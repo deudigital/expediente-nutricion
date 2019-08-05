@@ -10,6 +10,7 @@ use App\TiempoComida;
 use App\Consulta;
 use App\Paciente;
 use App\Helper;
+use App\Dieta;
 use DB;
 
 class DietaController extends Controller
@@ -34,6 +35,21 @@ class DietaController extends Controller
         //
     }
 
+    public function storeNewDieta(Request $request)
+    {       
+        Dieta::create([
+            'nombre' 		=>	$request['nombre'],
+            'valoracion_calorica' 		=>	$request['valoracion_calorica'],
+            'consulta_id'	=>	$request['consulta_id'],
+        ]);
+		
+		$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -46,15 +62,22 @@ class DietaController extends Controller
 		$items	=	$request->items;
 		if($items){
 			$datos	=	array();			
-			$deletedRows = PatronMenu::where('consulta_id', $request->consulta_id)->delete();
+			/*$deletedRows = PatronMenu::where('consulta_id', $request->consulta_id)->delete();*/
+			$deletedRows = PatronMenu::where('dieta_id', $request->dieta_id)->delete();
 					
 			foreach($items as $key=>$item){
 				foreach($item['porciones'] as $alimento=>$porciones){
 					if(empty($porciones))
 						continue ;
 
-					$patronMenu	=	PatronMenu::create([
+					/*$patronMenu	=	PatronMenu::create([
 										'consulta_id'						=>	$request->consulta_id,
+										'tiempo_comida_id'					=>	$item['tiempo_id'],
+										'grupo_alimento_nutricionista_id'	=>	$alimento,
+										'porciones'							=>	$porciones,
+									]);*/
+					$patronMenu	=	PatronMenu::create([
+										'dieta_id'							=>	$request->dieta_id,
 										'tiempo_comida_id'					=>	$item['tiempo_id'],
 										'grupo_alimento_nutricionista_id'	=>	$alimento,
 										'porciones'							=>	$porciones,
@@ -72,11 +95,19 @@ class DietaController extends Controller
 			foreach($tiempos as $key=>$item){
 				if($item['tiempo_id']<1)
 					continue ;
-				$deletedRows = PatronMenuEjemplo::where('consulta_id', $request->consulta_id)
+				/*$deletedRows = PatronMenuEjemplo::where('consulta_id', $request->consulta_id)
+												->where('tiempo_comida_id', '=', $item['tiempo_id'])
+												->delete();*/
+				$deletedRows = PatronMenuEjemplo::where('dieta_id', $request->dieta_id)
 												->where('tiempo_comida_id', '=', $item['tiempo_id'])
 												->delete();
-				$patronMenuEjemplo	=	PatronMenuEjemplo::create([
+				/*$patronMenuEjemplo	=	PatronMenuEjemplo::create([
 									'consulta_id'		=>	$request->consulta_id,
+									'tiempo_comida_id'	=>	$item['tiempo_id'],
+									'ejemplo'			=>	$item['ejemplo']
+								]);*/
+				$patronMenuEjemplo	=	PatronMenuEjemplo::create([
+									'dieta_id'		=>	$request->dieta_id,
 									'tiempo_comida_id'	=>	$item['tiempo_id'],
 									'ejemplo'			=>	$item['ejemplo']
 								]);
@@ -257,5 +288,39 @@ class DietaController extends Controller
 
 		return $response;
 	}
-
+    public function storeDietas(Request $request)
+    {
+		/*return Helper::printResponse($request->dietas);*/
+		if(!$request->consulta_id)
+			return	Response::json(['message' => 'Consulta No Exite'], 204);
+		if(!$request->dietas)
+			return	Response::json(['message' => 'Dietas No Registradas'], 204);
+		
+		foreach($request->dietas as $key=>$dieta){
+			
+			/*Helper::_print($dieta);*/
+			/*return Helper::printResponse($dieta['id']);*/
+			if($dieta['id']){
+				/*Helper::_print('editando-' . $dieta['id']);*/
+				$_dieta	=	Dieta::find($dieta['id']);
+				/*return Helper::printResponse($_dieta->nombre);*/
+				$_dieta->nombre		=	$dieta['nombre'];
+				$_dieta->variacion_calorica=	$dieta['variacion_calorica'];
+				$_dieta->save();
+			}else{
+				/*Helper::_print('nuevo-' . $dieta['id']);*/
+				 Dieta::create([
+					'nombre' 				=>	$dieta['nombre'],
+					'variacion_calorica'	=>	$dieta['variacion_calorica'],
+					'consulta_id'			=>	$request->consulta_id
+				]);
+			}
+		}	
+		$message	=	array(
+							'code'		=> '201',
+							'message'	=> 'Se ha registrado correctamente'
+						);
+		$response	=	Response::json($message, 201);
+		return $response;
+    }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Rdd } from '../data/formControlData.model';
+import { Rdd, Dieta } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
 import { LineChartConfig } from '../../models/LineChartConfig';
 import { AuthService } from '../../services/auth.service';
@@ -49,12 +49,21 @@ export class RecomendacionComponent implements OnInit {
 	_gasto_calorico_real:number;
 	_ingesta_calorica_recomendada:number;
 	historialParentWidth:number;
+	
+	dietas:any;
+	odietas:any;
+	aDietasEdited:any;
+	nuevo:boolean=false;
+	newDieta=new Dieta();
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.mng	=	this.model.getManejadorDatos();
 		this.helpers	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
+		this.dietas	=	this.model.getFormDietas();
+		this.odietas	=	this.helpers.clone(this.dietas);
+		
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
@@ -345,7 +354,7 @@ export class RecomendacionComponent implements OnInit {
 		this.oRdd.promedio_gc_diario			=	this.recomendacion.promedio_gc_diario;
 		this.oRdd.variacion_calorica			=	this.recomendacion.variacion_calorica;
 	}
-	infoEdited(){
+	infoEdited(){	
 		return 	(
 			this.oRdd.metodo_calculo_gc				!==	this.recomendacion.metodo_calculo_gc || 
 			this.oRdd.peso_calculo					!==	this.recomendacion.peso_calculo || 
@@ -353,6 +362,38 @@ export class RecomendacionComponent implements OnInit {
 			this.oRdd.promedio_gc_diario			!==	this.recomendacion.promedio_gc_diario || 
 			this.oRdd.variacion_calorica			!==	this.recomendacion.variacion_calorica
 		);
+	}
+	dietasEdited(){
+		/*console.log(this.dietas.length + '==' + this.odietas.length);*/
+		/*if(this.dietas.length!=this.odietas.length)
+			return true;*/
+		this.aDietasEdited	=	[];
+		var obj1,obj2;
+		for(var i =0;i<this.dietas.length;i++){
+			obj1	=	this.dietas[i];
+			if(this.odietas[i])
+				obj2	=	this.odietas[i];
+			else
+				obj2	=	new Dieta();
+			if( obj1.nombre !== obj2.nombre || obj1.variacion_calorica !== obj2.variacion_calorica ){
+				/*obj1.dieta_id !== obj2.dieta_id || */
+				/*return true;*/
+				var _dieta		=	new Dieta();
+				_dieta.id		=	obj1.dieta_id || 0;
+				_dieta.nombre	=	obj1.nombre;
+				_dieta.variacion_calorica	=	obj1.variacion_calorica;
+				/*this.aDietasEdited.push(obj1);*/
+				this.aDietasEdited.push(_dieta);
+			}
+		}
+		var _edited	=	false;
+		if(this.aDietasEdited.length>0){
+			_edited	=	true;
+			console.log('aDietasEdited');
+			console.log(this.aDietasEdited);
+		}
+		/*return this.aDietasEdited.length>0;*/
+		return _edited;
 	}
 	createRdds(recomendacion) {
 		this.formControlDataService.addRdds(recomendacion)
@@ -749,11 +790,63 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 	   this.recomendacion.icr				=	this._ingesta_calorica_recomendada;
    }
    
+   
+   
+	showFormEdit(){
+		this.nuevo	=	!this.nuevo;
+	}
+   
+	isValid(){
+		return true;
+	}
+	adicionarNuevo(){
+		if(this.isValid()){
+			this.newDieta.consulta_id	=	this.model.consulta.id;
+			this.save(this.newDieta);
+		}
+	}
+	save(data){
+		this.formControlDataService.store('dietas', data)
+		.subscribe(
+			 response  => {
+						this.setDieta(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	setDieta(response){
+		if(response.code==201){
+			var dieta	=	response.data;
+			this.dietas.push(dieta);
+			this.newDieta.nombre	=	'';
+			this.nuevo	=	false;
+		}
+	}
+	addNewDieta(){
+		var dieta	=	new Dieta();
+		this.dietas.push(dieta);
+	}
 	saveForm(){
 		this.model.getFormRdd().set(this.recomendacion);
 		this.formControlDataService.setFormControlData(this.model);
-		if(this.infoEdited())
+		if(this.infoEdited()){console.log('infoEdited');
 			this.createRdds(this.recomendacion);
+		}
+		if(this.dietasEdited()){console.log('dietasEdited');
+			this.createDietas(this.aDietasEdited);
+		}
+	}
+	
+	createDietas(dietas) {console.log('createDietas');console.log(dietas);
+		var data	=	{};
+		data['consulta_id']	=	this.model.consulta.id;
+		data['dietas']		=	dietas;
+		/*this.formControlDataService.addDietas(dietas)*/
+		this.formControlDataService.addDietas(data)
+		.subscribe(
+			 response  => {},
+			error =>  console.log(<any>error)
+		);
 	}
 	Previous(){
 		this.router.navigate(['/valoracion']);

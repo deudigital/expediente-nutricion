@@ -190,15 +190,12 @@
 					Este gasto cal&oacute;rico es calculado seg&uacute;n la informaci&oacute;n de los h&aacute;bitos de 
 					actividad f&iacute;sica del paciente ingresados anteriormente, si desea puede 
 					cambiar este gasto cal&oacute;rico manualmente.
+					
+					Este gasto cal&oacute;rico es calculado seg&uacute;n la informaci&oacute;n de los h&aacute;bitos de 
+					actividad f&iacute;sica del paciente ingresados anteriormente, si desea puede 
+					cambiar este gasto cal&oacute;rico manualmente. Para saber como fu&eacute; calculado, puede <a href="#">consultarlo aqu&iacute;</a>
 				</small>
 			</div>
-		</div>
-		<div class="row text-center">
-			<button 
-				class="btn btn-default" 
-				(click)="showModal('datos')"
-				[disabled]="disableButtonHistorial"
-			>Ver Historial RDDs</button>
 		</div>
 	</section>
 	<section>
@@ -247,27 +244,50 @@
 			<header>
 				<h3 class="title">Calorías Recomendadas según metas del paciente</h3>
 			</header>
-		  <div class="row">
-			<div class="col-md-5">
-				<div class="form-group with-icon variacion-calorica">
-					<label for="variacion_calorica" class="col-form-label">Variación Calórica</label>
-					<input 
-						id="variacion_calorica" 
-						name="variacion_calorica" 
-						type="number" 
-						class="form-control" 
-						placeholder="En calorías" 
-						maxlength="6" 
-						min="0" 
-						(keyup)="_analisis()"
-						(change)="_analisis()"
-						(keypress)="helpers.onlyIntNegPos($event)"
-						[(ngModel)]="recomendacion.variacion_calorica"
-					>
-					<i></i>				
-				</div>
+<ng-template ngFor let-dieta [ngForOf]= "dietas" let-i="index">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group nombre-dieta">
+								<label for="nombre_dieta" class="col-form-label">Nombre Dieta</label>
+								<input 
+									id="nombre_dieta" 
+									name="nombre_dieta" 
+									type="text" 
+									class="form-control" 
+									placeholder="Nombre de la dieta" 
+									[(ngModel)]="dieta.nombre"
+								>
+								<i></i>				
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group with-icon variacion-calorica">
+								<label for="variacion_calorica" class="col-form-label">Variación Calórica</label>
+								<input 
+									id="variacion_calorica" 
+									name="variacion_calorica" 
+									type="number" 
+									class="form-control" 
+									placeholder="En calorías" 
+									maxlength="6" 
+									min="0" 
+									(keyup)="_analisis()"
+									(change)="_analisis()"
+									(keypress)="helpers.onlyIntNegPos($event)"
+									[(ngModel)]="dieta.variacion_calorica"
+								>
+								<i></i>				
+							</div>
+						</div>
+					</div>
+			
+				
+				
+				
 			</div>
-			<div class="form-group col-md-offset-1 col-md-6">
+			<div class="form-group col-md-offset-1 col-md-5">
 				<div class="ingesta-calorica col-sm-6">
 					<i></i>
 					Ingesta Cal&oacute;rica Recomendada
@@ -284,6 +304,24 @@
 				</div>
 			</div>
 		  </div>
+		  </ng-template>
+		  
+			<div class="container-form">
+				<div class="actions">
+					<a [ngClass]="{'form-close objetivos':nuevo, 'form-open': !nuevo }" (click)="addNewDieta()" href="javascript:void(0)"><i></i>Añadir Nuevo</a>
+				</div>	
+			</div>
+		  
+		  
+		  <div class="row text-center">
+			<button 
+				class="btn btn-default red" 
+				(click)="showModal('datos')"
+				[disabled]="disableButtonHistorial"
+			>Ver Historial RDDs</button>
+		</div>
+		
+		
 		</div>
 	</section>
 	
