@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\PatronMenu;
 use App\Consulta;
+use App\Dieta;
+use App\Rdd;
 use DB;
 
 class PatronMenuController extends Controller
@@ -132,5 +134,20 @@ class PatronMenuController extends Controller
 							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
 							->get();
 */
+    }
+	public function FixUpdateDietasVariacionCalorica()
+    {
+		$result	=	array();
+		$dietas	=	Dieta::All();
+		if($dietas){
+			foreach($dietas as $key=>$dieta){
+				$rdds	=	Rdd::where('consulta_id', $dieta->id)->get();
+				if(count($rdds)>1)
+					$result[]	=	$dieta->id;
+			}
+			$response	=	Response::json($result, 200, [], JSON_NUMERIC_CHECK);
+			return $response;
+			
+		}
     }
 }

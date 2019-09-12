@@ -181,6 +181,9 @@ export class FormControlDataService {
 			case 'bioquimicas':
 				serviceUrl	+=	'pacientes/hcpbioquimicas';
 				break;
+			case 'archivos':
+				serviceUrl	+=	'consultas/archivos';
+				break;
 			case 'recepcion':
 				serviceUrl	+=	'recepcion/importar';
 				break;

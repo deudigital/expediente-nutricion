@@ -29,7 +29,7 @@ import { HabitoComponent } from './nuevo/habito/habito.component';
 import { ValoracionComponent } from './control/valoracion/valoracion.component';
 import { RecomendacionComponent } from './control/recomendacion/recomendacion.component';
 import { DietaComponent } from './control/dieta/dieta.component';
-import { PrescripcionComponent } from './control/dieta/prescripcion/prescripcion.component';
+/*import { PrescripcionComponent } from './control/dieta/prescripcion/prescripcion.component';*/
 import { PatronmenuComponent } from './control/dieta/patronmenu/patronmenu.component';
 import { NotasComponent } from './control/dieta/notas/notas.component';
 import { HcpNavComponent } from './nuevo/hcp/hcp-nav/hcp-nav.component';
@@ -109,7 +109,7 @@ import { AgendaNavComponent } from './agenda/agenda-nav/agenda-nav.component';
                     NuevoNavComponent, 
                     ControlNavCenterComponent, 
                     PatronmenuComponent, 
-                    PrescripcionComponent, 
+                    /*PrescripcionComponent, */
                     NotasComponent, 
                     DietaNavComponent, 
                     HcpNavComponent, 

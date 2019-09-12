@@ -18,26 +18,19 @@
 		<ul id="dietas_navigation" class="nav navigation-dietas-tab nav-justified">
 			<li *ngFor="let dieta of model.dietas; let i = index" [ngClass]="{'active ': model.current_dieta_id==dieta.dieta_id }">
 				<a id="{{dieta.id}}" href="javascript:void(0)" (click)="dietaxSelected(dieta, $event)">
-					{{dieta.dieta_id}}:{{dieta.nombre}} - {{dieta.variacion_calorica}}
+					<!--{{dieta.dieta_id}}:{{dieta.nombre}} - {{dieta.variacion_calorica}}-->
+					{{dieta.nombre}}
 				</a>
 			</li>
-		</ul>
-	
-	
+		</ul>	
 		<app-dieta-nav></app-dieta-nav>	
 		<header class="visible-xs">
 			<h4>Prescripci&oacute;n</h4>
 		</header>	
 	
-		<div class="buttons">
-			<button 
-				class="btn btn-default" 
-				[disabled]="disableButtonHistorial"
-				(click)="showModal('datos')"
-				>Ver Historial Prescripciones</button>
-		</div>
+		
 		<header>
-			<h3 class="title">Distribuci&oacute;n de Macronutrientes</h3>
+			<h3 class="title">Divisi&oacute;n Nutricional</h3>
 		</header>
 		
 		
@@ -51,8 +44,12 @@
 					<div class="ingesta-calorica-recomendada-value with-cicle col-sm-6">
 						<div class="inner">
 							<i>
-								<strong>
+								<!--<strong>
 									{{ rdd.icr | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>-->
+								<strong>
+									{{ model.current_dieta.ingesta_calorica_recomendada | number : '1.0-0'}}
 									<span>Kcal</span>							
 								</strong>
 							</i>
@@ -145,6 +142,15 @@
 				
 				</div>			
 		</div>	
+		
+		<div class="buttons">
+			<button 
+				class="btn btn-default" 
+				[disabled]="disableButtonHistorial"
+				(click)="showModal('datos')"
+				>Ver Historial Prescripciones</button>
+		</div>
+		
 	</section>
 	<section>
 		<header>
@@ -407,23 +413,47 @@
 						</tr>
 					</thead>
 					<tbody>
-<ng-template ngFor let-historia [ngForOf]= "historial">
+<ng-template ngFor let-historial_dieta [ngForOf]= "historial">
 						<tr>
-							<td>
-							<div class="actions">
-								<a 
-									class="button-copy" 
-									title="{{historia.id}}"
-									href="javascript:void(0)"
-									(click)="showModalCopiar(historia)"
-								><i></i></a>
-							</div>
-					<ng-template [ngIf]="historia.patron_menu">
-								<a [ngClass]="{'open ': historia.display }"  class="expand-patron-menu" href="javascript:void(0)" (click)="displayDetails(historia)">
+							<td class="text-left">
+								<!--<div class="actions">
+									<a 
+										class="button-copy" 
+										title="{{historial_dieta.consulta_id}}"
+										href="javascript:void(0)"
+										(click)="showModalCopiar(historial_dieta)"
+									><i></i></a>
+								</div>-->
+					<ng-template [ngIf]="historial_dieta.dietas">
+								<a [ngClass]="{'open ': historial_dieta.display }"  class="expand-dieta" href="javascript:void(0)" (click)="displayDieta(historial_dieta)">
 									<i></i>
 								</a>
 					</ng-template>
-								{{historia.fecha}}
+								<!--{{historial_dieta.consulta_id}} - -->{{historial_dieta.consulta_fecha}}
+							</td>
+							<td colspan="15">
+								{{historial_dieta.consulta_notas}}
+							</td>
+						</tr>
+<ng-template [ngIf]="historial_dieta.dietas">
+						
+	<ng-template ngFor let-historia [ngForOf]= "historial_dieta.dietas">
+						<tr *ngIf="historial_dieta.display">
+							<td>
+								<div class="actions">
+									<a 
+										class="button-copy" 
+										title="{{historia.id}}"
+										href="javascript:void(0)"
+										(click)="showModalCopiar(historia)"
+									><i></i></a>
+								</div>
+					<!--<ng-template [ngIf]="historia.patron_menu">
+								<a [ngClass]="{'open ': historia.display }"  class="expand-patron-menu" href="javascript:void(0)" (click)="displayDetails(historia)">
+									<i></i>
+								</a>
+					</ng-template>-->
+								<!--{{historia.dieta_id}} - -->{{historia.dieta_nombre}}
 							</td>
 							<td>{{historia.carbohidratos}} %</td>
 							<td>{{historia.proteinas}} %</td>
@@ -441,9 +471,11 @@
 						</tr>
 						
 			<ng-template [ngIf]="historia.patron_menu">					
+
 					<ng-template ngFor let-historia_patron_menu_item [ngForOf]= "historia.patron_menu">
 						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">{{historia_patron_menu_item.nombre || '' }}</td>
+							<td>&nbsp;</td>
+							<td class="text-left" colspan="3">{{historia_patron_menu_item.nombre || '' }}</td>
 						<ng-template ngFor let-historia_patronmenu [ngForOf]= "historia_patron_menu_item.items" let-k="index">
 							<ng-template [ngIf]="k>0">
 							<td>{{historia_patronmenu || '' }}</td>
@@ -451,112 +483,10 @@
 						</ng-template>
 						</tr>
 					</ng-template>
-<!--
-					<ng-template [ngIf]="historia.patron_menu[1]">
-						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">Desayuno</td>
-							<td>{{historia.patron_menu[1][1] || '' }}</td>
-							<td>{{historia.patron_menu[1][2] || '' }}</td>
-							<td>{{historia.patron_menu[1][3] || '' }}</td>
-							<td>{{historia.patron_menu[1][4] || '' }}</td>
-							<td>{{historia.patron_menu[1][5] || '' }}</td>
-							<td>{{historia.patron_menu[1][6] || '' }}</td>
-							<td>{{historia.patron_menu[1][7] || '' }}</td>
-							<td>{{historia.patron_menu[1][8] || '' }}</td>
-							<td>{{historia.patron_menu[1][9] || '' }}</td>
-							<td>{{historia.patron_menu[1][10] || '' }}</td>
-							<td>{{historia.patron_menu[1][11] || '' }}</td>
-							<td>{{historia.patron_menu[1][12] || '' }}</td>
-						</tr>
-					</ng-template>
-					<ng-template [ngIf]="historia.patron_menu[2]">
-						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">Media Mañana</td>
-							<td>{{historia.patron_menu[2][1] || '' }}</td>
-							<td>{{historia.patron_menu[2][2] || '' }}</td>
-							<td>{{historia.patron_menu[2][3] || '' }}</td>
-							<td>{{historia.patron_menu[2][4] || '' }}</td>
-							<td>{{historia.patron_menu[2][5] || '' }}</td>
-							<td>{{historia.patron_menu[2][6] || '' }}</td>
-							<td>{{historia.patron_menu[2][7] || '' }}</td>
-							<td>{{historia.patron_menu[2][8] || '' }}</td>
-							<td>{{historia.patron_menu[2][9] || '' }}</td>
-							<td>{{historia.patron_menu[2][10] || '' }}</td>
-							<td>{{historia.patron_menu[2][11] || '' }}</td>
-							<td>{{historia.patron_menu[2][12] || '' }}</td>
-						</tr>
-					</ng-template>
-					<ng-template [ngIf]="historia.patron_menu[3]">
-						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">Almuerzo</td>
-							<td>{{historia.patron_menu[3][1] || '' }}</td>
-							<td>{{historia.patron_menu[3][2] || '' }}</td>
-							<td>{{historia.patron_menu[3][3] || '' }}</td>
-							<td>{{historia.patron_menu[3][4] || '' }}</td>
-							<td>{{historia.patron_menu[3][5] || '' }}</td>
-							<td>{{historia.patron_menu[3][6] || '' }}</td>
-							<td>{{historia.patron_menu[3][7] || '' }}</td>
-							<td>{{historia.patron_menu[3][8] || '' }}</td>
-							<td>{{historia.patron_menu[3][9] || '' }}</td>
-							<td>{{historia.patron_menu[3][10] || '' }}</td>
-							<td>{{historia.patron_menu[3][11] || '' }}</td>
-							<td>{{historia.patron_menu[3][12] || '' }}</td>
-						</tr>
-					</ng-template>
-					<ng-template [ngIf]="historia.patron_menu[4]">
-						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">Media Tarde</td>								
-							<td>{{historia.patron_menu[4][1] || '' }}</td>
-							<td>{{historia.patron_menu[4][2] || '' }}</td>
-							<td>{{historia.patron_menu[4][3] || '' }}</td>
-							<td>{{historia.patron_menu[4][4] || '' }}</td>
-							<td>{{historia.patron_menu[4][5] || '' }}</td>
-							<td>{{historia.patron_menu[4][6] || '' }}</td>
-							<td>{{historia.patron_menu[4][7] || '' }}</td>
-							<td>{{historia.patron_menu[4][8] || '' }}</td>
-							<td>{{historia.patron_menu[4][9] || '' }}</td>
-							<td>{{historia.patron_menu[4][10] || '' }}</td>
-							<td>{{historia.patron_menu[4][11] || '' }}</td>
-							<td>{{historia.patron_menu[4][12] || '' }}</td>
-						</tr>
-					</ng-template>
-					<ng-template [ngIf]="historia.patron_menu[5]">
-						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">Cena</td>
-							<td>{{historia.patron_menu[5][1] || '' }}</td>
-							<td>{{historia.patron_menu[5][2] || '' }}</td>
-							<td>{{historia.patron_menu[5][3] || '' }}</td>
-							<td>{{historia.patron_menu[5][4] || '' }}</td>
-							<td>{{historia.patron_menu[5][5] || '' }}</td>
-							<td>{{historia.patron_menu[5][6] || '' }}</td>
-							<td>{{historia.patron_menu[5][7] || '' }}</td>
-							<td>{{historia.patron_menu[5][8] || '' }}</td>
-							<td>{{historia.patron_menu[5][9] || '' }}</td>
-							<td>{{historia.patron_menu[5][10] || '' }}</td>
-							<td>{{historia.patron_menu[5][11] || '' }}</td>
-							<td>{{historia.patron_menu[5][12] || '' }}</td>
-						</tr>
-					</ng-template>
-					<ng-template [ngIf]="historia.patron_menu[6]">
-						<tr class="detalle_prescripcion" *ngIf="historia.display">
-							<td colspan="4">Colacion Nocturna</td>
-							<td>{{historia.patron_menu[6][1] || '' }}</td>
-							<td>{{historia.patron_menu[6][2] || '' }}</td>
-							<td>{{historia.patron_menu[6][3] || '' }}</td>
-							<td>{{historia.patron_menu[6][4] || '' }}</td>
-							<td>{{historia.patron_menu[6][5] || '' }}</td>
-							<td>{{historia.patron_menu[6][6] || '' }}</td>
-							<td>{{historia.patron_menu[6][7] || '' }}</td>
-							<td>{{historia.patron_menu[6][8] || '' }}</td>
-							<td>{{historia.patron_menu[6][9] || '' }}</td>
-							<td>{{historia.patron_menu[6][10] || '' }}</td>
-							<td>{{historia.patron_menu[6][11] || '' }}</td>
-							<td>{{historia.patron_menu[6][12] || '' }}</td>
-						</tr>
-					</ng-template>
-			-->
 			</ng-template>
 
+	</ng-template>
+</ng-template>
 </ng-template>
 
 					</tbody>
@@ -591,3 +521,42 @@
 	</div>
 </ng-template>	
 </div>
+
+<!--<div class="bar-current-dietas">
+<ng-template ngFor let-dieta [ngForOf]= "model.dietas">
+	
+
+	<p>
+	<ng-template [ngIf]="model.current_dieta_id==dieta.prescripcion.dieta_id">
+	<strong>{{dieta.prescripcion.id}} - {{dieta.nombre}} - {{dieta.prescripcion.dieta_id}}</strong>
+	</ng-template>
+	
+	<ng-template [ngIf]="model.current_dieta_id!=dieta.prescripcion.dieta_id">
+		{{dieta.prescripcion.id}} - {{dieta.nombre}} - {{dieta.prescripcion.dieta_id}}
+	</ng-template>
+	</p>
+	<p>{{dieta.prescripcion.carbohidratos}} - {{dieta.prescripcion.proteinas}} - {{dieta.prescripcion.grasas}}</p>
+	<ng-template [ngIf]="dieta.prescripcion.items">
+	<ol>
+		<ng-template ngFor let-item [ngForOf]= "dieta.prescripcion.items">
+		<li>{{item.nombre}} -> {{item.porciones}}</li>
+		</ng-template>
+	</ol>
+	</ng-template>
+	<ng-template [ngIf]="dieta.patron_menu">
+	<ol>
+		<ng-template ngFor let-menu [ngForOf]= "dieta.patron_menu">
+		<li>{{menu.tiempo_comida_id}} -> {{menu.porciones}}</li>
+		</ng-template>
+	</ol>
+	</ng-template>
+	<ng-template [ngIf]="dieta.patron_menu_ejemplos">
+	<ol>
+		<ng-template ngFor let-ejemplo [ngForOf]= "dieta.patron_menu_ejemplos">
+		<li>{{ejemplo.tiempo_comida_id}} -> {{ejemplo.ejemplo}}</li>
+		</ng-template>
+	</ol>
+	</ng-template>
+
+</ng-template>
+</div>-->

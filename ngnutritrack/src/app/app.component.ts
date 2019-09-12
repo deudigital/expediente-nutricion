@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
 			this.fcd			=	this.formControlDataService.getFormControlData();
 			this.consulta		=	this.fcd.getFormConsulta();
 			this.valoracion		=	this.fcd.getFormValoracionAntropometrica();
-			this.prescripcion	=	this.fcd.getFormPrescripcion();
+			
 			this.rdd			=	this.fcd.getFormRdd();
 			this.paciente			=	this.fcd.getFormPaciente();
 
@@ -41,17 +41,18 @@ export class AppComponent implements OnInit {
 			if(this.consulta.id){
 				summary	+=	'Consulta: ' + this.consulta.id;
 			}
-			if(this.fcd.current_dieta_id){
-				summary	+=	'  |  Dieta: ' + this.fcd.current_dieta_id;
-			}
-			if(this.prescripcion.id){
-				summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
-			}
 			if(this.valoracion.id){
 				summary	+=	'  |  VA: ' + this.valoracion.id;
 			}
 			if(this.rdd.id){
 				summary	+=	'  |  Rdd: ' + this.rdd.id;
+			}
+			if(this.fcd.current_dieta_id){
+				summary	+=	'  |  Dieta: ' + this.fcd.current_dieta_id;
+				this.prescripcion	=	this.fcd.getFormPrescripcion();
+				if(this.prescripcion.id){
+					summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
+				}
 			}
 			if(this.consulta.paciente_id){
 				summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;

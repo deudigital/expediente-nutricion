@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Exception;
 use App\Consulta;
+use App\ArchivoConsulta;
 use App\Paciente;
 use App\Persona;
 use App\Nutricionista;
@@ -68,13 +69,36 @@ class ConsultaController extends Controller
 		$consulta	=	new Consulta(array(
 			'fecha'	=>	DB::raw('now()'),
 			'notas'	=>	trim($request->notas),
+			'notas_paciente'	=>	trim($request->notas_paciente),
 			'paciente_id'	=>	trim($request->persona_id)
 		));
 		if($consulta->save()){
-			$response	=	array(
-					'message'	=>	'Consulta registrada correctamente',
-					'data'		=>	$consulta
-				);
+			
+			$rdd	=	new Rdd(
+								array(
+									'metodo_calculo_gc'				=>	'benedict',
+									'peso_calculo'					=>	'actual',
+									'factor_actividad_sedentaria'	=>	1.4,
+									'promedio_gc_diario'			=>	0,
+									'variacion_calorica'			=>	0,
+									'consulta_id'		=>	$consulta->id
+								)
+							);
+			$rdd->save();
+			$dieta	=	new Dieta(
+								array(
+									'nombre'			=>	'Dieta 1',
+									'variacion_calorica'=>	0,
+									'consulta_id'		=>	$consulta->id
+								)
+							);
+			if($dieta->save()){
+				$response	=	array(
+									'message'	=>	'Consulta registrada correctamente',
+									'data'		=>	$consulta,
+									'dieta'		=>	$dieta
+								);
+			}
 		}
 		if(count($last_valor_antropometrica)>0)
 			$response['va']	=	$last_valor_antropometrica;
@@ -118,7 +142,63 @@ class ConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+     public function destroy($id)
+    {
+		$message	=	array(
+							'code'		=> '500',
+							'message'	=> 'Se produjo un error interno al procesar la solicitud. Inténtalo de nuevo'
+						);
+		$consulta_id	=	$id;
+		DB::beginTransaction();
+		try {
+			$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $consulta_id)
+											->get()
+											->first();
+
+			if(count($valoracionAntropometrica)>0){
+				DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+				DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+			}
+			ValoracionAntropometrica::where('consulta_id', $consulta_id)->delete();
+			Rdd::where('consulta_id', $consulta_id)->delete();
+			
+			
+			$dietas	=	Dieta::where('consulta_id', $consulta_id)
+						->get();
+			
+			foreach($dietas as $dieta){
+				$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
+										->get()
+										->first();
+
+				if(count($prescripcion)>0){
+					DetalleDescripcion::where('prescripcion_id', $prescripcion->id)->delete();
+					OtrosAlimento::where('prescripcion_id', $prescripcion->id)->delete();
+				}
+				Prescripcion::where('dieta_id', $dieta->id)->delete();
+				PatronMenu::where('dieta_id', $dieta->id)->delete();
+				PatronMenuEjemplo::where('dieta_id', $dieta->id)->delete();
+			}			
+			Dieta::where('consulta_id', $consulta_id)->delete();
+			Consulta::destroy($consulta_id);
+
+			DB::commit();
+			// all good
+			$message	=	array(
+							'code'		=> '204',
+							'message'	=> 'Se ha eliminado correctamente'
+						);
+		} catch (\Exception $e) {
+			DB::rollback();
+			// something went wrong
+			$message['error']	=	$e->getMessage();
+
+		}
+        $response	=	Response::json($message, 201);
+		return $response;
+    }
+	
+	public function destroy__original($id)
     {
 		$message	=	array(
 							'code'		=> '500',
@@ -190,10 +270,22 @@ class ConsultaController extends Controller
 		return $response;
     }
 	function belongsToPaciente($id){
-		$registros	=	Consulta::where('paciente_id', $id)
+		$registros	=	[];
+		$consultas	=	Consulta::where('paciente_id', $id)
 						->where('consultas.estado', 1)
 						->orderBy('consultas.fecha', 'DESC')
 						->get();
+		/*return Helper::printRequest($consultas);*/
+		if(count($consultas)>0){
+			foreach($consultas as $consulta){
+				$items		=	array();
+				$archivos	=	ArchivoConsulta::where('consulta_id', $consulta->id)
+									->get();
+				
+				$consulta->archivos	=	$archivos->toArray();
+				$registros[]	=	$consulta;
+			}
+		}		
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
@@ -286,6 +378,15 @@ class ConsultaController extends Controller
 		if(count($consulta)==0)
 			return Response::json(['message' => 'Record not found'], 204);
 		$registros	=	$consulta->toArray();
+		
+		$archivo_consultas	=	DB::table('archivo_consultas')
+				->where('archivo_consultas.consulta_id',  $consulta->id)
+				->select('archivo_consultas.*', DB::raw('SUBSTRING_INDEX(filename,\'/\', -1) as file'), DB::raw('date_format(archivo_consultas.fecha,\'%d/%m/%Y\') as fecha'))
+				->get();
+		if(count($archivo_consultas)>0)
+			$registros['archivos']	=	$archivo_consultas->toArray();
+		else
+			$registros['archivos']	=	array();
 /*
 Enviar usuario y contrasena?????? por ahora si...
 */
@@ -468,7 +569,7 @@ Enviar usuario y contrasena?????? por ahora si...
 					$items['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
 
 				if(count($items)>0)
-				$registros['dieta'][]	=	$items;
+				$registros['dietas'][]	=	$items;
 
 			}
 		}
@@ -611,15 +712,19 @@ Enviar usuario y contrasena?????? por ahora si...
 		return $response;
 	}
 	function storeNotas(Request $request){
+		/*return Helper::printResponse($request);*/
 		if(!$request->input('id'))
 			return Response::json(['message' => 'Record not found'], 204);
 
 		$aResponse	=	array();
 		$consulta	=	Consulta::find($request->input('id'));
 		if($consulta){
-			$notas	=	$request->notas;
-			if($notas)
-				$consulta->notas	=	$request->notas[0];
+			$notas	=	$request->notas[0];
+			if($notas['nutricionista'])
+				$consulta->notas	=	$notas['nutricionista'];
+
+			if($notas['paciente'])
+				$consulta->notas_paciente	=	$notas['paciente'];
 
 			if($request->input('finalizar'))
 				$consulta->estado	=	1;
@@ -878,8 +983,16 @@ Enviar usuario y contrasena?????? por ahora si...
 				$blade['va']	=	$aNew;
 			}			
 		}
+		
+		
+		$dietas			=	Dieta::where('consulta_id', $consulta->id)
+										->get();
+		$multiple_dietas	=	count($dietas)>1;
 
-		$prescripcion	=	Prescripcion::where('consulta_id', $consulta->id)
+foreach($dietas as $dieta){
+		$dieta_item			=	Array();
+		$dieta_item['item']	=	$dieta->toArray();
+		$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
 										->get()
 										->first();
 		if(count($prescripcion)>0){
@@ -936,7 +1049,8 @@ Enviar usuario y contrasena?????? por ahora si...
 					
 				}
 			}
-			$blade['prescripcion']	=	$aPrescripcionItems;
+			/*$blade['prescripcion']	=	$aPrescripcionItems;*/
+			$dieta_item['prescripcion']	=	$aPrescripcionItems;
 		}
 		$tiempoComidas	=	Helper::getTiposComida($paciente->nutricionista_id);
 		if(count($tiempoComidas)>0){
@@ -949,7 +1063,7 @@ Enviar usuario y contrasena?????? por ahora si...
 			}
 		}
 /*Helper::_print($_tiempo_comidas);*/
-		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta->id)
+		$patronMenuEjemplo	=	PatronMenuEjemplo::where('dieta_id', $dieta->id)
 									->get();
 /*Helper::_print($patronMenuEjemplo);*/
 		if(count($patronMenuEjemplo)>0){
@@ -963,7 +1077,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$patronMenu	=	DB::table('patron_menus')
 							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
 							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
-							->where('patron_menus.consulta_id', $consulta->id)
+							->where('patron_menus.dieta_id', $dieta->id)
 							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
 							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
 							->get();
@@ -972,8 +1086,13 @@ Enviar usuario y contrasena?????? por ahora si...
 			foreach($aPatronMenu as $key=>$value)
 				$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	($value->porciones + 0) . ' ' . $value->alimento;
 
-			$blade['patron_menu']	=	$_tiempo_comidas;		
+			/*$blade['patron_menu']	=	$_tiempo_comidas;*/
+			$dieta_item['patron_menu']	=	$_tiempo_comidas;		
 		}
+
+	if(isset($dieta_item['prescripcion']) || isset($dieta_item['patron_menu']))
+			$blade['dietas'][]	=	$dieta_item;
+}
 /*		$blade['patron_menu']	=	$_tiempo_comidas;*/
 		$nutricionista	=	DB::table('nutricionistas')
 								->join('personas', 'personas.id', 'nutricionistas.persona_id')
@@ -1002,15 +1121,21 @@ Enviar usuario y contrasena?????? por ahora si...
 							'paciente'				=>	$paciente, 
 							'paciente_nombre'		=>	$paciente->nombre, 
 							'paciente_usuario'		=>	$paciente->usuario, 
-							'paciente_contrasena'	=>	$paciente->contrasena, 
+							'paciente_contrasena'	=>	$paciente->contrasena
 						);
 		if(isset($blade['va']))
 			$data['bva']	=	$blade['va'];
-		if(isset($blade['prescripcion']))
+/*		if(isset($blade['prescripcion']))
 			$data['bprescripcion']	=	$blade['prescripcion'];
 		if(isset($blade['patron_menu']))
-			$data['bpatronmenu']	=	$blade['patron_menu'];
+			$data['bpatronmenu']	=	$blade['patron_menu'];*/
+		if(isset($blade['dietas']))
+			$data['bdietas']	=	$blade['dietas'];
+		if($multiple_dietas)
+			$data['multiple_dietas']	=	true;
 
+
+/*Helper::_print($data['bdietas']);exit;*/
 		return $data;
 	}
 	
@@ -1074,5 +1199,45 @@ Enviar usuario y contrasena?????? por ahora si...
 				echo $this->sendEmail( $data, true );
 				break;
 		}
+	}
+
+	public function archivos(Request $request){
+		/*$response	=	Response::json($request, 201);
+		return $response;*/
+		if(!$request->input('consulta_id')){
+			$response	=	Response::json([
+				'code'		=>	422,
+				'message'	=>	'Datos de Consulta son requeridos, intente de nuevo',
+				'data'		=>	$request->all()
+			], 200);
+			return $response;
+		}
+		try{
+			$file			=	$request->file('archivo');
+			$filename_epoc	=	Carbon::now()->timestamp;		
+			$destination	=	public_path('/archivos/' . $request->owner);
+			$filename		=	 $request->owner . '_' . $filename_epoc . '_' . $request->consulta_id . '.' . $file->getClientOriginalExtension();
+			$new_filename	=	url('/archivos/' . $request->owner) . '/' .  $filename;
+			$file->move($destination, $new_filename);	
+			$archivoConsulta	=	ArchivoConsulta::create([
+									'filename'		=>	$new_filename,
+									'fecha'			=>	DB::raw('now()'),
+									'owner'			=>	$request->owner,
+									'consulta_id'	=>	$request->consulta_id,
+								]);
+			$archivoConsulta	=	ArchivoConsulta::find($archivoConsulta->id);	
+			$fecha	=	explode('-', $archivoConsulta->fecha);
+			$fecha	=	$fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+			$archivoConsulta->fecha	=	$fecha;
+			$archivoConsulta->file	=	$filename;
+			$response	=	array(
+								'data'	=>	$archivoConsulta
+							);
+		} catch (\Exception $e) {
+			$response['code']	=	404;
+			$response['message']	=	$e->getMessage();
+		}
+		$response	=	Response::json($response, 201);
+		return $response;
 	}
 }

@@ -273,8 +273,8 @@
 									placeholder="En calorías" 
 									maxlength="6" 
 									min="0" 
-									(keyup)="_analisis()"
-									(change)="_analisis()"
+									(keyup)="_analisis_new(dieta)"
+									(change)="_analisis_new(dieta)"
 									(keypress)="helpers.onlyIntNegPos($event)"
 									[(ngModel)]="dieta.variacion_calorica"
 								>
@@ -282,33 +282,33 @@
 							</div>
 						</div>
 					</div>
-			
-				
-				
-				
-			</div>
-			<div class="form-group col-md-offset-1 col-md-5">
-				<div class="ingesta-calorica col-sm-6">
-					<i></i>
-					Ingesta Cal&oacute;rica Recomendada
 				</div>
-				<div class="ingesta-calorica-recomendada with-cicle col-sm-6">
-					<div class="inner">
-						<i>
-							<strong>
-								{{ _ingesta_calorica_recomendada | number : '1.0-0'}}
-								<span>Kcal</span>							
-							</strong>						
-						</i>
+				<div class="form-group col-md-offset-1 col-md-5">
+					<div class="ingesta-calorica col-sm-6">
+						<i></i>
+						Ingesta Cal&oacute;rica Recomendada
+					</div>
+					<div class="ingesta-calorica-recomendada with-cicle col-sm-6">
+						<div class="inner">
+							<i>
+								<!--<strong>
+									{{ _ingesta_calorica_recomendada | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>-->
+								<strong>
+									{{ dieta.ingesta_calorica_recomendada | number : '1.0-0'}}
+									<span>Kcal</span>							
+								</strong>
+							</i>
+						</div>
 					</div>
 				</div>
-			</div>
 		  </div>
 		  </ng-template>
 		  
 			<div class="container-form">
 				<div class="actions">
-					<a [ngClass]="{'form-close objetivos':nuevo, 'form-open': !nuevo }" (click)="addNewDieta()" href="javascript:void(0)"><i></i>Añadir Nuevo</a>
+					<a [ngClass]="{'form-close objetivos':nuevo, 'form-open': !nuevo }" (click)="addNewDieta()" href="javascript:void(0)"><i></i>Añadir Nueva</a>
 				</div>	
 			</div>
 		  
@@ -381,15 +381,27 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr *ngFor="let historia of historial">
-							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
-							<td>{{historia.promedio_gc_diario | number : '1.0-0'}} Kcal</td>
-							<td>{{historia.tmb | number : '1.0-0'}} Kcal</td>
-							<td>{{historia.gc_real | number : '1.0-0'}}</td>
-							<td>{{historia.variacion_calorica | number : '1.0-0'}} Kcal</td>
-							<td>{{historia.gc_recomendado | number : '1.0-0'}} Kcal</td>
-						</tr>
+<ng-template ngFor let-historia [ngForOf]= "historial" let-j="index">
+					<tr>
+						<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+						<td>{{historia.promedio_gc_diario | number : '1.0-0'}} Kcal</td>
+						<td>{{historia.tmb | number : '1.0-0'}} Kcal</td>
+						<td>{{historia.gc_real | number : '1.0-0'}}</td>
+						<td class="dietas" colspan="2">
+	<ng-template [ngIf]="historia.gc_recomendado">
+							<table class="table intern">
+		<ng-template ngFor let-dieta [ngForOf]= "historia.gc_recomendado" let-i="index">
+								<tr>
+									<td>{{dieta.nombre}} - {{dieta.variacion_calorica | number : '1.0-2'}} Kcal</td>
+									<td>{{dieta.ingesta_calorica_recomendada | number : '1.0-2'}} Kcal</td>
+								</tr>
+		</ng-template>
+							</table>
+	</ng-template>
+						</td>
+					</tr>
 						
+</ng-template>
 					</tbody>
 				</table>
 			</div>

@@ -9,6 +9,9 @@ use App\PatronMenuEjemplo;
 use App\TiempoComida;
 use App\Consulta;
 use App\Paciente;
+use App\Prescripcion;
+use App\DetalleDescripcion;
+use App\OtrosAlimento;
 use App\Helper;
 use App\Dieta;
 use DB;
@@ -116,7 +119,29 @@ class DietaController extends Controller
 						
 			}	
 		}
-		$response	=	Response::json($datos, 200, [], JSON_NUMERIC_CHECK);
+		
+		$items	=	array();
+		$patronMenu	=	PatronMenu::where('dieta_id', $request->dieta_id)
+									->get();
+		if(count($patronMenu)>0)
+			$items['patron_menu']	=	$patronMenu->toArray();
+
+		$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
+									->where('dieta_id',$request->dieta_id)
+									->orderBy('tiempo_comida_id', 'ASC')
+									->get();
+
+		if(count($patronMenuEjemplos)>0)
+			$items['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
+				
+				
+		$result	=	array(
+						'dieta_id'	=>	$request->dieta_id,
+						'items'	=>	$items
+					);
+		
+		/*$response	=	Response::json($datos, 200, [], JSON_NUMERIC_CHECK);*/
+		$response	=	Response::json($result, 200, [], JSON_NUMERIC_CHECK);
 		return $response;		
     }
 
@@ -315,10 +340,65 @@ class DietaController extends Controller
 					'consulta_id'			=>	$request->consulta_id
 				]);
 			}
-		}	
+		}
+		
+		$registros	=	array();
+		$aDietas	=	array();
+		$dietas		=	Dieta::where('consulta_id', $request->consulta_id)
+										->get();
+
+		/*return Helper::printResponse($dietas);*/
+		if(count($dietas)>0){
+			foreach($dietas as $dieta){
+				$items	=	array();
+				$items['dieta_id']	=	$dieta->id;
+				$items['nombre']	=	$dieta->nombre;
+				$items['variacion_calorica']	=	$dieta->variacion_calorica;
+				$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
+									->get()
+									->first();
+				
+				if(count($prescripcion)>0){
+					$items['prescripcion']	=	$prescripcion->toArray();
+					$detalleDescripcion	=	DB::table('detalle_prescripcion')
+												->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+												->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
+												->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+												->get();
+					if(count($detalleDescripcion)>0){
+						$items['prescripcion']['items']	=	$detalleDescripcion->toArray();
+					}
+					$items['prescripcion']['otros']	=	array();
+					$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
+													->get();
+					if(count($otrosAlimento)>0){
+						$items['prescripcion']['otros']	=	$otrosAlimento->toArray();
+					}
+				}
+				$patronMenu	=	PatronMenu::where('dieta_id', $dieta->id)
+									->get();
+				if(count($patronMenu)>0)
+					$items['patron_menu']	=	$patronMenu->toArray();
+					
+		//										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+				$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
+											->where('dieta_id',$dieta->id)
+											->orderBy('tiempo_comida_id', 'ASC')
+											->get();
+
+				if(count($patronMenuEjemplos)>0)
+					$items['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
+
+				if(count($items)>0)
+				$registros['dieta'][]	=	$items;
+
+			}
+		}
+		
 		$message	=	array(
 							'code'		=> '201',
-							'message'	=> 'Se ha registrado correctamente'
+							'message'	=> 'Se ha registrado correctamente',
+							'dietas'	=>	$registros['dieta']
 						);
 		$response	=	Response::json($message, 201);
 		return $response;

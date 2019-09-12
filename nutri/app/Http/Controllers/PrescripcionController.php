@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use App\GrupoAlimentoNutricionista;
 use App\Prescripcion;
 use App\DetalleDescripcion;
 use App\PatronMenu;
@@ -27,7 +28,9 @@ class PrescripcionController extends Controller
 							->first();
 		/*$response	=	Response::json($prescripcion, 200, [], JSON_NUMERIC_CHECK);
 		return $response;*/
+		$operacion	=	'';
 		if($prescripcion){
+			$operacion	=	'update';
 			$prescripcion->carbohidratos				=	$request->carbohidratos;
 			$prescripcion->proteinas						=	$request->proteinas;
 			$prescripcion->grasas		=	$request->grasas;
@@ -48,6 +51,7 @@ class PrescripcionController extends Controller
 				$detalleDescripcion->save();
 			}
 		}else{
+			$operacion	=	'Nuevo';
 			/*$prescripcion	=	new Prescripcion(
 						array(
 							'carbohidratos'				=>	$request->carbohidratos, 
@@ -80,6 +84,7 @@ class PrescripcionController extends Controller
 		}		
 		$message	=	'Su Consulta ha sido añadida de modo correcto';
 		$response	=	Response::json([
+			'operacion'	=>	$operacion,
 			'message'	=>	$message,
 			'data'		=>	$prescripcion
 		], 201);
@@ -174,10 +179,14 @@ class PrescripcionController extends Controller
 							->join('consultas', 'consultas.id', '=', 'dietas.consulta_id')
 							->where('consultas.paciente_id', $id)
 							->where('consultas.estado', 1)
-							->select('dietas.id', 'dietas.nombre', 'dietas.variacion_calorica', 'dietas.consulta_id as dieta_consulta_id', 'prescripcions.id', 'consultas.id as consulta_id',  'consultas.fecha', 'prescripcions.carbohidratos', 'prescripcions.proteinas', 'prescripcions.grasas')
+							->select('dietas.id as dieta_id', 'dietas.nombre as dieta_nombre', 'dietas.variacion_calorica', 
+									'dietas.consulta_id as dieta_consulta_id', 
+									'prescripcions.id', 
+									'consultas.id as consulta_id',  'consultas.fecha',  'consultas.notas', 'prescripcions.carbohidratos', 'prescripcions.proteinas', 'prescripcions.grasas')
 							->orderBy('consultas.fecha', 'DESC')
+							->orderBy('dietas.id', 'ASC')
 							->get();
-
+		/*Helper::_print($prescripcions);exit;*/
 		if(count($prescripcions)>0){
 			foreach($prescripcions as $prescripcion){
 				$detalle_prescripcion	=	DB::table('detalle_prescripcion')
@@ -226,7 +235,12 @@ class PrescripcionController extends Controller
 						$prescripcion->patron_menu	=	$tiempo_comidas;
 					}
 				}
-				$registros[]	=	$prescripcion;
+				/*$registros[]	=	$prescripcion;*/
+				/*$registros[$prescripcion->dieta_id]	=	$prescripcion;*/
+				$registros[$prescripcion->consulta_id]['consulta_id']	=	$prescripcion->dieta_consulta_id;
+				$registros[$prescripcion->consulta_id]['consulta_fecha']	=	$prescripcion->fecha;
+				$registros[$prescripcion->consulta_id]['consulta_notas']	=	$prescripcion->notas;
+				$registros[$prescripcion->consulta_id]['dietas'][]	=	$prescripcion;
 			}
 		}	
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
@@ -236,7 +250,8 @@ class PrescripcionController extends Controller
     {
 		$registros = [];
 		$prescripcions = DB::table('prescripcions')
-            ->join('consultas', 'consultas.id', '=', 'prescripcions.consulta_id')
+            ->join('dietas', 'dietas.id', '=', 'prescripcions.dieta_id')
+            ->join('consultas', 'consultas.id', '=', 'dietas.consulta_id')
             ->where('consultas.paciente_id', $id)
             ->where('consultas.estado', 1)
             ->select('prescripcions.id', 'consultas.id as consulta_id',  'consultas.fecha', 'prescripcions.carbohidratos', 'prescripcions.proteinas', 'prescripcions.grasas')
@@ -247,16 +262,49 @@ class PrescripcionController extends Controller
 		if(count($prescripcions)>0){
 			$prescripcion	=	$prescripcions;
 			$detalle_prescripcion	=	DB::table('detalle_prescripcion')
-											->join('prescripcions', 'prescripcions.id', '=', 'detalle_prescripcion.prescripcion_id')
-											->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
-											->where('prescripcions.id', $prescripcion->id)
-											->get();
-
+										->join('prescripcions', 'prescripcions.id', '=', 'detalle_prescripcion.prescripcion_id')
+										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+										->where('prescripcions.id', $prescripcion->id)
+										->get();
+/*Helper::_print($detalle_prescripcion->toArray());/*exit;*/
 			if(count($detalle_prescripcion)>0){
+				$gan	=	GrupoAlimentoNutricionista::all();
+				
+				$_new_detalle_prescripcion	=	array();
+				$aDetalle_prescripcion	=	$detalle_prescripcion->toArray();
+/*
+ [0] => stdClass Object
+        (
+            [id] => 1
+            [prescripcion_id] => 3753
+            [grupo_alimento_nutricionista_id] => 1
+            [porciones] => 1.00
+            [carbohidratos] => 0.00
+            [proteinas] => 0.00
+            [grasas] => 0.00
+            [dieta_id] => 6003
+            [nombre] => Leche Descremada
+        )
+*/
+				foreach($gan as $gan_key=>$gan_item){
+					$_row	=	array();
+					$_row['nombre']	=	$gan_item['nombre'];
+					$_row['grupo_alimento_nutricionista_id']	=	$gan_item['id'];
+					$_row['porciones']	=	0;
+					$found_key	=	array_search($gan_item['id'], array_column($aDetalle_prescripcion, 'grupo_alimento_nutricionista_id'));
+					/*Helper::_print('$aDetalle_prescripcion[' . $found_key . ']');
+					Helper::_print($aDetalle_prescripcion[$found_key]);*/
+					if($found_key>-1){
+						$_row['porciones']	=	$aDetalle_prescripcion[$found_key]->porciones;
+					}
+					$_new_detalle_prescripcion[]	=	(object) $_row;
+				}
+				/*Helper::_print($_new_detalle_prescripcion);*/
+				
 				$items	=	[];
 				$leches	=	0;
 				$carnes	=	0;
-				foreach($detalle_prescripcion as $item){
+				foreach($_new_detalle_prescripcion as $key=>$item){
 					if( in_array( $item->grupo_alimento_nutricionista_id, array( 1,2,3,7,8,9) ) ){
 						if( in_array( $item->grupo_alimento_nutricionista_id, array(1,2,3) ) )
 							$leches	+=	$item->porciones;
@@ -283,26 +331,32 @@ class PrescripcionController extends Controller
     }
 	public function copy(Request $request){
 		$consulta_id		=	$request->consulta_id;
+		$dieta_id			=	$request->dieta_id;
 		$prescripcion_id	=	$request->prescripcion_id;
 		$result['prescripcion_id']		=	$prescripcion_id;
 		$result['consulta_id']			=	$consulta_id;
+		$result['dieta_id']			=	$dieta_id;
 	/*public function copy($prescripcion_id, $consulta_id){*/
 		/*$response	=	Response::json($request, 200, [], JSON_NUMERIC_CHECK);
 		return $response;*/
 		
 		/*DB::beginTransaction();*/
+/*
+prescripcion_id	3756
+consulta_id	6006
+dieta_id	3756
+*/
 		try {
 			/*	Borrar si existe prescripcion, patronmenu para esta consulta	*/
-			$current_prescripcion	=	Prescripcion::where('consulta_id', $consulta_id)->first();
-			/*print_r($current_prescripcion->id);*/
-			if($current_prescripcion){
+			$current_prescripcion	=	Prescripcion::find($prescripcion_id);
+/*			if($current_prescripcion){
 				$deletedRows 			=	DetalleDescripcion::where('prescripcion_id', $current_prescripcion->id)->delete();
 				$deletedRows 			=	Prescripcion::find($current_prescripcion->id)->delete();
 			}
 
-			$deletedRows 			=	PatronMenuEjemplo::where('consulta_id', $consulta_id)->delete();
-			$deletedRows 			=	PatronMenu::where('consulta_id',  $consulta_id)->delete();
-			
+			$deletedRows 			=	PatronMenuEjemplo::where('dieta_id', $dieta_id)->delete();
+			$deletedRows 			=	PatronMenu::where('dieta_id',  $dieta_id)->delete();
+*/
 			$prescripcion					=	Prescripcion::find($prescripcion_id);
 			$result['prescripcion']			=	$prescripcion;
 		
@@ -310,11 +364,12 @@ class PrescripcionController extends Controller
 															'carbohidratos'	=>	$prescripcion->carbohidratos, 
 															'proteinas'		=>	$prescripcion->proteinas, 
 															'grasas'		=>	$prescripcion->grasas, 
-															'consulta_id'	=>	$consulta_id
+															'dieta_id'	=>	$dieta_id
 														) );
-			$new_prescripcion->save();
+			$new_prescripcion->save();			
 			$result['new_prescripcion']		=	$new_prescripcion;
-			$detalle_prescripcion			=	DetalleDescripcion::where('prescripcion_id', $prescripcion->id)
+			
+			$detalle_prescripcion			=	DetalleDescripcion::where('prescripcion_id', $current_prescripcion->id)
 												->get();
 			$result['detalle_prescripcion']	=	$detalle_prescripcion;
 			
@@ -333,14 +388,15 @@ class PrescripcionController extends Controller
 				}
 			}
 			/*print_r($new_detalleDescripcion);exit;*/
-			$patron_menu					=	PatronMenu::where('consulta_id', $prescripcion->consulta_id)
+			/*$patron_menu					=	PatronMenu::where('consulta_id', $prescripcion->consulta_id)*/
+			$patron_menu					=	PatronMenu::where('dieta_id', $current_prescripcion->dieta_id)
 												->get();
 			$result['Patron_menu']			=	$patron_menu;
 
 			if($patron_menu){
 				foreach($patron_menu as $key=>$item){				
 						$new_patronMenu	=	PatronMenu::create([
-											'consulta_id'						=>	$consulta_id,
+											'dieta_id'						=>	$dieta_id,
 											'tiempo_comida_id'					=>	$item['tiempo_comida_id'],
 											'grupo_alimento_nutricionista_id'	=>	$item['grupo_alimento_nutricionista_id'],
 											'porciones'							=>	$item['porciones']
@@ -348,7 +404,7 @@ class PrescripcionController extends Controller
 						$new_patronMenu->save();							
 				}
 			}				
-			$patron_menu_ejemplo			=	PatronMenuEjemplo::where('consulta_id', $prescripcion->consulta_id)
+			$patron_menu_ejemplo			=	PatronMenuEjemplo::where('dieta_id', $dieta_id)
 												->get();
 			$result['Patron_menu_ejemplo']	=	$patron_menu_ejemplo;
 
@@ -356,7 +412,7 @@ class PrescripcionController extends Controller
 				
 				foreach($patron_menu_ejemplo as $key=>$item){
 					$new_patronMenuEjemplo	=	PatronMenuEjemplo::create([
-										'consulta_id'		=>	$consulta_id,
+										'dieta_id'		=>	$dieta_id,
 										'tiempo_comida_id'	=>	$item['tiempo_comida_id'],
 										'ejemplo'			=>	$item['ejemplo']
 									]);
