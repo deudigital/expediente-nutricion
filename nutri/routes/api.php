@@ -42,6 +42,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('agenda/servicios/{nutricionista_id}', 'AgendaController@selectServicios');
 	Route::get('consultas/{id}/resumen/{mode}', 'ConsultaController@testResumen');
 	Route::get('consultas/patronmenu/duplicados', 'PatronMenuController@duplicados');
+	Route::get('consultas/patronmenu/testing', 'PatronMenuController@FixUpdateDietasVariacionCalorica');
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 	Route::get('patronmenu/paciente/{id}', 'DietaController@patronmenuBelongsToPaciente');
 	
@@ -49,7 +50,8 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
 	Route::get('consultas/nutricionista/{id}/pendientes/', 'ConsultaController@pendientes');
 });
-Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){
+/*Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){*/
+Route::group(['middleware' => ['cors'], 'prefix' => 'v1'], function(){
 	Route::get('form/data', 'FormController@dataform');
 	Route::get('graphics/{method}/{indicator}/{id}', 'GraphicController@getIndicators');
 	
@@ -149,6 +151,8 @@ Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(
 	Route::post('consultas/otrosmultiple', 'OtrosAlimentoController@storemultiple');
 	Route::post('consultas/{id}/delete', 'ConsultaController@destroy');
 	Route::post('otrosalimentos/{id}/delete', 'OtrosAlimentoController@destroy');
+
+	Route::post('consultas/archivos', 'ConsultaController@archivos');
 
 	Route::get('pacientes/{id}/patologiashcp', 'PacienteController@patologiashcp');
 	Route::post('pacientes/hcpotros', 'PacienteController@hcpOtros');

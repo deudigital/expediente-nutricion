@@ -79,13 +79,18 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a,
 .content-nav .list-group > li.valoracion > a > i {background-position: -366px -183px;width: 46px;	height: 46px;}
 .content-nav .list-group > li.recomendacion > a > i {background-position: -425px -183px;	width: 46px;height: 46px;}
 .content-nav .list-group > li.dieta > a > i {background-position: -482px -183px;	width: 46px;height: 46px;}
-.content-nav .list-group > li.notas > a > i {background-position: -337px -913px;	width: 46px;height: 46px;}
+/*.content-nav .list-group > li.notas > a > i {background-position: -337px -913px;	width: 46px;height: 46px;}*/
+.content-nav .list-group > li.notas > a > i {
+	background-position: -337px -919px;
+	width: 45px;
+	height: 44px;
+}
 .content-nav .list-group > li.valoracion > a.active > i {background-position: -366px -238px;	width: 45px;height: 46px;}
 .content-nav .list-group > li.recomendacion > a.active > i {background-position: -425px -238px;	width: 45px;height: 46px;}
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a > i,
 .content-nav .list-group > li.dieta > a.active > i {background-position: -482px -238px;	width: 45px;height: 46px;}
 body.menu-parent-notas .content-nav .list-group > li.notas > a > i,
-.content-nav .list-group > li.notas > a.active > i {background-position: -337px -973px;	width: 45px;height: 46px;}
+.content-nav .list-group > li.notas > a.active > i {background-position: -337px -975px;	width: 45px;height: 45px;}
 .content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;right: -5px;}
 .content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;}
 .content-nav .list-group > li.personales > a > i {background-position: 0 -183px;width: 44px;height: 46px;}
@@ -229,8 +234,17 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .links .box a figure.main-nuevo{}
 .main .links .box a figure.main-nuevo i {background-position: 0 -552px;width: 48px;height: 55px;}
 .main .links .box a:hover figure.main-nuevo i{background-position:0 -623px;}
-.main .links .box a figure.main-agenda i {background-position: -56px -551px;width: 58px;height: 59px;}
-.main .links .box a:hover figure.main-agenda i{background-position:-56px -623px;}
+
+.main .links .box a figure.main-agenda i {
+	background-position: -39px -385px;
+	width: 41px;
+	height: 43px;
+}
+.main .links .box a:hover figure.main-agenda i{background-position:-39px -434px;}
+@media(min-width:550px){
+	.main .links .box a figure.main-agenda i {background-position: -56px -551px;width: 58px;height: 59px;}
+	.main .links .box a:hover figure.main-agenda i{background-position:-56px -623px;}
+}
 .main .links .box a figure.main-control i {background-position: -129px -552px;width: 69px;height: 55px;}
 .main .links .box a:hover figure.main-control i{background-position:-129px -623px;}
 /***************************/
@@ -291,8 +305,11 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 .esc-modal .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
 .esc-modal .table tr.detalle_prescripcion:nth-child(2n) > td {background-color: #9b9b9b;border-color: #9b9b9b !important;}
 .esc-modal .table tr.detalle_prescripcion:nth-child(2n+1) > td {background-color: #b8b8b8;border-color: #b8b8b8 !important;}
-.expand-patron-menu {position: absolute;left: -9px;z-index: 1000;width: 20px;height: 17px;display: block;}
-.esc-modalbox .expand-patron-menu i {background-position: -531px -528px;width: 17px;height: 15px;	display: block;top: 0;}
+.expand-patron-menu,
+.expand-dieta {position: absolute;left: -9px;z-index: 1000;width: 20px;height: 17px;display: block;}
+.esc-modalbox .expand-patron-menu i ,
+.esc-modalbox .expand-dieta i {background-position: -531px -528px;width: 17px;height: 15px;	display: block;top: 0;}
+.expand-dieta.open i,
 .expand-patron-menu.open i{background-position: -531px -506px;}
 .select-ubicacion select {margin-bottom: 15px;}
 .esc-grafico-boxes > div:not(.active) {/*display: none;*/visibility: hidden;position:absolute;}
@@ -303,10 +320,12 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 
 
 .navigation-dietas-tab {background-color: #e0e0e0;border-radius: 14px 13px 0 0;}
-.navigation-dietas-tab > li:not(:first-child){border-left:1px solid #999}
+/*.navigation-dietas-tab > li:not(:first-child){border-left:1px solid #999}*/
+.navigation-dietas-tab > li {position: relative;}
 .navigation-dietas-tab > li > a{color:#999;font-size:1.25em}
 .navigation-dietas-tab > li.active > a{color:#000;font-weight:700;}
 
+.navigation-dietas-tab > li:not(:first-child):before {content: "";position: absolute;left: 0;width: 1px;background-color: #999;height: 20px;top: 10px;}
 
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
@@ -389,7 +408,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group:not(.consulta):nth-child(3) > li{margin-top:0}
 	.content-nav h3 {text-align: center;margin-right: 0;}
 	.content-nav .list-group.consulta {text-align: center;max-width: 350px;margin: auto auto 20px;}
-	.content-nav .list-group.consulta > li {width: 32%;display: inline-block;text-align: center;padding:0;}
+	.content-nav .list-group.consulta > li {width: 24%;display: inline-block;text-align: center;padding:0;}
 	.content-nav .list-group.consulta > li > a {display: inline-block;}
 	.content-nav .list-group.consulta > li > a > i{right:0}
 	.content-nav .list-group.consulta > li > a > span {display: none;}
@@ -397,6 +416,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group:not(.consulta) > li:not(:last-child) > a:after {width: 70px;height: 5px;left: 100%;border-top: 3px dotted #acacac;}
 	.content-nav .board-inner.control .current-menu{margin-top:0}
 	.actions > a.button-copy {position: absolute !important;left: 50% !important;top: 6px !important;}
+	
 }
 @media(max-width:600px){
 	body.page-inicio .container-logo img{max-width:50%}
