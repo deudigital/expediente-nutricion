@@ -11,22 +11,20 @@
 		</div>
 		<div class="col-sm-9 content-form">			
 			<section>
-				<app-dieta-nav></app-dieta-nav>
-					<header class="visible-xs">
+					<header>
 						<h4>Notas</h4>
 					</header>
-					
 					<div class="row">
 						<div class="buttons">
 							<button class="btn btn-default" 
 								[disabled]="disableButtonHistorial"
 								(click)="showModal('notas')" 
-								>Ver Historial Notas</button>
+								>Ver Historial Notas de Nutricionista</button>
 						</div>
 					</div>
 				<div class="form-group">
 					
-					<label for="dieta_notas">Notas finales de la consulta</label>
+					<label for="dieta_notas">Notas finales</label>
 					<textarea 
 						id="dieta_notas"
 						name="dieta_notas"
@@ -36,6 +34,80 @@
 						[(ngModel)]="consulta.notas"
 					></textarea>
 				</div>
+				<ng-template [ngIf]="archivos">
+					<ul class="lista-examen notas navbar">
+				<ng-template ngFor let-item_archivo [ngForOf]= "archivos">
+					<ng-template [ngIf]="item_archivo.owner=='nutricionista'">
+						<li>
+							<a href="{{item_archivo.filename}}" target="_blank">
+								<i></i>
+								<span>{{item_archivo.fecha}}</span>
+							</a>
+						</li>
+					</ng-template>
+				</ng-template>
+					</ul>					
+				</ng-template>
+				<div class="container-form container-fluid">
+						<div class="actions">
+							<label for="archivo" class="form-open"><i></i>Añadir Archivo</label>
+						</div>
+						<form #uploadForm="ngForm" (ngSubmit)="onSubmit('nutricionista')" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<input style="visibility:hidden" type="file" #fileupload id="archivo" name="archivo" (change)="fileChange($event, 'nutricionista')"/>
+								<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
+							</div>
+						</form>
+					</div>
+			</section>		
+			<section>
+					<header>
+						<h4>Notas para el Paciente</h4>
+					</header>			
+					<div class="row">
+						<div class="buttons">
+							<button class="btn btn-default" 
+								[disabled]="disableButtonHistorial"
+								(click)="showModal('notas_paciente')" 
+								>Ver Historial Notas para el Paciente</button>
+						</div>
+					</div>
+				<div class="form-group">					
+					<label for="dieta_notas">Notas finales</label>
+					<textarea 
+						id="dieta_notas"
+						name="dieta_notas_paciente"
+						class="form-control" 
+						rows="5"						
+						maxlength="1000" 
+						[(ngModel)]="consulta.notas_paciente"
+					></textarea>
+				</div>
+				<ng-template [ngIf]="archivos">
+					<ul class="lista-examen notas navbar">
+				<ng-template ngFor let-item_archivo [ngForOf]= "archivos">
+					<ng-template [ngIf]="item_archivo.owner=='paciente'">
+						<li>
+							<a href="{{item_archivo.filename}}" target="_blank">
+								<i></i>
+								<span>{{item_archivo.fecha}}</span>
+							</a>
+						</li>
+					</ng-template>
+				</ng-template>
+					</ul>					
+				</ng-template>
+				<div class="container-form container-fluid">
+						<div class="actions">
+							<label for="archivo1" class="form-open"><i></i>Añadir Archivo</label>
+						</div>
+						<form #uploadForm1="ngForm" (ngSubmit)="onSubmit('paciente')" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<input style="visibility:hidden" type="file" #fileupload1 id="archivo1" name="archivo1" (change)="fileChange($event, 'paciente')"/>
+								<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
+							</div>
+						</form>
+					</div>
 			</section>
 			
 			<div class="buttons-navigation">
@@ -74,7 +146,8 @@
 	<a class="modal-close" (click)="hideModal('notas')"><i></i></a>
 	<div class="body">
 		<header class="text-center">
-			<h4>Historial Notas de Consultas</h4>
+			<h4 *ngIf="!showHistorialPaciente">Historial Notas de Consultas</h4>
+			<h4 *ngIf="showHistorialPaciente">Historial Notas para Paciente</h4>
 		</header>
 			<div class="table-responsive">
 				<table class="table separate table-mobile historial notas">
@@ -82,13 +155,43 @@
 						<tr>
 							<th width="100">Fecha</th>
 							<th>Notas</th>
+							<th>Archivos</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr *ngFor="let historia of historialNotas">
+<ng-template ngFor let-historia [ngForOf]= "historialNotas">
+	<ng-template [ngIf]="historia.notas.length>0 || historia.notas_paciente.length>0">
+						<tr><!-- *ngFor="let historia of historialNotas">-->
 							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
-							<td>{{historia.notas}}</td>
+							<td>
+								<span *ngIf="!showHistorialPaciente">{{historia.notas}}</span>
+								<span *ngIf="showHistorialPaciente">{{historia.notas_paciente}}</span>
+							</td>
+							<td>
+								<ng-template [ngIf]="historia.archivos">
+									<ul class="lista-examen navbar">
+									<ng-template ngFor let-item [ngForOf]= "historia.archivos">
+										<ng-template [ngIf]="item.owner=='nutricionista'">
+										<li *ngIf="!showHistorialPaciente">
+											<a href="{{item.filename}}" target="_blank">
+												<i></i>
+											</a>
+										</li>
+										</ng-template>
+										<ng-template [ngIf]="item.owner=='paciente'">
+										<li *ngIf="showHistorialPaciente">
+											<a href="{{item.filename}}" target="_blank">
+												<i></i>
+											</a>
+										</li>
+										</ng-template>
+									</ng-template>
+									</ul>					
+								</ng-template>
+							</td>
 						</tr>
+	</ng-template>
+</ng-template>
 					</tbody>
 				</table>
 			</div>

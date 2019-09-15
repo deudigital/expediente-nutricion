@@ -4,7 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
   production: false,
-  baseUrl: 	'http://dev.expediente.nutricion.co.cr',
-  loginUrl: 'http://dev.expediente.nutricion.co.cr/nutri/public/api/web/',
-  apiUrl: 	'http://dev.expediente.nutricion.co.cr/nutri/public/api/v1/'
+  baseUrl: 	'http://127.0.0.1:8000/',
+  loginUrl: 'http://127.0.0.1:8000/api/web/',
+  apiUrl: 	'http://127.0.0.1:8000/api/v1/',
 };

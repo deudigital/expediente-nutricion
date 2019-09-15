@@ -69,6 +69,7 @@ i{background: url(../images/sprite@2x.png) no-repeat 0 0 transparent;background-
 .content-nav .list-group > li:not(:last-child) > a:after {position: absolute;display: block;content: "";}
 .content-nav .list-group > li > a {padding-right: 50px;position: relative;display: block;outline:0;text-decoration:none;color:#000;}
 body.menu-parent-hcp .content-nav .list-group > li.hcp > a, 
+body.menu-parent-notas .content-nav .list-group > li.notas > a, 
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a, 
 body.menu-parent-habito .content-nav .list-group > li.habito > a, 
 .content-nav .list-group > li > a:hover,
@@ -78,10 +79,17 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a,
 .content-nav .list-group > li.valoracion > a > i {background-position: -366px -183px;width: 46px;	height: 46px;}
 .content-nav .list-group > li.recomendacion > a > i {background-position: -425px -183px;	width: 46px;height: 46px;}
 .content-nav .list-group > li.dieta > a > i {background-position: -482px -183px;	width: 46px;height: 46px;}
+.content-nav .list-group > li.notas > a > i {
+	background-position: -337px -919px;
+	width: 45px;
+	height: 44px;
+}
 .content-nav .list-group > li.valoracion > a.active > i {background-position: -366px -238px;	width: 45px;height: 46px;}
 .content-nav .list-group > li.recomendacion > a.active > i {background-position: -425px -238px;	width: 45px;height: 46px;}
 body.menu-parent-dieta .content-nav .list-group > li.dieta > a > i,
 .content-nav .list-group > li.dieta > a.active > i {background-position: -482px -238px;	width: 45px;height: 46px;}
+body.menu-parent-notas .content-nav .list-group > li.notas > a > i,
+.content-nav .list-group > li.notas > a.active > i {background-position: -337px -975px;	width: 45px;height: 45px;}
 .content-nav .list-group > li.datos-paciente > a > i {background-position: 0 0;width: 16px;	height: 16px;	margin-top: 0;	top: inherit;right: -5px;}
 .content-nav .list-group > li.datos-paciente.opened > a > i { background-position: -470px 0;}
 .content-nav .list-group > li.personales > a > i {background-position: 0 -183px;width: 44px;height: 46px;}
@@ -224,11 +232,27 @@ body.menu-parent-habito .content-nav .list-group > li.habito > a > i ,
 .main .links .box a:hover figure:before {background-color: #7fb831;}
 .main .links .box a figure.main-nuevo{}
 .main .links .box a figure.main-nuevo i {background-position: 0 -552px;width: 48px;height: 55px;}
+/*
 .main .links .box a:hover figure.main-nuevo i{background-position:0 -623px;}
 .main .links .box a figure.main-agenda i {background-position: -56px -551px;width: 58px;height: 59px;}
 .main .links .box a:hover figure.main-agenda i{background-position:-56px -623px;}
 .main .links .box a figure.main-control i {background-position: -129px -552px;width: 69px;height: 55px;}
 .main .links .box a:hover figure.main-control i{background-position:-129px -623px;}
+*/
+
+.main .links .box a figure.main-agenda i {
+	background-position: -39px -385px;
+	width: 41px;
+	height: 43px;
+}
+.main .links .box a:hover figure.main-agenda i{background-position:-39px -434px;}
+@media(min-width:550px){
+	.main .links .box a figure.main-agenda i {background-position: -56px -551px;width: 58px;height: 59px;}
+	.main .links .box a:hover figure.main-agenda i{background-position:-56px -623px;}
+}
+.main .links .box a figure.main-control i {background-position: -129px -552px;width: 69px;height: 55px;}
+.main .links .box a:hover figure.main-control i{background-position:-129px -623px;}
+
 /***************************/
 .searching {background-position: -212px -545px;display: inline-block;max-width:100%;width: 353px;height: 78px;margin-bottom:15px}
 /***************************/
@@ -296,6 +320,9 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 .esc-grafico-children-by-indicator > div:not(.active) {visibility: hidden;position:absolute;}
 .content-form .analisis > .box{width:50%;}
 .loading-graphic{margin:25px}
+
+.lista-examen.notas{padding: 0;}
+.lista-examen.notas > li {width: 75px;}
 @media(min-width:660px){
 	body.page-inicio .main{padding-top:45px;width:660px;}
 	body.page-inicio .container-logo {margin-bottom: 55px;}
@@ -376,7 +403,7 @@ body.page-inicio .container-logo {margin-bottom: 0;}
 	.content-nav .list-group:not(.consulta):nth-child(3) > li{margin-top:0}
 	.content-nav h3 {text-align: center;margin-right: 0;}
 	.content-nav .list-group.consulta {text-align: center;max-width: 350px;margin: auto auto 20px;}
-	.content-nav .list-group.consulta > li {width: 32%;display: inline-block;text-align: center;padding:0;}
+	.content-nav .list-group.consulta > li {width: 24%;display: inline-block;text-align: center;padding:0;}
 	.content-nav .list-group.consulta > li > a {display: inline-block;}
 	.content-nav .list-group.consulta > li > a > i{right:0}
 	.content-nav .list-group.consulta > li > a > span {display: none;}
