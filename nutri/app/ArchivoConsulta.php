@@ -9,6 +9,7 @@ class ArchivoConsulta extends Model
 	public $timestamps	=	false;
 	protected $fillable = [
         'filename', 
+        'path', 
 		'fecha', 
 		'owner', 
 		'consulta_id'

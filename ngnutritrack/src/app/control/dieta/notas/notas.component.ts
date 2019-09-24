@@ -21,8 +21,12 @@ export class NotasComponent implements OnInit {
 	showModalFactura : boolean=false;
 	showModalPrompt : boolean=false;
 	hidePrompt : boolean=false;
-	historialNotas:any[];
-	disableButtonHistorial:boolean=true;
+	/*historialNotas:any[];*/
+	/*historialNotas:{ [id: string]: any; };*/
+	historialPaciente: any[] = [];
+	historialNutricionista: any[] = [];
+
+	/*disableButtonHistorial:boolean=true;*/
 	currentModal:string;
 	hideModalDatos:boolean=true;
 	showModalDatos:boolean=true;
@@ -163,15 +167,54 @@ export class NotasComponent implements OnInit {
 		this.formControlDataService.select('consulta-paciente', data)
 		.subscribe(
 			 response  => {
-				this.historialNotas		=	response;
-				console.log(this.historialNotas);
-				this.disableButtonHistorial	=	this.historialNotas.length==0;
+				 this.processHistorial(response);
 			},
 			error =>  console.log('_getNotasOfConsulta: ' + <any>error)
 		);
 	}	
 
-
+	processHistorial(historial){
+		var consulta;
+		var found;
+		
+		this.historialPaciente		=	[];
+		this.historialNutricionista	=	[];
+	
+		for(var i =0;i<historial.length;i++){
+			consulta	=	historial[i];
+			found	=	false;
+			if(consulta.archivos){
+				let _found = consulta.archivos.filter(
+									x => x.owner === 'nutricionista'
+								  );
+				if(_found[0])
+					found=true;
+			}
+			if(consulta.notas.length>0 || found){
+				this.historialNutricionista.push(consulta);				
+			}
+			found	=	false;
+			if(consulta.archivos){
+				let _found = consulta.archivos.filter(
+									x => x.owner === 'paciente'
+								  );
+				if(_found[0])
+					found=true;
+			}
+			if(consulta.notas_paciente.length>0 || found){
+				this.historialPaciente.push(consulta);				
+			}
+			
+		}
+		
+			/*this.historialNotas['nutricionista']=	historialNutricionista;
+			this.historialNotas['paciente']		=	historialPaciente;
+			console.log(this.historialNotas);*/
+			/*console.log(this.historialNutricionista);
+			console.log(this.historialPaciente);*/
+			/*this.disableButtonHistorial	=	false;*//*this.historialNotas.length==0;*/
+	}
+	
 /**/
 	
 	fileChange (event, owner) {

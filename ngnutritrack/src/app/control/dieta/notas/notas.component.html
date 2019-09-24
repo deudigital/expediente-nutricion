@@ -12,19 +12,19 @@
 		<div class="col-sm-9 content-form">			
 			<section>
 					<header>
-						<h4>Notas</h4>
+						<h4>Notas para la Nutricionista</h4>
 					</header>
 					<div class="row">
 						<div class="buttons">
 							<button class="btn btn-default" 
-								[disabled]="disableButtonHistorial"
+								[disabled]="historialNutricionista.length==0"
 								(click)="showModal('notas')" 
-								>Ver Historial Notas de Nutricionista</button>
+								>Ver Historial de Notas para Nutricionista</button>
 						</div>
 					</div>
 				<div class="form-group">
 					
-					<label for="dieta_notas">Notas finales</label>
+					<label for="dieta_notas">Notas</label>
 					<textarea 
 						id="dieta_notas"
 						name="dieta_notas"
@@ -67,13 +67,13 @@
 					<div class="row">
 						<div class="buttons">
 							<button class="btn btn-default" 
-								[disabled]="disableButtonHistorial"
+								[disabled]="historialPaciente.length==0"
 								(click)="showModal('notas_paciente')" 
-								>Ver Historial Notas para el Paciente</button>
+								>Ver Historial de Notas para Paciente</button>
 						</div>
 					</div>
 				<div class="form-group">					
-					<label for="dieta_notas">Notas finales</label>
+					<label for="dieta_notas">Notas</label>
 					<textarea 
 						id="dieta_notas"
 						name="dieta_notas_paciente"
@@ -159,39 +159,59 @@
 						</tr>
 					</thead>
 					<tbody>
-<ng-template ngFor let-historia [ngForOf]= "historialNotas">
-	<ng-template [ngIf]="historia.notas.length>0 || historia.notas_paciente.length>0">
-						<tr><!-- *ngFor="let historia of historialNotas">-->
+<ng-template ngFor let-historia [ngForOf]= "historialNutricionista">
+						<tr *ngIf="!showHistorialPaciente">
 							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
 							<td>
-								<span *ngIf="!showHistorialPaciente">{{historia.notas}}</span>
-								<span *ngIf="showHistorialPaciente">{{historia.notas_paciente}}</span>
+								<span>{{historia.notas}}</span>
 							</td>
 							<td>
 								<ng-template [ngIf]="historia.archivos">
 									<ul class="lista-examen navbar">
 									<ng-template ngFor let-item [ngForOf]= "historia.archivos">
-										<ng-template [ngIf]="item.owner=='nutricionista'">
-										<li *ngIf="!showHistorialPaciente">
+										<ng-template [ngIf]="item.owner!='paciente'">
+										<li>
 											<a href="{{item.filename}}" target="_blank">
 												<i></i>
+												<!--{{item.owner}}-->
 											</a>
 										</li>
-										</ng-template>
-										<ng-template [ngIf]="item.owner=='paciente'">
-										<li *ngIf="showHistorialPaciente">
-											<a href="{{item.filename}}" target="_blank">
-												<i></i>
-											</a>
-										</li>
+
 										</ng-template>
 									</ng-template>
 									</ul>					
 								</ng-template>
 							</td>
 						</tr>
-	</ng-template>
 </ng-template>
+<ng-template ngFor let-historia [ngForOf]= "historialPaciente">
+						<tr *ngIf="showHistorialPaciente">
+							<td>{{historia.fecha | date: 'dd/MM/yyyy'}}</td>
+							<td>
+								<span>{{historia.notas_paciente}}</span>
+							</td>
+							<td>
+								<ng-template [ngIf]="historia.archivos">
+									<ul class="lista-examen navbar">
+									<ng-template ngFor let-item [ngForOf]= "historia.archivos">
+									
+										<ng-template [ngIf]="item.owner=='paciente'">
+										<li>
+											<a href="{{item.filename}}" target="_blank">
+												<i></i>
+												<!--{{item.owner}}-->
+											</a>
+										</li>
+
+										</ng-template>
+									</ng-template>
+									</ul>					
+								</ng-template>
+							</td>
+						</tr>						
+</ng-template>
+
+
 					</tbody>
 				</table>
 			</div>

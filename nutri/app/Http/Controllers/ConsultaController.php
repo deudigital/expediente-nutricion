@@ -193,10 +193,10 @@ class ConsultaController extends Controller
 	function belongsToPaciente($id){
 		$registros	=	[];
 		$consultas	=	Consulta::where('paciente_id', $id)
-						/*->where('consultas.estado', 1)*/
+						->where('consultas.estado', 1)
 						->orderBy('consultas.fecha', 'DESC')
 						->get();
-		/*return Helper::printRequest($consultas);*/
+		
 		if(count($consultas)>0){
 			foreach($consultas as $consulta){
 				$items		=	array();
@@ -204,7 +204,7 @@ class ConsultaController extends Controller
 									->get();
 				
 				$consulta->archivos	=	$archivos->toArray();
-				if(strlen($consulta->notas)>0 || strlen($consulta->notas_paciente)>0)
+				if(strlen($consulta->notas)>0 || strlen($consulta->notas_paciente)>0 || count($consulta->archivos)>0)
 					$registros[]	=	$consulta;
 			}
 		}		
@@ -961,6 +961,17 @@ Enviar usuario y contrasena?????? por ahora si...
 
 			$blade['patron_menu']	=	$_tiempo_comidas;		
 		}
+		
+		$archivos_paciente	=	array();
+		$archivos	=	ArchivoConsulta::where('consulta_id', $consulta->id)
+									->get();
+		if(count($archivos)>0){
+			$_archivos	=	$archivos->toArray();
+			foreach($_archivos as $archivo){
+				if($archivo['owner']=='paciente')
+					$archivos_paciente[]	=	$archivo['path'];
+			}
+		}
 /*		$blade['patron_menu']	=	$_tiempo_comidas;*/
 		$nutricionista	=	DB::table('nutricionistas')
 								->join('personas', 'personas.id', 'nutricionistas.persona_id')
@@ -983,6 +994,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$paciente->nutricionista_nombre	=	$nutricionista->nombre;
 		$paciente->nutricionista_email	=	$nutricionista->email;
 		$paciente->consulta_fecha		=	$consulta->fecha;
+		$paciente->attachment			=	$archivos_paciente;
 		$data	=	array(
 							'logo'					=>	$image, 
 							'consulta_id'			=>	$consulta->id, 
@@ -998,6 +1010,9 @@ Enviar usuario y contrasena?????? por ahora si...
 		if(isset($blade['patron_menu']))
 			$data['bpatronmenu']	=	$blade['patron_menu'];
 
+		if( count($archivos_paciente)>0)
+			$data['attach']	=	$archivos_paciente;
+
 		return $data;
 	}
 	
@@ -1011,20 +1026,33 @@ Enviar usuario y contrasena?????? por ahora si...
 
 	}
 	function lastOfPaciente($paciente_id){
-		$registros	=	Consulta::where('paciente_id', $paciente_id)
+		$consulta	=	Consulta::where('paciente_id', $paciente_id)
 						->where('consultas.estado', 1)
 						->select('consultas.*', DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date_epoch'))
 						->orderBy('consultas.fecha', 'DESC')
 						->get()
 						->first();
-
-		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		$archivos_paciente	=	array();
+		if(count($consulta)>0){
+			/*foreach($consultas as $consulta){*/
+				$archivos	=	ArchivoConsulta::where('consulta_id', $consulta->id)
+									->get();
+				$archivos	=	$archivos->toArray();
+				foreach($archivos as $archivo){
+					if($archivo['owner']=='paciente')
+						$archivos_paciente[]	=	$archivo['filename'];
+				}
+			/*}*/
+			$consulta->archivos	=	$archivos_paciente;
+		}
+		$response	=	Response::json($consulta, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
 	}
 	public function sendEmail($data, $test=false){
 		$paciente	=	$data['paciente'];
 		if($test){
-			$paciente->email	=	'danilo@deudigital.com';
+			$paciente->email	=	'inv_jaime@yahoo.com';
+			/*$paciente->email	=	'danilo@deudigital.com';*/
 		}
 		/*Helper::_print($paciente);
 		Helper::_print($data);
@@ -1043,6 +1071,17 @@ Enviar usuario y contrasena?????? por ahora si...
 			$message->from( $paciente->nutricionista_email, $paciente->nutricionista_nombre );
 			$message->bcc($bcc);
 			$message->replyTo( $paciente->nutricionista_email );
+			if($paciente->attachment){
+				foreach($paciente->attachment as $attachment){
+					if(!empty($attachment))
+						$message->attach($attachment);
+				}
+			}
+/*			$message->attach($this->data['document']->getRealPath(),
+                [
+                    'as' => $this->data['document']->getClientOriginalName(),
+                    'mime' => $this->data['document']->getClientMimeType(),
+                ]);	*/
 		});
 	}
 	public function viewEmail($data){
@@ -1052,6 +1091,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$consulta	=	Consulta::find( $consulta_id );
 		if(count($consulta)==0)
 			return Response::json(['message' => 'Record not found'], 204);
+		/*return Response::json($consulta, 200, [], JSON_NUMERIC_CHECK);exit;*/
 		$data	=	$this->prepareData($consulta);
 		switch($mode){
 			case 'view':
@@ -1078,10 +1118,12 @@ Enviar usuario y contrasena?????? por ahora si...
 			$filename_epoc	=	Carbon::now()->timestamp;		
 			$destination	=	public_path('/archivos/' . $request->owner);
 			$filename		=	 $request->owner . '_' . $filename_epoc . '_' . $request->consulta_id . '.' . $file->getClientOriginalExtension();
+			$new_filepath	=	'archivos/' . $request->owner . '/' .  $filename;
 			$new_filename	=	url('/archivos/' . $request->owner) . '/' .  $filename;
 			$file->move($destination, $new_filename);	
 			$archivoConsulta	=	ArchivoConsulta::create([
 									'filename'		=>	$new_filename,
+									'path'			=>	$new_filepath,
 									'fecha'			=>	DB::raw('now()'),
 									'owner'			=>	$request->owner,
 									'consulta_id'	=>	$request->consulta_id,
