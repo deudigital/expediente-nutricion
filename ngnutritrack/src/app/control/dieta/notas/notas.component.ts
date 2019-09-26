@@ -21,12 +21,21 @@ export class NotasComponent implements OnInit {
 	showModalFactura : boolean=false;
 	showModalPrompt : boolean=false;
 	hidePrompt : boolean=false;
-	historialNotas:any[];
-	disableButtonHistorial:boolean=true;
+	/*historialNotas:any[];*/
+	/*historialNotas:{ [id: string]: any; };*/
+	historialPaciente: any[] = [];
+	historialNutricionista: any[] = [];
+
+	/*disableButtonHistorial:boolean=true;*/
 	currentModal:string;
 	hideModalDatos:boolean=true;
 	showModalDatos:boolean=true;
 	
+	showHistorialPaciente:boolean=false;
+	archivo:any;
+	sending:boolean;
+	archivos:any;
+
   constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService) {
 	  this.model	=	formControlDataService.getFormControlData();
 	  this.consulta	=	this.model.getFormConsulta();
@@ -35,7 +44,7 @@ export class NotasComponent implements OnInit {
 
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
-	  this.tagBody.classList.add('menu-parent-dieta');
+	  this.tagBody.classList.add('menu-parent-notas');
 	  this.finalizar	=	false;
 	  this.hidePrompt	=	false;
 	  this.data			=	{'0':''};
@@ -44,17 +53,21 @@ export class NotasComponent implements OnInit {
   }
 	ngOnDestroy() {
 		this.saveForm();
-		this.tagBody.classList.remove('menu-parent-dieta');	
+		this.tagBody.classList.remove('menu-parent-notas');	
 	}
 	setInfoInit(){
 		this.oConsulta.notas				=	this.consulta.notas;
+		this.oConsulta.notas_paciente		=	this.consulta.notas_paciente;
+		this.archivos	=	this.consulta.archivos;
 	}
 	infoEdited(){
 		var notas_changed	=	false;
-		if(this.oConsulta.notas !== this.consulta.notas){
+		if(this.oConsulta.notas !== this.consulta.notas || this.oConsulta.notas_paciente !== this.consulta.notas_paciente){
 			notas_changed	=	true;
 			this.data['notas']	=	[];
-			this.data['notas'][0]	=	this.consulta.notas;
+			/*this.data['notas']['nutricionista']	=	this.consulta.notas;
+			this.data['notas']['paciente']		=	this.consulta.notas_paciente;*/
+			this.data['notas'].push({'nutricionista':this.consulta.notas, 'paciente':this.consulta.notas_paciente});
 		}
 		return notas_changed;
 	}
@@ -122,6 +135,10 @@ export class NotasComponent implements OnInit {
 			case 'notas':
 				this.hideModalDatos	=	true;
 				break;
+			case 'notas_paciente':
+				this.hideModalDatos	=	true;
+				this.showHistorialPaciente	=	false;
+				break;
 			case 'prompt':
 				this.hidePrompt	=	true;
 				break;
@@ -135,6 +152,10 @@ export class NotasComponent implements OnInit {
 			case 'notas':
 				this.hideModalDatos	=	false;
 				break;
+			case 'notas_paciente':
+				this.showHistorialPaciente	=	true;
+				this.hideModalDatos	=	false;
+				break;
 		}
 		this.tagBody.classList.add('open-modal');
 		this.currentModal	=	modal;
@@ -146,10 +167,80 @@ export class NotasComponent implements OnInit {
 		this.formControlDataService.select('consulta-paciente', data)
 		.subscribe(
 			 response  => {
-				this.historialNotas		=	response;
-				this.disableButtonHistorial	=	this.historialNotas.length==0;
+				 this.processHistorial(response);
 			},
 			error =>  console.log('_getNotasOfConsulta: ' + <any>error)
 		);
 	}	
+
+	processHistorial(historial){
+		var consulta;
+		var found;
+		
+		this.historialPaciente		=	[];
+		this.historialNutricionista	=	[];
+	
+		for(var i =0;i<historial.length;i++){
+			consulta	=	historial[i];
+			found	=	false;
+			if(consulta.archivos){
+				let _found = consulta.archivos.filter(
+									x => x.owner === 'nutricionista'
+								  );
+				if(_found[0])
+					found=true;
+			}
+			if(consulta.notas.length>0 || found){
+				this.historialNutricionista.push(consulta);				
+			}
+			found	=	false;
+			if(consulta.archivos){
+				let _found = consulta.archivos.filter(
+									x => x.owner === 'paciente'
+								  );
+				if(_found[0])
+					found=true;
+			}
+			if(consulta.notas_paciente.length>0 || found){
+				this.historialPaciente.push(consulta);				
+			}
+			
+		}
+		
+			/*this.historialNotas['nutricionista']=	historialNutricionista;
+			this.historialNotas['paciente']		=	historialPaciente;
+			console.log(this.historialNotas);*/
+			/*console.log(this.historialNutricionista);
+			console.log(this.historialPaciente);*/
+			/*this.disableButtonHistorial	=	false;*//*this.historialNotas.length==0;*/
+	}
+	
+/**/
+	
+	fileChange (event, owner) {
+		this.archivo =	event.target.files;
+		this.onSubmit(owner);
+		this.sending	=	true;
+	}
+	onSubmit(owner): void {
+		let _formData = new FormData();
+		_formData.append('consulta_id', this.consulta.id + '');
+		_formData.append("archivo", this.archivo[0]);
+		_formData.append("owner", owner);
+		this.uploadFile(_formData);
+	}
+	uploadFile(formData){
+		this.formControlDataService.upload('archivos', formData)
+		.subscribe(
+			 response  => {
+						this.setData(response);
+						this.sending	=	false;
+					},
+			error =>  console.log(<any>error)
+		);
+	}
+	setData(response){
+		if(response.code!=422)
+			this.archivos.push(response.data);
+	}
 }

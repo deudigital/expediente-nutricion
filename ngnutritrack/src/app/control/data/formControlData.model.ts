@@ -926,6 +926,8 @@ export class Consulta {
 	id:number;
 	fecha:number;
 	notas:string;
+	notas_paciente: string;
+	archivos: any[] = [];
 	estado:boolean;
 	finalizar:boolean=false;
 	paciente_id:number;
@@ -935,7 +937,11 @@ export class Consulta {
 		this.id				=	data.id;
 		this.fecha			=	data.fecha;
 		this.notas			=	data.notas;
+		this.notas_paciente = data.notas_paciente;
 		this.paciente_id	=	data.paciente_id;
+		this.archivos	=	[];
+		if(data.archivos)
+			this.archivos	=	data.archivos;
 	}
 }
 export class Nutricionista {

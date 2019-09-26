@@ -72,5 +72,5 @@ typings/
 # .envv
 
 ngnutritrack/src/html_dev.html
-ngnutritrack/src/environment/
-nutri/public/recepcion/
+ngnutritrack/src/environments/*
+nutri/public/*
