@@ -31,10 +31,20 @@ export class NotasComponent implements OnInit {
 	hideModalDatos:boolean=true;
 	showModalDatos:boolean=true;
 	
+	maxSizeUploadNotasNutri:boolean=false;
+	maxSizeUploadNotasPaciente:boolean=false;
+	
 	showHistorialPaciente:boolean=false;
 	archivo:any;
 	sending:boolean;
+	sending_paciente:boolean;
+	sending_nutri:boolean;
 	archivos:any;
+	owner:any;
+	form_uploading:any = {
+		paciente: false,
+		nutricionista: false
+	};
 
   constructor(private router: Router, private formControlDataService: FormControlDataService, private commonService: CommonService) {
 	  this.model	=	formControlDataService.getFormControlData();
@@ -47,6 +57,8 @@ export class NotasComponent implements OnInit {
 	  this.tagBody.classList.add('menu-parent-notas');
 	  this.finalizar	=	false;
 	  this.hidePrompt	=	false;
+	  this.maxSizeUploadNotasNutri	=	false;
+	  this.maxSizeUploadNotasPaciente	=	false;
 	  this.data			=	{'0':''};
 	  this.data['id']	=	this.consulta.id;
 	  this._getNotasOfConsulta();
@@ -216,27 +228,67 @@ export class NotasComponent implements OnInit {
 	}
 	
 /**/
-	
+	showMessage(validation){
+		this.maxSizeUploadNotasNutri	=	false;
+		this.maxSizeUploadNotasPaciente	=	false;
+		switch(validation){
+			case 'max-size-upload-paciente':
+				this.maxSizeUploadNotasPaciente	=	true;
+				break;
+			case 'max-size-upload-nutricionista':
+				this.maxSizeUploadNotasNutri	=	true;
+				break;
+		}
+		setTimeout(() => {
+						this.maxSizeUploadNotasNutri	=	false;
+						this.maxSizeUploadNotasPaciente	=	false;
+					}, 5000);
+	}
 	fileChange (event, owner) {
-		this.archivo =	event.target.files;
+		const fileSelected		=	event.target.files[0];
+		const sizeFileSelected	=	fileSelected.size/1024/1024;
+		if(sizeFileSelected>8){
+			this.showMessage('max-size-upload-' + owner);
+			return ;
+		}
+			
+		
+		this.archivo =	event.target.files;console.log('archivo',this.archivo);
+		
+/*
+1.19
+
+
+0:	File
+​​	lastModified: 1568221523087
+	​​name: "8-IG-POST-TICKET-WORKSHOP-2000X2000.jpg"
+	​​size: 1256896
+	​​type: "image/jpeg"
+*/
 		this.onSubmit(owner);
-		this.sending	=	true;
+		/*this.sending	=	true;*/
 	}
 	onSubmit(owner): void {
 		let _formData = new FormData();
 		_formData.append('consulta_id', this.consulta.id + '');
 		_formData.append("archivo", this.archivo[0]);
 		_formData.append("owner", owner);
-		this.uploadFile(_formData);
+		this.uploadFile(_formData, owner);
 	}
-	uploadFile(formData){
+	uploadFile(formData, owner){
+		this.owner	=	owner;
+		this.form_uploading[owner]	=	true;
 		this.formControlDataService.upload('archivos', formData)
 		.subscribe(
 			 response  => {
 						this.setData(response);
-						this.sending	=	false;
+						/*this.sending	=	false;*/
 					},
-			error =>  console.log(<any>error)
+			error =>  console.log(<any>error),
+			() =>{
+				this.form_uploading[this.owner]	=	false;
+				this.owner	=	'';
+				}
 		);
 	}
 	setData(response){

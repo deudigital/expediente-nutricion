@@ -52,10 +52,11 @@
 						<div class="actions">
 							<label for="archivo" class="form-open"><i></i>Añadir Archivo</label>
 						</div>
+						<div *ngIf="maxSizeUploadNotasNutri" class="error">El tamaño del archivo que intentas adjuntar es demasiado grande, el l&iacute;mite es de 8Mb.</div>
 						<form #uploadForm="ngForm" (ngSubmit)="onSubmit('nutricionista')" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<input style="visibility:hidden" type="file" #fileupload id="archivo" name="archivo" (change)="fileChange($event, 'nutricionista')"/>
-								<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
+								<div *ngIf="form_uploading['nutricionista']" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
 							</div>
 						</form>
 					</div>
@@ -101,10 +102,11 @@
 						<div class="actions">
 							<label for="archivo1" class="form-open"><i></i>Añadir Archivo</label>
 						</div>
+						<div *ngIf="maxSizeUploadNotasPaciente" class="error">El tamaño del archivo que intentas adjuntar es demasiado grande, el l&iacute;mite es de 8Mb.</div>
 						<form #uploadForm1="ngForm" (ngSubmit)="onSubmit('paciente')" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<input style="visibility:hidden" type="file" #fileupload1 id="archivo1" name="archivo1" (change)="fileChange($event, 'paciente')"/>
-								<div *ngIf="sending" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
+								<div *ngIf="form_uploading['paciente']" class="loading-file">cargando... <span class="fa fa-spinner fa-spin"></span></div>
 							</div>
 						</form>
 					</div>
