@@ -33,7 +33,7 @@ expediente-nutricion/nutri
 ### Installation
 
 ```
-compose install
+composer install
 ```
 
 ### Developing
