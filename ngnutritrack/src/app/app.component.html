@@ -1,3 +1,11 @@
 <router-outlet name="pagina"></router-outlet>
 <router-outlet></router-outlet>
 <div class="developmentInfo">{{developmentInfo }} <a routerLink="/logout" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Cerrar Sesion"><span>Logout</span></a></div>
+<div 
+	class="app-info" 
+	[ngClass]="{'show': formControlData.messageShow}">
+	<div class="alert" 
+		[ngClass]="{'alert-success': formControlData.messageType=='success', 'alert-warning': formControlData.messageType=='warning', 'alert-danger': formControlData.messageType=='fail'}"
+		>{{formControlData.message}}
+	</div>
+</div>

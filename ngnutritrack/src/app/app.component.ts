@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
 	get currentFormControlData() {
 		return JSON.stringify(this.formControlData);
 	}
-	get developmentInfo(){
+	get developmentInfo__old(){
 		var summary	=	'';
 		try{
 			this.fcd			=	this.formControlDataService.getFormControlData();
@@ -63,5 +63,47 @@ export class AppComponent implements OnInit {
 		}
 		return summary;
 	}
+	get developmentInfo(){
+		var summary	=	'';
+		try{
+			this.fcd			=	this.formControlDataService.getFormControlData();
+			this.consulta		=	this.fcd.getFormConsulta();
+			this.valoracion		=	this.fcd.getFormValoracionAntropometrica();
+			
+			this.rdd			=	this.fcd.getFormRdd();
+			this.paciente			=	this.fcd.getFormPaciente();
 
+			
+			if(this.consulta.id){
+				summary	+=	'Consulta: ' + this.consulta.id;
+			}
+							
+															
+	
+			if(this.valoracion.id){
+				summary	+=	'  |  VA: ' + this.valoracion.id;
+			}
+			if(this.rdd.id){
+				summary	+=	'  |  Rdd: ' + this.rdd.id;
+			}
+			if(this.fcd.current_dieta_id){
+				summary	+=	'  |  Dieta: ' + this.fcd.current_dieta_id;
+				this.prescripcion	=	this.fcd.getFormPrescripcion();
+				if(this.prescripcion.id){
+					summary	+=	'  |  Prescripcion: ' + this.prescripcion.id;
+				}
+			}
+			if(this.consulta.paciente_id){
+				summary	+=	'  |  Paciente: ' + this.consulta.paciente_id;
+				summary	+=	' (' + this.paciente.genero + ', ' + this.paciente.edad.toFixed(2) + ' años )';
+			}
+			if(summary)
+				summary	+=	'  |  ';
+
+			summary += 'Nutricionista: ' + this.fcd.nutricionista_id + '  |  ';
+		}catch(err) {
+			console.log( 'E:_setInfoIdeal(' + err.message + ')' );
+		}
+		return summary;
+	}
 }
