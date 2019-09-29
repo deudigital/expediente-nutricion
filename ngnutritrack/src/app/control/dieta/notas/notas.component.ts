@@ -88,6 +88,7 @@ export class NotasComponent implements OnInit {
 		this.formControlDataService.saveNotasConsulta(data)
 		.subscribe(
 			 response  => {
+						this.model._displayMessage( response );
 						if(this.finalizar){
 							this.formControlDataService.resetFormControlData();
 							this.finalizar	=	false;
@@ -95,7 +96,10 @@ export class NotasComponent implements OnInit {
 						}
 						this.tagBody.classList.remove('sending');
 						},
-			error =>  console.log(<any>error)
+			error =>  {
+				this.model._displayMessage();
+				console.log(<any>error)
+			}
 		);
 	}
 

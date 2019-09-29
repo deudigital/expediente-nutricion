@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Rdd } from '../data/formControlData.model';
+import { Rdd, Dieta } from '../data/formControlData.model';
 import { FormControlDataService }     from '../data/formControlData.service';
 import { LineChartConfig } from '../../models/LineChartConfig';
 import { AuthService } from '../../services/auth.service';
@@ -49,12 +49,21 @@ export class RecomendacionComponent implements OnInit {
 	_gasto_calorico_real:number;
 	_ingesta_calorica_recomendada:number;
 	historialParentWidth:number;
+	
+	dietas:any;
+	odietas:any;
+	aDietasEdited:any;
+	nuevo:boolean=false;
+	newDieta=new Dieta();
 
 	constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
 		this.model	=	formControlDataService.getFormControlData();
 		this.mng	=	this.model.getManejadorDatos();
 		this.helpers	=	this.model.getHelpers();
 		this.recomendacion	=	this.model.getFormRdd();
+		this.dietas	=	this.model.getFormDietas();
+		this.odietas	=	this.helpers.clone(this.dietas);
+		
 		this.paciente	=	this.model.getFormPaciente();
 		this.va	=	this.model.getFormValoracionAntropometrica();
 		this.setInfoInit();
@@ -149,7 +158,9 @@ export class RecomendacionComponent implements OnInit {
 				this.setGastoCaloricoActividadFisica();
 				this.getHistorial();
 				
-				this._analisis();				
+				/*this._analisis();*/
+				/*this._analisis_new(	this.model.current_dieta);*/
+				this._analisis_update();
 				
 			})
 			.catch((err) => {
@@ -184,7 +195,9 @@ export class RecomendacionComponent implements OnInit {
 		this.mostrarFilaPeso	=	true;
 		if( this.recomendacion.metodo_calculo_gc=='schofield' || this.recomendacion.metodo_calculo_gc=='rda')
 				this.mostrarFilaPeso	=	false;
-		this._analisis();
+		/*this._analisis();*/
+		/*this._analisis_new(	this.model.current_dieta);*/
+		this._analisis_update();
 	}
 	setGastoCaloricoActividadFisica(){
 		if(this.mng.operacion!='nueva-consulta')
@@ -216,25 +229,141 @@ export class RecomendacionComponent implements OnInit {
 			error =>  console.log(<any>error)
 		);
 	}
-	processHistorial(data){
+	processHistorial(data){console.log('Rdd Historial data', data);
 		var _rdds	=	[];
 		var _rdd;
 		var item;
 		var tmbBenedict;
 		var tmbMifflin;
+		var _dietas;
 		for(var i in data){
-			item	=	data[i];
+			item	=	data[i].rdd;
 			tmbBenedict			=	this._tmbBenedict(this.paciente.genero, item.peso, item.estatura, item.edad);
 			tmbMifflin			=	this._tmbMifflin(this.paciente.genero, item.peso, item.estatura, item.edad);
 			item.tmb			=	this._tmbPromedio(tmbBenedict,tmbMifflin);
 			item.gc_real		=	this._gastoCaloricoReal(item.metodo_calculo_gc, tmbBenedict, tmbMifflin, item.tmb, item.factor_actividad_sedentaria, item.promedio_gc_diario );
-			item.gc_recomendado	=	this._ingestaCaloricaRecomendada(item.gc_real, item.variacion_calorica)
+			/*item.gc_recomendado	=	this._ingestaCaloricaRecomendada(item.gc_real, item.variacion_calorica)*/
+			_dietas	=	[];
+			for(var j in data[i].dietas){
+				let dieta	=	data[i].dietas[j];
+				
+				_dietas.push({'id':dieta.id, 'nombre':dieta.nombre,'variacion_calorica':dieta.variacion_calorica,'ingesta_calorica_recomendada':this._ingestaCaloricaRecomendada(item.gc_real, dieta.variacion_calorica)});
+			}			
+			item.gc_recomendado	=	_dietas;
 			_rdds.push(item);
 		}
-		this.historial	=	_rdds;
+		this.historial	=	_rdds;console.log('Rdd Historial', this.historial);
 		this.disableButtonHistorial	=	this.historial.length==0;
 	}
 	createGraphs(){
+		var toGraph = '';
+		var date;
+		var new_date;
+		var new_date_format;
+		var toolTipHtml;
+		var va;
+		var data;
+		var item;
+		var items	=	[];
+		var headers	=	[];
+		var headerGraficos	=	[];
+		var config;
+		var options;
+		var columns;
+		var value;
+		headerGraficos['promedio_gc_diario']	=	'Gasto Calórico Actividad Física';
+		headerGraficos['tmb']					=	'TMB';
+		headerGraficos['gc_real']				=	'Gasto Calórico Real';
+		/*headerGraficos['variacion_calorica']	=	'Variación Calórica';*/
+		headerGraficos['gc_recomendado']		=	'Gasto Calórico Recomendado';
+		
+		var k=0;
+		/*var _h	=	['promedio_gc_diario', 'tmb', 'gc_real','variacion_calorica','gc_recomendado'];*/
+		var _h	=	['promedio_gc_diario', 'tmb', 'gc_real', 'gc_recomendado'];
+
+		this.getWidthContainerChildrenGraph();
+		var _va	=	this.historial[0];
+		for(var i in _va) {
+			if(!this.helpers.in_array(_h, i))
+				continue ;
+				
+			data	=	[];			
+			for(var j in this.historial) {
+				var d	= this.historial[j].fecha.split('-');
+				
+				
+				var anho	=	d[0];
+				var mes		=	d[1];
+				var dia		=	d[2];
+				new_date	=	new Date( anho, (mes-1), dia);				
+				new_date_format	=	dia + '/' + mes + '/' + anho;
+				/*console.log('i', i);*/
+				if(i=='gc_recomendado'){
+					let _dietas	=	this.historial[j][i];
+					/*console.log('_dietas', _dietas);*/
+					for(var u in _dietas) {
+						let _icr	=	parseInt(_dietas[u].ingesta_calorica_recomendada);
+						value	=	_icr.toFixed(0);
+						toolTipHtml	=	'<ul class="grafico-lista">';
+						toolTipHtml	+=	'	<li>Fecha: <strong>' + new_date_format + '</strong></li>';
+						toolTipHtml	+=	'	<li>' + headerGraficos[i] + ': <strong>' + value + '</strong></li>';
+						toolTipHtml	+=	'	<li><strong>' + _dietas[u].nombre + '</strong></li>';
+						toolTipHtml	+=	'</ul>';				
+						data.push([new_date,parseInt(value),toolTipHtml]);
+					}
+				}else{
+					if(this.historial[j][i]==null)
+						value	=	0;
+					else
+						value	=	this.historial[j][i].toFixed(0);
+					toolTipHtml	=	'<ul class="grafico-lista">';
+					toolTipHtml	+=	'	<li>Fecha: <strong>' + new_date_format + '</strong></li>';
+					toolTipHtml	+=	'	<li>' + headerGraficos[i] + ': <strong>' + value + '</strong></li>';
+					toolTipHtml	+=	'</ul>';				
+					data.push([new_date,parseInt(value),toolTipHtml]);
+				}
+			}
+			toGraph	=	headerGraficos[i];
+			options = {
+				width: this.historialParentWidth,
+				legend: { position: 'bottom' },
+				animation: {
+					duration: 1000,
+					easing: 'out'
+				},
+				tooltip: {isHtml: true},
+				titleTextStyle: {
+					color: '#cc1f25',
+					fontName: 'Verdana',
+					fontSize: 20, 
+					bold: true,   
+					italic: false
+				},
+				pointShape: 'circle', pointSize: 10,
+				hAxis: {
+					title: 'Fecha'
+				},
+				vAxis: {
+					title: toGraph
+				},
+				colors: ['#cc1f25']
+			};
+			columns	= [
+							{label: 'date', type: 'date'},
+							{label: toGraph, type: 'number'},
+							{type: 'string', role: 'tooltip', 'p': {'html': true}}
+						];
+/*console.log('data', data);*/
+			config	=	new LineChartConfig('title ' + toGraph, options, columns);
+			headers.push({'id':i, 'nombre':toGraph, 'class': 'grafico-' + i});
+			item	=	{'data':data, 'config': config, 'elementId':'element_' + i, 'key': 'container_' + i, 'class':i=='promedio_gc_diario'? 'active':''};
+			items.push(item);
+		}
+		this.graficosH	=	headers;
+		this.graficos	=	items;
+		this.tagBody.classList.add('grafico-selected-promedio_gc_diario');
+	}
+	createGraphs__current(){
 		var toGraph = '';
 		var date;
 		var new_date;
@@ -329,13 +458,23 @@ export class RecomendacionComponent implements OnInit {
 
 		this.tagBody.classList.add('grafico-selected-' + header.id + '');
 		
-		document.getElementById('container_promedio_gc_diario').className = '';
-		document.getElementById('container_tmb').className = '';
-		document.getElementById('container_gc_real').className = '';
-		document.getElementById('container_variacion_calorica').className = '';
-		document.getElementById('container_gc_recomendado').className = '';
+		if(document.getElementById('container_promedio_gc_diario'))
+			document.getElementById('container_promedio_gc_diario').className = '';
+	
+		if(document.getElementById('container_tmb'))
+			document.getElementById('container_tmb').className = '';
 
-		document.getElementById('container_' + header.id).className = 'active';
+		if(document.getElementById('container_gc_real'))
+			document.getElementById('container_gc_real').className = '';
+
+		if(document.getElementById('container_variacion_calorica'))
+			document.getElementById('container_variacion_calorica').className = '';
+
+		if(document.getElementById('container_gc_recomendado'))
+			document.getElementById('container_gc_recomendado').className = '';
+
+		if(document.getElementById('container_' + header.id))		
+			document.getElementById('container_' + header.id).className = 'active';
 		
 	}
 	setInfoInit(){
@@ -345,7 +484,7 @@ export class RecomendacionComponent implements OnInit {
 		this.oRdd.promedio_gc_diario			=	this.recomendacion.promedio_gc_diario;
 		this.oRdd.variacion_calorica			=	this.recomendacion.variacion_calorica;
 	}
-	infoEdited(){
+	infoEdited(){	
 		return 	(
 			this.oRdd.metodo_calculo_gc				!==	this.recomendacion.metodo_calculo_gc || 
 			this.oRdd.peso_calculo					!==	this.recomendacion.peso_calculo || 
@@ -354,11 +493,47 @@ export class RecomendacionComponent implements OnInit {
 			this.oRdd.variacion_calorica			!==	this.recomendacion.variacion_calorica
 		);
 	}
+	dietasEdited(){
+		/*console.log(this.dietas.length + '==' + this.odietas.length);*/
+		/*if(this.dietas.length!=this.odietas.length)
+			return true;*/
+		this.aDietasEdited	=	[];
+		var obj1,obj2;
+		for(var i =0;i<this.dietas.length;i++){
+			obj1	=	this.dietas[i];
+			if(this.odietas[i])
+				obj2	=	this.odietas[i];
+			else
+				obj2	=	new Dieta();
+			if( obj1.nombre !== obj2.nombre || obj1.variacion_calorica !== obj2.variacion_calorica ){
+				/*obj1.dieta_id !== obj2.dieta_id || */
+				/*return true;*/
+				var _dieta		=	new Dieta();
+				_dieta.id		=	obj1.dieta_id || 0;
+				_dieta.nombre	=	obj1.nombre;
+				_dieta.variacion_calorica	=	obj1.variacion_calorica;
+				/*this.aDietasEdited.push(obj1);*/
+				this.aDietasEdited.push(_dieta);
+			}
+		}
+		var _edited	=	false;
+		if(this.aDietasEdited.length>0){
+			_edited	=	true;
+			/*console.log('aDietasEdited', this.aDietasEdited);*/
+		}
+		/*return this.aDietasEdited.length>0;*/
+		return _edited;
+	}
 	createRdds(recomendacion) {
 		this.formControlDataService.addRdds(recomendacion)
 		.subscribe(
-			 response  => {},
-			error =>  console.log(<any>error)
+			 response  => {
+				 this.model._displayMessage( response );
+			 },
+			error =>  {
+				this.model._displayMessage();
+				console.log(<any>error)
+			}
 		);
 	}
   toggleModalRdds() {
@@ -429,7 +604,7 @@ export class RecomendacionComponent implements OnInit {
 				break;
 			case 'rda':
 				result	=	(this._tasa_basal*this.va.peso)+this.recomendacion.promedio_gc_diario;
-				console.log('G.C.R: ( ' + this.tmbRda() + '*' + this.va.peso + ' ) +' + this.recomendacion.promedio_gc_diario + '=' + result );
+				/*console.log('G.C.R: ( ' + this.tmbRda() + '*' + this.va.peso + ' ) +' + this.recomendacion.promedio_gc_diario + '=' + result );*/
 				break;
 			case 'schofield':
 				result	=	this._tasa_basal+this.recomendacion.promedio_gc_diario;
@@ -748,12 +923,103 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 	   this._ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada();
 	   this.recomendacion.icr				=	this._ingesta_calorica_recomendada;
    }
+/*	variacion_calorica	*/
+   ingestaCaloricaRecomendada_new(dieta){
+		var result	=	this.gastoCaloricoReal()+dieta.variacion_calorica;
+		return result;
+	}
+   _analisis_new(dieta){
+	   this._get_tasa_basal();
+	   this.recomendacion.gcr				=	this.gastoCaloricoReal();
+	   this._gasto_calorico_real			=	this.recomendacion.gcr;
+	   dieta.ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada_new(dieta);
+	   this.recomendacion.icr				=	this._ingesta_calorica_recomendada;
+   }
+   _analisis_update(){
+	   this._get_tasa_basal();
+	   this.recomendacion.gcr				=	this.gastoCaloricoReal();
+	   this._gasto_calorico_real			=	this.recomendacion.gcr;
+	   this.recomendacion.icr				=	this._ingesta_calorica_recomendada;
+	   
+	   var _dieta;
+	   for(var i in this.model.dietas){
+		   _dieta	=	this.model.dietas[i];
+		   _dieta.ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada_new(_dieta);		   
+	   }
+	   
+	   
+   }
    
+   
+	showFormEdit(){
+		this.nuevo	=	!this.nuevo;
+	}
+   
+	isValid(){
+		return true;
+	}
+	adicionarNuevo(){
+		if(this.isValid()){
+			this.newDieta.consulta_id	=	this.model.consulta.id;
+			this.save(this.newDieta);
+		}
+	}
+	save(data){
+		this.formControlDataService.store('dietas', data)
+		.subscribe(
+			 response  => {
+						this.setDieta(response);
+						},
+			error =>  console.log(<any>error)
+		);
+	}
+	setDieta(response){
+		if(response.code==201){
+			var dieta	=	response.data;
+			this.dietas.push(dieta);
+			this.newDieta.nombre	=	'';
+			this.nuevo	=	false;
+		}
+	}
+	addNewDieta(){
+		var dieta	=	new Dieta();
+		dieta.ingesta_calorica_recomendada	=		this.gastoCaloricoReal();
+		this.dietas.push(dieta);
+	}
 	saveForm(){
 		this.model.getFormRdd().set(this.recomendacion);
 		this.formControlDataService.setFormControlData(this.model);
-		if(this.infoEdited())
+		if(this.infoEdited()){/*console.log('infoEdited');*/
 			this.createRdds(this.recomendacion);
+		}
+		if(this.dietasEdited()){/*console.log('dietasEdited');*/
+			this.createDietas(this.aDietasEdited);
+		}
+	}
+	
+	createDietas(dietas) {/*console.log('createDietas');console.log(dietas);*/
+		var data	=	{};
+		data['consulta_id']	=	this.model.consulta.id;
+		data['dietas']		=	dietas;
+		/*this.formControlDataService.addDietas(dietas)*/
+		this.formControlDataService.addDietas(data)
+		.subscribe(
+			 response  => {
+				 console.log(response);
+				 this.setDietas(response);				 
+			 },
+			error =>  console.log(<any>error)
+		);
+	}
+	setDietas(response){
+		if(response.code==201){
+			this.model.dietas	=	response.dietas;
+			 var _dieta;
+		   for(var i in this.model.dietas){
+			   _dieta	=	this.model.dietas[i];
+			   _dieta.ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada_new(_dieta);		   
+		   }
+		}
 	}
 	Previous(){
 		this.router.navigate(['/valoracion']);

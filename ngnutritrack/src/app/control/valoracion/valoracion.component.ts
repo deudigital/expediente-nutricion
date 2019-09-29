@@ -2001,10 +2001,14 @@ catch(err) {
 		this.formControlDataService.addValoracionAntropometrica(data)
 		.subscribe(
 			 response  => {
+						this.model._displayMessage( response );
 						this.goTo(this.page);
 						this.btnNavigation_pressed	=	false;
 						},
-			error =>  console.log(<any>error)
+			error =>  {
+				this.model._displayMessage();
+				console.log(<any>error)
+			}
 		);
 	}
 

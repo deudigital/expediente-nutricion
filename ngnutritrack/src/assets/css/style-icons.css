@@ -247,6 +247,7 @@
 @media (max-width:767px){
 	.submenu > li > a  {text-align:center;}
 	.submenu > li > a > span {display:none;}	
+	.navigation-dieta > li {width: 50%;float: left;}	 
 	/*.button-copy {top:5px;}*/
 }
 @media (max-width:549px){

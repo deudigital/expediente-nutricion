@@ -54,6 +54,16 @@
 .listado.pacientes > .row > div{padding-bottom: 0;}
 .mydp table.header {height: 30px !important;}
 .ng-valid.ng-touched ~ .error {display: none;}
+
+.app-info {position: fixed;right: -500px;display: block;top:50px;border-radius-right:0;border-radius-bottom:0;
+-webkit-transition: all 0.5s ease-in-out;
+   -moz-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	 -o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+}
+.app-info.show {right:0}
+
 @media(min-width:768px){
 	.buttons-navigation {padding: 0 5%;}
 	.percentiles [class*="col-"] {width: 19%;padding: 0;}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { FormControlDataService }     from '../../data/formControlData.service';
+
 @Component({
   selector: 'app-dieta-nav',
   templateUrl: './dieta-nav.component.html',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DietaNavComponent implements OnInit {
 
-  constructor() { }
+  constructor(private formControlDataService: FormControlDataService) {
+  }
 
   ngOnInit() {
   }

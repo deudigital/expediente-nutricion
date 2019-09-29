@@ -11,6 +11,17 @@
 		</div>
 		<div class="col-sm-9 content-form">
 			<section class="form-patron-menu">
+			
+				
+		<ul id="dietas_navigation" class="nav navigation-dietas-tab nav-justified">
+			<li *ngFor="let dieta of model.dietas; let i = index" [ngClass]="{'active ': model.current_dieta_id==dieta.dieta_id }">
+				<a id="{{dieta.id}}" href="javascript:void(0)" (click)="dietaxSelected(dieta, $event)">
+					<!--{{dieta.dieta_id}}:{{dieta.nombre}} - {{dieta.variacion_calorica}}-->
+					{{dieta.nombre}}
+				</a>
+			</li>
+		</ul>
+			
 				<app-dieta-nav></app-dieta-nav>
 					<header class="visible-xs">
 						<h4>Patr&oacute;n Menu</h4>
@@ -552,3 +563,46 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+
+<!--<div class="bar-current-dietas">
+<ng-template ngFor let-dieta [ngForOf]= "model.dietas">
+	
+
+	<p>
+	<ng-template [ngIf]="model.current_dieta_id==dieta.prescripcion.dieta_id">
+	<strong>{{dieta.prescripcion.id}} - {{dieta.nombre}} - {{dieta.prescripcion.dieta_id}}</strong>
+	</ng-template>
+	
+	<ng-template [ngIf]="model.current_dieta_id!=dieta.prescripcion.dieta_id">
+		{{dieta.prescripcion.id}} - {{dieta.nombre}} - {{dieta.prescripcion.dieta_id}}
+	</ng-template>
+	</p>
+	<p>{{dieta.prescripcion.carbohidratos}} - {{dieta.prescripcion.proteinas}} - {{dieta.prescripcion.grasas}}</p>
+	<ng-template [ngIf]="dieta.prescripcion.items">
+	<ol>
+		<ng-template ngFor let-item [ngForOf]= "dieta.prescripcion.items">
+		<li>{{item.nombre}} -> {{item.porciones}}</li>
+		</ng-template>
+	</ol>
+	</ng-template>
+	<ng-template [ngIf]="dieta.patron_menu">
+	<ol>
+		<ng-template ngFor let-menu [ngForOf]= "dieta.patron_menu">
+		<li>{{menu.tiempo_comida_id}} -> {{menu.porciones}}</li>
+		</ng-template>
+	</ol>
+	</ng-template>
+	<ng-template [ngIf]="dieta.patron_menu_ejemplos">
+	<ol>
+		<ng-template ngFor let-ejemplo [ngForOf]= "dieta.patron_menu_ejemplos">
+		<li>{{ejemplo.tiempo_comida_id}} -> {{ejemplo.ejemplo}}</li>
+		</ng-template>
+	</ol>
+	</ng-template>
+
+</ng-template>
+</div>-->

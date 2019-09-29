@@ -148,6 +148,9 @@ export class FormControlDataService {
 	addRdds(rdd: Rdd): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/rdd', rdd, {headers: this.headers}).map((response: Response) => response.json());
 	}
+	addDietas(dietas: any): Observable<any[]> {
+		return this.http.post( this.apiURL + 'consultas/dietas', dietas, {headers: this.headers}).map((response: Response) => response.json());
+	}
 	addPrescripcion(prescripcion: Prescripcion): Observable<Consulta[]> {
 		return this.http.post( this.apiURL + 'consultas/prescripcion', prescripcion, {headers: this.headers}).map((response: Response) => response.json());
 	}
@@ -251,6 +254,9 @@ export class FormControlDataService {
 				break;
 			case 'tiempo_comida':
 				serviceUrl	+=	'tiempocomidas';
+				break;
+			case 'dietas':
+				serviceUrl	+=	'dietas/nuevo';
 				break;
 		}
 		return this.http.post( serviceUrl, data, {headers: this.headers}).map((response: Response) => response.json());

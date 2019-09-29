@@ -1,11 +1,15 @@
 export class FormControlData {
 	aaa:string='class FormControlData';
+	message:string='';
+	messageType:string='';
+	messageShow:boolean=false;
+	tryAgain	=	false;	   
 	dataFilled:boolean=false;
 	paciente_id:number=0;
+	current_dieta_id: number = 0;				   
 	nutricionista_id:number=0;
 	canAccessAgenda:boolean=false;
 	canAccessFacturacion:boolean=false;
-
 	message_login:string			=	'';
 	dieta_desayuno_ejemplo:string			=	'';
 	dieta_media_manana_ejemplo:string		=	'';
@@ -15,7 +19,6 @@ export class FormControlData {
 	dieta_coicion_nocturna_ejemplo:string	=	'';
 	lastEstatura:string='';
 	lastCircunferencia_muneca:string='';
-
 	imc: number 				=	0;
 	pesoIdeal: number = 0;
 	estaturaIdeal: number = 0;
@@ -27,7 +30,6 @@ export class FormControlData {
 	pesoMetaMaximo: number = 0;
 	pesoMetaMinimo: number = 0;
 	porcentajePeso: number = 0;
-
 	helpers						=	new Helpers();
 	manejadorDatos				=	new ManejadorDatos();
 	paciente:Paciente			=	new Paciente();
@@ -35,13 +37,12 @@ export class FormControlData {
 	gustos						=	new HabitosGusto();
 	habitosOtro					=	new HabitosOtro();
 	valoracionAntropometrica	= 	new ValoracionAntropometrica();
-	
 	detalleGrasa				= 	new DetalleGrasa();
 	detalleMusculo				= 	new DetalleMusculo();	
-	
+	current_dieta: Dieta = new Dieta();
+	dietas: any[] = []; /*new Dieta();*/
 	prescripcion:Prescripcion	=	new Prescripcion();
 	rdd:Rdd						=	new Rdd();
-
 	consulta_s_f:Consulta_s_f   =   new Consulta_s_f();
 	producto:Producto           =   new Producto();
 	reporte:Reporte 			=	new Reporte();
@@ -50,7 +51,6 @@ export class FormControlData {
 	medida:Medida 				= 	new Medida();
 	medio:Medio                 =	new Medio();
 	hcpOtros: HcpOtros          =   new HcpOtros();
-
 	bioquimicas:any[]			=	[];
 	patologias:any[]			=	[];
 	alergias:any[]				=	[];
@@ -59,12 +59,28 @@ export class FormControlData {
 	ejercicios:any[]			=	[];
 	valoracionDietetica:any[]	=	[];
 	valoracionDieteticaEjemplo:any[]	=	[];
-
 	patronmenu:any[]			=	[];
 	patron_menu_ejemplos:any[]	=	[];
 	tiempoComidas:any[]			=	[];
 
-    clear() {
+    _displayMessage(response={'result':'fail','message':''}){		
+		if(response.result=='success'){
+			this.messageType	=	response.result;
+			this.message		=	response.message;
+		}else{
+			this.messageType	=	'fail';
+			this.message		=	'No se pudo procesar la solicitud, Intente de Nuevo';
+		}
+		this.messageShow	=	true;
+		setTimeout(() => {
+			this.messageShow	=	false;			
+			setTimeout(() => {
+				this.message		=	'';
+				this.messageType	=	'';
+			}, 1000);
+		}, 3000);
+	}
+	clear() {
 		if(this.manejadorDatos.operacion!='nueva-consulta'){
 			this.paciente			=	new Paciente();
 			this.paciente.nutricionista_id	=	this.nutricionista_id;
@@ -84,7 +100,8 @@ export class FormControlData {
 			this.gustos				=	new HabitosGusto();
 			this.habitosOtro		=	new HabitosOtro();			
 		}
-		this.consulta					=	new Consulta();			
+		this.consulta					=	new Consulta();	
+		this.dietas = []; /*new Dieta();*/		
 		this.prescripcion				=	new Prescripcion();
 		this.valoracionAntropometrica	= 	new ValoracionAntropometrica();
 		this.detalleGrasa				= 	new DetalleGrasa();
@@ -111,7 +128,6 @@ export class FormControlData {
 		this.consulta.set(data);
 		var paciente	=	data.paciente;
 		this.paciente.set(paciente);
-				
 		/*	HCP	*/
 		this.patologias			=	[];
 		this.alergias			=	[];
@@ -128,7 +144,6 @@ export class FormControlData {
 		this.habitosOtro		=	new HabitosOtro();	
 		this.hcpOtros				= new HcpOtros();
 		this.hcpOtros.paciente_id	=	this.paciente.id;
-
 		if(data.paciente['hcp']){
 			var hcp	=	data.paciente['hcp'];
 			if(hcp['patologias'])
@@ -144,28 +159,21 @@ export class FormControlData {
 			var hcf	=	data.paciente['hcf'];
 			if(hcf['patologias'])
 				this.hcf_patologias	=	hcf['patologias'];
-
 		}
 		if(data.paciente['objetivos'])
 			this.objetivos	=	data.paciente['objetivos'];
-
 		if(data.paciente['habitos']){
 			var habitos	=	data.paciente['habitos'];
 			if(habitos['ejercicios'])
 				this.ejercicios	=	habitos['ejercicios'];
-
 			if(habitos['gustos'])
 				this.gustos	=	habitos['gustos'];
 			else
 				this.gustos.paciente_id	=	this.paciente.id;
-
-
 			if(habitos['valoracionDietetica'])
 				this.valoracionDietetica	=	habitos['valoracionDietetica'];
-			
 			if(habitos['valoracionDieteticaEjemplo'])
 				this.valoracionDieteticaEjemplo	=	habitos['valoracionDieteticaEjemplo'];
-
 			if(habitos['otros'])
 				this.habitosOtro	=	habitos['otros'];
 			else
@@ -176,10 +184,8 @@ export class FormControlData {
 		if(data.va){
 			var va			=	data.va;
 			this.valoracionAntropometrica.set(va);
-			
 			this.detalleGrasa.valoracion_antropometrica_id	=	va.id;
 			this.detalleMusculo.valoracion_antropometrica_id=	va.id;
-			
 			if(va.detalleGrasa)
 				this.detalleGrasa	=	va.detalleGrasa;
 			if(va.detalleMusculo)
@@ -192,47 +198,10 @@ export class FormControlData {
 			this.rdd.set(rdd);
 		}
 /*	Dieta	*/
-		this.prescripcion.consulta_id	=	this.consulta.id;
-		this.prescripcion.items			=	[];
-
-		if(data.dieta){
-			if(data.dieta.prescripcion){
-/*		Prescripcion */
-				var prescripcion		=	data.dieta.prescripcion;
-				this.prescripcion.set(prescripcion);
-			}			
-/*		Patron Menu	*/
-			if(data.dieta.patron_menu){
-				this.patronmenu			=	data.dieta.patron_menu;
-			}		
-/*		Patron Menu	Ejemplos	*/
-			if(data.dieta.patron_menu_ejemplos){
-				this.patron_menu_ejemplos			=	data.dieta.patron_menu_ejemplos;
-				for(var i in data.dieta.patron_menu_ejemplos){
-					let item	=	data.dieta.patron_menu_ejemplos[i];
-					switch(item.tiempo_comida_id){
-						case 1:
-							this.dieta_desayuno_ejemplo			=	item.ejemplo;
-							break;
-						case 2:
-							this.dieta_media_manana_ejemplo		=	item.ejemplo;
-							break;
-						case 3:
-							this.dieta_almuerzo_ejemplo			=	item.ejemplo;
-							break;
-						case 4:
-							this.dieta_media_tarde_ejemplo		=	item.ejemplo;
-							break;
-						case 5:
-							this.dieta_cena_ejemplo				=	item.ejemplo;
-							break;
-						case 6:
-							this.dieta_coicion_nocturna_ejemplo	=	item.ejemplo;
-							break;
-					}
-				}
-				
-			}
+		if (data.dietas) {
+		  this.dietas = data.dietas;
+		  var first_dieta = this.dietas[0];
+		  this.setDieta(first_dieta.dieta_id)
 		}
 		this.dataFilled	=	true;
 	}
@@ -262,7 +231,6 @@ export class FormControlData {
 			var item	=	patologias[i];
 			if(!item.checked)
 				continue;
-
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
@@ -284,7 +252,6 @@ export class FormControlData {
 			var item	=	alergias[i];
 			if(!item.checked)
 				continue;
-
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
@@ -309,7 +276,6 @@ export class FormControlData {
 			var item	=	patologias[i];
 			if(!item.checked)
 				continue;
-
 			obj						=	new Object();
 			obj.id					=	item.id;
 			obj.nombre				=	item.nombre;
@@ -351,6 +317,13 @@ export class FormControlData {
 	getFormDetalleMusculo(){
 		return this.detalleMusculo;
 	}
+	getFormRdd():Rdd{
+		return this.rdd;
+	}
+	getFormDietas() {
+    return this.dietas;
+  }
+	
 	getTiempoComidasDeNutricionista(){
 		return this.tiempoComidas;
 	}
@@ -360,12 +333,22 @@ export class FormControlData {
 			va.circunferencia_muneca	=	'';
 		this.valoracionAntropometrica.lastCircunferencia_muneca	=	va.circunferencia_muneca;
 	}
-	setPatronMenu(patron_menu){
+	/*setPatronMenu(patron_menu){
 		this.patronmenu			=	patron_menu;
-	}
-	setPatronMenuEjemplos(patron_menu_ejemplos){
+	}*/	
+  setPatronMenu(dieta_id, patron_menu) {
+    /*this.patronmenu			=	patron_menu;*/
+    var filter_dieta = this.dietas.filter(x => x.dieta_id === dieta_id);
+    filter_dieta[0].patron_menu = patron_menu;
+  }
+	/*setPatronMenuEjemplos(patron_menu_ejemplos){
 		this.patron_menu_ejemplos			=	patron_menu_ejemplos;
-	}
+	}*/
+  setPatronMenuEjemplos(dieta_id, patron_menu_ejemplos) {
+    /*this.patron_menu_ejemplos			=	patron_menu_ejemplos;*/
+    var filter_dieta = this.dietas.filter(x => x.dieta_id === dieta_id);
+    filter_dieta[0].patron_menu_ejemplos = patron_menu_ejemplos;
+  }
 	setValoracionDietetica(data){
 		this.valoracionDietetica=	data;
 	}
@@ -384,7 +367,6 @@ export class FormControlData {
 		this.paciente.responsable_id	=	data.responsable_id;
 		this.paciente.usuario			=	data.usuario;
 		this.paciente.contrasena		=	data.contrasena;
-
 		this.paciente.id				=	data.id;
 		this.paciente.cedula			=	data.cedula;
 		this.paciente.nombre			=	data.nombre;
@@ -398,22 +380,112 @@ export class FormControlData {
 		this.paciente.distrito			=	data.distrito;
 		this.paciente.detalles_direccion=	data.detalles_direccion;
 		this.paciente.ubicacion_id		=	data.ubicacion_id;
-
 		this.paciente.edad				=	data.edad;
 		this.paciente.esMayor			=	data.edad>17;
 		localStorage.setItem('paciente_id', String(this.paciente.persona_id));
 	}
-	getFormRdd():Rdd{
-		return this.rdd;
-	}
-	getFormPrescripcion():Prescripcion{
+	
+	getFormPrescripcion__():Prescripcion{
 		return this.prescripcion;
 	}
+  getFormPrescripcion(): Prescripcion {
+    return this.helpers.clone(this.prescripcion);
+  }
 	getManejadorDatos():ManejadorDatos{
 		return this.manejadorDatos;
 	}
 	getHelpers():Helpers{
 		return this.helpers;
+	}
+	
+	getCurrentDieta() {
+    return this.current_dieta_id;
+  }
+  getIndexOfDieta(dieta_id) {
+    var _index = -1;
+    for (var i = 0; i < this.dietas.length; i++) {
+      if (dieta_id == this.dietas[i].dieta_id) {
+        _index = i;
+        i = this.dietas.length;
+      }
+    }
+    return _index;
+  }
+	setCurrentDieta(dieta_id) {
+		console.log('setCurrentDieta id', dieta_id);
+		var filter_dieta = this.dietas.filter(x => x.dieta_id === dieta_id);
+		console.log('filter_dieta', filter_dieta);
+		if (filter_dieta) {
+		  var first_dieta = filter_dieta[0];
+		  this.current_dieta_id = first_dieta.dieta_id;
+		  this._setCurrentDieta( first_dieta );
+		}
+	  }
+  _setCurrentDieta(dieta) {
+    this.current_dieta = dieta;
+    this.current_dieta_id = dieta.dieta_id;
+    this.prescripcion = new Prescripcion();
+    this.patronmenu = [];
+    this.patron_menu_ejemplos = [];
+    /*		Prescripcion	*/
+    if (dieta.prescripcion) {
+      var prescripcion = this.helpers.clone(dieta.prescripcion);
+      this.setPrescripcion(this.current_dieta_id, prescripcion);
+    }
+    /*		Patron Menu	*/
+    if (dieta.patron_menu) {
+      this.patronmenu = this.helpers.clone(dieta.patron_menu);
+    }
+    /*		Patron Menu	Ejemplos	*/
+    if (dieta.patron_menu_ejemplos) {
+      this.patron_menu_ejemplos = this.helpers.clone(dieta.patron_menu_ejemplos);
+    }
+  }
+setPrescripcion(dieta_id, prescripcion) {
+    var _index = this.getIndexOfDieta(dieta_id);
+    this.dietas[_index].prescripcion = prescripcion;
+  }
+  setPrescripcionPatronMenu(dieta_id) {
+    /*console.log('setPrescripcionPatronMenu');
+		console.log(this.dietas);*/
+    var filter_dieta = this.dietas.filter(x => x.dieta_id === dieta_id);
+    var first_dieta = filter_dieta[0];
+    /*console.log('first_dieta');console.log(first_dieta);*/
+    /*this.prescripcion				=	new Prescripcion();
+		this.prescripcion.dieta_id		=	first_dieta.dieta_id;*/
+    this.patronmenu = [];
+    this.patron_menu_ejemplos = [];
+    this.current_dieta = first_dieta;
+    this.current_dieta_id = first_dieta.dieta_id;
+    /*if(first_dieta.prescripcion){
+			var prescripcion		=	first_dieta.prescripcion;
+			this.prescripcion.set(this.current_dieta_id, prescripcion);
+		}*/
+    if (first_dieta.patron_menu) {
+      this.patronmenu = this.helpers.clone(first_dieta.patron_menu);
+    }
+    if (first_dieta.patron_menu_ejemplos) {
+      this.patron_menu_ejemplos = this.helpers.clone(first_dieta.patron_menu_ejemplos);
+    }
+  }
+	setDieta(dieta_id){
+		var dieta_filter=	this.dietas.filter(x => x.dieta_id === dieta_id);
+		var dieta_found	=	dieta_filter[0];
+		this.prescripcion	=	new Prescripcion();
+		this.patronmenu 	=	[];
+		this.patron_menu_ejemplos	=	[];
+		this.current_dieta		=	dieta_found;
+		this.current_dieta_id	=	dieta_found.dieta_id;
+		if(dieta_found.prescripcion){
+			var prescripcion		=	dieta_found.prescripcion;
+			this.prescripcion.set( prescripcion );			
+		}
+		if( dieta_found.patron_menu ){
+			this.patronmenu = this.helpers.clone(dieta_found.patron_menu);
+		}
+		if( dieta_found.patron_menu_ejemplos ){
+			this.patron_menu_ejemplos = this.helpers.clone(dieta_found.patron_menu_ejemplos);
+		}
 	}
 }
 export class Persona{
@@ -430,12 +502,10 @@ export class Persona{
 	distrito:string=''
 	detalles_direccion:string='';
 	ubicacion_id:number=1;
-	
 	edad:number=0;
 	edad_dias:number=0;
 	edad_meses:number=0;
 	esMayor:boolean=true;
-	
 	setEdad(){
 		this.edad	=	0;
 		if(!this.fecha_nac)
@@ -449,7 +519,6 @@ export class Persona{
 		/*this.edad	=	Math.ceil((timeDiff / (1000 * 3600 * 24)) / 365);*/
 		this.edad	=	Math.trunc(Number((timeDiff / (1000 * 3600 * 24)) / 365));
 		this.esMayor	=	this.edad>17;	
-		
 		var edadPaciente:number		=	Number(this.edad);
 		var edadPaciente_dias:number=	Math.round(edadPaciente*365);
 		var edadPaciente_meses:number=	Math.round(edadPaciente*12);
@@ -467,7 +536,6 @@ export class Persona{
 				_anhos	=	Math.trunc( edadPaciente_dias % 365.25 );
 				if(_anhos>30)
 					edadPaciente_meses	+=	Math.trunc( _anhos / 30 );
-
 		}
 		this.edad_dias	=	edadPaciente_dias;
 		this.edad_meses	=	edadPaciente_meses;
@@ -475,7 +543,6 @@ export class Persona{
 	getEdad(){
 		return this.edad;
 	}
-
 }
 export class Paciente extends Persona{
 	id:number=0;
@@ -496,7 +563,6 @@ export class Paciente extends Persona{
 	usuario:string='';
 	contrasena:string='';
 	nombre:string='';
-
 	set(data:Paciente){
 		this.persona_id			=	data.persona_id;
 		this.notas_patologias	=	data.notas_patologias;
@@ -514,7 +580,6 @@ export class Paciente extends Persona{
 		this.responsable_email		=	data.responsable_email;
 		this.usuario			=	data.usuario;
 		this.contrasena			=	data.contrasena;
-
 		this.id					=	data.id;
 		this.cedula				=	data.cedula;
 		this.nombre				=	data.nombre;
@@ -528,7 +593,6 @@ export class Paciente extends Persona{
 		this.distrito			=	data.distrito;
 		this.detalles_direccion	=	data.detalles_direccion;
 		this.ubicacion_id		=	data.ubicacion_id;
-
 		if(data.edad){
 			this.edad			=	data.edad;
 			this.edad_meses		=	data.edad_meses;
@@ -537,6 +601,24 @@ export class Paciente extends Persona{
 		}else
 			this.setEdad();
 	}
+}
+export class Nutricionista {
+	persona_id:number;
+	usuario:string;
+	contrasena:string;
+	activo:boolean;
+	id:number;
+	cedula:string;
+	nombre:string;
+	genero:string;
+	fecha_nac:string;
+	telefono:string;
+	celular:string;
+	email:string;
+	provincia:string;
+	canton:string;
+	distrito:string;
+	detalles_direccion:string;
 }
 export class ValoracionAntropometrica {	
     id: number = 0;
@@ -555,14 +637,11 @@ export class ValoracionAntropometrica {
 	pesoIdeal:string='';
 	pesoIdealAjustado:string='';
 	historial:any[]=[];
-	
 	lastEstatura:string='';
 	lastCircunferencia_muneca:string='';
-	
 	metodo_valoracion:string='oms';
 	percentil_analisis:string='50';
 	graficando:boolean=false;
-	
 	set(data:ValoracionAntropometrica){
 		this.id						=	data.id;
 		this.estatura				=	data.estatura;
@@ -646,7 +725,6 @@ export class ValoracionAntropometrica {
 		}
 		return pesoIdeal;
 	}
-	
 	calcularEstructuraOsea(){
 		if(!this.circunferencia_muneca)
 			return 0;
@@ -654,9 +732,7 @@ export class ValoracionAntropometrica {
 =ESTATURA*100/MUÑECA
 */
 		var valor	=	0;
-		
 		valor	=	Math.round( Number(this.estatura) *100/Number(this.circunferencia_muneca) );
-		
 		return valor;
 	}
 }
@@ -668,13 +744,12 @@ export class Rdd{
 	promedio_gc_diario:number=0;
 	variacion_calorica:number=0;
 	consulta_id:number;
-
 	tmb:number=0;
 	gcr:number=0;
 	icr:number=0;
 	va:ValoracionAntropometrica;
 	paciente:Paciente;
-
+	ingesta_calorica_recomendada: number;
 	set(rdd:Rdd){
 		this.id							=	rdd.id;
 		this.metodo_calculo_gc			=	rdd.metodo_calculo_gc;
@@ -713,7 +788,6 @@ export class Rdd{
 			(66,5+(13,75*PESO)+(5,003*ESTATURA*100)-(6,755*EDAD));
 				SI(SEXO="F";
 					(655,1+(9,563*PESO)+(1,85*ESTATURA*100)-(4,676*EDAD));)
-		
 		)
 	;0)
 */
@@ -730,7 +804,6 @@ export class Rdd{
 			result	=	655.1 + _peso + ( _estatura - _edad );
 		}
 		return result;
-			
 	}
 	getTmbMifflin(){
 		var current_peso:any	=	0;
@@ -760,7 +833,6 @@ export class Rdd{
 			variable_msj	=	5;
 		else
 			variable_msj	=	-161;
-
 		var result	=	(10*current_peso)+(6.25*Number(this.va.estatura)*100)-(5*Number(this.paciente.edad))+variable_msj;
 		return result;
 	}
@@ -811,7 +883,6 @@ export class Rdd{
 						if(this.paciente.genero=='F')
 							value	=	40;
 					}
-					
 				}
 			}
 		}
@@ -824,13 +895,11 @@ export class Rdd{
 		Edad	Formula
 Hombres	3-10	(19.6 x Peso) + (130.3 x Estatura) + 414.9
 		10-18	(16.25 x Peso) + (137.2 x Estatura) + 515.5
-
 Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 		10-18	(19.6 x Peso) + (130.3 x Estatura) + 414.12
 */
 		if( this.paciente.edad<3 || this.paciente.edad>18 )
 			return value;
-			
 		if(this.paciente.edad<11){
 			if(this.paciente.genero=='M')
 				value	=	(19.6*current_peso) + (130.3*Number(this.va.estatura)) + 414.9;
@@ -868,7 +937,6 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 		}
 	   return result;
    }
-	
 	getGastoCaloricoReal(){
 		var result:any	=	0;
 		switch(this.metodo_calculo_gc){
@@ -901,13 +969,30 @@ Mujeres	3-10	(8.365 x Peso) + (130.3 x Estatura) + 414.11
 		return result;
 	}
 	doAnalisis(){
-		
 	   this.getTasaBasal();
 	   this.gcr	=	this.getGastoCaloricoReal();
 	   this.icr	=	this.getIngestaCaloricaRecomendada();
-
    }
-	
+	/**/
+  getIngestaCaloricaRecomendada_new(dieta) {
+    /*	Ingesta calórica Recomendada
+	=GASTO_CALORICO_REAL+VARIACION_CALORICA
+*/
+    var result = this.getGastoCaloricoReal() + dieta.variacion_calorica;
+    return result;
+  }
+  doAnalisis_new(dietas) {
+    this.getTasaBasal();
+    this.gcr = this.getGastoCaloricoReal();
+    var _dieta;
+    for (var i in dietas) {
+      _dieta = dietas[i];
+      /*_dieta.ingesta_calorica_recomendada	=	this.ingestaCaloricaRecomendada_new(_dieta);*/
+      _dieta.ingesta_calorica_recomendada = this.getIngestaCaloricaRecomendada_new(
+        _dieta
+      );
+    }
+  }
 }
 export class Analisis {
     imc: number 				=	0;
@@ -932,7 +1017,6 @@ export class Consulta {
 	finalizar:boolean=false;
 	paciente_id:number;
 	paciente_nombre:string;
-
 	set(data:Consulta){
 		this.id				=	data.id;
 		this.fecha			=	data.fecha;
@@ -944,51 +1028,43 @@ export class Consulta {
 			this.archivos	=	data.archivos;
 	}
 }
-export class Nutricionista {
-	persona_id:number;
-	usuario:string;
-	contrasena:string;
-	activo:boolean;
-	id:number;
-	cedula:string;
-	nombre:string;
-	genero:string;
-	fecha_nac:string;
-	telefono:string;
-	celular:string;
-	email:string;
-	provincia:string;
-	canton:string;
-	distrito:string;
-	detalles_direccion:string;
+export class Dieta {
+  public id: number;
+  public nombre: string;
+  public variacion_calorica: Number = 0;
+  public consulta_id: number;
+  public ingesta_calorica_recomendada: number;
+  public prescripcion: any;
 }
 export class Prescripcion{
 	id:number;
 	carbohidratos:number=0;
 	proteinas:number=0;
 	grasas:number=0;
-	consulta_id:number;
+	/*consulta_id:number;*/
+  dieta_id: number;
 	itemsByDefault:PrescripcionItem[]=[];
 	items:any[]=[];
 	otros:any[]=[];
-
+  helpers = new Helpers();
 	constructor(){
 		this.prepareItems();
 		this.items	=	[];
 		this.otros	=	[];
 	}
 	set(prescripcion:Prescripcion){
+		this.constructor();
 		this.id				=	prescripcion.id;
 		this.carbohidratos	=	prescripcion.carbohidratos;
 		this.proteinas		=	prescripcion.proteinas;
 		this.grasas			=	prescripcion.grasas;
-		this.consulta_id	=	prescripcion.consulta_id;
-		
+		/*this.consulta_id	=	prescripcion.consulta_id;*/		
+		this.dieta_id 		= prescripcion.dieta_id;
+		this.items			=	[];
 		if(prescripcion.items){
-			this.items	=	prescripcion.items;
+			this.items	=	this.helpers.clone(prescripcion.items);
 		}else
 			this.prepareItems();
-
 		if(prescripcion.otros)
 			this.otros	=	prescripcion.otros;
 	}
@@ -1009,6 +1085,46 @@ export class Prescripcion{
 		];
 	}
 }
+export class PrescripcionItem {
+/*
+grupo_alimento_nutricionista_id: 1
+​​​​​​id: 1
+​​​​​​nombre: "Leche Descremada"​​​​​​
+porciones: 3​​​​​​
+prescripcion_id: 3756
+*/
+  constructor(
+    public id: number,
+    public nombre: string,
+    public slug: string,
+    public porciones: number = 0,
+    public carbohidratos: number = 0,
+    public proteinas: number = 0,
+    public grasas: number = 0,
+    public kcal: number = 0,
+    public grupo_alimento_nutricionista_id: number = 0
+  ) {
+	  this.grupo_alimento_nutricionista_id	=	this.id;
+  }
+}
+export class PatronMenu{
+	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public porciones:number, public ejemplo:string ){}
+}
+export class PatronMenuEjemplo{
+	dieta_desayuno_ejemplo:string='';
+	dieta_media_manana_ejemplo:string='';
+	dieta_almuerzo_ejemplo:string='';
+	dieta_media_tarde_ejemplo:string='';
+	dieta_cena_ejemplo:string='';
+	dieta_coicion_nocturna_ejemplo:string='';
+	arrayMenuDesayuno:{ [id: string]: any; };
+	arrayMenuMediaManana:{ [id: string]: any; };
+	arrayMenuAlmuerzo:{ [id: string]: any; };
+	arrayMenuMediaTarde:{ [id: string]: any; };
+	arrayMenuCena:{ [id: string]: any; };
+	arrayMenuCoicionNocturna:{ [id: string]: any; };
+	arrayMenuCurrent:{ [id: string]: any; };
+}
 export class ManejadorDatos{
 	aarchivo:string='class ManejadorDatos';
 	operacion:string='nuevo-paciente';
@@ -1028,9 +1144,7 @@ export class ManejadorDatos{
 	provincias:any[]=[];
 	cantones:any[]=[];
 	distritos:any[]=[];
-	
 	currentStepConsulta:string='';
-		
 	setEnableLink(enable){
 		this.enableLink	=	enable;
 	}		
@@ -1088,7 +1202,6 @@ export class ManejadorDatos{
 		this.extraInfoAlimentos['11']	=	{'slug':'grasas', 'ngmodel':'grasas'};
 		this.extraInfoAlimentos['12']	=	{'slug':'vaso-agua', 'ngmodel':'vaso_agua'};
 	}
-
 	fillDataForm(data, local=false){
 		this.hcpPatologias	=	data.hcp_patologias;
 		this.hcfPatologias	=	data.hcf_patologias;
@@ -1096,12 +1209,10 @@ export class ManejadorDatos{
 		this.ejercicios		=	data.ejercicios;
 		this.tiempo_comidas	=	data.tiempo_comidas;
 		this.ubicaciones	=	data.ubicaciones;
-
 		this.createInfoUbicacion();
 		if(!local)
 			this.storeLocal();
 	}
-
 	storeLocal(){
 		var data	=	{};
 		data['hcp_patologias']	=	this.hcpPatologias;
@@ -1168,26 +1279,20 @@ Modo de Uso
 	validateKey(evt, charCode){		
 		if (charCode == 8 || (charCode > 34 && charCode < 41 ))
 			return true;
-
 		if(charCode < 45 || charCode > 57 )
 			return false;
-
 		return true;
 	}
 	onKeyPress(e: any):boolean {
 		let input;
 		if (e.metaKey || e.ctrlKey)
 			return true;
-
 		if (e.which === 32)
 			return false;
-
 		if (e.which === 0)
 			return true;
-
 		if (e.which < 33)
 			return true;
-
 		input = String.fromCharCode(e.which);		
 		return !!/[\d\s]/.test(input);
 	}
@@ -1195,16 +1300,12 @@ Modo de Uso
 		let input;
 		if (e.metaKey || e.ctrlKey)
 			return true;
-
 		if (e.which === 32)
 			return false;
-
 		if (e.which === 0)
 			return true;
-
 		if (e.which < 33)
 			return true;
-
 		input = String.fromCharCode(e.which);		
 		return !!/[\d\s]/.test(input);
 	}
@@ -1247,7 +1348,6 @@ Modo de Uso
 		var numero	=	evt.target.value;
 		numero	=	numero.substring(0, numero.length-1); 
 		var _value 	=	Number(evt.target.value);
-
 		if(_value > max){
 			evt.target.value	=	numero;
 			return false;
@@ -1265,48 +1365,35 @@ Modo de Uso
 		}
 		if (event.which === 32)
 			return false;
-
 		if (event.which === 0)
 			return true;
-
 		if (event.which < 33)
 			return true;
-
 		input = String.fromCharCode(event.which);
 		var keyCode = [8,9,37,39,45,46,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105,110];
 		var charCode = (event.which) ? event.which : event.keyCode;		
 		var index = keyCode.indexOf( charCode );
 		if(index<0)
 			return false;
-		
 		var re = /^-?\d*\.?\d{0,6}$/;
 		return (input.match(re) !== null);	
-		
 	}	
-	
 	onlyIntNegPos(evt){
 		if (evt.key=='Delete')
 			return true;
 		var charCode = (evt.which) ? evt.which : evt.keyCode;
-		
 		if (charCode == 8 || (charCode > 34 && charCode < 41 ))
 			return true;
-
 		if(charCode < 45 || charCode > 57 )
 			return false;
-
 		if(charCode == 46 )
 			return false;
-
 		var value 	=	String(evt.target.value);
-		
 		var index	=	-100;
-		
 		if(charCode==45){
 			index	=	value.indexOf( '-' );
 			if(index>-1)
 				return false;
-
 			evt.target.value	=	'-' + evt.target.value;
 			value	=	evt.target.value;
 		}
@@ -1343,11 +1430,9 @@ Modo de Uso
 			let _ampm	=	'am';
 			if(Number(_hour)>11)
 				_ampm	=	'pm';
-			
 			let h	=	Number(_hour) % 12;
 			if(h==0)
 				h	=	12;
-
 			time_formatted	=	h + ':' + _num.substring(2,4) + _ampm;
 			return time_formatted;
 		}
@@ -1356,7 +1441,6 @@ Modo de Uso
 	getHourMinutes(value){
 		let _num	=	String(value).padStart(4, '0');
 		let time_formatted	=	{hour: parseInt(_num.substring(0,2)), minutes: parseInt(_num.substring(2,4))};
-		
 		return time_formatted;
 	}
 	getStatusCitaClass(status){
@@ -1384,11 +1468,9 @@ Modo de Uso
 	}
 	__getMinutesHM(minutos){
 		let _d	=	this.__getCocienteResiduo(minutos, 60);
-
 		let _mhm	=	(_d.d*100) + _d.r
 		if(_d.r>0)
 			_mhm	+=	40;
-
 		return _mhm;
 	}
 }
@@ -1397,47 +1479,20 @@ export class Ejercicio{
 	nombre:string;
 	mets:string;
 }
-export class PrescripcionItem{
-	constructor(public id:number, public nombre:string, public slug:string, public porciones:number=0, public carbohidratos:number=0, public proteinas:number=0, public grasas:number=0, public kcal:number=0) {
-  }
-}
-export class PatronMenu{
-	constructor(public tiempo_comida_id:number, public grupo_alimento_nutricionista_id:number, public porciones:number, public ejemplo:string ){}
-}
-export class PatronMenuEjemplo{
-	dieta_desayuno_ejemplo:string='';
-	dieta_media_manana_ejemplo:string='';
-	dieta_almuerzo_ejemplo:string='';
-	dieta_media_tarde_ejemplo:string='';
-	dieta_cena_ejemplo:string='';
-	dieta_coicion_nocturna_ejemplo:string='';
-
-	arrayMenuDesayuno:{ [id: string]: any; };
-	arrayMenuMediaManana:{ [id: string]: any; };
-	arrayMenuAlmuerzo:{ [id: string]: any; };
-	arrayMenuMediaTarde:{ [id: string]: any; };
-	arrayMenuCena:{ [id: string]: any; };
-	arrayMenuCoicionNocturna:{ [id: string]: any; };
-	arrayMenuCurrent:{ [id: string]: any; };
-
-}
 export class DetalleGrasa{
 	id:number=0;
 	valorGrasaSegmentado:number=0;
 	valorGrasaPliegues:number=0;
  	valoracion_antropometrica_id:number=0;
-
 	segmentado_abdominal:string='';
 	segmentado_pierna_izquierda:string='';
 	segmentado_pierna_derecha:string='';
 	segmentado_brazo_izquierdo:string='';
 	segmentado_brazo_derecho:string='';
-
 	pliegue_tricipital:string='';
 	pliegue_bicipital:string='';
 	pliegue_subescapular:string='';
 	pliegue_supraliaco:string='';
-
 }
 export class DetalleMusculo{
 	id:number=0;
@@ -1468,7 +1523,6 @@ export class HcpOtros{
 		public ciclos_menstruales:string='';
 		public notas:string='';
 		public paciente_id:number;
-
 }
 export class HabitosGusto{
 	public id:number;
@@ -1517,7 +1571,6 @@ export class DetalleValoracionDieteticaTexto{
 	public textoMediaTarde:string='';
 	public textoCena:string='';
 	public textoCoicionNocturna:string='';
-
 	public textoAgua:string='';
 	public textoGaseosa:string='';
 	public textoJugosEmpacados:string='';
@@ -1544,28 +1597,23 @@ export class Producto{
 	public precio:number;
 	public unidad_medida:number;
 }
-
 export class Consulta_s_f{
 	public id: number;
 	public paciente: string;
 	public fecha: string;
 }
-
 export class Tipo{
 	public id: number;
 	public name: string;
 }
-
 export class Medida{
 	public id: number;
 	public name: string;
 }
-
 export class Tipo_ID{
 	public id: number;
 	public name: string;
 }
-
 export class Medio{
 	public id: number;
 	public name: string;
@@ -1579,7 +1627,6 @@ export class Graphic{
 	public peso:number=0;
 	public altura:number=0;
 }
-
 export class AgendaServicio{
 	public id:number;
 	public nombre:string;
@@ -1605,7 +1652,6 @@ export class Agenda{
 	public text:string;
 	public editable:boolean;
 	public editing:boolean;
-
 	constructor(nutricionista_id:number=0){
 		this.id=0;
 		this.date='';

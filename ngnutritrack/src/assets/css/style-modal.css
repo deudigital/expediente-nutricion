@@ -95,6 +95,8 @@ body.open-modal .esc-modalbox.prompt {top:30%;position:fixed}
 .esc-modalbox .table tbody tr:nth-child(odd) > td{background-color:#e7e7e7;border-left: 1px solid #cfcfcf;}
 .esc-modalbox .table tbody tr > td:first-child{border-left: none;}
 
+.esc-modalbox .table.intern {background-color: transparent;border-radius: 0;}
+.esc-modalbox .table.intern tr td {background-color: transparent !important;}
 .esc-modalbox .table.historial.prescripcion{color:#6c6c6c;border-spacing: 0 5px;border-collapse: separate;}
 .esc-modalbox .table.historial.prescripcion tbody tr{position:relative;}
 .esc-modalbox .table tr.detalle_prescripcion > td {color:#fff}
@@ -197,11 +199,15 @@ body.open-modal .esc-modal.transparent {top: 50%;}
 	.esc-modalbox .table tr.detalle_prescripcion > td:last-child {border-radius: 0 10px 10px 0;}
 	.esc-modalbox .addpaddingprescripcion {padding: 0 0 0 30px;}
 }
+@media (min-width:992px){
+	.esc-modalbox .table.intern tr td:first-child {max-width: 100% !important;width: 150px;}
+}
 @media (min-width:1240px){
 	.esc-modal.wide,
 	.esc-modalbox.wide{left: 50%;}
 	.esc-modal.wide {width:1200px;margin-left: -600px;padding: 20px 15px 50px}	
 	.esc-modalbox.wide{width: 1200px;margin-left: -600px;}
+	.esc-modalbox .table.intern tr td:first-child {width: 170px;}														  
 }
 @media(max-width:767px){
 	.esc-modalbox .menu > li > a > span {display: none;}

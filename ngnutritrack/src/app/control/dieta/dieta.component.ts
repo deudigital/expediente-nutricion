@@ -85,9 +85,12 @@ export class DietaComponent implements OnInit {
 	current_peso:number;
 	paraCopiar:any;
   constructor(private auth: AuthService, private router: Router, private formControlDataService: FormControlDataService) {
+ try {	  
+	  /*console.log('Dieta:constructor');*/
 	this.model			=	formControlDataService.getFormControlData();
-	this.helpers		=	this.model.getHelpers();	
-	this.prescripcion	=	this.model.getFormPrescripcion();	
+	this.helpers		=	this.model.getHelpers();
+
+	this.prescripcion	=	this.model.getFormPrescripcion();/*console.log('this.prescripcion', this.prescripcion)*/
 	this.items			=	this.prescripcion.itemsByDefault;	
 	this.otrosItems		=	this.prescripcion.otros;	
 	this.paciente		=	this.model.getFormPaciente();
@@ -95,11 +98,15 @@ export class DietaComponent implements OnInit {
 	this.va				=	this.model.getFormValoracionAntropometrica();	
 	this.rdd.setPaciente(this.paciente);
 	this.rdd.setVA(this.va);
-	this.rdd.doAnalisis();
+	/*this.rdd.doAnalisis();*/
+	this.rdd.doAnalisis_new(this.model.dietas);
 	this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
 	this.createOriginal();	
 	this.calculateItems();
 	this.total();
+	 } catch (err) {
+      console.log("dieta:constructor(" + err.message + ")");
+    }
   }
   ngOnInit() {
 	  this.tagBody = document.getElementsByTagName('body')[0];
@@ -132,23 +139,25 @@ export class DietaComponent implements OnInit {
 					}
 			})		
 			.catch((err) => {
-				console.log(JSON.parse(err._body));
+				console.log('dieta:verifyUser',JSON.parse(err._body));
 			});	  
   }
 	ngOnDestroy() {
-		if(!this.navitation)
+		if(!this.navitation){
 			this.saveForm();
-
+		}
 		this.helpers.scrollToForm(true);
 	}
 	createOriginal(){
 		this.oPrescripcion.carbohidratos	=	this.prescripcion.carbohidratos;
 		this.oPrescripcion.grasas			=	this.prescripcion.grasas;
 		this.oPrescripcion.proteinas		=	this.prescripcion.proteinas;
-		
+		/*console.log('this.items', this.items);*/
 		if(this.items.length==0)
 			return ;
 		
+		/*console.log('this.items.length:', this.items.length, 'this.prescripcion.items', this.prescripcion.items);*/
+		this.oItems	=	[];
 		var found:any;
 		for(var i =0;i<this.items.length;i++){
 			var obj	=	this.items[i];
@@ -161,8 +170,6 @@ export class DietaComponent implements OnInit {
 			var presc	=	new PrescripcionItem(obj.id, obj.nombre, obj.slug, obj.porciones, obj.carbohidratos, obj.proteinas, obj.grasas, obj.kcal);
 			this.oItems[i]	=	presc;
 		}
-		
-		
 	}
 	existChanges(){
 		var itemsOtrosInArray	=	!this.prescripcion.id && this.otrosItems.length>0;
@@ -197,10 +204,16 @@ export class DietaComponent implements OnInit {
 		this.formControlDataService.addPrescripcion(prescripcion)
 		.subscribe(
 			 response  => {
-						if(this.addOtrosItems)
-							this.saveOtrosAlimentos(response);
-					},
-			error =>  console.log(<any>error)
+				 /*this._displayMessage(response);*/
+				 this.model._displayMessage( response );
+					/*this._updatePrescripcion(response);*/
+				if(this.addOtrosItems)
+					this.saveOtrosAlimentos(response);
+			},
+			error =>  {
+				this.model._displayMessage();
+				console.log(<any>error)
+			}
 		);
 	}
 	openModalFactura(){
@@ -242,15 +255,24 @@ export class DietaComponent implements OnInit {
 		return _array.indexOf(ele)>-1;
 	}
 	fillHistorial(historial){
-		var data	=	[];
+		var data	=	[];/*console.log('historial', historial);*/
+		var k=0;
 		for(var i in historial){
 			historial[i].display	=	false;
-			data[i]		=	historial[i];
+			for(var j in historial[i].dietas)
+				historial[i].dietas[j].display	=	false;
+
+			/*data[i]		=	historial[i];*/
+			data[k]		=	historial[i];
+			k++;
 		}
-		this.historial	=	data;console.log(this.historial);
+		this.historial	=	data;/*console.log(this.historial);*/
 		this.disableButtonHistorial	=	this.historial.length==0;
 	}
 	displayDetails(item){
+		item.display	=	!item.display;
+	}
+	displayDieta(item){
 		item.display	=	!item.display;
 	}
 	showModalCopiar(prescripcion){
@@ -261,6 +283,7 @@ export class DietaComponent implements OnInit {
 		this.copiando	=	true;		
 		let data	=	{
 			prescripcion_id: this.paraCopiar.id,
+			dieta_id: this.paraCopiar.id,
 			consulta_id: this.model.consulta.id
 		};
 		this.formControlDataService.store('copiar_prescripcion', data)
@@ -276,7 +299,8 @@ export class DietaComponent implements OnInit {
 								this.otrosItems		=	this.prescripcion.otros;
 								this.rdd.setPaciente(this.paciente);
 								this.rdd.setVA(this.va);
-								this.rdd.doAnalisis();
+								/*this.rdd.doAnalisis();*/
+								this.rdd.doAnalisis_new(this.model.dietas);
 								
 								this.createOriginal();	
 								this.calculateItems()
@@ -397,14 +421,16 @@ export class DietaComponent implements OnInit {
 			return 0;
 
 		var percentage	=	this.prescripcion.carbohidratos*0.01;
-		this.kcalCarb	=	Math.round(this.rdd.icr*percentage);
+		/*this.kcalCarb	=	Math.round(this.rdd.icr*percentage);*/		
+		this.kcalCarb	=	Math.round(this.model.current_dieta.ingesta_calorica_recomendada * percentage);
 		return this.kcalCarb;
    } 
 	getCalculoKcalProteinas(){
 	   if(!this.prescripcion.proteinas)
 			return 0;
 		var percentage	=	this.prescripcion.proteinas*0.01;
-		this.kcalProt	=	Math.round(this.rdd.icr*percentage);
+		/*this.kcalProt	=	Math.round(this.rdd.icr*percentage);*/
+		this.kcalProt	=	Math.round(this.model.current_dieta.ingesta_calorica_recomendada * percentage);
 		return this.kcalProt;
    }   
    
@@ -412,7 +438,8 @@ export class DietaComponent implements OnInit {
 	   if(!this.prescripcion.grasas)
 			return 0;
 		var percentage	=	this.prescripcion.grasas*0.01;
-		this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);
+		/*this.kcalGrasas	=	Math.round(this.rdd.icr*percentage);*/
+		this.kcalGrasas	=	Math.round(this.model.current_dieta.ingesta_calorica_recomendada * percentage);
 		return this.kcalGrasas;
    }
    
@@ -470,13 +497,13 @@ export class DietaComponent implements OnInit {
 		var total	=	0;
 
 		if(this.prescripcion.carbohidratos)
-			total	+=	this.prescripcion.carbohidratos;
+			total	+=	Number(this.prescripcion.carbohidratos);
 
 		if(this.prescripcion.proteinas)
-			total	+=	this.prescripcion.proteinas;
+			total	+=	Number(this.prescripcion.proteinas);
 
 		if(this.prescripcion.grasas)
-			total	+=	this.prescripcion.grasas;
+			total	+=	Number(this.prescripcion.grasas);
 
 		return total;
 	}
@@ -640,26 +667,81 @@ export class DietaComponent implements OnInit {
 	   this.total_faltante_kcal		=	this.rdd.icr - this.total_kcal;
 	   
 	   if(this.total_kcal)
-			this.total_adecuacion_kcal	=	this.total_kcal/this.rdd.icr*100;
+			this.total_adecuacion_kcal	=	this.total_kcal/this.model.current_dieta.ingesta_calorica_recomendada*100;
 		else
 			this.total_adecuacion_kcal	=	0;
    }
-	saveForm(){
-		this.prescripcion.items	=	this.items;
-		this.model.getFormPrescripcion().set(this.prescripcion);
-		this.formControlDataService.setFormControlData(this.model);		
-		if(this.existChanges()){
-			this.createPrescripcion(this.prescripcion);
+
+	saveForm(){console.log('dieta:saveForm');
+		try{
+			this.prescripcion.dieta_id	=	this.model.current_dieta_id;
+			this.prescripcion.items		=	this.helpers.clone(this.items);
+			var _prescripcion			=	this.helpers.clone(this.prescripcion);
+			this.model.setPrescripcion( this.prescripcion.dieta_id, _prescripcion );
+			this.model.prescripcion		=	_prescripcion;
+			this.formControlDataService.setFormControlData(this.model);		
+
+			if(this.existChanges()){console.log('Prescripcion:saveForm->existChanges');
+				this.createPrescripcion(this.prescripcion);
+			}
+
+		}catch(err) {
+			console.log( 'Dieta:saveForm(' + err.message + ')' );
 		}
 	}
 	Previous(){
-		this.navitation	=	true;
-		this.saveForm();
-		this.router.navigate(['/recomendacion']);
+		if(this.model.current_dieta_id==this.model.dietas[0].dieta_id){
+			this.router.navigate([ '/recomendacion']);
+			return ;
+		}
+		this.navitation	=	true;	
+		var _goto	=	'/patron-menu';
+		var _index	=	-1;
+		var j	=	this.model.dietas.length-1;
+		while( j > -1){
+			if(this.model.current_dieta_id==this.model.dietas[j].dieta_id){
+				if(j==0)
+					_index	=	0;
+				else
+					_index	=	j-1;
+				j	=	0;
+			}
+			j--;
+		}
+		if(_index>-1){
+			this.dietaxSelected(this.model.dietas[_index]);
+			this.router.navigate([ _goto ]);
+			this.helpers.scrollToForm(true);
+		}
+		return ;
 	}
 	Next(){
 		this.navitation	=	true;
 		this.saveForm();
-		this.router.navigate(['/patron-menu']);
+		this.router.navigate([ '/patron-menu' ]);
+	}
+	dietaxSelected(newDietaSelected, $event=false){
+		this.navitation	=	true;
+		/*if($event)*/
+			this.saveForm();		
+		/*this.model.setCurrentDieta( newDietaSelected.dieta_id );*/
+		this.model.setDieta( newDietaSelected.dieta_id );
+
+		this.prescripcion	=	this.helpers.clone(this.model.getFormPrescripcion());
+		this.items			=	this.helpers.clone(this.prescripcion.itemsByDefault);
+		this.otrosItems		=	this.helpers.clone(this.prescripcion.otros);
+		
+		this.otroAlimento	=	new OtroAlimento('', this.prescripcion.id);
+		this.createOriginal();
+		this.calculateItems();
+		this.total();
+		this.navitation	=	false;
+	}
+	/*_updatePrescripcion(response){
+		let prescripcion	=	response
+		this.model.setDieta( newDietaSelected.dieta_id );
+	}*/
+	_displayMessage( response ){console.log('response', response);
+		this.model._displayMessage( response );
 	}
 }
