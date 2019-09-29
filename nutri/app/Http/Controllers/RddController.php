@@ -40,12 +40,13 @@ class RddController extends Controller
 		$rdd->save();
 		$response	=	Response::json([
 			'message'	=> 'RDD ' . $action . ' correctamente',
-			'data'		=>	$rdd
+			'data'		=>	$rdd,
+			'result'	=>	'success',
 			
 		], 201);
 		return $response;
     }
-    public function belongsToPaciente($id)
+    public function belongsToPaciente__current($id)
     {
 		$registros = DB::table('rdds')
             ->join('consultas', 'consultas.id', '=', 'rdds.consulta_id')
@@ -57,6 +58,41 @@ class RddController extends Controller
 			->orderBy('consultas.fecha', 'DESC')
 			->get();
 		$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);
+		return $response;
+    }
+    public function belongsToPaciente($id)
+    {
+		$registros = DB::table('rdds')
+            ->join('consultas', 'consultas.id', '=', 'rdds.consulta_id')
+            ->join('dietas', 'dietas.consulta_id', '=', 'consultas.id')
+            ->join('valor_antropometricas', 'valor_antropometricas.consulta_id', '=', 'rdds.consulta_id')
+            ->join('personas', 'personas.id', '=', 'consultas.paciente_id')
+            ->where('consultas.paciente_id', $id)
+            ->where('consultas.estado', 1)
+            ->select('consultas.fecha', 'rdds.*',
+						DB::raw('TIMESTAMPDIFF(YEAR, personas.fecha_nac, consultas.fecha) as edad'),
+						DB::raw('UNIX_TIMESTAMP(consultas.fecha) as date'), 'valor_antropometricas.estatura', 
+						'valor_antropometricas.peso', 
+						'valor_antropometricas.edad_metabolica',
+						'dietas.id as dieta_id',
+						'dietas.nombre as dieta_nombre',
+						'dietas.variacion_calorica as dieta_variacion_calorica')
+			->orderBy('consultas.fecha', 'DESC')
+			->orderBy('dietas.id', 'ASC')
+			->get();
+		$aRegistros	=	array();
+		foreach ($registros as $key => $rdd) {
+			if(!in_array($rdd->consulta_id, $aRegistros))
+				$aRegistros[$rdd->consulta_id]['rdd']	=	$rdd;
+
+				$aRegistros[$rdd->consulta_id]['dietas'][]	=	array(
+																	'id' => $rdd->dieta_id, 
+																	'nombre' => $rdd->dieta_nombre, 
+																	'variacion_calorica' => $rdd->dieta_variacion_calorica 
+																);
+}
+		/*$response	=	Response::json($registros, 200, [], JSON_NUMERIC_CHECK);*/
+		$response	=	Response::json($aRegistros, 200, [], JSON_NUMERIC_CHECK);
 		return $response;
     }
 }

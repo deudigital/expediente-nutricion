@@ -8,6 +8,7 @@ use App\Persona;
 use App\Nutricionista;
 use App\ValoracionAntropometrica;
 use App\Rdd;
+use App\Dieta;
 use App\Prescripcion;
 use App\DetalleDescripcion;
 use App\OtrosAlimento;
@@ -72,10 +73,31 @@ class ConsultaController extends Controller
 			'paciente_id'	=>	trim($request->persona_id)
 		));
 		if($consulta->save()){
-			$response	=	array(
-					'message'	=>	'Consulta registrada correctamente',
-					'data'		=>	$consulta
-				);
+			$rdd	=	new Rdd(
+								array(
+									'metodo_calculo_gc'				=>	'benedict',
+									'peso_calculo'					=>	'actual',
+									'factor_actividad_sedentaria'	=>	1.4,
+									'promedio_gc_diario'			=>	0,
+									'variacion_calorica'			=>	0,
+									'consulta_id'		=>	$consulta->id
+								)
+							);
+			$rdd->save();
+			$dieta	=	new Dieta(
+								array(
+									'nombre'			=>	'Dieta 1',
+									'variacion_calorica'=>	0,
+									'consulta_id'		=>	$consulta->id
+								)
+							);
+			if($dieta->save()){
+				$response	=	array(
+									'message'	=>	'Consulta registrada correctamente',
+									'data'		=>	$consulta,
+									'dieta'		=>	$dieta
+								);
+			}
 		}
 		if(count($last_valor_antropometrica)>0)
 			$response['va']	=	$last_valor_antropometrica;
@@ -119,7 +141,62 @@ class ConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+	 public function destroy($id)
+    {
+		$message	=	array(
+							'code'		=> '500',
+							'message'	=> 'Se produjo un error interno al procesar la solicitud. Inténtalo de nuevo'
+						);
+		$consulta_id	=	$id;
+		DB::beginTransaction();
+		try {
+			$valoracionAntropometrica	=	ValoracionAntropometrica::where('consulta_id', $consulta_id)
+											->get()
+											->first();
+
+			if(count($valoracionAntropometrica)>0){
+				DetalleMusculo::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+				DetalleGrasa::where('valoracion_antropometrica_id', $valoracionAntropometrica->id)->delete();
+			}
+			ValoracionAntropometrica::where('consulta_id', $consulta_id)->delete();
+			Rdd::where('consulta_id', $consulta_id)->delete();
+			
+			
+			$dietas	=	Dieta::where('consulta_id', $consulta_id)
+						->get();
+			
+			foreach($dietas as $dieta){
+				$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
+										->get()
+										->first();
+
+				if(count($prescripcion)>0){
+					DetalleDescripcion::where('prescripcion_id', $prescripcion->id)->delete();
+					OtrosAlimento::where('prescripcion_id', $prescripcion->id)->delete();
+				}
+				Prescripcion::where('dieta_id', $dieta->id)->delete();
+				PatronMenu::where('dieta_id', $dieta->id)->delete();
+				PatronMenuEjemplo::where('dieta_id', $dieta->id)->delete();
+			}			
+			Dieta::where('consulta_id', $consulta_id)->delete();
+			Consulta::destroy($consulta_id);
+
+			DB::commit();
+			// all good
+			$message	=	array(
+							'code'		=> '204',
+							'message'	=> 'Se ha eliminado correctamente'
+						);
+		} catch (\Exception $e) {
+			DB::rollback();
+			// something went wrong
+			$message['error']	=	$e->getMessage();
+
+		}
+        $response	=	Response::json($message, 201);
+		return $response;
+    }
+    public function destroy__original($id)
     {
 		$message	=	array(
 							'code'		=> '500',
@@ -271,6 +348,11 @@ class ConsultaController extends Controller
 										->get();
 		if(count($patronMenu)>0)
 			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
+		if(count($prescripcion)>0)
+			$registros['dieta']['items']['prescripcion']	=	$prescripcion->toArray();
+		if(count($patronMenu)>0)
+			$registros['dieta']['items']['patron_menu']		=	$patronMenu->toArray();
+		
 		return true;
 	}
 	function all($id){
@@ -422,43 +504,57 @@ Enviar usuario y contrasena?????? por ahora si...
 		if(count($rdd)>0)
 			$registros['rdd']	=	$rdd->toArray();
 
-		$prescripcion	=	Prescripcion::where('consulta_id', $id)
-										->get()
-										->first();
-
-		if(count($prescripcion)>0){
-			$registros['dieta']['prescripcion']	=	$prescripcion->toArray();
-			$detalleDescripcion	=	DB::table('detalle_prescripcion')
-										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
-										->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
-										->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+		$aDietas	=	array();
+		$dietas		=	Dieta::where('consulta_id', $id)
 										->get();
-			if(count($detalleDescripcion)>0){
-				$registros['dieta']['prescripcion']['items']	=	$detalleDescripcion->toArray();
-			}
 
-			$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
-											->get();
-			if(count($otrosAlimento)>0){
-				$registros['dieta']['prescripcion']['otros']	=	$otrosAlimento->toArray();
-			}else
-				$registros['dieta']['prescripcion']['otros']	=	array();
-
-		}
-		$patronMenu	=	PatronMenu::where('consulta_id', $id)
-										->get();
-		if(count($patronMenu)>0)
-			$registros['dieta']['patron_menu']	=	$patronMenu->toArray();
-			
-//										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
-		$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
-									->where('consulta_id',$id)
-									->orderBy('tiempo_comida_id', 'ASC')
+		/*return Helper::printResponse($dietas);*/
+		if(count($dietas)>0){
+			foreach($dietas as $dieta){
+				$items	=	array();
+				$items['dieta_id']	=	$dieta->id;
+				$items['nombre']	=	$dieta->nombre;
+				$items['variacion_calorica']	=	$dieta->variacion_calorica;
+				$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
+									->get()
+									->first();
+				
+				if(count($prescripcion)>0){
+					$items['prescripcion']	=	$prescripcion->toArray();
+					$detalleDescripcion	=	DB::table('detalle_prescripcion')
+												->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+												->where('detalle_prescripcion.prescripcion_id',$prescripcion->id)
+												->orderBy('grupo_alimento_nutricionistas.id', 'ASC')
+												->get();
+					if(count($detalleDescripcion)>0){
+						$items['prescripcion']['items']	=	$detalleDescripcion->toArray();
+					}
+					$items['prescripcion']['otros']	=	array();
+					$otrosAlimento	=	OtrosAlimento::where('prescripcion_id', $prescripcion->id)
+													->get();
+					if(count($otrosAlimento)>0){
+						$items['prescripcion']['otros']	=	$otrosAlimento->toArray();
+					}
+				}
+				$patronMenu	=	PatronMenu::where('dieta_id', $dieta->id)
 									->get();
+				if(count($patronMenu)>0)
+					$items['patron_menu']	=	$patronMenu->toArray();
+					
+		//										->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'detalle_prescripcion.grupo_alimento_nutricionista_id')
+				$patronMenuEjemplos	=	DB::table('patron_menu_ejemplos')
+											->where('dieta_id',$dieta->id)
+											->orderBy('tiempo_comida_id', 'ASC')
+											->get();
 
-		if(count($patronMenuEjemplos)>0)
-			$registros['dieta']['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
+				if(count($patronMenuEjemplos)>0)
+					$items['patron_menu_ejemplos']	=	$patronMenuEjemplos->toArray();
 
+				if(count($items)>0)
+				$registros['dietas'][]	=	$items;
+
+			}
+		}
 		$prom_mes		=	'30.4375';
 		$prom_anho		=	'365.25';
 		$anhos			=	'TIMESTAMPDIFF( YEAR, personas.fecha_nac, consultas.fecha)';
@@ -630,6 +726,8 @@ Enviar usuario y contrasena?????? por ahora si...
 				}
 			}
 			$aResponse['consulta']	=	$consulta;
+			$aResponse['result']	=	'success';
+			$aResponse['message']	=	'Datos Guardados Correctamente';
 		}
 		$response	=	Response::json($aResponse, 201, [], JSON_NUMERIC_CHECK);
 		return $response;
@@ -866,7 +964,14 @@ Enviar usuario y contrasena?????? por ahora si...
 			}			
 		}
 
-		$prescripcion	=	Prescripcion::where('consulta_id', $consulta->id)
+		$dietas			=	Dieta::where('consulta_id', $consulta->id)
+										->get();
+		$multiple_dietas	=	count($dietas)>1;
+
+foreach($dietas as $dieta){
+		$dieta_item			=	Array();
+		$dieta_item['item']	=	$dieta->toArray();
+		$prescripcion	=	Prescripcion::where('dieta_id', $dieta->id)
 										->get()
 										->first();
 		if(count($prescripcion)>0){
@@ -923,7 +1028,8 @@ Enviar usuario y contrasena?????? por ahora si...
 					
 				}
 			}
-			$blade['prescripcion']	=	$aPrescripcionItems;
+			/*$blade['prescripcion']	=	$aPrescripcionItems;*/
+			$dieta_item['prescripcion']	=	$aPrescripcionItems;
 		}
 		$tiempoComidas	=	Helper::getTiposComida($paciente->nutricionista_id);
 		if(count($tiempoComidas)>0){
@@ -936,7 +1042,7 @@ Enviar usuario y contrasena?????? por ahora si...
 			}
 		}
 /*Helper::_print($_tiempo_comidas);*/
-		$patronMenuEjemplo	=	PatronMenuEjemplo::where('consulta_id', $consulta->id)
+		$patronMenuEjemplo	=	PatronMenuEjemplo::where('dieta_id', $dieta->id)
 									->get();
 /*Helper::_print($patronMenuEjemplo);*/
 		if(count($patronMenuEjemplo)>0){
@@ -950,7 +1056,7 @@ Enviar usuario y contrasena?????? por ahora si...
 		$patronMenu	=	DB::table('patron_menus')
 							->join('grupo_alimento_nutricionistas', 'grupo_alimento_nutricionistas.id', '=', 'patron_menus.grupo_alimento_nutricionista_id')
 							->join('tiempo_comidas', 'tiempo_comidas.id', '=', 'patron_menus.tiempo_comida_id')
-							->where('patron_menus.consulta_id', $consulta->id)
+							->where('patron_menus.dieta_id', $dieta->id)
 							->select('patron_menus.*', 'grupo_alimento_nutricionistas.nombre as alimento' )
 							->orderBy('patron_menus.tiempo_comida_id', 'ASC')
 							->get();
@@ -959,9 +1065,13 @@ Enviar usuario y contrasena?????? por ahora si...
 			foreach($aPatronMenu as $key=>$value)
 				$_tiempo_comidas[$value->tiempo_comida_id]['menu'][]	=	($value->porciones + 0) . ' ' . $value->alimento;
 
-			$blade['patron_menu']	=	$_tiempo_comidas;		
+			/*$blade['patron_menu']	=	$_tiempo_comidas;*/
+			$dieta_item['patron_menu']	=	$_tiempo_comidas;		
 		}
-		
+
+	if(isset($dieta_item['prescripcion']) || isset($dieta_item['patron_menu']))
+			$blade['dietas'][]	=	$dieta_item;
+}
 		$archivos_paciente	=	array();
 		$archivos	=	ArchivoConsulta::where('consulta_id', $consulta->id)
 									->get();
@@ -1009,7 +1119,11 @@ Enviar usuario y contrasena?????? por ahora si...
 			$data['bprescripcion']	=	$blade['prescripcion'];
 		if(isset($blade['patron_menu']))
 			$data['bpatronmenu']	=	$blade['patron_menu'];
-
+				if(isset($blade['dietas']))
+			$data['bdietas']	=	$blade['dietas'];
+		if($multiple_dietas)
+			$data['multiple_dietas']	=	true;
+/*Helper::_print($data['bdietas']);exit;*/
 		if( count($archivos_paciente)>0)
 			$data['attach']	=	$archivos_paciente;
 

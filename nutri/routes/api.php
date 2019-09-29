@@ -42,9 +42,12 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v0'], function(){
 	Route::get('agenda/servicios/{nutricionista_id}', 'AgendaController@selectServicios');
 	Route::get('consultas/{id}/resumen/{mode}', 'ConsultaController@testResumen');
 	Route::get('consultas/patronmenu/duplicados', 'PatronMenuController@duplicados');
+	Route::get('consultas/patronmenu/testing', 'PatronMenuController@FixUpdateDietasVariacionCalorica');																								 
 	Route::get('dietas/paciente/{id}', 'DietaController@belongsToPaciente');
 	Route::get('patronmenu/paciente/{id}', 'DietaController@patronmenuBelongsToPaciente');
+	Route::get('consultas/{id}/all/', 'ConsultaController@all');														 
 	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
+	Route::get('consultas/nutricionista/{id}/pendientes/', 'ConsultaController@pendientes');
 });
 /*Route::group(['middleware' => ['auth:api', 'cors'], 'prefix' => 'v1'], function(){*/
 Route::group(['middleware' => ['cors'], 'prefix' => 'v1'], function(){
@@ -63,6 +66,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v1'], function(){
 	/*	RDD	*/
 	Route::get('rdds/paciente/{id}', 'RddController@belongsToPaciente');
 	Route::post('consultas/rdd', 'RddController@store');
+	Route::post('consultas/dietas', 'DietaController@storeDietas');										
 	
 	/*	DIETA	*/
 	Route::get('prescripcion/paciente/{id}', 'PrescripcionController@belongsToPaciente');
@@ -191,4 +195,6 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'v1'], function(){
 	Route::post('tiempocomidas', 'TiempoComidaController@store');	
 	Route::get('tiempocomidas/{nutricionista_id}', 'TiempoComidaController@belongToNutricionista');
 	Route::post('consultas/archivos', 'ConsultaController@archivos');
+	/*	Dietas	*/
+	Route::post('dietas/nuevo', 'DietaController@storeNewDieta');														   
 });

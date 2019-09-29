@@ -107,6 +107,9 @@ class Helper
 	public static function printRequest($request){
 		$response	=	Response::json($request->All(), 200, [], JSON_NUMERIC_CHECK);
 		return $response;
+  }
+	public static function printResponse($response){
+		return Response::json($response, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public static function getPacientesClientes( $nutricionista_id ){

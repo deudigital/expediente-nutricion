@@ -137,7 +137,8 @@ class ValoracionAntropometricaController extends Controller
 		}
 		$response	=	Response::json([
 			'message'	=> 'Valoracion Antropometrica ' . $action . ' correctamente',
-			'data'		=>	$va
+			'data'		=>	$va,
+			'result'	=>	'success'
 		], 201);
 		return $response;
     }
