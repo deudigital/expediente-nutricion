@@ -25,6 +25,7 @@ export class InicioComponent implements OnInit {
 	tagBody:any;
 	mng:any;
 
+	displayButtonTryAgain : boolean=false;
 	hidePrompt : boolean=false;
 	hidenFactura: boolean =false;
 	agregadoAPI:number;
@@ -39,7 +40,8 @@ export class InicioComponent implements OnInit {
 		this.tagBody = document.getElementsByTagName('body')[0];
 		this.tagBody.className = '';
 		this.tagBody.classList.add('with-bg');
-		this.tagBody.classList.add('page-inicio');
+		this.tagBody.classList.add('page-inicio');									 
+		this.displayButtonTryAgain	=	false;
 		this.hidePrompt	=	false;
 		this.cols	=	'col-sm-6';
 		this.init();		
@@ -65,8 +67,9 @@ export class InicioComponent implements OnInit {
 				this.getAgregadoAPI();
 			})
 			.catch((err) => {
-				console.log(JSON.parse(err._body));
+				/*console.log(JSON.parse(err._body));*/
 				this.showLoading	=	false;
+				this.displayButtonTryAgain	=	true;
 				this.showLoadingMenuCircles	=	false;
 			});
 	}
@@ -197,6 +200,10 @@ export class InicioComponent implements OnInit {
 				console.log(<any>error)
 			}
 		);
+	}
+	tryAgain(){
+		/*this.router.reload();*/
+		location.reload();
 	}
 }
 

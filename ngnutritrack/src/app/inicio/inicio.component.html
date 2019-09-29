@@ -8,6 +8,7 @@
 		<img src="assets/images/logo.png" alt="nutritrack" width="300"/>
 	</figure>
 	<div *ngIf="showLoadingMenuCircles" class="text-center">...</div>
+	<div *ngIf="displayButtonTryAgain" class="text-center"><a href="javascript:void(0)" class="btn btn-primary" (click)="tryAgain()">Try Again</a></div>
 	<div *ngIf="showMenuCircles" [ngClass]="{'four': agregadoAPI}" class="row links">
 		<div class="box {{ cols }}">
 			<a routerLink="/nuevo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-toggle="tab" title="Nuevo Paciente">
