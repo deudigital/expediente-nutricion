@@ -75,3 +75,4 @@ typings/
 ngnutritrack/src/html_dev.html
 ngnutritrack/src/environment/
 nutri/public/recepcion/
+nutri/public/*

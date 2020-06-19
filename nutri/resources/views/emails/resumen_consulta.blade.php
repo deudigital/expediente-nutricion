@@ -132,10 +132,10 @@ img[class="img1"] { width: 100% !important; height: auto !important; }
 	if(count($bva)>0){
 	$i	=	0;
 @endphp
-@foreach ($bva as $key=>$va)
-@php
-	if($i%2==0)	:
-@endphp
+	@foreach ($bva as $key=>$va)
+		@php
+			if($i%2==0)	:
+		@endphp
 						  <table align="center" bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td height="25"></td>
@@ -359,22 +359,20 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
-@php
-	endif;
-@endphp
-@php
-	$i++;
-@endphp
-@endforeach
+		@php
+			endif;
+			$i++;
+		@endphp
+	@endforeach
 @php
 	}
 @endphp
-@endisset
+@endisset	{{-- END ISSET - isset($bva) --}}
 
-@isset($bprescripcion)
-		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
+@isset($bdietas)	
+							<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
-		                        <td height="30"></td>
+		                        <td height="50"></td>
 		                      </tr>
 		                      <tr>
 		                        <td bgcolor="#f3f3f3" align="center">
@@ -391,13 +389,30 @@ endif;
 		                              <td height="40"></td>
 		                            </tr>
 		                          </table>
-		                          <tr>
-		                              <td height="20"></td>
-		                          </tr>
 		                        </td>
 		                      </tr>
 		                    </table>
+	@foreach ($bdietas as $dieta)
+		@isset($multiple_dietas)
+			<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
+		                            <tr>
+		                              <td height="40"></td>
+		                            </tr>
 
+			<tr>
+				<td bgcolor="#90C445" align="center">
+					<table align="center" class="m_-2001907891143651592table-inner" width="90%" border="0" cellspacing="0" cellpadding="0">
+						<tbody>
+							<tr>
+							  <td align="center" style="font-family:'Open sans',Arial,sans-serif;color:#fcfcfc;font-size:14px;line-height:40px">{{ $dieta['item']['nombre'] }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			</table>
+		@endisset
+		@isset($dieta['prescripcion'])
 						  <table align="center" bgcolor="#ffffff" width="100%" border="0" cellspacing="0" cellpadding="0">
 						    <tr>
 						      <td align="center">
@@ -407,10 +422,11 @@ endif;
 						              <table width="100%" border="0" cellpadding="0" cellspacing="0">
 						                <tr>
 						                  <td align="center" style="text-align:center;vertical-align:top;font-size:0;">
-@php
-	$i	=	0;
-@endphp
-@foreach ($bprescripcion as $prescripcion)
+			@php
+			$bprescripcion	=	$dieta['prescripcion'];
+			$i	=	0;
+			@endphp
+			@foreach ($bprescripcion as $prescripcion)
 						                    <div style="display:inline-block;vertical-align:top;">
 						                      <table border="0" align="center" cellpadding="0" cellspacing="0">
 						                        <tr>
@@ -479,10 +495,10 @@ endif;
 						                        </tr>
 						                      </table>
 						                    </div>
-@php
-	$i++;
-	if($i%3==0)	:
-@endphp
+				@php
+					$i++;
+					if($i%3==0)	:
+				@endphp
 						                  </td>
 						                </tr>
 						              </table>
@@ -501,10 +517,10 @@ endif;
 						              <table width="100%" border="0" cellpadding="0" cellspacing="0">
 						                <tr>
 						                  <td align="center" style="text-align:center;vertical-align:top;font-size:0;">
-@php
-	endif;	
-@endphp
-@endforeach
+				@php
+					endif;	
+				@endphp
+			@endforeach	
 						                  </td>
 						                </tr>
 						              </table>
@@ -514,9 +530,12 @@ endif;
 						      </td>
 						    </tr>
 						  </table>
-@endisset
+		@endisset	{{-- END ISSET - isset($dieta['prescripcion']) --}}
+	@endforeach	
+	
+	
 
-@isset($bpatronmenu)
+@isset($bdietas[0]['patron_menu'])
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
 		                        <td height="30"></td>
@@ -542,14 +561,45 @@ endif;
 		                        </td>
 		                      </tr>
 		                    </table>
-@foreach ($bpatronmenu as $patronmenu)
+@endisset
+	
+	
+	@foreach ($bdietas as $dieta)
+	
+		
+	
+		@isset($dieta['patron_menu'])
+			@php
+
+			$bpatronmenu	=	$dieta['patron_menu'];
+
+			@endphp			
+			
+			@isset($multiple_dietas)
+				<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
+										<tr>
+										  <td height="40"></td>
+										</tr>
+
+				<tr>
+					<td bgcolor="#90C445" align="center">
+						<table align="center" class="m_-2001907891143651592table-inner" width="90%" border="0" cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+								  <td align="center" style="font-family:'Open sans',Arial,sans-serif;color:#fcfcfc;font-size:14px;line-height:40px">{{ $dieta['item']['nombre'] }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				</table>
+		@endisset
+			@foreach ($bpatronmenu as $patronmenu)
 @php
 $porciones	=	'';
 if(isset($patronmenu['menu']))
-	$porciones	=	implode(', ', $patronmenu['menu'])
-@endphp
+	$porciones	=	implode(', ', $patronmenu['menu']);
 
-@php
 	if(!empty($patronmenu['ejemplo']) || $porciones)	:
 @endphp
 						  <table bgcolor="#ffffff" align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -683,9 +733,12 @@ if(isset($patronmenu['menu']))
 	endif;	
 @endphp
 
-@endforeach
+			@endforeach
+		@endisset
 
-@endisset
+
+	@endforeach
+@endisset	{{-- ENDIF	-	 --}}
 
 		   					<table class="table-inner" bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
 		                      <tr>
