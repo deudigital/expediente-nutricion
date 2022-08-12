@@ -195,6 +195,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Laravel\Passport\PassportServiceProvider::class,
+		Barryvdh\DomPDF\ServiceProvider::class,
+        'PDF'	=>Barryvdh\DomPDF\ServiceProvider::class,
+		'Nathanmac\Utilities\Parser\ParserServiceProvider'
+
     ],
 
     /*
@@ -210,6 +215,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Parser' => 'Nathanmac\Utilities\Parser\Facades\Parser',
     ])->toArray(),
 
 ];
